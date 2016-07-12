@@ -91,41 +91,4 @@ T distance(const T& x, const T& y)
 using AbsTile = std::pair<unsigned, unsigned>; // Absolute Tile (0-15, 0-8)
 using DiffTile = std::pair<int, int>; //Difference Tile (can be negative or positive)
 
-/*
-Les idées utiles:
-Pour les items & cie: Faire une factory au lieu d'entités d'exemples.
-factory(Entity& e, string itemtomake) { ... }
-
-Pour communication inter-systems:
-EVENT QUEUE. Direct ! http://gameprogrammingpatterns.com/event-queue.html
-En gros:
-Dans la loop:
-EventQueue q;
-Event* e = q.getNextEvent();
-LesSystems.notify(e);
-
-Aussi, dans la func qui handle l'event, NE PAS FAIRE L'ACTION DIRECTEMENT ! Utiliser une event queue interne.
-ex:
-void Audio::playSound(const Event& e)
-if (!maxpending)
-	m_pending.push_back(...)
-Comme ça c'est hyper rapide, et pas de problème !
-Après, une func update() et voilà.
-
-Mais... ça sera pas rapide ! à chaque delete du premier obj du vec, on doit avancer tous les objs !
-Donc, faire "pattern" head tail.
-playsound()
-on ajoute à la pos de tail.
-update()
-on utilise array[head]
-Quand on a fini, ++head
-(voir gpp, je sais pas expliquer)
-
-Animation System:
-Mettre code qui change l'image dans le system.
-De plus, pas 100000 images, 1 images avec toutes les images. Une texture c'est lourd putain !
-AI System: Doit calculer un chemin et le mettre dans un composant path selon la pos et la diff.
-Movement: Doit suivre ce simple chemin. actualiser pos & chemin
-*/
-
 #endif // UTIL_HPP
