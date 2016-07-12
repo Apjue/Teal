@@ -1,3 +1,7 @@
+// Copyright (C) 2016 Samy Bensaid
+// This file is part of the Teal game.
+// For conditions of distribution and use, see copyright notice in LICENSE
+
 #include "buttons.h"
 
 Buttons::Buttons(unsigned x, unsigned y, const QSize& size, QWidget* parent) : QWidget(parent)

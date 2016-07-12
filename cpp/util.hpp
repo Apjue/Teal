@@ -1,3 +1,7 @@
+// Copyright (C) 2016 Samy Bensaid
+// This file is part of the Teal game.
+// For conditions of distribution and use, see copyright notice in LICENSE
+
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
