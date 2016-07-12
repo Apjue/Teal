@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/items">
+        <file alias="shields/copper">wdir/res/img/items/shield_copper.png</file>
+        <file alias="shields/gold">wdir/res/img/items/shield_gold.png</file>
+    </qresource>
+    <qresource prefix="/game">
+        <file alias="money">wdir/res/img/game/main/money.png</file>
+        <file alias="scheme">wdir/res/img/game/main/scheme.png</file>
+        <file alias="teal">wdir/res/img/game/main/teal.png</file>
+        <file alias="maptileset">wdir/res/img/game/main/tileset-iso.png</file>
+        <file alias="char/villager/idle0">wdir/res/img/game/char/villager/idle/idle0.png</file>
+        <file alias="char/villager/idle1">wdir/res/img/game/char/villager/idle/idle1.png</file>
+        <file alias="char/villager/idle2">wdir/res/img/game/char/villager/idle/idle2.png</file>
+        <file alias="char/villager/idle3">wdir/res/img/game/char/villager/idle/idle3.png</file>
+        <file alias="char/villager/idle4">wdir/res/img/game/char/villager/idle/idle4.png</file>
+        <file alias="char/villager/idle5">wdir/res/img/game/char/villager/idle/idle5.png</file>
+        <file alias="char/villager/idle6">wdir/res/img/game/char/villager/idle/idle6.png</file>
+        <file alias="char/villager/idle7">wdir/res/img/game/char/villager/idle/idle7.png</file>
+    </qresource>
+    <qresource prefix="/buttons">
+        <file alias="close">wdir/res/img/buttons/all/close.png</file>
+        <file alias="minus">wdir/res/img/buttons/all/minus.png</file>
+        <file alias="plus">wdir/res/img/buttons/all/plus.png</file>
+        <file alias="equips">wdir/res/img/buttons/bar/equips.png</file>
+        <file alias="equipsg">wdir/res/img/buttons/bar/equipsg.png</file>
+        <file alias="inv">wdir/res/img/buttons/bar/inv.png</file>
+        <file alias="invg">wdir/res/img/buttons/bar/invg.png</file>
+    </qresource>
+</RCC>
