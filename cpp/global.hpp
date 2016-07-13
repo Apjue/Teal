@@ -47,10 +47,22 @@ enum Direction
 using Dir = Direction;
 
 
-extern constexpr Dir operator | (Dir a, Dir b);
-extern void operator |= (Dir& a, Dir b);
 
-extern constexpr Dir operator & (Dir a, Dir b);
+
+extern constexpr Dir operator & (Dir a, Dir b)
+{
+    using utype = typename std::underlying_type<Dir>::type;
+    return static_cast<Dir>( static_cast<utype>(a) & static_cast<utype>(b) );
+}
+
+extern constexpr Dir operator | (Dir a, Dir b)
+{
+    using utype = typename std::underlying_type<Dir>::type;
+    return static_cast<Dir>( static_cast<utype>(a) | static_cast<utype>(b) );
+}
+
+
+extern void operator |= (Dir& a, Dir b);
 extern void operator &= (Dir& a, Dir b);
 
 extern Dir operator ~ (Dir a);

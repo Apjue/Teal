@@ -7,22 +7,9 @@
 namespace Direction
 {
 
-constexpr Dir operator | (Dir a, Dir b)
-{
-    using utype = typename std::underlying_type<Dir>::type;
-    return static_cast<Dir>( static_cast<utype>(a) | static_cast<utype>(b) );
-}
-
 void operator |= (Dir& a, Dir b)
 {
     a = a | b;
-}
-
-
-constexpr Dir operator & (Dir a, Dir b)
-{
-    using utype = typename std::underlying_type<Dir>::type;
-    return static_cast<Dir>( static_cast<utype>(a) & static_cast<utype>(b) );
 }
 
 void operator &= (Dir& a, Dir b)
@@ -48,7 +35,7 @@ int DirToY(Direction::Dir d)
 
 int DirToX(Direction::Dir d)
 {
-    assert( ( d & Direction::LeftRight) != Direction::LeftRight ); //crash
+    assert( ( d & Direction::LeftRight) != Direction::LeftRight );
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[( d & Direction::LeftRight)/4];
 }

@@ -9,13 +9,6 @@
         <file alias="teal">wdir/res/img/game/main/teal.png</file>
         <file alias="maptileset">wdir/res/img/game/main/tileset-iso.png</file>
         <file alias="char/villager/idle0">wdir/res/img/game/char/villager/idle/idle0.png</file>
-        <file alias="char/villager/idle1">wdir/res/img/game/char/villager/idle/idle1.png</file>
-        <file alias="char/villager/idle2">wdir/res/img/game/char/villager/idle/idle2.png</file>
-        <file alias="char/villager/idle3">wdir/res/img/game/char/villager/idle/idle3.png</file>
-        <file alias="char/villager/idle4">wdir/res/img/game/char/villager/idle/idle4.png</file>
-        <file alias="char/villager/idle5">wdir/res/img/game/char/villager/idle/idle5.png</file>
-        <file alias="char/villager/idle6">wdir/res/img/game/char/villager/idle/idle6.png</file>
-        <file alias="char/villager/idle7">wdir/res/img/game/char/villager/idle/idle7.png</file>
     </qresource>
     <qresource prefix="/buttons">
         <file alias="close">wdir/res/img/buttons/all/close.png</file>

@@ -11,6 +11,7 @@ void Systems::PosRefreshSystem::update()
     {
         auto& pos = e.getComponent<Components::Position>();
         auto& gfxcomp = e.getComponent<Components::GraphicsItem>();
+
         auto gfx = gfxcomp.item();
         auto defPos = gfxcomp.defaultPos();
 
@@ -25,14 +26,15 @@ void Systems::PosRefreshSystem::update()
         auto const gInX = inX*Def::MAXPOSINTILE;
         auto const gInY = inY*Def::MAXPOSINTILE;
 
-        auto const fX = gX+gInX; //We will move using this
-        auto const fY = gY+gInY; //(so it's graphics pos)
+        auto const finalX = gX+gInX; //We will move using this
+        auto const finalY = gY+gInY; //(so it's graphics pos)
 
 
-        if (fX + defPos.first != gfx->pos().x() || fY + defPos.second != gfx->pos().y())
+        if (finalX + defPos.first != gfx->pos().x()   //if the entity is already at that position
+         || finalY + defPos.second != gfx->pos().y()) //no need to move it
         {
             gfxcomp.setDefaultPos(); //logic pos: 0,0
-            gfx->moveBy(fX, fY);
+            gfx->moveBy(finalX, finalY);
         }
     }
 }
@@ -189,7 +191,14 @@ void Systems::AISystem::update() //TODO: Change Direction.
             if (y >= 0)
                 dir &= ~Direction::Up;
 
-            path.push(dir);
+            bool reexec = false; //WORKAROUND
+            if (dir == Direction::Right
+             || dir == Direction::Down
+             || dir == Direction::Left
+             || dir == Direction::Up)
+                reexec = true;
+
+            path.push(std::make_pair(dir, reexec)); //WORKAROUND
         }
         path.pop(); //First tile is actually the position (micropather's fault...)
 
@@ -205,6 +214,28 @@ void Systems::AISystem::update() //TODO: Change Direction.
 
 void Systems::MovementSystem::update()
 {
+    //BUG.
+    //Logs:
+    /*
+    Pos: 1 1
+    Move: 0 0
+
+    Pos: 2 2
+    Move: 0 0
+
+    Pos: 4 4
+    Move: 0 0
+
+    Pos: 10 10
+    Move: 0 0
+
+    Pos: 10 3221225479 <-- must be 10 4
+    Move: 0 0
+    */
+    //Maybe reason:
+    //Tried to use the Up direction.
+    //On an unsigned.
+
     auto entities = getEntities();
 
     for (auto& e: entities)
@@ -215,8 +246,8 @@ void Systems::MovementSystem::update()
         if (path.empty())
             continue; // No path, no move.
 
-        auto dir = path.front();
-        auto xy = DirToXY(dir); //crash
+        auto& dir = path.front(); //WORKAROUND
+        auto xy = DirToXY(dir.first); //WORKAROUND
 
         int moveX { xy.first };
         int moveY { xy.second };
@@ -224,20 +255,33 @@ void Systems::MovementSystem::update()
         pos.inX += moveX;
         pos.inY += moveY;
 
+        //BUG
+        //algo foiré
         if (pos.inX % Def::MAXPOSINTILE == 0) // Next tile reached.
         {
-            pos.x += (pos.inX / Def::MAXPOSINTILE);
+            if (pos.inX > 0)
+                pos.x += (pos.inX / Def::MAXPOSINTILE);
+            else
+                pos.x -= (-pos.inX / Def::MAXPOSINTILE);
             pos.inX = 0;
         }
 
         if (pos.inY % Def::MAXPOSINTILE == 0)
         {
-            pos.y += (pos.inY / Def::MAXPOSINTILE);
+            if (pos.inY > 0)
+                pos.y += (pos.inY / Def::MAXPOSINTILE);
+            else
+                pos.y -= (-pos.inY / Def::MAXPOSINTILE);
             pos.inY = 0;
         }
 
-        if (pos.inX == 0 && pos.inY == 0)
-            path.pop(); //To have next tile
+        if (pos.inX == 0 && pos.inY == 0) //dir.second == reexec
+        {
+            if (!dir.second)
+                path.pop(); //To have next tile
+            else
+                dir.second = false; //WORKAROUND
+        }
     }
 }
 

@@ -20,7 +20,7 @@ public:
 
     QPushButton* button1() const;
     QPushButton* button2() const;
-    QPushButton *button3() const;
+    QPushButton* button3() const;
 
 private:
     QHBoxLayout* m_layout{};

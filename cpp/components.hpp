@@ -70,7 +70,7 @@ struct MoveTo : public anax::Component
 
 struct Path : public anax::Component
 {
-    std::queue<Direction::Dir> path;
+    std::queue<std::pair<Direction::Dir, bool>> path;
     //To add: path.push(...);
     //To read: path.front(); && path.pop();
 };
