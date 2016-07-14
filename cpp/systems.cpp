@@ -7,7 +7,7 @@
 void Systems::PosRefreshSystem::update()
 {
     auto entities = getEntities();
-    for (auto&& e: entities)
+    for (auto& e: entities)
     {
         auto& pos = e.getComponent<Components::Position>();
         auto& gfxcomp = e.getComponent<Components::GraphicsItem>();
@@ -23,11 +23,11 @@ void Systems::PosRefreshSystem::update()
 
         auto const gX = x*Def::TILEGXSIZE; //graphics pos
         auto const gY = y*Def::TILEGYSIZE;
-        auto const gInX = inX*Def::MAXPOSINTILE;
-        auto const gInY = inY*Def::MAXPOSINTILE;
+        auto const gInX = inX*Def::MAXGXPOSINTILE;
+        auto const gInY = inY*Def::MAXGYPOSINTILE;
 
-        auto const finalX = gX+gInX; //We will move using this
-        auto const finalY = gY+gInY; //(so it's graphics pos)
+        int const finalX = gX + gInX; //We will move using this
+        int const finalY = gY + gInY; //(so it's graphics pos)
 
 
         if (finalX + defPos.first != gfx->pos().x()   //if the entity is already at that position
@@ -126,10 +126,10 @@ AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
 void Systems::InputSystem::handleEvent(const MouseClickEvent& e)
 {
     assert(m_onClickMove && m_onClickPos && "MoveTo or Position nullptr !");
-    auto tile = getTileFromClick(e);
+    AbsTile tile = getTileFromClick(e);
 
     int x{ static_cast<int>(m_onClickPos->x) - static_cast<int>(tile.first) },
-        y{ static_cast<int>(m_onClickPos->y) - static_cast<int>(tile.second)}; //Difference now, but reversed
+        y{ static_cast<int>(m_onClickPos->y) - static_cast<int>(tile.second)}; //Difference, but reversed
 
     m_onClickMove->diffX = -x;
     m_onClickMove->diffY = -y;
@@ -168,13 +168,31 @@ void Systems::AISystem::update() //TODO: Change Direction.
                        &voidPath, &totalCost); //returns the absolute position, not difference.
 
         //Path done... in void*... let's add it to the entity's path. Not in void*.
-        for (auto&& node: voidPath)
+
+        int oldX{};
+        int oldY{};
+
+        for (unsigned i{} ; i < voidPath.size() ; ++i)
         {
+            if (i == 0) //First tile is actually the position (micropather's fault...)
+                continue;
+
+            auto&& node = voidPath[i];
+
             unsigned absX{}, absY{}; //Absolute position, not difference.
             Components::Map::NodeToXY(node, absX, absY);
 
-            int x{ static_cast<int>(pos.x) - static_cast<int>(absX) },
-                y{ static_cast<int>(pos.y) - static_cast<int>(absY) }; //Difference now, but reversed
+            int startX { static_cast<int>(pos.x) };
+            int startY { static_cast<int>(pos.y) };
+
+            if (i > 1) // If i == 1 we use the initial position
+            {          // Else we use the position micropather generated before
+                startX = oldX;
+                startY = oldY;
+            }
+
+            int x{ startX - static_cast<int>(absX) },
+                y{ startY - static_cast<int>(absY) }; //Difference now, but reversed
 
             x = -x; //Ok
             y = -y;
@@ -191,16 +209,18 @@ void Systems::AISystem::update() //TODO: Change Direction.
             if (y >= 0)
                 dir &= ~Direction::Up;
 
-            bool reexec = false; //WORKAROUND
+            bool reexec = false; // [WORKAROUND]
             if (dir == Direction::Right
              || dir == Direction::Down
              || dir == Direction::Left
              || dir == Direction::Up)
                 reexec = true;
 
-            path.push(std::make_pair(dir, reexec)); //WORKAROUND
+            path.push(std::make_pair(dir, reexec)); // [WORKAROUND]
+
+            oldX = static_cast<int>(absX);
+            oldY = static_cast<int>(absY);
         }
-        path.pop(); //First tile is actually the position (micropather's fault...)
 
         //All done. Now, erase the move and the inter-x if any.
         move.diffX = 0;
@@ -224,17 +244,15 @@ void Systems::MovementSystem::update()
         if (path.empty())
             continue; // No path, no move.
 
-        auto& dir = path.front(); //WORKAROUND
-        auto xy = DirToXY(dir.first); //WORKAROUND
+        auto& dir = path.front(); // [WORKAROUND]
+        auto xy = DirToXY(dir.first); // [WORKAROUND]
 
         int moveX { xy.first };
         int moveY { xy.second };
 
         pos.inX += moveX;
         pos.inY += moveY;
-
-        //BUG
-        //algo foiré
+		
         if (pos.inX % Def::MAXPOSINTILE == 0) // Next tile reached.
         {
             if (pos.inX > 0)
@@ -258,7 +276,7 @@ void Systems::MovementSystem::update()
             if (!dir.second)
                 path.pop(); //To have next tile
             else
-                dir.second = false; //WORKAROUND
+                dir.second = false; // [WORKAROUND]
         }
     }
 }

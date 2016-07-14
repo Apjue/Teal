@@ -57,28 +57,30 @@ private:
 class Def
 {
 public:
-    static const unsigned MAPX          {15u}; //For arrays.
-    static const unsigned MAPY          {8u};
+    static const unsigned MAPX           {15u}; //For arrays.
+    static const unsigned MAPY           {8u};
 
-    static const unsigned TILEARRAYSIZE {MAPX*MAPY};
-    using  TILEARRAY    = std::array    <unsigned, TILEARRAYSIZE>;
+    static const unsigned TILEARRAYSIZE  {MAPX*MAPY};
+    using  TILEARRAY    = std::array     <unsigned, TILEARRAYSIZE>;
 
-    static const unsigned MAPXMAP       {14u}; //For logic
-    static const unsigned MAPYMAP       {14u};
+    static const unsigned MAPXMAP        {14u}; //For logic
+    static const unsigned MAPYMAP        {14u};
 
-    static const unsigned MAPXSIZE      {512u};
-    static const unsigned MAPYSIZE      {256u};
+    static const unsigned MAPXSIZE       {512u};
+    static const unsigned MAPYSIZE       {256u};
 
-    static const unsigned BUTTONSXSIZE  {MAPXSIZE};
-    static const unsigned BUTTONSYSIZE  {90u};
+    static const unsigned BUTTONSXSIZE   {MAPXSIZE};
+    static const unsigned BUTTONSYSIZE   {90u};
 
-    static const unsigned TILEXSIZE     {64u};
-    static const unsigned TILEYSIZE     {32u};
+    static const unsigned TILEXSIZE      {64u};
+    static const unsigned TILEYSIZE      {32u};
 
-    static const unsigned TILEGXSIZE    {32u};
-    static const unsigned TILEGYSIZE    {16u};
+    static const unsigned TILEGXSIZE     {TILEXSIZE / 2};
+    static const unsigned TILEGYSIZE     {TILEYSIZE / 2};
 
-    static const unsigned MAXPOSINTILE  {4u};
+    static const unsigned MAXPOSINTILE   {4u};
+    static const unsigned MAXGXPOSINTILE {TILEGXSIZE / MAXPOSINTILE};
+    static const unsigned MAXGYPOSINTILE {TILEGYSIZE / MAXPOSINTILE};
 };
 
 inline unsigned dToU(double d)

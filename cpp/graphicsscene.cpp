@@ -6,7 +6,7 @@
 
 GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsScene(parent),
     m_world(world), m_map(), m_charac(), m_maprenderSys(*this), m_renderSys(*this),
-    m_inputSys(), m_AISystem(), m_pather(), m_moveSys()/*, m_posRefresh()*/
+    m_inputSys(), m_AISystem(), m_pather(), m_moveSys(), m_posRefresh()
 {
     m_world.addSystem(m_maprenderSys);
     m_world.refresh();
@@ -20,7 +20,7 @@ GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsSce
 
 
     m_world.addSystem(m_moveSys);
-//    m_world.addSystem(m_posRefresh);
+    m_world.addSystem(m_posRefresh);
 
     m_world.addSystem(m_renderSys);
     m_world.refresh();
@@ -34,7 +34,7 @@ GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsSce
     m_world.refresh();
 
 
-    m_charac = make_character(m_world, new QGraphicsPixmapItem(QPixmap(":/game/char/villager/idle0")), 5, -35,
+    m_charac = make_character(m_world, new QGraphicsPixmapItem(QPixmap(":/game/char/villager/idle0")), -27, -51,
                              1, 1, 100, Orientation::Down);
 
     auto& gfx = m_charac.getComponent<Components::GraphicsItem>();
