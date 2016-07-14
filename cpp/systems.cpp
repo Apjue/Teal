@@ -126,7 +126,7 @@ AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
 void Systems::InputSystem::handleEvent(const MouseClickEvent& e)
 {
     assert(m_onClickMove && m_onClickPos && "MoveTo or Position nullptr !");
-    AbsTile tile = getTileFromClick(e);
+    auto tile = getTileFromClick(e);
 
     int x{ static_cast<int>(m_onClickPos->x) - static_cast<int>(tile.first) },
         y{ static_cast<int>(m_onClickPos->y) - static_cast<int>(tile.second)}; //Difference now, but reversed
