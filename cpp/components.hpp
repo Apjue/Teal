@@ -201,7 +201,7 @@ private:
 
     //Micropather
     virtual float LeastCostEstimate( void* nodeStart, void* nodeEnd ) override
-    {
+    { //TODO: Make a better function to have a better pathfinding
         unsigned sX{}, sY{};
         NodeToXY(nodeStart, sX, sY);
 
@@ -237,11 +237,7 @@ private:
     }
     virtual void PrintStateInfo( void* /*node*/ ) override
     {
-        /*
-        unsigned x{}, y{};
-        NodeToXY(node, x, y);
-        //printf("(%d,%d)", x, y ); //Seriously ?
-        */
+        ;
     }
 };
 
