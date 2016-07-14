@@ -214,28 +214,6 @@ void Systems::AISystem::update() //TODO: Change Direction.
 
 void Systems::MovementSystem::update()
 {
-    //BUG.
-    //Logs:
-    /*
-    Pos: 1 1
-    Move: 0 0
-
-    Pos: 2 2
-    Move: 0 0
-
-    Pos: 4 4
-    Move: 0 0
-
-    Pos: 10 10
-    Move: 0 0
-
-    Pos: 10 3221225479 <-- must be 10 4
-    Move: 0 0
-    */
-    //Maybe reason:
-    //Tried to use the Up direction.
-    //On an unsigned.
-
     auto entities = getEntities();
 
     for (auto& e: entities)
