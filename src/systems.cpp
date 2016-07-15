@@ -33,7 +33,7 @@ void Systems::PosRefreshSystem::update(Miliseconds)
         if (finalX + defPos.first != gfx->pos().x()   //if the entity is already at that position
          || finalY + defPos.second != gfx->pos().y()) //no need to move it
         {
-            gfxcomp.setDefaultPos(); //logic pos: 0,0
+            gfxcomp.setDefaultPos(); //logic pos of the graphics item: 0,0
             gfx->moveBy(finalX, finalY);
         }
     }
@@ -56,7 +56,7 @@ void Systems::InputSystem::notify(const Event& e)
 
 AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
 {
-    unsigned x {e.x}, y {e.y}; //We don't need e anymore now
+    unsigned x { e.x }, y { e.y }; //We don't need e anymore now
 
     unsigned rectX { (x / Def::TILEXSIZE) * 2}; // Rectangle where we clicked
     unsigned rectY { (y / Def::TILEYSIZE) * 2}; // We need losange
@@ -247,10 +247,10 @@ void Systems::MovementSystem::update(Miliseconds elapsed)
         if (path.empty())
             continue; // No path, no move.
 
-        auto& dir = path.front(); // [WORKAROUND]
+        auto& dir = path.front();
         auto xy = DirToXY(dir.first); // [WORKAROUND]
 
-        bool walkMode = (path.size() < 2);
+        bool walkMode = (path.size() == 1); //We finished our path, let's stop running.
 
         int moveX { xy.first };
         int moveY { xy.second };
@@ -319,14 +319,14 @@ void Systems::MapRenderSystem::update()
 void Systems::MapRenderSystem::renderMap(const Components::Map& comp, QPainter& painter)
 //TODO: Render in Fight Mode + map border
 {
-    const int tileW{Def::TILEXSIZE}; //pixels
-    const int tileH{Def::TILEYSIZE};
+    const int tileW { Def::TILEXSIZE }; //pixels
+    const int tileH { Def::TILEYSIZE };
 
     for (unsigned x{}; x < Def::MAPX; ++x)
         for (unsigned y{}; y < Def::MAPY; ++y) //on dessine avec le painter
         {
-            const unsigned i{y*Def::MAPX+x}; //case dans la map
-            const unsigned tileNumber{comp.map[i]}; //nombre de la tile
+            unsigned const tile { y * Def::MAPX + x }; // Absolute tile
+            unsigned const tileNumber { comp.map[tile] }; // Used for texture
             // == texture selon le nombre
 
             int xDraw{};
@@ -344,7 +344,7 @@ void Systems::MapRenderSystem::renderMap(const Components::Map& comp, QPainter& 
             }
 
             painter.drawPixmap(xDraw, yDraw, tileW, tileH,
-                               QPixmap(":/game/maptileset"), tileNumber*tileW, 0, tileW, tileH);
+                               QPixmap(":/game/maptileset"), tileNumber * tileW, 0, tileW, tileH);
         }
 }
 
