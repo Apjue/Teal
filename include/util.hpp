@@ -98,6 +98,6 @@ T distance(const T& x, const T& y)
 }
 
 using AbsTile = std::pair<unsigned, unsigned>; // Absolute Tile (0-15, 0-8)
-using DiffTile = std::pair<int, int>; //Difference Tile (can be negative or positive)
+using DiffTile = std::pair<int, int>; // Difference Tile (can be negative or positive)
 
 #endif // UTIL_HPP
