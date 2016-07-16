@@ -41,9 +41,14 @@ struct CDirection : public anax::Component
 
 struct Animation : public anax::Component
 {
-    Animation(Orientation& d) : dir{d} {}
+    Animation(Orientation& d, const QSize& s, const QPixmap& tex, unsigned mf = 0)
+        : dir{d}, frame{0}, size{s}, maxframe{mf}, texture{tex} {}
+
     Orientation& dir; // dir * size of img = img (x)
-    unsigned frame; // frame * size of img = img (y)
+    unsigned frame{}; // frame * size of img = img (y)
+    QSize size{};
+    unsigned maxframe{}; // 0 if no animation (only direction change)
+    QPixmap texture{};
 };
 
 struct Position : public anax::Component
@@ -57,8 +62,10 @@ struct Position : public anax::Component
     //X: +32px == +1
     //Y: +16px == +1
 
-    int inX{0}; //Position in tile from x/y.
-    int inY{0}; //difference.
+    int inX{}; //Position in tile from x/y.
+    int inY{}; //difference.
+
+    bool moving{false};
 };
 
 struct MoveTo : public anax::Component
@@ -77,7 +84,7 @@ struct Path : public anax::Component
 
 struct Fight : public anax::Component
 {
-    bool fight{false};
+    bool fight{false}; //isFighting would be a better name
 };
 
 class Life : public anax::Component
@@ -141,13 +148,13 @@ class Map : public anax::Component, public micropather::Graph
 
 public:
     Map() = default;
-    Map(const Def::TILEARRAY& _map,
-        const Def::TILEARRAY& _obs)
+    Map(const TILEARRAY& _map,
+        const TILEARRAY& _obs)
         : map(_map), obs(_obs) {}
     ~Map() = default;
 
-    Def::TILEARRAY map;
-    Def::TILEARRAY obs;
+    TILEARRAY map;
+    TILEARRAY obs;
     //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
 
 

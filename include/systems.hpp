@@ -24,10 +24,29 @@ namespace Systems
 {
 
 ///
+/// \brief The AnimationSystem class
+///
+/// Animates Graphics Items, as long as
+/// their type is QGraphicsPixmapItem
+///
+
+class AnimationSystem : public anax::System<anax::Requires<
+        Components::Animation, Components::GraphicsItem>>, public BaseSystem
+{
+public:
+    AnimationSystem() = default;
+    ~AnimationSystem() = default;
+
+    virtual void notify(const Event&) override {}
+    void update(Miliseconds);
+};
+
+///
 /// \brief The PosRefreshSystem class
 ///
 /// Refresh the graphics position of items
-/// using its logic position
+/// using their logic position
+/// [WORKAROUND 2]
 ///
 
 class PosRefreshSystem : public anax::System<anax::Requires<
@@ -117,8 +136,8 @@ private:
 /// The move isn't done with one call to update()
 ///
 
-class MovementSystem : public anax::System<anax::Requires<Components::Path, Components::Position>>,
-        public BaseSystem
+class MovementSystem : public anax::System<anax::Requires<Components::Path, Components::Position,
+        Components::CDirection>>, public BaseSystem
 {
 public:
     MovementSystem() = default;

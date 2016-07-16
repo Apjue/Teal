@@ -5,6 +5,11 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
+#include <QGraphicsPixmapItem>
+#include <QRect>
+#include <QPainter>
+#include <QPixmap>
+
 #include <assert.h>
 #include <array>
 #include "chrono.hpp"
@@ -62,7 +67,6 @@ public:
     static const unsigned MAPY           {8u};
 
     static const unsigned TILEARRAYSIZE  {MAPX*MAPY};
-    using  TILEARRAY    = std::array     <unsigned, TILEARRAYSIZE>;
 
     static const unsigned MAPXMAP        {14u}; //For logic
     static const unsigned MAPYMAP        {14u};
@@ -86,18 +90,22 @@ public:
     static const Miliseconds MAXFPS      {100};
 };
 
+using TILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
+
 inline unsigned dToU(double d)
 {
     return static_cast<unsigned>(d);
 }
 
 template<class T>
-T distance(const T& x, const T& y)
+inline T distance(const T& x, const T& y)
 {
     return (x > y) ? x - y : y - x;
 }
 
 using AbsTile = std::pair<unsigned, unsigned>; // Absolute Tile (0-15, 0-8)
 using DiffTile = std::pair<int, int>; // Difference Tile (can be negative or positive)
+
+extern void setTextureRect(QGraphicsPixmapItem& item, const QPixmap& texture, const QRect& rect);
 
 #endif // UTIL_HPP

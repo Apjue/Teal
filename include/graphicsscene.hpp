@@ -60,6 +60,7 @@ private:
         QSharedPointer<micropather::MicroPather> m_pather;
     Systems::MovementSystem m_moveSys;
     Systems::PosRefreshSystem m_posRefresh;
+    Systems::AnimationSystem m_animSys;
 
     void loop()
     {
@@ -77,7 +78,7 @@ private:
         m_AISystem.update(elapsed);
         m_moveSys.update(elapsed);
         m_posRefresh.update(elapsed);
-//        m_animationSys.update(elapsed);
+        m_animSys.update(elapsed);
 
         m_chrono.restart();
     }
