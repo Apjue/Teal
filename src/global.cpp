@@ -28,7 +28,7 @@ Dir operator ~ (Dir a)
 
 int DirToY(Direction::Dir d)
 {
-    assert( ( d & Direction::UpDown) != Direction::UpDown ); //Une direction qui part dans les deux sens ? Non merci !
+    assert( ( d & Direction::UpDown) != Direction::UpDown );
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[ d & Direction::UpDown];
 }

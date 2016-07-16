@@ -4,13 +4,26 @@
 
 #include "factory.hpp"
 
-anax::Entity make_character(anax::World& w, QGraphicsItem* item, int defXg, int defYg,
-                                   unsigned defXPos, unsigned defYPos, unsigned maxhp,
-                                   const Orientation& o)
+anax::Entity make_character(anax::World& w, const QSize& imgsize, QPixmap tex, unsigned maxframe,
+                            int defXg, int defYg, unsigned defXPos, unsigned defYPos, unsigned maxhp,
+                            const Orientation& o)
 {
     anax::Entity e = w.createEntity();
 
-    e.addComponent<Components::GraphicsItem>(item, defXg, defYg);
+    QGraphicsPixmapItem* pix{};
+
+    try
+    {
+        pix = new QGraphicsPixmapItem{};
+    }
+    catch(const std::exception&)
+    {
+        throw;
+    }
+
+    setTextureRect(*pix, tex, QRect{0, 0, imgsize.width(), imgsize.height()} );
+    e.addComponent<Components::GraphicsItem>(pix, defXg, defYg);
+
 
     e.addComponent<Components::Life>(maxhp);
     e.addComponent<Components::Fight>();
@@ -21,7 +34,7 @@ anax::Entity make_character(anax::World& w, QGraphicsItem* item, int defXg, int 
     e.addComponent<Components::Path>();
 
     e.addComponent<Components::Animation>
-      (e.getComponent<Components::CDirection>().dir);
+      (e.getComponent<Components::CDirection>().dir, imgsize, tex, maxframe);
 
     w.refresh();
     return e;

@@ -4,6 +4,38 @@
 
 #include "systems.hpp"
 
+void Systems::AnimationSystem::update(Miliseconds)
+{
+    auto entities = getEntities();
+
+    for(auto& e: entities)
+    {
+        auto& anim = e.getComponent<Components::Animation>();
+        auto gfx = e.getComponent<Components::GraphicsItem>().pixmap();
+
+        if (!gfx)
+            continue;
+
+        int const startX = static_cast<int>(anim.dir) * anim.size.width(); //Get the x and the y
+        int const startY = anim.frame * anim.size.height();
+
+        if (anim.maxframe == 0) //Only change the direction, no animation
+        {
+            setTextureRect(*gfx, anim.texture, {startX, 0, anim.size.width(), anim.size.height()});
+        }
+        else //Animation !
+        {
+            setTextureRect(*gfx, anim.texture, {startX, startY, anim.size.width(), anim.size.height()});
+
+            ++anim.frame;
+            if (anim.frame > anim.maxframe)
+                anim.frame = 0;
+        }
+
+    }
+}
+
+
 void Systems::PosRefreshSystem::update(Miliseconds)
 {
     auto entities = getEntities();
@@ -13,6 +45,10 @@ void Systems::PosRefreshSystem::update(Miliseconds)
         auto& gfxcomp = e.getComponent<Components::GraphicsItem>();
 
         auto gfx = gfxcomp.item();
+
+        if (!gfx)
+            continue;
+
         auto defPos = gfxcomp.defaultPos();
 
         auto const x = pos.x; //logic pos
@@ -150,6 +186,9 @@ void Systems::AISystem::update(Miliseconds) //TODO: Change Direction.
         if (move.diffX == 0 && move.diffY == 0)
             continue; //This entity doesn't want to move.
 
+        if (pos.moving)
+            continue; //It is already moving !
+
         //Ok, let's do the path.
 
         //First, make sure to erase the previous path (if any)
@@ -158,7 +197,7 @@ void Systems::AISystem::update(Miliseconds) //TODO: Change Direction.
 
         //Now, compute the path with the position and the move component.
         std::vector<void*> voidPath;
-        float totalCost{}; //We don't need this...
+        float totalCost{}; //In case of debugging
 
         int endX{ static_cast<int>(pos.x) + move.diffX },
             endY{ static_cast<int>(pos.y) + move.diffY };
@@ -209,14 +248,14 @@ void Systems::AISystem::update(Miliseconds) //TODO: Change Direction.
             if (y >= 0)
                 dir &= ~Direction::Up;
 
-            bool reexec = false; // [WORKAROUND]
+            bool reexec = false; // [WORKAROUND 1]
             if (dir == Direction::Right
              || dir == Direction::Down
              || dir == Direction::Left
              || dir == Direction::Up)
                 reexec = true;
 
-            path.push(std::make_pair(dir, reexec)); // [WORKAROUND]
+            path.push(std::make_pair(dir, reexec)); // [WORKAROUND 1]
 
             oldX = static_cast<int>(absX);
             oldY = static_cast<int>(absY);
@@ -247,8 +286,13 @@ void Systems::MovementSystem::update(Miliseconds elapsed)
         if (path.empty())
             continue; // No path, no move.
 
+        pos.moving = true;
+
+        auto& cdir = e.getComponent<Components::CDirection>().dir;
         auto& dir = path.front();
-        auto xy = DirToXY(dir.first); // [WORKAROUND]
+
+        cdir = DirToOrien(dir.first); // [WORKAROUND 1]
+        auto xy = DirToXY(dir.first); // [WORKAROUND 1]
 
         bool walkMode = (path.size() == 1); //We finished our path, let's stop running.
 
@@ -257,8 +301,8 @@ void Systems::MovementSystem::update(Miliseconds elapsed)
 
         if (walkMode)
         {
-            moveX = (moveX == 2 || moveX == -2) ? moveX/2 : moveX;
-            moveY = (moveY == 2 || moveY == -2) ? moveY/2 : moveY;
+            moveX = (moveX == 2 || moveX == -2) ? moveX / 2 : moveX;
+            moveY = (moveY == 2 || moveY == -2) ? moveY / 2 : moveY;
         }
 
         pos.inX += moveX;
@@ -287,8 +331,11 @@ void Systems::MovementSystem::update(Miliseconds elapsed)
             if (!dir.second)
                 path.pop(); //To have next tile
             else
-                dir.second = false; // [WORKAROUND]
+                dir.second = false; // [WORKAROUND 1]
         }
+
+        if (path.empty())
+            pos.moving = false;
     }
 }
 
