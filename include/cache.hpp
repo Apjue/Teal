@@ -17,10 +17,8 @@ public:
         auto it = m_objects.find(k);
 
         if (it == m_objects.end()) //Not found
-        {
             m_objects[k] = T{std::forward(args)...}; //Create
-            return m_objects[k];
-        }
+
         return m_objects[k];
     }
 
