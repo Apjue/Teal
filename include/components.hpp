@@ -45,10 +45,11 @@ struct Animation : public anax::Component
         : dir{d}, frame{0}, size{s}, maxframe{mf}, texture{tex} {}
 
     Orientation& dir; // dir * size of img = img (x)
-    unsigned frame{}; // frame * size of img = img (y)
+    unsigned frame{0}; // frame * size of img = img (y)
     QSize size{};
     unsigned maxframe{}; // 0 if no animation (only direction change)
     QPixmap texture{};
+    bool animated{false};
 };
 
 struct Position : public anax::Component
@@ -140,17 +141,18 @@ private:
 
 class Map : public anax::Component, public micropather::Graph
 {
-    Map(Map&&) = delete;
     Map(const Map&) = delete;
-
     Map& operator=(const Map&) = delete;
-    Map& operator=(Map&&) = delete;
 
 public:
     Map() = default;
     Map(const TILEARRAY& _map,
         const TILEARRAY& _obs)
         : map(_map), obs(_obs) {}
+
+    Map(Map&&) = default;
+    Map& operator=(Map&&) = default;
+
     ~Map() = default;
 
     TILEARRAY map;
@@ -161,13 +163,13 @@ public:
     //Utility
     static void NodeToXY(void* node, unsigned& x, unsigned& y)
     {
-        int index = (int) node; //Yep, C-style cast.
+        int index = (int) node;
         y = index / Def::MAPX;
         x = index - y * Def::MAPX;
     }
     static inline void* XYToNode(const unsigned& x, const unsigned& y)
     {
-        return (void*) ( y*Def::MAPX + x ); //C-Style cast... again.
+        return (void*) ( y*Def::MAPX + x );
     }
     static inline void XYToArray(const unsigned& /*x*/, unsigned& y)
     {
@@ -195,14 +197,18 @@ private:
 
         //Step 2.
         {
+            if (eX > Def::MAPXMAP || eY > Def::MAPYMAP)
+                return false;
+
             XYToArray(eX, eY);
+
             if (eX > Def::MAPX || eY > Def::MAPY)
                 return false;
 
             unsigned tile {eX+eY*Def::MAPX};
 
             unsigned tileNumber = obs[tile];
-            return (tileNumber == 0);
+            return (tileNumber == 0); //Go look the line after "TILEARRAY obs" in this class.
         }
     }
 

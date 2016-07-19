@@ -31,14 +31,19 @@ namespace Systems
 ///
 
 class AnimationSystem : public anax::System<anax::Requires<
-        Components::Animation, Components::GraphicsItem>>, public BaseSystem
+        Components::Animation, Components::GraphicsItem, Components::Position>>, public BaseSystem
 {
 public:
     AnimationSystem() = default;
     ~AnimationSystem() = default;
 
     virtual void notify(const Event&) override {}
-    void update(Miliseconds);
+    void update(Miliseconds elapsed);
+
+private:
+    Miliseconds m_fpsCount{};
+
+    bool updateFps(Miliseconds fpsToAdd);
 };
 
 ///
