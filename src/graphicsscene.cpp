@@ -13,6 +13,17 @@ GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsSce
 
     m_map = m_world.createEntity();
     m_map.addComponent<Components::Map>();
+    m_map.getComponent<Components::Map>().map =
+    {
+            2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+            1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
+            1, 1, 1, 2, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3,
+            1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,
+            1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 3,
+            0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
+            0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
+    };
     m_map.activate();
 
     m_world.refresh();
@@ -35,7 +46,7 @@ GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsSce
 
 
     m_charac = make_character(m_world, {113, 99}, QPixmap{":/game/char/villager"},
-                              0, -27, -51, 1, 1, 100, Orientation::Down);
+                              15, -25, -66, 1, 1, 100, Orientation::Down);
 
     auto& gfx = m_charac.getComponent<Components::GraphicsItem>();
     gfx.setDefaultPos();

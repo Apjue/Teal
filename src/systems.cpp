@@ -4,13 +4,17 @@
 
 #include "systems.hpp"
 
-void Systems::AnimationSystem::update(Miliseconds)
+void Systems::AnimationSystem::update(Miliseconds elapsed)
 {
+    if (!updateFps(elapsed))
+        return;
+
     auto entities = getEntities();
 
     for(auto& e: entities)
     {
         auto& anim = e.getComponent<Components::Animation>();
+        auto& moving = e.getComponent<Components::Position>().moving;
         auto gfx = e.getComponent<Components::GraphicsItem>().pixmap();
 
         if (!gfx)
@@ -19,9 +23,21 @@ void Systems::AnimationSystem::update(Miliseconds)
         int const startX = static_cast<int>(anim.dir) * anim.size.width(); //Get the x and the y
         int const startY = anim.frame * anim.size.height();
 
+        if (!moving) //No animation if not moving
+        {
+            if (anim.frame != 0)
+            {
+                anim.frame = 0;
+                setTextureRect(*gfx, anim.texture, {startX, 0, anim.size.width(), anim.size.height()});
+            }
+            anim.animated = false;
+            continue;
+        }
+
         if (anim.maxframe == 0) //Only change the direction, no animation
         {
             setTextureRect(*gfx, anim.texture, {startX, 0, anim.size.width(), anim.size.height()});
+            anim.animated = false;
         }
         else //Animation !
         {
@@ -30,9 +46,22 @@ void Systems::AnimationSystem::update(Miliseconds)
             ++anim.frame;
             if (anim.frame > anim.maxframe)
                 anim.frame = 0;
+            anim.animated = true;
         }
 
     }
+}
+
+bool Systems::AnimationSystem::updateFps(Miliseconds fpsToAdd)
+{
+    m_fpsCount += fpsToAdd;
+    if (m_fpsCount >= Def::MAXFPS)
+    {
+        while (m_fpsCount >= Def::MAXFPS)
+            m_fpsCount -= Def::MAXFPS;
+        return true;
+    }
+    return false;
 }
 
 
@@ -344,7 +373,8 @@ bool Systems::MovementSystem::updateFps(Miliseconds fpsToAdd)
     m_fpsCount += fpsToAdd;
     if (m_fpsCount >= Def::MAXFPS)
     {
-        m_fpsCount = 0;
+        while (m_fpsCount >= Def::MAXFPS)
+            m_fpsCount -= Def::MAXFPS;
         return true;
     }
     return false;
@@ -402,7 +432,7 @@ void Systems::GraphicsRenderSystem::update(Miliseconds)
     auto& entities = getEntities();
     auto&& list = getScene().items();
 
-    for (auto&& e: entities)
+    for (auto& e: entities)
     {
         auto& item = e.getComponent<Components::GraphicsItem>();
         auto gfx = item.item();

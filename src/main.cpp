@@ -4,20 +4,70 @@
 
 #include <QApplication>
 #include <stdexcept>
-#include <iostream>
+#include <QFile>
+#include <QDebug>
+#include <QDateTime>
 #include "mainwindow.hpp"
+
+namespace
+{
+
+QFile outputFile{};
+
+}
+
+void outputToFile(QtMsgType type, const QMessageLogContext& /*infos*/, const QString& msg)
+{
+    outputFile.write("[");
+    outputFile.write(qPrintable(QDateTime::currentDateTime().toString()));
+    outputFile.write("]");
+
+    switch (type)
+    {
+    case QtInfoMsg:
+        outputFile.write("[INFO] ");
+        break;
+
+    case QtDebugMsg:
+        outputFile.write("[DEBUG] ");
+        break;
+
+    case QtWarningMsg:
+        outputFile.write("[WARNING] ");
+        break;
+
+    case QtCriticalMsg:
+        outputFile.write("[CRITICAL] ");
+        break;
+
+    case QtFatalMsg:
+        outputFile.write("[FATAL] ");
+        break;
+    }
+
+    outputFile.write(qPrintable(msg));
+    outputFile.write("\r\n");
+}
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication::addLibraryPath("./");
     QApplication app(argc, argv);
+
+    outputFile.setFileName(QCoreApplication::applicationDirPath()+"/output.log");
+    bool outToFile = outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    qDebug();
+
+    if(!QApplication::arguments().contains("--dev") && outToFile)
+        qInstallMessageHandler(outputToFile);
 
     MainWindow w{nullptr, {Def::MAPXSIZE, Def::MAPYSIZE}, {Def::BUTTONSXSIZE, Def::MAPYSIZE+Def::BUTTONSYSIZE}};
     w.setWindowTitle("Tealdemo - Pre-Prototype");
     w.setWindowIcon(QIcon(":/game/money"));
     w.show();
 
-    int result {};
+    int result{};
 
     try
     {
@@ -25,16 +75,18 @@ int main(int argc, char *argv[])
     }
     catch (const std::exception& e)
     {
-        std::cerr << "Exception caught. Content:" << std::endl
-                  << e.what() << std::endl << "Abort." << std::endl;
+        qCritical() << "Exception caught. Content:";
+        qCritical() << e.what();
+        qCritical() << "Abort";
+
         return EXIT_FAILURE;
     }
     catch (...)
     {
-        std::cerr << "Something caught. Abort." << std::endl;
+        qCritical() << "Something caught. Abort.";
+
         return EXIT_FAILURE;
     }
-
 
     return result;
 }
