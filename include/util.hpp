@@ -68,8 +68,8 @@ public:
 
     static const unsigned TILEARRAYSIZE  {MAPX*MAPY};
 
-    static const unsigned MAPXMAP        {14u}; //For logic
-    static const unsigned MAPYMAP        {14u};
+    static const unsigned LMAPX          {14u}; //For logic
+    static const unsigned LMAPY          {14u};
 
     static const unsigned MAPXSIZE       {512u};
     static const unsigned MAPYSIZE       {256u};
@@ -107,5 +107,40 @@ using AbsTile = std::pair<unsigned, unsigned>; // Absolute Tile (0-15, 0-8)
 using DiffTile = std::pair<int, int>; // Difference Tile (can be negative or positive)
 
 extern void setTextureRect(QGraphicsPixmapItem& item, const QPixmap& texture, const QRect& rect);
+
+template<class T>
+class Maybe
+{
+    Maybe(Maybe&) = delete;
+    Maybe& operator=(const Maybe&) = delete;
+    bool operator==(const Maybe&) = delete;
+
+public:
+    Maybe() = default;
+    Maybe(T&& t) : m_res{t}, m_valid{true} {}
+    ~Maybe() = default;
+
+    Maybe(Maybe&&) = default;
+    Maybe& operator=(const Maybe&&) = default;
+    Maybe& operator=(T&& newT)
+    {
+        m_res = newT;
+        m_valid = true;
+    }
+
+    bool isValid() const
+    {
+        return m_valid;
+    }
+    const T& get() const
+    {
+        assert(m_valid && "Maybe is not valid !");
+        return m_res;
+    }
+
+private:
+    T m_res;
+    bool m_valid{};
+};
 
 #endif // UTIL_HPP

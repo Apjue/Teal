@@ -197,7 +197,7 @@ private:
 
         //Step 2.
         {
-            if (eX > Def::MAPXMAP || eY > Def::MAPYMAP)
+            if (eX > Def::LMAPX || eY > Def::LMAPY)
                 return false;
 
             XYToArray(eX, eY);
