@@ -180,8 +180,8 @@ AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
     unsigned fLosangeY { static_cast<unsigned>(losangeY) };
 
     //If tile is out the map:
-    fLosangeX = (fLosangeX > Def::MAPXMAP) ? Def::MAPXMAP : fLosangeX; //BUG ?
-    fLosangeY = (fLosangeY > Def::MAPYMAP) ? Def::MAPYMAP : fLosangeY;
+    fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX;
+    fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
 
     return std::make_pair(fLosangeX, fLosangeY);
 
