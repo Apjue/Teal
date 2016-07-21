@@ -12,3 +12,18 @@ void setTextureRect(QGraphicsPixmapItem& item, const QPixmap& texture, const QRe
 
     item.setPixmap(p);
 }
+
+QJsonDocument jsonFromFile(const QString& filename)
+{
+    QFile jsonFile { filename };
+    jsonFile.open(QFile::ReadOnly);
+
+    return QJsonDocument().fromJson(jsonFile.readAll());
+}
+
+void jsonToFile(const QJsonDocument& document, const QString& filename)
+{
+    QFile jsonFile { filename };
+    jsonFile.open(QFile::WriteOnly);
+    jsonFile.write(document.toJson());
+}
