@@ -2,6 +2,8 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#pragma once
+
 #ifndef EVENTS_HPP
 #define EVENTS_HPP
 
@@ -19,5 +21,7 @@ struct MouseClickEvent
     unsigned x{};
     unsigned y{};
 };
+
+// More events will be added later
 
 #endif // EVENTS_HPP

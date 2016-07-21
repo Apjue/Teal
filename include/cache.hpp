@@ -1,6 +1,8 @@
 #ifndef CACHE_HPP
 #define CACHE_HPP
 
+#pragma once
+
 #include <map>
 #include <utility>
 #include "util.hpp"
@@ -33,6 +35,14 @@ public:
 private:
     std::map<Key, T> m_objects;
 };
+
+///
+/// \brief The MaybeCache class
+///
+/// Returns a Maybe<T> object
+///
+/// \see The Maybe class (util.hpp)
+///
 
 template<class Key, class T>
 class MaybeCache

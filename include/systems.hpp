@@ -2,6 +2,8 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#pragma once
+
 #ifndef SYSTEMS_HPP
 #define SYSTEMS_HPP
 
@@ -200,7 +202,7 @@ private:
 /// \brief The GraphicsRenderSystem class
 ///
 /// Renders graphics items by calling render().
-/// Does not animate items. Only render them.
+/// It only shows or hide graphics items.
 ///
 
 class GraphicsRenderSystem : public anax::System<anax::Requires<Components::GraphicsItem>>, public BaseRenderSystem

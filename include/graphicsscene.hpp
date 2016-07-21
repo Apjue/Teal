@@ -2,6 +2,8 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#pragma once
+
 #ifndef GRAPHICSSCENE_H
 #define GRAPHICSSCENE_H
 
@@ -17,9 +19,15 @@
 #include "event.hpp"
 #include "factory.hpp"
 #include "chrono.hpp"
+/*
+#include "cache.hpp"
+#include "models.hpp"
+*/
 
 class GraphicsScene : public QGraphicsScene
 {
+    //using ItemCache = MaybeCache<unsigned, std::shared_ptr<Models::Item>>;
+
 public:
     GraphicsScene(anax::World& world, QObject* parent = nullptr);
     ~GraphicsScene() = default;
@@ -55,7 +63,7 @@ private:
     //Systems
     Systems::MapRenderSystem m_maprenderSys;
     Systems::GraphicsRenderSystem m_renderSys;
-    Systems::InputSystem m_inputSys;
+    Systems::InputSystem m_inputSys; //Not really a system
     Systems::AISystem m_AISystem;
         QSharedPointer<micropather::MicroPather> m_pather;
     Systems::MovementSystem m_moveSys;
@@ -82,6 +90,11 @@ private:
 
         m_chrono.restart();
     }
+
+    void addSystems();
+    void addEntities();
+    void initEntities();
+    void initSystems();
 };
 
 #endif // GRAPHICSSCENE_H

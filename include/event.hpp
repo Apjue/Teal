@@ -2,6 +2,8 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#pragma once
+
 #ifndef EVENT_HPP
 #define EVENT_HPP
 

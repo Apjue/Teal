@@ -2,6 +2,8 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#pragma once
+
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
@@ -9,6 +11,8 @@
 #include <QRect>
 #include <QPainter>
 #include <QPixmap>
+#include <QJsonDocument>
+#include <QFile>
 
 #include <assert.h>
 #include <array>
@@ -18,6 +22,7 @@
 /// \brief The non_nullptr class
 ///
 /// This class ensure that its pointer is never nullptr
+/// It doesn't manage memory for you.
 /// \example non_nullptr<int> intPtr(new int);
 ///
 
@@ -106,7 +111,22 @@ inline T distance(const T& x, const T& y)
 using AbsTile = std::pair<unsigned, unsigned>; // Absolute Tile (0-15, 0-8)
 using DiffTile = std::pair<int, int>; // Difference Tile (can be negative or positive)
 
+///
+/// \brief setTextureRect
+///
+/// Used to apply a texture rect of a texture on a Pixmap Item.
+///
+/// \see Animation System (systems.hpp/cpp)
+///
+
 extern void setTextureRect(QGraphicsPixmapItem& item, const QPixmap& texture, const QRect& rect);
+
+///
+/// \brief The Maybe class
+///
+/// It contains a T object or an invalid T object
+/// Check isValid() before using get()
+///
 
 template<class T>
 class Maybe
@@ -142,5 +162,8 @@ private:
     T m_res;
     bool m_valid{};
 };
+
+extern QJsonDocument jsonFromFile(const QString& filename);
+extern void jsonToFile(const QJsonDocument& document, const QString& filename);
 
 #endif // UTIL_HPP

@@ -2,6 +2,8 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#pragma once
+
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
@@ -85,7 +87,7 @@ struct Path : public anax::Component
 
 struct Fight : public anax::Component
 {
-    bool fight{false}; //isFighting would be a better name
+    bool fight{false}; //isFighting would be a better name, but too long for me
 };
 
 class Life : public anax::Component
@@ -118,7 +120,6 @@ public:
         verifyInfos();
     }
 
-
 private:
     unsigned m_hp{100};
     unsigned m_maxhp{100};
@@ -136,7 +137,7 @@ private:
 ///
 /// Map of the game.
 /// Must be rendered first.
-/// Only one instance of it.
+/// Only one instance of it may exist.
 ///
 
 class Map : public anax::Component, public micropather::Graph
