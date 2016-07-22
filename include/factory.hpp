@@ -10,6 +10,7 @@
 #include <anax/World.hpp>
 #include "components.hpp"
 #include "util.hpp"
+#include "characterinfos.hpp"
 
 ///
 /// \brief The make_character function
@@ -19,9 +20,6 @@
 /// \note There's no difference between a character and a NPC
 ///
 
-extern anax::Entity make_character(anax::World& w, const QSize& imgsize, QPixmap tex = {},
-                                   unsigned maxframe = 0, int defXg = 0, int defYg = 0, unsigned defXPos = 0,
-                                   unsigned defYPos = 0, unsigned maxhp = 100,
-                                   const Orientation& o = Orientation::Down);
+extern anax::Entity make_character(anax::World& w, const CharacterInfos& c);
 
 #endif // FACTORY_HPP

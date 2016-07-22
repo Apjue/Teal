@@ -19,15 +19,10 @@
 #include "event.hpp"
 #include "factory.hpp"
 #include "chrono.hpp"
-/*
-#include "cache.hpp"
-#include "models.hpp"
-*/
+#include "characterinfos.hpp"
 
 class GraphicsScene : public QGraphicsScene
 {
-    //using ItemCache = MaybeCache<unsigned, std::shared_ptr<Models::Item>>;
-
 public:
     GraphicsScene(anax::World& world, QObject* parent = nullptr);
     ~GraphicsScene() = default;

@@ -20,19 +20,205 @@
 #include <QGraphicsItem>
 
 #include <QGraphicsScene>
+#include <anax/World.hpp>
 #include <anax/Component.hpp>
 #include <anax/Entity.hpp>
+
 #include <array>
 #include <vector>
 #include <tuple>
 #include <utility>
 #include <queue>
+#include <unordered_map>
+#include <unordered_set>
 #include <micropather.h>
 #include "global.hpp"
 #include "util.hpp"
 
+namespace Items
+{
+
+///
+/// \brief The HPGain struct
+///
+/// Adds diff HPs to the player
+/// If diff == 0, the HP of the player becomes abs.
+///
+
+struct HPGain : public anax::Component
+{
+    int diff{};
+    unsigned abs{};
+};
+
+struct AttackBonus : public anax::Component
+{
+    int air{};
+    int fire{};
+    int water{};
+    int earth{};
+    int neutral{};
+};
+
+struct AttackResistance : public anax::Component
+{
+    int air{};
+    int fire{};
+    int water{};
+    int earth{};
+    int neutral{};
+};
+
+///
+/// \brief The Item struct
+///
+/// Contains all base informations
+/// It must be in every items
+///
+
+struct Item : public anax::Component
+{};
+
+struct Stackable : public anax::Component
+{
+    unsigned long id;
+};
+
+struct Equippable : public anax::Component
+{
+    enum BodyPart
+    {
+        Head,  // casque
+        Neck,  // amulettes, colliers
+        Arms,  // épaulières, protections de bras
+        Wrist, // bracelets
+        Hands, // armes, boucliers
+        Digit, // bagues
+        Chest, // armures
+        Hip,   // ceintures
+        Legs,  // protections de jambes
+        Feet   // bottes
+    };
+
+    enum class Side
+    {
+        Right,
+        Left
+    };
+};
+
+struct Edible : public anax::Component
+{
+    HPGain* hpgain{};
+};
+
+struct Resource : public anax::Component
+{};
+
+}
+
 namespace Components
 {
+
+///
+/// \brief The Inventory class
+///
+/// Contains groups of items
+/// Items are entities
+///
+/// \note This class manages entities
+///
+
+class Inventory : public anax::Component
+{
+    using EntityCache = std::unordered_set<unsigned>;
+public:
+    struct Group
+    {
+        Group() = default;
+        Group(const std::string& name_) : name{name_} {}
+        ~Group() = default;
+
+        std::string name; // ID
+        EntityCache entities; // entities of the group
+    };
+
+    Inventory(anax::World& world) : m_world(world), m_groups()
+    {
+        reset();
+    }
+    ~Inventory() = default;
+
+    void add(anax::Entity::Id& id)
+    {
+        auto entity = m_world.getEntity(id.value());
+        assert( entity.hasComponent<Items::Item>() );
+        m_groups["all"].entities.insert(id.value());
+
+        //Add to basic groups
+        if (entity.hasComponent<Items::Edible>())
+            m_groups["edible"].entities.insert(id.value());
+
+        if (entity.hasComponent<Items::Equippable>())
+            m_groups["equippable"].entities.insert(id.value());
+
+        if (entity.hasComponent<Items::Resource>())
+            m_groups["resource"].entities.insert(id.value());
+
+        //Add to automatic groups
+        if (entity.hasComponent<Items::AttackBonus>())
+            m_groups["attack"].entities.insert(id.value());
+
+        if (entity.hasComponent<Items::AttackResistance>())
+            m_groups["resistance"].entities.insert(id.value());
+
+    }
+    void remove(anax::Entity::Id& id)
+    {
+        for (auto& group: m_groups)
+        {
+            auto& set = group.second.entities;
+            auto it = set.find(id.value());
+
+            if (it == set.end())
+                continue;
+
+            delEntity(it, set);
+        }
+    }
+
+    const Group& group(const std::string& name)
+    {
+        return m_groups[name];
+    }
+
+private:
+    anax::World& m_world;
+    std::unordered_map<std::string, Group> m_groups;
+
+    ///
+    /// \brief reset
+    ///
+    /// Clears the inventory
+    /// Also used to init the inventory with empty groups
+    ///
+
+    void reset()
+    {
+        for (auto const& name:
+            {"all", "edible", "equippable", "resource", //basic groups
+             "attack", "resistance"}) //automatic groups
+        {
+            m_groups[name] = Group{name};
+        }
+    }
+
+    void delEntity(const EntityCache::iterator& it, EntityCache& where)
+    {
+        where.erase(it);
+        m_world.getEntity(*it).kill(); //goodbye !
+    }
+};
 
 struct CDirection : public anax::Component
 {
@@ -271,17 +457,17 @@ class GraphicsItem : public anax::Component
     GraphicsItem& operator=(GraphicsItem&&) = delete;
 
 public:
-    GraphicsItem(QGraphicsItem* p_item, int defPosX = 0, int defPosY = 0)
-        : m_item(p_item), m_defPosX{defPosX}, m_defPosY{defPosY} { item()->setZValue(1); }
+    GraphicsItem(QGraphicsItem* p_item, const Vector2i& defPos)
+        : m_item(p_item), m_defPos{defPos} { item()->setZValue(1); }
 
     ~GraphicsItem() {}
-    std::pair<int, int> defaultPos() const
+    const Vector2i& defaultPos() const
     {
-        return std::make_pair(m_defPosX, m_defPosY);
+        return m_defPos;
     }
-    void setDefaultPos() //should go to 0,0 logic position
+    void gotoDefaultPos() //should go to 0,0 logic position
     {
-        m_item->setPos(m_defPosX, m_defPosY);
+        m_item->setPos(m_defPos.first(), m_defPos.second());
     }
     bool operator==(const GraphicsItem& other) const
     {
@@ -352,8 +538,7 @@ public:
 private:
     non_nullptr<QGraphicsItem> m_item;
     bool m_visible{false};
-    int m_defPosX{};
-    int m_defPosY{};
+    Vector2i m_defPos{};
 };
 
 }

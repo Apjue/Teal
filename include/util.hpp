@@ -17,12 +17,15 @@
 #include <assert.h>
 #include <array>
 #include "chrono.hpp"
+#include "vector2.hpp"
 
 ///
 /// \brief The non_nullptr class
 ///
-/// This class ensure that its pointer is never nullptr
-/// It doesn't manage memory for you.
+/// This class ensure that its pointer never points to nullptr
+///
+/// \note It doesn't manage memory for you.
+///
 /// \example non_nullptr<int> intPtr(new int);
 ///
 
@@ -108,8 +111,8 @@ inline T distance(const T& x, const T& y)
     return (x > y) ? x - y : y - x;
 }
 
-using AbsTile = std::pair<unsigned, unsigned>; // Absolute Tile (0-15, 0-8)
-using DiffTile = std::pair<int, int>; // Difference Tile (can be negative or positive)
+using AbsTile = Vector2u; // Absolute Tile (0-15, 0-8)
+using DiffTile = Vector2i; // Difference Tile (can be negative or positive)
 
 ///
 /// \brief setTextureRect

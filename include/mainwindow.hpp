@@ -23,8 +23,8 @@ public:
 
 private:
     anax::World m_world;
-    GraphicsScene m_scene;
-    Buttons m_buttonBar;
+    GraphicsScene* m_scene{};
+    Buttons* m_buttonBar{};
     QGraphicsView* m_view{};
 };
 
