@@ -1,3 +1,7 @@
+//This file will probably be deleted
+
+#pragma once
+
 #ifndef MODELS_HPP
 #define MODELS_HPP
 
