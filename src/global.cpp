@@ -45,7 +45,7 @@ DiffTile DirToXY(Direction::Dir d)
     auto const x = DirToX(d);
     auto const y = DirToY(d);
 
-    return std::make_pair(y ? x : x*2, x ? y : y*2);
+    return {y ? x : x*2, x ? y : y*2};
 }
 
 Orientation DirToOrien(Direction::Dir d)

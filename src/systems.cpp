@@ -95,10 +95,10 @@ void Systems::PosRefreshSystem::update(Miliseconds)
         int const finalY = gY + gInY; //(so it's graphics pos)
 
 
-        if (finalX + defPos.first != gfx->pos().x()   //if the entity is already at that position
-         || finalY + defPos.second != gfx->pos().y()) //no need to move it
+        if (finalX + defPos.first() != gfx->pos().x()   //if the entity is already at that position
+         || finalY + defPos.second() != gfx->pos().y()) //no need to move it
         {
-            gfxcomp.setDefaultPos(); //logic pos of the graphics item: 0,0
+            gfxcomp.gotoDefaultPos(); //logic pos of the graphics item: 0,0
             gfx->moveBy(finalX, finalY);
         }
     }
@@ -183,7 +183,7 @@ AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
     fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX;
     fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
 
-    return std::make_pair(fLosangeX, fLosangeY);
+    return Vector2u{fLosangeX, fLosangeY};
 
     //TODO: Add the z axis ?
 }
@@ -193,8 +193,8 @@ void Systems::InputSystem::handleEvent(const MouseClickEvent& e)
     assert(m_onClickMove && m_onClickPos && "MoveTo or Position nullptr !");
     AbsTile tile = getTileFromClick(e);
 
-    int x{ static_cast<int>(m_onClickPos->x) - static_cast<int>(tile.first) },
-        y{ static_cast<int>(m_onClickPos->y) - static_cast<int>(tile.second)}; //Difference, but reversed
+    int x{ static_cast<int>(m_onClickPos->x) - static_cast<int>(tile.first()) },
+        y{ static_cast<int>(m_onClickPos->y) - static_cast<int>(tile.second())}; //Difference, but reversed
 
     m_onClickMove->diffX = -x;
     m_onClickMove->diffY = -y;
@@ -325,8 +325,8 @@ void Systems::MovementSystem::update(Miliseconds elapsed)
 
         bool walkMode = (path.size() == 1); //We finished our path, let's stop running.
 
-        int moveX { xy.first };
-        int moveY { xy.second };
+        int moveX { xy.first() };
+        int moveY { xy.second() };
 
         if (walkMode)
         {

@@ -51,13 +51,13 @@ void outputToFile(QtMsgType type, const QMessageLogContext& /*infos*/, const QSt
 
 int main(int argc, char *argv[])
 {
-
     QCoreApplication::addLibraryPath("./");
     QApplication app(argc, argv);
 
+    qDebug();
+
     outputFile.setFileName(QCoreApplication::applicationDirPath()+"/output.log");
     bool outToFile = outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    qDebug();
 
     if(!QApplication::arguments().contains("--dev") && outToFile)
         qInstallMessageHandler(outputToFile);
@@ -79,14 +79,15 @@ int main(int argc, char *argv[])
         qCritical() << e.what();
         qCritical() << "Abort";
 
-        return EXIT_FAILURE;
+        result = EXIT_FAILURE;
     }
     catch (...)
     {
         qCritical() << "Something caught. Abort.";
 
-        return EXIT_FAILURE;
+        result = EXIT_FAILURE;
     }
 
+    outputFile.close();
     return result;
 }

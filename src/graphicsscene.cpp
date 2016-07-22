@@ -50,8 +50,9 @@ void GraphicsScene::addEntities()
     m_map = m_world.createEntity();
     m_map.addComponent<Components::Map>();
 
-    m_charac = make_character(m_world, {113, 99}, QPixmap{":/game/char/villager"},
-                              15, -25, -66, 1, 1, 100, Orientation::Down);
+    CharacterInfos infos { {113, 99}, QPixmap{":/game/char/villager"},
+                           15, {-25, -66}, {1, 1}, 100, Orientation::Down };
+    m_charac = make_character(m_world, infos);
 }
 
 void GraphicsScene::initEntities()
@@ -66,11 +67,11 @@ void GraphicsScene::initEntities()
             0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
             0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
-    };
+    }; //Test
     m_map.activate();
 
     auto& gfx = m_charac.getComponent<Components::GraphicsItem>();
-    gfx.setDefaultPos();
+    gfx.gotoDefaultPos();
     gfx.show();
 
     m_charac.activate();
