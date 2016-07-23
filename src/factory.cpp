@@ -8,9 +8,7 @@ anax::Entity make_character(anax::World& w, const CharacterInfos& c)
 {
     anax::Entity e = w.createEntity();
 
-    QGraphicsPixmapItem* pix{};
-
-    pix = new QGraphicsPixmapItem{};
+    QGraphicsPixmapItem* pix = new QGraphicsPixmapItem{};
 
     setTextureRect(*pix, c.tex, QRect{0, 0, c.imgsize.width(), c.imgsize.height()} );
     e.addComponent<Components::GraphicsItem>(pix, c.defG);
