@@ -38,9 +38,9 @@ void GraphicsScene::addSystems()
 
     m_world.addSystem(m_renderSys);
 
-    m_pather = QSharedPointer<micropather::MicroPather>::create(&m_map.getComponent<Components::Map>());
+    m_pather = std::make_shared<micropather::MicroPather>(&m_map.getComponent<Components::Map>());
 
-    m_AISystem.setPather(m_pather.data());
+    m_AISystem.setPather(m_pather);
     m_world.addSystem(m_AISystem);
     m_world.refresh();
 }
