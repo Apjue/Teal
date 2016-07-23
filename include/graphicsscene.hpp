@@ -60,7 +60,7 @@ private:
     Systems::GraphicsRenderSystem m_renderSys;
     Systems::InputSystem m_inputSys; //Not really a system
     Systems::AISystem m_AISystem;
-        QSharedPointer<micropather::MicroPather> m_pather;
+        std::shared_ptr<micropather::MicroPather> m_pather;
     Systems::MovementSystem m_moveSys;
     Systems::PosRefreshSystem m_posRefresh;
     Systems::AnimationSystem m_animSys;
