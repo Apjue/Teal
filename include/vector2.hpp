@@ -21,10 +21,10 @@ public:
     ~Vector2() = default;
 
     Vector2(const Vector2<T, T2>&) = default;
-    Vector2<T, T2>& operator=(const Vector2<T, T2>&) = default;
+    Vector2& operator=(const Vector2<T, T2>&) = default;
 
     Vector2(Vector2<T, T2>&&) = default;
-    Vector2<T, T2>& operator=(Vector2<T, T2>&&) = default;
+    Vector2& operator=(Vector2<T, T2>&&) = default;
 
     const T& first() const
     {
@@ -44,43 +44,43 @@ public:
         return m_pair.second;
     }
 
-    friend Vector2<T, T2>& operator+ (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
+    friend Vector2& operator+ (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
     {
         return { lhs.first()  + rhs.first(),
                  lhs.second() + rhs.second() };
     }
-    friend Vector2<T, T2>& operator- (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
+    friend Vector2& operator- (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
     {
         return { lhs.first()  - rhs.first(),
                  lhs.second() - rhs.second() };
     }
-    friend Vector2<T, T2>& operator* (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
+    friend Vector2& operator* (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
     {
         return { lhs.first()  * rhs.first(),
                  lhs.second() * rhs.second() };
     }
-    friend Vector2<T, T2>& operator/ (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
+    friend Vector2& operator/ (const Vector2<T, T2>& lhs, const Vector2<T, T2>& rhs)
     {
         return { lhs.first()  / rhs.first(),
                  lhs.second() / rhs.second() };
     }
 
-    Vector2<T, T2>& operator+= (const Vector2<T, T2>& other)
+    Vector2& operator+= (const Vector2<T, T2>& other)
     {
         operator=(operator+(*this, other));
         return *this;
     }
-    Vector2<T, T2>& operator-= (const Vector2<T, T2>& other)
+    Vector2& operator-= (const Vector2<T, T2>& other)
     {
         operator=(operator-(*this, other));
         return *this;
     }
-    Vector2<T, T2>& operator*= (const Vector2<T, T2>& other)
+    Vector2& operator*= (const Vector2<T, T2>& other)
     {
         operator=(operator*(*this, other));
         return *this;
     }
-    Vector2<T, T2>& operator/= (const Vector2<T, T2>& other)
+    Vector2& operator/= (const Vector2<T, T2>& other)
     {
         operator=(operator/(*this, other));
         return *this;

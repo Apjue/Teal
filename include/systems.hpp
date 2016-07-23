@@ -124,14 +124,14 @@ public:
         assert(m_pather && "Pather is null !");
         m_pather->Reset();
     }
-    void setPather(micropather::MicroPather* pather)
+    void setPather(std::shared_ptr<micropather::MicroPather> pather)
     {
         m_pather = pather;
     }
     void update(Miliseconds);
 
 private:
-    micropather::MicroPather* m_pather{};
+    std::shared_ptr<micropather::MicroPather> m_pather{};
 };
 
 ///
