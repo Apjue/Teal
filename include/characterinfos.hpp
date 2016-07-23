@@ -36,7 +36,7 @@ struct CharacterInfos
     Vector2u defL{0u, 0u}; //default logic pos
 
     unsigned maxhp{100};
-    const Orientation& o {Orientation::Down};
+    Orientation o {Orientation::Down};
 };
 
 #endif // CHARACTERINFOS_HPP
