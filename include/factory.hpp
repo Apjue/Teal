@@ -8,6 +8,7 @@
 #define FACTORY_HPP
 
 #include <anax/World.hpp>
+#include <anax/Entity.hpp>
 #include "components.hpp"
 #include "util.hpp"
 #include "characterinfos.hpp"

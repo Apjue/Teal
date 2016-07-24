@@ -38,9 +38,6 @@ void GraphicsScene::addSystems()
 
     m_world.addSystem(m_renderSys);
 
-    m_pather = std::make_shared<micropather::MicroPather>(&m_map.getComponent<Components::Map>());
-
-    m_AISystem.setPather(m_pather);
     m_world.addSystem(m_AISystem);
     m_world.refresh();
 }
@@ -81,6 +78,9 @@ void GraphicsScene::initEntities()
 void GraphicsScene::initSystems()
 {
     m_maprenderSys.update(m_map.getComponent<Components::Map>());
+
+    m_pather = std::make_shared<micropather::MicroPather>(&m_map.getComponent<Components::Map>());
+    m_AISystem.setPather(m_pather);
 
     m_inputSys.setOnClickMove(&m_charac.getComponent<Components::MoveTo>());
     m_inputSys.setOnClickPos(&m_charac.getComponent<Components::Position>());

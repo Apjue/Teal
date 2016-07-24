@@ -240,7 +240,7 @@ void Systems::AISystem::update(Miliseconds) //TODO: Change Direction.
         int oldX{};
         int oldY{};
 
-        for (unsigned i{} ; i < voidPath.size() ; ++i)
+        for (std::size_t i{} ; i < voidPath.size() ; ++i)
         {
             if (i == 0) //First tile is actually the position (micropather's fault...)
                 continue;
@@ -399,8 +399,8 @@ void Systems::MapRenderSystem::renderMap(const Components::Map& comp, QPainter& 
     const int tileW { Def::TILEXSIZE }; //pixels
     const int tileH { Def::TILEYSIZE };
 
-    for (unsigned x{}; x < Def::MAPX; ++x)
-        for (unsigned y{}; y < Def::MAPY; ++y) //on dessine avec le painter
+    for (std::size_t x{}; x < Def::MAPX; ++x)
+        for (std::size_t y{}; y < Def::MAPY; ++y) //on dessine avec le painter
         {
             unsigned const tile { y * Def::MAPX + x }; // Absolute tile
             unsigned const tileNumber { comp.map[tile] }; // Used for texture

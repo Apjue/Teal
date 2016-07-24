@@ -21,6 +21,7 @@ anax::Entity make_character(anax::World& w, const CharacterInfos& c)
     e.addComponent<Components::Position>(c.defL.first(), c.defL.second());
     e.addComponent<Components::MoveTo>();
     e.addComponent<Components::Path>();
+    //e.addComponent<Components::Inventory>();
 
     e.addComponent<Components::Animation>
       (e.getComponent<Components::CDirection>().dir, c.imgsize, c.tex, c.maxframe);

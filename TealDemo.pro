@@ -9,8 +9,19 @@ CONFIG += c++14 warn_on
 
 LIBS += -LC:/Qt/5.6/anax/lib -LC:/Qt/5.6/micropather/lib
 
-CONFIG(debug): LIBS += -lanax_d.dll -lmpd
-CONFIG(release): LIBS += -lanax.dll -lmp
+#CONFIG(debug): LIBS += -lanax_d.dll -lmpd
+#CONFIG(release): LIBS += -lanax.dll -lmp
+debug
+{
+    LIBS += -lanax_d.dll -lmpd
+    LIBS -= -lanax.dll -lmp
+}
+
+release
+{
+    LIBS += -lanax.dll -lmp
+    LIBS -= -lanax_d.dll -lmpd
+}
 
 INCLUDEPATH += C:/Qt/5.6/anax/include C:/Qt/5.6/micropather/include $$_PRO_FILE_PWD_/include
 DEPENDPATH += C:/Qt/5.6/anax/include C:/Qt/5.6/micropather/include $$_PRO_FILE_PWD_/include
@@ -41,6 +52,8 @@ HEADERS += \
     include/chrono.hpp \
     include/cache.hpp \
     include/characterinfos.hpp \
-    include/vector2.hpp
+    include/vector2.hpp \
+    include/components/common.hpp \
+    include/components/items.hpp
 
 RESOURCES += res.qrc
