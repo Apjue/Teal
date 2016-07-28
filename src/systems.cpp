@@ -109,7 +109,7 @@ void Systems::InputSystem::notify(const Event& e)
 {
     switch (e.type())
     {
-    case Event::ClickEvent:
+    case Event::MouseClickEvent:
         if (m_onClickMove && m_onClickPos)
             handleEvent(e.clickEvent);
         break;
@@ -119,7 +119,7 @@ void Systems::InputSystem::notify(const Event& e)
     }
 }
 
-AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
+AbsTile Systems::InputSystem::getTileFromClick(const Events::MouseClick& e) const
 {
     unsigned x { e.x }, y { e.y }; //We don't need e anymore now
 
@@ -188,7 +188,7 @@ AbsTile Systems::InputSystem::getTileFromClick(const MouseClickEvent& e) const
     //TODO: Add the z axis ?
 }
 
-void Systems::InputSystem::handleEvent(const MouseClickEvent& e)
+void Systems::InputSystem::handleEvent(const Events::MouseClick& e)
 {
     assert(m_onClickMove && m_onClickPos && "MoveTo or Position nullptr !");
     AbsTile tile = getTileFromClick(e);
@@ -201,7 +201,7 @@ void Systems::InputSystem::handleEvent(const MouseClickEvent& e)
 }
 
 
-void Systems::AISystem::update(Miliseconds) //TODO: Change Direction.
+void Systems::AISystem::update(Miliseconds)
 {
     assert(m_pather && "Pather is null !");
     auto entities = getEntities();

@@ -19,7 +19,7 @@ void operator &= (Dir& a, Dir b)
 
 Dir operator ~ (Dir a)
 {
-    auto const nbFlags = 4;
+    auto const nbFlags = Def::MAXDIR;
     using utype = typename std::underlying_type<Dir>::type;
     return static_cast<Dir>( ~static_cast<utype>(a) & ( ( ( utype(1u) << nbFlags ) - 1u ) ) );
 }
@@ -50,7 +50,7 @@ DiffTile DirToXY(Direction::Dir d)
 
 Orientation DirToOrien(Direction::Dir d)
 {
-    assert(d && "No flags set !");
+    assert(d && "No flag set !");
 
     if ( (d & Direction::DownLeft) == Direction::DownLeft)
         return Orientation::DownLeft;
@@ -77,14 +77,7 @@ Orientation DirToOrien(Direction::Dir d)
     if ( (d & Direction::Right) == Direction::Right)
         return Orientation::Right;
 
-    //No flags set.
-    std::string errtxt {};
-    errtxt += "[RUNTIME_ERR] ";
-    errtxt += __FILE__;
-    errtxt += " line ";
-    errtxt += std::to_string(__LINE__);
-
-    throw std::runtime_error{ errtxt };
+    return {};
 }
 
 Direction::Dir OrienToDir(Orientation o)
@@ -124,11 +117,6 @@ Direction::Dir OrienToDir(Orientation o)
         break;
     }
 
-    std::string errtxt {};
-    errtxt += "[RUNTIME_ERR] ";
-    errtxt += __FILE__;
-    errtxt += " line ";
-    errtxt += std::to_string(__LINE__);
-
-    throw std::runtime_error{ errtxt };
+    assert(false && "No flag set !");
+    return {};
 }

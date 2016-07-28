@@ -68,35 +68,38 @@ private:
     T* m_ptr;
 };
 
-class Def
+namespace Def
 {
-public:
-    static const unsigned MAPX           {15u}; //For arrays.
-    static const unsigned MAPY           {8u};
 
-    static const unsigned TILEARRAYSIZE  {MAPX*MAPY};
+constexpr unsigned MAPX           {15u}; //For arrays.
+constexpr unsigned MAPY           {8u};
 
-    static const unsigned LMAPX          {14u}; //For logic
-    static const unsigned LMAPY          {14u};
+constexpr unsigned TILEARRAYSIZE  {MAPX*MAPY};
 
-    static const unsigned MAPXSIZE       {512u};
-    static const unsigned MAPYSIZE       {256u};
+constexpr unsigned LMAPX          {14u}; //For logic
+constexpr unsigned LMAPY          {14u};
 
-    static const unsigned BUTTONSXSIZE   {MAPXSIZE};
-    static const unsigned BUTTONSYSIZE   {90u};
+constexpr unsigned MAPXSIZE       {512u};
+constexpr unsigned MAPYSIZE       {256u};
 
-    static const unsigned TILEXSIZE      {64u};
-    static const unsigned TILEYSIZE      {32u};
+constexpr unsigned BUTTONSXSIZE   {MAPXSIZE};
+constexpr unsigned BUTTONSYSIZE   {90u};
 
-    static const unsigned TILEGXSIZE     {TILEXSIZE / 2};
-    static const unsigned TILEGYSIZE     {TILEYSIZE / 2};
+constexpr unsigned TILEXSIZE      {64u};
+constexpr unsigned TILEYSIZE      {32u};
 
-    static const unsigned MAXPOSINTILE   {4u};
-    static const unsigned MAXGXPOSINTILE {TILEGXSIZE / MAXPOSINTILE};
-    static const unsigned MAXGYPOSINTILE {TILEGYSIZE / MAXPOSINTILE};
+constexpr unsigned TILEGXSIZE     {TILEXSIZE / 2};
+constexpr unsigned TILEGYSIZE     {TILEYSIZE / 2};
 
-    static const Miliseconds MAXFPS      {100};
-};
+constexpr unsigned MAXPOSINTILE   {4u};
+constexpr unsigned MAXGXPOSINTILE {TILEGXSIZE / MAXPOSINTILE};
+constexpr unsigned MAXGYPOSINTILE {TILEGYSIZE / MAXPOSINTILE};
+
+constexpr Miliseconds MAXFPS      {100};
+
+constexpr int MAXDIR              {4};
+
+}
 
 using TILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
 

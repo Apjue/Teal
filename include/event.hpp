@@ -18,8 +18,9 @@ class Event
 public:
     enum Type
     {
-        Undefined,
-        ClickEvent
+        Null,
+        MouseClickEvent,
+        ItemDestroyedEvent
     };
 
     Event() : null{} {}
@@ -42,7 +43,8 @@ public:
     }
     ~Event() = default;
 
-    Event(const MouseClickEvent& e) : clickEvent{e}, m_empty{false}, m_type{ClickEvent} {}
+    Event(const Events::MouseClick& e) : clickEvent{e}, m_empty{false}, m_type{MouseClickEvent} {}
+    Event(const Events::ItemDestroyed& e) : itemDestroyedEvent(e), m_empty{false}, m_type{ItemDestroyedEvent} {}
 
 
     bool operator==(const Type& type) const
@@ -54,12 +56,13 @@ public:
 
     union
     {
-        NullEvent null;
-        MouseClickEvent clickEvent;
+        Events::NullEvent null;
+        Events::MouseClick clickEvent;
+        Events::ItemDestroyed itemDestroyedEvent;
     };
 private:
     bool m_empty{true};
-    Type m_type{Undefined};
+    Type m_type{Null};
 };
 
 class EventQueue
@@ -68,24 +71,11 @@ public:
     EventQueue() = default;
     ~EventQueue() = default;
 
-    Event getNext()
-    {
-        if (m_head == m_tail) return Event{};
-
-        unsigned tmphead{m_head};
-        m_head = (m_head + 1) % m_max;
-        return m_events[tmphead];
-    }
-    void add(const Event& e)
-    {
-        assert((m_tail + 1) % m_max != m_head && "Event Queue is full !");
-
-        m_events[m_tail] = e;
-        m_tail = (m_tail + 1) % m_max;
-    }
+    Event getNext();
+    void add(const Event& e);
 private:
-    const unsigned m_max{50}; //max events pending.
-    std::array<Event, 50> m_events;
+    static constexpr unsigned m_max{50}; //max events pending.
+    std::array<Event, m_max> m_events;
     unsigned m_head{}; //read
     unsigned m_tail{}; //write
 };

@@ -23,7 +23,7 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     //add this click to the event queue
 
     auto point = e->scenePos();
-    Event ev{MouseClickEvent{e->button(), dToU(point.x()), dToU(point.y())}};
+    Event ev {Events::MouseClick{e->button(), dToU(point.x()), dToU(point.y())}};
 
     m_eventQueue.add(ev);
 }

@@ -22,6 +22,14 @@
 #include "global.hpp"
 #include "util.hpp"
 
+namespace Components
+{
+
+struct Name;
+struct Level;
+
+}
+
 namespace Items
 {
 
@@ -64,7 +72,10 @@ struct AttackResistance : public anax::Component
 ///
 
 struct Item : public anax::Component
-{};
+{
+    Components::Name* name{};
+    Components::Level* level{};
+};
 
 struct Stackable : public anax::Component
 {
@@ -78,8 +89,8 @@ struct Equippable : public anax::Component
         Head,  // casque
         Neck,  // amulettes, colliers
         Arms,  // épaulières, protections de bras
-        Wrist, // bracelets
         Hands, // armes, boucliers
+        Wrist, // bracelets
         Digit, // bagues
         Chest, // armures
         Hip,   // ceintures

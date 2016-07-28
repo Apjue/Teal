@@ -4,8 +4,10 @@
 
 #include "components.hpp"
 
-void Components::Inventory::add(anax::Entity::Id& id)
+void Components::Inventory::add(const anax::Entity::Id& id)
 {
+    assert(m_world.getEntity(id.value()).isValid() && "Trying to add an invalid entity");
+
     auto entity = m_world.getEntity(id.value());
     assert( entity.hasComponent<Items::Item>() );
     m_groups["all"].entities.insert(id.value());
@@ -29,7 +31,7 @@ void Components::Inventory::add(anax::Entity::Id& id)
 
 }
 
-void Components::Inventory::remove(anax::Entity::Id& id)
+void Components::Inventory::remove(const anax::Entity::Id& id)
 {
     for (auto& group: m_groups)
     {
@@ -43,7 +45,7 @@ void Components::Inventory::remove(anax::Entity::Id& id)
     }
 }
 
-bool Components::Inventory::has(anax::Entity::Id& id)
+bool Components::Inventory::has(const anax::Entity::Id& id)
 {
     auto& set = m_groups["all"].entities;
     auto it = set.find(id.value());

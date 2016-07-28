@@ -51,6 +51,16 @@ struct AttackResistance;
 namespace Components
 {
 
+struct Name : public anax::Component
+{
+    std::string name{};
+};
+
+struct Level : public anax::Component
+{
+    unsigned level{};
+};
+
 ///
 /// \brief The Inventory class
 ///
@@ -80,9 +90,9 @@ public:
     }
     ~Inventory() = default;
 
-    void add(anax::Entity::Id& id);
-    void remove(anax::Entity::Id& id);
-    bool has(anax::Entity::Id& id);
+    void add(const anax::Entity::Id& id);
+    void remove(const anax::Entity::Id& id);
+    bool has(const anax::Entity::Id& id);
 
     const EntityCache& getAll();
     const Group& group(const std::string& name)

@@ -35,7 +35,8 @@ SOURCES += \
     src/global.cpp \
     src/factory.cpp \
     src/util.cpp \
-    src/components.cpp
+    src/components.cpp \
+    src/event.cpp
 
 HEADERS += \
     include/mainwindow.hpp \

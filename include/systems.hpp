@@ -26,6 +26,65 @@ namespace Systems
 {
 
 ///
+/// \brief The InventorySystem class
+///
+/// If notified by an event which says an item has been destroyed,
+/// It removes the entity item from all inventories
+///
+
+class InventorySystem : public anax::System<anax::Requires<Components::Inventory>>, public BaseSystem
+{
+public:
+    InventorySystem(anax::World& world) : m_world(world) {}
+    ~InventorySystem() = default;
+
+    virtual void notify(const Event& e) override
+    {
+        if (e == Event::ItemDestroyedEvent)
+            handleDestroyed(e.itemDestroyedEvent.id);
+    }
+
+private:
+    anax::World& m_world;
+
+    void handleDestroyed(const anax::Entity::Id& id)
+    {
+        auto entities = getEntities();
+
+        for (auto& e: entities)
+        {
+            e.getComponent<Components::Inventory>().remove(id);
+        }
+    }
+};
+
+///
+/// \brief The ItemSystem class
+///
+/// Check when an Entity Item is killed,
+/// and add an event to the event queue when it occurs
+///
+/// \note This system is passive: No need to update
+///
+
+class ItemSystem : public anax::System<anax::Requires<Items::Item>>, public BaseSystem
+{
+public:
+    ItemSystem(EventQueue& eq) : m_eventqueue{eq} {}
+    ~ItemSystem() = default;
+
+    virtual void notify(const Event&) override {}
+
+private:
+    EventQueue& m_eventqueue;
+
+    void onEntityRemoved(anax::Entity& item)
+    {
+        m_eventqueue.add( Event{ Events::ItemDestroyed {item.getId()} } );
+    }
+};
+
+///
 /// \brief The AnimationSystem class
 ///
 /// Animates Graphics Items, as long as
@@ -83,7 +142,7 @@ public:
     ~InputSystem() = default;
 
     virtual void notify(const Event& e) override;
-    AbsTile getTileFromClick(const MouseClickEvent& e) const;
+    AbsTile getTileFromClick(const Events::MouseClick& e) const;
 
     inline void setOnClickMove(Components::MoveTo* nc)
     {
@@ -100,7 +159,7 @@ private:
     Components::MoveTo* m_onClickMove{};
     Components::Position* m_onClickPos{};
 
-    void handleEvent(const MouseClickEvent& e);
+    void handleEvent(const Events::MouseClick& e);
 };
 
 ///
