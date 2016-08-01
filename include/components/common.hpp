@@ -72,16 +72,83 @@ struct Level : public anax::Component
 
 class Inventory : public anax::Component
 {
-    using EntityCache = std::unordered_set<unsigned>;
+    using int_type = anax::Entity::Id::int_type;
+
+    ///
+    /// \brief The EntityCache typedef
+    ///
+    /// It is an unordered_map which contains the id of the entity
+    /// and a bool to determine if the entity is activated
+    ///
+    /// \example If the entity is activated, the bool is equal to true
+    ///          If the entity is deactivated, the bool is equal to false
+    ///          If the entity is killed, it is erased from the cache
+    ///
+
+    using EntityCache = std::unordered_map<int_type, bool>;
+
 public:
-    struct Group
+    class Group
     {
+    public:
         Group() = default;
-        Group(const std::string& name_) : name{name_} {}
+        Group(const std::string& name_) : m_name{name_} {}
         ~Group() = default;
 
-        std::string name; // ID
-        EntityCache entities; // entities of the group
+        const std::string& name() const
+        {
+            return m_name;
+        }
+        const EntityCache& entities() const
+        {
+            return m_entities;
+        }
+
+        void add(int_type id, bool activated = true)
+        {
+            m_entities[id] = activated;
+        }
+        void remove(int_type id)
+        {
+            auto it = m_entities.find(id);
+
+            if (it != m_entities.end())
+                m_entities.erase(it);
+        }
+
+        void deactivate(int_type id)
+        {
+            setValue(id, false);
+        }
+        void activate(int_type id)
+        {
+            setValue(id, true);
+        }
+
+        EntityCache::iterator find(int_type id, bool activated)
+        {
+            auto it = m_entities.find(id);
+
+            if (it == m_entities.end())
+                return it;
+
+            if (it->second == activated)
+                return it;
+
+            return m_entities.end();
+        }
+
+    private:
+        std::string m_name{"undefined"}; // ID of the group
+        EntityCache m_entities; // entities of the group
+
+        void setValue(int_type id, bool value)
+        {
+            auto it = m_entities.find(id);
+
+            if (it != m_entities.end())
+                it->second = value;
+        }
     };
 
     Inventory(anax::World& world) : m_world(world), m_groups()
@@ -112,8 +179,6 @@ private:
     ///
 
     void reset();
-
-    void delEntity(const EntityCache::iterator& it, EntityCache& where);
 };
 
 struct CDirection : public anax::Component

@@ -62,7 +62,7 @@ private:
 /// \brief The ItemSystem class
 ///
 /// Check when an Entity Item is killed,
-/// and add an event to the event queue when it occurs
+/// and add an event to the event queue when that occurs
 ///
 /// \note This system is passive: No need to update
 ///

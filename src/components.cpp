@@ -5,76 +5,55 @@
 #include "components.hpp"
 
 void Components::Inventory::add(const anax::Entity::Id& id)
-{
-    assert(m_world.getEntity(id.value()).isValid() && "Trying to add an invalid entity");
-
+{    
     auto entity = m_world.getEntity(id.value());
-    assert( entity.hasComponent<Items::Item>() );
-    m_groups["all"].entities.insert(id.value());
+
+    assert(entity.isValid() && "Trying to add an invalid entity");
+    assert(entity.hasComponent<Items::Item>() && "Entity isn't an item !");
+
+    m_groups["all"].add(id.value());
 
     //Add to basic groups
     if (entity.hasComponent<Items::Edible>())
-        m_groups["edible"].entities.insert(id.value());
+        m_groups["edible"].add(id.value());
 
     if (entity.hasComponent<Items::Equippable>())
-        m_groups["equippable"].entities.insert(id.value());
+        m_groups["equippable"].add(id.value());
 
     if (entity.hasComponent<Items::Resource>())
-        m_groups["resource"].entities.insert(id.value());
-
-    //Add to automatic groups
-    if (entity.hasComponent<Items::AttackBonus>())
-        m_groups["attack"].entities.insert(id.value());
-
-    if (entity.hasComponent<Items::AttackResistance>())
-        m_groups["resistance"].entities.insert(id.value());
-
+        m_groups["resource"].add(id.value());
 }
 
 void Components::Inventory::remove(const anax::Entity::Id& id)
 {
     for (auto& group: m_groups)
     {
-        auto& set = group.second.entities;
-        auto it = set.find(id.value());
-
-        if (it == set.end())
-            continue;
-
-        delEntity(it, set);
+        group.second.remove(id.value());
     }
+
+    m_world.getEntity(id.value()).kill();
 }
 
 bool Components::Inventory::has(const anax::Entity::Id& id)
 {
-    auto& set = m_groups["all"].entities;
-    auto it = set.find(id.value());
+    auto& group = m_groups["all"];
+    auto it = group.find(id.value(), true);
 
-    if (it == set.end())
-        return false;
-
-    return true;
+    return (it == group.entities().end());
 }
 
 const Components::Inventory::EntityCache& Components::Inventory::getAll()
 {
-    return m_groups["all"].entities;
+    return m_groups["all"].entities();
 }
 
 void Components::Inventory::reset()
 {
     for (auto const& name:
-        {"all", "edible", "equippable", "resource", //basic groups
-         "attack", "resistance"}) //automatic groups
+        {"all", "edible", "equippable", "resource"})
     {
         m_groups[name] = Group{name};
     }
-}
-
-void Components::Inventory::delEntity(const EntityCache::iterator& it, EntityCache& where)
-{
-    where.erase(it);
-    m_world.getEntity(*it).kill(); //goodbye !
 }
 
 
