@@ -184,8 +184,6 @@ AbsTile Systems::InputSystem::getTileFromClick(const Events::MouseClick& e) cons
     fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
 
     return Vector2u{fLosangeX, fLosangeY};
-
-    //TODO: Add the z axis ?
 }
 
 void Systems::InputSystem::handleEvent(const Events::MouseClick& e)
@@ -265,17 +263,7 @@ void Systems::AISystem::update(Miliseconds)
             x = -x; //Ok
             y = -y;
 
-            Direction::Dir dir = Direction::Up; //Must put a default value
-
-            if (x > 0)
-                dir |= Direction::Right;
-            else if (x < 0)
-                dir |= Direction::Left;
-
-            if (y > 0)
-                dir |= Direction::Down;
-            if (y >= 0)
-                dir &= ~Direction::Up;
+            Direction::Dir dir = XYToDir(DiffTile{x, y});
 
             bool reexec = false; // [WORKAROUND 1]
             if (dir == Direction::Right
@@ -394,7 +382,6 @@ void Systems::MapRenderSystem::update()
 }
 
 void Systems::MapRenderSystem::renderMap(const Components::Map& comp, QPainter& painter)
-//TODO: Render in Fight Mode + map border
 {
     const int tileW { Def::TILEXSIZE }; //pixels
     const int tileH { Def::TILEYSIZE };

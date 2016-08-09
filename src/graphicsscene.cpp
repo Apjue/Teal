@@ -4,9 +4,9 @@
 
 #include "graphicsscene.hpp"
 
-GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsScene(parent),
-    m_world(world), m_map(), m_charac(), m_chrono(), m_maprenderSys(*this), m_renderSys(*this),
-    m_inputSys(), m_AISystem(), m_pather(), m_moveSys(), m_posRefresh(), m_animSys()
+GraphicsScene::GraphicsScene(anax::World& world, QLabel* outputFps, QObject* parent) : QGraphicsScene(parent),
+    m_world(world), m_map(), m_charac(), m_chrono(), m_outputFps{outputFps}, m_maprenderSys(*this),
+    m_renderSys(*this), m_inputSys(), m_AISystem(), m_pather(), m_moveSys(), m_posRefresh(), m_animSys()
 {
     addSystems();
     addEntities();
@@ -20,18 +20,23 @@ GraphicsScene::GraphicsScene(anax::World& world, QObject* parent) : QGraphicsSce
 void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     //Clicked in the map
-    //add this click to the event queue
+    //Let's add this to the event queue
 
     auto point = e->scenePos();
-    Event ev {Events::MouseClick{e->button(), dToU(point.x()), dToU(point.y())}};
+    Event ev { Events::MouseClick {e->button(), dToU(point.x()), dToU(point.y())} };
 
     m_eventQueue.add(ev);
+}
+
+void GraphicsScene::setFpsOutput(QLabel* output)
+{
+    m_outputFps = output;
 }
 
 void GraphicsScene::addSystems()
 {
     m_world.addSystem(m_maprenderSys);
-
+    
     m_world.addSystem(m_moveSys);
     m_world.addSystem(m_posRefresh);
     m_world.addSystem(m_animSys);
@@ -47,9 +52,9 @@ void GraphicsScene::addEntities()
     m_map = m_world.createEntity();
     m_map.addComponent<Components::Map>();
 
-    CharacterInfos infos { {113, 99}, QPixmap{":/game/char/villager"},
+    CharacterInfos mainCharacInfos { {113, 99}, QPixmap{":/game/char/villager"},
                            15, {-25, -66}, {1, 1}, 100, Orientation::Down };
-    m_charac = make_character(m_world, infos);
+    m_charac = make_character(m_world, mainCharacInfos);
 }
 
 void GraphicsScene::initEntities()

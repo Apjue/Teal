@@ -13,6 +13,7 @@
 #include <QFrame>
 
 #include "graphicsscene.hpp"
+#include "qtdebugutil.hpp"
 #include "buttons.hpp"
 
 class MainWindow : public QFrame

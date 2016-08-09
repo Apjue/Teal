@@ -47,6 +47,10 @@ public:
 private:
     anax::World& m_world;
 
+    ///
+    /// \todo Use deactivate function of inventories
+    ///
+
     void handleDestroyed(const anax::Entity::Id& id)
     {
         auto entities = getEntities();
@@ -99,6 +103,12 @@ public:
     ~AnimationSystem() = default;
 
     virtual void notify(const Event&) override {}
+
+    ///
+    /// \todo Remove the "updateFps" and add an fps counter in the component
+    /// .......
+    ///
+
     void update(Miliseconds elapsed);
 
 private:
@@ -142,6 +152,11 @@ public:
     ~InputSystem() = default;
 
     virtual void notify(const Event& e) override;
+
+    ///
+    /// \todo Add the z axis ?
+    ///
+
     AbsTile getTileFromClick(const Events::MouseClick& e) const;
 
     inline void setOnClickMove(Components::MoveTo* nc)
@@ -241,6 +256,8 @@ public:
     ///
     /// This function updates the map using m_mapTab
     /// It must be called only when the array changed.
+    ///
+    /// \todo Render in Fight Mode & render map border
     ///
 
     void update();

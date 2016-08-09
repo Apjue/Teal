@@ -4,12 +4,13 @@
 
 #include "components.hpp"
 
-void Components::Inventory::add(const anax::Entity::Id& id)
+namespace Components
+{
+
+void Inventory::add(const anax::Entity::Id& id)
 {    
     auto entity = m_world.getEntity(id.value());
-
-    assert(entity.isValid() && "Trying to add an invalid entity");
-    assert(entity.hasComponent<Items::Item>() && "Entity isn't an item !");
+    assertItem(entity);
 
     m_groups["all"].add(id.value());
 
@@ -24,30 +25,52 @@ void Components::Inventory::add(const anax::Entity::Id& id)
         m_groups["resource"].add(id.value());
 }
 
-void Components::Inventory::remove(const anax::Entity::Id& id)
+void Inventory::remove(const anax::Entity::Id& id)
 {
+    assertItem(m_world.getEntity(id.value()));
+
     for (auto& group: m_groups)
     {
         group.second.remove(id.value());
     }
-
-    m_world.getEntity(id.value()).kill();
 }
 
-bool Components::Inventory::has(const anax::Entity::Id& id)
+bool Inventory::has(const anax::Entity::Id& id)
 {
+    assertItem(m_world.getEntity(id.value()));
+
     auto& group = m_groups["all"];
     auto it = group.find(id.value(), true);
 
     return (it == group.entities().end());
 }
 
-const Components::Inventory::EntityCache& Components::Inventory::getAll()
+void Inventory::deactivate(const anax::Entity::Id& id)
+{
+    assertItem(m_world.getEntity(id.value()));
+
+    for (auto& group: m_groups)
+    {
+        group.second.deactivate(id.value());
+    }
+}
+
+void Inventory::activate(const anax::Entity::Id& id)
+{
+    assertItem(m_world.getEntity(id.value()));
+
+    for (auto& group: m_groups)
+    {
+        group.second.activate(id.value());
+    }
+}
+
+const Inventory::EntityCache& Components::Inventory::getAll()
 {
     return m_groups["all"].entities();
 }
 
-void Components::Inventory::reset()
+void Inventory::reset()
 {
     for (auto const& name:
         {"all", "edible", "equippable", "resource"})
@@ -57,7 +80,7 @@ void Components::Inventory::reset()
 }
 
 
-bool Components::Map::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
+bool Map::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     //Step 1.
     {
@@ -92,7 +115,7 @@ bool Components::Map::passable(unsigned sX, unsigned sY, unsigned eX, unsigned e
     }
 }
 
-float Components::Map::LeastCostEstimate( void* nodeStart, void* nodeEnd )
+float Map::LeastCostEstimate( void* nodeStart, void* nodeEnd )
 {
     unsigned sX{}, sY{};
     NodeToXY(nodeStart, sX, sY);
@@ -107,7 +130,7 @@ float Components::Map::LeastCostEstimate( void* nodeStart, void* nodeEnd )
     return static_cast<float>(estimated);
 }
 
-void Components::Map::AdjacentCost( void* node, std::vector< micropather::StateCost > *neighbors )
+void Map::AdjacentCost( void* node, std::vector< micropather::StateCost > *neighbors )
 {
     assert(neighbors && "Neighbords null !");
 
@@ -130,3 +153,5 @@ void Components::Map::AdjacentCost( void* node, std::vector< micropather::StateC
         }
     }
 }
+
+} //namespace Components

@@ -114,9 +114,6 @@ inline T distance(const T& x, const T& y)
     return (x > y) ? x - y : y - x;
 }
 
-using AbsTile = Vector2u; // Absolute Tile (0-15, 0-8)
-using DiffTile = Vector2i; // Difference Tile (can be negative or positive)
-
 ///
 /// \brief setTextureRect
 ///

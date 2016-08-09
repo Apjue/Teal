@@ -36,7 +36,8 @@ SOURCES += \
     src/factory.cpp \
     src/util.cpp \
     src/components.cpp \
-    src/event.cpp
+    src/event.cpp \
+    include/graphicsscene.hpp.inl
 
 HEADERS += \
     include/mainwindow.hpp \
@@ -55,6 +56,9 @@ HEADERS += \
     include/characterinfos.hpp \
     include/vector2.hpp \
     include/components/common.hpp \
-    include/components/items.hpp
+    include/components/items.hpp \
+    include/qtdebugutil.hpp \
+    include/entitytemplate.hpp \
+    include/entityfactory.hpp
 
 RESOURCES += res.qrc

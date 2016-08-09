@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget* parent, const QSize& scenesize, const QSize& win
 {
     setFixedSize(winsize);
 
-    m_scene = new GraphicsScene(m_world, this);
+    m_scene = new GraphicsScene(m_world, nullptr, this);
     m_buttonBar = new Buttons(0, Def::MAPYSIZE+1, {winsize.width(), Def::BUTTONSYSIZE}, this);
 
     m_scene->setSceneRect(0, 0, scenesize.width()-2, scenesize.height()-2);
@@ -35,11 +35,9 @@ MainWindow::MainWindow(QWidget* parent, const QSize& scenesize, const QSize& win
     {
         Q_ASSERT(wThis);
 
-        auto& perso = wThis->m_scene->getPerso();
-        auto& move = perso.getComponent<Components::MoveTo>();
-        auto& pos = perso.getComponent<Components::Position>();
+        //auto& perso = wThis->m_scene->getPerso();
+        //auto& inv = perso.getComponent<Components::Inventory>();
 
-        qDebug() << "Pos:" << pos.x << pos.y;
-        qDebug() << "Move:" << move.diffX << move.diffY;
+        //qDebug() << "Inv:" << inv.getAll();
     });
 }

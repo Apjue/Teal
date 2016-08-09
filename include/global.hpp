@@ -12,8 +12,12 @@
 #include <assert.h>
 #include <stdexcept>
 #include "util.hpp"
+#include "vector2.hpp"
 
 using Button = Qt::MouseButton;
+
+using AbsTile = Vector2u; // Absolute Tile (0-15, 0-8)
+using DiffTile = Vector2i; // Difference Tile (can be negative or positive)
 
 enum class Orientation
 {
@@ -75,5 +79,7 @@ extern DiffTile DirToXY(Direction::Dir d);
 
 extern Orientation DirToOrien(Direction::Dir d);
 extern Direction::Dir OrienToDir(Orientation o);
+
+extern Direction::Dir XYToDir(DiffTile d);
 
 #endif // GLOBAL_HPP

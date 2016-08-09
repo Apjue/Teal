@@ -67,7 +67,8 @@ struct Level : public anax::Component
 /// Contains groups of items
 /// Items are entities
 ///
-/// \note This class manages the entities
+/// \note This class doesn't manage the entities
+///       It only store the IDs
 ///
 
 class Inventory : public anax::Component
@@ -92,7 +93,7 @@ public:
     {
     public:
         Group() = default;
-        Group(const std::string& name_) : m_name{name_} {}
+        Group(const std::string& name) : m_name{name} {}
         ~Group() = default;
 
         const std::string& name() const
@@ -161,6 +162,9 @@ public:
     void remove(const anax::Entity::Id& id);
     bool has(const anax::Entity::Id& id);
 
+    void deactivate(const anax::Entity::Id& id);
+    void activate(const anax::Entity::Id& id);
+
     const EntityCache& getAll();
     const Group& group(const std::string& name)
     {
@@ -179,6 +183,12 @@ private:
     ///
 
     void reset();
+
+    void assertItem(const anax::Entity& entity) const
+    {
+        assert(entity.isValid() && "Entity isn't valid !");
+        assert(entity.hasComponent<Items::Item>() && "Entity isn't an item !");
+    }
 };
 
 struct CDirection : public anax::Component

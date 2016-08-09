@@ -8,7 +8,7 @@ Buttons::Buttons(unsigned x, unsigned y, const QSize& size, QWidget* parent) : Q
 {
     m_button1 = new QPushButton("activate");
     m_button2 = new QPushButton("deactivate");
-    m_button3 = new QPushButton("Components");
+    m_button3 = new QPushButton("Inventory");
 
     m_layout = new QHBoxLayout;
     m_layout->addWidget(m_button1);

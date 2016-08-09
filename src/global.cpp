@@ -117,6 +117,29 @@ Direction::Dir OrienToDir(Orientation o)
         break;
     }
 
-    assert(false && "No flag set !");
+    assert(!"No flag set !");
     return {};
+}
+
+Direction::Dir XYToDir(DiffTile d)
+{
+    int x { d.first() };
+    int y { d.second() };
+
+    assert( (x != 0 || y != 0) && "X and Y may not be 0" );
+    //0 == no move == no direction
+
+    Direction::Dir dir = Direction::Up; //Must put a default value
+
+    if (x > 0)
+        dir |= Direction::Right;
+    else if (x < 0)
+        dir |= Direction::Left;
+
+    if (y > 0)
+        dir |= Direction::Down;
+    if (y >= 0)
+        dir &= ~Direction::Up;
+
+    return dir;
 }

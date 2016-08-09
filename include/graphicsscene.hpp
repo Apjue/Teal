@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QGraphicsSceneMouseEvent>
 #include <QSharedPointer>
+#include <QLabel>
 
 #include "components.hpp"
 #include "systems.hpp"
@@ -24,25 +25,15 @@
 class GraphicsScene : public QGraphicsScene
 {
 public:
-    GraphicsScene(anax::World& world, QObject* parent = nullptr);
+    GraphicsScene(anax::World& world, QLabel* outputFps = nullptr, QObject* parent = nullptr);
     ~GraphicsScene() = default;
 
-    inline const anax::World& getWorld() const noexcept
-    {
-        return m_world;
-    }
-    inline anax::Entity& getPerso() noexcept
-    {
-        return m_charac;
-    }
-    inline anax::Entity& getMap() noexcept
-    {
-        return m_map;
-    }
-    inline void updateMap()
-    {
-        m_maprenderSys.update();
-    }
+    inline const anax::World& getWorld() const noexcept;
+    inline anax::Entity& getPerso() noexcept;
+    inline anax::Entity& getMap() noexcept;
+    inline void updateMap();
+
+    void setFpsOutput(QLabel* output);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* e) override;
@@ -54,6 +45,9 @@ private:
     QTimer m_looper{};
     EventQueue m_eventQueue;
     Chrono m_chrono;
+    unsigned m_fpsCounter{0};
+    unsigned m_fps{};
+    QLabel* m_outputFps{}; //We will show fps here
 
     //Systems
     Systems::MapRenderSystem m_maprenderSys;
@@ -64,6 +58,8 @@ private:
     Systems::MovementSystem m_moveSys;
     Systems::PosRefreshSystem m_posRefresh;
     Systems::AnimationSystem m_animSys;
+//    Systems::ItemSystem m_itemSys;
+//    Systems::InventorySystem m_invSys;
 
     void loop()
     {
@@ -73,9 +69,19 @@ private:
         if (e.isValid())
         {
             m_inputSys.notify(e);
+//            m_invSys.notify(e);
         }
 
         auto elapsed = m_chrono.getElapsedTime().asMiliseconds();
+
+        ++m_fpsCounter;
+
+        if (elapsed >= 1000u) //1 second in miliseconds
+        {
+            m_fps = m_fpsCounter;
+            m_fpsCounter = 0;
+            writeFpsToOutput();
+        }
 
         m_renderSys.update(elapsed);
         m_AISystem.update(elapsed);
@@ -86,10 +92,14 @@ private:
         m_chrono.restart();
     }
 
+    inline void writeFpsToOutput();
+
     void addSystems();
     void addEntities();
     void initEntities();
     void initSystems();
 };
+
+#include "graphicsscene.hpp.inl"
 
 #endif // GRAPHICSSCENE_H
