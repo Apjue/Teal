@@ -3,18 +3,26 @@
 
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <utility>
 #include <memory>
 #include "util.hpp"
 
 ///
-/// \class DefaultProduce
+/// \class DefaultProducer
 ///
 
 template<class T>
 struct DefaultProducer
 {
+    ///
+    /// \fn operator()
+    ///
+    /// \param args Arguments used to create the object
+    ///
+    /// \return a T* object
+    ///
+
     template<class... Args>
     T* operator()(Args&&... args)
     {
@@ -32,7 +40,7 @@ struct DefaultProducer
 template<class Key, class T, class ProduceType = DefaultProducer<T>>
 class CreateCache
 {
-    using InternalCache = std::unordered_map<Key, std::shared_ptr<T>>;
+    using InternalCache = typename std::unordered_map<Key, std::shared_ptr<T>>;
 
 public:
     CreateCache() = default;
@@ -52,7 +60,7 @@ public:
     template<class... Args>
     std::shared_ptr<T> add(const Key& k, Args&&... args)
     {
-        return addPrv(k, std::forward<Args>(args)...)->second;
+        return add_(k, std::forward<Args>(args)...)->second;
     }
 
 private:
@@ -60,7 +68,7 @@ private:
     ProduceType prod;
 
     template<class... Args>
-    InternalCache::iterator addPrv(char, const Key& k, Args&&... args)
+    typename InternalCache::iterator add_(const Key& k, Args&&... args)
     {
         return m_objects.emplace(k, prod(std::forward<Args>(args)...)).second;
     }
@@ -75,11 +83,11 @@ private:
 template<class Key, class T, class ProduceType = DefaultProducer<T>>
 class Cache
 {
-    using InternalCache = std::unordered_map<Key, std::shared_ptr<T>>;
+    using InternalCache = typename std::unordered_map<Key, std::shared_ptr<T>>;
 
 public:
-    MaybeCache() = default;
-    ~MaybeCache() = default;
+    Cache() = default;
+    ~Cache() = default;
 
     template<class... Args>
     std::shared_ptr<T> get(const Key& k, Args&&... args)
@@ -95,7 +103,7 @@ public:
     template<class... Args>
     std::shared_ptr<T> add(const Key& k, Args&&... args)
     {
-        return addPrv(k, std::forward<Args>(args)...)->second;
+        return add_(k, std::forward<Args>(args)...)->second;
     }
 
 private:
@@ -103,7 +111,7 @@ private:
     ProduceType prod;
 
     template<class... Args>
-    InternalCache::iterator addPrv(char, const Key& k, Args&&... args)
+    typename InternalCache::iterator add_(const Key& k, Args&&... args)
     {
         return m_objects.emplace(k, prod(std::forward<Args>(args)...)).second;
     }

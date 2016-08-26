@@ -52,7 +52,10 @@ void Game::addEntities()
     charTex->LoadFromFile(":/game/char/villager");
 #error use new filepath
 
-    CharacterInfos mainCharacInfos { {113, 99}, Nz::Sprite::New( charTex ),
+    Nz::SpriteRef charSprite = Nz::Sprite::New( charTex );
+    charSprite->SetTextureRect({ 0, 0, 113, 99 });
+
+    CharacterInfos mainCharacInfos { {113, 99}, charSprite,
                            15, {-25, -66}, {1, 1}, 100 };
     m_charac = make_character(m_world, mainCharacInfos);
 }

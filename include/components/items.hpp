@@ -127,7 +127,7 @@ struct Edible : public Ndk::Component<Edible>
     static Ndk::ComponentIndex componentIndex;
 };
 
-struct Resource : public Ndk::Component<Edible>
+struct Resource : public Ndk::Component<Resource>
 {
     //...
 

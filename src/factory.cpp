@@ -8,8 +8,9 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& c)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
-    c.sprite->SetTextureRect({ 0, 0, c.imgsize.x, c.imgsize.y });
-    e->AddComponent<Ndk::GraphicsComponent>(c.sprite);
+    auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
+    gfx.Attach(c.sprite);
+
     e->AddComponent<Ndk::NodeComponent>();
 
     e->AddComponent<Components::Life>(c.maxhp);

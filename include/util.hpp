@@ -16,7 +16,6 @@
 #include <array>
 #include "chrono.hpp"
 #include "non_nullptr.hpp"
-#include "maybe.hpp"
 #include "gamedef.hpp"
 #include "global.hpp"
 

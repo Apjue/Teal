@@ -45,8 +45,10 @@ namespace Components
 ///        the default logic position
 ///
 
-struct DefaultGraphicsPos
+struct DefaultGraphicsPos : public Ndk::Component<DefaultGraphicsPos>
 {
+    DefaultGraphicsPos(unsigned x_, unsigned y_) : x { x_ }, y { y_ } {}
+
     unsigned x {};
     unsigned y {};
 
@@ -283,19 +285,19 @@ private:
 ///
 /// Map of the game.
 /// Must be rendered first.
-/// Only one instance of it may exist.
+/// Only one instance of it should exist.
 ///
 
 class Map : public Ndk::Component<Map>, public micropather::Graph
 {
-    Map(const Map&) = delete;
-    Map& operator=(const Map&) = delete;
-
 public:
     Map() = default;
     Map(const OLDTILEARRAY& _map,
         const OLDTILEARRAY& _obs)
         : map(_map), obs(_obs) {}
+
+    Map(const Map&) = default;
+    Map& operator=(const Map&) = default;
 
     Map(Map&&) = default;
     Map& operator=(Map&&) = default;

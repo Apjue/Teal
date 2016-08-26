@@ -27,7 +27,7 @@ class Duration
 public:
     Duration() = default;
     Duration(decltype(NowClock::now()) start, decltype(NowClock::now()) end)
-        : m_start{start}, m_end{end} {}
+        : m_start { start }, m_end { end } {}
 
     ~Duration() = default;
 
@@ -55,7 +55,7 @@ private:
 class Chrono
 {
 public:
-    Chrono() : m_start{ NowClock::now() } {}
+    Chrono() : m_start { NowClock::now() } {}
     ~Chrono() = default;
 
     inline Duration getElapsedTime() const
@@ -68,7 +68,7 @@ public:
     }
 
 private:
-    decltype(NowClock::now()) m_start{ NowClock::now() };
+    decltype(NowClock::now()) m_start { NowClock::now() };
 };
 
 #endif // CHRONO_HPP

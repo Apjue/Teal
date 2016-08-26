@@ -10,7 +10,8 @@ int main()
 {
     Ndk::Application app;
 
-    Game window { app, {Def::MAPXSIZE, Def::MAPYSIZE}, {Def::BUTTONSXSIZE, Def::MAPYSIZE+Def::BUTTONSYSIZE} };
+    Game window { app, {Def::BUTTONSXSIZE, Def::MAPYSIZE+Def::BUTTONSYSIZE}, 
+        "TealDemo - Prototype" /*, { Def::MAPXSIZE, Def::MAPYSIZE }*/ };
 
     while (app.Run())
     {

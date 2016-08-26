@@ -48,7 +48,7 @@ private:
     void OnUpdate(float elapsed) override;
 
     void UndefinedStateAnimation(); //used to log errors
-    void MovingStateAnimation(int startX, int startY, Nz::SpriteRef gfx,
+    void MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
                               Components::Animation& anim, bool moving);
 };
 

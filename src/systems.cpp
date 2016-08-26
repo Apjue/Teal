@@ -50,7 +50,7 @@ void Systems::AnimationSystem::UndefinedStateAnimation()
     NazaraWarning(errLog.ToString());
 }
 
-void Systems::AnimationSystem::MovingStateAnimation(int startX, int startY, Nz::SpriteRef gfx, 
+void Systems::AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx, 
                                                     Components::Animation& anim, bool moving)
 {
     if (!moving) //No animation if not moving
@@ -58,7 +58,7 @@ void Systems::AnimationSystem::MovingStateAnimation(int startX, int startY, Nz::
         if (anim.frame != 0)
         {
             anim.frame = 0;
-            gfx->SetTextureRect({ startX, 0, anim.size.x, anim.size.y });
+            gfx->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
         }
         return;
     }
