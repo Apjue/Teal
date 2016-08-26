@@ -7,22 +7,9 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
-#include <QGraphicsPixmapItem>
-#include <QGraphicsTextItem>
-#include <QGraphicsSimpleTextItem>
-#include <QAbstractGraphicsShapeItem>
-#include <QGraphicsRectItem>
-#include <QGraphicsPolygonItem>
-#include <QGraphicsLineItem>
-#include <QGraphicsWidget>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsObject>
-#include <QGraphicsItem>
-
-#include <QGraphicsScene>
-#include <anax/World.hpp>
-#include <anax/Component.hpp>
-#include <anax/Entity.hpp>
+#include <NDK/World.hpp>
+#include <NDK/Component.hpp>
+#include <NDK/Entity.hpp>
 
 #include <array>
 #include <vector>
@@ -51,119 +38,84 @@ struct AttackResistance;
 namespace Components
 {
 
-struct Name : public anax::Component
+///
+/// \class DefaultGraphicsPos
+///
+/// \brief Used by the factory for the sprite to fit
+///        the default logic position
+///
+
+struct DefaultGraphicsPos
+{
+    unsigned x {};
+    unsigned y {};
+
+    static Ndk::ComponentIndex componentIndex;
+};
+
+struct Name : public Ndk::Component<Name>
 {
     std::string name{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Level : public anax::Component
+struct Level : public Ndk::Component<Level>
 {
     unsigned level{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
 ///
-/// \brief The Inventory class
 ///
-/// Contains groups of items
-/// Items are entities
+/// \class Inventory
 ///
-/// \note This class doesn't manage the entities
-///       It only store the IDs
+/// \brief Contains groups of items
+///
+/// \note Items are entities which at least have
+///       the Item Component
 ///
 
-class Inventory : public anax::Component
+class Inventory : public Ndk::Component<Inventory>
 {
-    using int_type = anax::Entity::Id::int_type;
-
-    ///
-    /// \brief The EntityCache typedef
-    ///
-    /// It is an unordered_map which contains the id of the entity
-    /// and a bool to determine if the entity is activated
-    ///
-    /// \example If the entity is activated, the bool is equal to true
-    ///          If the entity is deactivated, the bool is equal to false
-    ///          If the entity is killed, it is erased from the cache
-    ///
-
-    using EntityCache = std::unordered_map<int_type, bool>;
+    using EntityType = Ndk::EntityHandle;
+    using EntityCache = std::unordered_set<EntityType>;
 
 public:
     class Group
     {
     public:
         Group() = default;
-        Group(const std::string& name) : m_name{name} {}
+        Group(const std::string& name_) : name { name_ } {}
         ~Group() = default;
 
-        const std::string& name() const
+        void add(const EntityType& e)
         {
-            return m_name;
+            if (entities.find(e) != entities.end())
+                entities.insert(e);
         }
-        const EntityCache& entities() const
+        void remove(const EntityType& e)
         {
-            return m_entities;
-        }
+            auto it = entities.find(e);
 
-        void add(int_type id, bool activated = true)
-        {
-            m_entities[id] = activated;
-        }
-        void remove(int_type id)
-        {
-            auto it = m_entities.find(id);
-
-            if (it != m_entities.end())
-                m_entities.erase(it);
+            if (it != entities.end())
+                entities.erase(it);
         }
 
-        void deactivate(int_type id)
-        {
-            setValue(id, false);
-        }
-        void activate(int_type id)
-        {
-            setValue(id, true);
-        }
-
-        EntityCache::iterator find(int_type id, bool activated)
-        {
-            auto it = m_entities.find(id);
-
-            if (it == m_entities.end())
-                return it;
-
-            if (it->second == activated)
-                return it;
-
-            return m_entities.end();
-        }
-
-    private:
-        std::string m_name{"undefined"}; // ID of the group
-        EntityCache m_entities; // entities of the group
-
-        void setValue(int_type id, bool value)
-        {
-            auto it = m_entities.find(id);
-
-            if (it != m_entities.end())
-                it->second = value;
-        }
+        std::string name{"undefined"}; // ID of the group
+        EntityCache entities; // entities of the group
     };
 
-    Inventory(anax::World& world) : m_world(world), m_groups()
+    Inventory(Ndk::WorldHandle& world) : m_world(world), m_groups()
     {
         reset();
     }
     ~Inventory() = default;
 
-    void add(const anax::Entity::Id& id);
-    void remove(const anax::Entity::Id& id);
-    bool has(const anax::Entity::Id& id);
-
-    void deactivate(const anax::Entity::Id& id);
-    void activate(const anax::Entity::Id& id);
+    void add(const EntityType& e);
+    void remove(const EntityType& e);
+    bool has(const EntityType& e);
 
     const EntityCache& getAll();
     const Group& group(const std::string& name)
@@ -171,47 +123,74 @@ public:
         return m_groups[name];
     }
 
+    static Ndk::ComponentIndex componentIndex;
+
 private:
-    anax::World& m_world;
+    Ndk::WorldHandle m_world;
     std::unordered_map<std::string, Group> m_groups;
 
     ///
-    /// \brief reset
+    /// \fn reset
     ///
-    /// Clears the inventory
-    /// Also used to init the inventory with empty groups
+    /// \brief Clears the inventory
+    ///        Also used to init the inventory with empty groups
     ///
 
     void reset();
 
-    void assertItem(const anax::Entity& entity) const
+    void assertItem(const Ndk::EntityHandle& entity) const
     {
-        assert(entity.isValid() && "Entity isn't valid !");
-        assert(entity.hasComponent<Items::Item>() && "Entity isn't an item !");
+        assert(entity->IsValid() && "Entity isn't valid !");
+        assert(entity->HasComponent<Items::Item>() && "Entity isn't an item !");
     }
 };
 
-struct CDirection : public anax::Component
+///
+/// \class CDirection
+///
+/// \brief Contains the Orientation enum
+///
+/// \todo Change name to Orientation
+///
+
+struct CDirection : public Ndk::Component<CDirection>
 {
     CDirection(const Orientation& o = Orientation::Down) : dir{o} {}
     CDirection(const CDirection&) = default;
     Orientation dir{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Animation : public anax::Component
+struct Animation : public Ndk::Component<Animation>
 {
-    Animation(Orientation& d, const QSize& s, const QPixmap& tex, unsigned mf = 0)
-        : dir{d}, frame{0}, size{s}, maxframe{mf}, texture{tex} {}
+    enum AnimationState
+    {
+        Undefined,
+        Moving
+    };
 
-    Orientation& dir; // dir * size of img = img (x)
+    ///
+    /// \fn Animation
+    ///
+    /// \param s Size of the picture
+    /// \param mf Max Frames of the animation
+    /// \param df Default Frame of the animation
+    ///
+
+    Animation(const Nz::Rectui& s, unsigned mf = 0, AnimationState state = Undefined, unsigned df = 0)
+        : frame { df }, size { s }, maxframe { mf }, animationState { state } {}
+
     unsigned frame{0}; // frame * size of img = img (y)
-    QSize size{};
-    unsigned maxframe{}; // 0 if no animation (only direction change)
-    QPixmap texture{};
-    bool animated{false};
+    Nz::Rectui size{};
+    unsigned maxframe{};
+//     bool animated{false};
+    AnimationState animationState;
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Position : public anax::Component
+struct Position : public Ndk::Component<Position>
 {
     Position(unsigned x_ = 0, unsigned y_ = 0) : x{x_}, y{y_} {}
 
@@ -226,28 +205,36 @@ struct Position : public anax::Component
     int inY{}; //difference.
 
     bool moving{false};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct MoveTo : public anax::Component
+struct MoveTo : public Ndk::Component<MoveTo>
 {
     int diffX{}; //The position we want to go
     int diffY{}; //Adds it to the Position's XY to get the tile
     //0 == nowhere
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Path : public anax::Component
+struct Path : public Ndk::Component<Path>
 {
     std::queue<std::pair<Direction::Dir, bool>> path;
     //To add: path.push(...);
     //To read: path.front(); && path.pop();
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Fight : public anax::Component
+struct Fight : public Ndk::Component<Fight>
 {
-    bool fight{false}; //isFighting would be a better name, but too long for me
+    bool isFighting { false };
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-class Life : public anax::Component
+class Life : public Ndk::Component<Life>
 {
 public:
     Life(unsigned maxhp) : m_hp{maxhp}, m_maxhp{maxhp} {}
@@ -277,6 +264,8 @@ public:
         verifyInfos();
     }
 
+    static Ndk::ComponentIndex componentIndex;
+
 private:
     unsigned m_hp{100};
     unsigned m_maxhp{100};
@@ -297,15 +286,15 @@ private:
 /// Only one instance of it may exist.
 ///
 
-class Map : public anax::Component, public micropather::Graph
+class Map : public Ndk::Component<Map>, public micropather::Graph
 {
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
 
 public:
     Map() = default;
-    Map(const TILEARRAY& _map,
-        const TILEARRAY& _obs)
+    Map(const OLDTILEARRAY& _map,
+        const OLDTILEARRAY& _obs)
         : map(_map), obs(_obs) {}
 
     Map(Map&&) = default;
@@ -313,9 +302,8 @@ public:
 
     ~Map() = default;
 
-    TILEARRAY map;
-    TILEARRAY obs;
-    //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
+    OLDTILEARRAY map;
+    OLDTILEARRAY obs; //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
 
 
     //Utility
@@ -334,6 +322,8 @@ public:
         y /= 2;
     }
 
+    static Ndk::ComponentIndex componentIndex;
+
 private:
     bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
@@ -341,106 +331,6 @@ private:
     virtual float LeastCostEstimate( void* nodeStart, void* nodeEnd ) override;
     virtual void AdjacentCost( void* node, std::vector< micropather::StateCost > *neighbors ) override;
     virtual void PrintStateInfo( void* /*node*/ ) override {}
-};
-
-///
-/// \brief The GraphicsItem class
-///
-/// Base class for all Qt graphics Item with anax.
-///
-
-class GraphicsItem : public anax::Component
-{
-    GraphicsItem() = delete;
-    GraphicsItem(GraphicsItem&&) = delete;
-    GraphicsItem(const GraphicsItem&) = delete;
-
-    GraphicsItem& operator=(const GraphicsItem&) = delete;
-    GraphicsItem& operator=(GraphicsItem&&) = delete;
-
-public:
-    GraphicsItem(QGraphicsItem* p_item, const Vector2i& defPos)
-        : m_item(p_item), m_defPos{defPos} { item()->setZValue(1); }
-
-    ~GraphicsItem() {}
-    const Vector2i& defaultPos() const
-    {
-        return m_defPos;
-    }
-    void gotoDefaultPos() //should go to 0,0 logic position
-    {
-        m_item->setPos(m_defPos.first(), m_defPos.second());
-    }
-    bool operator==(const GraphicsItem& other) const
-    {
-        return (m_item == other.m_item)
-            && (m_visible == other.m_visible);
-    }
-
-    inline void hide()
-    {
-        m_visible = false;
-    }
-    inline void show()
-    {
-        m_visible = true;
-    }
-    inline bool isVisible()
-    {
-        return m_visible;
-    }
-    inline QGraphicsItem* item() const
-    {
-        return m_item.get();
-    }
-
-    QGraphicsPixmapItem* pixmap() const
-    {
-        return dynamic_cast<QGraphicsPixmapItem*>(item());
-    }
-    QGraphicsLineItem* line() const
-    {
-        return dynamic_cast<QGraphicsLineItem*>(item());
-    }
-
-    QAbstractGraphicsShapeItem* shape() const
-    {
-        return dynamic_cast<QAbstractGraphicsShapeItem*>(item());
-    }
-    QGraphicsRectItem* rect() const
-    {
-        return dynamic_cast<QGraphicsRectItem*>(shape());
-    }
-    QGraphicsPolygonItem* polygon() const
-    {
-        return dynamic_cast<QGraphicsPolygonItem*>(shape());
-    }
-
-    QGraphicsObject* object() const
-    {
-        return dynamic_cast<QGraphicsObject*>(item());
-    }
-    QGraphicsTextItem* text() const
-    {
-        return dynamic_cast<QGraphicsTextItem*>(object());
-    }
-    QGraphicsSimpleTextItem* sText() const
-    {
-        return dynamic_cast<QGraphicsSimpleTextItem*>(shape());
-    }
-    QGraphicsWidget* widget() const
-    {
-        return dynamic_cast<QGraphicsWidget*>(object());
-    }
-    QGraphicsProxyWidget* proxy() const
-    {
-        return dynamic_cast<QGraphicsProxyWidget*>(widget());
-    }
-
-private:
-    non_nullptr<QGraphicsItem> m_item;
-    bool m_visible{false};
-    Vector2i m_defPos{};
 };
 
 }

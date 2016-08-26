@@ -123,8 +123,8 @@ Direction::Dir OrienToDir(Orientation o)
 
 Direction::Dir XYToDir(DiffTile d)
 {
-    int x { d.first() };
-    int y { d.second() };
+    int x { d.x };
+    int y { d.y };
 
     assert( (x != 0 || y != 0) && "X and Y may not be 0" );
     //0 == no move == no direction

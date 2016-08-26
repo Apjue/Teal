@@ -7,101 +7,18 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-#include <QGraphicsPixmapItem>
-#include <QRect>
-#include <QPainter>
-#include <QPixmap>
-#include <QJsonDocument>
-#include <QFile>
+#include <Nazara/Graphics/Sprite.hpp>
+#include <NDK/Components/GraphicsComponent.hpp>
+#include <Nazara/Core/Color.hpp>
+#include <Nazara/Utility/Image.hpp>
 
 #include <assert.h>
 #include <array>
 #include "chrono.hpp"
-#include "vector2.hpp"
-
-///
-/// \brief The non_nullptr class
-///
-/// This class ensure that its pointer never points to nullptr
-///
-/// \note It doesn't manage memory for you.
-///
-/// \example non_nullptr<int> intPtr(new int);
-///
-
-template<class T>
-class non_nullptr
-{
-public:
-    using pointer = T*;
-    using element_type = T;
-
-    non_nullptr(decltype(nullptr)) = delete;
-    non_nullptr(int) = delete;
-
-    non_nullptr& operator = (decltype(nullptr)) noexcept = delete;
-    non_nullptr& operator = (int) noexcept = delete;
-
-    non_nullptr(T* ptr) noexcept
-    : m_ptr(ptr)
-    {
-        assert(ptr);
-    }
-
-    non_nullptr& operator = (T* ptr) noexcept
-    {
-        assert(ptr);
-        this->m_ptr = ptr;
-        return *this;
-    }
-
-    bool operator==(const non_nullptr<T>& other) const
-    {
-        return m_ptr == other.m_ptr;
-    }
-
-    T* get() const noexcept { return m_ptr; }
-    T& operator*() const noexcept { return *m_ptr; }
-    T* operator->() const noexcept { return m_ptr; }
-
-private:
-    T* m_ptr;
-};
-
-namespace Def
-{
-
-constexpr unsigned MAPX           {15u}; //For arrays.
-constexpr unsigned MAPY           {8u};
-
-constexpr unsigned TILEARRAYSIZE  {MAPX*MAPY};
-
-constexpr unsigned LMAPX          {14u}; //For logic
-constexpr unsigned LMAPY          {14u};
-
-constexpr unsigned MAPXSIZE       {512u};
-constexpr unsigned MAPYSIZE       {256u};
-
-constexpr unsigned BUTTONSXSIZE   {MAPXSIZE};
-constexpr unsigned BUTTONSYSIZE   {90u};
-
-constexpr unsigned TILEXSIZE      {64u};
-constexpr unsigned TILEYSIZE      {32u};
-
-constexpr unsigned TILEGXSIZE     {TILEXSIZE / 2};
-constexpr unsigned TILEGYSIZE     {TILEYSIZE / 2};
-
-constexpr unsigned MAXPOSINTILE   {4u};
-constexpr unsigned MAXGXPOSINTILE {TILEGXSIZE / MAXPOSINTILE};
-constexpr unsigned MAXGYPOSINTILE {TILEGYSIZE / MAXPOSINTILE};
-
-constexpr Miliseconds MAXFPS      {100};
-
-constexpr int MAXDIR              {4};
-
-}
-
-using TILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
+#include "non_nullptr.hpp"
+#include "maybe.hpp"
+#include "gamedef.hpp"
+#include "global.hpp"
 
 inline unsigned dToU(double d)
 {
@@ -115,58 +32,31 @@ inline T distance(const T& x, const T& y)
 }
 
 ///
-/// \brief setTextureRect
+/// \fn getSpriteFromComponent
 ///
-/// Used to apply a texture rect of a texture on a Pixmap Item.
+/// \brief Returns the first sprite it found in the Graphics Component
+///        or nullptr if it didn't found one
 ///
-/// \see Animation System (systems.hpp/cpp)
-///
-
-extern void setTextureRect(QGraphicsPixmapItem& item, const QPixmap& texture, const QRect& rect);
-
-///
-/// \brief The Maybe class
-///
-/// It contains a T object or an invalid T object
-/// Check isValid() before using get()
+/// \param gfx Graphics Component to search into
 ///
 
-template<class T>
-class Maybe
-{
-    Maybe(Maybe&) = delete;
-    Maybe& operator=(const Maybe&) = delete;
-    bool operator==(const Maybe&) = delete;
+extern Nz::Sprite* getSpriteFromComponent(Ndk::GraphicsComponent& gfx);
 
-public:
-    Maybe() = default;
-    Maybe(T&& t) : m_res{t}, m_valid{true} {}
-    ~Maybe() = default;
+///
+/// \fn getTileFromGlobalCoords
+///
+/// \brief Returns the tile located at the x, y position
+///
+/// \param e Global Coordinates of the tile
+///
+/// \returns The logic position of the tile
+///
+/// \todo Add the z axis ?
+///
 
-    Maybe(Maybe&&) = default;
-    Maybe& operator=(const Maybe&&) = default;
-    Maybe& operator=(T&& newT)
-    {
-        m_res = newT;
-        m_valid = true;
-    }
+extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 
-    bool isValid() const
-    {
-        return m_valid;
-    }
-    const T& get() const
-    {
-        assert(m_valid && "Maybe is not valid !");
-        return m_res;
-    }
-
-private:
-    T m_res;
-    bool m_valid{};
-};
-
-extern QJsonDocument jsonFromFile(const QString& filename);
-extern void jsonToFile(const QJsonDocument& document, const QString& filename);
+// extern QJsonDocument jsonFromFile(const QString& filename);
+// extern void jsonToFile(const QJsonDocument& document, const QString& filename);
 
 #endif // UTIL_HPP

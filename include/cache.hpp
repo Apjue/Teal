@@ -5,64 +5,108 @@
 
 #include <map>
 #include <utility>
+#include <memory>
 #include "util.hpp"
 
 ///
-/// \brief The CreateCache class
-///
-/// returns the T object if it exists or construct it
-/// with args provided, and returns it.
+/// \class DefaultProduce
 ///
 
-template<class Key, class T>
+template<class T>
+struct DefaultProducer
+{
+    template<class... Args>
+    T* operator()(Args&&... args)
+    {
+        std::unique_ptr res = std::make_unique<T>(std::forward<Args>(args)...);
+        return res.release();
+    }
+};
+
+///
+/// \class CreateCache
+///
+/// \brief wraps std::shared_ptr<T> objects
+///
+
+template<class Key, class T, class ProduceType = DefaultProducer<T>>
 class CreateCache
 {
+    using InternalCache = std::unordered_map<Key, std::shared_ptr<T>>;
+
 public:
     CreateCache() = default;
     ~CreateCache() = default;
 
     template<class... Args>
-    T get(Key k, Args&&... args)
+    std::shared_ptr<T> get(const Key& k, Args&&... args)
     {
         auto it = m_objects.find(k);
 
-        if (it == m_objects.end()) //Not found
-            m_objects[k] = T{std::forward(args)...}; //Create
+        if (it == m_objects.end())
+            return add(k, std::forward<Args>(args)...)->second;
+        else
+            return it->second;
+    }
 
-        return m_objects[k];
+    template<class... Args>
+    std::shared_ptr<T> add(const Key& k, Args&&... args)
+    {
+        return addPrv(k, std::forward<Args>(args)...)->second;
     }
 
 private:
-    std::map<Key, T> m_objects;
+    InternalCache m_objects;
+    ProduceType prod;
+
+    template<class... Args>
+    InternalCache::iterator addPrv(char, const Key& k, Args&&... args)
+    {
+        return m_objects.emplace(k, prod(std::forward<Args>(args)...)).second;
+    }
 };
 
 ///
-/// \brief The MaybeCache class
+/// \class Cache
 ///
-/// Returns a Maybe<T> object
-///
-/// \see The Maybe class (util.hpp)
+/// \brief wraps std::shared_ptr<T> objects
 ///
 
-template<class Key, class T>
-class MaybeCache
+template<class Key, class T, class ProduceType = DefaultProducer<T>>
+class Cache
 {
+    using InternalCache = std::unordered_map<Key, std::shared_ptr<T>>;
+
 public:
     MaybeCache() = default;
     ~MaybeCache() = default;
 
-    Maybe<T> get(Key k)
+    template<class... Args>
+    std::shared_ptr<T> get(const Key& k, Args&&... args)
     {
         auto it = m_objects.find(k);
 
-        if (it == m_objects.end()) //Not found
-            return Maybe<T>{};
+        if (it == m_objects.end())
+            return std::shared_ptr {};
+        else
+            return it->second;
+    }
 
-        return Maybe<T> { m_objects[k] };
+    template<class... Args>
+    std::shared_ptr<T> add(const Key& k, Args&&... args)
+    {
+        return addPrv(k, std::forward<Args>(args)...)->second;
     }
 
 private:
-    std::map<Key, T> m_objects;
+    InternalCache m_objects;
+    ProduceType prod;
+
+    template<class... Args>
+    InternalCache::iterator addPrv(char, const Key& k, Args&&... args)
+    {
+        return m_objects.emplace(k, prod(std::forward<Args>(args)...)).second;
+    }
 };
 
 #endif // CACHE_HPP

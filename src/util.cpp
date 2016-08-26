@@ -4,30 +4,109 @@
 
 #include "util.hpp"
 
-void setTextureRect(QGraphicsPixmapItem& item, const QPixmap& texture, const QRect& rect)
+Nz::Sprite* getSpriteFromComponent(Ndk::GraphicsComponent& gfx)
 {
-    QPixmap p { QSize{rect.width(), rect.height()} };
-    p.fill(Qt::transparent);
+    std::vector<Nz::InstancedRenderableRef> attached;
+    gfx.GetAttachedRenderables(&attached);
 
-    QPainter painter{&p};
+    Nz::Sprite* sprite {};
 
-    painter.drawPixmap(0, 0, rect.width(), rect.height(), texture,
-                       rect.x(), rect.y(), rect.width(), rect.height());
+    for (auto&& renderable : attached)
+    {
+        Nz::Sprite* casted = dynamic_cast<Nz::Sprite*>(renderable.Get());
+        if (casted)
+        {
+            sprite = casted;
+            break;
+        }
+    }
 
-    item.setPixmap(p);
+    return sprite;
 }
 
-QJsonDocument jsonFromFile(const QString& filename)
+AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
-    QFile jsonFile { filename };
-    jsonFile.open(QFile::ReadOnly);
+    static Nz::ImageRef scheme = Nz::Image::New();
+    scheme->LoadFromFile(":/game/scheme");
+#error Change Image filepath
+#pragma message("Optimize this, image loaded at each call")
 
-    return QJsonDocument().fromJson(jsonFile.readAll());
+    unsigned const x { coords.x }, y { coords.y };
+
+    unsigned const rectX { (x / Def::TILEXSIZE) * 2 }; // Rectangle where we clicked
+    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange
+
+    int const iRectX { static_cast<int>(rectX) };
+    int const iRectY { static_cast<int>(rectY) };
+
+    unsigned const rectClickX { x % Def::TILEXSIZE }; //We need the click to see
+    unsigned const rectClickY { y % Def::TILEYSIZE }; //where in the rectangle we clicked
+
+    Nz::Color color = scheme->GetPixelColor(rectClickX, rectClickY);
+
+    int losangeX {};
+    int losangeY {};
+
+    //Blue == up left
+    if (color == Nz::Color::Blue)
+    {
+        losangeX = iRectX - 1;
+        losangeY = iRectY - 1;
+    }
+
+    //Red == up right
+    if (color == Nz::Color::Red)
+    {
+        losangeX = iRectX + 1;
+        losangeY = iRectY - 1;
+    }
+
+    //Yellow == down left
+    if (color == Nz::Color::Yellow)
+    {
+        losangeX = iRectX - 1;
+        losangeY = iRectY + 1;
+    }
+
+    //Green == down right
+    if (color == Nz::Color::Green)
+    {
+        losangeX = iRectX + 1;
+        losangeY = iRectY + 1;
+    }
+
+    //White == The tile.
+    if (color == Nz::Color::White)
+    {
+        losangeX = iRectX;
+        losangeY = iRectY;
+    }
+
+    //If the tile is negative:
+    losangeX = (losangeX < 0) ? 0 : losangeX;
+    losangeY = (losangeY < 0) ? 0 : losangeY;
+
+    unsigned fLosangeX { static_cast<unsigned>(losangeX) };
+    unsigned fLosangeY { static_cast<unsigned>(losangeY) };
+
+    //If tile is out the map:
+    fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX;
+    fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
+
+    return { fLosangeX, fLosangeY };
 }
 
-void jsonToFile(const QJsonDocument& document, const QString& filename)
-{
-    QFile jsonFile { filename };
-    jsonFile.open(QFile::WriteOnly);
-    jsonFile.write(document.toJson());
-}
+// QJsonDocument jsonFromFile(const QString& filename)
+// {
+//     QFile jsonFile { filename };
+//     jsonFile.open(QFile::ReadOnly);
+// 
+//     return QJsonDocument().fromJson(jsonFile.readAll());
+// }
+
+// void jsonToFile(const QJsonDocument& document, const QString& filename)
+// {
+//     QFile jsonFile { filename };
+//     jsonFile.open(QFile::WriteOnly);
+//     jsonFile.write(document.toJson());
+// }

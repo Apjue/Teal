@@ -7,8 +7,8 @@
 #ifndef FACTORY_HPP
 #define FACTORY_HPP
 
-#include <anax/World.hpp>
-#include <anax/Entity.hpp>
+#include <NDK/World.hpp>
+#include <NDK/Entity.hpp>
 #include "components.hpp"
 #include "util.hpp"
 #include "characterinfos.hpp"
@@ -21,6 +21,6 @@
 /// \note There's no difference between a character and a NPC
 ///
 
-extern anax::Entity make_character(anax::World& w, const CharacterInfos& c);
+extern Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& c);
 
 #endif // FACTORY_HPP

@@ -9,8 +9,6 @@
 
 #include "components/common.hpp"
 #include "components/items.hpp"
-
-//Please do not include files in the components directory
-//It may cause bugs
+#include <NDK/Components.hpp>
 
 #endif // COMPONENTS_HPP

@@ -4,70 +4,79 @@
 
 #include "components.hpp"
 
+namespace Items
+{
+
+//Static things
+Ndk::ComponentIndex HPGain::componentIndex;
+Ndk::ComponentIndex AttackBonus::componentIndex;
+Ndk::ComponentIndex AttackResistance::componentIndex;
+Ndk::ComponentIndex Item::componentIndex;
+Ndk::ComponentIndex Stackable::componentIndex;
+Ndk::ComponentIndex Equippable::componentIndex;
+Ndk::ComponentIndex Edible::componentIndex;
+Ndk::ComponentIndex Resource::componentIndex;
+
+} //namespace Items
+
 namespace Components
 {
 
-void Inventory::add(const anax::Entity::Id& id)
-{    
-    auto entity = m_world.getEntity(id.value());
-    assertItem(entity);
+//Static things
+Ndk::ComponentIndex DefaultGraphicsPos::componentIndex;
+Ndk::ComponentIndex Name::componentIndex;
+Ndk::ComponentIndex Level::componentIndex;
+Ndk::ComponentIndex Inventory::componentIndex;
+Ndk::ComponentIndex CDirection::componentIndex;
+Ndk::ComponentIndex Animation::componentIndex;
+Ndk::ComponentIndex Position::componentIndex;
+Ndk::ComponentIndex MoveTo::componentIndex;
+Ndk::ComponentIndex Path::componentIndex;
+Ndk::ComponentIndex Fight::componentIndex;
+Ndk::ComponentIndex Life::componentIndex;
+Ndk::ComponentIndex Map::componentIndex;
 
-    m_groups["all"].add(id.value());
+
+void Inventory::add(const EntityType& e)
+{
+    assertItem(e);
+
+    m_groups["all"].add(e);
 
     //Add to basic groups
-    if (entity.hasComponent<Items::Edible>())
-        m_groups["edible"].add(id.value());
+    if (e->HasComponent<Items::Edible>())
+        m_groups["edible"].add(e);
 
-    if (entity.hasComponent<Items::Equippable>())
-        m_groups["equippable"].add(id.value());
+    if (e->HasComponent<Items::Equippable>())
+        m_groups["equippable"].add(e);
 
-    if (entity.hasComponent<Items::Resource>())
-        m_groups["resource"].add(id.value());
+    if (e->HasComponent<Items::Resource>())
+        m_groups["resource"].add(e);
 }
 
-void Inventory::remove(const anax::Entity::Id& id)
+void Inventory::remove(const Inventory::EntityType& e)
 {
-    assertItem(m_world.getEntity(id.value()));
+    assertItem(e);
 
     for (auto& group: m_groups)
     {
-        group.second.remove(id.value());
+        group.second.remove(e);
     }
 }
 
-bool Inventory::has(const anax::Entity::Id& id)
+bool Inventory::has(const Inventory::EntityType& e)
 {
-    assertItem(m_world.getEntity(id.value()));
+    assertItem(e);
 
     auto& group = m_groups["all"];
-    auto it = group.find(id.value(), true);
+    auto it = group.entities.find(e);
 
-    return (it == group.entities().end());
-}
-
-void Inventory::deactivate(const anax::Entity::Id& id)
-{
-    assertItem(m_world.getEntity(id.value()));
-
-    for (auto& group: m_groups)
-    {
-        group.second.deactivate(id.value());
-    }
-}
-
-void Inventory::activate(const anax::Entity::Id& id)
-{
-    assertItem(m_world.getEntity(id.value()));
-
-    for (auto& group: m_groups)
-    {
-        group.second.activate(id.value());
-    }
+    return (it == group.entities.end());
 }
 
 const Inventory::EntityCache& Components::Inventory::getAll()
 {
-    return m_groups["all"].entities();
+    return m_groups["all"].entities;
 }
 
 void Inventory::reset()
@@ -75,7 +84,7 @@ void Inventory::reset()
     for (auto const& name:
         {"all", "edible", "equippable", "resource"})
     {
-        m_groups[name] = Group{name};
+        m_groups[name] = Group { name };
     }
 }
 
@@ -88,7 +97,7 @@ bool Map::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
                 || (sX == eX+2 && sY == eY)
                 || (sX == eX && sY == eY-2)
                 || (sX == eX && sY == eY+2)
-                //diagonales
+                //diagonals
                 || (sX == eX+1 && sY == eY+1)
                 || (sX == eX-1 && sY == eY-1)
                 || (sX == eX+1 && sY == eY-1)
@@ -108,10 +117,10 @@ bool Map::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
         if (eX > Def::MAPX || eY > Def::MAPY)
             return false;
 
-        unsigned tile {eX+eY*Def::MAPX};
+        unsigned tile { eX + eY*Def::MAPX };
 
         unsigned tileNumber = obs[tile];
-        return (tileNumber == 0); //Go look the line after "TILEARRAY obs" in this class.
+        return (tileNumber == 0);
     }
 }
 

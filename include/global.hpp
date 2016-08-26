@@ -7,17 +7,17 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
-#include <QMouseEvent>
+#include <Nazara/Utility/Mouse.hpp>
+#include <Nazara/Math/Vector2.hpp>
 #include <type_traits>
 #include <assert.h>
 #include <stdexcept>
-#include "util.hpp"
-#include "vector2.hpp"
+#include "gamedef.hpp"
 
-using Button = Qt::MouseButton;
+using Button = Nz::Mouse::Button;
 
-using AbsTile = Vector2u; // Absolute Tile (0-15, 0-8)
-using DiffTile = Vector2i; // Difference Tile (can be negative or positive)
+using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
+using DiffTile = Nz::Vector2i; // Difference Tile (can be negative or positive)
 
 enum class Orientation
 {

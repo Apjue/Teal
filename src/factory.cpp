@@ -4,28 +4,30 @@
 
 #include "factory.hpp"
 
-anax::Entity make_character(anax::World& w, const CharacterInfos& c)
+Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& c)
 {
-    anax::Entity e = w.createEntity();
+    Ndk::EntityHandle e = w->CreateEntity();
 
-    QGraphicsPixmapItem* pix = new QGraphicsPixmapItem{};
-    setTextureRect(*pix, c.tex, QRect{0, 0, c.imgsize.width(), c.imgsize.height()} );
+    c.sprite->SetTextureRect({ 0, 0, c.imgsize.x, c.imgsize.y });
+    e->AddComponent<Ndk::GraphicsComponent>(c.sprite);
+    e->AddComponent<Ndk::NodeComponent>();
 
-    e.addComponent<Components::GraphicsItem>(pix, c.defG);
+    e->AddComponent<Components::Life>(c.maxhp);
+    e->AddComponent<Components::Fight>();
+
+    e->AddComponent<Components::CDirection>(c.o);
+    e->AddComponent<Components::Position>(c.defL.x, c.defL.y);
+
+    auto& dpos = e->AddComponent<Components::DefaultGraphicsPos>(c.defG.x, c.defG.y);
+    e->GetComponent<Ndk::NodeComponent>().SetPosition(dpos.x, dpos.y);
 
 
-    e.addComponent<Components::Life>(c.maxhp);
-    e.addComponent<Components::Fight>();
+    e->AddComponent<Components::MoveTo>();
+    e->AddComponent<Components::Path>();
+    //e->addComponent<Components::Inventory>();
 
-    e.addComponent<Components::CDirection>(c.o);
-    e.addComponent<Components::Position>(c.defL.first(), c.defL.second());
-    e.addComponent<Components::MoveTo>();
-    e.addComponent<Components::Path>();
-    //e.addComponent<Components::Inventory>();
+    e->AddComponent<Components::Animation>(c.imgsize, c.maxframe, c.animState);
 
-    e.addComponent<Components::Animation>
-      (e.getComponent<Components::CDirection>().dir, c.imgsize, c.tex, c.maxframe);
-
-    w.refresh();
+    w->Update();
     return e;
 }

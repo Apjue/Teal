@@ -7,12 +7,11 @@
 #ifndef CHARACTERINFOS_HPP
 #define CHARACTERINFOS_HPP
 
-#include <QSize>
-#include <QPixmap>
+#include <Nazara/Math/Vector2.hpp>
+#include <Nazara/Graphics/InstancedRenderable.hpp>
 
 #include "util.hpp"
 #include "global.hpp"
-#include "vector2.hpp"
 
 ///
 /// \brief The CharacterInfos struct
@@ -22,21 +21,34 @@
 
 struct CharacterInfos
 {
-    CharacterInfos(const QSize& s, const QPixmap& p, unsigned mf = 0,
-                   const Vector2i dg = {}, const Vector2u dl = {},
-                   unsigned mhp = 100, const Orientation& o_ = {Orientation::Down})
-        : imgsize{s}, tex{p}, maxframe{mf}, defG{dg}, defL{dl}, maxhp{mhp}, o{o_} {}
+    /// 
+    /// \param size Size of the picture
+    /// \param pic Picture of the character
+    /// \param mf Max Frame (used for animation)
+    /// \param dg Default graphics position
+    /// \param dl Default logic position
+    /// \param mhp Max HPs (used for fights)
+    /// \param o_ Default orientation
+    /// 
+
+    CharacterInfos(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0,
+                   const Nz::Vector2i& dg = {}, const Nz::Vector2ui& dl = {},
+                   unsigned mhp = 100, const Components::Animation::AnimationState& animState_
+                   = Components::Animation::Moving, const Orientation& o_ = {Orientation::Down})
+        : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
+        maxhp { mhp }, animState { animState_ }, o { o_ } {}
     ~CharacterInfos() = default;
 
-    QSize imgsize;
-    QPixmap tex;
+    Nz::Vector2ui imgsize;
+    Nz::SpriteRef sprite;
     unsigned maxframe{};
 
-    Vector2i defG{0, 0}; //default graphics pos
-    Vector2u defL{0u, 0u}; //default logic pos
+    Nz::Vector2i defG{0, 0}; //default graphics pos
+    Nz::Vector2ui defL{0u, 0u}; //default logic pos
 
     unsigned maxhp{100};
-    Orientation o {Orientation::Down};
+    Components::Animation::AnimationState animState;
+    Orientation o;
 };
 
 #endif // CHARACTERINFOS_HPP

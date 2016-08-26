@@ -7,57 +7,41 @@
 #ifndef BASESYSTEMS_HPP
 #define BASESYSTEMS_HPP
 
-#include "event.hpp"
-#include <QGraphicsScene>
+#include <NDK/World.hpp>
 
 namespace Systems
 {
 
 ///
-/// \brief The BaseSystem class
-///
-/// Base class of all systems
-///
-
-class BaseSystem
-{
-public:
-    BaseSystem() = default;
-    ~BaseSystem() = default;
-
-    virtual void notify(const Event&) = 0;
-};
-
-///
 /// \brief The BaseRenderSystem class
 ///
 /// Base class of all render systems
+/// TODO: delete ?
 ///
 
-class BaseRenderSystem : public BaseSystem
+class BaseRenderSystem
 {
 
 public:
     BaseRenderSystem() = default;
     ~BaseRenderSystem() = default;
-    virtual void notify(const Event&) override {}
 
-    void setScene(QGraphicsScene& scene) noexcept
+    void setWorld(const Ndk::WorldHandle& world) noexcept
     {
-        m_scene = &scene;
+        m_world = world;
     }
-    inline QGraphicsScene& getScene() const noexcept
+    inline Ndk::WorldHandle& getWorld() noexcept
     {
         assert(isValid() && "Render system is not valid");
-        return *m_scene;
+        return m_world;
     }
     virtual inline bool isValid() const
     {
-        return (m_scene);
+        return m_world.IsValid();
     }
 
 private:
-    QGraphicsScene* m_scene{};
+    Ndk::WorldHandle m_world {};
 };
 
 }

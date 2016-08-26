@@ -7,9 +7,9 @@
 #ifndef ITEMS_HPP
 #define ITEMS_HPP
 
-#include <anax/World.hpp>
-#include <anax/Component.hpp>
-#include <anax/Entity.hpp>
+#include <NDK/World.hpp>
+#include <NDK/Component.hpp>
+#include <NDK/Entity.hpp>
 
 #include <array>
 #include <vector>
@@ -40,28 +40,34 @@ namespace Items
 /// If diff == 0, the HP of the player becomes abs.
 ///
 
-struct HPGain : public anax::Component
+struct HPGain : public Ndk::Component<HPGain>
 {
     int diff{};
     unsigned abs{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct AttackBonus : public anax::Component
+struct AttackBonus : public Ndk::Component<AttackBonus>
 {
     int air{};
     int fire{};
     int water{};
     int earth{};
     int neutral{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct AttackResistance : public anax::Component
+struct AttackResistance : public Ndk::Component<AttackResistance>
 {
     int air{};
     int fire{};
     int water{};
     int earth{};
     int neutral{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
 ///
@@ -71,18 +77,22 @@ struct AttackResistance : public anax::Component
 /// It must be in every items
 ///
 
-struct Item : public anax::Component
+struct Item : public Ndk::Component<Item>
 {
     Components::Name* name{};
     Components::Level* level{};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Stackable : public anax::Component
+struct Stackable : public Ndk::Component<Stackable>
 {
     unsigned long id;
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Equippable : public anax::Component
+struct Equippable : public Ndk::Component<Equippable>
 {
     enum BodyPart
     {
@@ -98,20 +108,31 @@ struct Equippable : public anax::Component
         Feet   // bottes
     };
 
-    enum class Side
+    enum class Side //For digit, wrists, hands
     {
         Right,
         Left
     };
+
+    BodyPart bodypart;
+    Side side;
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Edible : public anax::Component
+struct Edible : public Ndk::Component<Edible>
 {
-    HPGain* hpgain{};
+    HPGain* hpgain {};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
-struct Resource : public anax::Component
-{};
+struct Resource : public Ndk::Component<Edible>
+{
+    //...
+
+    static Ndk::ComponentIndex componentIndex;
+};
 
 }
 
