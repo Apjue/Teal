@@ -75,7 +75,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Nazara\afda622\nazara\Nazara\include\;C:\Nazara\afda622\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NAZARA_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NAZARA_DEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -98,7 +98,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Nazara\afda622\nazara\Nazara\include\;C:\Nazara\afda622\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -122,7 +122,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\basesystems.hpp" />
     <ClInclude Include="include\cache.hpp" />
     <ClInclude Include="include\characterinfos.hpp" />
     <ClInclude Include="include\chrono.hpp" />
@@ -134,15 +133,16 @@
     <ClInclude Include="include\global.hpp" />
     <ClInclude Include="include\game.hpp" />
     <ClInclude Include="include\non_nullptr.hpp" />
+    <ClInclude Include="include\producers.hpp" />
     <ClInclude Include="include\systems.hpp" />
+    <ClInclude Include="include\texturecore.hpp" />
     <ClInclude Include="include\tileinfos.hpp" />
     <ClInclude Include="include\util.hpp" />
-    <ClInclude Include="include\maybe.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\game.inl" />
-    <None Include="include\maybe.inl" />
     <None Include="include\non_nullptr.inl" />
+    <None Include="include\texturecore.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components.cpp" />
@@ -151,6 +151,7 @@
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\systems.cpp" />
+    <ClCompile Include="src\texturecore.cpp" />
     <ClCompile Include="src\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

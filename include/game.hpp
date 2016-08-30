@@ -13,6 +13,7 @@
 #include <Nazara/Math/Vector2.hpp>
 #include <NDK/World.hpp>
 #include <NDK/Application.hpp>
+#include <Nazara/Core/Error.hpp>
 #include <memory>
 
 #include "components.hpp"
@@ -22,19 +23,20 @@
 #include "chrono.hpp"
 #include "characterinfos.hpp"
 #include "micropather.h"
-#include "cache.hpp"
+#include "texturecore.hpp"
 
 class Game
 {
 public:
-    Game(Ndk::Application& app, const Nz::Vector2ui& fenSize, const Nz::String& fenName);
+    Game(Ndk::Application& app, const Nz::Vector2ui& fenSize, 
+         const Nz::Vector2ui& viewport, const Nz::String& fenName);
     ~Game() = default;
 
     inline Ndk::WorldHandle getWorld() const;
     inline Ndk::EntityHandle getPerso();
     inline Ndk::EntityHandle getMap();
 
-    void update();
+    void run();
 
 private:
     Ndk::Application& m_app;
@@ -42,12 +44,20 @@ private:
     Nz::RenderWindow& m_window;
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; //main character
+    TextureCore m_textures;
 
-    unsigned m_fpsCounter{};
-    unsigned m_fps{};
+    unsigned m_fpsCounter {};
+    unsigned m_fps {};
 
-    std::shared_ptr<micropather::MicroPather> m_pather; //Used by the AI System
+    std::shared_ptr<micropather::MicroPather> m_pather {}; //Used by the AI System
     Nz::Icon m_winIcon;
+
+    inline void initCustomThings();
+    inline void textureLoadFailed(const Nz::String& file); // Panic !
+
+    inline void addTextures();
+    inline void initIcon();
+    inline void initCam();
 
     void addEntities();
     void initEntities();

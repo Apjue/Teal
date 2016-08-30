@@ -39,7 +39,7 @@ namespace Components
 {
 
 ///
-/// \class DefaultGraphicsPos
+/// \struct DefaultGraphicsPos
 ///
 /// \brief Used by the factory for the sprite to fit
 ///        the default logic position
@@ -47,10 +47,10 @@ namespace Components
 
 struct DefaultGraphicsPos : public Ndk::Component<DefaultGraphicsPos>
 {
-    DefaultGraphicsPos(unsigned x_, unsigned y_) : x { x_ }, y { y_ } {}
+    DefaultGraphicsPos(float x_, float y_) : x { x_ }, y { y_ } {}
 
-    unsigned x {};
-    unsigned y {};
+    float x {};
+    float y {};
 
     static Ndk::ComponentIndex componentIndex;
 };
@@ -148,7 +148,7 @@ private:
 };
 
 ///
-/// \class CDirection
+/// \struct CDirection
 ///
 /// \brief Contains the Orientation enum
 ///

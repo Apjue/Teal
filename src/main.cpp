@@ -3,19 +3,23 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Application.hpp>
-#include <stdexcept>
+#include <Nazara/Core/AbstractLogger.hpp>
+#include <Nazara/Core/Log.hpp>
 #include "game.hpp"
 
 int main()
 {
     Ndk::Application app;
 
-    Game window { app, {Def::BUTTONSXSIZE, Def::MAPYSIZE+Def::BUTTONSYSIZE}, 
-        "TealDemo - Prototype" /*, { Def::MAPXSIZE, Def::MAPYSIZE }*/ };
+    Nz::Log::GetLogger()->EnableStdReplication(false);
 
+    Game game { app, { Def::BUTTONSXSIZE, Def::MAPYSIZE + Def::BUTTONSYSIZE },
+                     { Def::MAPXSIZE, Def::MAPYSIZE }, "TealDemo - Prototype" };
+    
     while (app.Run())
     {
-        window.update();
+        game.run();
     }
+
     return 0;
 }

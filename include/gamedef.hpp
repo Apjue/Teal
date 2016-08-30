@@ -13,41 +13,37 @@
 namespace Def
 {
 
-constexpr unsigned MAPX { 15u }; //For arrays.
-constexpr unsigned MAPY { 8u };
+constexpr unsigned MAPX           { 15u }; //For arrays.
+constexpr unsigned MAPY           { 8u };
 
-constexpr unsigned TILEARRAYSIZE { MAPX*MAPY };
+constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
 
-constexpr unsigned LMAPX { 14u }; //For logic
-constexpr unsigned LMAPY { 14u };
+constexpr unsigned LMAPX          { 14u }; //For logic
+constexpr unsigned LMAPY          { 14u };
 
-constexpr unsigned MAPXSIZE { 512u };
-constexpr unsigned MAPYSIZE { 256u };
+constexpr unsigned MAPXSIZE       { 512u };
+constexpr unsigned MAPYSIZE       { 256u };
 
-constexpr unsigned BUTTONSXSIZE { MAPXSIZE };
-constexpr unsigned BUTTONSYSIZE { 90u };
+constexpr unsigned BUTTONSXSIZE   { MAPXSIZE };
+constexpr unsigned BUTTONSYSIZE   { 90u };
 
-constexpr unsigned TILEXSIZE { 64u };
-constexpr unsigned TILEYSIZE { 32u };
+constexpr unsigned TILEXSIZE      { 64u };
+constexpr unsigned TILEYSIZE      { 32u };
 
-constexpr unsigned TILEGXSIZE { TILEXSIZE / 2 };
-constexpr unsigned TILEGYSIZE { TILEYSIZE / 2 };
+constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
+constexpr unsigned TILEGYSIZE     { TILEYSIZE / 2 };
 
-constexpr unsigned MAXPOSINTILE { 4u };
+constexpr unsigned MAXPOSINTILE   { 4u };
 constexpr unsigned MAXGXPOSINTILE { TILEGXSIZE / MAXPOSINTILE };
 constexpr unsigned MAXGYPOSINTILE { TILEGYSIZE / MAXPOSINTILE };
 
-constexpr float MAXFPS { 10 }; // Updates per second
+constexpr float    MAXFPS         { 10 }; // Updates per second
 
-constexpr int MAXDIR { 4 };
+constexpr int      MAXDIR         { 4 }; // Max directions: Up, down, left, right
 
 }
 
-/// \todo do a tile struct containing all infos
-
 using OLDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
-
 using TILEARRAY = std::array<TileInfos, Def::TILEARRAYSIZE>;
-
 
 #endif // GAMEDEF_HPP

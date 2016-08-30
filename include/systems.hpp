@@ -15,7 +15,6 @@
 #include <assert.h>
 #include <utility>
 
-#include "basesystems.hpp"
 #include "components.hpp"
 #include "global.hpp"
 #include "util.hpp"
@@ -30,7 +29,6 @@ namespace Systems
 /// \brief Animates Graphics Items, as long as
 ///        their type is QGraphicsPixmapItem
 ///
-/// 
 
 class AnimationSystem : public Ndk::System<AnimationSystem>
 {

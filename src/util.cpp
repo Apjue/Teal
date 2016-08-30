@@ -24,12 +24,17 @@ Nz::Sprite* getSpriteFromComponent(Ndk::GraphicsComponent& gfx)
     return sprite;
 }
 
+namespace
+{
+
+Nz::ImageRef scheme {};
+
+}
+
 AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
-    static Nz::ImageRef scheme = Nz::Image::New();
-    scheme->LoadFromFile(":/game/scheme");
-#error Change Image filepath
-#pragma message("Optimize this, image loaded at each call")
+    assert(scheme.IsValid() && "Scheme Ref isn't valid !");
+    assert(scheme->IsValid() && "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
 
@@ -94,6 +99,11 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
 
     return { fLosangeX, fLosangeY };
+}
+
+void setScheme(Nz::ImageRef newScheme)
+{
+    scheme = newScheme;
 }
 
 // QJsonDocument jsonFromFile(const QString& filename)

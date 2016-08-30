@@ -4,26 +4,25 @@
 
 #include "game.hpp"
 
-Game::Game(Ndk::Application& app, const Nz::Vector2ui& fenSize, const Nz::String& fenName) :
+Game::Game(Ndk::Application& app, const Nz::Vector2ui& fenSize, 
+           const Nz::Vector2ui& viewport, const Nz::String& fenName) :
     m_app(app), m_world(), m_window(app.AddWindow<Nz::RenderWindow>()), m_map(), m_charac()
 {
+    NazaraUnused(viewport);
+    addTextures();
+
+    Nz::ImageRef scheme = Nz::Image::New();
+    scheme->LoadFromFile(m_textures.get(":/game/scheme")->GetFilePath());
+
+    setScheme(scheme);
+
     m_window.Create(Nz::VideoMode(fenSize.x, fenSize.y, 32), fenName);
-
-    Nz::Image iconImage;
-    iconImage.LoadFromFile(":/game/money");
-#error Change filepath
-    m_winIcon.Create(iconImage);
-
-    m_window.SetIcon(m_winIcon);
-
     m_world = app.AddWorld().CreateHandle();
-    m_world->GetSystem<Ndk::RenderSystem>().SetGlobalUp(Nz::Vector3f::Down());
 
-    auto& camera = m_world->CreateEntity();
-    camera->AddComponent<Ndk::NodeComponent>();
+    initCustomThings();
 
-    auto& cam = camera->AddComponent<Ndk::CameraComponent>();
-    cam.SetProjectionType(Nz::ProjectionType_Orthogonal);
+    initIcon();
+    initCam();
 
     addEntities();
     initEntities();
@@ -31,7 +30,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& fenSize, const Nz::String
     initSystems();
 }
 
-void Game::update()
+void Game::run()
 {
     Nz::WindowEvent event;
     while (m_window.PollEvent(&event))
@@ -48,15 +47,14 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
     m_map->AddComponent<Components::Map>();
 
-    Nz::TextureRef charTex = Nz::Texture::New();
-    charTex->LoadFromFile(":/game/char/villager");
-#error use new filepath
 
-    Nz::SpriteRef charSprite = Nz::Sprite::New( charTex );
-    charSprite->SetTextureRect({ 0, 0, 113, 99 });
+    Nz::TextureRef charTex = m_textures.get(":/game/char/villager");
 
-    CharacterInfos mainCharacInfos { {113, 99}, charSprite,
-                           15, {-25, -66}, {1, 1}, 100 };
+    Nz::SpriteRef charSprite = Nz::Sprite::New( charTex.Get() );
+    charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
+
+    CharacterInfos mainCharacInfos { { 113u, 99u }, charSprite,
+                                     15, { -25.f, -66.f }, { 1, 1 }, 100 };
     m_charac = make_character(m_world, mainCharacInfos);
 }
 
@@ -75,7 +73,7 @@ void Game::initEntities()
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     }; //Test
     m_map->Enable(true);
-#error Use Nz::Tilemap
+#pragma message("TODO: Use Nz::Tilemap")
     m_pather = std::make_shared<micropather::MicroPather>(&mapComp);
 
     m_charac->Enable(true);

@@ -20,6 +20,7 @@ void operator &= (Dir& a, Dir b)
 Dir operator ~ (Dir a)
 {
     auto const nbFlags = Def::MAXDIR;
+	
     using utype = typename std::underlying_type<Dir>::type;
     return static_cast<Dir>( ~static_cast<utype>(a) & ( ( ( utype(1u) << nbFlags ) - 1u ) ) );
 }
@@ -29,6 +30,7 @@ Dir operator ~ (Dir a)
 int DirToY(Direction::Dir d)
 {
     assert( ( d & Direction::UpDown) != Direction::UpDown );
+	
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[ d & Direction::UpDown];
 }
@@ -36,6 +38,7 @@ int DirToY(Direction::Dir d)
 int DirToX(Direction::Dir d)
 {
     assert( ( d & Direction::LeftRight) != Direction::LeftRight );
+	
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[( d & Direction::LeftRight)/4];
 }

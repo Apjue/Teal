@@ -32,7 +32,7 @@ struct CharacterInfos
     /// 
 
     CharacterInfos(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0,
-                   const Nz::Vector2i& dg = {}, const Nz::Vector2ui& dl = {},
+                   const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
                    unsigned mhp = 100, const Components::Animation::AnimationState& animState_
                    = Components::Animation::Moving, const Orientation& o_ = {Orientation::Down})
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
@@ -41,12 +41,12 @@ struct CharacterInfos
 
     Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;
-    unsigned maxframe{};
+    unsigned maxframe;
 
-    Nz::Vector2i defG{0, 0}; //default graphics pos
-    Nz::Vector2ui defL{0u, 0u}; //default logic pos
+    Nz::Vector2f defG; //default graphics pos
+    Nz::Vector2ui defL; //default logic pos
 
-    unsigned maxhp{100};
+    unsigned maxhp;
     Components::Animation::AnimationState animState;
     Orientation o;
 };

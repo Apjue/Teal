@@ -94,7 +94,7 @@ void Systems::PosRefreshSystem::OnUpdate(float elapsed)
         if (!gfx)
             continue;
 
-        Nz::Vector2ui defPos { dpos.x, dpos.y };
+        Nz::Vector2f defPos { dpos.x, dpos.y };
 
         auto const x = pos.x; //logic pos
         auto const y = pos.y;
@@ -107,8 +107,8 @@ void Systems::PosRefreshSystem::OnUpdate(float elapsed)
         auto const gInX = inX * Def::MAXGXPOSINTILE;
         auto const gInY = inY * Def::MAXGYPOSINTILE;
 
-        int const finalX = gX + gInX; //We will move using this
-        int const finalY = gY + gInY; //(so it's graphics pos)
+        float const finalX = static_cast<float>(gX) + static_cast<float>(gInX); //We will move using this
+        float const finalY = static_cast<float>(gY) + static_cast<float>(gInY); //(so it's graphics pos)
 
 
         if (finalX + defPos.x != gfxpos.GetPosition().x  //if the entity is already at that position

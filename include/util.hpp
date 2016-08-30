@@ -12,12 +12,13 @@
 #include <Nazara/Core/Color.hpp>
 #include <Nazara/Utility/Image.hpp>
 
-#include <assert.h>
+#include <cassert>
 #include <array>
 #include "chrono.hpp"
 #include "non_nullptr.hpp"
 #include "gamedef.hpp"
 #include "global.hpp"
+#include "texturecore.hpp"
 
 inline unsigned dToU(double d)
 {
@@ -54,6 +55,16 @@ extern Nz::Sprite* getSpriteFromComponent(Ndk::GraphicsComponent& gfx);
 ///
 
 extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
+
+///
+/// \fn setScheme
+///
+/// \brief Sets the scheme the getTileFromGlobalCoords function will use
+///
+/// \todo Delete this function and find a better way
+///
+
+extern void setScheme(Nz::ImageRef newScheme);
 
 // extern QJsonDocument jsonFromFile(const QString& filename);
 // extern void jsonToFile(const QJsonDocument& document, const QString& filename);
