@@ -1,5 +1,5 @@
 // Copyright (C) 2016 Samy Bensaid
-// This file is part of the Teal game.
+// This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -11,16 +11,18 @@
 #include <NDK/Entity.hpp>
 #include "components.hpp"
 #include "util.hpp"
+#include "layerdef.hpp"
 #include "characterinfos.hpp"
 
 ///
-/// \brief The make_character function
+/// \fn make_character
 ///
-/// Creates a character with all required components
+/// \brief Creates a character with all required components
 ///
 /// \note There's no difference between a character and a NPC
+///       But only NPCs have the RandomMovement component
 ///
 
-extern Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& c);
+extern Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& infos);
 
 #endif // FACTORY_HPP

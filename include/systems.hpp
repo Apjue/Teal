@@ -1,5 +1,5 @@
 // Copyright (C) 2016 Samy Bensaid
-// This file is part of the Teal game.
+// This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -97,7 +97,7 @@ public:
 
     inline void reset()
     {
-        assert(m_pather && "Pather is null !");
+        NazaraAssert(m_pather, "Pather is null !");
         m_pather->Reset();
     }
     void setPather(const std::shared_ptr<micropather::MicroPather>& pather)

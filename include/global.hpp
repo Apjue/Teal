@@ -75,11 +75,14 @@ extern Dir operator ~ (Dir a);
 
 extern int DirToY(Direction::Dir d);
 extern int DirToX(Direction::Dir d);
+
 extern DiffTile DirToXY(Direction::Dir d);
+extern Direction::Dir XYToDir(DiffTile d);
 
 extern Orientation DirToOrien(Direction::Dir d);
 extern Direction::Dir OrienToDir(Orientation o);
 
-extern Direction::Dir XYToDir(DiffTile d);
+extern bool isDiagonal(Direction::Dir dir);
+extern bool isPositionValid(AbsTile pos);
 
 #endif // GLOBAL_HPP

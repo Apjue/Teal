@@ -1,5 +1,5 @@
 // Copyright (C) 2016 Samy Bensaid
-// This file is part of the Teal game.
+// This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -10,6 +10,7 @@
 #include <NDK/World.hpp>
 #include <NDK/Component.hpp>
 #include <NDK/Entity.hpp>
+#include <Nazara/Core/String.hpp>
 
 #include <array>
 #include <vector>
@@ -38,6 +39,17 @@ struct AttackResistance;
 namespace Components
 {
 
+struct RandomMovement : public Ndk::Component<RandomMovement>
+{
+    RandomMovement() = default;
+    ~RandomMovement() = default;
+
+    float movingInterval {};
+    unsigned nbTiles {}; // Number of tiles to move each movement
+
+    static Ndk::ComponentIndex componentIndex;
+};
+
 ///
 /// \struct DefaultGraphicsPos
 ///
@@ -57,14 +69,14 @@ struct DefaultGraphicsPos : public Ndk::Component<DefaultGraphicsPos>
 
 struct Name : public Ndk::Component<Name>
 {
-    std::string name{};
+    Nz::String name {};
 
     static Ndk::ComponentIndex componentIndex;
 };
 
 struct Level : public Ndk::Component<Level>
 {
-    unsigned level{};
+    unsigned level {};
 
     static Ndk::ComponentIndex componentIndex;
 };
@@ -105,11 +117,11 @@ public:
                 entities.erase(it);
         }
 
-        std::string name{"undefined"}; // ID of the group
+        std::string name { "undefined" }; // ID of the group
         EntityCache entities; // entities of the group
     };
 
-    Inventory(Ndk::WorldHandle& world) : m_world(world), m_groups()
+    Inventory(Ndk::WorldHandle& world) : m_world(world)
     {
         reset();
     }
@@ -120,7 +132,7 @@ public:
     bool has(const EntityType& e);
 
     const EntityCache& getAll();
-    const Group& group(const std::string& name)
+    inline const Group& group(const std::string& name)
     {
         return m_groups[name];
     }
@@ -140,10 +152,19 @@ private:
 
     void reset();
 
+    ///
+    /// \fn assertItem
+    ///
+    /// \brief Ensures the entity is an item
+    ///
+    /// \param entity Entity to check
+    ///
+
     void assertItem(const Ndk::EntityHandle& entity) const
     {
-        assert(entity->IsValid() && "Entity isn't valid !");
-        assert(entity->HasComponent<Items::Item>() && "Entity isn't an item !");
+        NazaraAssert(entity.IsValid(), "Handle isn't valid !");
+        NazaraAssert(entity->IsValid(), "Entity isn't valid !");
+        NazaraAssert(entity->HasComponent<Items::Item>(), "Entity isn't an item !");
     }
 };
 
@@ -152,14 +173,14 @@ private:
 ///
 /// \brief Contains the Orientation enum
 ///
-/// \todo Change name to Orientation
+/// \todo Change name to Orientation ?
 ///
 
 struct CDirection : public Ndk::Component<CDirection>
 {
     CDirection(const Orientation& o = Orientation::Down) : dir{o} {}
     CDirection(const CDirection&) = default;
-    Orientation dir{};
+    Orientation dir {};
 
     static Ndk::ComponentIndex componentIndex;
 };
@@ -183,10 +204,10 @@ struct Animation : public Ndk::Component<Animation>
     Animation(const Nz::Rectui& s, unsigned mf = 0, AnimationState state = Undefined, unsigned df = 0)
         : frame { df }, size { s }, maxframe { mf }, animationState { state } {}
 
-    unsigned frame{0}; // frame * size of img = img (y)
-    Nz::Rectui size{};
-    unsigned maxframe{};
-//     bool animated{false};
+    unsigned frame {}; // frame * size of the image = vertical coords of the image
+    Nz::Rectui size {};
+    unsigned maxframe {};
+//     bool animated { false };
     AnimationState animationState;
 
     static Ndk::ComponentIndex componentIndex;
@@ -196,25 +217,25 @@ struct Position : public Ndk::Component<Position>
 {
     Position(unsigned x_ = 0, unsigned y_ = 0) : x{x_}, y{y_} {}
 
-    unsigned x{}; //The actual position
-    unsigned y{}; //(absolute)
+    unsigned x {}; //The actual position
+    unsigned y {}; //(absolute)
 
     //num:
     //X: +32px == +1
     //Y: +16px == +1
 
-    int inX{}; //Position in tile from x/y.
-    int inY{}; //difference.
+    int inX {}; //Position in tile from x/y.
+    int inY {}; //difference.
 
-    bool moving{false};
+    bool moving { false };
 
     static Ndk::ComponentIndex componentIndex;
 };
 
 struct MoveTo : public Ndk::Component<MoveTo>
 {
-    int diffX{}; //The position we want to go
-    int diffY{}; //Adds it to the Position's XY to get the tile
+    int diffX {}; //The position where we want to go
+    int diffY {}; //Adds it to the Position's XY to get the tile
     //0 == nowhere
 
     static Ndk::ComponentIndex componentIndex;
@@ -239,53 +260,50 @@ struct Fight : public Ndk::Component<Fight>
 class Life : public Ndk::Component<Life>
 {
 public:
-    Life(unsigned maxhp) : m_hp{maxhp}, m_maxhp{maxhp} {}
+    Life(unsigned maxhp) : m_hp { maxhp }, m_maxhp { maxhp } {}
     ~Life() = default;
 
-    bool alive() const noexcept
+    inline bool alive() const noexcept
     {
-        return m_alive;
+        return m_hp == 0;
     }
-    unsigned HP() const noexcept
+    inline unsigned HP() const noexcept
     {
         return m_hp;
     }
-    void setHP(unsigned hp)
+    inline void setHP(unsigned hp)
     {
         m_hp = hp;
         verifyInfos();
     }
 
-    unsigned maxHP() const noexcept
+    inline unsigned maxHP() const noexcept
     {
         return m_maxhp;
     }
-    void setMaxHP(unsigned newHP)
+    inline void setMaxHP(unsigned maxHP)
     {
-        m_maxhp = newHP;
+        m_maxhp = maxHP;
         verifyInfos();
     }
 
     static Ndk::ComponentIndex componentIndex;
 
 private:
-    unsigned m_hp{100};
-    unsigned m_maxhp{100};
-    bool m_alive{true};
+    unsigned m_hp { 100 };
+    unsigned m_maxhp { 100 };
 
     void verifyInfos()
     {
         m_hp = (m_hp > m_maxhp) ? m_maxhp : m_hp;
-        m_alive = (m_hp == 0);
     }
 };
 
 ///
-/// \brief The Map class
+/// \class Map
 ///
-/// Map of the game.
-/// Must be rendered first.
-/// Only one instance of it should exist.
+/// \brief Map of the game
+///        Only one instance of it should exist
 ///
 
 class Map : public Ndk::Component<Map>, public micropather::Graph
@@ -315,10 +333,12 @@ public:
         y = index / Def::MAPX;
         x = index - y * Def::MAPX;
     }
+
     static inline void* XYToNode(const unsigned& x, const unsigned& y)
     {
-        return (void*) ( y*Def::MAPX + x );
+        return (void*) (y * Def::MAPX + x);
     }
+
     static inline void XYToArray(const unsigned& /*x*/, unsigned& y)
     {
         y /= 2;
@@ -330,9 +350,9 @@ private:
     bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
     //Micropather
-    virtual float LeastCostEstimate( void* nodeStart, void* nodeEnd ) override;
-    virtual void AdjacentCost( void* node, std::vector< micropather::StateCost > *neighbors ) override;
-    virtual void PrintStateInfo( void* /*node*/ ) override {}
+    virtual float LeastCostEstimate(void* nodeStart, void* nodeEnd) override;
+    virtual void AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) override;
+    virtual void PrintStateInfo(void* /*node*/) override {}
 };
 
 }

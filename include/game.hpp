@@ -1,5 +1,5 @@
 // Copyright (C) 2016 Samy Bensaid
-// This file is part of the Teal game.
+// This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -14,6 +14,10 @@
 #include <NDK/World.hpp>
 #include <NDK/Application.hpp>
 #include <Nazara/Core/Error.hpp>
+#include <Nazara/Graphics/ColorBackground.hpp>
+#include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Utility/EventHandler.hpp>
+#include <Nazara/Core/Signal.hpp>
 #include <memory>
 
 #include "components.hpp"
@@ -28,7 +32,7 @@
 class Game
 {
 public:
-    Game(Ndk::Application& app, const Nz::Vector2ui& fenSize, 
+    Game(Ndk::Application& app, const Nz::Vector2ui& winSize, 
          const Nz::Vector2ui& viewport, const Nz::String& fenName);
     ~Game() = default;
 
@@ -36,7 +40,7 @@ public:
     inline Ndk::EntityHandle getPerso();
     inline Ndk::EntityHandle getMap();
 
-    void run();
+    inline void run();
 
 private:
     Ndk::Application& m_app;
@@ -45,6 +49,7 @@ private:
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; //main character
     TextureCore m_textures;
+    Nz::Rectui m_mapViewport;
 
     unsigned m_fpsCounter {};
     unsigned m_fps {};
@@ -52,19 +57,25 @@ private:
     std::shared_ptr<micropather::MicroPather> m_pather {}; //Used by the AI System
     Nz::Icon m_winIcon;
 
-    inline void initCustomThings();
-    inline void textureLoadFailed(const Nz::String& file); // Panic !
+    //Slots
+    NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
 
-    inline void addTextures();
-    inline void initIcon();
-    inline void initCam();
+    //Init Functions
+    void initCustomThings();
+    void textureLoadFailed(const Nz::String& file); // Panic !
+
+    void addTextures();
+    void initIcon();
+    void initCam();
 
     void addEntities();
     void initEntities();
     void addSystems();
     void initSystems();
+
+    void initEventHandler();
 };
 
-#include "game.inl"
-
 #endif // GAME_H
+
+#include "game.inl"

@@ -74,13 +74,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Nazara\afda622\nazara\Nazara\include\;C:\Nazara\afda622\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Nazara\067ffae\nazara\Nazara\include\;C:\Nazara\067ffae\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NAZARA_DEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Nazara\afda622\nazara\Nazara\lib\msvc\x86\;$(ProjectDir)extlibs\lib\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraRenderer-d.lib;NazaraUtility-d.lib;NazaraSDK-d.lib;micropather-d-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Nazara\067ffae\nazara\Nazara\lib\msvc\x86\;$(ProjectDir)extlibs\lib\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraRenderer-d.lib;NazaraUtility-d.lib;NazaraSDK-d.lib;NazaraLua-d.lib;micropather-d-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -97,15 +97,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Nazara\afda622\nazara\Nazara\include\;C:\Nazara\afda622\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Nazara\067ffae\nazara\Nazara\include\;C:\Nazara\067ffae\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Nazara\afda622\nazara\Nazara\lib\msvc\x86\;$(ProjectDir)extlibs\lib\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>NazaraCore.lib;NazaraGraphics.lib;NazaraRenderer.lib;NazaraUtility.lib;NazaraSDK.lib;micropather-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Nazara\067ffae\nazara\Nazara\lib\msvc\x86\;$(ProjectDir)extlibs\lib\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NazaraCore.lib;NazaraGraphics.lib;NazaraRenderer.lib;NazaraUtility.lib;NazaraSDK.lib;NazaraLua.lib;micropather-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,6 +132,7 @@
     <ClInclude Include="include\gamedef.hpp" />
     <ClInclude Include="include\global.hpp" />
     <ClInclude Include="include\game.hpp" />
+    <ClInclude Include="include\layerdef.hpp" />
     <ClInclude Include="include\non_nullptr.hpp" />
     <ClInclude Include="include\producers.hpp" />
     <ClInclude Include="include\systems.hpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="include\util.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="include\chrono.inl" />
     <None Include="include\game.inl" />
     <None Include="include\non_nullptr.inl" />
     <None Include="include\texturecore.inl" />

@@ -29,7 +29,7 @@ Dir operator ~ (Dir a)
 
 int DirToY(Direction::Dir d)
 {
-    assert( ( d & Direction::UpDown) != Direction::UpDown );
+    NazaraAssert( ( d & Direction::UpDown) != Direction::UpDown, "Up and Down" );
 	
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[ d & Direction::UpDown];
@@ -37,7 +37,7 @@ int DirToY(Direction::Dir d)
 
 int DirToX(Direction::Dir d)
 {
-    assert( ( d & Direction::LeftRight) != Direction::LeftRight );
+    NazaraAssert( ( d & Direction::LeftRight) != Direction::LeftRight, "Left and Right");
 	
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[( d & Direction::LeftRight)/4];
@@ -51,9 +51,32 @@ DiffTile DirToXY(Direction::Dir d)
     return {y ? x : x*2, x ? y : y*2};
 }
 
+Direction::Dir XYToDir(DiffTile d)
+{
+    int x { d.x };
+    int y { d.y };
+
+    NazaraAssert((x != 0 || y != 0), "x and y may not be 0");
+    //0 == no move == no direction
+
+    Direction::Dir dir = Direction::Up; //Must put a default value
+
+    if (x > 0)
+        dir |= Direction::Right;
+    else if (x < 0)
+        dir |= Direction::Left;
+
+    if (y > 0)
+        dir |= Direction::Down;
+    if (y >= 0)
+        dir &= ~Direction::Up;
+
+    return dir;
+}
+
 Orientation DirToOrien(Direction::Dir d)
 {
-    assert(d && "No flag set !");
+    NazaraAssert(d, "No flag set !");
 
     if ( (d & Direction::DownLeft) == Direction::DownLeft)
         return Orientation::DownLeft;
@@ -120,29 +143,30 @@ Direction::Dir OrienToDir(Orientation o)
         break;
     }
 
-    assert(!"No flag set !");
+    NazaraAssert(false, "No flag set !");
     return {};
 }
 
-Direction::Dir XYToDir(DiffTile d)
+bool isDiagonal(Direction::Dir dir)
 {
-    int x { d.x };
-    int y { d.y };
+    bool diag = true;
 
-    assert( (x != 0 || y != 0) && "X and Y may not be 0" );
-    //0 == no move == no direction
+    if (dir == Direction::Right
+     || dir == Direction::Down
+     || dir == Direction::Left
+     || dir == Direction::Up)
+        diag = false;
 
-    Direction::Dir dir = Direction::Up; //Must put a default value
+    return diag;
+}
 
-    if (x > 0)
-        dir |= Direction::Right;
-    else if (x < 0)
-        dir |= Direction::Left;
+bool isPositionValid(AbsTile pos)
+{
+    if (pos.x % 2 == 0 && pos.y % 2 == 0)
+        return true;
 
-    if (y > 0)
-        dir |= Direction::Down;
-    if (y >= 0)
-        dir &= ~Direction::Up;
+    if (pos.x % 2 == 1 && pos.y % 2 == 1)
+        return true;
 
-    return dir;
+    return false;
 }

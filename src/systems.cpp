@@ -123,7 +123,7 @@ void Systems::PosRefreshSystem::OnUpdate(float elapsed)
 
 void Systems::AISystem::OnUpdate(float elapsed)
 {
-    assert(m_pather && "Pather is null !");
+    NazaraAssert(m_pather, "Pather is null !");
     NazaraUnused(elapsed);
 
     for (auto& e: GetEntities())
@@ -133,41 +133,48 @@ void Systems::AISystem::OnUpdate(float elapsed)
         auto& move = e->GetComponent<Components::MoveTo>();
 
         if (move.diffX == 0 && move.diffY == 0)
-            continue; //This entity doesn't want to move.
+            continue; // This entity doesn't want to move.
 
-        if (pos.moving)
-            continue; //It is already moving !
+        if (pos.moving) // It's already moving !
+        {               // Let's try to stop it
+            if (isPositionValid({ pos.x, pos.y }))
+                pos.moving = false;
+            else
+                continue; // Invalid position, can't stop it
+        }
 
-        //Ok, let's do the path.
+        // Ok, let's do the path.
 
-        //First, make sure to erase the previous path (if any)
+        // First, make sure to erase the previous path (if any)
+
         while (!path.empty())
             path.pop();
 
-        //Now, compute the path with the position and the move component.
-        std::vector<void*> voidPath;
-        float totalCost{}; //In case of debugging
+        // Now, compute the path with the position and the move component.
 
-        int endX{ static_cast<int>(pos.x) + move.diffX },
-            endY{ static_cast<int>(pos.y) + move.diffY };
+        std::vector<void*> voidPath;
+        float totalCost {}; // In case of debugging
+
+        int endX { static_cast<int>(pos.x) + move.diffX },
+            endY { static_cast<int>(pos.y) + move.diffY };
 
         m_pather->Solve(Components::Map::XYToNode(pos.x, pos.y),
                        Components::Map::XYToNode(endX, endY),
-                       &voidPath, &totalCost); //returns the absolute position, not difference.
+                       &voidPath, &totalCost); // returns the absolute position, not difference.
 
-        //Path done... in void*... let's add it to the entity's path. Not in void*.
+        // Path done, in void*. Let's add it to the entity's path, in ints
 
-        int oldX{};
-        int oldY{};
+        int oldX {};
+        int oldY {};
 
-        for (std::size_t i{} ; i < voidPath.size() ; ++i)
+        for (std::size_t i {}; i < voidPath.size(); ++i)
         {
-            if (i == 0) //First tile is actually the position (micropather's fault...)
+            if (i == 0) // First tile is actually the position (micropather's fault)
                 continue;
 
-            auto&& node = voidPath[i];
+            auto node = voidPath[i];
 
-            unsigned absX{}, absY{}; //Absolute position, not difference.
+            unsigned absX {}, absY {}; // Absolute position, not difference
             Components::Map::NodeToXY(node, absX, absY);
 
             int startX { static_cast<int>(pos.x) };
@@ -179,32 +186,27 @@ void Systems::AISystem::OnUpdate(float elapsed)
                 startY = oldY;
             }
 
-            int x{ startX - static_cast<int>(absX) },
-                y{ startY - static_cast<int>(absY) }; //Difference now, but reversed
+            int x { startX - static_cast<int>(absX) },
+                y { startY - static_cast<int>(absY) }; // Difference now, but reversed
 
             x = -x; //Ok
             y = -y;
 
-            Direction::Dir dir = XYToDir(DiffTile{x, y});
+            Direction::Dir dir = XYToDir({ x, y });
+            bool reExec = isDiagonal(dir); // [WORKAROUND 1]
 
-            bool reexec = false; // [WORKAROUND 1]
-            if (dir == Direction::Right
-             || dir == Direction::Down
-             || dir == Direction::Left
-             || dir == Direction::Up)
-                reexec = true;
-
-            path.push(std::make_pair(dir, reexec)); // [WORKAROUND 1]
+            path.push(std::make_pair(dir, reExec)); // [WORKAROUND 1]
 
             oldX = static_cast<int>(absX);
             oldY = static_cast<int>(absY);
         }
 
-        //All done. Now, erase the move and the inter-x if any.
+        // All done. Now, purge the move and the inter-pos if any
+
         move.diffX = 0;
         move.diffY = 0;
 
-        pos.inX = 0;
+        pos.inX = 0; // Inter-pos
         pos.inY = 0;
     }
 }
@@ -228,10 +230,10 @@ void Systems::MovementSystem::OnUpdate(float elapsed)
         cdir = DirToOrien(dir.first); // [WORKAROUND 1]
         auto xy = DirToXY(dir.first); // [WORKAROUND 1]
 
-        bool walkMode = (path.size() == 1); //We finished our path, let's stop running.
-
         int moveX { xy.x };
         int moveY { xy.y };
+
+        bool walkMode = (path.size() == 1); // We almost finished, let's stop running
 
         if (walkMode)
         {
@@ -242,33 +244,35 @@ void Systems::MovementSystem::OnUpdate(float elapsed)
         pos.inX += moveX;
         pos.inY += moveY;
 		
-        if (pos.inX % Def::MAXPOSINTILE == 0) // Next tile reached.
+        if (pos.inX % Def::MAXPOSINTILE == 0) // Next horizontal tile reached
         {
             if (pos.inX > 0)
                 pos.x += (pos.inX / Def::MAXPOSINTILE);
             else
                 pos.x -= (-pos.inX / Def::MAXPOSINTILE);
+
             pos.inX = 0;
         }
 
-        if (pos.inY % Def::MAXPOSINTILE == 0)
+        if (pos.inY % Def::MAXPOSINTILE == 0) // Next vertical tile reached
         {
             if (pos.inY > 0)
                 pos.y += (pos.inY / Def::MAXPOSINTILE);
             else
                 pos.y -= (-pos.inY / Def::MAXPOSINTILE);
+
             pos.inY = 0;
         }
 
-        if (pos.inX == 0 && pos.inY == 0) //dir.second == reexec
+        if (pos.inX == 0 && pos.inY == 0) // dir.second is the reexec workaround
         {
             if (!dir.second)
-                path.pop(); //To have next tile
+                path.pop(); // To get next tile
             else
                 dir.second = false; // [WORKAROUND 1]
         }
 
         if (path.empty())
-            pos.moving = false;
+            pos.moving = false; // Not moving anymore
     }
 }

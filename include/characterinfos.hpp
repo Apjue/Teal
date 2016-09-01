@@ -17,6 +17,7 @@
 /// \brief The CharacterInfos struct
 ///
 /// This class contains all required attributes of a character
+/// It is used by a character factory
 ///
 
 struct CharacterInfos
@@ -34,14 +35,15 @@ struct CharacterInfos
     CharacterInfos(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0,
                    const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
                    unsigned mhp = 100, const Components::Animation::AnimationState& animState_
-                   = Components::Animation::Moving, const Orientation& o_ = {Orientation::Down})
+                   = Components::Animation::Moving, const Orientation& o_ = { Orientation::Down })
+
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
         maxhp { mhp }, animState { animState_ }, o { o_ } {}
     ~CharacterInfos() = default;
 
     Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;
-    unsigned maxframe;
+    unsigned maxframe; //animation frames
 
     Nz::Vector2f defG; //default graphics pos
     Nz::Vector2ui defL; //default logic pos

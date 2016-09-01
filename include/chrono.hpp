@@ -1,5 +1,5 @@
 // Copyright (C) 2016 Samy Bensaid
-// This file is part of the Teal game.
+// This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -9,66 +9,59 @@
 
 #include <chrono>
 
-using Miliseconds = unsigned long long;
+#if defined(TEAL_LONG_CHRONO)
 
-#ifdef TEAL_LONG_CHRONO
+using Miliseconds = unsigned long long;
 using Seconds = unsigned long long;
 using Minutes = unsigned long;
+
+#elif defined(TEAL_TINY_CHRONO)
+
+using Miliseconds = unsigned long;
+using Seconds = unsigned;
+using Minutes = unsigned short;
+
 #else
+
+using Miliseconds = unsigned long long;
 using Seconds = unsigned long;
 using Minutes = unsigned;
+
 #endif
 
-using NowClock = std::chrono::high_resolution_clock;
-
+using ChronoNowClock = std::chrono::high_resolution_clock;
+using ChronoTimePoint = decltype(ChronoNowClock::now());
 
 class Duration
 {
 public:
     Duration() = default;
-    Duration(decltype(NowClock::now()) start, decltype(NowClock::now()) end)
-        : m_start { start }, m_end { end } {}
+    inline Duration(ChronoTimePoint start, ChronoTimePoint end);
 
     ~Duration() = default;
 
-    inline Miliseconds asMiliseconds() const
-    {
-        return static_cast<Miliseconds>(std::chrono::duration_cast<std::chrono::milliseconds>
-                                                     (m_end - m_start).count());
-    }
-    inline Seconds asSeconds() const
-    {
-        return static_cast<Seconds>(std::chrono::duration_cast<std::chrono::seconds>
-                                                 (m_end - m_start).count());
-    }
-    inline Minutes asMinutes() const
-    {
-        return static_cast<Minutes>(std::chrono::duration_cast<std::chrono::minutes>
-                                                 (m_end - m_start).count());
-    }
+    inline Miliseconds asMiliseconds() const;
+    inline Seconds asSeconds() const;
+    inline Minutes asMinutes() const;
 
 private:
-    decltype(NowClock::now()) m_start{};
-    decltype(NowClock::now()) m_end{};
+    ChronoTimePoint m_start {};
+    ChronoTimePoint m_end {};
 };
 
 class Chrono
 {
 public:
-    Chrono() : m_start { NowClock::now() } {}
+    Chrono() = default;
     ~Chrono() = default;
 
-    inline Duration getElapsedTime() const
-    {
-        return Duration{m_start, NowClock::now()};
-    }
-    inline void restart()
-    {
-        m_start = NowClock::now();
-    }
+    inline Duration getElapsedTime() const;
+    inline void restart();
 
 private:
-    decltype(NowClock::now()) m_start { NowClock::now() };
+    ChronoTimePoint m_start { ChronoNowClock::now() };
 };
 
 #endif // CHRONO_HPP
+
+#include "chrono.inl"

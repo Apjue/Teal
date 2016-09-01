@@ -27,6 +27,9 @@ constexpr unsigned MAPYSIZE       { 256u };
 constexpr unsigned BUTTONSXSIZE   { MAPXSIZE };
 constexpr unsigned BUTTONSYSIZE   { 90u };
 
+constexpr unsigned WINXSIZE       { MAPXSIZE };
+constexpr unsigned WINYSIZE       { MAPYSIZE + BUTTONSYSIZE };
+
 constexpr unsigned TILEXSIZE      { 64u };
 constexpr unsigned TILEYSIZE      { 32u };
 

@@ -11,9 +11,9 @@ int main()
 {
     Ndk::Application app;
 
-    Nz::Log::GetLogger()->EnableStdReplication(false);
+//     Nz::Log::GetLogger()->EnableStdReplication(false);
 
-    Game game { app, { Def::BUTTONSXSIZE, Def::MAPYSIZE + Def::BUTTONSYSIZE },
+    Game game { app, { Def::WINXSIZE, Def::WINYSIZE },
                      { Def::MAPXSIZE, Def::MAPYSIZE }, "TealDemo - Prototype" };
     
     while (app.Run())
