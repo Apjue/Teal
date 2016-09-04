@@ -38,7 +38,6 @@ void Game::textureLoadFailed(const Nz::String& file)
     errLog << "Abort. Reason: Texture loading failed - File: " << file;
 
     NazaraError(errLog);
-    NazaraAssert(false, "Texture Loading failed ! See previous error message");
 }
 
 void Game::addTextures()
