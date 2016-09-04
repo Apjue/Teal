@@ -4,26 +4,6 @@
 
 #include "util.hpp"
 
-Nz::Sprite* getSpriteFromComponent(Ndk::GraphicsComponent& gfx)
-{
-    std::vector<Nz::InstancedRenderableRef> attached;
-    gfx.GetAttachedRenderables(&attached);
-
-    Nz::Sprite* sprite {};
-
-    for (auto&& renderable : attached)
-    {
-        Nz::Sprite* casted = dynamic_cast<Nz::Sprite*>(renderable.Get());
-        if (casted)
-        {
-            sprite = casted;
-            break;
-        }
-    }
-
-    return sprite;
-}
-
 namespace
 {
 
@@ -105,18 +85,3 @@ void setScheme(Nz::ImageRef newScheme)
 {
     scheme = newScheme;
 }
-
-// QJsonDocument jsonFromFile(const QString& filename)
-// {
-//     QFile jsonFile { filename };
-//     jsonFile.open(QFile::ReadOnly);
-// 
-//     return QJsonDocument().fromJson(jsonFile.readAll());
-// }
-
-// void jsonToFile(const QJsonDocument& document, const QString& filename)
-// {
-//     QFile jsonFile { filename };
-//     jsonFile.open(QFile::WriteOnly);
-//     jsonFile.write(document.toJson());
-// }
