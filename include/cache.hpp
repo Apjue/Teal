@@ -9,11 +9,55 @@
 #include "util.hpp"
 
 ///
+/// \class Cache
+///
+/// \brief wraps ProduceType<T>::create() objects
+///
+/// \note ProduceType must have a create() function
+///
+
+template<class Key, class T, class ProduceType = DefaultProducer<T>>
+class Cache
+{
+    using ManagerType = decltype(ProduceType::create());
+    using InternalCache = typename std::unordered_map<Key, ManagerType>;
+
+public:
+    Cache() = default;
+    ~Cache() = default;
+
+    ManagerType get(const Key& k) const
+    {
+        auto it = m_objects.find(k);
+
+        if (it == m_objects.end())
+            return ManagerType {};
+        else
+            return it->second;
+    }
+
+    template<class... Args>
+    ManagerType add(const Key& k, Args&&... args)
+    {
+        return add_(k, std::forward<Args>(args)...)->second;
+    }
+
+private:
+    InternalCache m_objects;
+
+    template<class... Args>
+    typename InternalCache::iterator add_(const Key& k, Args&&... args)
+    {
+        return m_objects.emplace(k, ProduceType::create(std::forward<Args>(args)...)).first;
+    }
+};
+
+///
 /// \class CreateCache
 ///
-/// \brief wraps ProduceType<T>::operator() objects
+/// \brief wraps ProduceType<T>::create() objects
 ///
-/// \note ProduceType must have an operator() function
+/// \note ProduceType must have a create() function
 ///
 
 template<class Key, class T, class ProduceType = DefaultProducer<T>>
@@ -46,50 +90,6 @@ public:
 private:
     InternalCache m_objects;
     ProduceType prod;
-
-    template<class... Args>
-    typename InternalCache::iterator add_(const Key& k, Args&&... args)
-    {
-        return m_objects.emplace(k, ProduceType::create(std::forward<Args>(args)...)).first;
-    }
-};
-
-///
-/// \class Cache
-///
-/// \brief wraps ProduceType<T>::operator() objects
-///
-/// \note ProduceType must have an operator() function
-///
-
-template<class Key, class T, class ProduceType = DefaultProducer<T>>
-class Cache
-{
-    using ManagerType = decltype(ProduceType::create());
-    using InternalCache = typename std::unordered_map<Key, ManagerType>;
-
-public:
-    Cache() = default;
-    ~Cache() = default;
-
-    ManagerType get(const Key& k) const
-    {
-        auto it = m_objects.find(k);
-
-        if (it == m_objects.end())
-            return ManagerType {};
-        else
-            return it->second;
-    }
-
-    template<class... Args>
-    ManagerType add(const Key& k, Args&&... args)
-    {
-        return add_(k, std::forward<Args>(args)...)->second;
-    }
-
-private:
-    InternalCache m_objects;
 
     template<class... Args>
     typename InternalCache::iterator add_(const Key& k, Args&&... args)
