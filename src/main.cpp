@@ -11,8 +11,6 @@ int main()
 {
     Ndk::Application app;
 
-//     Nz::Log::GetLogger()->EnableStdReplication(false);
-
     Game game { app, { Def::WINXSIZE, Def::WINYSIZE },
                      { Def::MAPXSIZE, Def::MAPYSIZE }, "TealDemo - Prototype" };
     
