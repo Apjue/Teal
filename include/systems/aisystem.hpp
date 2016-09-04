@@ -26,26 +26,12 @@
 class AISystem : public Ndk::System<AISystem>
 {
 public:
-    AISystem()
-    {
-        Requires<PathComponent, PositionComponent, MoveToComponent>();
-    }
-    AISystem(const std::shared_ptr<micropather::MicroPather>& pather)
-        : AISystem()
-    {
-        setPather(pather);
-    }
+    AISystem();
+    AISystem(const std::shared_ptr<micropather::MicroPather>& pather);
     ~AISystem() = default;
 
-    inline void reset()
-    {
-        NazaraAssert(m_pather, "Pather is null !");
-        m_pather->Reset();
-    }
-    void setPather(const std::shared_ptr<micropather::MicroPather>& pather)
-    {
-        m_pather = pather;
-    }
+    void reset();
+    void setPather(const std::shared_ptr<micropather::MicroPather>& pather);
 
     static Ndk::SystemIndex systemIndex;
 
