@@ -28,11 +28,7 @@
 class PosRefreshSystem : public Ndk::System<PosRefreshSystem>
 {
 public:
-    PosRefreshSystem()
-    {
-        Requires<PositionComponent, DefaultGraphicsPosComponent,
-            Ndk::GraphicsComponent, Ndk::NodeComponent>();
-    }
+    PosRefreshSystem();
     ~PosRefreshSystem() = default;
 
     static Ndk::SystemIndex systemIndex;

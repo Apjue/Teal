@@ -4,6 +4,12 @@
 
 #include "systems/posrefreshsystem.hpp"
 
+PosRefreshSystem::PosRefreshSystem()
+{
+    Requires<PositionComponent, DefaultGraphicsPosComponent,
+        Ndk::GraphicsComponent, Ndk::NodeComponent>();
+}
+
 void PosRefreshSystem::OnUpdate(float elapsed)
 {
     NazaraUnused(elapsed);
