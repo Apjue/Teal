@@ -19,6 +19,7 @@
 template<class Key, class T, class ProduceType = DefaultProducer<T>>
 class Cache
 {
+protected:
     using ManagerType = decltype(ProduceType::create());
     using InternalCache = typename std::unordered_map<Key, ManagerType>;
 
@@ -42,7 +43,7 @@ public:
         return add_(k, std::forward<Args>(args)...)->second;
     }
 
-private:
+protected:
     InternalCache m_objects;
 
     template<class... Args>
@@ -60,12 +61,46 @@ private:
 /// \note ProduceType must have a create() function
 ///
 
-template<class Key, class T, class ProduceType = DefaultProducer<T>>
-class CreateCache
-{
-    using ManagerType = decltype(ProduceType::create());
-    using InternalCache = typename std::unordered_map<Key, ManagerType>;
+// template<class Key, class T, class ProduceType = DefaultProducer<T>>
+// class CreateCache
+// {
+//     using ManagerType = decltype(ProduceType::create());
+//     using InternalCache = typename std::unordered_map<Key, ManagerType>;
+// 
+// public:
+//     CreateCache() = default;
+//     ~CreateCache() = default;
+// 
+//     template<class... Args>
+//     ManagerType get(const Key& k, Args&&... args)
+//     {
+//         auto it = m_objects.find(k);
+// 
+//         if (it == m_objects.end())
+//             return add(k, std::forward<Args>(args)...)->second;
+//         else
+//             return it->second;
+//     }
+// 
+//     template<class... Args>
+//     ManagerType add(const Key& k, Args&&... args)
+//     {
+//         return add_(k, std::forward<Args>(args)...)->second;
+//     }
+// 
+// private:
+//     InternalCache m_objects;
+// 
+//     template<class... Args>
+//     typename InternalCache::iterator add_(const Key& k, Args&&... args)
+//     {
+//         return m_objects.emplace(k, ProduceType::create(std::forward<Args>(args)...)).first;
+//     }
+// };
 
+template<class Key, class T, class ProduceType = DefaultProducer<T>>
+class CreateCache : private Cache<Key, T, ProduceType>
+{
 public:
     CreateCache() = default;
     ~CreateCache() = default;
@@ -81,21 +116,10 @@ public:
             return it->second;
     }
 
-    template<class... Args>
-    ManagerType add(const Key& k, Args&&... args)
-    {
-        return add_(k, std::forward<Args>(args)...)->second;
-    }
+    using Cache::add;
 
 private:
-    InternalCache m_objects;
-    ProduceType prod;
-
-    template<class... Args>
-    typename InternalCache::iterator add_(const Key& k, Args&&... args)
-    {
-        return m_objects.emplace(k, ProduceType::create(std::forward<Args>(args)...)).first;
-    }
+    using Cache::add_;
 };
 
 #endif // CACHE_HPP
