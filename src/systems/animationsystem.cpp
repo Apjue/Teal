@@ -62,7 +62,7 @@ void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz:
         gfx->SetTextureRect({ startX, 0, anim.size.x, anim.size.y });
     }
 
-    else //Animation !
+    else // Animation !
     {
         gfx->SetTextureRect({ startX, startY, anim.size.x, anim.size.y });
 
