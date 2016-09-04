@@ -156,7 +156,7 @@ void Game::initEntities()
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     }; //Test
     m_map->Enable(true);
-#pragma message("TODO: Use Nz::Tilemap and do a Map System (game.cpp)")
+#pragma message("TODO: Use Nz::Tilemap (game.cpp)")
     m_pather = std::make_shared<micropather::MicroPather>(&mapComp);
 
     m_charac->Enable(true);
