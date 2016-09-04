@@ -22,7 +22,7 @@ Ndk::ComponentIndex DefaultGraphicsPosComponent::componentIndex;
 Ndk::ComponentIndex NameComponent::componentIndex;
 Ndk::ComponentIndex LevelComponent::componentIndex;
 Ndk::ComponentIndex InventoryComponent::componentIndex;
-Ndk::ComponentIndex CDirectionComponent::componentIndex;
+Ndk::ComponentIndex OrientationComponent::componentIndex;
 Ndk::ComponentIndex AnimationComponent::componentIndex;
 Ndk::ComponentIndex PositionComponent::componentIndex;
 Ndk::ComponentIndex MoveToComponent::componentIndex;

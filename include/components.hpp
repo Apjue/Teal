@@ -9,7 +9,6 @@
 
 //Common
 #include "components/common/animationcomponent.hpp"
-#include "components/common/cdirectioncomponent.hpp"
 #include "components/common/defaultgraphicsposcomponent.hpp"
 #include "components/common/fightcomponent.hpp"
 #include "components/common/inventorycomponent.hpp"
@@ -18,6 +17,7 @@
 #include "components/common/mapcomponent.hpp"
 #include "components/common/movetocomponent.hpp"
 #include "components/common/namecomponent.hpp"
+#include "components/common/orientationcomponent.hpp"
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"

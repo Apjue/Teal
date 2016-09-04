@@ -10,7 +10,7 @@
 #include <NDK/System.hpp>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
-#include "components/common/cdirectioncomponent.hpp"
+#include "components/common/orientationcomponent.hpp"
 #include "gamedef.hpp"
 
 ///
@@ -26,7 +26,7 @@ class MovementSystem : public Ndk::System<MovementSystem>
 public:
     MovementSystem()
     {
-        Requires<PathComponent, PositionComponent, CDirectionComponent>();
+        Requires<PathComponent, PositionComponent, OrientationComponent>();
         SetUpdateRate(Def::MAXFPS);
     }
     ~MovementSystem() = default;

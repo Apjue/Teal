@@ -16,7 +16,7 @@ void MovementSystem::OnUpdate(float elapsed)
 
         pos.moving = true;
 
-        auto& cdir = e->GetComponent<CDirectionComponent>().dir;
+        auto& cdir = e->GetComponent<OrientationComponent>().dir;
         auto& dir = path.front();
 
         cdir = DirToOrien(dir.first); // [WORKAROUND 1]

@@ -70,7 +70,7 @@ void Game::initCustomThings()
     Ndk::InitializeComponent<NameComponent>("name");
     Ndk::InitializeComponent<LevelComponent>("level");
     Ndk::InitializeComponent<InventoryComponent>("inv");
-    Ndk::InitializeComponent<CDirectionComponent>("cdir");
+    Ndk::InitializeComponent<OrientationComponent>("orien");
     Ndk::InitializeComponent<AnimationComponent>("anim");
     Ndk::InitializeComponent<PositionComponent>("pos");
     Ndk::InitializeComponent<MoveToComponent>("moveto");

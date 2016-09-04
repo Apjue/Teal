@@ -11,7 +11,7 @@ void AnimationSystem::OnUpdate(float elapsed)
         auto& anim = e->GetComponent<AnimationComponent>();
         auto& moving = e->GetComponent<PositionComponent>().moving;
         auto& sprite = e->GetComponent<Ndk::GraphicsComponent>();
-        auto& dir = e->GetComponent<CDirectionComponent>().dir;
+        auto& dir = e->GetComponent<OrientationComponent>().dir;
 
         int const intDir = static_cast<int>(dir);
 

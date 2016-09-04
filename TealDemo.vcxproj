@@ -127,7 +127,7 @@
     <ClInclude Include="include\chrono.hpp" />
     <ClInclude Include="include\components.hpp" />
     <ClInclude Include="include\components\common\animationcomponent.hpp" />
-    <ClInclude Include="include\components\common\cdirectioncomponent.hpp" />
+    <ClInclude Include="include\components\common\orientationcomponent.hpp" />
     <ClInclude Include="include\components\common\defaultgraphicsposcomponent.hpp" />
     <ClInclude Include="include\components\common\fightcomponent.hpp" />
     <ClInclude Include="include\components\common\inventorycomponent.hpp" />

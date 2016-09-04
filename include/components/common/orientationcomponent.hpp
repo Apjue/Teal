@@ -11,17 +11,17 @@
 #include "global.hpp"
 
 ///
-/// \struct CDirectionComponent
+/// \struct OrientationComponent
 ///
 /// \brief Contains the Orientation enum
 ///
 /// \todo Change name to Orientation ?
 ///
 
-struct CDirectionComponent : public Ndk::Component<CDirectionComponent>
+struct OrientationComponent : public Ndk::Component<OrientationComponent>
 {
-    CDirectionComponent(const Orientation& o = Orientation::Down) : dir { o } {}
-    CDirectionComponent(const CDirectionComponent&) = default;
+    OrientationComponent(const Orientation& o = Orientation::Down) : dir { o } {}
+    OrientationComponent(const OrientationComponent&) = default;
     Orientation dir;
 
     static Ndk::ComponentIndex componentIndex;
