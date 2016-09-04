@@ -171,6 +171,7 @@
     <None Include="include\global.inl" />
     <None Include="include\non_nullptr.inl" />
     <None Include="include\texturecore.inl" />
+    <None Include="include\util.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\componentsindex.cpp" />
