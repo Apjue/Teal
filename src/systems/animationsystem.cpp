@@ -15,7 +15,7 @@ void AnimationSystem::OnUpdate(float elapsed)
 
         int const intDir = static_cast<int>(dir);
 
-        Nz::Sprite* gfx = getSpriteFromComponent(sprite);
+        Nz::Sprite* gfx = getRenderableFromGraphicsComponent<Nz::Sprite>(sprite);
 
         if (!gfx)
             continue; //No sprite has been found
