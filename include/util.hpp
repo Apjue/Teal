@@ -29,24 +29,27 @@ inline T distance(const T& x, const T& y)
 }
 
 ///
-/// \fn getSpriteFromComponent
+/// \fn getRenderableFromGraphicsComponent
 ///
-/// \brief Returns the first sprite it found in the Graphics Component
+/// \brief Returns the first renderable it found in the Graphics Component
 ///        or nullptr if it didn't found one
 ///
 /// \param gfx Graphics Component to search into
 ///
 
-extern Nz::Sprite* getSpriteFromComponent(Ndk::GraphicsComponent& gfx);
+template<class T>
+inline T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx);
 
 ///
 /// \fn getTileFromGlobalCoords
 ///
-/// \brief Returns the tile located at the x, y position
+/// \brief Returns the tile located at the coords position
 ///
-/// \param e Global Coordinates of the tile
+/// \param coords Global Coordinates of the tile (like mouse position)
 ///
 /// \returns The logic position of the tile
+///
+/// \note Needs a scheme set with the setScheme function
 ///
 /// \todo Add the z axis ?
 ///
@@ -63,7 +66,6 @@ extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 
 extern void setScheme(Nz::ImageRef newScheme);
 
-// extern QJsonDocument jsonFromFile(const QString& filename);
-// extern void jsonToFile(const QJsonDocument& document, const QString& filename);
-
 #endif // UTIL_HPP
+
+#include "util.inl"
