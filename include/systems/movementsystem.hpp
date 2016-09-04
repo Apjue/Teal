@@ -14,11 +14,11 @@
 #include "gamedef.hpp"
 
 ///
-/// \brief The MovementSystem class
+/// \class MovementSystem
 ///
-/// Moves any entity which has a path and a position component.
-/// If the path is empty, it does nothing
-/// The move needs severals calls to update to be fully done
+/// \brief Moves any entity which has a path and a position component.
+///        If the path is empty, it does nothing
+///        The move needs severals calls to update to be fully done
 ///
 
 class MovementSystem : public Ndk::System<MovementSystem>
