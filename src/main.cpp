@@ -3,8 +3,6 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Application.hpp>
-#include <Nazara/Core/AbstractLogger.hpp>
-#include <Nazara/Core/Log.hpp>
 #include "game.hpp"
 
 int main()
