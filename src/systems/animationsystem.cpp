@@ -39,7 +39,7 @@ void AnimationSystem::OnUpdate(float elapsed)
 void AnimationSystem::UndefinedStateAnimation()
 {
     Nz::StringStream errLog;
-    errLog << "UndefinedStateAnimation has been called";
+    errLog << "UndefinedStateAnimation has been used";
 
     NazaraWarning(errLog.ToString());
 }

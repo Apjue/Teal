@@ -56,9 +56,8 @@ protected:
 ///
 /// \class CreateCache
 ///
-/// \brief wraps ProduceType<T>::create() objects
-///
-/// \note ProduceType must have a create() function
+/// \brief Acts like a normal cache, but create an object if
+///        it didn't exist when using get()
 ///
 
 template<class Key, class T, class ProduceType = DefaultProducer<T>>
