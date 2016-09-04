@@ -13,7 +13,7 @@ Nz::ImageRef scheme {};
 
 AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
-    NazaraAssert(scheme.IsValid(), "Scheme Ref isn't valid !");
+    NazaraAssert(scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
     NazaraAssert(scheme->IsValid(), "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
