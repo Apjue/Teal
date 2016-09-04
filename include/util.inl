@@ -7,6 +7,17 @@
 #ifndef UTIL_INL
 #define UTIL_INL
 
+unsigned dToU(double d)
+{
+    return static_cast<unsigned>(d);
+}
+
+template<class T>
+T distance(const T& x, const T& y)
+{
+    return (x > y) ? x - y : y - x;
+}
+
 template<class T>
 T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
 {

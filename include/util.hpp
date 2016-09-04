@@ -17,16 +17,10 @@
 #include "gamedef.hpp"
 #include "global.hpp"
 
-inline unsigned dToU(double d)
-{
-    return static_cast<unsigned>(d);
-}
+inline unsigned dToU(double d);
 
 template<class T>
-inline T distance(const T& x, const T& y)
-{
-    return (x > y) ? x - y : y - x;
-}
+inline T distance(const T& x, const T& y);
 
 ///
 /// \fn getRenderableFromGraphicsComponent
