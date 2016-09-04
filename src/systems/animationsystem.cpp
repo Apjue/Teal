@@ -47,7 +47,7 @@ void AnimationSystem::UndefinedStateAnimation()
 void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
                                            AnimationComponent& anim, bool moving)
 {
-    if (!moving) //No animation if not moving
+    if (!moving) // No animation if not moving
     {
         if (anim.frame != 0)
         {
@@ -57,10 +57,11 @@ void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz:
         return;
     }
 
-    if (anim.maxframe == 0) //Only change the direction, no animation
+    if (anim.maxframe == 0) // Only change the direction, no animation
     {
         gfx->SetTextureRect({ startX, 0, anim.size.x, anim.size.y });
     }
+
     else //Animation !
     {
         gfx->SetTextureRect({ startX, startY, anim.size.x, anim.size.y });
