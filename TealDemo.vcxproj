@@ -126,8 +126,26 @@
     <ClInclude Include="include\characterinfos.hpp" />
     <ClInclude Include="include\chrono.hpp" />
     <ClInclude Include="include\components.hpp" />
-    <ClInclude Include="include\components\common.hpp" />
-    <ClInclude Include="include\components\items.hpp" />
+    <ClInclude Include="include\components\common\animationcomponent.hpp" />
+    <ClInclude Include="include\components\common\cdirectioncomponent.hpp" />
+    <ClInclude Include="include\components\common\defaultgraphicsposcomponent.hpp" />
+    <ClInclude Include="include\components\common\fightcomponent.hpp" />
+    <ClInclude Include="include\components\common\inventorycomponent.hpp" />
+    <ClInclude Include="include\components\common\levelcomponent.hpp" />
+    <ClInclude Include="include\components\common\lifecomponent.hpp" />
+    <ClInclude Include="include\components\common\mapcomponent.hpp" />
+    <ClInclude Include="include\components\common\movetocomponent.hpp" />
+    <ClInclude Include="include\components\common\namecomponent.hpp" />
+    <ClInclude Include="include\components\common\pathcomponent.hpp" />
+    <ClInclude Include="include\components\common\positioncomponent.hpp" />
+    <ClInclude Include="include\components\common\randommovementcomponent.hpp" />
+    <ClInclude Include="include\components\items\attackbonuscomponent.hpp" />
+    <ClInclude Include="include\components\items\attackresistancecomponent.hpp" />
+    <ClInclude Include="include\components\items\ediblecomponent.hpp" />
+    <ClInclude Include="include\components\items\equippablecomponent.hpp" />
+    <ClInclude Include="include\components\items\hpgaincomponent.hpp" />
+    <ClInclude Include="include\components\items\itemcomponent.hpp" />
+    <ClInclude Include="include\components\items\resourcecomponent.hpp" />
     <ClInclude Include="include\factory.hpp" />
     <ClInclude Include="include\gamedef.hpp" />
     <ClInclude Include="include\global.hpp" />
@@ -136,23 +154,37 @@
     <ClInclude Include="include\non_nullptr.hpp" />
     <ClInclude Include="include\producers.hpp" />
     <ClInclude Include="include\systems.hpp" />
+    <ClInclude Include="include\systems\aisystem.hpp" />
+    <ClInclude Include="include\systems\animationsystem.hpp" />
+    <ClInclude Include="include\systems\movementsystem.hpp" />
+    <ClInclude Include="include\systems\posrefreshsystem.hpp" />
     <ClInclude Include="include\texturecore.hpp" />
     <ClInclude Include="include\tileinfos.hpp" />
     <ClInclude Include="include\util.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\chrono.inl" />
+    <None Include="include\components\common\inventorycomponent.inl" />
+    <None Include="include\components\common\lifecomponent.inl" />
+    <None Include="include\components\common\mapcomponent.inl" />
     <None Include="include\game.inl" />
+    <None Include="include\global.inl" />
     <None Include="include\non_nullptr.inl" />
     <None Include="include\texturecore.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\components.cpp" />
+    <ClCompile Include="src\componentsindex.cpp" />
+    <ClCompile Include="src\components\common\inventorycomponent.cpp" />
+    <ClCompile Include="src\components\common\mapcomponent.cpp" />
     <ClCompile Include="src\factory.cpp" />
     <ClCompile Include="src\global.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\systems.cpp" />
+    <ClCompile Include="src\systemsindex.cpp" />
+    <ClCompile Include="src\systems\aisystem.cpp" />
+    <ClCompile Include="src\systems\animationsystem.cpp" />
+    <ClCompile Include="src\systems\movementsystem.cpp" />
+    <ClCompile Include="src\systems\posrefreshsystem.cpp" />
     <ClCompile Include="src\texturecore.cpp" />
     <ClCompile Include="src\util.cpp" />
   </ItemGroup>
