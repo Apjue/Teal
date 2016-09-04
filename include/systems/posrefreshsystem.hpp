@@ -16,11 +16,13 @@
 #include "util.hpp"
 
 ///
-/// \brief The PosRefreshSystem class
+/// \class PosRefreshSystem
 ///
-/// Refresh the graphics position of items
-/// using their logic position
-/// [WORKAROUND 2]
+/// \brief Refresh the graphics position of items
+///        using their logic position
+///
+/// \note It is a workaround
+///       [WORKAROUND 2]
 ///
 
 class PosRefreshSystem : public Ndk::System<PosRefreshSystem>
