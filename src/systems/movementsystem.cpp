@@ -4,6 +4,12 @@
 
 #include "systems/movementsystem.hpp"
 
+MovementSystem::MovementSystem()
+{
+    Requires<PathComponent, PositionComponent, OrientationComponent>();
+    SetUpdateRate(Def::MAXFPS);
+}
+
 void MovementSystem::OnUpdate(float elapsed)
 {
     for (auto& e : GetEntities())

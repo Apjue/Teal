@@ -24,11 +24,7 @@
 class MovementSystem : public Ndk::System<MovementSystem>
 {
 public:
-    MovementSystem()
-    {
-        Requires<PathComponent, PositionComponent, OrientationComponent>();
-        SetUpdateRate(Def::MAXFPS);
-    }
+    MovementSystem();
     ~MovementSystem() = default;
 
     static Ndk::SystemIndex systemIndex;
