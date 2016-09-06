@@ -30,7 +30,7 @@ constexpr unsigned BUTTONSYSIZE   { 90u };
 constexpr unsigned WINXSIZE       { MAPXSIZE };
 constexpr unsigned WINYSIZE       { MAPYSIZE + BUTTONSYSIZE };
 
-constexpr unsigned TILEXSIZE      { 64u };
+constexpr unsigned TILEXSIZE      { 64u }; // Used for logic
 constexpr unsigned TILEYSIZE      { 32u };
 
 constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
