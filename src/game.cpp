@@ -220,6 +220,6 @@ void Game::updateTilemap()
         auto tileNum = mapComponent.map[i];
 
         m_mapTilemap->EnableTile({ pos.first, pos.second }, 
-                                 Nz::Rectui { tileNum * tilesize, tileNum * tilesize, tilesize, tilesize });
+                                 Nz::Rectui { tileNum * tilesize, 0u, tilesize, tilesize });
     }
 }
