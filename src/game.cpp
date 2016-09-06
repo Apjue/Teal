@@ -49,7 +49,7 @@ void Game::addTextures()
         { ":/game/money", "game/main/money.png" },
         { ":/game/scheme", "game/main/scheme.png" },
         { ":/game/teal", "game/main/teal.png" },
-        { ":/game/tileset", "game/main/tileset-iso.png" },
+        { ":/game/tileset", "game/main/tileset.png" },
         { ":/game/char/villager", "game/char/villager.png" }
 
         //...
@@ -123,6 +123,8 @@ void Game::addEntities()
 {
     m_map = m_world->CreateEntity();
     m_map->AddComponent<MapComponent>();
+    m_map->AddComponent<Ndk::GraphicsComponent>();
+    m_map->AddComponent<Ndk::NodeComponent>();
 
 
     Nz::MaterialRef charMat = Nz::Material::New();
@@ -155,8 +157,22 @@ void Game::initEntities()
             0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     }; //Test
+
+    m_mapTilemap = Nz::TileMap::New(Nz::Vector2ui { 15u, 8u }, Nz::Vector2ui { 64u, 64u });
+
+    auto& gfxComp = m_map->GetComponent<Ndk::GraphicsComponent>();
+    gfxComp.Attach(m_mapTilemap, Def::MAP_LAYER);
+
+    auto& mapNode = m_map->GetComponent<Ndk::NodeComponent>(); // Make it isometric
+    mapNode.SetRotation({ Nz::EulerAnglesf { 0.f, 0.f, 45.f } });
+    mapNode.SetScale(1.f, 0.5f);
+
+    m_mapTilemap->GetMaterial(0)->SetDiffuseMap( m_textures.get(":/game/tileset") );
+    updateTilemap();
+
     m_map->Enable(true);
-#pragma message("TODO: Use Nz::Tilemap (game.cpp)")
+
+
     m_pather = std::make_shared<micropather::MicroPather>(&mapComp);
 
     m_charac->Enable(true);
@@ -172,7 +188,7 @@ void Game::addSystems()
 
 void Game::initSystems()
 {
-//     m_world->GetSystem<Systems::MapSystem>().updateMap(m_map->GetComponent<Components::MapComponent>());
+    //...
 }
 
 void Game::initEventHandler()
@@ -191,4 +207,19 @@ void Game::initEventHandler()
             movecomp.diffY = lpos.y;
         }
     });
+}
+
+void Game::updateTilemap()
+{
+    auto& mapComponent = m_map->GetComponent<MapComponent>();
+    auto tilesize = Def::SQUARETILESIZE; // Takes less place
+
+    for (unsigned i {}; i < mapComponent.map.size(); ++i)
+    {
+        auto pos = MapComponent::IndexToXY(i);
+        auto tileNum = mapComponent.map[i];
+
+        m_mapTilemap->EnableTile({ pos.first, pos.second }, 
+                                 Nz::Rectui { tileNum * tilesize, tileNum * tilesize, tilesize, tilesize });
+    }
 }

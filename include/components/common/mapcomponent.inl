@@ -14,8 +14,10 @@ MapComponent::MapComponent(const OLDTILEARRAY& _map,
 void MapComponent::NodeToXY(void* node, unsigned& x, unsigned& y)
 {
     int index = (int) node;
-    y = index / Def::MAPX;
-    x = index - y * Def::MAPX;
+    auto xy = IndexToXY(static_cast<unsigned>(index));
+
+    x = xy.first;
+    y = xy.second;
 }
 
 void* MapComponent::XYToNode(unsigned x, unsigned y)
@@ -26,6 +28,16 @@ void* MapComponent::XYToNode(unsigned x, unsigned y)
 void MapComponent::XYToArray(unsigned /*x*/, unsigned& y)
 {
     y /= 2;
+}
+
+std::pair<unsigned, unsigned> MapComponent::IndexToXY(unsigned index)
+{
+    unsigned x {}, y {};
+
+    y = index / Def::MAPX;
+    x = index - y * Def::MAPX;
+
+    return std::make_pair(x, y);
 }
 
 #endif // MAPCOMPONENT_INL

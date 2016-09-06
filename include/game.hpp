@@ -14,6 +14,7 @@
 #include <NDK/Systems/RenderSystem.hpp>
 #include <Nazara/Renderer/RenderWindow.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
+#include <Nazara/Graphics/TileMap.hpp>
 #include <Nazara/Utility/Icon.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/Error.hpp>
@@ -46,6 +47,7 @@ private:
     Ndk::WorldHandle m_world;
     Nz::RenderWindow& m_window;
     Ndk::EntityHandle m_map;
+        Nz::TileMapRef m_mapTilemap;
     Ndk::EntityHandle m_charac; //main character
     TextureCore m_textures;
     Nz::Rectui m_mapViewport;
@@ -73,6 +75,15 @@ private:
     void initSystems();
 
     void initEventHandler();
+
+    ///
+    /// \fn updateTilemap
+    ///
+    /// \brief Updates the graphics tilemap
+    ///        Using the internal MapComponent
+    ///
+
+    void updateTilemap();
 };
 
 #endif // GAME_H

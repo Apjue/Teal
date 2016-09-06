@@ -33,6 +33,8 @@ constexpr unsigned WINYSIZE       { MAPYSIZE + BUTTONSYSIZE };
 constexpr unsigned TILEXSIZE      { 64u }; // Used for logic
 constexpr unsigned TILEYSIZE      { 32u };
 
+constexpr unsigned SQUARETILESIZE { 64u }; // Used for graphics TileMap texture coords (x and y)
+
 constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
 constexpr unsigned TILEGYSIZE     { TILEYSIZE / 2 };
 

@@ -41,6 +41,7 @@ public:
     inline static void NodeToXY(void* node, unsigned& x, unsigned& y);
     inline static void* XYToNode(unsigned x, unsigned y);
     inline static void XYToArray(unsigned /*x*/, unsigned& y);
+    inline static std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 
     static Ndk::ComponentIndex componentIndex;
 
