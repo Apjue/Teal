@@ -158,7 +158,7 @@ void Game::initEntities()
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     }; //Test
 
-    m_mapTilemap = Nz::TileMap::New(Nz::Vector2ui { 15u, 8u }, Nz::Vector2ui { 64u, 64u });
+    m_mapTilemap = Nz::TileMap::New(Nz::Vector2ui { 15u, 8u }, Nz::Vector2f { 64.f, 64.f });
 
     auto& gfxComp = m_map->GetComponent<Ndk::GraphicsComponent>();
     gfxComp.Attach(m_mapTilemap, Def::MAP_LAYER);
