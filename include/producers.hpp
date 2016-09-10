@@ -11,7 +11,7 @@
 #include <Nazara/Core/ObjectRef.hpp>
 
 template<class T>
-struct DefaultProducer
+struct SharedPointerProducer
 {
     template<class... Args>
     static std::shared_ptr<T> create(Args&&... args)

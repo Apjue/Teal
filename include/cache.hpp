@@ -8,6 +8,9 @@
 #include "producers.hpp"
 #include "util.hpp"
 
+template<class T>
+using DefaultCacheProducer = SharedPointerProducer<T>;
+
 ///
 /// \class Cache
 ///
@@ -16,7 +19,7 @@
 /// \note ProduceType must have a create() function
 ///
 
-template<class Key, class T, class ProduceType = DefaultProducer<T>>
+template<class Key, class T, class ProduceType = DefaultCacheProducer<T>>
 class Cache
 {
 protected:
@@ -60,7 +63,7 @@ protected:
 ///        it didn't exist when using get()
 ///
 
-template<class Key, class T, class ProduceType = DefaultProducer<T>>
+template<class Key, class T, class ProduceType = DefaultCacheProducer<T>>
 class CreateCache : private Cache<Key, T, ProduceType>
 {
 public:
