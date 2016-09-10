@@ -33,7 +33,7 @@ struct RawPointerProducer
 };
 
 template<class T>
-struct ObjectRefProducer
+struct NzObjectRefProducer
 {
     template<class... Args>
     static Nz::ObjectRef<T> create(Args&&... args)
@@ -44,7 +44,7 @@ struct ObjectRefProducer
 };
 
 template<class T>
-struct ObjectRefCopier
+struct NzObjectRefCopier
 {
     template<class... Args>
     static Nz::ObjectRef<T> create(Args&&... args)

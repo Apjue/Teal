@@ -25,7 +25,7 @@ public:
     void add(const Nz::String& key, const Nz::TextureRef& ref);
 
 private:
-    Cache<Nz::String, Nz::Texture, ObjectRefCopier<Nz::Texture>> m_cache;
+    Cache<Nz::String, Nz::Texture, NzObjectRefCopier<Nz::Texture>> m_cache;
     Nz::String m_prefix {};
 };
 
