@@ -28,6 +28,7 @@ void AISystem::setPather(const std::shared_ptr<micropather::MicroPather>& pather
 
 void AISystem::OnUpdate(float elapsed)
 {
+    bool patherChecked { false };
     NazaraUnused(elapsed);
 
     for (auto& e : GetEntities())
@@ -48,7 +49,11 @@ void AISystem::OnUpdate(float elapsed)
         }
 
         // Ok, let's do the path.
-        NazaraAssert(m_pather, "Pather is null !");
+        if (!patherChecked)
+        {
+            NazaraAssert(m_pather, "Pather is null !");
+            patherChecked = true;
+        }
 
         // First, make sure to erase the previous path (if any)
         while (!path.empty())
