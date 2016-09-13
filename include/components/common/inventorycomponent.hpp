@@ -128,6 +128,7 @@ private:
     inline void assertItem(const Ndk::EntityHandle& entity) const;
 };
 
+#include "inventorycomponent.inl"
+
 #endif // INVENTORYCOMPONENT_HPP
 
-#include "inventorycomponent.inl"

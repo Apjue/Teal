@@ -2,11 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
-#ifndef CHRONO_INL
-#define CHRONO_INL
-
 Duration::Duration(ChronoTimePoint start, ChronoTimePoint end)
     : m_start { start }, m_end { end } {}
 
@@ -38,5 +33,3 @@ void Chrono::restart()
 {
     m_start = ChronoNowClock::now();
 }
-
-#endif // CHRONO_INL

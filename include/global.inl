@@ -2,11 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
-#ifndef GLOBAL_INL
-#define GLOBAL_INL
-
 namespace Direction 
 {
 
@@ -38,5 +33,3 @@ bool isPositionValid(AbsTile pos)
 {
     return pos.x % 2 == pos.y % 2;
 }
-
-#endif // GLOBAL_INL

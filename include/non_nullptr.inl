@@ -2,11 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
-#ifndef NON_NULLPTR_INL
-#define NON_NULLPTR_INL
-
 #include <assert.h>
 
 template<class T>
@@ -47,5 +42,3 @@ T* non_nullptr<T>::operator->() const noexcept
 {
     return m_ptr;
 }
-
-#endif // NON_NULLPTR_INL

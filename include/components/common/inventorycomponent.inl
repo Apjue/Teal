@@ -2,11 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
-#ifndef INVENTORYCOMPONENT_INL
-#define INVENTORYCOMPONENT_INL
-
 void InventoryComponent::Group::add(const EntityType& e)
 {
     if (entities.find(e) != entities.end())
@@ -43,5 +38,3 @@ void InventoryComponent::assertItem(const Ndk::EntityHandle& entity) const
     NazaraAssert(entity->IsValid(), "Entity isn't valid !");
     NazaraAssert(entity->HasComponent<Items::ItemComponent>(), "Entity isn't an item !");
 }
-
-#endif // INVENTORYCOMPONENT_INL

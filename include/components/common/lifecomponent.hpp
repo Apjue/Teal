@@ -31,6 +31,7 @@ private:
     inline void verifyInfos();
 };
 
+#include "lifecomponent.inl"
+
 #endif // LIFECOMPONENT_HPP
 
-#include "lifecomponent.inl"

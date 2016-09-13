@@ -8,8 +8,9 @@
 #define MAPCOMPONENT_INL
 
 MapComponent::MapComponent(const OLDTILEARRAY& _map,
-                           const OLDTILEARRAY& _obs)
-    : map(_map), obs(_obs) {}
+                           const OLDTILEARRAY& _obs,
+                           const Nz::TextureRef& tileset)
+    : map(_map), obs(_obs), m_tileset { tileset } {}
 
 void MapComponent::NodeToXY(void* node, unsigned& x, unsigned& y)
 {

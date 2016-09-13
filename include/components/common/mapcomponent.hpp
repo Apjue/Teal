@@ -8,6 +8,7 @@
 #define MAPCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Renderer/Texture.hpp>
 #include "micropather.h"
 #include "util.hpp"
 
@@ -22,7 +23,7 @@ class MapComponent : public Ndk::Component<MapComponent>, public micropather::Gr
 {
 public:
     MapComponent() = default;
-    inline MapComponent(const OLDTILEARRAY& _map, const OLDTILEARRAY& _obs);
+    inline MapComponent(const OLDTILEARRAY& _map, const OLDTILEARRAY& _obs, const Nz::TextureRef& tileset);
 
     MapComponent(const MapComponent&) = default;
     MapComponent& operator=(const MapComponent&) = default;
@@ -35,6 +36,7 @@ public:
     OLDTILEARRAY map;
     OLDTILEARRAY obs;
     //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
+    Nz::TextureRef m_tileset;
 
 
     //Utility

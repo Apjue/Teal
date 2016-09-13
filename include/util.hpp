@@ -60,6 +60,7 @@ extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 
 extern void setScheme(Nz::ImageRef newScheme);
 
+#include "util.inl"
+
 #endif // UTIL_HPP
 
-#include "util.inl"

@@ -2,11 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
-#ifndef UTIL_INL
-#define UTIL_INL
-
 unsigned dToU(double d)
 {
     return static_cast<unsigned>(d);
@@ -40,5 +35,3 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
 
     return rdable;
 }
-
-#endif // UTIL_INL

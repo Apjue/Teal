@@ -86,6 +86,7 @@ extern Direction::Dir OrienToDir(Orientation o);
 extern bool isDiagonal(Direction::Dir dir);
 inline bool isPositionValid(AbsTile pos);
 
+#include "global.inl"
+
 #endif // GLOBAL_HPP
 
-#include "global.inl"

@@ -62,6 +62,7 @@ private:
     ChronoTimePoint m_start { ChronoNowClock::now() };
 };
 
+#include "chrono.inl"
+
 #endif // CHRONO_HPP
 
-#include "chrono.inl"
