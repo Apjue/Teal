@@ -22,11 +22,10 @@ using DefaultCacheProducer = SharedPointerProducer<T>;
 template<class Key, class T, class ProduceType = DefaultCacheProducer<T>>
 class Cache
 {
-protected:
+public:
     using ManagerType = decltype(ProduceType::create());
     using InternalCache = typename std::unordered_map<Key, ManagerType>;
 
-public:
     Cache() = default;
     ~Cache() = default;
 
