@@ -28,7 +28,6 @@ void AISystem::setPather(const std::shared_ptr<micropather::MicroPather>& pather
 
 void AISystem::OnUpdate(float elapsed)
 {
-    bool patherChecked { false };
     NazaraUnused(elapsed);
 
     for (auto& e : GetEntities())
@@ -49,13 +48,9 @@ void AISystem::OnUpdate(float elapsed)
         }
 
         // Ok, let's do the path.
-        if (!patherChecked)
-        {
-            NazaraAssert(m_pather, "Pather is null !");
-            patherChecked = true;
-        }
+        NazaraAssert(m_pather, "Pather is null, cannot compute path !");
 
-        // First, make sure to erase the previous path (if any)
+        // First, make sure to erase the previous path (if there is any)
         while (!path.empty())
             path.pop();
 
@@ -70,7 +65,7 @@ void AISystem::OnUpdate(float elapsed)
                         MapComponent::XYToNode(endX, endY),
                         &voidPath, &totalCost); // returns the absolute position, not difference.
 
-                                                // Path done, in void*. Let's add it to the entity's path, in ints
+        // Path done, in void*. Let's add it to the entity's path, in integers
         int oldX {};
         int oldY {};
 
