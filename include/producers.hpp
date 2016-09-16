@@ -10,6 +10,9 @@
 #include <memory>
 #include <Nazara/Core/ObjectRef.hpp>
 
+// These producers are mainly used by the Cache class
+// But they can also be used without it !
+
 template<class T>
 struct SharedPointerProducer
 {
