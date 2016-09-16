@@ -24,7 +24,7 @@ template<class Key, class T, class Producer>
 template<class... Args>
 typename Cache<Key, T, Producer>::InternalCache::iterator Cache<Key, T, Producer>::add_(const Key& k, Args&&... args)
 {
-    return m_objects.emplace(k, Producer::create(std::forward<Args>(args)...)).first;
+    return m_objects.emplace(k, Producer::create<Args...>(std::forward<Args>(args)...)).first;
 }
 
 template<class Key, class T, class Producer>
