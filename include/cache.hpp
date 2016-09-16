@@ -14,45 +14,31 @@ using DefaultCacheProducer = SharedPointerProducer<T>;
 ///
 /// \class Cache
 ///
-/// \brief wraps ProduceType<T>::create() objects
+/// \brief wraps Producer<T>::create() objects
 ///
-/// \note ProduceType must have a create() function
+/// \note Producer must have a create() function
 ///
 
-template<class Key, class T, class ProduceType = DefaultCacheProducer<T>>
+template<class Key, class T, class Producer = DefaultCacheProducer<T>>
 class Cache
 {
 public:
-    using ManagerType = decltype(ProduceType::create());
+    using ManagerType = decltype(Producer::create());
     using InternalCache = typename std::unordered_map<Key, ManagerType>;
 
     Cache() = default;
     ~Cache() = default;
 
-    ManagerType get(const Key& k) const
-    {
-        auto it = m_objects.find(k);
-
-        if (it == m_objects.end())
-            return ManagerType {};
-        else
-            return it->second;
-    }
+    ManagerType get(const Key& k) const;
 
     template<class... Args>
-    ManagerType add(const Key& k, Args&&... args)
-    {
-        return add_(k, std::forward<Args>(args)...)->second;
-    }
+    ManagerType add(const Key& k, Args&&... args);
 
 protected:
     InternalCache m_objects;
 
     template<class... Args>
-    typename InternalCache::iterator add_(const Key& k, Args&&... args)
-    {
-        return m_objects.emplace(k, ProduceType::create(std::forward<Args>(args)...)).first;
-    }
+    typename InternalCache::iterator add_(const Key& k, Args&&... args);
 };
 
 ///
@@ -62,28 +48,22 @@ protected:
 ///        it didn't exist when using get()
 ///
 
-template<class Key, class T, class ProduceType = DefaultCacheProducer<T>>
-class CreateCache : private Cache<Key, T, ProduceType>
+template<class Key, class T, class Producer = DefaultCacheProducer<T>>
+class CreateCache : private Cache<Key, T, Producer>
 {
 public:
     CreateCache() = default;
     ~CreateCache() = default;
 
     template<class... Args>
-    ManagerType get(const Key& k, Args&&... args)
-    {
-        auto it = m_objects.find(k);
-
-        if (it == m_objects.end())
-            return add(k, std::forward<Args>(args)...)->second;
-        else
-            return it->second;
-    }
+    ManagerType get(const Key& k, Args&&... args);
 
     using Cache::add;
 
 private:
     using Cache::add_;
 };
+
+#include "cache.inl"
 
 #endif // CACHE_HPP
