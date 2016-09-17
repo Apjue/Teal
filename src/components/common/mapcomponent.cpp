@@ -103,7 +103,7 @@ bool MapComponent::update() // Thanks Lynix for this code
     if (!subMesh->Create(vertexBuffer))
     {
         NazaraError("Failed to create StaticMesh");
-        return 0;
+        return false;
     }
 
     subMesh->SetIndexBuffer(indexBuffer);
@@ -115,6 +115,7 @@ bool MapComponent::update() // Thanks Lynix for this code
     mesh->SetMaterialCount(1);
 
     m_model->SetMesh(mesh);
+    return true;
 }
 
 void MapComponent::init(const Nz::String& tileset, const Ndk::WorldHandle& world)
