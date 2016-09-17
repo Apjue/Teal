@@ -8,7 +8,7 @@
 #define GAMEDEF_HPP
 
 #include <array>
-#include "tileinfos.hpp"
+#include "data/tiledata.hpp"
 
 namespace Def
 {
