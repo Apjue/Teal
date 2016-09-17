@@ -8,8 +8,6 @@
 #define MAPCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include <NDK/EntityOwner.hpp>
-#include <NDK/World.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <Nazara/Utility/Mesh.hpp>
@@ -33,7 +31,8 @@
 class MapComponent : public Ndk::Component<MapComponent>, public micropather::Graph
 {
 public:
-    MapComponent(const MapData& data, const Ndk::WorldHandle& world);
+    MapComponent();
+    MapComponent(const MapData& data);
 
     MapComponent(const MapComponent&) = default;
     MapComponent& operator=(const MapComponent&) = default;
@@ -52,19 +51,16 @@ public:
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
 
     bool update();
-    void init(const Nz::String& tileset, const Ndk::WorldHandle& world);
 
     //Utility
-    inline static void NodeToXY(void* node, unsigned& x, unsigned& y);
-    inline static void* XYToNode(unsigned x, unsigned y);
-    inline static void XYToArray(unsigned /*x*/, unsigned& y);
-    inline static std::pair<unsigned, unsigned> IndexToXY(unsigned index);
+    static void NodeToXY(void* node, unsigned& x, unsigned& y);
+    static void* XYToNode(unsigned x, unsigned y);
+    static void XYToArray(unsigned /*x*/, unsigned& y);
+    static std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 
     static Ndk::ComponentIndex componentIndex;
 
 private:
-    Ndk::EntityOwner m_graphicsMap;
-
     bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
     //Micropather

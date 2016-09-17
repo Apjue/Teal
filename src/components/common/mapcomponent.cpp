@@ -4,10 +4,35 @@
 
 #include "components/common/mapcomponent.hpp"
 
-MapComponent::MapComponent(const MapData& data, const Ndk::WorldHandle& world)
-    : map(data.map), obs(data.obs)
+MapComponent::MapComponent()
 {
-    init(data.tileset, world);
+    m_mat = Nz::Material::New("Translucent2D");
+
+    m_mat->EnableFaceCulling(true);
+    m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
+
+    m_model = Nz::Model::New();
+    m_model->SetMaterial(0, m_mat);
+
+    if (!m_entity->HasComponent<Ndk::NodeComponent>())
+        m_entity->AddComponent<Ndk::NodeComponent>();
+
+    if (!m_entity->HasComponent<Ndk::GraphicsComponent>())
+        m_entity->AddComponent<Ndk::GraphicsComponent>();
+
+    auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
+    graphicsComponent.Attach(m_model);
+}
+
+MapComponent::MapComponent(const MapData& data)
+    : MapComponent()
+{
+    map = data.map;
+    obs = data.obs;
+
+    if (!m_mat->SetDiffuseMap(data.tileset))
+        NazaraError("Map Material SetDiffuseMap failed !");
+
     update();
 }
 
@@ -118,26 +143,6 @@ bool MapComponent::update() // Thanks Lynix for this code
 
     m_model->SetMesh(mesh);
     return true;
-}
-
-void MapComponent::init(const Nz::String& tileset, const Ndk::WorldHandle& world)
-{
-    m_mat = Nz::Material::New("Translucent2D");
-
-    if (!m_mat->SetDiffuseMap(tileset))
-        NazaraError("Map Material SetDiffuseMap failed !");
-
-    m_mat->EnableFaceCulling(true);
-    m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
-
-    m_model = Nz::Model::New();
-    m_model->SetMaterial(0, m_mat);
-
-    m_graphicsMap = world->CreateEntity();
-    m_graphicsMap->AddComponent<Ndk::NodeComponent>();
-
-    Ndk::GraphicsComponent& graphicsComponent = m_graphicsMap->AddComponent<Ndk::GraphicsComponent>();
-    graphicsComponent.Attach(m_model);
 }
 
 void MapComponent::NodeToXY(void* node, unsigned& x, unsigned& y)
