@@ -4,6 +4,7 @@
 
 #include <NDK/Application.hpp>
 #include "game.hpp"
+#include "def/uidef.hpp"
 
 int main()
 {

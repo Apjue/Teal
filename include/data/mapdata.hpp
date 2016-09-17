@@ -8,7 +8,7 @@
 #define MAPDATA_HPP
 
 #include <Nazara/Graphics/Material.hpp>
-#include "gamedef.hpp"
+#include "def/gamedef.hpp"
 
 struct MapData
 {

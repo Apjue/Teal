@@ -147,11 +147,12 @@
     <ClInclude Include="include\components\items\itemcomponent.hpp" />
     <ClInclude Include="include\components\items\resourcecomponent.hpp" />
     <ClInclude Include="include\data\mapdata.hpp" />
+    <ClInclude Include="include\def\uidef.hpp" />
     <ClInclude Include="include\factory.hpp" />
-    <ClInclude Include="include\gamedef.hpp" />
+    <ClInclude Include="include\def\gamedef.hpp" />
     <ClInclude Include="include\global.hpp" />
     <ClInclude Include="include\game.hpp" />
-    <ClInclude Include="include\layerdef.hpp" />
+    <ClInclude Include="include\def\layerdef.hpp" />
     <ClInclude Include="include\non_nullptr.hpp" />
     <ClInclude Include="include\producers.hpp" />
     <ClInclude Include="include\systems.hpp" />

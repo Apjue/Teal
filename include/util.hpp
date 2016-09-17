@@ -14,7 +14,7 @@
 
 #include <cassert>
 #include <array>
-#include "gamedef.hpp"
+#include "def/gamedef.hpp"
 #include "global.hpp"
 
 inline unsigned dToU(double d);

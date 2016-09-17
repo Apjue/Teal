@@ -11,7 +11,7 @@
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
-#include "gamedef.hpp"
+#include "def/gamedef.hpp"
 
 ///
 /// \class MovementSystem

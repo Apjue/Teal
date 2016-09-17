@@ -21,15 +21,6 @@ constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
 constexpr unsigned LMAPX          { 14u }; //For logic
 constexpr unsigned LMAPY          { 14u };
 
-constexpr unsigned MAPXSIZE       { 512u };
-constexpr unsigned MAPYSIZE       { 256u };
-
-constexpr unsigned BUTTONSXSIZE   { MAPXSIZE };
-constexpr unsigned BUTTONSYSIZE   { 90u };
-
-constexpr unsigned WINXSIZE       { MAPXSIZE };
-constexpr unsigned WINYSIZE       { MAPYSIZE + BUTTONSYSIZE };
-
 constexpr unsigned TILEXSIZE      { 64u }; // Used for logic
 constexpr unsigned TILEYSIZE      { 32u };
 

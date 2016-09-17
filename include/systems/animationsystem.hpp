@@ -11,7 +11,7 @@
 #include <Nazara/Graphics/Sprite.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include "components.hpp"
-#include "gamedef.hpp"
+#include "def/gamedef.hpp"
 #include "util.hpp"
 
 ///

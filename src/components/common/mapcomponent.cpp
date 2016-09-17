@@ -8,6 +8,7 @@ MapComponent::MapComponent(const MapData& data, const Ndk::WorldHandle& world)
     : map(data.map), obs(data.obs)
 {
     init(data.tileset, world);
+    update();
 }
 
 bool MapComponent::update() // Thanks Lynix for this code
@@ -17,7 +18,8 @@ bool MapComponent::update() // Thanks Lynix for this code
 
     constexpr unsigned int width = Def::MAPX;
     constexpr unsigned int height = Def::MAPY;
-    Nz::Vector2f tileSize { Def::TILEXSIZE, Def::TILEYSIZE };
+
+    Nz::Vector2f tileSize { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) };
 
     unsigned int indexCount = width * height * 6;
     unsigned int vertexCount = width * height * 4;
@@ -89,12 +91,12 @@ bool MapComponent::update() // Thanks Lynix for this code
 
                 unsigned tileNumber = map[x + y * width];
 
-                float startX = 64.f * tileNumber;
+                float textureX = 64.f * tileNumber;
 
-                texCoordsPtr[0].Set((startX + 0.f ) / 256.f, 0.f);
-                texCoordsPtr[1].Set((startX + 64.f) / 256.f, 0.f);
-                texCoordsPtr[2].Set((startX + 64.f) / 256.f, 1.f);
-                texCoordsPtr[3].Set((startX + 0.f ) / 256.f, 1.f);
+                texCoordsPtr[0].Set((textureX + 0.f ) / 256.f, 0.f);
+                texCoordsPtr[1].Set((textureX + 64.f) / 256.f, 0.f);
+                texCoordsPtr[2].Set((textureX + 64.f) / 256.f, 1.f);
+                texCoordsPtr[3].Set((textureX + 0.f ) / 256.f, 1.f);
             }
         }
     }

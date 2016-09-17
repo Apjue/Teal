@@ -12,7 +12,7 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include "components.hpp"
-#include "gamedef.hpp"
+#include "def/gamedef.hpp"
 #include "util.hpp"
 
 ///

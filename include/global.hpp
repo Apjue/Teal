@@ -12,7 +12,7 @@
 #include <type_traits>
 #include <assert.h>
 #include <stdexcept>
-#include "gamedef.hpp"
+#include "def/gamedef.hpp"
 
 using Button = Nz::Mouse::Button;
 

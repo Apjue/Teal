@@ -12,7 +12,7 @@
 #include <NDK/Components.hpp>
 #include "components.hpp"
 #include "util.hpp"
-#include "layerdef.hpp"
+#include "def/layerdef.hpp"
 #include "data/characterdata.hpp"
 
 ///
