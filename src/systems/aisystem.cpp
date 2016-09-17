@@ -61,8 +61,8 @@ void AISystem::OnUpdate(float elapsed)
         int endX { static_cast<int>(pos.x) + move.diffX },
             endY { static_cast<int>(pos.y) + move.diffY };
 
-        m_pather->Solve(MapComponent::XYToNode(pos.x, pos.y),
-                        MapComponent::XYToNode(endX, endY),
+        m_pather->Solve(MapInstance::XYToNode(pos.x, pos.y),
+                        MapInstance::XYToNode(endX, endY),
                         &voidPath, &totalCost); // returns the absolute position, not difference.
 
         // Path done, in void*. Let's add it to the entity's path, in integers
@@ -77,7 +77,7 @@ void AISystem::OnUpdate(float elapsed)
             auto node = voidPath[i];
 
             unsigned absX {}, absY {}; // Absolute position, not difference
-            MapComponent::NodeToXY(node, absX, absY);
+            MapInstance::NodeToXY(node, absX, absY);
 
             int startX { static_cast<int>(pos.x) };
             int startY { static_cast<int>(pos.y) };

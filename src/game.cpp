@@ -121,8 +121,27 @@ void Game::initCam()
 
 void Game::addEntities()
 {
+    MapData mapData
+    {
+        {
+            2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+            1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
+            1, 1, 1, 2, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3,
+            1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,
+            1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 3,
+            0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
+            0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
+        }
+    };
+
     m_map = m_world->CreateEntity();
-    m_map->AddComponent<MapComponent>();
+
+    auto& mapComp = m_map->AddComponent<MapComponent>();
+
+    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get());
+
+
     m_map->AddComponent<Ndk::GraphicsComponent>();
     m_map->AddComponent<Ndk::NodeComponent>();
 
@@ -145,24 +164,6 @@ void Game::addEntities()
 
 void Game::initEntities()
 {
-    auto& mapComp = m_map->GetComponent<MapComponent>();
-    mapComp.map =
-    {
-            2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-            1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-            1, 1, 1, 2, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3,
-            1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,
-            1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 3,
-            0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
-            0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
-            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
-    }; //Test
-
-    auto& gfxComp = m_map->GetComponent<Ndk::GraphicsComponent>();
-    gfxComp.Attach(Nz::Sprite::New(), Def::MAP_LAYER);
-
-
-    m_pather = std::make_shared<micropather::MicroPather>(&mapComp);
 }
 
 void Game::addSystems()

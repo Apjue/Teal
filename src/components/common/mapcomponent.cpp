@@ -4,7 +4,7 @@
 
 #include "components/common/mapcomponent.hpp"
 
-MapComponent::MapComponent()
+MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
 {
     m_mat = Nz::Material::New("Translucent2D");
 
@@ -24,8 +24,8 @@ MapComponent::MapComponent()
     graphicsComponent.Attach(m_model);
 }
 
-MapComponent::MapComponent(const MapData& data)
-    : MapComponent()
+MapInstance::MapInstance(const MapData& data, const Ndk::EntityHandle& e)
+    : MapInstance(e)
 {
     map = data.map;
     obs = data.obs;
@@ -36,7 +36,7 @@ MapComponent::MapComponent(const MapData& data)
     update();
 }
 
-bool MapComponent::update() // Thanks Lynix for this code
+bool MapInstance::update() // Thanks Lynix for this code
 {
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
@@ -145,7 +145,7 @@ bool MapComponent::update() // Thanks Lynix for this code
     return true;
 }
 
-void MapComponent::NodeToXY(void* node, unsigned& x, unsigned& y)
+void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
 {
     int index = (int) node;
     auto xy = IndexToXY(static_cast<unsigned>(index));
@@ -154,17 +154,17 @@ void MapComponent::NodeToXY(void* node, unsigned& x, unsigned& y)
     y = xy.second;
 }
 
-void* MapComponent::XYToNode(unsigned x, unsigned y)
+void* MapInstance::XYToNode(unsigned x, unsigned y)
 {
     return (void*) (y * Def::MAPX + x);
 }
 
-void MapComponent::XYToArray(unsigned /*x*/, unsigned& y)
+void MapInstance::XYToArray(unsigned /*x*/, unsigned& y)
 {
     y /= 2;
 }
 
-std::pair<unsigned, unsigned> MapComponent::IndexToXY(unsigned index)
+std::pair<unsigned, unsigned> MapInstance::IndexToXY(unsigned index)
 {
     unsigned x {}, y {};
 
@@ -174,7 +174,7 @@ std::pair<unsigned, unsigned> MapComponent::IndexToXY(unsigned index)
     return std::make_pair(x, y);
 }
 
-bool MapComponent::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
+bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     //Step 1.
     {
@@ -209,7 +209,7 @@ bool MapComponent::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
     }
 }
 
-float MapComponent::LeastCostEstimate(void* nodeStart, void* nodeEnd)
+float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
 {
     unsigned sX {}, sY {};
     NodeToXY(nodeStart, sX, sY);
@@ -225,7 +225,7 @@ float MapComponent::LeastCostEstimate(void* nodeStart, void* nodeEnd)
     return static_cast<float>(estimated);
 }
 
-void MapComponent::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)
+void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)
 {
     NazaraAssert(neighbors, "Micropather neighbors null !");
 

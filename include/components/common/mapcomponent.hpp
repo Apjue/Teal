@@ -8,6 +8,7 @@
 #define MAPCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <NDK/Entity.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <Nazara/Utility/Mesh.hpp>
@@ -22,25 +23,25 @@
 #include "util.hpp"
 
 ///
-/// \class MapComponent
+/// \class MapInstance
 ///
 /// \brief Map of the game
 ///        Only one instance of it should exist
 ///
 
-class MapComponent : public Ndk::Component<MapComponent>, public micropather::Graph
+class MapInstance : public micropather::Graph
 {
 public:
-    MapComponent();
-    MapComponent(const MapData& data);
+    MapInstance(const Ndk::EntityHandle& e);
+    MapInstance(const MapData& data, const Ndk::EntityHandle& e);
 
-    MapComponent(const MapComponent&) = default;
-    MapComponent& operator=(const MapComponent&) = default;
+    MapInstance(const MapInstance&) = default;
+    MapInstance& operator=(const MapInstance&) = default;
 
-    MapComponent(MapComponent&&) = default;
-    MapComponent& operator=(MapComponent&&) = default;
+    MapInstance(MapInstance&&) = default;
+    MapInstance& operator=(MapInstance&&) = default;
 
-    ~MapComponent() = default;
+    ~MapInstance() = default;
 
     OLDTILEARRAY map;
     OLDTILEARRAY obs;
@@ -53,20 +54,43 @@ public:
     bool update();
 
     //Utility
-    static void NodeToXY(void* node, unsigned& x, unsigned& y);
+    static void  NodeToXY(void* node, unsigned& x, unsigned& y);
     static void* XYToNode(unsigned x, unsigned y);
-    static void XYToArray(unsigned /*x*/, unsigned& y);
+    static void  XYToArray(unsigned /*x*/, unsigned& y);
     static std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 
-    static Ndk::ComponentIndex componentIndex;
-
 private:
+    Ndk::EntityHandle m_entity;
+
     bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
     //Micropather
     virtual float LeastCostEstimate(void* nodeStart, void* nodeEnd) override;
-    virtual void AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) override;
-    virtual void PrintStateInfo(void* /*node*/) override {}
+    virtual void  AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) override;
+    virtual void  PrintStateInfo(void* /*node*/) override {}
+};
+
+///
+/// \struct MapComponent
+///
+/// \brief Wrapper for MapInstance
+///        So it doesn't move in memory
+///
+
+struct MapComponent : public Ndk::Component<MapComponent>
+{
+    MapComponent() : map(std::make_shared<MapInstance>(m_entity)) {}
+    MapComponent(const MapData& data) : map(std::make_shared<MapInstance>(data, m_entity)) {}
+
+    MapComponent(const MapComponent&) = default;
+    MapComponent& operator=(const MapComponent&) = default;
+
+    MapComponent(const MapComponent&&) = delete;
+    MapComponent& operator=(const MapComponent&&) = delete;
+
+    std::shared_ptr<MapInstance> map;
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
 #endif // MAPCOMPONENT_HPP
