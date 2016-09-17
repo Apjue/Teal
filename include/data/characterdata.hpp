@@ -4,8 +4,8 @@
 
 #pragma once
 
-#ifndef CHARACTERINFOS_HPP
-#define CHARACTERINFOS_HPP
+#ifndef CHARACTERDATA_HPP
+#define CHARACTERDATA_HPP
 
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Graphics/InstancedRenderable.hpp>
@@ -15,13 +15,13 @@
 #include "components/common/animationcomponent.hpp"
 
 ///
-/// \brief The CharacterInfos struct
+/// \struct CharacterData
 ///
-/// This class contains all required attributes of a character
-/// It is used by a character factory
+/// \brief Contains all required attributes of a character
+///        It is used by a character factory
 ///
 
-struct CharacterInfos
+struct CharacterData
 {
     /// 
     /// \param size Size of the picture
@@ -33,7 +33,7 @@ struct CharacterInfos
     /// \param o_ Default orientation
     /// 
 
-    CharacterInfos(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0,
+    CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0,
                    const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
                    unsigned mhp = 100, const AnimationComponent::AnimationState& animState_
                    = AnimationComponent::Moving, const Orientation& o_ = Orientation::Down)
@@ -41,7 +41,7 @@ struct CharacterInfos
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
         maxhp { mhp }, animState { animState_ }, o { o_ } {}
 
-    ~CharacterInfos() = default;
+    ~CharacterData() = default;
 
     Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;
@@ -55,4 +55,4 @@ struct CharacterInfos
     Orientation o;
 };
 
-#endif // CHARACTERINFOS_HPP
+#endif // CHARACTERDATA_HPP

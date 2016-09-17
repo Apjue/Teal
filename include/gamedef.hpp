@@ -49,6 +49,6 @@ constexpr int      MAXDIR         { 4 }; // Max directions: Up, down, left, righ
 }
 
 using OLDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
-using TILEARRAY = std::array<TileInfos, Def::TILEARRAYSIZE>;
+using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
 #endif // GAMEDEF_HPP

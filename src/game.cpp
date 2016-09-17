@@ -138,9 +138,9 @@ void Game::addEntities()
     Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
-    CharacterInfos mainCharacInfos { { 113u, 99u }, charSprite,
+    CharacterData mainCharacData { { 113u, 99u }, charSprite,
                                      15, { -25.f, -66.f }, { 1, 1 }, 100 };
-    m_charac = make_character(m_world, mainCharacInfos);
+    m_charac = make_character(m_world, mainCharacData);
 }
 
 void Game::initEntities()
@@ -158,24 +158,11 @@ void Game::initEntities()
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     }; //Test
 
-    m_mapTilemap = Nz::TileMap::New(Nz::Vector2ui { 15u, 8u }, Nz::Vector2f { 64.f, 64.f });
-
     auto& gfxComp = m_map->GetComponent<Ndk::GraphicsComponent>();
-    gfxComp.Attach(m_mapTilemap, Def::MAP_LAYER);
-
-    auto& mapNode = m_map->GetComponent<Ndk::NodeComponent>(); // Make it isometric
-    mapNode.SetRotation({ Nz::EulerAnglesf { 0.f, 0.f, 45.f } });
-    mapNode.SetScale(1.f, 0.5f);
-
-    m_mapTilemap->GetMaterial(0)->SetDiffuseMap( m_textures.get(":/game/tileset") );
-    updateTilemap();
-
-    m_map->Enable(true);
+    gfxComp.Attach(Nz::Sprite::New(), Def::MAP_LAYER);
 
 
     m_pather = std::make_shared<micropather::MicroPather>(&mapComp);
-
-    m_charac->Enable(true);
 }
 
 void Game::addSystems()
@@ -184,6 +171,7 @@ void Game::addSystems()
     m_world->AddSystem<PosRefreshSystem>();
     m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<AISystem>(m_pather);
+    // m_world->AddSystem<MapSystem>();
 }
 
 void Game::initSystems()
@@ -209,17 +197,3 @@ void Game::initEventHandler()
     });
 }
 
-void Game::updateTilemap()
-{
-    auto& mapComponent = m_map->GetComponent<MapComponent>();
-    auto tilesize = Def::SQUARETILESIZE; // Takes less place
-
-    for (unsigned i {}; i < mapComponent.map.size(); ++i)
-    {
-        auto pos = MapComponent::IndexToXY(i);
-        auto tileNum = mapComponent.map[i];
-
-        m_mapTilemap->EnableTile({ pos.first, pos.second }, 
-                                 Nz::Rectui { tileNum * tilesize, 0u, tilesize, tilesize });
-    }
-}

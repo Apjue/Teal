@@ -4,6 +4,168 @@
 
 #include "components/common/mapcomponent.hpp"
 
+MapComponent::MapComponent(const MapData& data, const Ndk::WorldHandle& world)
+    : map(data.map), obs(data.obs)
+{
+    init(data.tileset, world);
+}
+
+bool MapComponent::update() // Thanks Lynix for this code
+{
+    Nz::MeshRef mesh = Nz::Mesh::New();
+    mesh->CreateStatic();
+
+    constexpr unsigned int width = Def::MAPX;
+    constexpr unsigned int height = Def::MAPY;
+    Nz::Vector2f tileSize { Def::TILEXSIZE, Def::TILEYSIZE };
+
+    unsigned int indexCount = width * height * 6;
+    unsigned int vertexCount = width * height * 4;
+
+    Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount, 
+                                                          Nz::DataStorage_Hardware, Nz::BufferUsage_Static);
+    Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount, 
+                                                             Nz::DataStorage_Hardware, Nz::BufferUsage_Static);
+
+    {
+        Nz::VertexMapper vertexMapper(vertexBuffer, Nz::BufferAccess_WriteOnly);
+
+        auto positionPtr = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_Position);
+        auto uvPtr = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_TexCoord);
+
+        Nz::IndexMapper indexMapper(indexBuffer, Nz::BufferAccess_WriteOnly);
+
+        for (unsigned i {}; i < indexCount; ++i)
+            indexMapper.Set(i, i);
+
+        for (unsigned x {}; x < width; ++x)
+        {
+            for (unsigned y {}; y < height; ++y)
+            {
+                unsigned index = (x + y * width) * 6;
+                unsigned vertex = (x + y * width) * 4;
+
+                auto posPtr = positionPtr + vertex;
+                auto texCoordsPtr = uvPtr + vertex;
+
+                if (x % 2 == 0)
+                {
+                    if (x == 0)
+                    {
+                        posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
+                        posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
+                        posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
+                        posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
+                    }
+
+                    else
+                    {
+                        posPtr[0].Set((x / 2.f + 0) * tileSize.x, (y + 0) * tileSize.y);
+                        posPtr[1].Set((x / 2.f + 1) * tileSize.x, (y + 0) * tileSize.y);
+                        posPtr[2].Set((x / 2.f + 1) * tileSize.x, (y + 1) * tileSize.y);
+                        posPtr[3].Set((x / 2.f + 0) * tileSize.x, (y + 1) * tileSize.y);
+                    }
+                }
+
+                else
+                {
+                    posPtr[0].Set((x + 0) * tileSize.x - x * tileSize.x / 2.f, ((y + 0) * tileSize.y) + tileSize.y / 2.f);
+                    posPtr[1].Set((x + 1) * tileSize.x - x * tileSize.x / 2.f, ((y + 0) * tileSize.y) + tileSize.y / 2.f);
+                    posPtr[2].Set((x + 1) * tileSize.x - x * tileSize.x / 2.f, ((y + 1) * tileSize.y) + tileSize.y / 2.f);
+                    posPtr[3].Set((x + 0) * tileSize.x - x * tileSize.x / 2.f, ((y + 1) * tileSize.y) + tileSize.y / 2.f);
+                }
+
+                posPtr[0].y = -posPtr[0].y;
+                posPtr[1].y = -posPtr[1].y;
+                posPtr[2].y = -posPtr[2].y;
+                posPtr[3].y = -posPtr[3].y;
+
+                indexMapper.Set(index + 0, vertex + 0);
+                indexMapper.Set(index + 1, vertex + 2);
+                indexMapper.Set(index + 2, vertex + 1);
+                indexMapper.Set(index + 3, vertex + 3);
+                indexMapper.Set(index + 4, vertex + 2);
+                indexMapper.Set(index + 5, vertex + 0);
+
+                unsigned tileNumber = map[x + y * width];
+
+                float startX = 64.f * tileNumber;
+
+                texCoordsPtr[0].Set((startX + 0.f ) / 256.f, 0.f);
+                texCoordsPtr[1].Set((startX + 64.f) / 256.f, 0.f);
+                texCoordsPtr[2].Set((startX + 64.f) / 256.f, 1.f);
+                texCoordsPtr[3].Set((startX + 0.f ) / 256.f, 1.f);
+            }
+        }
+    }
+
+    Nz::StaticMeshRef subMesh = Nz::StaticMesh::New(mesh);
+    if (!subMesh->Create(vertexBuffer))
+    {
+        NazaraError("Failed to create StaticMesh");
+        return 0;
+    }
+
+    subMesh->SetIndexBuffer(indexBuffer);
+
+    subMesh->SetAABB(Nz::Boxf(0.f, 0.f, 0.f, width * tileSize.x, height * tileSize.y, 0.f));
+    //subMesh->GenerateAABB();
+
+    mesh->AddSubMesh(subMesh);
+    mesh->SetMaterialCount(1);
+
+    m_model->SetMesh(mesh);
+}
+
+void MapComponent::init(const Nz::String& tileset, const Ndk::WorldHandle& world)
+{
+    m_mat = Nz::Material::New("Translucent2D");
+
+    if (!m_mat->SetDiffuseMap(tileset))
+        NazaraError("Map Material SetDiffuseMap failed !");
+
+    m_mat->EnableFaceCulling(true);
+    m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
+
+    m_model = Nz::Model::New();
+    m_model->SetMaterial(0, m_mat);
+
+    m_graphicsMap = world->CreateEntity();
+    m_graphicsMap->AddComponent<Ndk::NodeComponent>();
+
+    Ndk::GraphicsComponent& graphicsComponent = m_graphicsMap->AddComponent<Ndk::GraphicsComponent>();
+    graphicsComponent.Attach(m_model);
+}
+
+void MapComponent::NodeToXY(void* node, unsigned& x, unsigned& y)
+{
+    int index = (int) node;
+    auto xy = IndexToXY(static_cast<unsigned>(index));
+
+    x = xy.first;
+    y = xy.second;
+}
+
+void* MapComponent::XYToNode(unsigned x, unsigned y)
+{
+    return (void*) (y * Def::MAPX + x);
+}
+
+void MapComponent::XYToArray(unsigned /*x*/, unsigned& y)
+{
+    y /= 2;
+}
+
+std::pair<unsigned, unsigned> MapComponent::IndexToXY(unsigned index)
+{
+    unsigned x {}, y {};
+
+    y = index / Def::MAPX;
+    x = index - y * Def::MAPX;
+
+    return std::make_pair(x, y);
+}
+
 bool MapComponent::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     //Step 1.

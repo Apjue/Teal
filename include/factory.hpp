@@ -13,7 +13,7 @@
 #include "components.hpp"
 #include "util.hpp"
 #include "layerdef.hpp"
-#include "characterinfos.hpp"
+#include "data/characterdata.hpp"
 
 ///
 /// \fn make_character
@@ -24,6 +24,6 @@
 ///       But only NPCs have the RandomMovement component
 ///
 
-extern Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& infos);
+extern Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos);
 
 #endif // FACTORY_HPP

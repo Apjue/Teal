@@ -34,4 +34,3 @@ private:
 #include "lifecomponent.inl"
 
 #endif // LIFECOMPONENT_HPP
-

@@ -8,8 +8,19 @@
 #define MAPCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include <Nazara/Renderer/Texture.hpp>
+#include <NDK/EntityOwner.hpp>
+#include <NDK/World.hpp>
+#include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/Components/NodeComponent.hpp>
+#include <Nazara/Utility/Mesh.hpp>
+#include <Nazara/Utility/StaticMesh.hpp>
+#include <Nazara/Utility/VertexMapper.hpp>
+#include <Nazara/Utility/IndexMapper.hpp>
+#include <Nazara/Graphics/Model.hpp>
+#include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Math/Vector2.hpp>
 #include "micropather.h"
+#include "data/mapdata.hpp"
 #include "util.hpp"
 
 ///
@@ -22,8 +33,7 @@
 class MapComponent : public Ndk::Component<MapComponent>, public micropather::Graph
 {
 public:
-    MapComponent() = default;
-    inline MapComponent(const OLDTILEARRAY& _map, const OLDTILEARRAY& _obs, const Nz::TextureRef& tileset);
+    MapComponent(const MapData& data, const Ndk::WorldHandle& world);
 
     MapComponent(const MapComponent&) = default;
     MapComponent& operator=(const MapComponent&) = default;
@@ -36,8 +46,13 @@ public:
     OLDTILEARRAY map;
     OLDTILEARRAY obs;
     //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
-    Nz::TextureRef m_tileset;
 
+    Nz::MaterialRef m_mat; // Tileset
+    Nz::MeshRef m_mesh; // Mesh to update when map changed
+    Nz::ModelRef m_model; // Use SetMesh when mesh changed
+
+    bool update();
+    void init(const Nz::String& tileset, const Ndk::WorldHandle& world);
 
     //Utility
     inline static void NodeToXY(void* node, unsigned& x, unsigned& y);
@@ -48,6 +63,8 @@ public:
     static Ndk::ComponentIndex componentIndex;
 
 private:
+    Ndk::EntityOwner m_graphicsMap;
+
     bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
     //Micropather
@@ -57,5 +74,3 @@ private:
 };
 
 #endif // MAPCOMPONENT_HPP
-
-#include "mapcomponent.inl"

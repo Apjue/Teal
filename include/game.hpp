@@ -29,7 +29,7 @@
 #include "util.hpp"
 #include "factory.hpp"
 #include "chrono.hpp"
-#include "characterinfos.hpp"
+#include "data/characterdata.hpp"
 #include "micropather.h"
 #include "texturecore.hpp"
 
@@ -75,15 +75,6 @@ private:
     void initSystems();
 
     void initEventHandler();
-
-    ///
-    /// \fn updateTilemap
-    ///
-    /// \brief Updates the graphics tilemap
-    ///        Using the internal MapComponent
-    ///
-
-    void updateTilemap();
 };
 
 #endif // GAME_H

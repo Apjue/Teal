@@ -4,7 +4,7 @@
 
 #include "factory.hpp"
 
-Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterInfos& infos)
+Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
