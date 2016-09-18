@@ -35,8 +35,3 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
 
     return rdable;
 }
-
-void setScheme(Nz::ImageRef newScheme)
-{
-    scheme = newScheme;
-}
