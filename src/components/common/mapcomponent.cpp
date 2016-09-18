@@ -12,7 +12,6 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
     m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
 
     m_model = Nz::Model::New();
-    m_model->SetMaterial(0, m_mat);
 
     if (!m_entity->HasComponent<Ndk::NodeComponent>())
         m_entity->AddComponent<Ndk::NodeComponent>();
