@@ -182,11 +182,11 @@ void Game::initEventHandler()
     { // Function to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y))
         {
-            auto& movecomp = m_charac->GetComponent<MoveToComponent>();
+            auto& moveComp = m_charac->GetComponent<MoveToComponent>();
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
 
-            movecomp.diffX = lpos.x;
-            movecomp.diffY = lpos.y;
+            moveComp.diffX = lpos.x;
+            moveComp.diffY = lpos.y;
         }
     });
 }
