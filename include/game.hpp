@@ -70,9 +70,7 @@ private:
     void initCam();
 
     void addEntities();
-    void initEntities();
     void addSystems();
-    void initSystems();
 
     void initEventHandler();
 };

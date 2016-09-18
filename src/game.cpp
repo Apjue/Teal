@@ -25,9 +25,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initCam();
 
     addEntities();
-    initEntities();
     addSystems();
-    initSystems();
 }
 
 
@@ -166,10 +164,6 @@ void Game::addEntities()
     m_charac = make_character(m_world, mainCharacData);
 }
 
-void Game::initEntities()
-{
-}
-
 void Game::addSystems()
 {
     m_world->AddSystem<MovementSystem>();
@@ -177,11 +171,6 @@ void Game::addSystems()
     m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<AISystem>(m_pather);
     // m_world->AddSystem<MapSystem>();
-}
-
-void Game::initSystems()
-{
-    //...
 }
 
 void Game::initEventHandler()
