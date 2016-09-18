@@ -143,10 +143,6 @@ void Game::addEntities()
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get());
 
 
-    m_map->AddComponent<Ndk::GraphicsComponent>();
-    m_map->AddComponent<Ndk::NodeComponent>();
-
-
     Nz::MaterialRef charMat = Nz::Material::New();
     charMat->LoadFromFile( m_textures.get(":/game/char/villager")->GetFilePath() );
 
