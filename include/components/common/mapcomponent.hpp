@@ -49,7 +49,6 @@ public:
     //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
 
     Nz::MaterialRef m_mat; // Tileset
-    Nz::MeshRef m_mesh; // Mesh to update when map changed
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
 
     bool update();

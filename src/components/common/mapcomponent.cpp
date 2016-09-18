@@ -142,6 +142,8 @@ bool MapInstance::update() // Thanks Lynix for this code
     //mesh->SetMaterialCount(1);
 
     m_model->SetMesh(mesh);
+    m_model->SetMaterial(0, m_mat);
+    
     return true;
 }
 
