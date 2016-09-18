@@ -73,8 +73,8 @@ private:
 ///
 /// \struct MapComponent
 ///
-/// \brief Wrapper for MapInstance
-///        So it doesn't move in memory
+/// \brief Wrapper for MapInstance, so it doesn't move in memory
+///        Because it is used by micropather via raw pointer
 ///
 
 struct MapComponent : public Ndk::Component<MapComponent>
