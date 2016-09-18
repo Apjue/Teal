@@ -14,7 +14,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
     m_model = Nz::Model::New();
     m_model->SetMaterial(0, m_mat);
 
-    if (!m_entity->HasComponent<Ndk::NodeComponent>()) //crash
+    if (!m_entity->HasComponent<Ndk::NodeComponent>())
         m_entity->AddComponent<Ndk::NodeComponent>();
 
     if (!m_entity->HasComponent<Ndk::GraphicsComponent>())
