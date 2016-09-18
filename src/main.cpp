@@ -12,6 +12,8 @@ int main()
 
     Game game { app, { Def::WINXSIZE, Def::WINYSIZE },
                      { Def::MAPXSIZE, Def::MAPYSIZE }, "TealDemo - Prototype" };
+
+    app.EnableFPSCounter(true);
     
     while (app.Run())
     {
