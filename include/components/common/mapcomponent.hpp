@@ -20,6 +20,7 @@
 #include <Nazara/Math/Vector2.hpp>
 #include "micropather.h"
 #include "data/mapdata.hpp"
+#include "def/layerdef.hpp"
 #include "util.hpp"
 
 ///
@@ -79,18 +80,23 @@ private:
 
 struct MapComponent : public Ndk::Component<MapComponent>
 {
-    MapComponent() : map(std::make_shared<MapInstance>(m_entity)) {}
-    MapComponent(const MapData& data) : map(std::make_shared<MapInstance>(data, m_entity)) {}
+    template<class... Args>
+    MapComponent(Args&&... args) 
+        : map(std::make_shared<MapInstance>(std::forward<Args>(args)..., m_entity)) {}
+
+//     MapComponent(const MapData& data) : map(std::make_shared<MapInstance>(data, m_entity)) {}
 
     MapComponent(const MapComponent&) = default;
     MapComponent& operator=(const MapComponent&) = default;
 
-    MapComponent(const MapComponent&&) = delete;
-    MapComponent& operator=(const MapComponent&&) = delete;
 
     std::shared_ptr<MapInstance> map;
 
     static Ndk::ComponentIndex componentIndex;
+
+private:
+    MapComponent(const MapComponent&&) = delete;
+    MapComponent& operator=(const MapComponent&&) = delete;
 };
 
 #endif // MAPCOMPONENT_HPP
