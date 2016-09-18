@@ -157,8 +157,10 @@ void Game::addEntities()
     Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
+
     CharacterData mainCharacData { { 113u, 99u }, charSprite,
                                      15, { -25.f, -66.f }, { 1, 1 }, 100 };
+
     m_charac = make_character(m_world, mainCharacData);
 }
 
