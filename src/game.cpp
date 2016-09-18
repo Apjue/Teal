@@ -54,10 +54,8 @@ void Game::addTextures()
     };
 
     for (auto& pair : filepaths)
-    {
         if (!m_textures.addByLoad(pair.first, pair.second))
             textureLoadFailed(pair.second);
-    }
 }
 
 void Game::initCustomThings()
