@@ -80,15 +80,19 @@ private:
 
 struct MapComponent : public Ndk::Component<MapComponent>
 {
-    template<class... Args>
-    MapComponent(Args&&... args) 
-        : map(std::make_shared<MapInstance>(std::forward<Args>(args)..., m_entity)) {}
+    MapComponent() = default;
 
     MapComponent(const MapComponent&) = default;
     MapComponent& operator=(const MapComponent&) = default;
 
 
     std::shared_ptr<MapInstance> map;
+
+    template<class... Args>
+    void init(Args&&... args)
+    {
+        map = std::make_shared<MapInstance>(std::forward<Args>(args)..., m_entity);
+    }
 
     static Ndk::ComponentIndex componentIndex;
 

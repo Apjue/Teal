@@ -137,7 +137,8 @@ void Game::addEntities()
 
     m_map = m_world->CreateEntity();
     
-    auto& mapComp = m_map->AddComponent<MapComponent>(mapData);
+    auto& mapComp = m_map->AddComponent<MapComponent>();
+    mapComp.init(mapData);
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get());
 
