@@ -84,8 +84,6 @@ struct MapComponent : public Ndk::Component<MapComponent>
     MapComponent(Args&&... args) 
         : map(std::make_shared<MapInstance>(std::forward<Args>(args)..., m_entity)) {}
 
-//     MapComponent(const MapData& data) : map(std::make_shared<MapInstance>(data, m_entity)) {}
-
     MapComponent(const MapComponent&) = default;
     MapComponent& operator=(const MapComponent&) = default;
 
