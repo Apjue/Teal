@@ -129,14 +129,14 @@ void Game::addEntities()
             0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
         },
-
+        
         {},
 
         m_textures.get(":/game/tileset")->GetFilePath()
     };
 
     m_map = m_world->CreateEntity();
-
+    
     auto& mapComp = m_map->AddComponent<MapComponent>(mapData);
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get());
@@ -170,7 +170,6 @@ void Game::addSystems()
     m_world->AddSystem<PosRefreshSystem>();
     m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<AISystem>(m_pather);
-    // m_world->AddSystem<MapSystem>();
 }
 
 void Game::initEventHandler()
