@@ -21,7 +21,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
         m_entity->AddComponent<Ndk::GraphicsComponent>();
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
-    graphicsComponent.Attach(m_model);
+    graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
 MapInstance::MapInstance(const MapData& data, const Ndk::EntityHandle& e)
