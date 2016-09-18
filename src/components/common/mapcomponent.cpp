@@ -14,7 +14,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
     m_model = Nz::Model::New();
     m_model->SetMaterial(0, m_mat);
 
-    if (!m_entity->HasComponent<Ndk::NodeComponent>())
+    if (!m_entity->HasComponent<Ndk::NodeComponent>()) //crash
         m_entity->AddComponent<Ndk::NodeComponent>();
 
     if (!m_entity->HasComponent<Ndk::GraphicsComponent>())
@@ -31,7 +31,7 @@ MapInstance::MapInstance(const MapData& data, const Ndk::EntityHandle& e)
     obs = data.obs;
 
     if (!m_mat->SetDiffuseMap(data.tileset))
-        NazaraError("Map Material SetDiffuseMap failed !");
+        NazaraError("Error: Map Material SetDiffuseMap failed !");
 
     update();
 }
@@ -139,7 +139,7 @@ bool MapInstance::update() // Thanks Lynix for this code
     //subMesh->GenerateAABB();
 
     mesh->AddSubMesh(subMesh);
-    mesh->SetMaterialCount(1);
+    //mesh->SetMaterialCount(1);
 
     m_model->SetMesh(mesh);
     return true;
