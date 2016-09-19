@@ -166,7 +166,7 @@ void Game::addSystems()
 {
     m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<PosRefreshSystem>();
-    m_world->AddSystem<AnimationSystem>();
+//     m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<AISystem>(m_pather);
 }
 
@@ -179,12 +179,16 @@ void Game::initEventHandler()
     { // Lambda to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y))
         {
+            auto& posComp = m_charac->GetComponent<PositionComponent>();
             auto& moveComp = m_charac->GetComponent<MoveToComponent>();
+
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
 
-            moveComp.diffX = lpos.x;
-            moveComp.diffY = lpos.y;
+            int diffX { static_cast<int>(lpos.x) - static_cast<int>(posComp.x) },
+                diffY { static_cast<int>(lpos.y) - static_cast<int>(posComp.y) };
+
+            moveComp.diffX = diffX;
+            moveComp.diffY = diffY;
         }
     });
 }
-

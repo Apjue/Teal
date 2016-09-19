@@ -88,14 +88,14 @@ void AISystem::OnUpdate(float elapsed)
                 startY = oldY;
             }
 
-            int x { startX - static_cast<int>(absX) },
-                y { startY - static_cast<int>(absY) }; // Difference now, but reversed
+            int diffX { startX - static_cast<int>(absX) },
+                diffY { startY - static_cast<int>(absY) }; // Difference now, but reversed
 
-            x = -x; //Ok
-            y = -y;
+            diffX = -diffX; //Ok
+            diffY = -diffY;
 
-            Direction::Dir dir = XYToDir({ x, y });
-            bool reExec = isDiagonal(dir); // [WORKAROUND 1]
+            Direction::Dir dir = XYToDir({ diffX, diffY });
+            bool reExec = !isDiagonal(dir); // [WORKAROUND 1]
 
             path.push(std::make_pair(dir, reExec)); // [WORKAROUND 1]
 

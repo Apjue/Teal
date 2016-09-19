@@ -22,10 +22,10 @@ void MovementSystem::OnUpdate(float elapsed)
 
         pos.moving = true;
 
-        auto& cdir = e->GetComponent<OrientationComponent>().dir;
+        auto& orient = e->GetComponent<OrientationComponent>().dir;
         auto& dir = path.front();
 
-        cdir = DirToOrien(dir.first); // [WORKAROUND 1]
+        orient = DirToOrien(dir.first); // [WORKAROUND 1]
         auto xy = DirToXY(dir.first); // [WORKAROUND 1]
 
         int moveX { xy.x };
@@ -62,7 +62,7 @@ void MovementSystem::OnUpdate(float elapsed)
             pos.inY = 0;
         }
 
-        if (pos.inX == 0 && pos.inY == 0) // dir.second is the reexec workaround
+        if (pos.inX == 0 && pos.inY == 0) // Next tile reached
         {
             if (!dir.second)
                 path.pop(); // To get next tile
