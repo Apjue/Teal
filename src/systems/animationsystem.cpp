@@ -18,9 +18,9 @@ void AnimationSystem::OnUpdate(float elapsed)
         Nz::Sprite* gfx = getRenderableFromGraphicsComponent<Nz::Sprite>(sprite);
 
         if (!gfx)
-            continue; //No sprite has been found
+            continue; // No sprite has been found
 
-        int const startX = intDir * anim.size.x; //Get the x and the y
+        int const startX = intDir * anim.size.x; // Get the x and the y
         int const startY = anim.frame * anim.size.y;
 
         switch (anim.animationState)

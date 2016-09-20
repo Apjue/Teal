@@ -150,7 +150,7 @@ void Game::addEntities()
     charMat->EnableBlending(true);
     charMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
     charMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    charMat->EnableDepthWrite(false); // Enable this ?
+    charMat->EnableDepthWrite(false);
 
     Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
