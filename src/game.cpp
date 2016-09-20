@@ -150,7 +150,7 @@ void Game::addEntities()
     charMat->EnableBlending(true);
     charMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
     charMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    charMat->EnableDepthWrite(false);
+    charMat->EnableDepthWrite(false); // Enable this ?
 
     Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
@@ -166,7 +166,7 @@ void Game::addSystems()
 {
     m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<PosRefreshSystem>();
-//     m_world->AddSystem<AnimationSystem>();
+//     m_world->AddSystem<AnimationSystem>(); // Removed to debug
     m_world->AddSystem<AISystem>(m_pather);
 }
 
