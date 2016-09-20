@@ -74,6 +74,7 @@ private:
     void initEventHandler();
 };
 
+#include "game.inl"
+
 #endif // GAME_H
 
-#include "game.inl"
