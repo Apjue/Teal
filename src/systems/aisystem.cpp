@@ -94,7 +94,7 @@ void AISystem::OnUpdate(float elapsed)
             diffX = -diffX; //Ok
             diffY = -diffY;
 
-            Direction::Dir dir = XYToDir({ diffX, diffY });
+            auto dir = XYToDir({ diffX, diffY });
             bool reExec = !isDiagonal(dir); // [WORKAROUND 1]
 
             path.push(std::make_pair(dir, reExec)); // [WORKAROUND 1]
