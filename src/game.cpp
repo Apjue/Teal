@@ -141,7 +141,7 @@ void Game::addEntities()
     auto& mapComp = m_map->AddComponent<MapComponent>();
     mapComp.init(mapData);
 
-    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get());
+    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 
 
     Nz::MaterialRef charMat = Nz::Material::New();
