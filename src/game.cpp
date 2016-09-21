@@ -183,12 +183,10 @@ void Game::initEventHandler()
             auto& moveComp = m_charac->GetComponent<MoveToComponent>();
 
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
+            auto diff = AbsPosToDiff({ posComp.x, posComp.y }, lpos);
 
-            int diffX { static_cast<int>(lpos.x) - static_cast<int>(posComp.x) },
-                diffY { static_cast<int>(lpos.y) - static_cast<int>(posComp.y) };
-
-            moveComp.diffX = diffX;
-            moveComp.diffY = diffY;
+            moveComp.diffX = diff.x;
+            moveComp.diffY = diff.y;
         }
     });
 }
