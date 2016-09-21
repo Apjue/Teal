@@ -174,7 +174,7 @@ void Game::initEventHandler()
 {
     auto& eventHandler = m_window.GetEventHandler();
 
-    m_mouseButtonEvent.Connect(eventHandler.OnMouseButtonPressed, ///TODO: Make a click system for this
+    m_mouseButtonEvent.Connect(eventHandler.OnMouseButtonPressed,
     [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseButtonEvent& event)
     { // Lambda to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y))
