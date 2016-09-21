@@ -35,3 +35,11 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
 
     return rdable;
 }
+
+DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
+{
+    int diffX { static_cast<int>(to.x) - static_cast<int>(from.x) },
+        diffY { static_cast<int>(to.y) - static_cast<int>(from.y) };
+
+    return { diffX, diffY };
+}

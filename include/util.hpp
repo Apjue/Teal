@@ -60,6 +60,8 @@ extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 
 extern void setScheme(Nz::ImageRef newScheme);
 
+inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
+
 #include "util.inl"
 
 #endif // UTIL_HPP
