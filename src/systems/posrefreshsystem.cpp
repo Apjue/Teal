@@ -28,15 +28,19 @@ void PosRefreshSystem::OnUpdate(float elapsed)
         int const gInX = pos.inX * Def::MAXGXPOSINTILE;
         int const gInY = pos.inY * Def::MAXGYPOSINTILE;
 
-        float const finalX = static_cast<float>(gX) + static_cast<float>(gInX); // We will move using this
-        float const finalY = static_cast<float>(gY) + static_cast<float>(gInY); // (so it's graphics pos)
+        float finalX = static_cast<float>(gX) + static_cast<float>(gInX); // We will move using this
+        float finalY = static_cast<float>(gY) + static_cast<float>(gInY); // (so it's graphics pos)
 
+        finalX += defPos.x;
+        finalY += defPos.y;
 
-        if (finalX + defPos.x != gfxpos.GetPosition().x  // if the entity is already at that position
-         || finalY + defPos.y != gfxpos.GetPosition().y) // no need to move it
+        if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
+         || finalY != gfxpos.GetPosition().y) // no need to move it
         {
-            gfxpos.SetPosition(dpos.x, dpos.y);
-            gfxpos.Move(finalX, finalY);
+            float const moveX = finalX - gfxpos.GetPosition().x;
+            float const moveY = finalY - gfxpos.GetPosition().y;
+
+            gfxpos.Move(moveX, moveY);
         }
     }
 }
