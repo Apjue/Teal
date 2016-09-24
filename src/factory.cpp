@@ -32,5 +32,6 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos
 
     e->AddComponent<AnimationComponent>(infos.imgsize, infos.maxframe, infos.animState);
 
+    refreshGraphicsPos(e);
     return e;
 }
