@@ -159,7 +159,6 @@
     <ClInclude Include="include\systems\aisystem.hpp" />
     <ClInclude Include="include\systems\animationsystem.hpp" />
     <ClInclude Include="include\systems\movementsystem.hpp" />
-    <ClInclude Include="include\systems\posrefreshsystem.hpp" />
     <ClInclude Include="include\texturecore.hpp" />
     <ClInclude Include="include\data\tiledata.hpp" />
     <ClInclude Include="include\util.hpp" />
@@ -187,7 +186,6 @@
     <ClCompile Include="src\systems\aisystem.cpp" />
     <ClCompile Include="src\systems\animationsystem.cpp" />
     <ClCompile Include="src\systems\movementsystem.cpp" />
-    <ClCompile Include="src\systems\posrefreshsystem.cpp" />
     <ClCompile Include="src\texturecore.cpp" />
     <ClCompile Include="src\util.cpp" />
   </ItemGroup>

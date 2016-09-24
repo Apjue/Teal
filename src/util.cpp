@@ -85,3 +85,54 @@ void setScheme(Nz::ImageRef newScheme)
 {
     scheme = newScheme;
 }
+
+void refreshGraphicsPos(const Ndk::EntityHandle& charac)
+{
+    auto& pos = charac->GetComponent<PositionComponent>();
+    auto& gfxcomp = charac->GetComponent<Ndk::GraphicsComponent>();
+    auto& gfxpos = charac->GetComponent<Ndk::NodeComponent>();
+    auto& dpos = charac->GetComponent<DefaultGraphicsPosComponent>();
+
+    Nz::Vector2f defPos { dpos.x, dpos.y };
+
+    unsigned const gX = pos.x * Def::TILEGXSIZE; // logic pos -> graphics pos
+    unsigned const gY = pos.y * Def::TILEGYSIZE;
+    int const gInX = pos.inX * Def::MAXGXPOSINTILE;
+    int const gInY = pos.inY * Def::MAXGYPOSINTILE;
+
+    float finalX = static_cast<float>(gX) + static_cast<float>(gInX); // We will move using this
+    float finalY = static_cast<float>(gY) + static_cast<float>(gInY); // (so it's graphics pos)
+
+    finalX += defPos.x;
+    finalY += defPos.y;
+
+    if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
+     || finalY != gfxpos.GetPosition().y) // no need to move it
+    {
+        float const moveX = finalX - gfxpos.GetPosition().x;
+        float const moveY = finalY - gfxpos.GetPosition().y;
+
+        Nz::String s = "final: ";
+        s.Append(Nz::String::Number(finalX));
+        s += ' ';
+        s.Append(Nz::String::Number(finalY));
+        s += "; ";
+        s += "move by: ";
+        s.Append(Nz::String::Number(moveX));
+        s += ' ';
+        s.Append(Nz::String::Number(moveY));
+        s += "; ";
+        s += "old: ";
+        s.Append(Nz::String::Number(gfxpos.GetPosition().x));
+        s += ' ';
+        s.Append(Nz::String::Number(gfxpos.GetPosition().y));
+        NazaraDebug(s);
+
+        // BUG dans movement system
+        // Le bug est a la 2e frame, pas la premiere !
+        // frame 1: inX 1, inY 1
+        // frame 2: inX 0, inY 0, devrait etre 2 !
+
+        gfxpos.Move(moveX, moveY);
+    }
+}

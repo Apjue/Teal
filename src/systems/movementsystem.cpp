@@ -12,6 +12,8 @@ MovementSystem::MovementSystem()
 
 void MovementSystem::OnUpdate(float elapsed)
 {
+    NazaraUnused(elapsed);
+
     for (auto& e : GetEntities())
     {
         auto& path = e->GetComponent<PathComponent>().path;
@@ -31,13 +33,13 @@ void MovementSystem::OnUpdate(float elapsed)
         int moveX { xy.x };
         int moveY { xy.y };
 
-        bool walkMode = (path.size() == 1); // We almost finished, let's stop running
-
-        if (walkMode)
-        {
-            moveX = (moveX == 2 || moveX == -2) ? moveX / 2 : moveX;
-            moveY = (moveY == 2 || moveY == -2) ? moveY / 2 : moveY;
-        }
+//         bool walkMode = (path.size() == 1); // We almost finished, let's stop running
+// 
+//         if (walkMode)
+//         {
+//             moveX = (moveX == 2 || moveX == -2) ? moveX / 2 : moveX;
+//             moveY = (moveY == 2 || moveY == -2) ? moveY / 2 : moveY;
+//         }
 
         pos.inX += moveX;
         pos.inY += moveY;
@@ -72,5 +74,9 @@ void MovementSystem::OnUpdate(float elapsed)
 
         if (path.empty())
             pos.moving = false; // Not moving anymore
+
+        if (e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>()
+         && e->HasComponent<DefaultGraphicsPosComponent>())
+            refreshGraphicsPos(e);
     }
 }

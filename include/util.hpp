@@ -9,6 +9,7 @@
 
 #include <Nazara/Graphics/Sprite.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/Components/NodeComponent.hpp>
 #include <Nazara/Core/Color.hpp>
 #include <Nazara/Utility/Image.hpp>
 
@@ -16,6 +17,8 @@
 #include <array>
 #include "def/gamedef.hpp"
 #include "global.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/defaultgraphicsposcomponent.hpp"
 
 inline unsigned dToU(double d);
 
@@ -59,6 +62,16 @@ extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 ///
 
 extern void setScheme(Nz::ImageRef newScheme);
+
+///
+/// \fn refreshGraphicsPos
+///
+/// \brief Refreshes the Graphics Position of an entity containing
+///        a Sprite attached to a GraphicsComponent, using the
+///        Position component
+///
+
+extern void refreshGraphicsPos(const Ndk::EntityHandle& charac);
 
 inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
 

@@ -85,7 +85,6 @@ void Game::initCustomThings()
 
     //Systems
     Ndk::InitializeSystem<AnimationSystem>();
-    Ndk::InitializeSystem<PosRefreshSystem>();
     Ndk::InitializeSystem<AISystem>();
     Ndk::InitializeSystem<MovementSystem>();
 }
@@ -165,7 +164,6 @@ void Game::addEntities()
 void Game::addSystems()
 {
     m_world->AddSystem<MovementSystem>();
-    m_world->AddSystem<PosRefreshSystem>();
 //     m_world->AddSystem<AnimationSystem>(); // Removed to debug
     m_world->AddSystem<AISystem>(m_pather);
 }
