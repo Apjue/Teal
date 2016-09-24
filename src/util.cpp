@@ -112,27 +112,6 @@ void refreshGraphicsPos(const Ndk::EntityHandle& charac)
         float const moveX = finalX - gfxpos.GetPosition().x;
         float const moveY = finalY - gfxpos.GetPosition().y;
 
-        Nz::String s = "final: ";
-        s.Append(Nz::String::Number(finalX));
-        s += ' ';
-        s.Append(Nz::String::Number(finalY));
-        s += "; ";
-        s += "move by: ";
-        s.Append(Nz::String::Number(moveX));
-        s += ' ';
-        s.Append(Nz::String::Number(moveY));
-        s += "; ";
-        s += "old: ";
-        s.Append(Nz::String::Number(gfxpos.GetPosition().x));
-        s += ' ';
-        s.Append(Nz::String::Number(gfxpos.GetPosition().y));
-        NazaraDebug(s);
-
-        // BUG dans movement system
-        // Le bug est a la 2e frame, pas la premiere !
-        // frame 1: inX 1, inY 1
-        // frame 2: inX 0, inY 0, devrait etre 2 !
-
         gfxpos.Move(moveX, moveY);
     }
 }
