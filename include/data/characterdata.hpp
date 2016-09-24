@@ -35,7 +35,7 @@ struct CharacterData
 
     CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0,
                    const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
-                   unsigned mhp = 100, const AnimationComponent::AnimationState& animState_
+                   unsigned mhp = 100u, const AnimationComponent::AnimationState& animState_
                    = AnimationComponent::Moving, const Orientation& o_ = Orientation::Down)
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
