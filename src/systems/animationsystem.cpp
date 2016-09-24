@@ -17,7 +17,7 @@ void AnimationSystem::OnUpdate(float elapsed)
         auto& anim = e->GetComponent<AnimationComponent>();
         bool  moving = e->GetComponent<PositionComponent>().moving;
         auto& sprite = e->GetComponent<Ndk::GraphicsComponent>();
-        auto& dir = e->GetComponent<OrientationComponent>().dir;
+        auto  dir = e->GetComponent<OrientationComponent>().dir;
 
         Nz::Sprite* gfx = getRenderableFromGraphicsComponent<Nz::Sprite>(sprite);
 
@@ -53,7 +53,7 @@ void AnimationSystem::UndefinedStateAnimation()
 void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
                                            AnimationComponent& anim, bool moving)
 {
-    if (!moving) // No animation if not moving
+    if (!moving) // Reset animation if not moving
     {
         if (anim.frame != 0)
         {
@@ -65,7 +65,7 @@ void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz:
 
     if (anim.maxframe == 0) // Only change the direction, no animation
     {
-        gfx->SetTextureRect({ startX, 0, anim.size.x, anim.size.y });
+        gfx->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
     }
 
     else // Animation !
