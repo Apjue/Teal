@@ -45,10 +45,10 @@ struct CharacterData
 
     Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;
-    unsigned maxframe; //animation frames
+    unsigned maxframe; // animation frames
 
-    Nz::Vector2f defG; //default graphics pos
-    Nz::Vector2ui defL; //default logic pos
+    Nz::Vector2f defG; // default graphics pos
+    Nz::Vector2ui defL; // default logic pos
 
     unsigned maxhp;
     AnimationComponent::AnimationState animState;
