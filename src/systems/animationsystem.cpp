@@ -4,6 +4,12 @@
 
 #include "systems/animationsystem.hpp"
 
+AnimationSystem::AnimationSystem()
+{
+    Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent>();
+    SetUpdateRate(Def::MAXFPS);
+}
+
 void AnimationSystem::OnUpdate(float elapsed)
 {
     for (auto& e : GetEntities())

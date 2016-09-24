@@ -24,11 +24,7 @@
 class AnimationSystem : public Ndk::System<AnimationSystem>
 {
 public:
-    AnimationSystem()
-    {
-        Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent>();
-        SetUpdateRate(Def::MAXFPS);
-    }
+    AnimationSystem();
     ~AnimationSystem() = default;
 
     static Ndk::SystemIndex systemIndex;
