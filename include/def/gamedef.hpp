@@ -19,7 +19,7 @@ constexpr unsigned MAPY           { 8u };
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
 
 constexpr unsigned LMAPX          { 14u }; // For logic
-constexpr unsigned LMAPY          { 14u };
+constexpr unsigned LMAPY          { 15u };
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
