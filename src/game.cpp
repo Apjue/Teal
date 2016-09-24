@@ -130,7 +130,16 @@ void Game::addEntities()
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
         },
         
-        {},
+        {
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        },
 
         m_textures.get(":/game/tileset")->GetFilePath()
     };
@@ -164,7 +173,7 @@ void Game::addEntities()
 void Game::addSystems()
 {
     m_world->AddSystem<MovementSystem>();
-//     m_world->AddSystem<AnimationSystem>(); // Removed to debug
+//     m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<AISystem>(m_pather);
 }
 

@@ -180,14 +180,14 @@ bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
     //Step 1.
     {
         if ((sX == eX - 2 && sY == eY)
-            || (sX == eX + 2 && sY == eY)
-            || (sX == eX && sY == eY - 2)
-            || (sX == eX && sY == eY + 2)
+         || (sX == eX + 2 && sY == eY)
+         || (sX == eX && sY == eY - 2)
+         || (sX == eX && sY == eY + 2)
             //diagonals
-            || (sX == eX + 1 && sY == eY + 1)
-            || (sX == eX - 1 && sY == eY - 1)
-            || (sX == eX + 1 && sY == eY - 1)
-            || (sX == eX - 1 && sY == eY + 1))
+         || (sX == eX + 1 && sY == eY + 1)
+         || (sX == eX - 1 && sY == eY - 1)
+         || (sX == eX + 1 && sY == eY - 1)
+         || (sX == eX - 1 && sY == eY + 1))
             ; //ok, continue
         else
             return false;
@@ -203,7 +203,7 @@ bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
         if (eX > Def::MAPX || eY > Def::MAPY)
             return false;
 
-        unsigned const tile { eX + eY*Def::MAPX };
+        unsigned const tile { eX + eY * Def::MAPX };
 
         unsigned const tileNumber = obs[tile];
         return tileNumber == 0;
