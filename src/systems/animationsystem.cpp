@@ -15,7 +15,7 @@ void AnimationSystem::OnUpdate(float elapsed)
     for (auto& e : GetEntities())
     {
         auto& anim = e->GetComponent<AnimationComponent>();
-        auto& moving = e->GetComponent<PositionComponent>().moving;
+        auto  moving = e->GetComponent<PositionComponent>().moving;
         auto& sprite = e->GetComponent<Ndk::GraphicsComponent>();
         auto& dir = e->GetComponent<OrientationComponent>().dir;
 
