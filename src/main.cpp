@@ -11,7 +11,7 @@ int main()
     Ndk::Application app;
 
     Game game { app, { Def::WINXSIZE, Def::WINYSIZE },
-                     { Def::MAPXSIZE, Def::MAPYSIZE }, "TealDemo - Prototype" };
+                     { Def::MAPXVIEWPORT, Def::MAPYVIEWPORT }, "TealDemo - Prototype" };
 
 //     app.EnableFPSCounter(true);
     

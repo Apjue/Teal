@@ -11,7 +11,10 @@ namespace Def
 {
 
 constexpr unsigned MAPXSIZE { 512u };
-constexpr unsigned MAPYSIZE { 256u };
+constexpr unsigned MAPYSIZE { 256u }; // 8 tiles * 32px
+
+constexpr unsigned MAPXVIEWPORT { MAPXSIZE };
+constexpr unsigned MAPYVIEWPORT { MAPYSIZE + 16u };
 
 constexpr unsigned BUTTONSXSIZE { MAPXSIZE };
 constexpr unsigned BUTTONSYSIZE { 90u };
@@ -22,3 +25,4 @@ constexpr unsigned WINYSIZE { MAPYSIZE + BUTTONSYSIZE };
 }
 
 #endif // UIDEF_HPP
+
