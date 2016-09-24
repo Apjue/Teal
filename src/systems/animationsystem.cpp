@@ -47,7 +47,7 @@ void AnimationSystem::UndefinedStateAnimation()
     Nz::StringStream errLog;
     errLog << "UndefinedStateAnimation has been used";
 
-    NazaraWarning(errLog.ToString());
+    NazaraWarning(errLog);
 }
 
 void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
