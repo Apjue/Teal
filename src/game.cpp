@@ -173,7 +173,7 @@ void Game::addEntities()
 void Game::addSystems()
 {
     m_world->AddSystem<MovementSystem>();
-//     m_world->AddSystem<AnimationSystem>();
+    m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<AISystem>(m_pather);
 }
 

@@ -26,11 +26,11 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
     /// \param df Default Frame of the animation
     ///
 
-    AnimationComponent(const Nz::Rectui& s, unsigned mf = 0, AnimationState state = Undefined, unsigned df = 0)
+    AnimationComponent(const Nz::Vector2ui& s, unsigned mf = 0, AnimationState state = Undefined, unsigned df = 0)
         : frame { df }, size { s }, maxframe { mf }, animationState { state } {}
 
     unsigned frame {}; // frame * size of the image = vertical coords of the image
-    Nz::Rectui size {};
+    Nz::Vector2ui size {};
     unsigned maxframe {};
     AnimationState animationState;
 

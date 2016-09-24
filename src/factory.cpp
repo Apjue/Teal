@@ -28,7 +28,7 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos
 
     e->AddComponent<MoveToComponent>();
     e->AddComponent<PathComponent>();
-    //e->addComponent<Components::InventoryComponent>();
+    //e->addComponent<Components::InventoryComponent>(); // later
 
     e->AddComponent<AnimationComponent>(infos.imgsize, infos.maxframe, infos.animState);
 

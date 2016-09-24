@@ -24,10 +24,10 @@
 struct CharacterData
 {
     /// 
-    /// \param size Size of the picture
-    /// \param pic Picture of the character
+    /// \param size Size of the sprite's image
+    /// \param pic Sprite of the character
     /// \param mf Max Frame (used for animation)
-    /// \param dg Default graphics position
+    /// \param dg Default graphics position (e.g. for it to fit in a tile)
     /// \param dl Default logic position
     /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
