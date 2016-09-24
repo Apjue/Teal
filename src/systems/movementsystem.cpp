@@ -22,7 +22,11 @@ void MovementSystem::OnUpdate(float elapsed)
         if (path.empty())
             continue; // No path, no move.
 
-        pos.moving = true;
+        if (!pos.moving)
+        {
+            pos.moving = true;
+            continue; // Continue so the animation system can animate.
+        }
 
         auto& orient = e->GetComponent<OrientationComponent>().dir;
         auto& dir = path.front();
