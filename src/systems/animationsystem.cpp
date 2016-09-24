@@ -19,15 +19,15 @@ void AnimationSystem::OnUpdate(float elapsed)
         auto& sprite = e->GetComponent<Ndk::GraphicsComponent>();
         auto& dir = e->GetComponent<OrientationComponent>().dir;
 
-        int const intDir = static_cast<int>(dir);
-
         Nz::Sprite* gfx = getRenderableFromGraphicsComponent<Nz::Sprite>(sprite);
 
         if (!gfx)
             continue; // No sprite has been found
 
-        int const startX = intDir * anim.size.x; // Get the x and the y
-        int const startY = anim.frame * anim.size.y;
+        int const intDir = static_cast<int>(dir);
+
+        unsigned const startX = intDir * anim.size.x; // Get the x and the y
+        unsigned const startY = anim.frame * anim.size.y;
 
         switch (anim.animationState)
         {
