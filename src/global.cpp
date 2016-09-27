@@ -4,18 +4,6 @@
 
 #include "global.hpp"
 
-namespace Direction
-{
-
-Dir operator~(Dir a)
-{
-    auto const nbFlags = Def::MAXDIR;
-    return static_cast<Dir>( ~static_cast<DirUnderlyingType>(a) & 
-        ( ( (DirUnderlyingType(1u) << nbFlags ) - 1u ) ) );
-}
-
-}
-
 int DirToY(Direction::Dir d)
 {
     NazaraAssert( ( d & Direction::UpDown) != Direction::UpDown, "Up and Down" );

@@ -56,11 +56,10 @@ using DirUnderlyingType = typename std::underlying_type<Dir>::type;
 inline constexpr Dir operator&(Dir a, Dir b);
 inline constexpr Dir operator|(Dir a, Dir b);
 
-
 inline void operator|=(Dir& a, Dir b);
 inline void operator&=(Dir& a, Dir b);
 
-extern Dir operator~(Dir a);
+inline constexpr Dir operator~(Dir a);
 
 }
 

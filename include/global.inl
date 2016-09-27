@@ -27,6 +27,13 @@ void operator&=(Dir& a, Dir b)
     a = a & b;
 }
 
+constexpr Dir operator~(Dir a)
+{
+    // Def::MAXDIR == number of flags
+    return static_cast<Dir>(~static_cast<DirUnderlyingType>(a) &
+        (((DirUnderlyingType(1u) << Def::MAXDIR) - 1u)));
+}
+
 } //namespace Direction
 
 bool isPositionValid(AbsTile pos)
