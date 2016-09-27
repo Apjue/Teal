@@ -12,7 +12,6 @@ constexpr Dir operator&(Dir a, Dir b)
 
 constexpr Dir operator|(Dir a, Dir b)
 {
-    using utype = typename std::underlying_type<Dir>::type;
     return static_cast<Dir>(static_cast<DirUnderlyingType>(a) | static_cast<DirUnderlyingType>(b));
 }
 
