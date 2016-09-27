@@ -84,9 +84,9 @@ void Game::initCustomThings()
     Ndk::InitializeComponent<Items::ResourceComponent>("res");
 
     //Systems
-    Ndk::InitializeSystem<AnimationSystem>();
     Ndk::InitializeSystem<AISystem>();
     Ndk::InitializeSystem<MovementSystem>();
+    Ndk::InitializeSystem<AnimationSystem>();
 }
 
 void Game::initIcon()
