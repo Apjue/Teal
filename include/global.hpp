@@ -35,7 +35,9 @@ enum class Orientation
 namespace Direction
 {
 
-enum Direction
+using DirUnderlyingType = int;
+
+enum Direction : DirUnderlyingType
 {
     Up = 1 << 0,
     Down = 1 << 1,
