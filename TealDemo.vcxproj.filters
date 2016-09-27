@@ -135,6 +135,9 @@
     <ClInclude Include="include\def\layerdef.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\enumutil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
@@ -203,6 +206,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\cache.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\enumutil.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

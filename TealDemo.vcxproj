@@ -148,6 +148,7 @@
     <ClInclude Include="include\components\items\resourcecomponent.hpp" />
     <ClInclude Include="include\data\mapdata.hpp" />
     <ClInclude Include="include\def\uidef.hpp" />
+    <ClInclude Include="include\enumutil.hpp" />
     <ClInclude Include="include\factory.hpp" />
     <ClInclude Include="include\def\gamedef.hpp" />
     <ClInclude Include="include\global.hpp" />
@@ -168,6 +169,7 @@
     <None Include="include\chrono.inl" />
     <None Include="include\components\common\inventorycomponent.inl" />
     <None Include="include\components\common\lifecomponent.inl" />
+    <None Include="include\enumutil.inl" />
     <None Include="include\game.inl" />
     <None Include="include\global.inl" />
     <None Include="include\non_nullptr.inl" />

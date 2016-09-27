@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <stdexcept>
 #include "def/gamedef.hpp"
+#include "enumutil.hpp"
 
 using Button = Nz::Mouse::Button;
 
@@ -36,10 +37,10 @@ namespace Direction
 
 enum Direction
 {
-    Up = 1<<0,
-    Down = 1<<1,
-    Left = 1<<2,
-    Right = 1<<3,
+    Up = 1 << 0,
+    Down = 1 << 1,
+    Left = 1 << 2,
+    Right = 1 << 3,
 
     UpDown = Up | Down,
     LeftRight = Left | Right,
