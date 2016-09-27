@@ -37,7 +37,7 @@ namespace Direction
 
 using DirUnderlyingType = int;
 
-enum Direction : DirUnderlyingType
+enum Direction : DirUnderlyingType // Used to suppress some errors
 {
     Up = 1 << 0,
     Down = 1 << 1,
