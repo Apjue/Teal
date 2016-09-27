@@ -19,7 +19,7 @@ Dir operator~(Dir a)
 int DirToY(Direction::Dir d)
 {
     NazaraAssert( ( d & Direction::UpDown) != Direction::UpDown, "Up and Down" );
-	
+    
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[d & Direction::UpDown];
 }
@@ -27,7 +27,7 @@ int DirToY(Direction::Dir d)
 int DirToX(Direction::Dir d)
 {
     NazaraAssert( ( d & Direction::LeftRight) != Direction::LeftRight, "Left and Right");
-	
+    
     static constexpr std::array<int, 4> moves {0,-1,1,0};
     return moves[(d & Direction::LeftRight) / 4];
 }
