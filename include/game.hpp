@@ -51,9 +51,6 @@ private:
     TextureCore m_textures;
     Nz::Rectui m_mapViewport;
 
-    unsigned m_fpsCounter {};
-    unsigned m_fps {};
-
     std::shared_ptr<micropather::MicroPather> m_pather {}; //Used by the AI System
     Nz::Icon m_winIcon;
 
