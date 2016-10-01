@@ -31,26 +31,20 @@ void AnimationSystem::OnUpdate(float elapsed)
 
         switch (anim.animationState)
         {
-        case AnimationComponent::Undefined:
-            UndefinedStateAnimation();
+        case AnimationComponent::Deactivated:
             break;
 
-        case AnimationComponent::Moving:
-            MovingStateAnimation(startX, startY, gfx, anim, moving);
+        case AnimationComponent::OnMove:
+            OnMoveAnimation(startX, startY, gfx, anim, moving);
+            break;
+
+        case AnimationComponent::OnEmote:
             break;
         }
     }
 }
 
-void AnimationSystem::UndefinedStateAnimation()
-{
-    Nz::StringStream errLog;
-    errLog << "UndefinedStateAnimation has been used";
-
-    NazaraWarning(errLog);
-}
-
-void AnimationSystem::MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
+void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
                                            AnimationComponent& anim, bool moving)
 {
     if (!moving) // Reset animation if not moving

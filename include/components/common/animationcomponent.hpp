@@ -12,10 +12,11 @@
 
 struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {
-    enum AnimationState
+    enum AnimationState // When to animate ?
     {
-        Undefined,
-        Moving
+        Deactivated = 1 << 0,
+        OnMove = 1 << 1,
+        OnEmote = 1 << 2
     };
 
     ///
@@ -26,7 +27,7 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
     /// \param df Default Frame of the animation
     ///
 
-    AnimationComponent(const Nz::Vector2ui& s, unsigned mf = 0, AnimationState state = Undefined, unsigned df = 0)
+    AnimationComponent(const Nz::Vector2ui& s, unsigned mf = 0, AnimationState state = Deactivated, unsigned df = 0)
         : frame { df }, size { s }, maxframe { mf }, animationState { state } {}
 
     unsigned frame {}; // frame * size of the image = vertical coords of the image

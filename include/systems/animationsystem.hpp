@@ -32,9 +32,8 @@ public:
 private:
     void OnUpdate(float elapsed) override;
 
-    void UndefinedStateAnimation(); //used to log errors
-    void MovingStateAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
-                              AnimationComponent& anim, bool moving);
+    void OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
+                         AnimationComponent& anim, bool moving);
 };
 
 #endif // ANIMATIONSYSTEM_HPP
