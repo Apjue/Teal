@@ -7,6 +7,7 @@
 #include <utility>
 #include "producers.hpp"
 #include "util.hpp"
+#include "classhash.hpp"
 
 template<class T>
 using DefaultCacheProducer = SharedPointerProducer<T>;

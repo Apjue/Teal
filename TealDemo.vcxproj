@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="include\cache\cache.hpp" />
     <ClInclude Include="include\cache\mapcore.hpp" />
+    <ClInclude Include="include\classhash.hpp" />
     <ClInclude Include="include\data\characterdata.hpp" />
     <ClInclude Include="include\chrono.hpp" />
     <ClInclude Include="include\components.hpp" />
