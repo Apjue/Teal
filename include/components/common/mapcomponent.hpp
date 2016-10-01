@@ -52,6 +52,7 @@ public:
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
 
     bool update();
+    void setMap(const MapData& data); // You must reset the pather after this
 
     //Utility
     static void  NodeToXY(void* node, unsigned& x, unsigned& y);

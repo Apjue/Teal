@@ -18,9 +18,6 @@
     <ClInclude Include="include\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\cache.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\chrono.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -40,9 +37,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\non_nullptr.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\texturecore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\producers.hpp">
@@ -138,6 +132,15 @@
     <ClInclude Include="include\enumutil.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\cache\cache.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cache\texturecore.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cache\mapcore.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
@@ -153,9 +156,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\texturecore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\components\common\inventorycomponent.cpp">
@@ -179,15 +179,18 @@
     <ClCompile Include="src\systems\movementsystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cache\texturecore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cache\mapcore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\game.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\non_nullptr.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="include\texturecore.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\chrono.inl">
@@ -205,10 +208,13 @@
     <None Include="include\util.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\cache.inl">
+    <None Include="include\enumutil.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\enumutil.inl">
+    <None Include="include\cache\cache.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\cache\texturecore.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

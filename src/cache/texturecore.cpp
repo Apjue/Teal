@@ -2,7 +2,7 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "texturecore.hpp"
+#include "cache/texturecore.hpp"
 
 bool TextureCore::addByLoad(const Nz::String& key, const Nz::String& filepath)
 {

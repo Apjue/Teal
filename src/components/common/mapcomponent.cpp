@@ -26,8 +26,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
 MapInstance::MapInstance(const MapData& data, const Ndk::EntityHandle& e)
     : MapInstance(e)
 {
-    map = data.map;
-    obs = data.obs;
+    setMap(data);
 
     if (!m_mat->SetDiffuseMap(data.tileset))
         NazaraError("Error: Map Material SetDiffuseMap failed !");
@@ -144,6 +143,12 @@ bool MapInstance::update() // Thanks Lynix for this code
     m_model->SetMaterial(0, m_mat);
     
     return true;
+}
+
+void MapInstance::setMap(const MapData& data)
+{
+    map = data.map;
+    obs = data.obs;
 }
 
 void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)

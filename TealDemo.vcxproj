@@ -122,7 +122,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\cache.hpp" />
+    <ClInclude Include="include\cache\cache.hpp" />
+    <ClInclude Include="include\cache\mapcore.hpp" />
     <ClInclude Include="include\data\characterdata.hpp" />
     <ClInclude Include="include\chrono.hpp" />
     <ClInclude Include="include\components.hpp" />
@@ -160,12 +161,12 @@
     <ClInclude Include="include\systems\aisystem.hpp" />
     <ClInclude Include="include\systems\animationsystem.hpp" />
     <ClInclude Include="include\systems\movementsystem.hpp" />
-    <ClInclude Include="include\texturecore.hpp" />
+    <ClInclude Include="include\cache\texturecore.hpp" />
     <ClInclude Include="include\data\tiledata.hpp" />
     <ClInclude Include="include\util.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\cache.inl" />
+    <None Include="include\cache\cache.inl" />
     <None Include="include\chrono.inl" />
     <None Include="include\components\common\inventorycomponent.inl" />
     <None Include="include\components\common\lifecomponent.inl" />
@@ -173,10 +174,11 @@
     <None Include="include\game.inl" />
     <None Include="include\global.inl" />
     <None Include="include\non_nullptr.inl" />
-    <None Include="include\texturecore.inl" />
+    <None Include="include\cache\texturecore.inl" />
     <None Include="include\util.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\cache\mapcore.cpp" />
     <ClCompile Include="src\componentsindex.cpp" />
     <ClCompile Include="src\components\common\inventorycomponent.cpp" />
     <ClCompile Include="src\components\common\mapcomponent.cpp" />
@@ -188,7 +190,7 @@
     <ClCompile Include="src\systems\aisystem.cpp" />
     <ClCompile Include="src\systems\animationsystem.cpp" />
     <ClCompile Include="src\systems\movementsystem.cpp" />
-    <ClCompile Include="src\texturecore.cpp" />
+    <ClCompile Include="src\cache\texturecore.cpp" />
     <ClCompile Include="src\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -57,4 +57,15 @@ struct NzObjectRefCopier
     }
 };
 
+template<class T>
+struct NzObjectHandleProducer
+{
+    template<class... Args>
+    static Nz::ObjectHandle<T> create(Args&&... args)
+    {
+        Nz::ObjectHandle<T> res { std::forward<Args>(args)... };
+        return res;
+    }
+};
+
 #endif // PRODUCERS_HPP

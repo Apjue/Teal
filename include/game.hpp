@@ -31,7 +31,7 @@
 #include "chrono.hpp"
 #include "data/characterdata.hpp"
 #include "micropather.h"
-#include "texturecore.hpp"
+#include "cache/texturecore.hpp"
 
 class Game
 {
