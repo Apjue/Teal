@@ -80,9 +80,14 @@ extern Direction::Dir OrienToDir(Orientation o);
 /// \fn isDiagonal
 ///
 /// \brief Checks if a direction goes in diagonal
-///        (i.e. when two bits are set)
+///        (i.e. when two bits or more are set)
+///
+/// \example Up | Left will return true
+///          Up | Down | Left | Right too
 ///
 /// \param dir Direction to check
+///
+/// \return if the direction is diagonal
 ///
 
 extern bool isDiagonal(Direction::Dir dir);
