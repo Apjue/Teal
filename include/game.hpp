@@ -46,8 +46,10 @@ private:
     Ndk::Application& m_app;
     Ndk::WorldHandle m_world;
     Nz::RenderWindow& m_window;
+
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; //main character
+
     TextureCore m_textures;
     Nz::Rectui m_mapViewport;
 
