@@ -1,0 +1,15 @@
+notifications:
+  email:
+    recipients:
+      - samy6066@yahoo.fr
+    on_success: change
+    on_failure: always
+
+language: cpp
+compiler: clang
+os: linux
+
+branches:
+  only:
+  - master
+
