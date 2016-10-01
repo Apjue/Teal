@@ -96,4 +96,3 @@ inline bool isPositionValid(AbsTile pos);
 #include "global.inl"
 
 #endif // GLOBAL_HPP
-
