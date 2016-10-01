@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <Nazara/Core/ObjectRef.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 
 // These producers are mainly used by the Cache class
 // But they can also be used without it !
@@ -19,7 +20,7 @@ struct SharedPointerProducer
     template<class... Args>
     static std::shared_ptr<T> create(Args&&... args)
     {
-        std::shared_ptr res = std::make_shared<T>(std::forward<Args>(args)...);
+        std::shared_ptr<T> res = std::make_shared<T>(std::forward<Args>(args)...);
         return res;
     }
 };
@@ -30,7 +31,7 @@ struct RawPointerProducer
     template<class... Args>
     static T* create(Args&&... args)
     {
-        std::unique_ptr res = std::make_unique<T>(std::forward<Args>(args)...);
+        std::unique_ptr<T> res = std::make_unique<T>(std::forward<Args>(args)...);
         return res.release();
     }
 };
@@ -63,7 +64,7 @@ struct NzObjectHandleProducer
     template<class... Args>
     static Nz::ObjectHandle<T> create(Args&&... args)
     {
-        Nz::ObjectHandle<T> res { std::forward<Args>(args)... };
+        Nz::ObjectHandle<T> res(std::forward<Args>(args)...);
         return res;
     }
 };
