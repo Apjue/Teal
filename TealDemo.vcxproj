@@ -169,6 +169,7 @@
   <ItemGroup>
     <None Include="include\cache\cache.inl" />
     <None Include="include\chrono.inl" />
+    <None Include="include\classhash.inl" />
     <None Include="include\components\common\inventorycomponent.inl" />
     <None Include="include\components\common\lifecomponent.inl" />
     <None Include="include\enumutil.inl" />

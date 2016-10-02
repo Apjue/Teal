@@ -220,5 +220,8 @@
     <None Include="include\cache\texturecore.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="include\classhash.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -15,22 +15,10 @@ namespace std
 {
 
 template<class T>
-struct hash<Nz::Vector2<T>>
-{
-    using argument_type = Nz::Vector2<T>;
-    using result_type = std::size_t;
-
-    result_type operator()(argument_type const& s) const
-    {
-        // http://www.boost.org/doc/libs/1_37_0/doc/html/hash/reference.html#boost.hash_value_id2443661
-
-        result_type seed = 0;
-        seed ^= std::hash<T> {}(s.x) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        seed ^= std::hash<T> {}(s.y) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        return seed;
-    }
-};
+struct hash<Nz::Vector2<T>>;
 
 }
+
+#include "classhash.inl"
 
 #endif // CLASSHASH_HPP
