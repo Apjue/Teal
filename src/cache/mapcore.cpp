@@ -4,12 +4,19 @@
 
 #include "cache/mapcore.hpp"
 
-std::shared_ptr<MapData> MapCore::add(Nz::Vector2i pos, const MapData& data)
+void MapCore::loadFromJSON(const Nz::String & file)
 {
-    return m_cache.add(pos, data);
+    clear();
+    addFromJSON(file);
 }
 
-std::shared_ptr<MapData> MapCore::get(Nz::Vector2i pos)
+void MapCore::addFromJSON(const Nz::String& file, bool overwrite = true);
 {
-    return m_cache.get(pos);
+    NazaraAssert(false, "Function not made yet");
 }
+
+void MapCore::writeToJSON(const Nz::String& file)
+{
+    NazaraAssert(false, "Function not made yet");
+}
+
