@@ -13,16 +13,16 @@
 namespace std
 {
 
-template<>
-struct hash<Nz::Vector2i>
+template<class T>
+struct hash<Nz::Vector2<T>>
 {
-    using argument_type = Nz::Vector2i;
+    using argument_type = Nz::Vector2<T>;
     using result_type = std::size_t;
 
     result_type operator()(argument_type const& s) const
     {
-        result_type const h1( std::hash<int>{} (s.x) );
-        result_type const h2( std::hash<int>{} (s.y) );
+        result_type const h1 { std::hash<T>{} (s.x) };
+        result_type const h2 { std::hash<T>{} (s.y) };
 
         return h1 ^ (h2 << 1);
     }
