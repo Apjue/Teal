@@ -39,7 +39,7 @@ struct hash<std::pair<A, B>>
     /// \brief Specialisation of std to hash
     /// \return Result of the hash
     ///
-    /// \param v Vector2 to hash
+    /// \param p Pair to hash
     ///
 
     result_type operator()(argument_type const& p) const
