@@ -10,7 +10,7 @@ void MapCore::loadFromJSON(const Nz::String& file)
     addFromJSON(file);
 }
 
-void MapCore::addFromJSON(const Nz::String& file, bool overwrite = true)
+void MapCore::addFromJSON(const Nz::String& file, bool overwrite)
 {
     NazaraAssert(false, "Function not made yet");
 }
