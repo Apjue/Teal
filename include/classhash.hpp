@@ -9,6 +9,7 @@
 
 #include <functional>
 #include <Nazara/Math/Vector2.hpp>
+#include <Nazara/Core/String.hpp>
 
 namespace std
 {
@@ -24,7 +25,19 @@ struct hash<Nz::Vector2<T>>
         result_type const h1 { std::hash<T>{} (s.x) };
         result_type const h2 { std::hash<T>{} (s.y) };
 
-        return h1 ^ (h2 << 1);
+        return h1 ^ h2;
+    }
+};
+
+template<>
+struct hash<Nz::String>
+{
+    using argument_type = Nz::String;
+    using result_type = std::size_t;
+
+    result_type operator()(argument_type const& s) const
+    {
+        return std::hash<std::string>{} (s);
     }
 };
 
