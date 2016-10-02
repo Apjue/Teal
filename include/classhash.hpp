@@ -22,25 +22,19 @@ struct hash<Nz::Vector2<T>>
 
     result_type operator()(argument_type const& s) const
     {
-//         result_type const h1 { std::hash<T>{} (s.x) };
-//         result_type const h2 { std::hash<T>{} (s.y) };
+//         result_type const h1 { std::hash<T> {}(s.x) };
+//         result_type const h2 { std::hash<T> {}(s.y) };
 // 
 //         return h1 ^ h2;
 
-        result_type seed = std::hash(s.x) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        return seed ^ (std::hash(s.y) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
-    }
-};
+//         result_type seed = 0;
+//         seed = std::hash<T> {}(s.x) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+//         return seed ^ (std::hash<T> {}(s.y) + 0x9e3779b9 + (seed << 6) + (seed >> 2));
 
-template<>
-struct hash<Nz::String>
-{
-    using argument_type = Nz::String;
-    using result_type = std::size_t;
-
-    result_type operator()(argument_type const& s) const
-    {
-        return std::hash<std::string>{} (s);
+        result_type seed = 0;
+        seed ^= std::hash<T> {}(s.x) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        seed ^= std::hash<T> {}(s.y) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        return seed;
     }
 };
 
