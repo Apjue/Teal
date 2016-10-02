@@ -16,7 +16,7 @@
 ///
 /// \brief Stores and create MapData
 ///
-/// \todo Load from JSON, add from JSON, write to JSON
+/// \todo add from JSON, write to JSON
 ///
 
 class MapCore

@@ -4,13 +4,13 @@
 
 #include "cache/mapcore.hpp"
 
-void MapCore::loadFromJSON(const Nz::String & file)
+void MapCore::loadFromJSON(const Nz::String& file)
 {
     clear();
     addFromJSON(file);
 }
 
-void MapCore::addFromJSON(const Nz::String& file, bool overwrite = true);
+void MapCore::addFromJSON(const Nz::String& file, bool overwrite = true)
 {
     NazaraAssert(false, "Function not made yet");
 }

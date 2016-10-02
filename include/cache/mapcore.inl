@@ -13,7 +13,7 @@ std::shared_ptr<MapData> MapCore::get(Nz::Vector2i pos)
     return m_cache.get(pos);
 }
 
-inline void MapCore::clear()
+void MapCore::clear()
 {
     m_cache.clear();
 }
