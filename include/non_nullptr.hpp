@@ -42,6 +42,6 @@ private:
     T* m_ptr;
 };
 
-#include "non_nullptr.hpp"
+#include "non_nullptr.inl"
 
 #endif // NON_NULLPTR_HPP
