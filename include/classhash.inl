@@ -22,12 +22,31 @@ struct hash<Nz::Vector2<T>>
 
     result_type operator()(argument_type const& v) const
     {
-        // Boost algorithm
-        // http://www.boost.org/doc/libs/1_37_0/doc/html/hash/reference.html#boost.hash_value_id2443661
+        result_type seed {};
+        Nz::HashCombine(seed, v.x);
+        Nz::HashCombine(seed, v.y);
+        return seed;
+    }
+};
 
-        result_type seed = std::hash<T> {}(v.x);
-        seed ^= std::hash<T> {}(v.y) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+template<class A, class B>
+struct hash<std::pair<A, B>>
+{
+    using argument_type = std::pair<A, B>;
+    using result_type = std::size_t;
 
+    ///
+    /// \brief Specialisation of std to hash
+    /// \return Result of the hash
+    ///
+    /// \param v Vector2 to hash
+    ///
+
+    result_type operator()(argument_type const& p) const
+    {
+        result_type seed {};
+        Nz::HashCombine(seed, p.first);
+        Nz::HashCombine(seed, p.second);
         return seed;
     }
 };
