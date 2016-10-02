@@ -35,6 +35,8 @@ public:
     template<class... Args>
     ManagerType add(const Key& k, Args&&... args);
 
+    inline void clear();
+
 protected:
     InternalCache m_objects;
 
@@ -60,6 +62,7 @@ public:
     ManagerType get(const Key& k, Args&&... args);
 
     using Cache::add;
+    using Cache::clear;
 
 private:
     using Cache::add_;

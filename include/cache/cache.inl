@@ -1,3 +1,4 @@
+#include "cache.hpp"
 // Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
@@ -11,6 +12,12 @@ typename Cache<Key, T, Producer>::ManagerType Cache<Key, T, Producer>::get(const
         return ManagerType {};
     else
         return it->second;
+}
+
+template<class Key, class T, class Producer>
+void Cache<Key, T, Producer>::clear()
+{
+    m_objects.clear();
 }
 
 template<class Key, class T, class Producer>
