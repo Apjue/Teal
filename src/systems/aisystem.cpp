@@ -91,7 +91,7 @@ void AISystem::OnUpdate(float elapsed)
             int diffX { startX - static_cast<int>(absX) },
                 diffY { startY - static_cast<int>(absY) }; // Difference now, but reversed
 
-            diffX = -diffX; //Ok
+            diffX = -diffX; // Ok
             diffY = -diffY;
 
             auto dir = XYToDir({ diffX, diffY });

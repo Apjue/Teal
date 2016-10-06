@@ -32,6 +32,7 @@
 #include "data/characterdata.hpp"
 #include "micropather.h"
 #include "cache/texturecore.hpp"
+#include "cache/mapcore.hpp"
 
 class Game
 {
@@ -51,6 +52,7 @@ private:
     Ndk::EntityHandle m_charac; //main character
 
     TextureCore m_textures;
+    MapCore m_maps;
     Nz::Rectui m_mapViewport;
 
     std::shared_ptr<micropather::MicroPather> m_pather {}; //Used by the AI System
@@ -61,9 +63,11 @@ private:
 
     //Init Functions
     void initCustomThings();
-    void textureLoadFailed(const Nz::String& file); // Panic !
 
     void addTextures();
+    void addMaps();
+    void textureLoadFailed(const Nz::String& file); // Panic !
+
     void initIcon();
     void initCam();
 

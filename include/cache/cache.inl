@@ -34,6 +34,7 @@ typename Cache<Key, T, Producer>::InternalCache::iterator Cache<Key, T, Producer
     return m_objects.emplace(k, Producer::create<Args...>(std::forward<Args>(args)...)).first;
 }
 
+
 template<class Key, class T, class Producer>
 template<class... Args>
 typename CreateCache<Key, T, Producer>::ManagerType CreateCache<Key, T, Producer>::get(const Key& k, Args&&... args)
