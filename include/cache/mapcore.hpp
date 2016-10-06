@@ -47,7 +47,7 @@ public:
     ///        but does not clear the cache
     ///
     /// \param file JSON file to load
-    /// \param overwrite Overwrite current maps if they're in the JSON file
+    /// \param overwrite Overwrite current maps if they're defined in the JSON file
     ///
 
     void addFromJSON(const Nz::String& file, bool overwrite = true);
