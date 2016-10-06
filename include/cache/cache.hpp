@@ -30,6 +30,13 @@ public:
     Cache() = default;
     ~Cache() = default;
 
+    ///
+    /// \fn get
+    ///
+    /// \brief Returns the item with Key k, or
+    ///        returns empty ManagerType if not found
+    ///
+
     ManagerType get(const Key& k) const;
 
     template<class... Args>
@@ -64,7 +71,7 @@ public:
     using Cache::add;
     using Cache::clear;
 
-private:
+protected:
     using Cache::add_;
 };
 
