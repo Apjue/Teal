@@ -8,12 +8,11 @@
 #define GAMEDEF_HPP
 
 #include <array>
-#include "data/tiledata.hpp"
 
 namespace Def
 {
 
-constexpr unsigned MAPX           { 15u }; // For arrays.
+constexpr unsigned MAPX           { 15u }; // For arrays
 constexpr unsigned MAPY           { 8u };
 
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
@@ -38,6 +37,8 @@ constexpr  float   MAXFPS         { 10 }; // Updates per second
 constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
 
 }
+
+class TileData;
 
 using OLDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
 using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;

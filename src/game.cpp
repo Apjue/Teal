@@ -35,7 +35,7 @@ void Game::textureLoadFailed(const Nz::String& file)
 {
     Nz::StringStream errLog;
     errLog << __FILE__ << ' ' << __FUNCTION__ << " l" << __LINE__ << ": \n";
-    errLog << "Abort. Reason: Texture loading failed - File: " << file;
+    errLog << "PANIC ! Reason: Texture loading failed - File: " << file;
 
     NazaraError(errLog);
 }
