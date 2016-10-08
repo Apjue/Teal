@@ -13,7 +13,7 @@
 #include <assert.h>
 #include <stdexcept>
 #include "def/gamedef.hpp"
-#include "enumutil.hpp"
+#include "util/enumutil.hpp"
 
 using Button = Nz::Mouse::Button;
 

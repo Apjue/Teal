@@ -10,7 +10,7 @@
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Graphics/InstancedRenderable.hpp>
 
-#include "util.hpp"
+#include "util/util.hpp"
 #include "global.hpp"
 #include "components/common/animationcomponent.hpp"
 

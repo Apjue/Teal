@@ -124,9 +124,9 @@
   <ItemGroup>
     <ClInclude Include="include\cache\cache.hpp" />
     <ClInclude Include="include\cache\mapcore.hpp" />
-    <ClInclude Include="include\classhash.hpp" />
+    <ClInclude Include="include\util\classhash.hpp" />
     <ClInclude Include="include\data\characterdata.hpp" />
-    <ClInclude Include="include\chrono.hpp" />
+    <ClInclude Include="include\util\chrono.hpp" />
     <ClInclude Include="include\components.hpp" />
     <ClInclude Include="include\components\common\animationcomponent.hpp" />
     <ClInclude Include="include\components\common\orientationcomponent.hpp" />
@@ -150,13 +150,13 @@
     <ClInclude Include="include\components\items\resourcecomponent.hpp" />
     <ClInclude Include="include\data\mapdata.hpp" />
     <ClInclude Include="include\def\uidef.hpp" />
-    <ClInclude Include="include\enumutil.hpp" />
+    <ClInclude Include="include\util\enumutil.hpp" />
     <ClInclude Include="include\factory.hpp" />
     <ClInclude Include="include\def\gamedef.hpp" />
     <ClInclude Include="include\global.hpp" />
     <ClInclude Include="include\game.hpp" />
     <ClInclude Include="include\def\layerdef.hpp" />
-    <ClInclude Include="include\non_nullptr.hpp" />
+    <ClInclude Include="include\util\non_nullptr.hpp" />
     <ClInclude Include="include\producers.hpp" />
     <ClInclude Include="include\systems.hpp" />
     <ClInclude Include="include\systems\aisystem.hpp" />
@@ -164,21 +164,21 @@
     <ClInclude Include="include\systems\movementsystem.hpp" />
     <ClInclude Include="include\cache\texturecore.hpp" />
     <ClInclude Include="include\data\tiledata.hpp" />
-    <ClInclude Include="include\util.hpp" />
+    <ClInclude Include="include\util\util.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\cache\cache.inl" />
     <None Include="include\cache\mapcore.inl" />
-    <None Include="include\chrono.inl" />
-    <None Include="include\classhash.inl" />
+    <None Include="include\util\chrono.inl" />
+    <None Include="include\util\classhash.inl" />
     <None Include="include\components\common\inventorycomponent.inl" />
     <None Include="include\components\common\lifecomponent.inl" />
-    <None Include="include\enumutil.inl" />
+    <None Include="include\util\enumutil.inl" />
     <None Include="include\game.inl" />
     <None Include="include\global.inl" />
-    <None Include="include\non_nullptr.inl" />
+    <None Include="include\util\non_nullptr.inl" />
     <None Include="include\cache\texturecore.inl" />
-    <None Include="include\util.inl" />
+    <None Include="include\util\util.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cache\mapcore.cpp" />
@@ -194,7 +194,7 @@
     <ClCompile Include="src\systems\animationsystem.cpp" />
     <ClCompile Include="src\systems\movementsystem.cpp" />
     <ClCompile Include="src\cache\texturecore.cpp" />
-    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\util\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

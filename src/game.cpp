@@ -62,6 +62,8 @@ void Game::addTextures()
 
 void Game::addMaps() /// TODO: Load from JSON
 {
+    Nz::String tilesTexture = m_textures.get(":/game/tileset")->GetFilePath();
+
     MapData map0_0
     {
         {
@@ -86,10 +88,30 @@ void Game::addMaps() /// TODO: Load from JSON
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         },
 
-        m_textures.get(":/game/tileset")->GetFilePath()
+        tilesTexture
     };
 
     m_maps.add({ 0, 0 }, map0_0);
+
+    MapData map0_1
+    {
+        {
+            0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
+        },
+
+        {},
+
+        tilesTexture
+    };
+
+    m_maps.add({ 0, 1 }, map0_1);
 }
 
 void Game::initCustomThings()

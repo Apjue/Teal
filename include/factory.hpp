@@ -11,7 +11,7 @@
 #include <NDK/Entity.hpp>
 #include <NDK/Components.hpp>
 #include "components.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 #include "def/layerdef.hpp"
 #include "data/characterdata.hpp"
 

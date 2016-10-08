@@ -2,7 +2,7 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "util.hpp"
+#include "util/util.hpp"
 
 namespace
 {

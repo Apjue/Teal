@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\util.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\chrono.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\components.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -34,9 +28,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\non_nullptr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\producers.hpp">
@@ -129,9 +120,6 @@
     <ClInclude Include="include\def\layerdef.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\enumutil.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\cache\cache.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -141,7 +129,19 @@
     <ClInclude Include="include\cache\mapcore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\classhash.hpp">
+    <ClInclude Include="include\util\chrono.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\classhash.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\enumutil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\non_nullptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -153,9 +153,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game.cpp">
@@ -188,15 +185,12 @@
     <ClCompile Include="src\cache\mapcore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\game.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="include\non_nullptr.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="include\chrono.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\global.inl">
@@ -208,22 +202,28 @@
     <None Include="include\components\common\lifecomponent.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\util.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="include\enumutil.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="include\cache\cache.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\cache\texturecore.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\classhash.inl">
+    <None Include="include\cache\mapcore.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\cache\mapcore.inl">
+    <None Include="include\util\chrono.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\classhash.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\enumutil.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\non_nullptr.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\util.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

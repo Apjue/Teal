@@ -21,7 +21,7 @@
 #include "micropather.h"
 #include "data/mapdata.hpp"
 #include "def/layerdef.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 
 ///
 /// \class MapInstance

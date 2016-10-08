@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <utility>
 #include "producers.hpp"
-#include "util.hpp"
-#include "classhash.hpp"
+#include "util/util.hpp"
+#include "util/classhash.hpp"
 
 template<class T>
 using DefaultCacheProducer = SharedPointerProducer<T>;
