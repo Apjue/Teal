@@ -58,7 +58,7 @@ extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 ///
 /// \brief Sets the scheme the getTileFromGlobalCoords function will use
 ///
-/// \todo Delete this function and find a better way
+/// \todo Delete this function and find a better way or give it a better name
 ///
 
 extern void setScheme(Nz::ImageRef newScheme);
