@@ -197,6 +197,7 @@
     <ClCompile Include="src\systems\animationsystem.cpp" />
     <ClCompile Include="src\systems\movementsystem.cpp" />
     <ClCompile Include="src\cache\texturecore.cpp" />
+    <ClCompile Include="src\util\maputil.cpp" />
     <ClCompile Include="src\util\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

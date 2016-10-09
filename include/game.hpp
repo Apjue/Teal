@@ -32,6 +32,7 @@
 #include "micropather.h"
 #include "cache/texturecore.hpp"
 #include "cache/mapcore.hpp"
+#include "util/maputil.hpp"
 
 class Game
 {
