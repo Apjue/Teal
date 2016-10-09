@@ -47,10 +47,10 @@ extern std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p);
 ///
 /// \fn changeMap
 ///
-/// \brief Read the name dude.
+/// \return If the entity changed map correctly
 ///
 
-extern void changeMap(const Ndk::EntityHandle& p);
+extern bool changeMap(const Ndk::EntityHandle& p);
 
 ///
 /// \fn initMapUtility

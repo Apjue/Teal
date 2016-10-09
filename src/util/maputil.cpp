@@ -15,6 +15,7 @@ std::shared_ptr<MapInstance> m_map;
 std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 {
     NazaraAssert(isMapUtilityInited(), "Map Utility hasn't been inited !");
+    NazaraAssert(hasComponentsToChangeMap(p), "Entity hasn't right components to change map !");
 
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
@@ -116,6 +117,63 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         return std::make_pair(false, entExt); // It's an obstacle.
     
     return std::make_pair(true, entExt);
+}
+
+bool changeMap(const Ndk::EntityHandle& p)
+{
+    auto canChange = canChangeMap(p);
+
+    if (!canChange.first)
+        return false;
+
+    auto& mapPos = p->GetComponent<MapPositionComponent>();
+    auto& pos = p->GetComponent<PositionComponent>();
+
+    MapData map; // Map the entity will move to
+    unsigned x {}, y {}; // New position of the entity after changing map
+
+    switch (canChange.second)
+    {
+    case Direction::Left:
+        map = *m_maps->get({ mapPos.x - 1, mapPos.y });
+
+        x = Def::MAPX;
+        y = pos.y;
+
+        break;
+
+    case Direction::Right:
+        map = *m_maps->get({ mapPos.x + 1, mapPos.y });
+
+        x = 0u;
+        y = pos.y;
+
+        break;
+
+    case Direction::Up:
+        map = *m_maps->get({ mapPos.x, mapPos.y - 1 });
+
+        x = pos.x;
+        y = Def::MAPY;
+
+        break;
+
+    case Direction::Down:
+        map = *m_maps->get({ mapPos.x, mapPos.y + 1 });
+
+        x = pos.x;
+        y = 0u;
+
+        break;
+    }
+
+    m_map->map = map.map;
+    m_map->map = map.obs;
+
+    pos.x = x;
+    pos.y = y;
+
+    return true;
 }
 
 void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap)
