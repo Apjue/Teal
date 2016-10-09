@@ -7,14 +7,14 @@
 namespace
 {
 
-Nz::ImageRef scheme {};
+Nz::ImageRef m_scheme {};
 
 }
 
 AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
-    NazaraAssert(scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
-    NazaraAssert(scheme->IsValid(), "Scheme Image isn't valid !");
+    NazaraAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
+    NazaraAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
 
@@ -27,7 +27,7 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     unsigned const rectClickX { x % Def::TILEXSIZE }; //We need the click to see
     unsigned const rectClickY { y % Def::TILEYSIZE }; //where in the rectangle we clicked
 
-    Nz::Color color = scheme->GetPixelColor(rectClickX, rectClickY);
+    Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
     int losangeX {};
     int losangeY {};
@@ -83,7 +83,7 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 
 void initSchemeUtility(Nz::ImageRef newScheme)
 {
-    scheme = newScheme;
+    m_scheme = newScheme;
 }
 
 void refreshGraphicsPos(const Ndk::EntityHandle& charac)
