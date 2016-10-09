@@ -30,3 +30,4 @@ Ndk::ComponentIndex PathComponent::componentIndex;
 Ndk::ComponentIndex FightComponent::componentIndex;
 Ndk::ComponentIndex LifeComponent::componentIndex;
 Ndk::ComponentIndex MapComponent::componentIndex;
+Ndk::ComponentIndex MapPositionComponent::componentIndex;

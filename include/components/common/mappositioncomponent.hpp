@@ -13,6 +13,8 @@ struct MapPositionComponent : public Ndk::Component<MapPositionComponent>
 {
     int x {};
     int y {};
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
 #endif // MAPPOSITIONCOMPONENT_HPP

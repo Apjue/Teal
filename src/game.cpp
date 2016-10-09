@@ -132,6 +132,7 @@ void Game::initCustomThings()
     Ndk::InitializeComponent<FightComponent>("fight");
     Ndk::InitializeComponent<LifeComponent>("life");
     Ndk::InitializeComponent<MapComponent>("map");
+    Ndk::InitializeComponent<MapPositionComponent>("mappos");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::AttackBonusComponent>("atkbonus");
