@@ -15,6 +15,7 @@
 #include "components/common/levelcomponent.hpp"
 #include "components/common/lifecomponent.hpp"
 #include "components/common/mapcomponent.hpp"
+#include "components/common/mappositioncomponent.hpp"
 #include "components/common/movetocomponent.hpp"
 #include "components/common/namecomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
