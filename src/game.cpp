@@ -14,7 +14,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     Nz::ImageRef scheme = Nz::Image::New();
     scheme->LoadFromFile(m_textures.get(":/game/scheme")->GetFilePath());
 
-    setScheme(scheme);
+    initSchemeUtility(scheme);
 
     m_window.Create(Nz::VideoMode(winSize.x, winSize.y, 32), fenName);
     m_world = app.AddWorld().CreateHandle();

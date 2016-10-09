@@ -54,14 +54,14 @@ inline T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx);
 extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 
 ///
-/// \fn setScheme
+/// \fn initSchemeUtility
 ///
 /// \brief Sets the scheme the getTileFromGlobalCoords function will use
 ///
-/// \todo Delete this function and find a better way or give it a better name
+/// \todo Delete this function and find a better way
 ///
 
-extern void setScheme(Nz::ImageRef newScheme);
+extern void initSchemeUtility(Nz::ImageRef newScheme);
 
 ///
 /// \fn refreshGraphicsPos
