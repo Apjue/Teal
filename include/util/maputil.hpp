@@ -61,7 +61,7 @@ extern bool changeMap(const Ndk::EntityHandle& p);
 ///
 
 extern void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap,
-                           micropather::MicroPather* pather);
+                           const std::shared_ptr<micropather::MicroPather>& pather);
 
 ///
 /// \fn isMapUtilityInited

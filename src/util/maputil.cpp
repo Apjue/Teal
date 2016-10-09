@@ -9,7 +9,7 @@ namespace
 
 MapCore* m_maps {};
 std::shared_ptr<MapInstance> m_map {};
-micropather::MicroPather* m_pather {};
+std::shared_ptr<micropather::MicroPather> m_pather {};
 
 }
 
@@ -180,7 +180,7 @@ bool changeMap(const Ndk::EntityHandle& p)
 }
 
 void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap,
-                    micropather::MicroPather* pather)
+                    const std::shared_ptr<micropather::MicroPather>& pather)
 {
     m_maps = maps;
     m_map = currentMap;
