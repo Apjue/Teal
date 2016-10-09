@@ -77,7 +77,14 @@ void MovementSystem::OnUpdate(float elapsed)
         }
 
         if (path.empty())
+        {
             pos.moving = false; // Not moving anymore
+
+            if (hasComponentsToChangeMap(e))
+            {
+                // changeMap(e);
+            }
+        }
 
         if (e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>()
          && e->HasComponent<DefaultGraphicsPosComponent>())

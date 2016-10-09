@@ -7,8 +7,9 @@
 namespace
 {
 
-MapCore* m_maps;
-std::shared_ptr<MapInstance> m_map;
+MapCore* m_maps {};
+std::shared_ptr<MapInstance> m_map {};
+micropather::MicroPather* m_pather {};
 
 }
 
@@ -170,19 +171,23 @@ bool changeMap(const Ndk::EntityHandle& p)
     m_map->map = map.map;
     m_map->map = map.obs;
 
+    m_pather->Reset(); // Map changed, need to reset pather's cache
+
     pos.x = x;
     pos.y = y;
 
     return true;
 }
 
-void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap)
+void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap,
+                    micropather::MicroPather* pather)
 {
     m_maps = maps;
     m_map = currentMap;
+    m_pather = pather;
 }
 
 bool isMapUtilityInited()
 {
-    return m_maps && m_map;
+    return m_maps && m_map && m_pather;
 }

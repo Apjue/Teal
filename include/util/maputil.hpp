@@ -16,6 +16,7 @@
 #include "components/common/mappositioncomponent.hpp"
 #include "def/gamedef.hpp"
 #include "global.hpp"
+#include "micropather.h"
 
 ///
 /// \fn hasComponentsToChangeMap
@@ -59,7 +60,8 @@ extern bool changeMap(const Ndk::EntityHandle& p);
 ///        in this file to work
 ///
 
-extern void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap);
+extern void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap,
+                           micropather::MicroPather* pather);
 
 ///
 /// \fn isMapUtilityInited

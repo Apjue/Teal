@@ -30,7 +30,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initEventHandler();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(&m_maps, mapComp.map);
+    initMapUtility(&m_maps, mapComp.map, m_pather);
 }
 
 

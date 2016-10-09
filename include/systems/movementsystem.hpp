@@ -13,6 +13,7 @@
 #include "components/common/orientationcomponent.hpp"
 #include "util/util.hpp"
 #include "def/gamedef.hpp"
+#include "util/maputil.hpp"
 
 ///
 /// \class MovementSystem
