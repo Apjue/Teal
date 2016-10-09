@@ -144,6 +144,12 @@
     <ClInclude Include="include\util\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\maputil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\common\mappositioncomponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
@@ -224,6 +230,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\util\util.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\maputil.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

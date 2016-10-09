@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="include\cache\cache.hpp" />
     <ClInclude Include="include\cache\mapcore.hpp" />
+    <ClInclude Include="include\components\common\mappositioncomponent.hpp" />
     <ClInclude Include="include\util\classhash.hpp" />
     <ClInclude Include="include\data\characterdata.hpp" />
     <ClInclude Include="include\util\chrono.hpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="include\global.hpp" />
     <ClInclude Include="include\game.hpp" />
     <ClInclude Include="include\def\layerdef.hpp" />
+    <ClInclude Include="include\util\maputil.hpp" />
     <ClInclude Include="include\util\non_nullptr.hpp" />
     <ClInclude Include="include\producers.hpp" />
     <ClInclude Include="include\systems.hpp" />
@@ -176,6 +178,7 @@
     <None Include="include\util\enumutil.inl" />
     <None Include="include\game.inl" />
     <None Include="include\global.inl" />
+    <None Include="include\util\maputil.inl" />
     <None Include="include\util\non_nullptr.inl" />
     <None Include="include\cache\texturecore.inl" />
     <None Include="include\util\util.inl" />
