@@ -15,11 +15,9 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
     for (auto&& renderable : attached)
     {
         T* casted = dynamic_cast<T*>(renderable.Get());
+
         if (casted)
-        {
-            rdable = casted;
-            break;
-        }
+            return casted;
     }
 
     return rdable;
