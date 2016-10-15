@@ -46,7 +46,7 @@ inline T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx);
 ///
 /// \returns The logic position of the tile
 ///
-/// \note Needs a scheme set with the setScheme function
+/// \note Needs a scheme set with the initSchemeUtility function
 ///
 /// \todo Add the z axis ?
 ///
