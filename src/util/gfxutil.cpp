@@ -107,7 +107,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& charac)
     finalY += defPos.y;
 
     if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
-        || finalY != gfxpos.GetPosition().y) // no need to move it
+     || finalY != gfxpos.GetPosition().y) // no need to move it
     {
         float const moveX = finalX - gfxpos.GetPosition().x;
         float const moveY = finalY - gfxpos.GetPosition().y;
