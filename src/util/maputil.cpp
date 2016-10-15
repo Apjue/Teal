@@ -105,7 +105,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
         break;
 
-    default: // Todo: Make a fake BSoD to scare that kind of bugs
+    default:
         NazaraAssert(false, "I am an error message. Just look the code to see the reason of me.");
 
         return std::make_pair(false, entExt);
