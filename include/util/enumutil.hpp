@@ -14,10 +14,10 @@ template<class T>
 using EnumUnderlyingType = typename std::underlying_type<T>::type;
 
 template<class T>
-inline T operator&(T a, T b);
+inline constexpr T operator&(T a, T b);
 
 template<class T>
-inline T operator|(T a, T b);
+inline constexpr T operator|(T a, T b);
 
 template<class T>
 inline void operator|=(T& a, T b);

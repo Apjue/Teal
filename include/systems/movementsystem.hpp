@@ -11,7 +11,7 @@
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
-#include "util/util.hpp"
+#include "util/gfxutil.hpp"
 #include "def/gamedef.hpp"
 #include "util/maputil.hpp"
 

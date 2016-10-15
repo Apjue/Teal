@@ -33,6 +33,7 @@
 #include "cache/texturecore.hpp"
 #include "cache/mapcore.hpp"
 #include "util/maputil.hpp"
+#include "util/gfxutil.hpp"
 
 class Game
 {

@@ -9,6 +9,7 @@
 
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Graphics/InstancedRenderable.hpp>
+#include <Nazara/Graphics/Sprite.hpp>
 
 #include "util/util.hpp"
 #include "global.hpp"

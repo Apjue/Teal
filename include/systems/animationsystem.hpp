@@ -12,7 +12,7 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include "components.hpp"
 #include "def/gamedef.hpp"
-#include "util/util.hpp"
+#include "util/gfxutil.hpp"
 
 ///
 /// \class AnimationSystem

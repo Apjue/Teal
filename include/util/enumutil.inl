@@ -5,13 +5,13 @@
 #pragma once
 
 template<class T>
-T operator&(T a, T b)
+constexpr T operator&(T a, T b)
 {
     return static_cast<T>(static_cast<EnumUnderlyingType<T>>(a) & static_cast<EnumUnderlyingType<T>>(b));
 }
 
 template<class T>
-T operator|(T a, T b)
+constexpr T operator|(T a, T b)
 {
     return static_cast<T>(static_cast<EnumUnderlyingType<T>>(a) | static_cast<EnumUnderlyingType<T>>(b));
 }
