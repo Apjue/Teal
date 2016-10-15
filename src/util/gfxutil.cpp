@@ -100,11 +100,8 @@ void refreshGraphicsPos(const Ndk::EntityHandle& charac)
     int const gInX = pos.inX * Def::MAXGXPOSINTILE;
     int const gInY = pos.inY * Def::MAXGYPOSINTILE;
 
-    float finalX = static_cast<float>(gX) + static_cast<float>(gInX); // We will move using this
-    float finalY = static_cast<float>(gY) + static_cast<float>(gInY); // (so it's graphics pos)
-
-    finalX += defPos.x;
-    finalY += defPos.y;
+    float const finalX = static_cast<float>(gX) + static_cast<float>(gInX) + defPos.x; // We will move using this
+    float const finalY = static_cast<float>(gY) + static_cast<float>(gInY) + defPos.y; // (so it's graphics pos)
 
     if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
      || finalY != gfxpos.GetPosition().y) // no need to move it
