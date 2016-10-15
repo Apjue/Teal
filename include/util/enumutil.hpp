@@ -26,7 +26,7 @@ template<class T>
 inline void operator&=(T& a, T b);
 
 template<class T>
-inline T operator~(T a);
+inline constexpr T EnumReverse(T a, unsigned flags);
 
 #include "enumutil.inl"
 
