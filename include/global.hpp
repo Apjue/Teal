@@ -15,8 +15,6 @@
 #include "def/gamedef.hpp"
 #include "util/enumutil.hpp"
 
-using Button = Nz::Mouse::Button;
-
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
 using DiffTile = Nz::Vector2i; // Difference Tile (can be negative or positive)
 
