@@ -150,6 +150,9 @@
     <ClInclude Include="include\components\common\mappositioncomponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\gfxutil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
@@ -197,6 +200,9 @@
     <ClCompile Include="src\util\maputil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\gfxutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\game.inl">
@@ -236,6 +242,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\util\maputil.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\gfxutil.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
