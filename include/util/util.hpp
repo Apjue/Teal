@@ -7,18 +7,7 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-#include <Nazara/Graphics/Sprite.hpp>
-#include <NDK/Components/GraphicsComponent.hpp>
-#include <NDK/Components/NodeComponent.hpp>
-#include <Nazara/Core/Color.hpp>
-#include <Nazara/Utility/Image.hpp>
-
-#include <cassert>
-#include <array>
-#include "def/gamedef.hpp"
 #include "global.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/defaultgraphicsposcomponent.hpp"
 
 inline unsigned dToU(double d);
 
