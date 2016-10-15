@@ -13,8 +13,7 @@
 #include <Nazara/Core/Color.hpp>
 #include <Nazara/Utility/Image.hpp>
 
-#include <cassert>
-#include <array>
+#include <vector>
 #include "def/gamedef.hpp"
 #include "global.hpp"
 #include "components/common/positioncomponent.hpp"
