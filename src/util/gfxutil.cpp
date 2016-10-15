@@ -95,7 +95,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& charac)
 
     Nz::Vector2f defPos { dpos.x, dpos.y };
 
-    unsigned const gX = pos.x * Def::TILEGXSIZE; // logic pos -> graphics pos
+    unsigned const gX = pos.x * Def::TILEGXSIZE; // convert logic pos to graphics pos
     unsigned const gY = pos.y * Def::TILEGYSIZE;
     int const gInX = pos.inX * Def::MAXGXPOSINTILE;
     int const gInY = pos.inY * Def::MAXGYPOSINTILE;
