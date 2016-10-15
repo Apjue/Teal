@@ -12,7 +12,6 @@
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Math/Vector3.hpp>
 #include <Nazara/Math/Vector4.hpp>
-#include <Nazara/Core/String.hpp>
 #include <Nazara/Core/Algorithm.hpp>
 
 namespace std
