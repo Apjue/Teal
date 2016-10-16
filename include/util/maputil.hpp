@@ -15,6 +15,7 @@
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/mappositioncomponent.hpp"
+#include "components/common/orientationcomponent.hpp"
 #include "def/gamedef.hpp"
 #include "global.hpp"
 #include "micropather.h"

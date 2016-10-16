@@ -133,6 +133,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     MapData newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
     unsigned mapX {}, mapY {}; // Position of the new map
+    Orientation newOrient { Orientation::Down };
 
     switch (canChange.second)
     {
@@ -145,6 +146,8 @@ bool changeMap(const Ndk::EntityHandle& p)
         mapX = mapPos.x - 1;
         mapY = mapPos.y;
 
+        newOrient = Orientation::Left;
+
         break;
 
     case Direction::Right:
@@ -155,6 +158,8 @@ bool changeMap(const Ndk::EntityHandle& p)
 
         mapX = mapPos.x + 1;
         mapY = mapPos.y;
+
+        newOrient = Orientation::Right;
 
         break;
 
@@ -167,6 +172,8 @@ bool changeMap(const Ndk::EntityHandle& p)
         mapX = mapPos.x;
         mapY = mapPos.y - 1;
 
+        newOrient = Orientation::Up;
+
         break;
 
     case Direction::Down:
@@ -177,6 +184,8 @@ bool changeMap(const Ndk::EntityHandle& p)
 
         mapX = mapPos.x;
         mapY = mapPos.y + 1;
+
+        newOrient = Orientation::Down;
 
         break;
     }
@@ -197,6 +206,9 @@ bool changeMap(const Ndk::EntityHandle& p)
 
     mapPos.x = mapX;
     mapPos.y = mapY;
+
+    if (p->HasComponent<OrientationComponent>())
+        p->GetComponent<OrientationComponent>().dir = newOrient;
 
     return true;
 }
