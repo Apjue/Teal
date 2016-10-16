@@ -192,5 +192,5 @@ void initMapUtility(MapCore* maps, const std::weak_ptr<MapInstance>& currentMap,
 
 bool isMapUtilityInited()
 {
-    return m_maps && m_currentMap.lock() && m_pather.lock();
+    return m_maps && !m_currentMap.expired() && !m_pather.expired();
 }
