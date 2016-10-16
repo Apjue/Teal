@@ -76,7 +76,7 @@ void MovementSystem::OnUpdate(float elapsed)
                 dir.second = false; // [WORKAROUND 1]
         }
 
-        if (path.empty())
+        if (path.empty()) // Finished path
         {
             pos.moving = false; // Not moving anymore
 
