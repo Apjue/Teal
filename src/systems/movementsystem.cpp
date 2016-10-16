@@ -82,7 +82,7 @@ void MovementSystem::OnUpdate(float elapsed)
 
             if (hasComponentsToChangeMap(e))
             {
-                // changeMap(e);
+                 changeMap(e);
             }
         }
 

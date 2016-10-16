@@ -197,7 +197,7 @@ void Game::addEntities()
 
 
     CharacterData mainCharacData { { 113u, 99u }, charSprite,
-                                     15, { -25.f, -66.f }, { 1, 1 }, 100 };
+                                     15, { -25.f, -66.f }, { 1, 1 }, 100u };
 
     m_charac = make_character(m_world, mainCharacData);
 }

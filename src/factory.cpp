@@ -21,6 +21,7 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos
 
     e->AddComponent<OrientationComponent>(infos.o);
     e->AddComponent<PositionComponent>(infos.defL.x, infos.defL.y);
+    e->AddComponent<MapPositionComponent>(infos.mapPos.x, infos.mapPos.y);
 
     auto& dpos = e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
     e->GetComponent<Ndk::NodeComponent>().SetPosition(dpos.x, dpos.y);

@@ -37,10 +37,11 @@ struct CharacterData
     CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0u,
                    const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
                    unsigned mhp = 100u, const AnimationComponent::AnimationState& animState_
-                   = AnimationComponent::OnMove, const Orientation& o_ = Orientation::Down)
+                   = AnimationComponent::OnMove, const Orientation& o_ = Orientation::Down,
+                  const Nz::Vector2i& mapPos_ = {})
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
-        maxhp { mhp }, animState { animState_ }, o { o_ } {}
+        maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ } {}
 
     ~CharacterData() = default;
 
@@ -54,6 +55,8 @@ struct CharacterData
     unsigned maxhp;
     AnimationComponent::AnimationState animState;
     Orientation o;
+
+    Nz::Vector2i mapPos;
 };
 
 #endif // CHARACTERDATA_HPP
