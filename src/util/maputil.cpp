@@ -8,8 +8,8 @@ namespace
 {
 
 MapCore* m_maps {};
-std::shared_ptr<MapInstance> m_map {};
-std::shared_ptr<micropather::MicroPather> m_pather {};
+std::weak_ptr<MapInstance> m_currentMap {};
+std::weak_ptr<micropather::MicroPather> m_pather {};
 
 }
 
@@ -130,13 +130,13 @@ bool changeMap(const Ndk::EntityHandle& p)
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
 
-    MapData map; // Map the entity will move to
+    MapData newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
 
     switch (canChange.second)
     {
     case Direction::Left:
-        map = *m_maps->get({ mapPos.x - 1, mapPos.y });
+        newMap = *m_maps->get({ mapPos.x - 1, mapPos.y });
 
         x = Def::MAPX;
         y = pos.y;
@@ -144,7 +144,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Right:
-        map = *m_maps->get({ mapPos.x + 1, mapPos.y });
+        newMap = *m_maps->get({ mapPos.x + 1, mapPos.y });
 
         x = 0u;
         y = pos.y;
@@ -152,7 +152,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Up:
-        map = *m_maps->get({ mapPos.x, mapPos.y - 1 });
+        newMap = *m_maps->get({ mapPos.x, mapPos.y - 1 });
 
         x = pos.x;
         y = Def::MAPY;
@@ -160,7 +160,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Down:
-        map = *m_maps->get({ mapPos.x, mapPos.y + 1 });
+        newMap = *m_maps->get({ mapPos.x, mapPos.y + 1 });
 
         x = pos.x;
         y = 0u;
@@ -168,10 +168,13 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
     }
 
-    m_map->map = map.map;
-    m_map->map = map.obs;
+    auto currentMapLock = m_currentMap.lock();
+    auto patherLock = m_pather.lock();
 
-    m_pather->Reset(); // Map changed, need to reset pather's cache
+    currentMapLock->map = newMap.map;
+    currentMapLock->map = newMap.obs;
+
+    patherLock->Reset(); // Map changed, need to reset pather's cache
 
     pos.x = x;
     pos.y = y;
@@ -179,15 +182,15 @@ bool changeMap(const Ndk::EntityHandle& p)
     return true;
 }
 
-void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap,
-                    const std::shared_ptr<micropather::MicroPather>& pather)
+void initMapUtility(MapCore* maps, const std::weak_ptr<MapInstance>& currentMap,
+                    const std::weak_ptr<micropather::MicroPather>& pather)
 {
     m_maps = maps;
-    m_map = currentMap;
+    m_currentMap = currentMap;
     m_pather = pather;
 }
 
 bool isMapUtilityInited()
 {
-    return m_maps && m_map && m_pather;
+    return m_maps && m_currentMap.lock() && m_pather.lock();
 }

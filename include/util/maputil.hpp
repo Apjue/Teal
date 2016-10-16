@@ -9,6 +9,7 @@
 
 #include <NDK/Entity.hpp>
 #include <utility>
+#include <memory>
 
 #include "cache/mapcore.hpp"
 #include "components/common/mapcomponent.hpp"
@@ -60,8 +61,8 @@ extern bool changeMap(const Ndk::EntityHandle& p);
 ///        in this file to work
 ///
 
-extern void initMapUtility(MapCore* maps, const std::shared_ptr<MapInstance>& currentMap,
-                           const std::shared_ptr<micropather::MicroPather>& pather);
+extern void initMapUtility(MapCore* maps, const std::weak_ptr<MapInstance>& currentMap,
+                           const std::weak_ptr<micropather::MicroPather>& pather);
 
 ///
 /// \fn isMapUtilityInited
