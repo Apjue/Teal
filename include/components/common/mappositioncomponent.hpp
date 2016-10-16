@@ -11,6 +11,9 @@
 
 struct MapPositionComponent : public Ndk::Component<MapPositionComponent>
 {
+    MapPositionComponent(int x_, int y_) : x { x_ }, y { y_ } {}
+    ~MapPositionComponent() = default;
+
     int x {};
     int y {};
 
