@@ -96,7 +96,7 @@ void Game::addMaps() /// TODO: Load from JSON
 
     m_maps.add({ 0, 0 }, map0_0);
 
-    MapData map0_1
+    MapData map1_0
     {
         {
             0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -114,7 +114,7 @@ void Game::addMaps() /// TODO: Load from JSON
         tilesTexture
     };
 
-    m_maps.add({ 0, 1 }, map0_1);
+    m_maps.add({ 1, 0 }, map1_0);
 }
 
 void Game::initCustomThings()

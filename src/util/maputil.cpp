@@ -35,7 +35,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         }
     }
 
-    else if (pos.x == Def::MAPX) // Right
+    else if (pos.x == Def::LMAPX) // Right
     {
         if (m_maps->get({ mapPos.x + 1, mapPos.y }))
         {
@@ -53,7 +53,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         }
     }
 
-    else if (pos.y == Def::MAPY) // Down
+    else if (pos.y == Def::LMAPY) // Down
     {
         if (m_maps->get({ mapPos.x, mapPos.y + 1 }))
         {
@@ -76,7 +76,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
     case Direction::Left:
         map = *m_maps->get({ mapPos.x - 1, mapPos.y });
 
-        x = Def::MAPX;
+        x = Def::LMAPX;
         y = pos.y;
         
         break;
@@ -93,7 +93,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         map = *m_maps->get({ mapPos.x, mapPos.y - 1 });
 
         x = pos.x;
-        y = Def::MAPY;
+        y = Def::LMAPY;
 
         break;
 
@@ -132,14 +132,18 @@ bool changeMap(const Ndk::EntityHandle& p)
 
     MapData newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
+    unsigned mapX {}, mapY {}; // Position of the new map
 
     switch (canChange.second)
     {
     case Direction::Left:
         newMap = *m_maps->get({ mapPos.x - 1, mapPos.y });
 
-        x = Def::MAPX;
+        x = Def::LMAPX;
         y = pos.y;
+
+        mapX = mapPos.x - 1;
+        mapY = mapPos.y;
 
         break;
 
@@ -149,13 +153,19 @@ bool changeMap(const Ndk::EntityHandle& p)
         x = 0u;
         y = pos.y;
 
+        mapX = mapPos.x + 1;
+        mapY = mapPos.y;
+
         break;
 
     case Direction::Up:
         newMap = *m_maps->get({ mapPos.x, mapPos.y - 1 });
 
         x = pos.x;
-        y = Def::MAPY;
+        y = Def::LMAPY;
+
+        mapX = mapPos.x;
+        mapY = mapPos.y - 1;
 
         break;
 
@@ -164,6 +174,9 @@ bool changeMap(const Ndk::EntityHandle& p)
 
         x = pos.x;
         y = 0u;
+
+        mapX = mapPos.x;
+        mapY = mapPos.y + 1;
 
         break;
     }
@@ -174,10 +187,16 @@ bool changeMap(const Ndk::EntityHandle& p)
     currentMapLock->map = newMap.map;
     currentMapLock->obs = newMap.obs;
 
+    if (!currentMapLock->update())
+        NazaraError("Cannot update map - maputil.cpp - changeMap()");
+
     patherLock->Reset(); // Map changed, need to reset pather's cache
 
     pos.x = x;
     pos.y = y;
+
+    mapPos.x = mapX;
+    mapPos.y = mapY;
 
     return true;
 }
