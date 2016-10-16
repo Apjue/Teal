@@ -32,6 +32,7 @@ struct CharacterData
     /// \param dl Default logic position
     /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
+    /// \param mapPos_ Default Map Position
     /// 
 
     CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0u,
