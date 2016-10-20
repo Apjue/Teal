@@ -47,7 +47,7 @@ void Game::addTextures()
 {
     m_textures.setPrefix("./../../data/img/");
 
-    std::vector<std::pair<Nz::String, Nz::String>> filepaths
+    std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
     {
         { ":/game/money", "game/main/money.png" },
         { ":/game/scheme", "game/main/scheme.png" },
@@ -61,6 +61,41 @@ void Game::addTextures()
     for (auto& pair : filepaths)
         if (!m_textures.addByLoad(pair.first, pair.second))
             textureLoadFailed(pair.second);
+
+    // Load custom textures
+    // Custom textures can be used in custom mods
+    // TODO: Custom mods
+
+    // First, checks if it exists
+    if (!Nz::File::Exists("./../../data/addons/additional_textures"))
+        return;
+
+    // Now, open it
+    Nz::File customTextures;
+
+    if (!customTextures.Open("./../../data/addons/additional_textures", 
+                             Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
+    {
+        NazaraError("Cannot open custom textures file");
+        return;
+    }
+
+    while (!customTextures.EndOfFile())
+    {
+        auto line = customTextures.ReadLine();
+
+        if (line.StartsWith("#") || // It's a comment
+            line.IsEmpty() || line == ' ') // Empty line
+            continue;
+
+        std::vector<Nz::String> customPair;
+
+        if(line.Split(customPair, " ; ") != 2u)
+            continue; // Need 2 values
+
+        if (!m_textures.addByLoad(customPair[0], customPair[1]))
+            textureLoadFailed(customPair[1]);
+    }
 }
 
 void Game::addMaps() /// TODO: Load from JSON

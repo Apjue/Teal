@@ -186,7 +186,6 @@
     <None Include="include\util\util.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cache\cache.cpp" />
     <ClCompile Include="src\cache\mapcore.cpp" />
     <ClCompile Include="src\componentsindex.cpp" />
     <ClCompile Include="src\components\common\inventorycomponent.cpp" />

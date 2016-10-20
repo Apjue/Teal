@@ -22,6 +22,7 @@
 #include <Nazara/Graphics/Material.hpp>
 #include <Nazara/Utility/EventHandler.hpp>
 #include <Nazara/Core/Signal.hpp>
+#include <Nazara/Core/File.hpp>
 #include <memory>
 
 #include "components.hpp"

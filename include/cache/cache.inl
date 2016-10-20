@@ -2,6 +2,9 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+template<class Key, class T, class Producer>
+typename Cache<Key, T, Producer>::ManagerType Cache<Key, T, Producer>::empty = nullptr;
+
 template<class K, class T, class P>
 typename const Cache<K, T, P>::ManagerType& Cache<K, T, P>::get(const K& k) const
 {
@@ -30,7 +33,7 @@ template<class K, class T, class P>
 template<class... Args>
 typename Cache<K, T, P>::InternalCache::iterator Cache<K, T, P>::add_(const K& k, Args&&... args)
 {
-    return m_objects.emplace(k, Producer::create<Args...>(std::forward<Args>(args)...)).first;
+    return m_objects.emplace(k, P::create<Args...>(std::forward<Args>(args)...)).first;
 }
 
 template<class K, class T, class P>

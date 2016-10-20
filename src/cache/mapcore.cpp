@@ -19,4 +19,3 @@ void MapCore::writeToJSON(const Nz::String& file)
 {
     NazaraAssert(false, "Function not made yet");
 }
-
