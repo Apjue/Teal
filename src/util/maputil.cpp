@@ -106,7 +106,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
 
     default:
-        NazaraAssert(false, "I am an error message. Just look the code to see the reason of me.");
+        NazaraError("Bad direction value");
 
         return std::make_pair(false, entExt);
         break;
@@ -197,7 +197,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     currentMapLock->obs = newMap.obs;
 
     if (!currentMapLock->update())
-        NazaraError("Cannot update map - maputil.cpp - changeMap()");
+        NazaraError("Cannot update map");
 
     patherLock->Reset(); // Map changed, need to reset pather's cache
 
