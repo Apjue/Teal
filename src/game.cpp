@@ -52,7 +52,7 @@ void Game::addTextures()
         { ":/game/money", "game/main/money.png" },
         { ":/game/scheme", "game/main/scheme.png" },
         { ":/game/teal", "game/main/teal.png" },
-        { ":/game/tileset", "game/main/tileset.png" },
+        { Def::DEFAULTMAPTILESET, "game/main/tileset.png" },
         { ":/game/char/villager", "game/char/villager.png" }
 
         //...
@@ -65,7 +65,7 @@ void Game::addTextures()
 
 void Game::addMaps() /// TODO: Load from JSON
 {
-    Nz::String tilesTexture = m_textures.get(":/game/tileset")->GetFilePath();
+    Nz::String tilesTexture = m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
     MapData map0_0
     {
