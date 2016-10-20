@@ -55,33 +55,6 @@ protected:
     typename InternalCache::iterator add_(const Key& k, Args&&... args);
 };
 
-///
-/// \class CreateCache
-///
-/// \brief Acts like a normal cache, but create an object if
-///        it didn't exist when using get()
-///
-
-template<class Key, class T, class Producer = DefaultCacheProducer<T>>
-class CreateCache : private Cache<Key, T, Producer>
-{
-public:
-
-    using Cache::empty;
-
-    CreateCache() = default;
-    ~CreateCache() = default;
-
-    template<class... Args>
-    ManagerType get(const Key& k, Args&&... args);
-
-    using Cache::add;
-    using Cache::clear;
-
-protected:
-    using Cache::add_;
-};
-
 #include "cache.inl"
 
 #endif // CACHE_HPP

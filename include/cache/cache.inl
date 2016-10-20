@@ -45,15 +45,3 @@ typename Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache()
     return getInternalCache();
 }
 
-
-template<class K, class T, class P>
-template<class... Args>
-typename CreateCache<K, T, P>::ManagerType CreateCache<K, T, P>::get(const K& k, Args&&... args)
-{
-    auto it = m_objects.find(k);
-
-    if (it == m_objects.end())
-        return add(k, std::forward<Args>(args)...)->second;
-    else
-        return it->second;
-}
