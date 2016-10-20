@@ -2,8 +2,8 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-template<class Key, class T, class Producer>
-typename const Cache<Key, T, Producer>::ManagerType& Cache<Key, T, Producer>::get(const Key& k) const
+template<class K, class T, class P>
+typename const Cache<K, T, P>::ManagerType& Cache<K, T, P>::get(const K& k) const
 {
     auto it = m_objects.find(k);
 
@@ -13,42 +13,42 @@ typename const Cache<Key, T, Producer>::ManagerType& Cache<Key, T, Producer>::ge
         return it->second;
 }
 
-template<class Key, class T, class Producer>
-void Cache<Key, T, Producer>::clear()
+template<class K, class T, class P>
+void Cache<K, T, P>::clear()
 {
     m_objects.clear();
 }
 
-template<class Key, class T, class Producer>
+template<class K, class T, class P>
 template<class... Args>
-typename Cache<Key, T, Producer>::ManagerType Cache<Key, T, Producer>::add(const Key& k, Args&&... args)
+typename Cache<K, T, P>::ManagerType Cache<K, T, P>::add(const K& k, Args&&... args)
 {
     return add_(k, std::forward<Args>(args)...)->second;
 }
 
-template<class Key, class T, class Producer>
+template<class K, class T, class P>
 template<class... Args>
-typename Cache<Key, T, Producer>::InternalCache::iterator Cache<Key, T, Producer>::add_(const Key& k, Args&&... args)
+typename Cache<K, T, P>::InternalCache::iterator Cache<K, T, P>::add_(const K& k, Args&&... args)
 {
     return m_objects.emplace(k, Producer::create<Args...>(std::forward<Args>(args)...)).first;
 }
 
-template<class Key, class T, class Producer>
-typename const Cache<Key, T, Producer>::InternalCache& Cache<Key, T, Producer>::getInternalCache() const
+template<class K, class T, class P>
+typename const Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache() const
 {
     return m_objects;
 }
 
-template<class Key, class T, class Producer>
-typename Cache<Key, T, Producer>::InternalCache& Cache<Key, T, Producer>::getInternalCache()
+template<class K, class T, class P>
+typename Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache()
 {
     return getInternalCache();
 }
 
 
-template<class Key, class T, class Producer>
+template<class K, class T, class P>
 template<class... Args>
-typename CreateCache<Key, T, Producer>::ManagerType CreateCache<Key, T, Producer>::get(const Key& k, Args&&... args)
+typename CreateCache<K, T, P>::ManagerType CreateCache<K, T, P>::get(const K& k, Args&&... args)
 {
     auto it = m_objects.find(k);
 
