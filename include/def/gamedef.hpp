@@ -23,8 +23,6 @@ constexpr unsigned LMAPY          { 15u };
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
 
-constexpr unsigned SQUARETILESIZE { 64u }; // Used for graphics TileMap texture coords (x and y)
-
 constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
 constexpr unsigned TILEGYSIZE     { TILEYSIZE / 2 };
 
