@@ -25,7 +25,7 @@ class Cache
 {
 public:
     using ManagerType = decltype(Producer::create());
-    using InternalCache = typename std::unordered_map<Key, ManagerType>;
+    using InternalCache = std::unordered_map<Key, ManagerType>;
 
     static ManagerType empty; // Value to return if not found
 
