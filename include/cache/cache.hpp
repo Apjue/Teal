@@ -27,6 +27,8 @@ public:
     using ManagerType = decltype(Producer::create());
     using InternalCache = typename std::unordered_map<Key, ManagerType>;
 
+    static ManagerType empty; // Value to return if not found
+
     Cache() = default;
     ~Cache() = default;
 
@@ -43,6 +45,9 @@ public:
     ManagerType add(const Key& k, Args&&... args);
 
     inline void clear();
+
+    inline const InternalCache& getInternalCache() const;
+    inline InternalCache& getInternalCache();
 
 protected:
     InternalCache m_objects;
@@ -62,6 +67,9 @@ template<class Key, class T, class Producer = DefaultCacheProducer<T>>
 class CreateCache : private Cache<Key, T, Producer>
 {
 public:
+
+    using Cache::empty;
+
     CreateCache() = default;
     ~CreateCache() = default;
 
