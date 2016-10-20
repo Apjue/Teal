@@ -42,7 +42,7 @@ typename const Cache<Key, T, Producer>::InternalCache& Cache<Key, T, Producer>::
 template<class Key, class T, class Producer>
 typename Cache<Key, T, Producer>::InternalCache& Cache<Key, T, Producer>::getInternalCache()
 {
-    return m_objects;
+    return getInternalCache();
 }
 
 

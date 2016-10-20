@@ -35,11 +35,10 @@ public:
     ///
     /// \fn get
     ///
-    /// \brief Returns the item with Key k, or
-    ///        returns empty ManagerType if not found
+    /// \return The item with Key k, or empty if not found
     ///
 
-    ManagerType get(const Key& k) const;
+    const ManagerType& get(const Key& k) const;
 
     template<class... Args>
     ManagerType add(const Key& k, Args&&... args);
