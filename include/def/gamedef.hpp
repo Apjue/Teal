@@ -36,6 +36,8 @@ constexpr  float   MAXFPS         { 10 }; // Updates per second
 
 constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
 
+constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
+
 }
 
 class TileData;
