@@ -80,6 +80,8 @@ void Game::addTextures()
         return;
     }
 
+    std::vector<Nz::String> customPair;
+
     while (!customTextures.EndOfFile())
     {
         auto line = customTextures.ReadLine();
@@ -88,7 +90,7 @@ void Game::addTextures()
             line.IsEmpty() || line == ' ') // Empty line
             continue;
 
-        std::vector<Nz::String> customPair;
+        customPair.clear();
 
         if(line.Split(customPair, " ; ") != 2u)
             continue; // Need 2 values
