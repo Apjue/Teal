@@ -23,6 +23,7 @@
 #include "data/mapdata.hpp"
 #include "def/layerdef.hpp"
 #include "util/util.hpp"
+#include "cache/tilesetcore.hpp"
 
 ///
 /// \class MapInstance
@@ -34,8 +35,8 @@
 class MapInstance : public micropather::Graph
 {
 public:
-    MapInstance(const Ndk::EntityHandle& e);
-    MapInstance(const MapData& data, const Nz::String& tileset, const Ndk::EntityHandle& e);
+    MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore);
+    MapInstance(const MapData& data, const Nz::String& tileset, TilesetCore* tcore, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
     MapInstance& operator=(const MapInstance&) = default;
@@ -47,8 +48,9 @@ public:
 
     MapData map; // You must reset the pather after changing it
 
-    Nz::MaterialRef m_mat; // Tileset
+    Nz::MaterialRef m_mat; // Tileset texture
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
+    TilesetCore* m_tilesetCore; // Used to convert tile string to tile number
 
     bool update();
 

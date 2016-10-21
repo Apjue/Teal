@@ -8,6 +8,7 @@
 #define GAMEDEF_HPP
 
 #include <array>
+#include <Nazara/Core/String.hpp>
 
 namespace Def
 {
@@ -40,7 +41,8 @@ constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
 
 struct TileData;
 
-using OLDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
+using STRINGTILEARRAY = std::array<Nz::String, Def::TILEARRAYSIZE>;
+using UNSIGNEDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
 using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
 #endif // GAMEDEF_HPP

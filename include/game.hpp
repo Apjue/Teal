@@ -56,8 +56,9 @@ private:
 
     TextureCore m_textures;
     MapCore m_maps;
-    Nz::Rectui m_mapViewport;
+    TilesetCore m_tilesetCore;
 
+    Nz::Rectui m_mapViewport;
     std::shared_ptr<micropather::MicroPather> m_pather {}; //Used by the AI System
     Nz::Icon m_winIcon;
 
@@ -68,6 +69,7 @@ private:
     void initCustomThings();
 
     void addTextures();
+    void initTilesetCore();
     void addMaps();
     void textureLoadFailed(const Nz::String& file); // Panic !
 

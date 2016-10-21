@@ -4,7 +4,7 @@
 
 #include "data/mapdata.hpp"
 
-MapData::MapData(const OLDTILEARRAY& map_, const OLDTILEARRAY& obs_)
+MapData::MapData(const STRINGTILEARRAY& map_, const UNSIGNEDTILEARRAY& obs_)
     : m_map(map_), m_obs(obs_)
 {
     updateTileArray();
@@ -35,6 +35,6 @@ void MapData::updateTileArray()
         auto& tile = m_tiles[i];
 
         tile.textureId = m_map[i];
-        tile.obstacle = m_map[i];
+        tile.obstacle = m_obs[i];
     }
 }

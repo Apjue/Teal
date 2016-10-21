@@ -7,9 +7,11 @@
 #ifndef TILEDATA_HPP
 #define TILEDATA_HPP
 
+#include <Nazara/Core/String.hpp>
+
 struct TileData
 {
-    unsigned textureId;
+    Nz::String textureId;
     unsigned obstacle {}; // 0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
     bool visible { true };
 };

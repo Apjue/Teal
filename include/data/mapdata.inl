@@ -7,12 +7,12 @@ const TILEARRAY& MapData::tiles() const
     return m_tiles;
 }
 
-const OLDTILEARRAY& MapData::map() const
+const STRINGTILEARRAY& MapData::map() const
 {
     return m_map;
 }
 
-const OLDTILEARRAY& MapData::obs() const
+const UNSIGNEDTILEARRAY& MapData::obs() const
 {
     return m_obs;
 }
@@ -24,13 +24,13 @@ void MapData::setTiles(const TILEARRAY& nTiles)
     updateOldTileArray();
 }
 
-void MapData::setMap(const OLDTILEARRAY& nMap)
+void MapData::setMap(const STRINGTILEARRAY& nMap)
 {
     m_map = nMap;
     updateTileArray();
 }
 
-void MapData::setObs(const OLDTILEARRAY& nObs)
+void MapData::setObs(const UNSIGNEDTILEARRAY& nObs)
 {
     m_obs = nObs;
     updateTileArray();

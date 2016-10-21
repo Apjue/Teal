@@ -4,7 +4,8 @@
 
 #include "components/common/mapcomponent.hpp"
 
-MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
+MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore) 
+    : m_entity(e), m_tilesetCore(tcore)
 {
     m_mat = Nz::Material::New("Translucent2D");
 
@@ -23,8 +24,8 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const MapData& data, const Nz::String& tileset, const Ndk::EntityHandle& e)
-    : MapInstance(e)
+MapInstance::MapInstance(const MapData& data, const Nz::String& tileset, TilesetCore* tcore, const Ndk::EntityHandle& e)
+    : MapInstance(e, tcore)
 {
     map = data;
 
@@ -36,6 +37,8 @@ MapInstance::MapInstance(const MapData& data, const Nz::String& tileset, const N
 
 bool MapInstance::update() // Thanks Lynix for this code
 {
+    NazaraAssert(m_tilesetCore, "TilesetCore nullptr !");
+
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
 
@@ -112,7 +115,8 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                unsigned tileNumber = map.map()[x + y * width];
+                auto tileName = map.map()[x + y * width];
+                unsigned tileNumber = m_tilesetCore->get(tileName);
 
                 float textureX = 64.f * tileNumber;
 

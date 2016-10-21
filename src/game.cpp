@@ -20,6 +20,8 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     m_world = app.AddWorld().CreateHandle();
 
     initCustomThings();
+
+    initTilesetCore();
     addMaps();
 
     initIcon();
@@ -100,13 +102,21 @@ void Game::addTextures()
     }
 }
 
+void Game::initTilesetCore()
+{
+    m_tilesetCore.add(0u, "concrete");
+    m_tilesetCore.add(1u, "grass");
+    m_tilesetCore.add(2u, "sand");
+    m_tilesetCore.add(3u, "water");
+}
+
 void Game::addMaps() /// TODO: Load from JSON
 {
     Nz::String tilesTexture = m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
     MapData map0_0
     {
-        {
+        /*{
             2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,
             1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
             1, 1, 1, 2, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3,
@@ -115,6 +125,17 @@ void Game::addMaps() /// TODO: Load from JSON
             0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
             0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
+        },*/
+
+        {
+            "sand", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+            "grass", "sand", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water",
+            "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "water", "sand", "water", "water", "water", "water", "water",
+            "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water",
+            "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "grass", "sand", "sand", "sand", "sand", "sand", "water",
+            "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "sand", "sand",
+            "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand",
+            "concrete", "concrete", "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
         },
 
         {
@@ -133,7 +154,7 @@ void Game::addMaps() /// TODO: Load from JSON
 
     MapData map1_0
     {
-        {
+        /*{
             0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
@@ -142,6 +163,17 @@ void Game::addMaps() /// TODO: Load from JSON
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
+        },*/
+
+        {
+            "concrete", "concrete", "concrete", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
+            "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
         },
 
         {}
@@ -212,7 +244,8 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
     
     auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(*m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath());
+    mapComp.init(*m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath(),
+                 &m_tilesetCore);
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 
