@@ -153,6 +153,9 @@
     <ClInclude Include="include\util\gfxutil.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\cache\tilesetcore.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
@@ -251,6 +254,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\data\mapdata.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\cache\tilesetcore.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

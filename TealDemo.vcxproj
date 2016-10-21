@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="include\cache\cache.hpp" />
     <ClInclude Include="include\cache\mapcore.hpp" />
+    <ClInclude Include="include\cache\tilesetcore.hpp" />
     <ClInclude Include="include\components\common\mappositioncomponent.hpp" />
     <ClInclude Include="include\util\classhash.hpp" />
     <ClInclude Include="include\data\characterdata.hpp" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <None Include="include\cache\cache.inl" />
     <None Include="include\cache\mapcore.inl" />
+    <None Include="include\cache\tilesetcore.inl" />
     <None Include="include\data\mapdata.inl" />
     <None Include="include\util\chrono.inl" />
     <None Include="include\util\classhash.inl" />

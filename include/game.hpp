@@ -33,6 +33,7 @@
 #include "micropather.h"
 #include "cache/texturecore.hpp"
 #include "cache/mapcore.hpp"
+#include "cache/tilesetcore.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
 
