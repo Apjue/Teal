@@ -18,6 +18,7 @@
 #include <Nazara/Graphics/Model.hpp>
 #include <Nazara/Graphics/Material.hpp>
 #include <Nazara/Math/Vector2.hpp>
+#include <Nazara/Core/String.hpp>
 #include "micropather.h"
 #include "data/mapdata.hpp"
 #include "def/layerdef.hpp"
@@ -34,7 +35,7 @@ class MapInstance : public micropather::Graph
 {
 public:
     MapInstance(const Ndk::EntityHandle& e);
-    MapInstance(const MapData& data, const Ndk::EntityHandle& e);
+    MapInstance(const MapData& data, const Nz::String& tileset, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
     MapInstance& operator=(const MapInstance&) = default;
@@ -44,15 +45,12 @@ public:
 
     ~MapInstance() = default;
 
-    OLDTILEARRAY map;
-    OLDTILEARRAY obs;
-    //0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
+    MapData map; // You must reset the pather after changing it
 
     Nz::MaterialRef m_mat; // Tileset
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
 
     bool update();
-    void setMap(const MapData& data); // You must reset the pather after this
 
     //Utility
     static void  NodeToXY(void* node, unsigned& x, unsigned& y);

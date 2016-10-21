@@ -8,13 +8,35 @@
 #define MAPDATA_HPP
 
 #include <Nazara/Graphics/Material.hpp>
+#include "tiledata.hpp"
 #include "def/gamedef.hpp"
 
 struct MapData
 {
-    OLDTILEARRAY map;
-    OLDTILEARRAY obs;
-    Nz::String tileset;
+public:
+    MapData() = default;
+    ~MapData() = default;
+
+    MapData(const OLDTILEARRAY& map_, const OLDTILEARRAY& obs_);
+    MapData(const TILEARRAY& tiles_);
+    
+    inline const TILEARRAY& tiles() const;
+    inline const OLDTILEARRAY& map() const;
+    inline const OLDTILEARRAY& obs() const;
+
+    inline void setTiles(const TILEARRAY& nTiles);
+    inline void setMap(const OLDTILEARRAY& nMap);
+    inline void setObs(const OLDTILEARRAY& nObs);
+
+private:
+    TILEARRAY m_tiles;
+    OLDTILEARRAY m_map;
+    OLDTILEARRAY m_obs;
+
+    void updateOldTileArray();
+    void updateTileArray();
 };
+
+#include "mapdata.inl"
 
 #endif // MAPDATA_HPP

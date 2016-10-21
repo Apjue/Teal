@@ -114,7 +114,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
     MapInstance::XYToArray(x, y);
 
-    if (map.obs[x + y * Def::MAPX] != 0)
+    if (map.obs()[x + y * Def::MAPX] != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
     
     return std::make_pair(true, entExt);
@@ -193,8 +193,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     auto currentMapLock = m_currentMap.lock();
     auto patherLock = m_pather.lock();
 
-    currentMapLock->map = newMap.map;
-    currentMapLock->obs = newMap.obs;
+    currentMapLock->map = newMap;
 
     if (!currentMapLock->update())
         NazaraError("Cannot update map");

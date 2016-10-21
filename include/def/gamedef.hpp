@@ -38,7 +38,7 @@ constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
 
 }
 
-class TileData;
+struct TileData;
 
 using OLDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
 using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;

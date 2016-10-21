@@ -172,6 +172,7 @@
   <ItemGroup>
     <None Include="include\cache\cache.inl" />
     <None Include="include\cache\mapcore.inl" />
+    <None Include="include\data\mapdata.inl" />
     <None Include="include\util\chrono.inl" />
     <None Include="include\util\classhash.inl" />
     <None Include="include\components\common\inventorycomponent.inl" />
@@ -190,6 +191,7 @@
     <ClCompile Include="src\componentsindex.cpp" />
     <ClCompile Include="src\components\common\inventorycomponent.cpp" />
     <ClCompile Include="src\components\common\mapcomponent.cpp" />
+    <ClCompile Include="src\data\mapdata.cpp" />
     <ClCompile Include="src\factory.cpp" />
     <ClCompile Include="src\global.cpp" />
     <ClCompile Include="src\game.cpp" />

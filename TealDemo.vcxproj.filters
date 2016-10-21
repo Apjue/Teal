@@ -203,6 +203,9 @@
     <ClCompile Include="src\util\gfxutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\data\mapdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\game.inl">
@@ -245,6 +248,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\util\gfxutil.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\data\mapdata.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

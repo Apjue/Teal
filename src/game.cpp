@@ -126,9 +126,7 @@ void Game::addMaps() /// TODO: Load from JSON
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        },
-
-        tilesTexture
+        }
     };
 
     m_maps.add({ 0, 0 }, map0_0);
@@ -146,9 +144,7 @@ void Game::addMaps() /// TODO: Load from JSON
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
         },
 
-        {},
-
-        tilesTexture
+        {}
     };
 
     m_maps.add({ 1, 0 }, map1_0);
@@ -216,7 +212,7 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
     
     auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(*m_maps.get({ 0, 0 }));
+    mapComp.init(*m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath());
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 

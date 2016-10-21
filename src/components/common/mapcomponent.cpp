@@ -23,12 +23,12 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e) : m_entity(e)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const MapData& data, const Ndk::EntityHandle& e)
+MapInstance::MapInstance(const MapData& data, const Nz::String& tileset, const Ndk::EntityHandle& e)
     : MapInstance(e)
 {
-    setMap(data);
+    map = data;
 
-    if (!m_mat->SetDiffuseMap(data.tileset))
+    if (!m_mat->SetDiffuseMap(tileset))
         NazaraError("Error: Map Material SetDiffuseMap failed !");
 
     update();
@@ -112,7 +112,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                unsigned tileNumber = map[x + y * width];
+                unsigned tileNumber = map.map()[x + y * width];
 
                 float textureX = 64.f * tileNumber;
 
@@ -142,12 +142,6 @@ bool MapInstance::update() // Thanks Lynix for this code
     m_model->SetMaterial(0, m_mat);
     
     return true;
-}
-
-void MapInstance::setMap(const MapData& data)
-{
-    map = data.map;
-    obs = data.obs;
 }
 
 void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
@@ -209,7 +203,7 @@ bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 
         unsigned const tile { eX + eY * Def::MAPX };
 
-        unsigned const tileNumber = obs[tile];
+        unsigned const tileNumber = map.obs()[tile];
         return tileNumber == 0;
     }
 }
