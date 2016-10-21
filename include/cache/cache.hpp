@@ -17,8 +17,6 @@ using DefaultCacheProducer = SharedPointerProducer<T>;
 ///
 /// \brief wraps Producer<T>::create() objects
 ///
-/// \note Producer must have a create() function
-///
 
 template<class Key, class T, class Producer = DefaultCacheProducer<T>>
 class Cache
