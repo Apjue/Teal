@@ -45,6 +45,6 @@ typename const Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache()
 template<class K, class T, class P>
 typename Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache()
 {
-    return getInternalCache();
+    return m_objects;
 }
 
