@@ -10,7 +10,6 @@
 #include <NDK/Entity.hpp>
 #include <utility>
 #include <memory>
-
 #include "cache/mapcore.hpp"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
@@ -18,7 +17,11 @@
 #include "components/common/orientationcomponent.hpp"
 #include "def/gamedef.hpp"
 #include "global.hpp"
+#include "data/mapdata.hpp"
 #include "micropather.h"
+
+inline void activateMapEntities(MapData& map);
+inline void deactivateMapEntities(MapData& map);
 
 ///
 /// \fn hasComponentsToChangeMap

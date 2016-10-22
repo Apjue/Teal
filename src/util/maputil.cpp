@@ -193,12 +193,14 @@ bool changeMap(const Ndk::EntityHandle& p)
     auto currentMapLock = m_currentMap.lock();
     auto patherLock = m_pather.lock();
 
+    deactivateMapEntities(currentMapLock->map);
     currentMapLock->map = newMap;
+    activateMapEntities(currentMapLock->map);
+
+    patherLock->Reset(); // Map changed, need to reset pather's cache
 
     if (!currentMapLock->update())
         NazaraError("Cannot update map");
-
-    patherLock->Reset(); // Map changed, need to reset pather's cache
 
     pos.x = x;
     pos.y = y;
