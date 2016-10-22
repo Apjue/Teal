@@ -104,10 +104,15 @@ void Game::addTextures()
 
 void Game::initTilesetCore()
 {
-    m_tilesetCore.add(0u, "concrete");
-    m_tilesetCore.add(1u, "grass");
-    m_tilesetCore.add(2u, "sand");
-    m_tilesetCore.add(3u, "water");
+    unsigned concrete = 0;
+    unsigned grass = concrete + 1;
+    unsigned sand = grass + 1;
+    unsigned water = sand + 1;
+
+    m_tilesetCore.add(concrete, "concrete");
+    m_tilesetCore.add(grass, "grass");
+    m_tilesetCore.add(sand, "sand");
+    m_tilesetCore.add(water, "water");
 }
 
 void Game::addMaps() /// TODO: Load from file
