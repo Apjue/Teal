@@ -35,3 +35,19 @@ void MapData::setObs(const UNSIGNEDTILEARRAY& nObs)
     m_obs = nObs;
     updateTileArray();
 }
+
+
+void MapData::addEntity(const Ndk::EntityHandle& e)
+{
+    m_entities.Insert(e);
+}
+
+const Ndk::EntityList& MapData::getEntities() const
+{
+    return m_entities;
+}
+
+Ndk::EntityList& MapData::getEntities()
+{
+    return m_entities;
+}

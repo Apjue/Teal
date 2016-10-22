@@ -8,6 +8,7 @@
 #define MAPDATA_HPP
 
 #include <NDK/Entity.hpp>
+#include <NDK/EntityList.hpp>
 #include <Nazara/Graphics/Material.hpp>
 #include "tiledata.hpp"
 #include "def/typedef.hpp"
@@ -29,11 +30,15 @@ public:
     inline void setMap(const STRINGTILEARRAY& nMap);
     inline void setObs(const UNSIGNEDTILEARRAY& nObs);
 
+    inline void addEntity(const Ndk::EntityHandle& e);
+    inline const Ndk::EntityList& getEntities() const;
+    inline Ndk::EntityList& getEntities();
+
 private:
     TILEARRAY m_tiles;
     STRINGTILEARRAY m_map;
     UNSIGNEDTILEARRAY m_obs;
-    std::vector<Ndk::EntityHandle> m_objects;
+    Ndk::EntityList m_entities; // Usable Objects, NPCs, decoration, etc.
 
     void updateOldTileArray();
     void updateTileArray();
