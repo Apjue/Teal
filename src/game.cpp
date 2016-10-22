@@ -197,10 +197,9 @@ void Game::addMaps() /// TODO: Load from file
 
 
     CharacterData npcData { { 113u, 99u }, npcSprite,
-        15, { -25.f, -66.f }, { 5, 3 }, { 1, 0 }, 100u, AnimationComponent::OnMove, Orientation::DownLeft };
+        15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u, AnimationComponent::OnMove, Orientation::DownLeft };
 
     auto npc = make_character(m_world, npcData);
-
     map1_0.addEntity(npc);
 
     deactivateMapEntities(m_maps.add({ 1, 0 }, map1_0));
