@@ -47,19 +47,12 @@ void AnimationSystem::OnUpdate(float elapsed)
 void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
                                       AnimationComponent& anim, bool moving)
 {
-    if (!moving) // Reset animation if not moving
+    if (!moving || anim.maxframe == 0) // Reset animation, and change direction
     {
-        if (anim.frame != 0)
-        {
-            anim.frame = 0;
-            gfx->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
-        }
-        return;
-    }
-
-    if (anim.maxframe == 0) // Only change the direction, no animation
-    {
+        anim.frame = 0;
         gfx->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
+
+        return;
     }
 
     else // Animation !
