@@ -110,7 +110,7 @@ void Game::initTilesetCore()
     m_tilesetCore.add(3u, "water");
 }
 
-void Game::addMaps() /// TODO: Load from JSON
+void Game::addMaps() /// TODO: Load from file
 {
     Nz::String tilesTexture = m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
