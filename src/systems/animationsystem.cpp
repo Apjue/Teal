@@ -45,7 +45,7 @@ void AnimationSystem::OnUpdate(float elapsed)
 }
 
 void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
-                                           AnimationComponent& anim, bool moving)
+                                      AnimationComponent& anim, bool moving)
 {
     if (!moving) // Reset animation if not moving
     {
