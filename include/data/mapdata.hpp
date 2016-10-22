@@ -7,9 +7,10 @@
 #ifndef MAPDATA_HPP
 #define MAPDATA_HPP
 
+#include <NDK/Entity.hpp>
 #include <Nazara/Graphics/Material.hpp>
 #include "tiledata.hpp"
-#include "def/gamedef.hpp"
+#include "def/typedef.hpp"
 
 struct MapData
 {
@@ -32,6 +33,7 @@ private:
     TILEARRAY m_tiles;
     STRINGTILEARRAY m_map;
     UNSIGNEDTILEARRAY m_obs;
+    std::vector<Ndk::EntityHandle> m_objects;
 
     void updateOldTileArray();
     void updateTileArray();

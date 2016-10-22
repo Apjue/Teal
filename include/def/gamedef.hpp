@@ -7,9 +7,6 @@
 #ifndef GAMEDEF_HPP
 #define GAMEDEF_HPP
 
-#include <array>
-#include <Nazara/Core/String.hpp>
-
 namespace Def
 {
 
@@ -38,11 +35,5 @@ constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, righ
 constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
 
 }
-
-struct TileData;
-
-using STRINGTILEARRAY = std::array<Nz::String, Def::TILEARRAYSIZE>;
-using UNSIGNEDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
-using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
 #endif // GAMEDEF_HPP

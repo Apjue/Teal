@@ -10,7 +10,7 @@
 #include <Nazara/Utility/Mouse.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <type_traits>
-#include <assert.h>
+#include <array>
 #include <stdexcept>
 #include "def/gamedef.hpp"
 #include "util/enumutil.hpp"

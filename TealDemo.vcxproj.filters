@@ -156,6 +156,9 @@
     <ClInclude Include="include\cache\tilesetcore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\def\typedef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
