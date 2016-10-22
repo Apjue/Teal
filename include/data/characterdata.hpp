@@ -30,16 +30,16 @@ struct CharacterData
     /// \param mf Max Frame (used for animation)
     /// \param dg Default graphics position (for it to fit in tile 0,0)
     /// \param dl Default logic position
+    /// \param mapPos_ Default Map Position
     /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
-    /// \param mapPos_ Default Map Position
     /// 
 
     CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0u,
-                   const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
-                   unsigned mhp = 100u, const AnimationComponent::AnimationState& animState_
-                   = AnimationComponent::OnMove, const Orientation& o_ = Orientation::Down,
-                  const Nz::Vector2i& mapPos_ = {})
+                  const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
+                  const Nz::Vector2i& mapPos_ = {}, unsigned mhp = 100u, 
+                  const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove, 
+                  const Orientation& o_ = Orientation::Down)
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
         maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ } {}

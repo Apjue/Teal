@@ -155,7 +155,7 @@ void Game::addMaps() /// TODO: Load from file
         }
     };
 
-    m_maps.add({ 0, 0 }, map0_0);
+    activateMapEntities(*m_maps.add({ 0, 0 }, map0_0));
 
     MapData map1_0
     {
@@ -184,7 +184,26 @@ void Game::addMaps() /// TODO: Load from file
         {}
     };
 
-    m_maps.add({ 1, 0 }, map1_0);
+    Nz::MaterialRef pnjMat = Nz::Material::New(); // Test
+    pnjMat->LoadFromFile(m_textures.get(":/game/char/villager")->GetFilePath());
+
+    pnjMat->EnableBlending(true);
+    pnjMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
+    pnjMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
+    pnjMat->EnableDepthWrite(false);
+
+    Nz::SpriteRef pnjSprite = Nz::Sprite::New(pnjMat);
+    pnjSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
+
+
+    CharacterData pnjData { { 113u, 99u }, pnjSprite,
+        15, { -25.f, -66.f }, { 5, 3 }, { 1, 0 }, 100u, AnimationComponent::OnMove, Orientation::DownLeft };
+
+    auto pnj = make_character(m_world, pnjData);
+
+    map1_0.addEntity(pnj);
+
+    deactivateMapEntities(*m_maps.add({ 1, 0 }, map1_0));
 }
 
 void Game::initCustomThings()
@@ -268,7 +287,7 @@ void Game::addEntities()
 
 
     CharacterData mainCharacData { { 113u, 99u }, charSprite,
-                                     15, { -25.f, -66.f }, { 1, 1 }, 100u };
+                                     15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u };
 
     m_charac = make_character(m_world, mainCharacData);
 }
