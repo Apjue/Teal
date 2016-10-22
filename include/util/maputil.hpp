@@ -20,8 +20,8 @@
 #include "data/mapdata.hpp"
 #include "micropather.h"
 
-inline void activateMapEntities(MapData& map);
-inline void deactivateMapEntities(MapData& map);
+inline void activateMapEntities(const std::shared_ptr<MapData>& map);
+inline void deactivateMapEntities(const std::shared_ptr<MapData>& map);
 
 ///
 /// \fn hasComponentsToChangeMap

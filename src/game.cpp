@@ -155,7 +155,7 @@ void Game::addMaps() /// TODO: Load from file
         }
     };
 
-    activateMapEntities(*m_maps.add({ 0, 0 }, map0_0));
+    deactivateMapEntities(m_maps.add({ 0, 0 }, map0_0));
 
     MapData map1_0
     {
@@ -184,26 +184,26 @@ void Game::addMaps() /// TODO: Load from file
         {}
     };
 
-    Nz::MaterialRef pnjMat = Nz::Material::New(); // Test
-    pnjMat->LoadFromFile(m_textures.get(":/game/char/villager")->GetFilePath());
+    Nz::MaterialRef npcMat = Nz::Material::New(); // Test
+    npcMat->LoadFromFile(m_textures.get(":/game/char/villager")->GetFilePath());
 
-    pnjMat->EnableBlending(true);
-    pnjMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
-    pnjMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    pnjMat->EnableDepthWrite(false);
+    npcMat->EnableBlending(true);
+    npcMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
+    npcMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
+    npcMat->EnableDepthWrite(false);
 
-    Nz::SpriteRef pnjSprite = Nz::Sprite::New(pnjMat);
-    pnjSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
+    Nz::SpriteRef npcSprite = Nz::Sprite::New(npcMat);
+    npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
 
-    CharacterData pnjData { { 113u, 99u }, pnjSprite,
+    CharacterData npcData { { 113u, 99u }, npcSprite,
         15, { -25.f, -66.f }, { 5, 3 }, { 1, 0 }, 100u, AnimationComponent::OnMove, Orientation::DownLeft };
 
-    auto pnj = make_character(m_world, pnjData);
+    auto npc = make_character(m_world, npcData);
 
-    map1_0.addEntity(pnj);
+    map1_0.addEntity(npc);
 
-    deactivateMapEntities(*m_maps.add({ 1, 0 }, map1_0));
+    deactivateMapEntities(m_maps.add({ 1, 0 }, map1_0));
 }
 
 void Game::initCustomThings()
@@ -268,8 +268,9 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
     
     auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(*m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath(),
+    mapComp.init(m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath(),
                  &m_tilesetCore);
+    activateMapEntities(m_maps.get({ 0, 0 }));
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 

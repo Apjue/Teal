@@ -36,7 +36,8 @@ class MapInstance : public micropather::Graph
 {
 public:
     MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore);
-    MapInstance(const MapData& data, const Nz::String& tileset, TilesetCore* tcore, const Ndk::EntityHandle& e);
+    MapInstance(const std::shared_ptr<MapData>& data, const Nz::String& tileset, 
+                TilesetCore* tcore, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
     MapInstance& operator=(const MapInstance&) = default;
@@ -46,7 +47,7 @@ public:
 
     ~MapInstance() = default;
 
-    MapData map; // You must reset the pather after changing it
+    std::shared_ptr<MapData> map; // You must reset the pather after changing it
 
     Nz::MaterialRef m_mat; // Tileset texture
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
@@ -54,7 +55,7 @@ public:
 
     bool update();
 
-    //Utility
+    // Utility
     static void  NodeToXY(void* node, unsigned& x, unsigned& y);
     static void* XYToNode(unsigned x, unsigned y);
     static void  XYToArray(unsigned /*x*/, unsigned& y);
@@ -65,7 +66,7 @@ private:
 
     bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
-    //Micropather
+    // Micropather
     virtual float LeastCostEstimate(void* nodeStart, void* nodeEnd) override;
     virtual void  AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) override;
     virtual void  PrintStateInfo(void* /*node*/) override {}

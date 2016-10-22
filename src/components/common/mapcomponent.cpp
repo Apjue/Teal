@@ -24,7 +24,8 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const MapData& data, const Nz::String& tileset, TilesetCore* tcore, const Ndk::EntityHandle& e)
+MapInstance::MapInstance(const std::shared_ptr<MapData>& data, const Nz::String& tileset, 
+                         TilesetCore* tcore, const Ndk::EntityHandle& e)
     : MapInstance(e, tcore)
 {
     map = data;
@@ -38,6 +39,7 @@ MapInstance::MapInstance(const MapData& data, const Nz::String& tileset, Tileset
 bool MapInstance::update() // Thanks Lynix for this code
 {
     NazaraAssert(m_tilesetCore, "TilesetCore nullptr !");
+    NazaraAssert(map, "Map is not valid !");
 
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
@@ -115,7 +117,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                auto tileName = map.map()[x + y * width];
+                auto tileName = map->map()[x + y * width];
                 unsigned tileNumber = m_tilesetCore->get(tileName);
 
                 float textureX = 64.f * tileNumber;
@@ -179,6 +181,8 @@ std::pair<unsigned, unsigned> MapInstance::IndexToXY(unsigned index)
 
 bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
+    NazaraAssert(map, "Map is not valid !");
+
     //Step 1.
     {
         if ((sX == eX - 2 && sY == eY)
@@ -207,7 +211,7 @@ bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 
         unsigned const tile { eX + eY * Def::MAPX };
 
-        unsigned const tileNumber = map.obs()[tile];
+        unsigned const tileNumber = map->obs()[tile];
         return tileNumber == 0;
     }
 }

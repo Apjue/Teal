@@ -2,15 +2,19 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-void activateMapEntities(MapData& map)
+void activateMapEntities(const std::shared_ptr<MapData>& map)
 {
-    for (auto& e : map.getEntities())
+    NazaraAssert(map, "map not valid !");
+
+    for (auto& e : map->getEntities())
         e->Enable();
 }
 
-void deactivateMapEntities(MapData& map)
+void deactivateMapEntities(const std::shared_ptr<MapData>& map)
 {
-    for (auto& e : map.getEntities())
+    NazaraAssert(map, "map not valid !");
+
+    for (auto& e : map->getEntities())
         e->Enable(false);
 }
 

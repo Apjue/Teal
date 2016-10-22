@@ -68,13 +68,13 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
     // Okay, now, let's check if the position where the entity
     // will move to is valid (no obstacle)
 
-    MapData map; // Map the entity will move to
+    std::shared_ptr<MapData> map; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
 
     switch (entExt)
     {
     case Direction::Left:
-        map = *m_maps->get({ mapPos.x - 1, mapPos.y });
+        map = m_maps->get({ mapPos.x - 1, mapPos.y });
 
         x = Def::LMAPX;
         y = pos.y;
@@ -82,7 +82,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Right:
-        map = *m_maps->get({ mapPos.x + 1, mapPos.y });
+        map = m_maps->get({ mapPos.x + 1, mapPos.y });
 
         x = 0u;
         y = pos.y;
@@ -90,7 +90,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Up:
-        map = *m_maps->get({ mapPos.x, mapPos.y - 1 });
+        map = m_maps->get({ mapPos.x, mapPos.y - 1 });
 
         x = pos.x;
         y = Def::LMAPY;
@@ -98,7 +98,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Down:
-        map = *m_maps->get({ mapPos.x, mapPos.y + 1 });
+        map = m_maps->get({ mapPos.x, mapPos.y + 1 });
 
         x = pos.x;
         y = 0u;
@@ -112,9 +112,11 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
     }
 
+    NazaraAssert(map, "new map null !");
+
     MapInstance::XYToArray(x, y);
 
-    if (map.obs()[x + y * Def::MAPX] != 0)
+    if (map->obs()[x + y * Def::MAPX] != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
     
     return std::make_pair(true, entExt);
@@ -130,7 +132,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
 
-    MapData newMap; // Map the entity will move to
+    std::shared_ptr<MapData> newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
     unsigned mapX {}, mapY {}; // Position of the new map
     Orientation newOrient { Orientation::Down };
@@ -138,7 +140,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     switch (canChange.second)
     {
     case Direction::Left:
-        newMap = *m_maps->get({ mapPos.x - 1, mapPos.y });
+        newMap = m_maps->get({ mapPos.x - 1, mapPos.y });
 
         x = Def::LMAPX;
         y = pos.y;
@@ -151,7 +153,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Right:
-        newMap = *m_maps->get({ mapPos.x + 1, mapPos.y });
+        newMap = m_maps->get({ mapPos.x + 1, mapPos.y });
 
         x = 0u;
         y = pos.y;
@@ -164,7 +166,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Up:
-        newMap = *m_maps->get({ mapPos.x, mapPos.y - 1 });
+        newMap = m_maps->get({ mapPos.x, mapPos.y - 1 });
 
         x = pos.x;
         y = Def::LMAPY;
@@ -177,7 +179,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Down:
-        newMap = *m_maps->get({ mapPos.x, mapPos.y + 1 });
+        newMap = m_maps->get({ mapPos.x, mapPos.y + 1 });
 
         x = pos.x;
         y = 0u;
@@ -190,14 +192,18 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
     }
 
+    NazaraAssert(newMap, "new map null !");
+
     auto currentMapLock = m_currentMap.lock();
     auto patherLock = m_pather.lock();
 
     deactivateMapEntities(currentMapLock->map);
+
     currentMapLock->map = newMap;
+    patherLock->Reset(); // Map changed, need to reset pather's cache
+
     activateMapEntities(currentMapLock->map);
 
-    patherLock->Reset(); // Map changed, need to reset pather's cache
 
     if (!currentMapLock->update())
         NazaraError("Cannot update map");
