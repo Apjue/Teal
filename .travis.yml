@@ -3,7 +3,7 @@ notifications:
     recipients:
       - samy6066@yahoo.fr
     on_success: change
-    on_failure: always
+    on_failure: never
 
 language: cpp
 compiler: clang
