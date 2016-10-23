@@ -159,6 +159,9 @@
     <ClInclude Include="include\def\typedef.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\factory.cpp">
@@ -260,6 +263,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="include\cache\tilesetcore.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="include\util\random.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
