@@ -15,7 +15,7 @@
 ///
 /// \example RandomNumber<std::mt19937> rng;
 ///          std::uniform_int_distribution<> uni(0, 5);
-///          auto random_number = uni(rng);
+///          int random_number = uni(rng);
 ///
 
 template<class Generator>
