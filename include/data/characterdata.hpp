@@ -39,10 +39,12 @@ struct CharacterData
                   const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
                   const Nz::Vector2i& mapPos_ = {}, unsigned mhp = 100u, 
                   const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove, 
-                  const Orientation& o_ = Orientation::Down)
+                  const Orientation& o_ = Orientation::Down, bool rdMov = false, float mvIntrvl = 500.f,
+                  unsigned nbTils = 1u)
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
-        maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ } {}
+        maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ }, 
+        randomMovement { rdMov }, movInterval { mvIntrvl }, nbTiles { nbTils } {}
 
     ~CharacterData() = default;
 
@@ -58,6 +60,10 @@ struct CharacterData
     Orientation o;
 
     Nz::Vector2i mapPos;
+
+    bool randomMovement;
+    float movInterval;
+    unsigned nbTiles;
 };
 
 #endif // CHARACTERDATA_HPP
