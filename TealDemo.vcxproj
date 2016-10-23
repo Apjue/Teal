@@ -208,7 +208,6 @@
     <ClCompile Include="src\cache\texturecore.cpp" />
     <ClCompile Include="src\util\gfxutil.cpp" />
     <ClCompile Include="src\util\maputil.cpp" />
-    <ClCompile Include="src\util\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
