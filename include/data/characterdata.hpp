@@ -24,6 +24,13 @@
 
 struct CharacterData
 {
+    struct RandomMovement
+    {
+        bool randomMovement { false };
+        float movInterval { 7500.f };
+        unsigned nbTiles { 1u };
+    };
+
     /// 
     /// \param size Size of the sprite's image
     /// \param pic Sprite of the character
@@ -33,18 +40,17 @@ struct CharacterData
     /// \param mapPos_ Default Map Position
     /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
+    /// \param rdMov_ Used for Random Movement settings
     /// 
 
     CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0u,
                   const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
                   const Nz::Vector2i& mapPos_ = {}, unsigned mhp = 100u, 
                   const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove, 
-                  const Orientation& o_ = Orientation::Down, bool rdMov = false, float mvIntrvl = 500.f,
-                  unsigned nbTils = 1u)
+                  const Orientation& o_ = Orientation::Down, RandomMovement rdMov_ = RandomMovement())
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
-        maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ }, 
-        randomMovement { rdMov }, movInterval { mvIntrvl }, nbTiles { nbTils } {}
+        maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_) {}
 
     ~CharacterData() = default;
 
@@ -60,10 +66,7 @@ struct CharacterData
     Orientation o;
 
     Nz::Vector2i mapPos;
-
-    bool randomMovement;
-    float movInterval;
-    unsigned nbTiles;
+    RandomMovement rdMov;
 };
 
 #endif // CHARACTERDATA_HPP
