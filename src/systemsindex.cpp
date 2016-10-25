@@ -8,3 +8,4 @@
 Ndk::SystemIndex AISystem::systemIndex;
 Ndk::SystemIndex AnimationSystem::systemIndex;
 Ndk::SystemIndex MovementSystem::systemIndex;
+Ndk::SystemIndex RandomMovementSystem::systemIndex;

@@ -31,7 +31,21 @@ private:
 
     void OnUpdate(float elapsed) override
     {
+        RandomNumber<std::mt19937> rng;
 
+        for (auto& e : GetEntities())
+        {
+            auto& rd = e->GetComponent<RandomMovementComponent>();
+            auto& mov = e->GetComponent<MoveToComponent>();
+
+            rd.currentInterval += elapsed;
+
+            while (rd.currentInterval > rd.movingInterval)
+            {
+                rd.currentInterval -= rd.movingInterval;
+
+            }
+        }
     }
 };
 
