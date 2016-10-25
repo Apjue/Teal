@@ -35,6 +35,11 @@ constexpr Dir operator~(Dir a)
 
 } //namespace Direction
 
+DiffTile OrienToXY(Orientation o)
+{
+    return DirToXY(OrienToDir(o));
+}
+
 bool isPositionValid(AbsTile pos)
 {
     return pos.x % 2 == pos.y % 2;

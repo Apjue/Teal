@@ -72,6 +72,8 @@ extern Direction::Dir XYToDir(DiffTile d);
 extern Orientation DirToOrien(Direction::Dir d);
 extern Direction::Dir OrienToDir(Orientation o);
 
+inline DiffTile OrienToXY(Orientation o);
+
 ///
 /// \fn isDiagonal
 ///
@@ -80,6 +82,7 @@ extern Direction::Dir OrienToDir(Orientation o);
 ///
 /// \example Up | Left will return true
 ///          Up | Down | Left | Right too
+///          But not Up
 ///
 /// \param dir Direction to check
 ///
