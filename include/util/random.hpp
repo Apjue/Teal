@@ -25,11 +25,11 @@ public:
     using result_type = typename Generator::result_type;
 
     result_type operator()();
-    result_type min();
-    result_type max();
+    static result_type min();
+    static result_type max();
 
 private:
-    Generator& instance();
+    static Generator& instance();
 };
 
 #include "random.inl"
