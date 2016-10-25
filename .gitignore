@@ -6,10 +6,12 @@
 # Build
 /Debug
 /Release
+/x86
+/x64
 
 # Data
-/wdirs/**
+/wdirs
 
 # ExtLibs
-/extlibs/lib/**
-/extlibs/include/**
+/extlibs/lib/
+/extlibs/include/
