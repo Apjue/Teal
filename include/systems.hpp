@@ -10,5 +10,6 @@
 #include "systems/aisystem.hpp"
 #include "systems/animationsystem.hpp"
 #include "systems/movementsystem.hpp"
+#include "systems/randommovementsystem.hpp"
 
 #endif // SYSTEMS_HPP

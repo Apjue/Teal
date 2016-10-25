@@ -74,12 +74,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Nazara\current\nazara\Nazara\include\;C:\Nazara\current\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(ProjectDir)extlibs\include\nazara;$(ProjectDir)extlibs\include\micropather;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NAZARA_DEBUG;TEAL_DEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Nazara\current\nazara\Nazara\lib\msvc\x86\;$(ProjectDir)extlibs\lib\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)extlibs\lib\vs2015\x86\nazara\;$(ProjectDir)extlibs\lib\vs2015\x86\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraRenderer-d.lib;NazaraUtility-d.lib;NazaraSDK-d.lib;NazaraLua-d.lib;micropather-d-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -97,14 +97,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Nazara\current\nazara\Nazara\include\;C:\Nazara\current\nazara\Nazara\SDK\include\;$(ProjectDir)include\;$(ProjectDir)extlibs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(ProjectDir)extlibs\include\nazara;$(ProjectDir)extlibs\include\micropather;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Nazara\current\nazara\Nazara\lib\msvc\x86\;$(ProjectDir)extlibs\lib\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)extlibs\lib\vs2015\x86\nazara\;$(ProjectDir)extlibs\lib\vs2015\x86\micropather\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>NazaraCore.lib;NazaraGraphics.lib;NazaraRenderer.lib;NazaraUtility.lib;NazaraSDK.lib;NazaraLua.lib;micropather-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -127,6 +127,7 @@
     <ClInclude Include="include\cache\tilesetcore.hpp" />
     <ClInclude Include="include\components\common\mappositioncomponent.hpp" />
     <ClInclude Include="include\def\typedef.hpp" />
+    <ClInclude Include="include\systems\randommovementsystem.hpp" />
     <ClInclude Include="include\util\classhash.hpp" />
     <ClInclude Include="include\data\characterdata.hpp" />
     <ClInclude Include="include\util\chrono.hpp" />

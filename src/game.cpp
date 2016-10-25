@@ -234,6 +234,7 @@ void Game::initCustomThings()
     Ndk::InitializeSystem<AISystem>();
     Ndk::InitializeSystem<MovementSystem>();
     Ndk::InitializeSystem<AnimationSystem>();
+    Ndk::InitializeSystem<RandomMovementSystem>();
 }
 
 void Game::initIcon()
