@@ -33,6 +33,9 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos
 
     e->AddComponent<AnimationComponent>(infos.imgsize, infos.maxframe, infos.animState);
 
+    if (infos.rdMov.randomMovement)
+        e->AddComponent<RandomMovementComponent>(infos.rdMov.movInterval, infos.rdMov.nbTiles);
+
     refreshGraphicsPos(e);
     return e;
 }
