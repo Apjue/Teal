@@ -27,7 +27,7 @@ struct CharacterData
     struct RandomMovement
     {
         bool randomMovement { false };
-        float movInterval { 7500.f };
+        float movInterval { 7.5f };
         unsigned nbTiles { 1u };
     };
 
