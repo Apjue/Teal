@@ -14,8 +14,12 @@ struct RandomMovementComponent : public Ndk::Component<RandomMovementComponent>
     RandomMovementComponent() = default;
     ~RandomMovementComponent() = default;
 
+    RandomMovementComponent(float movInt, unsigned nbTil)
+        : movingInterval { movInt }, nbTiles { nbTil } {}
+
     float movingInterval {};
     unsigned nbTiles {}; // Number of tiles to move each movement
+    float currentInterval {};
 
     static Ndk::ComponentIndex componentIndex;
 };
