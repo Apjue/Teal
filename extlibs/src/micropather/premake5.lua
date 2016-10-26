@@ -1,5 +1,5 @@
 workspace "Micropather"
-    configurations { "DebugStatic", "ReleaseStatic" }
+    configurations { "Debug", "Release" }
     platforms { "x86", "x64" }
 
     filter "platforms:x86"
@@ -13,11 +13,11 @@ workspace "Micropather"
 project "micropather"
     kind "StaticLib"
     language "C++"
-    targetdir("../../lib/" .. _ACTION ..  "%{cfg.platform}/micropather/%{cfg.buildcfg}/")
+    targetdir("../../lib/" .. _ACTION ..  "%{cfg.platform}/micropather/")
     files { "micropather.h", "micropather.cpp" }
 
-    filter "configurations:Debug*"
+    filter "configurations:Debug"
         flags { "symbols" }
 
-    filter "configurations:Release*"
+    filter "configurations:Release"
         optimize "On"
