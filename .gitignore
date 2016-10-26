@@ -1,4 +1,4 @@
-﻿# My project files
+﻿# My project files (Why does github still send this ?)
 /TealDemo.vcxproj
 /TealDemo.vcxproj.filters
 /TealDemo.vcxproj.user
@@ -13,5 +13,5 @@
 /wdirs
 
 # ExtLibs
-/extlibs/lib/
-/extlibs/include/
+/extlibs/lib/**
+/extlibs/include/**
