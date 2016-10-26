@@ -13,15 +13,12 @@
 #include "components/common/movetocomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"
 #include "util/random.hpp"
+#include "global.hpp"
 
 class RandomMovementSystem : public Ndk::System<RandomMovementSystem>
 {
 public:
-    RandomMovementSystem()
-    {
-        Requires<PositionComponent, MoveToComponent, RandomMovementComponent>;
-        SetUpdateRate(10.f);
-    }
+    RandomMovementSystem();
     ~RandomMovementSystem() = default;
 
     static Ndk::SystemIndex systemIndex;
@@ -29,24 +26,7 @@ public:
 private:
     std::uniform_int_distribution<unsigned> m_uni;
 
-    void OnUpdate(float elapsed) override
-    {
-        RandomNumber<std::mt19937> rng;
-
-        for (auto& e : GetEntities())
-        {
-            auto& rd = e->GetComponent<RandomMovementComponent>();
-            auto& mov = e->GetComponent<MoveToComponent>();
-
-            rd.currentInterval += elapsed;
-
-            while (rd.currentInterval > rd.movingInterval)
-            {
-                rd.currentInterval -= rd.movingInterval;
-
-            }
-        }
-    }
+    void OnUpdate(float elapsed) override;
 };
 
 #endif // RANDOMMOVEMENTSYSTEM_HPP
