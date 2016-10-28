@@ -2,7 +2,7 @@ notifications:
   email:
     recipients:
       - samy6066@yahoo.fr
-    on_success: change
+    on_success: never
     on_failure: never
 
 language: cpp
@@ -13,3 +13,30 @@ branches:
   only:
   - master
 
+install:
+  - cd S6066/Teal/extlibs/include
+  - mkdir nazara && mkdir micropather
+  - cd nazara
+  - curl https://github.com/DigitalPulseSoftware/NazaraEngine/releases/download/v0.1.1/NazaraEngine-0.1.1-linux-x86.tar.gz -o nazara.tar.gz
+  - tar -xz nazara.tar.gz
+  - mv ./include/Nazara Nazara && mv ./include/NDK NDK
+  - cd ../../lib/
+  - mkdir clang && cd clang
+  - mkdir x86 && cd x86
+  - mkdir nazara && mkdir micropather
+  - cd nazara
+  - mv ../../../../include/lib/x86/*.lib ./
+  - cd ../micropather
+  - curl https://github.com/leethomason/MicroPather/raw/master/micropather.h -o micropather.h
+  - curl https://github.com/leethomason/MicroPather/raw/master/micropather.cpp -o micropather.cpp
+  - mv ../../../../src/micropather/premake5.lua ./
+  - ../../../../../build/premake5 --cc=clang gmake
+  - make
+  - cd ../../../../../../../ # Now in folder which contains S6066
+
+before_script:
+  cd S6066/Teal/build
+  premake5-linux64 --cc=clang gmake
+
+script:
+  ./configure && make
