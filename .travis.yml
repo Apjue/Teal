@@ -14,6 +14,7 @@ branches:
   - master
 
 install:
+  - pwd && ls
   - cd S6066/Teal/extlibs/include
   - mkdir nazara && mkdir micropather
   - cd nazara
