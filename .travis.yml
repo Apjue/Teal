@@ -20,19 +20,19 @@ install:
   - curl http://teal.esy.es/nazara/NazaraEngine-0.1.1-linux-x64.tar.gz -o nazara.tar.gz
   - tar -xvzf nazara.tar.gz
   - mv ./include/Nazara Nazara && mv ./include/NDK NDK
+  - cp ./bin/x64/*.so /usr/lib/
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir clang && cd clang
   - mkdir x86
   - mkdir x64 && cd x64
   - mkdir nazara && mkdir micropather
-  - cd nazara
-  - mv ${TRAVIS_BUILD_DIR}/extlibs/include/lib/x64/*.lib ./
-  - cd ../micropather
+  - cd micropather
   - curl https://github.com/leethomason/MicroPather/raw/master/micropather.h -o micropather.h
   - curl https://github.com/leethomason/MicroPather/raw/master/micropather.cpp -o micropather.cpp
-  - mv ../../../../src/micropather/premake5.lua ./
-  - ${TRAVIS_BUILD_DIR}/build/premake5 --cc=clang gmake
+  - cp ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/premake5.lua ./
+  - ${TRAVIS_BUILD_DIR}/build/premake5-linux64 --cc=clang gmake
   - make
+  - ls
   - cd ${TRAVIS_BUILD_DIR}
 
 before_script:
@@ -41,4 +41,4 @@ before_script:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./configure && make
+  - make
