@@ -6,7 +6,7 @@ template<class Key, class T, class Producer>
 typename Cache<Key, T, Producer>::ManagerType Cache<Key, T, Producer>::empty = nullptr;
 
 template<class K, class T, class P>
-typename const Cache<K, T, P>::ManagerType& Cache<K, T, P>::get(const K& k) const
+const typename Cache<K, T, P>::ManagerType& Cache<K, T, P>::get(const K& k) const
 {
     auto it = m_objects.find(k);
 
@@ -37,7 +37,7 @@ typename Cache<K, T, P>::InternalCache::iterator Cache<K, T, P>::add_(const K& k
 }
 
 template<class K, class T, class P>
-typename const Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache() const
+const typename Cache<K, T, P>::InternalCache& Cache<K, T, P>::getInternalCache() const
 {
     return m_objects;
 }

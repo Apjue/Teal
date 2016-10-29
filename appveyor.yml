@@ -3,3 +3,42 @@ skip_commits:
     - .travis.yml
     - LICENSE
     - README.md
+
+os:
+  - Visual Studio 2015
+
+environment:
+  matrix:
+  - TOOLSET: vs2015
+
+configuration:
+  - Debug
+# - Release
+
+platform:
+  - x64
+# - Win32
+
+install:
+  - cd $(APPVEYOR_BUILD_FOLDER)/extlibs/include
+  - mkdir nazara && mkdir micropather
+  - cd nazara
+  - curl http://teal.esy.es/nazara/NazaraEngine-0.1.1-msvc14-$(PLATFORM).tar.gz -o nazara.7z
+  - 7z x nazara.7z
+  - mv ./include/Nazara Nazara && mv ./include/NDK NDK
+  - cd $(APPVEYOR_BUILD_FOLDER)/extlibs/lib/
+  - mkdir $(TOOLSET) && cd $(TOOLSET)
+  - mkdir $(PLATFORM) && cd $(PLATFORM)
+  - mkdir nazara && mkdir micropather
+  - cd nazara
+  - mv $(APPVEYOR_BUILD_FOLDER)/extlibs/include/nazara/lib/$(PLATFORM)/*.lib ./
+  - cd ../micropather
+  - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
+  - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
+  - cp $(APPVEYOR_BUILD_FOLDER)/extlibs/src/micropather/premake5.lua ./
+  - cp $(APPVEYOR_BUILD_FOLDER)/build/premake5.exe ./
+  - ./premake5.exe $(TOOLSET)
+  - make # config=$(CONFIGURATION)
+
+build:
+  project: build/TealDemo.sln
