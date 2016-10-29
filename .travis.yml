@@ -34,7 +34,7 @@ install:
   - mkdir nazara && mkdir micropather
   - cd nazara
   - mv ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/x64/*.so ./
-  - cd micropather
+  - cd ../micropather
   - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
   - cp ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/premake5.lua ./
