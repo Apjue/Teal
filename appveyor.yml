@@ -39,7 +39,7 @@ install:
   - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/premake5.lua ./
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
-  - make # config=%CONFIGURATION%
+  - msbuild "Micropather.sln"
 
 before_build:
     - cd %APPVEYOR_BUILD_FOLDER%
