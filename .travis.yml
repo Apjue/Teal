@@ -17,7 +17,7 @@ install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && mkdir micropather
   - cd nazara
-  - wget --auth-no-challenge --header='Accept:application/octet-stream' -O nazara.tar.gz https://api.github.com/repos/DigitalPulseSoftware/NazaraEngine/releases/assets/2450272
+  - curl http://teal.esy.es/nazara/NazaraEngine-0.1.1-linux-x64.tar.gz -o nazara.tar.gz
   - tar -xvzf nazara.tar.gz
   - mv ./include/Nazara Nazara && mv ./include/NDK NDK
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
