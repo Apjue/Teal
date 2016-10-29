@@ -38,7 +38,7 @@ install:
   - cp ./micropather.h %APPVEYOR_BUILD_FOLDER%/extlibs/include/micropather/
   - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/premake5.lua ./
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
-  - ./premake5.exe %TOOLSET%
+  - premake5.exe %TOOLSET%
   - make # config=%CONFIGURATION%
 
 before_build:
