@@ -17,7 +17,7 @@ branches:
   - master
 
 before_install:
-  - sudo apt-get install libc6-dev-amd64
+  - sudo apt-get install libc6-dev
   - sudo apt-get install gcc-4.8-multilib g++-4.8-multilib
 
 install:
