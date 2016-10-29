@@ -12,13 +12,33 @@ os: linux
 sudo: required
 dist: trusty
 
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=g++-5
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+          packages:
+            - clang-3.7
+      env: COMPILER=clang++-3.7
+
 branches:
   only:
   - master
 
 before_install:
   - sudo apt-get install libc6-dev
-  - sudo apt-get install gcc-4.8-multilib g++-4.8-multilib
+  - sudo apt-get install gcc-5-multilib g++-5-multilib
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -27,7 +47,6 @@ install:
   - curl http://teal.esy.es/nazara/NazaraEngine-0.1.1-linux-x64.tar.gz -o nazara.tar.gz
   - tar -xzf nazara.tar.gz
   - mv ./include/Nazara Nazara && mv ./include/NDK NDK
-# - sudo cp ./bin/x64/*.so /usr/local/lib64/
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir clang && cd clang
   - mkdir x64 && cd x64
