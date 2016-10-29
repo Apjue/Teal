@@ -13,7 +13,7 @@ workspace "Micropather"
 project "micropather"
     kind "StaticLib"
     language "C++"
-    targetdir("../../lib/" .. _ACTION ..  "%{cfg.platform}/micropather/")
+    targetdir(_ACTION ..  "/%{cfg.platform}/micropather/")
     files { "micropather.h", "micropather.cpp" }
 
     filter "configurations:Debug"
