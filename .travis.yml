@@ -53,6 +53,7 @@ install:
   - cd ../micropather
   - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
+  - cp ./micropather.h ${TRAVIS_BUILD_DIR}/extlibs/include/micropather/
   - cp ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/premake5.lua ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
   - ./premake5-linux64 --cc=clang gmake
