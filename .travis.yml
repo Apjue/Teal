@@ -32,14 +32,15 @@ install:
   - curl https://github.com/leethomason/MicroPather/raw/master/micropather.cpp -o micropather.cpp
   - cp ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/premake5.lua ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
-  - premake5-linux64 --cc=clang gmake
+  - ./premake5-linux64 --cc=clang gmake
   - make
   - ls
+  - sudo cp ./*.so /usr/lib/
   - cd ${TRAVIS_BUILD_DIR}
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - premake5-linux64 --cc=clang gmake
+  - ./premake5-linux64 --cc=clang gmake
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build
