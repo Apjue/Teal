@@ -8,7 +8,9 @@ notifications:
 language: cpp
 compiler: clang
 os: linux
+
 sudo: required
+dist: trusty
 
 branches:
   only:
