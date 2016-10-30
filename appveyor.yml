@@ -42,9 +42,9 @@ install:
   - msbuild "Micropather.sln" /verbosity:minimal
 
 before_build:
-    - cd C:/projects/teal/build
-    - dir
-    - cd C:/projects/teal/
+    - cd %APPVEYOR_BUILD_FOLDER%/build
+    - premake5.exe %TOOLSET%
+    - cd ..
 
 build:
-  project: build/TealDemo.vcxproj
+  project: build/TealDemo.sln
