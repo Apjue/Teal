@@ -161,7 +161,8 @@ void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
 
 void* MapInstance::XYToNode(unsigned x, unsigned y)
 {
-    return reinterpret_cast<void*>(y * Def::MAPX + x);
+    std::size_t result = static_cast<std::size_t>(y * Def::MAPX + x);
+    return reinterpret_cast<void*>(result);
 }
 
 void MapInstance::XYToArray(unsigned /*x*/, unsigned& y)
