@@ -47,4 +47,4 @@ before_build:
     - cd ..
 
 build:
-  project: build/TealDemo.sln
+  project: build/Teal.sln
