@@ -45,4 +45,4 @@ before_build:
     - cd %APPVEYOR_BUILD_FOLDER%
 
 build:
-  project: build/TealDemo.sln
+  project: C:\projects\teal\build\TealDemo.sln

@@ -20,13 +20,11 @@ workspace "Micropather"
 project "micropather"
     kind "StaticLib"
     language "C++"
-    targetdir("./")
     files { "micropather.h", "micropather.cpp" }
 
     filter "configurations:Debug"
         flags { "symbols" }
-        buildoutputs { "micropather-d" }
+        targetname "micropather-d"
 
     filter "configurations:Release"
         optimize "On"
-        buildoutputs { "micropather" }
