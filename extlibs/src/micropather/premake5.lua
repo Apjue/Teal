@@ -25,6 +25,8 @@ project "micropather"
 
     filter "configurations:Debug"
         flags { "symbols" }
+        buildoutputs { "micropather-d" }
 
     filter "configurations:Release"
         optimize "On"
+        buildoutputs { "micropather" }
