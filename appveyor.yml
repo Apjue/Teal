@@ -35,14 +35,16 @@ install:
   - cd ../micropather
   - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
-  - cp ./micropather.h %APPVEYOR_BUILD_FOLDER%/extlibs/include/micropather/
+  - cp micropather.h %APPVEYOR_BUILD_FOLDER%/extlibs/include/micropather/
   - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/premake5.lua ./
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
   - msbuild "Micropather.sln" /verbosity:minimal
 
 before_build:
-    - cd %APPVEYOR_BUILD_FOLDER%
+    - cd C:/projects/teal/build
+    - dir
+    - cd C:/projects/teal/
 
 build:
-  project: C:\projects\teal\build\TealDemo.sln
+  project: build/TealDemo.vcxproj
