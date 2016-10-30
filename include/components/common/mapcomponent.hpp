@@ -19,6 +19,7 @@
 #include <Nazara/Graphics/Material.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/String.hpp>
+#include <cstdint>
 #include "micropather.h"
 #include "data/mapdata.hpp"
 #include "def/layerdef.hpp"

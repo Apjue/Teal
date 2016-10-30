@@ -17,7 +17,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
     enum BodyPart
     {
         Head,  // casque
-        Neck,  // amulettes, colliers
+        Neck,  // amulette
         Arms,  // épaulières, protections de bras
         Hands, // armes, boucliers
         Wrist, // bracelets
@@ -28,7 +28,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
         Feet   // bottes
     };
 
-    enum class Side //For digit, wrists, hands
+    enum class Side // For digit, wrists, hands
     {
         Right,
         Left

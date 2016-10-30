@@ -152,7 +152,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 
 void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
 {
-    int index = (int) node;
+    int index = reinterpret_cast<std::intptr_t>(node);
     auto xy = IndexToXY(static_cast<unsigned>(index));
 
     x = xy.first;
@@ -161,7 +161,7 @@ void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
 
 void* MapInstance::XYToNode(unsigned x, unsigned y)
 {
-    return (void*) (y * Def::MAPX + x);
+    return reinterpret_cast<void*>(y * Def::MAPX + x);
 }
 
 void MapInstance::XYToArray(unsigned /*x*/, unsigned& y)

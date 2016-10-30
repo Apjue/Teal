@@ -22,10 +22,10 @@
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"
+#include "components/common/attackmodifiercomponent.hpp"
+#include "components/common/resistancemodifiercomponent.hpp"
 
 //Items
-#include "components/items/attackbonuscomponent.hpp"
-#include "components/items/attackresistancecomponent.hpp"
 #include "components/items/ediblecomponent.hpp"
 #include "components/items/equippablecomponent.hpp"
 #include "components/items/hpgaincomponent.hpp"

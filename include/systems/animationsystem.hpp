@@ -20,6 +20,8 @@
 /// \brief Animates Graphics Items, as long as
 ///        they have a sprite attached to them
 ///
+/// \todo Animation Interval
+///
 
 class AnimationSystem : public Ndk::System<AnimationSystem>
 {

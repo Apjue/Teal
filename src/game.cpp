@@ -196,8 +196,11 @@ void Game::addMaps() /// TODO: Load from file
     npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
 
-    CharacterData npcData { { 113u, 99u }, npcSprite,
-        15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u, AnimationComponent::OnMove, Orientation::DownLeft };
+    CharacterData npcData 
+    {
+        { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
+        AnimationComponent::OnMove, Orientation::DownLeft, { true }
+    };
 
     auto npc = make_character(m_world, npcData);
     map1_0.addEntity(npc);
@@ -221,10 +224,10 @@ void Game::initCustomThings()
     Ndk::InitializeComponent<LifeComponent>("life");
     Ndk::InitializeComponent<MapComponent>("map");
     Ndk::InitializeComponent<MapPositionComponent>("mappos");
+    Ndk::InitializeComponent<AttackModifierComponent>("atkbonus");
+    Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
-    Ndk::InitializeComponent<Items::AttackBonusComponent>("atkbonus");
-    Ndk::InitializeComponent<Items::AttackResistanceComponent>("atkres");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
     Ndk::InitializeComponent<Items::EquippableComponent>("equip");
     Ndk::InitializeComponent<Items::EdibleComponent>("edible");

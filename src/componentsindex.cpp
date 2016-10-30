@@ -8,8 +8,6 @@ namespace Items
 {
 
 Ndk::ComponentIndex HPGainComponent::componentIndex;
-Ndk::ComponentIndex AttackBonusComponent::componentIndex;
-Ndk::ComponentIndex AttackResistanceComponent::componentIndex;
 Ndk::ComponentIndex ItemComponent::componentIndex;
 Ndk::ComponentIndex EquippableComponent::componentIndex;
 Ndk::ComponentIndex EdibleComponent::componentIndex;
@@ -31,3 +29,5 @@ Ndk::ComponentIndex FightComponent::componentIndex;
 Ndk::ComponentIndex LifeComponent::componentIndex;
 Ndk::ComponentIndex MapComponent::componentIndex;
 Ndk::ComponentIndex MapPositionComponent::componentIndex;
+Ndk::ComponentIndex AttackModifierComponent::componentIndex;
+Ndk::ComponentIndex ResistanceModifierComponent::componentIndex;

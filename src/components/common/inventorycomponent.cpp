@@ -6,11 +6,11 @@
 
 void InventoryComponent::add(const EntityType& e)
 {
-    assertItem(e);
+    NazaraAssert(isItem(e), "Entity isn't an item !");
 
     m_groups["all"].add(e);
 
-    //Add to basic groups
+    // Add to basic groups
     if (e->HasComponent<Items::EdibleComponent>())
         m_groups["edible"].add(e);
 
@@ -23,7 +23,7 @@ void InventoryComponent::add(const EntityType& e)
 
 void InventoryComponent::remove(const EntityType& e)
 {
-    assertItem(e);
+    NazaraAssert(isItem(e), "Entity isn't an item !");
 
     for (auto& group : m_groups)
     {
@@ -33,16 +33,18 @@ void InventoryComponent::remove(const EntityType& e)
 
 bool InventoryComponent::has(const EntityType& e)
 {
-    assertItem(e);
+    NazaraAssert(isItem(e), "Entity isn't an item !");
 
     auto& group = m_groups["all"];
     auto it = group.entities.find(e);
 
-    return (it == group.entities.end());
+    return it == group.entities.end();
 }
 
 void InventoryComponent::reset()
 {
+    m_groups.clear();
+
     for (auto const& name : { "all", "edible", "equippable", "resource" })
     {
         m_groups[name] = Group { name };

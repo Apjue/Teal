@@ -12,12 +12,10 @@
 #include <Nazara/Core/Error.hpp>
 #include <unordered_set>
 #include <unordered_map>
-
 #include "components/items/itemcomponent.hpp"
 #include "components/items/equippablecomponent.hpp"
 #include "components/items/ediblecomponent.hpp"
 #include "components/items/resourcecomponent.hpp"
-
 
 ///
 ///
@@ -102,6 +100,17 @@ public:
 
     inline const Group& group(const std::string& name);
 
+    ///
+    /// \fn isItem
+    ///
+    /// \return If the entity is an item
+    ///         i.e. if it has the Item Component
+    ///
+    /// \param entity Entity to check
+    ///
+
+    inline static bool isItem(const Ndk::EntityHandle& entity);
+
     static Ndk::ComponentIndex componentIndex;
 
 private:
@@ -116,19 +125,8 @@ private:
     ///
 
     void reset();
-
-    ///
-    /// \fn assertItem
-    ///
-    /// \brief Ensures the entity is an item
-    ///
-    /// \param entity Entity to check
-    ///
-
-    inline void assertItem(const Ndk::EntityHandle& entity) const;
 };
 
 #include "inventorycomponent.inl"
 
 #endif // INVENTORYCOMPONENT_HPP
-
