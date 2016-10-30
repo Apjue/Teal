@@ -33,7 +33,7 @@ template<class K, class T, class P>
 template<class... Args>
 typename Cache<K, T, P>::InternalCache::iterator Cache<K, T, P>::add_(const K& k, Args&&... args)
 {
-    return m_objects.emplace(k, P::create<Args...>(std::forward<Args>(args)...)).first;
+    return m_objects.emplace(k, P::template create<Args...>(std::forward<Args>(args)...)).first;
 }
 
 template<class K, class T, class P>

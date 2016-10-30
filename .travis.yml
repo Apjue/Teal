@@ -57,7 +57,8 @@ install:
   - cp ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/premake5.lua ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
   - ./premake5-linux64 --cc=clang gmake
-  - make # config=${CONFIG}
+  - make # config=${CONFIG}_x64
+  - ls
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
