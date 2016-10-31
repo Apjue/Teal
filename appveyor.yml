@@ -9,15 +9,16 @@ skip_commits:
 os:
   - Visual Studio 2015
 
-configuration:
-  - Debug
-# - Release
-
 platform:
   - x64
 
 environment:
   TOOLSET: vs2015
+  matrix:
+      - CONFIG: Debug
+        SUFFIX: -d
+
+      - CONFIG: Release
 
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
@@ -39,8 +40,8 @@ install:
   - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/premake5.lua ./
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
-  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - mv bin/%PLATFORM%/%CONFIGURATION%/micropather-d.lib ./
+  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIX%.lib ./
 
 before_build:
     - cd %APPVEYOR_BUILD_FOLDER%/build
@@ -48,4 +49,4 @@ before_build:
     - cd ..
 
 build_script:
-    - msbuild "build/Teal.sln" /verbosity:minimal /p:Configuration=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild "build/Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
