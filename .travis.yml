@@ -25,7 +25,10 @@ env:
     
   matrix:
     - CONFIG=debug
+      CONFIG_UPPER=Debug
+
 #   - CONFIG=release
+#     CONFIG_UPPER=Release
 
 branches:
   only:
@@ -56,7 +59,7 @@ install:
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
   - ./premake5-linux64 gmake
   - make config=${CONFIG}_x64
-  - mv bin/x64/${CONFIG}/* ./
+  - mv bin/x64/${CONFIG_UPPER}/* ./
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
