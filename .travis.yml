@@ -6,7 +6,7 @@ notifications:
     on_failure: never
 
 language: cpp
-compiler: clang
+compiler: gcc
 os: linux
 
 sudo: required
@@ -16,15 +16,12 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.7
     packages:
-      - clang-3.7
+      - g++-5
 
 env:
   global:
-    - COMPILER=clang++-3.7
-    - CFLAGS="-Wall -Wextra" 
-    - CXXFLAGS="-Wall -Wextra"
+    - COMPILER=g++-5
 # matrix:
 #   - CONFIG=debug
 #   - CONFIG=release
@@ -45,7 +42,7 @@ install:
   - tar -xzf nazara.tar.gz
   - mv ./include/Nazara Nazara && mv ./include/NDK NDK
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
-  - mkdir clang && cd clang
+  - mkdir gmake && cd gmake
   - mkdir x64 && cd x64
   - mkdir nazara && mkdir micropather
   - cd nazara
@@ -56,13 +53,13 @@ install:
   - cp ./micropather.h ${TRAVIS_BUILD_DIR}/extlibs/include/micropather/
   - cp ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/premake5.lua ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
-  - ./premake5-linux64 --cc=clang gmake
+  - ./premake5-linux64 gmake
   - make # config=${CONFIG}_x64
   - ls
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux64 --cc=clang gmake
+  - ./premake5-linux64 gmake
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build
