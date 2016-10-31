@@ -11,7 +11,7 @@ os:
 
 configuration:
   - Debug
-  - Release
+# - Release
 
 platform:
   - x64
@@ -40,6 +40,7 @@ install:
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
   - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - mv bin/%PLATFORM%/%CONFIGURATION%/micropather-d.lib ./
 
 before_build:
     - cd %APPVEYOR_BUILD_FOLDER%/build
