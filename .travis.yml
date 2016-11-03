@@ -1,7 +1,5 @@
 notifications:
   email:
-    recipients:
-      - samy6066@yahoo.fr
     on_success: never
     on_failure: never
 
@@ -64,6 +62,7 @@ install:
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
   - ./premake5-linux64 gmake
+  - g++ --version
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build
