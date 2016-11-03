@@ -17,7 +17,7 @@ addons:
     packages:
       - g++-5
 
-env: 
+env:
   - COMPILER=g++-5
     
   matrix:
