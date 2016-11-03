@@ -15,11 +15,10 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-6
+      - g++-5
 
-env:
-  global:
-    - COMPILER=g++-6
+env: 
+  - COMPILER=g++-5
     
   matrix:
     - CONFIG=debug
@@ -34,7 +33,7 @@ branches:
 
 before_install:
   - sudo apt-get install libc6-dev
-  - sudo apt-get install gcc-6-multilib g++-6-multilib
+  - sudo apt-get install gcc-5-multilib g++-5-multilib
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
