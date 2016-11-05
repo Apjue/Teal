@@ -33,10 +33,11 @@ branches:
   - master
 
 before_install:
+  - sudo apt-get update -qq
   - sudo apt-get install libc6-dev
   - sudo apt-get install gcc-5-multilib g++-5-multilib
-  - export CXX=g++-5
-  - export CC=gcc-5
+  - export CXX="g++-5"
+  - export CC="gcc-5"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -50,7 +51,7 @@ install:
   - mkdir x64 && cd x64
   - mkdir nazara && mkdir micropather
   - cd nazara
-  - mv ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/x64/*.so ./
+  - mv ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/x64/*.so /usr/lib64/local
   - cd ../micropather
   - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
@@ -64,7 +65,6 @@ install:
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
   - ./premake5-linux64 gmake
-  - g++ --version
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build
