@@ -41,6 +41,10 @@ before_install:
   - sudo mkdir local
   - export CXX="g++-5"
   - export CC="gcc-5"
+  - sudo apt-get install libopenal-dev libsndfile1-dev
+  - sudo apt-get install libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev
+  - sudo apt-get install mesa-common-dev libgl1-mesa-dev
+  - sudo apt-get install libassimp-dev
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
