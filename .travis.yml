@@ -76,3 +76,11 @@ before_script:
 script:
   - cd ${TRAVIS_BUILD_DIR}/build
   - make config=${CONFIG}_x64
+
+after_success:
+  - cd ${TRAVIS_BUILD_DIR}/build
+  - mkdir result
+  - cp bin/x64/${CONFIG_UPPER}/* ./result/
+
+deploy:
+  skip_cleanup: true
