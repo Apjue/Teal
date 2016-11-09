@@ -41,7 +41,7 @@ class Game
 {
 public:
     Game(Ndk::Application& app, const Nz::Vector2ui& winSize, 
-         const Nz::Vector2ui& viewport, const Nz::String& fenName);
+         const Nz::Vector2ui& viewport, const Nz::String& winName);
     ~Game() = default;
 
     inline void run();

@@ -5,7 +5,7 @@
 #include "game.hpp"
 
 Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, 
-           const Nz::Vector2ui& viewport, const Nz::String& fenName) :
+           const Nz::Vector2ui& viewport, const Nz::String& winName) :
     m_app(app), m_world(), m_window(app.AddWindow<Nz::RenderWindow>()), m_map(), m_charac(),
     m_mapViewport(viewport)
 {
@@ -16,7 +16,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
 
     initSchemeUtility(scheme);
 
-    m_window.Create(Nz::VideoMode(winSize.x, winSize.y, 32), fenName);
+    m_window.Create(Nz::VideoMode(winSize.x, winSize.y, 32), winName);
     m_world = app.AddWorld().CreateHandle();
 
     initCustomThings();
