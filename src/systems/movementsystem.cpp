@@ -84,8 +84,7 @@ void MovementSystem::OnUpdate(float elapsed)
                  changeMap(e);
         }
 
-        if (e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>()
-         && e->HasComponent<DefaultGraphicsPosComponent>())
+        if (isMapEntity(e))
             refreshGraphicsPos(e);
     }
 }

@@ -17,9 +17,3 @@ void deactivateMapEntities(const std::shared_ptr<MapData>& map)
     for (auto& e : map->getEntities())
         e->Enable(false);
 }
-
-bool hasComponentsToChangeMap(const Ndk::EntityHandle& p)
-{
-    return p->HasComponent<PositionComponent>()
-        && p->HasComponent<MapPositionComponent>();
-}

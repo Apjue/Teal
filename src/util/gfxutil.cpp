@@ -88,6 +88,8 @@ void initSchemeUtility(Nz::ImageRef newScheme)
 
 void refreshGraphicsPos(const Ndk::EntityHandle& charac)
 {
+    NazaraAssert(isMapEntity(charac), "Entity isn't a map entity !");
+
     auto& pos = charac->GetComponent<PositionComponent>();
     auto& gfxcomp = charac->GetComponent<Ndk::GraphicsComponent>();
     auto& gfxpos = charac->GetComponent<Ndk::NodeComponent>();

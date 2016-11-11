@@ -18,6 +18,7 @@
 #include "global.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/defaultgraphicsposcomponent.hpp"
+#include "util/entityutil.hpp"
 
 ///
 /// \fn getRenderableFromGraphicsComponent

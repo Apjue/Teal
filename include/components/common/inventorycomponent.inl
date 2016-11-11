@@ -32,11 +32,3 @@ const InventoryComponent::Group& InventoryComponent::group(const std::string& na
 {
     return m_groups[name];
 }
-
-bool InventoryComponent::isItem(const Ndk::EntityHandle& entity)
-{
-    NazaraAssert(entity.IsValid(), "Handle isn't valid !");
-    NazaraAssert(entity->IsValid(), "Entity isn't valid !");
-
-    return entity->HasComponent<Items::ItemComponent>();
-}

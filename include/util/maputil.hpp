@@ -10,6 +10,7 @@
 #include <NDK/Entity.hpp>
 #include <utility>
 #include <memory>
+#include "micropather.h"
 #include "cache/mapcore.hpp"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
@@ -18,21 +19,10 @@
 #include "def/gamedef.hpp"
 #include "global.hpp"
 #include "data/mapdata.hpp"
-#include "micropather.h"
+#include "util/entityutil.hpp"
 
 inline void activateMapEntities(const std::shared_ptr<MapData>& map);
 inline void deactivateMapEntities(const std::shared_ptr<MapData>& map);
-
-///
-/// \fn hasComponentsToChangeMap
-///
-/// \brief Checks if the entity has the components to change a map
-///        i.e. when entity has PositionComponent and MapPositionComponent.
-///
-/// \param p Entity to check
-///
-
-inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& p);
 
 ///
 /// \fn canChangeMap

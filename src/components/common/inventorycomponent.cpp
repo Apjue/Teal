@@ -6,7 +6,7 @@
 
 void InventoryComponent::add(const EntityType& e)
 {
-    NazaraAssert(isItem(e), "Entity isn't an item !");
+    NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
     m_groups["all"].add(e);
 
@@ -23,7 +23,7 @@ void InventoryComponent::add(const EntityType& e)
 
 void InventoryComponent::remove(const EntityType& e)
 {
-    NazaraAssert(isItem(e), "Entity isn't an item !");
+    NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
     for (auto& group : m_groups)
     {
@@ -33,7 +33,7 @@ void InventoryComponent::remove(const EntityType& e)
 
 bool InventoryComponent::has(const EntityType& e)
 {
-    NazaraAssert(isItem(e), "Entity isn't an item !");
+    NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
     auto& group = m_groups["all"];
     auto it = group.entities.find(e);

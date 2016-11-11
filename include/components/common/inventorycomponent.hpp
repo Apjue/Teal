@@ -16,6 +16,7 @@
 #include "components/items/equippablecomponent.hpp"
 #include "components/items/ediblecomponent.hpp"
 #include "components/items/resourcecomponent.hpp"
+#include "util/entityutil.hpp"
 
 ///
 ///
@@ -99,17 +100,6 @@ public:
     ///
 
     inline const Group& group(const std::string& name);
-
-    ///
-    /// \fn isItem
-    ///
-    /// \return If the entity is an item
-    ///         i.e. if it has the Item Component
-    ///
-    /// \param entity Entity to check
-    ///
-
-    inline static bool isItem(const Ndk::EntityHandle& entity);
 
     static Ndk::ComponentIndex componentIndex;
 

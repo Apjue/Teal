@@ -14,6 +14,7 @@
 #include "util/gfxutil.hpp"
 #include "def/gamedef.hpp"
 #include "util/maputil.hpp"
+#include "util/entityutil.hpp"
 
 ///
 /// \class MovementSystem
