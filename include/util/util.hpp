@@ -9,8 +9,6 @@
 
 #include "global.hpp"
 
-inline unsigned dToU(double d);
-
 template<class T>
 inline T distance(const T& x, const T& y);
 
@@ -19,4 +17,3 @@ inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
 #include "util.inl"
 
 #endif // UTIL_HPP
-

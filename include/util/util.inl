@@ -2,11 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-unsigned dToU(double d)
-{
-    return static_cast<unsigned>(d);
-}
-
 template<class T>
 T distance(const T& x, const T& y)
 {
