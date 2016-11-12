@@ -82,5 +82,5 @@ after_success:
   - mkdir result
   - cp bin/x64/${CONFIG_UPPER}/* ./result/
 
-deploy:
-  skip_cleanup: true
+#deploy:
+#  skip_cleanup: true
