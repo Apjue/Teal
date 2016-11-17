@@ -68,6 +68,9 @@ install:
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
   - ./premake5-linux64 gmake
   - make config=${CONFIG}_x64
+  - cd bin/x64/${CONFIG_UPPER}/ && ls
+  - cd ../../../
+  - cp bin/x64/${CONFIG_UPPER}/micropather%{SUFFIX}.so ./
   - sudo cp bin/x64/${CONFIG_UPPER}/micropather%{SUFFIX}.so /usr/lib
 
 before_script:
