@@ -24,6 +24,7 @@ env:
   matrix:
     - CONFIG=debug
       CONFIG_UPPER=Debug
+      SUFFIX=-d
 
     - CONFIG=release
       CONFIG_UPPER=Release
@@ -67,7 +68,7 @@ install:
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
   - ./premake5-linux64 gmake
   - make config=${CONFIG}_x64
-  - mv bin/x64/${CONFIG_UPPER}/* ./
+  - sudo cp bin/x64/${CONFIG_UPPER}/micropather%{SUFFIX}.so /usr/lib
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
