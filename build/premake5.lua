@@ -1,9 +1,14 @@
 local platformData
+
 if (os.is64bit()) then
     platformData = {"x64", "x86"}
 else
     platformData = {"x86", "x64"}
 end
+
+local action = _ACTION
+
+local rootFolder = "../.."
 
 workspace "Teal"
     configurations { "Debug", "Release" }
@@ -21,22 +26,28 @@ project "TealDemo"
     kind "ConsoleApp"
     language "C++"
     targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
+    buildoutputs { action }
 
     files
     {
-        "../include/**.hpp",
-        "../include/**.inl",
-        "../src/**.cpp"
+        rootFolder .. "/include/**.hpp",
+        rootFolder .. "/include/**.inl",
+        rootFolder .. "/src/**.cpp"
     }
 
-    local compiler = _ACTION
+    libdirs
+    { 
+        rootFolder .. "/extlibs/lib/" .. action ..  "/%{cfg.platform}/micropather/",
+        rootFolder .. "/extlibs/lib/" .. action ..  "/%{cfg.platform}/nazara/"
+    }
 
-    if (_ACTION == nil) then
-        compiler = "compiler"
-    end
+    includedirs
+    {
+        rootFolder .. "/extlibs/include/micropather/",
+        rootFolder .. "/extlibs/include/nazara/",
+        rootFolder .. "/include/"
+    }
 
-    libdirs { "../extlibs/lib/" .. compiler ..  "/%{cfg.platform}/micropather/", "../extlibs/lib/" .. compiler ..  "/%{cfg.platform}/nazara/" }
-    includedirs { "../extlibs/include/micropather/", "../extlibs/include/nazara/", "../include/" }
     flags { "C++14" }
 
     filter "action:vs*"
