@@ -48,7 +48,7 @@ project "TealDemo"
         rootFolder .. "/include/"
     }
 
-    flags { "C++14" }
+    flags { "C++14", "RelativeLinks" }
 
     filter "action:vs*"
         defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
