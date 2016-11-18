@@ -20,6 +20,7 @@ addons:
 env:
   global:
     - COMPILER=g++-5
+    - ACTION=gmake
     
   matrix:
     - CONFIG=debug
@@ -73,14 +74,14 @@ install:
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux64 gmake
+  - ./premake5-linux64 ${ACTION}
 
 script:
-  - cd ${TRAVIS_BUILD_DIR}/build
+  - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - make config=${CONFIG}_x64
 
 after_success:
-  - cd ${TRAVIS_BUILD_DIR}/build
+  - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
   - cp bin/x64/${CONFIG_UPPER}/* ./result/
 
