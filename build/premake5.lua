@@ -24,7 +24,7 @@ project "TealDemo"
     kind "ConsoleApp"
     language "C++"
     targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
-    location { _ACTION }
+    location(_ACTION)
 
     files
     {
