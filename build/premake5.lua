@@ -47,6 +47,7 @@ project "TealDemo"
     }
 
     flags { "C++14", "RelativeLinks" }
+    rtti("Off")
 
     filter "action:vs*"
         defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
