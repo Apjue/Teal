@@ -6,7 +6,7 @@ else
     platformData = {"x86", "x64"}
 end
 
-local rootFolder = "../.."
+local rootFolder = ".."
 
 workspace "Teal"
     configurations { "Debug", "Release" }
