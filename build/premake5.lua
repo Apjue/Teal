@@ -6,8 +6,6 @@ else
     platformData = {"x86", "x64"}
 end
 
-local action = _ACTION
-
 local rootFolder = "../.."
 
 workspace "Teal"
@@ -26,7 +24,7 @@ project "TealDemo"
     kind "ConsoleApp"
     language "C++"
     targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
-    buildoutputs { action }
+    location { _ACTION }
 
     files
     {
@@ -37,8 +35,8 @@ project "TealDemo"
 
     libdirs
     { 
-        rootFolder .. "/extlibs/lib/" .. action ..  "/%{cfg.platform}/micropather/",
-        rootFolder .. "/extlibs/lib/" .. action ..  "/%{cfg.platform}/nazara/"
+        rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/micropather/",
+        rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/nazara/"
     }
 
     includedirs

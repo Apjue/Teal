@@ -46,7 +46,7 @@ install:
 before_build:
     - cd %APPVEYOR_BUILD_FOLDER%/build
     - premake5.exe %TOOLSET%
-    - cd ..
+    - cd %TOOLSET%
 
 build_script:
-    - msbuild "build/Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
