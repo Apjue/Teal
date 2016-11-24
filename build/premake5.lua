@@ -47,7 +47,6 @@ project "TealDemo"
     }
 
     flags { "C++14", "RelativeLinks" }
-    rtti("Off")
 
     filter "action:vs*"
         defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
@@ -56,8 +55,10 @@ project "TealDemo"
         defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
         links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "micropather-d" }
         flags { "symbols" }
+        debugdir(rootFolder .. "/wdirs/debug/%{cfg.platform}/")
 
     filter "configurations:Release"
         defines { "NDEBUG" }
         links { "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "micropather" }
         optimize "On"
+        debugdir(rootFolder .. "/wdirs/release/%{cfg.platform}/")
