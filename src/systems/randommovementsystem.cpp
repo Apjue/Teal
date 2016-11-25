@@ -53,7 +53,8 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             }
             else
             {
-                for (std::vector<unsigned> failList, unsigned counter {}; counter < 8; ++counter)
+                std::vector<unsigned> failList;
+                for (unsigned counter {}; counter < 8; ++counter)
                 {
                     if (failList.size() == 8)
                         break;
