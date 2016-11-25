@@ -25,6 +25,7 @@ project "TealDemo"
     language "C++"
     targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
     location(_ACTION)
+    debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
 
     files
     {
@@ -55,10 +56,8 @@ project "TealDemo"
         defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
         links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "micropather-d" }
         flags { "symbols" }
-        debugdir(rootFolder .. "/wdirs/debug/%{cfg.platform}/")
 
     filter "configurations:Release"
         defines { "NDEBUG" }
         links { "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "micropather" }
         optimize "On"
-        debugdir(rootFolder .. "/wdirs/release/%{cfg.platform}/")

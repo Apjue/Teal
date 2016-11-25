@@ -61,6 +61,7 @@ public:
     static void* XYToNode(unsigned x, unsigned y);
     static void  XYToArray(unsigned /*x*/, unsigned& y);
     static std::pair<unsigned, unsigned> IndexToXY(unsigned index);
+    static unsigned XYToIndex(unsigned x, unsigned y);
 
 private:
     Ndk::EntityHandle m_entity;

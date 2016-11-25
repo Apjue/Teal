@@ -15,6 +15,3 @@
 # ExtLibs
 /extlibs/lib/**
 /extlibs/include/**
-
-# Others
-/cleanNazaraLibs.bat

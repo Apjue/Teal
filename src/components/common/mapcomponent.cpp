@@ -153,7 +153,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
 {
     int index {};
-    index = reinterpret_cast<std::intptr_t>(node);
+    index = static_cast<int>(reinterpret_cast<std::intptr_t>(node));
     auto xy = IndexToXY(static_cast<unsigned>(index));
 
     x = xy.first;
@@ -162,7 +162,7 @@ void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
 
 void* MapInstance::XYToNode(unsigned x, unsigned y)
 {
-    std::size_t result = static_cast<std::size_t>(y * Def::MAPX + x);
+    std::size_t result = static_cast<std::size_t>(XYToIndex(x, y));
     return reinterpret_cast<void*>(result);
 }
 
@@ -179,6 +179,11 @@ std::pair<unsigned, unsigned> MapInstance::IndexToXY(unsigned index)
     x = index - y * Def::MAPX;
 
     return std::make_pair(x, y);
+}
+
+static unsigned XYToIndex(unsigned x, unsigned y)
+{
+    return x + y * Def::MAPX;
 }
 
 bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)

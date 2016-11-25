@@ -47,7 +47,7 @@ void Game::textureLoadFailed(const Nz::String& file)
 
 void Game::addTextures()
 {
-    m_textures.setPrefix("./../../data/img/");
+    m_textures.setPrefix("../data/img/");
 
     std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
     {
@@ -69,7 +69,7 @@ void Game::addTextures()
     // TODO: Custom mods
 
     // First, checks if it exists
-    if (!Nz::File::Exists("./../../data/addons/additional_textures"))
+    if (!Nz::File::Exists("../data/addons/additional_textures"))
         return;
 
     // Now, open it
@@ -88,7 +88,7 @@ void Game::addTextures()
     {
         auto line = customTextures.ReadLine();
 
-        if (line.StartsWith("#") || // It's a comment
+        if (line.StartsWith("#") || // Comment
             line.IsEmpty() || line == ' ') // Empty line
             continue;
 
@@ -115,7 +115,7 @@ void Game::initTilesetCore()
     m_tilesetCore.add(water, "water");
 }
 
-void Game::addMaps() /// TODO: Load from file
+void Game::addMaps() /// TODO: Load from file (lua?)
 {
     Nz::String tilesTexture = m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
@@ -290,8 +290,10 @@ void Game::addEntities()
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
 
-    CharacterData mainCharacData { { 113u, 99u }, charSprite,
-                                     15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u };
+    CharacterData mainCharacData
+    { 
+        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u
+    };
 
     m_charac = make_character(m_world, mainCharacData);
 }
@@ -301,7 +303,7 @@ void Game::addSystems()
     m_world->AddSystem<AISystem>(m_pather);
     m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<AnimationSystem>();
-    //m_world->AddSystem<RandomMovementSystem>();
+    m_world->AddSystem<RandomMovementSystem>();
 }
 
 void Game::initEventHandler()
