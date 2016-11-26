@@ -35,6 +35,28 @@
 # XCode
 **.pbxuser
 
+# CLion/JetBrains
+**.iml
+.idea/
+
+# KDevelop
+*.kdev4
+.kdev4
+.kdev_include_paths
+
+# Nano, Vi
+.*.swp
+
+# GEdit
+*~
+
+# KPart
+.*.kate-swp
+
+# Others
+.gdb_history
+callgrind.out.*
+
 # Build
 Debug
 Release
