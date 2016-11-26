@@ -1,0 +1,1 @@
+It's better to put custom textures in this folder

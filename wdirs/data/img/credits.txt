@@ -1,0 +1,3 @@
+Inventory;lukems-br;http://opengameart.org/content/rpg-ui-icons-inventory-map-quests-spells-status
+Villager;Bleed;http://remusprites.carbonmade.com/
+Shield;LordNeo;http://opengameart.org/content/round-shield-64x64
