@@ -60,14 +60,13 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                         break;
 
                     auto map = m_map.lock();
-
                     unsigned direction = m_uni(rng);
 
-                    for (unsigned iCounter {}; 
-                         std::find(failList.begin(), failList.end(), direction) != failList.end() && iCounter < 8; 
-                         ++iCounter)
-                    { /// TODO Optimize this
-                        direction = m_uni(rng);
+                    for (unsigned dir {}; 
+                         std::find(failList.begin(), failList.end(), direction) != failList.end() && dir < 8;
+                         ++dir)
+                    {
+                        direction = dir;
                     }
 
                     Orientation orient = static_cast<Orientation>(direction);
