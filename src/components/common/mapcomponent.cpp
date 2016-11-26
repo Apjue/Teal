@@ -181,7 +181,7 @@ std::pair<unsigned, unsigned> MapInstance::IndexToXY(unsigned index)
     return std::make_pair(x, y);
 }
 
-static unsigned XYToIndex(unsigned x, unsigned y)
+unsigned MapInstance::XYToIndex(unsigned x, unsigned y)
 {
     return x + y * Def::MAPX;
 }
