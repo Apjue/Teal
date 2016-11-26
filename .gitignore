@@ -1,17 +1,75 @@
-﻿# My project files
-/TealDemo.vcxproj
-/TealDemo.vcxproj.filters
-/TealDemo.vcxproj.user
+﻿# Project files
+
+**.user
+
+# Visual Studio
+**.pdb
+**.filters
+**.vcxproj
+**.tlog
+**.sln
+**.vcxprojResolveAssemblyReference.cache
+**.nativecodeanalysis.all.xml
+**.nativecodeanalysis.xml
+**.VC.opendb
+**.VC.db
+
+# CodeLite
+**.project
+
+# GMake
+**.make
+
+# QtCreator
+**.pro
+
+# Code::Blocks
+**.cbp
+**.workspace
+**.layout
+**.save-failed
+**.cbTemp
+**.cscope_file_list
+**.depend
+
+# XCode
+**.pbxuser
 
 # Build
-/Debug
-/Release
-/x86
-/x64
+Debug
+Release
 
-# Data
-/wdirs
+x86
+x64
+
+# Compiled Object files
+**.slo
+**.lo
+**.o
+**.obj
+**.obj.enc
+
+**_i.c
+**_p.c
+**.idb
+**.ilk
+**.meta
+**.pch
+**.pgc
+**.pgd
+**.rsp
+**.sbr
+**.tlb
+**.tli
+**.tlh
+**.tmp
+**.vspscc
+**.vssscc
+
+# Working Directories
+wdirs/x64
+wdirs/x86
 
 # ExtLibs
-/extlibs/lib/**
-/extlibs/include/**
+extlibs/lib/**
+extlibs/include/**
