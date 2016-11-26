@@ -1,2 +1,0 @@
-Let's say %ROOT_FOLDER% is the folder where include, src, build folders are located
-Put this folder (data) into %ROOT_FOLDER%/wdirs/
