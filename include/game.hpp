@@ -31,7 +31,6 @@
 #include "factory.hpp"
 #include "data/characterdata.hpp"
 #include "micropather.h"
-#include "cache/texturecore.hpp"
 #include "cache/mapcore.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/maputil.hpp"
@@ -40,7 +39,7 @@
 class Game
 {
 public:
-    Game(Ndk::Application& app, const Nz::Vector2ui& winSize, 
+    Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
          const Nz::Vector2ui& viewport, const Nz::String& winName);
     ~Game() = default;
 
@@ -52,14 +51,13 @@ private:
     Nz::RenderWindow& m_window;
 
     Ndk::EntityHandle m_map;
-    Ndk::EntityHandle m_charac; //main character
+    Ndk::EntityHandle m_charac; // Main character
 
-    TextureCore m_textures;
     MapCore m_maps;
     TilesetCore m_tilesetCore;
 
     Nz::Rectui m_mapViewport;
-    std::shared_ptr<micropather::MicroPather> m_pather {}; //Used by the AI System
+    std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
     Nz::Icon m_winIcon;
 
     //Slots
@@ -71,7 +69,6 @@ private:
     void addTextures();
     void initTilesetCore();
     void addMaps();
-    void textureLoadFailed(const Nz::String& file); // Panic !
 
     void initIcon();
     void initCam();

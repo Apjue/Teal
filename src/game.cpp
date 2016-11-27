@@ -12,7 +12,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addTextures();
 
     Nz::ImageRef scheme = Nz::Image::New();
-    scheme->LoadFromFile(m_textures.get(":/game/scheme")->GetFilePath());
+    scheme->LoadFromFile(Nz::TextureLibrary::Get(":/game/scheme")->GetFilePath());
 
     initSchemeUtility(scheme);
 
@@ -36,19 +36,9 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
 }
 
 
-void Game::textureLoadFailed(const Nz::String& file)
-{
-    Nz::StringStream errLog;
-    errLog << __FILE__ << ' ' << __FUNCTION__ << " l" << __LINE__ << ": \n";
-    errLog << "PANIC ! Reason: Texture loading failed - File: " << file;
-
-    NazaraError(errLog);
-}
-
 void Game::addTextures()
 {
-    m_textures.setPrefix("../data/img/");
-    m_textures.getPrefix();
+    Nz::String prefix = "../data/img/";
 
     std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
     {
@@ -62,8 +52,7 @@ void Game::addTextures()
     };
 
     for (auto& pair : filepaths)
-        if (!m_textures.addByLoad(pair.first, pair.second))
-            textureLoadFailed(pair.second);
+        Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(prefix + pair.second));
 
     // Load custom textures
     // Custom textures can be used in custom mods
@@ -71,13 +60,13 @@ void Game::addTextures()
     /// \todo Custom mods
 
     // First, checks if it exists
-    if (!Nz::File::Exists(m_textures.getPrefix() + "../addons/additional_textures"))
+    if (!Nz::File::Exists(prefix + "../addons/additional_textures"))
         return;
 
     // Now, open it
     Nz::File customTextures;
 
-    if (!customTextures.Open(m_textures.getPrefix() + "../addons/additional_textures",
+    if (!customTextures.Open(prefix + "../addons/additional_textures",
                              Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
     {
         NazaraError("Cannot open custom textures file");
@@ -102,8 +91,7 @@ void Game::addTextures()
         if(line.Split(customPair, " ; ") != 2u)
             continue; // Need 2 values
 
-        if (!m_textures.addByLoad(customPair[0], customPair[1]))
-            textureLoadFailed(customPair[1]);
+        Nz::TextureLibrary::Register(customPair[0], Nz::TextureManager::Get(prefix + customPair[1]));
     }
 }
 
@@ -122,7 +110,7 @@ void Game::initTilesetCore()
 
 void Game::addMaps() /// \todo Load from file (lua?)
 {
-    Nz::String tilesTexture = m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath();
+    Nz::String tilesTexture = Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
     MapData map0_0
     {
@@ -190,7 +178,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
     };
 
     Nz::MaterialRef npcMat = Nz::Material::New(); // Test
-    npcMat->LoadFromFile(m_textures.get(":/game/char/villager")->GetFilePath());
+    npcMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath());
 
     npcMat->EnableBlending(true);
     npcMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
@@ -248,7 +236,7 @@ void Game::initCustomThings()
 void Game::initIcon()
 {
     Nz::Image iconImage;
-    iconImage.LoadFromFile(m_textures.get(":/game/money")->GetFilePath());
+    iconImage.LoadFromFile(Nz::TextureLibrary::Get(":/game/money")->GetFilePath());
 
     m_winIcon.Create(iconImage);
 
@@ -276,15 +264,16 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
 
     auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath(),
+    mapComp.init(m_maps.get({ 0, 0 }), Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath(),
                  &m_tilesetCore);
+
     activateMapEntities(m_maps.get({ 0, 0 }));
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 
 
     Nz::MaterialRef charMat = Nz::Material::New();
-    charMat->LoadFromFile( m_textures.get(":/game/char/villager")->GetFilePath() );
+    charMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath() );
 
     charMat->EnableBlending(true);
     charMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
