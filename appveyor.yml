@@ -62,8 +62,8 @@ after_build:
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Newton.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/soft_oal.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/wdirs ./
-    - 7z a TealDemo.7z *
+    - 7z a TealDemo.7z * && cd ../..
 
 artifacts:
-    - path: $(APPVEYOR_BUILD_FOLDER)/build/result/TealDemo.7z
+    - path: build/result/TealDemo.7z
       name: 'TealDemo-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'
