@@ -4,7 +4,7 @@
 
 #include "components/common/mapcomponent.hpp"
 
-MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore) 
+MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
     : m_entity(e), m_tilesetCore(tcore)
 {
     m_mat = Nz::Material::New("Translucent2D");
@@ -24,7 +24,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const std::shared_ptr<MapData>& data, const Nz::String& tileset, 
+MapInstance::MapInstance(const std::shared_ptr<MapData>& data, const Nz::String& tileset,
                          TilesetCore* tcore, const Ndk::EntityHandle& e)
     : MapInstance(e, tcore)
 {
@@ -52,9 +52,9 @@ bool MapInstance::update() // Thanks Lynix for this code
     unsigned int indexCount = width * height * 6;
     unsigned int vertexCount = width * height * 4;
 
-    Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount, 
+    Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount,
                                                           Nz::DataStorage_Hardware, Nz::BufferUsage_Static);
-    Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount, 
+    Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount,
                                                              Nz::DataStorage_Hardware, Nz::BufferUsage_Static);
 
     {
@@ -146,7 +146,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 
     m_model->SetMesh(mesh);
     m_model->SetMaterial(0, m_mat);
-    
+
     return true;
 }
 
@@ -190,23 +190,23 @@ bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     NazaraAssert(map, "Map is not valid !");
 
-    //Step 1.
+    // Step 1.
     {
         if ((sX == eX - 2 && sY == eY)
          || (sX == eX + 2 && sY == eY)
          || (sX == eX && sY == eY - 2)
          || (sX == eX && sY == eY + 2)
-            //diagonals
+            // Diagonals
          || (sX == eX + 1 && sY == eY + 1)
          || (sX == eX - 1 && sY == eY - 1)
          || (sX == eX + 1 && sY == eY - 1)
          || (sX == eX - 1 && sY == eY + 1))
-            ; //ok, continue
+            ; // Ok, continue
         else
             return false;
     }
 
-    //Step 2.
+    // Step 2.
     {
         if (eX > Def::LMAPX || eY > Def::LMAPY)
             return false;
@@ -243,8 +243,8 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
 {
     NazaraAssert(neighbors, "Micropather neighbors null !");
 
-    static constexpr std::array<int, 8> dx { 0,   2,   0 , -2,   1,   -1,    1,   -1 };
-    static constexpr std::array<int, 8> dy { 2,   0,  -2,   0,   1,   -1,   -1,    1 };
+    static constexpr std::array<int,   8> dx   { 0,   2,   0 , -2,   1,   -1,    1,   -1 };
+    static constexpr std::array<int,   8> dy   { 2,   0,  -2,   0,   1,   -1,   -1,    1 };
     static constexpr std::array<float, 8> cost { 2.f, 2.f, 2.f, 2.f, 1.5f, 1.5f, 1.5f, 1.5f };
 
     unsigned x {}, y {};
