@@ -4,7 +4,7 @@
 
 #include "game.hpp"
 
-Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, 
+Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
            const Nz::Vector2ui& viewport, const Nz::String& winName) :
     m_app(app), m_world(), m_window(app.AddWindow<Nz::RenderWindow>()), m_map(), m_charac(),
     m_mapViewport(viewport)
@@ -48,6 +48,7 @@ void Game::textureLoadFailed(const Nz::String& file)
 void Game::addTextures()
 {
     m_textures.setPrefix("../data/img/");
+    m_textures.getPrefix();
 
     std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
     {
@@ -66,21 +67,25 @@ void Game::addTextures()
 
     // Load custom textures
     // Custom textures can be used in custom mods
-    // TODO: Custom mods
+
+    /// \todo Custom mods
 
     // First, checks if it exists
-    if (!Nz::File::Exists("../data/addons/additional_textures"))
+    if (!Nz::File::Exists(m_textures.getPrefix() + "../addons/additional_textures"))
         return;
 
     // Now, open it
     Nz::File customTextures;
 
-    if (!customTextures.Open("./../../data/addons/additional_textures", 
+    if (!customTextures.Open(m_textures.getPrefix() + "../addons/additional_textures",
                              Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
     {
         NazaraError("Cannot open custom textures file");
         return;
     }
+
+    if (customTextures.GetSize() == 0)
+        return; // Empty file
 
     std::vector<Nz::String> customPair;
 
@@ -115,7 +120,7 @@ void Game::initTilesetCore()
     m_tilesetCore.add(water, "water");
 }
 
-void Game::addMaps() /// TODO: Load from file (lua?)
+void Game::addMaps() /// \todo Load from file (lua?)
 {
     Nz::String tilesTexture = m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
@@ -196,7 +201,7 @@ void Game::addMaps() /// TODO: Load from file (lua?)
     npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
 
-    CharacterData npcData 
+    CharacterData npcData
     {
         { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
         AnimationComponent::OnMove, Orientation::DownLeft, { true }
@@ -269,7 +274,7 @@ void Game::initCam()
 void Game::addEntities()
 {
     m_map = m_world->CreateEntity();
-    
+
     auto& mapComp = m_map->AddComponent<MapComponent>();
     mapComp.init(m_maps.get({ 0, 0 }), m_textures.get(Def::DEFAULTMAPTILESET)->GetFilePath(),
                  &m_tilesetCore);
@@ -291,7 +296,7 @@ void Game::addEntities()
 
 
     CharacterData mainCharacData
-    { 
+    {
         { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u
     };
 
