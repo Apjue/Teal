@@ -2,8 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
 template<class T>
 constexpr T operator&(T a, T b)
 {
