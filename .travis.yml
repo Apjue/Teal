@@ -84,7 +84,7 @@ script:
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
-  - cp ${PLATFORM}/${CONFIG_UPPER}/* result/
+  - cp ${CONFIG_UPPER}/${PLATFORM}/* result/
   - cd result && ls
 
 #deploy:
