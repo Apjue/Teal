@@ -1,0 +1,9 @@
+# Put custom textures to load in imgs folder
+# Lines starting with # are comments
+
+# Load textures like this:
+# NameOfTexture ; PathOfTexture
+# Example:
+# HelloWorld ; hello_world.png
+
+
