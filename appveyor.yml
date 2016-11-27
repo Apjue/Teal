@@ -54,7 +54,7 @@ build_script:
 after_build:
     - cd %APPVEYOR_BUILD_FOLDER%/build/
     - mkdir result
-    - mv vs2015/Debug/x64/TealDemo.exe result/
+    - mv vs2015/%CONFIG%/x64/TealDemo.exe result/
     - cd result
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Nazara*%SUFFIX%.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/assimp.dll ./
