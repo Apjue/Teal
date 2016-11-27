@@ -3,6 +3,8 @@ skip_commits:
     - .travis.yml
     - LICENSE
     - README.md
+    - build.md
+    - coding_style.md
   message: /.\[skip ci\]./
 
 

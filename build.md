@@ -12,3 +12,19 @@ And... do the same for nazara (If you don't want to build it, you can use its ni
 # Build
 Finally, get into the build directory and launch `premake5` to generate project files for your IDE  
 Then build it.
+
+# Launch
+After that, if you try to run it, it will probably crash.  
+It's because loading textures failed, you must have this architecture:  
+
+```
+SomeFolder
+..\data
+..\..\img
+..\..\addons
+
+..\TealDemo
+..\..\TealDemo.exe
+..\..\Nazara dynamic libs & others libs
+```
+(`data` folder is in `wdirs` one)
