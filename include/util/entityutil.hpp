@@ -34,6 +34,8 @@ inline bool isMapEntity(const Ndk::EntityHandle& e)
 /// \brief Checks if the entity has the components to change a map
 ///        (i.e. when entity has PositionComponent and MapPositionComponent)
 ///
+/// \todo Change name of function to isXXX ?
+///
 
 inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& e)
 {
