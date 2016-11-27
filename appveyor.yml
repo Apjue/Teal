@@ -26,7 +26,7 @@ install:
   - cd nazara
   - curl http://teal.esy.es/nazara/NazaraEngine-0.2.1-msvc14-%PLATFORM%.7z -o nazara.7z
   - 7z x nazara.7z
-  - mv ./include/Nazara Nazara && mv ./include/NDK NDK
+  - mv include/Nazara Nazara && mv include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
   - mkdir %TOOLSET% && cd %TOOLSET%
   - mkdir %PLATFORM% && cd %PLATFORM%
@@ -48,4 +48,22 @@ before_build:
     - premake5.exe %TOOLSET%
 
 build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%/build
     - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+after_build:
+    - cd %APPVEYOR_BUILD_FOLDER%/build/
+    - mkdir result
+    - mv vs2015/Debug/x64/TealDemo.exe result/
+    - cd result
+    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Nazara*%SUFFIX%.dll ./
+    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/assimp.dll ./
+    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/libsndfile-1.dll ./
+    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Newton.dll ./
+    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/soft_oal.dll ./
+    - mv %APPVEYOR_BUILD_FOLDER%/wdirs ./
+    - 7z a TealDemo.7z * && cd ..
+
+artifacts:
+    - path: result/TealDemo.7z
+      name: 'TealDemo-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'

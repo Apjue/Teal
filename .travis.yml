@@ -55,13 +55,13 @@ install:
   - cd nazara
   - curl http://teal.esy.es/nazara/NazaraEngine-0.2.1-linux-${PLATFORM}.tar.gz -o nazara.tar.gz
   - tar -xzf nazara.tar.gz
-  - mv ./include/Nazara Nazara && mv ./include/NDK NDK
+  - mv include/Nazara Nazara && mv include/NDK NDK
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir gmake && cd gmake
   - mkdir ${PLATFORM} && cd ${PLATFORM}
   - mkdir nazara && mkdir micropather
   - cd nazara
-  - sudo mv ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so /usr/lib
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so /usr/lib
   - cd ../micropather
   - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
@@ -84,8 +84,10 @@ script:
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
-  - cp ${CONFIG_UPPER}/${PLATFORM}/* result/
-  - cd result && ls
+  - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo result/
+  - cd result
+  - cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
+  - cp ${TRAVIS_BUILD_DIR}/wdirs ./
 
 #deploy:
 #  skip_cleanup: true

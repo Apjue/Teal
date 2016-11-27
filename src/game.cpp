@@ -88,7 +88,7 @@ void Game::addTextures()
 
         customPair.clear();
 
-        if(line.Split(customPair, " ; ") != 2u)
+        if (line.Split(customPair, " ; ") != 2u)
             continue; // Need 2 values
 
         Nz::TextureLibrary::Register(customPair[0], Nz::TextureManager::Get(prefix + customPair[1]));
