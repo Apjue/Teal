@@ -53,15 +53,17 @@ build_script:
 
 after_build:
     - cd %APPVEYOR_BUILD_FOLDER%/build/
-    - mkdir result
-    - mv vs2015/%CONFIG%/x64/TealDemo.exe result/
-    - cd result
+    - mkdir result && cd result
+    - mkdir TealDemo
+    - mv ../vs2015/%CONFIG%/x64/TealDemo.exe TealDemo/
+    - cd TealDemo
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Nazara*%SUFFIX%.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/assimp.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/libsndfile-1.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Newton.dll ./
     - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/soft_oal.dll ./
-    - mv %APPVEYOR_BUILD_FOLDER%/wdirs ./
+    - cd ..
+    - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
     - 7z a TealDemo.7z * && cd ../..
 
 artifacts:
