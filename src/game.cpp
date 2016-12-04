@@ -203,6 +203,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
 
 void Game::initCustomThings()
 {
+    // Components
     Ndk::InitializeComponent<RandomMovementComponent>("rdmov");
     Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dgpos");
     Ndk::InitializeComponent<NameComponent>("name");
@@ -226,7 +227,7 @@ void Game::initCustomThings()
     Ndk::InitializeComponent<Items::EdibleComponent>("edible");
     Ndk::InitializeComponent<Items::ResourceComponent>("res");
 
-    //Systems
+    // Systems
     Ndk::InitializeSystem<AISystem>();
     Ndk::InitializeSystem<MovementSystem>();
     Ndk::InitializeSystem<AnimationSystem>();
