@@ -19,7 +19,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     m_window.Create(Nz::VideoMode(winSize.x, winSize.y, 32), winName);
     m_world = app.AddWorld().CreateHandle();
 
-    initCustomThings();
+    initNazara();
 
     initTilesetCore();
     addMaps();
@@ -201,7 +201,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
     deactivateMapEntities(m_maps.add({ 1, 0 }, map1_0));
 }
 
-void Game::initCustomThings()
+void Game::initNazara()
 {
     // Components
     Ndk::InitializeComponent<RandomMovementComponent>("rdmov");

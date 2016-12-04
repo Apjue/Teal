@@ -64,7 +64,7 @@ private:
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
 
     //Init Functions
-    void initCustomThings();
+    void initNazara();
 
     void addTextures();
     void initTilesetCore();
