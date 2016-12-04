@@ -2,6 +2,15 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+template<class... Args>
+MapDataRef MapData::New(Args&&... args)
+{
+    std::unique_ptr<MapData> object(new MapData(std::forward<Args>(args)...));
+    object->SetPersistent(false);
+
+    return object.release();
+}
+
 const TILEARRAY& MapData::tiles() const
 {
     return m_tiles;
@@ -18,21 +27,21 @@ const UNSIGNEDTILEARRAY& MapData::obs() const
 }
 
 
-void MapData::setTiles(const TILEARRAY& nTiles)
+void MapData::setTiles(const TILEARRAY& tiles)
 {
-    m_tiles = nTiles;
+    m_tiles = tiles;
     updateOldTileArray();
 }
 
-void MapData::setMap(const STRINGTILEARRAY& nMap)
+void MapData::setMap(const STRINGTILEARRAY& map)
 {
-    m_map = nMap;
+    m_map = map;
     updateTileArray();
 }
 
-void MapData::setObs(const UNSIGNEDTILEARRAY& nObs)
+void MapData::setObs(const UNSIGNEDTILEARRAY& obs)
 {
-    m_obs = nObs;
+    m_obs = obs;
     updateTileArray();
 }
 

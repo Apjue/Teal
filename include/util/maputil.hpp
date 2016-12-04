@@ -11,7 +11,6 @@
 #include <utility>
 #include <memory>
 #include "micropather.h"
-#include "cache/mapcore.hpp"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/mappositioncomponent.hpp"
@@ -21,8 +20,8 @@
 #include "data/mapdata.hpp"
 #include "util/entityutil.hpp"
 
-inline void activateMapEntities(const std::shared_ptr<MapData>& map);
-inline void deactivateMapEntities(const std::shared_ptr<MapData>& map);
+inline MapDataRef activateMapEntities(const MapDataRef& map);
+inline MapDataRef deactivateMapEntities(const MapDataRef& map);
 
 ///
 /// \fn canChangeMap
@@ -55,7 +54,7 @@ extern bool changeMap(const Ndk::EntityHandle& p);
 ///        in this file to work
 ///
 
-extern void initMapUtility(MapCore* maps, const std::weak_ptr<MapInstance>& currentMap,
+extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                            const std::weak_ptr<micropather::MicroPather>& pather);
 
 ///
@@ -66,6 +65,9 @@ extern void initMapUtility(MapCore* maps, const std::weak_ptr<MapInstance>& curr
 ///
 
 extern bool isMapUtilityInited();
+
+inline Nz::String mapXYToString(int x, int y);
+inline std::pair<int, int> stringToMapXY(const Nz::String& str);
 
 #include "maputil.inl"
 

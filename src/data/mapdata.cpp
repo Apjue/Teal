@@ -4,6 +4,8 @@
 
 #include "data/mapdata.hpp"
 
+MapDataLibrary::LibraryMap MapData::s_library;
+
 MapData::MapData(const STRINGTILEARRAY& map_, const UNSIGNEDTILEARRAY& obs_)
     : m_map(map_), m_obs(obs_)
 {

@@ -7,7 +7,6 @@
 namespace
 {
 
-MapCore* m_maps {};
 std::weak_ptr<MapInstance> m_currentMap {};
 std::weak_ptr<micropather::MicroPather> m_pather {};
 
@@ -28,7 +27,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
     if (pos.x == 0u) // Left
     {
-        if (m_maps->get({ mapPos.x - 1, mapPos.y }))
+        if (MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y)))
         {
             validPos = true;
             entExt = Direction::Left;
@@ -37,7 +36,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (pos.x == Def::LMAPX) // Right
     {
-        if (m_maps->get({ mapPos.x + 1, mapPos.y }))
+        if (MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y)))
         {
             validPos = true;
             entExt = Direction::Right;
@@ -46,7 +45,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (pos.y == 0u) // Up
     {
-        if (m_maps->get({ mapPos.x, mapPos.y - 1 }))
+        if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1)))
         {
             validPos = true;
             entExt = Direction::Up;
@@ -55,7 +54,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (pos.y == Def::LMAPY) // Down
     {
-        if (m_maps->get({ mapPos.x, mapPos.y + 1 }))
+        if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1)))
         {
             validPos = true;
             entExt = Direction::Down;
@@ -68,21 +67,21 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
     // Okay, now, let's check if the position where the entity
     // will move to is valid (no obstacle)
 
-    std::shared_ptr<MapData> map; // Map the entity will move to
+    MapDataRef map; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
 
     switch (entExt)
     {
     case Direction::Left:
-        map = m_maps->get({ mapPos.x - 1, mapPos.y });
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::LMAPX;
         y = pos.y;
-        
+
         break;
 
     case Direction::Right:
-        map = m_maps->get({ mapPos.x + 1, mapPos.y });
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
         y = pos.y;
@@ -90,7 +89,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Up:
-        map = m_maps->get({ mapPos.x, mapPos.y - 1 });
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.x;
         y = Def::LMAPY;
@@ -98,7 +97,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Down:
-        map = m_maps->get({ mapPos.x, mapPos.y + 1 });
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.x;
         y = 0u;
@@ -118,7 +117,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 
     if (map->obs()[x + y * Def::MAPX] != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
-    
+
     return std::make_pair(true, entExt);
 }
 
@@ -132,7 +131,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
 
-    std::shared_ptr<MapData> newMap; // Map the entity will move to
+    MapDataRef newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
     unsigned mapX {}, mapY {}; // Position of the new map
     Orientation newOrient { Orientation::Down };
@@ -140,7 +139,7 @@ bool changeMap(const Ndk::EntityHandle& p)
     switch (canChange.second)
     {
     case Direction::Left:
-        newMap = m_maps->get({ mapPos.x - 1, mapPos.y });
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::LMAPX;
         y = pos.y;
@@ -153,7 +152,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Right:
-        newMap = m_maps->get({ mapPos.x + 1, mapPos.y });
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
         y = pos.y;
@@ -166,7 +165,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Up:
-        newMap = m_maps->get({ mapPos.x, mapPos.y - 1 });
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.x;
         y = Def::LMAPY;
@@ -179,7 +178,7 @@ bool changeMap(const Ndk::EntityHandle& p)
         break;
 
     case Direction::Down:
-        newMap = m_maps->get({ mapPos.x, mapPos.y + 1 });
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.x;
         y = 0u;
@@ -220,15 +219,14 @@ bool changeMap(const Ndk::EntityHandle& p)
     return true;
 }
 
-void initMapUtility(MapCore* maps, const std::weak_ptr<MapInstance>& currentMap,
+void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                     const std::weak_ptr<micropather::MicroPather>& pather)
 {
-    m_maps = maps;
     m_currentMap = currentMap;
     m_pather = pather;
 }
 
 bool isMapUtilityInited()
 {
-    return m_maps && !m_currentMap.expired() && !m_pather.expired();
+    return !m_currentMap.expired() && !m_pather.expired();
 }

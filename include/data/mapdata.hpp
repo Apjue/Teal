@@ -10,18 +10,35 @@
 #include <NDK/Entity.hpp>
 #include <NDK/EntityList.hpp>
 #include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Core/ObjectLibrary.hpp>
+#include <Nazara/Core/ObjectRef.hpp>
+#include <Nazara/Core/RefCounted.hpp>
+#include <Nazara/Core/Resource.hpp>
 #include "tiledata.hpp"
 #include "def/typedef.hpp"
 
-struct MapData
+class MapData;
+
+using MapDataConstRef = Nz::ObjectRef<const MapData>;
+using MapDataLibrary = Nz::ObjectLibrary<MapData>;
+using MapDataRef = Nz::ObjectRef<MapData>;
+
+class MapData : public Nz::RefCounted, public Nz::Resource
 {
+    friend MapDataLibrary;
+
 public:
     MapData() = default;
     ~MapData() = default;
 
     MapData(const STRINGTILEARRAY& map_, const UNSIGNEDTILEARRAY& obs_);
     MapData(const TILEARRAY& tiles_);
-    
+
+    MapData(MapData&&) = default;
+
+    template<class... Args>
+    static inline MapDataRef New(Args&&... args);
+
     inline const TILEARRAY& tiles() const;
     inline const STRINGTILEARRAY& map() const;
     inline const UNSIGNEDTILEARRAY& obs() const;
@@ -38,7 +55,9 @@ private:
     TILEARRAY m_tiles;
     STRINGTILEARRAY m_map;
     UNSIGNEDTILEARRAY m_obs;
-    Ndk::EntityList m_entities; // Usable Objects, NPCs, decoration, etc.
+    Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
+
+    static MapDataLibrary::LibraryMap s_library;
 
     void updateOldTileArray();
     void updateTileArray();

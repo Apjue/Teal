@@ -37,7 +37,7 @@ class MapInstance : public micropather::Graph
 {
 public:
     MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore);
-    MapInstance(const std::shared_ptr<MapData>& data, const Nz::String& tileset, 
+    MapInstance(const MapDataRef& data, const Nz::String& tileset,
                 TilesetCore* tcore, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
@@ -48,7 +48,7 @@ public:
 
     ~MapInstance() = default;
 
-    std::shared_ptr<MapData> map; // You must reset the pather after changing it
+    MapDataRef map; // You have to reset the pather after changing map
 
     Nz::MaterialRef m_mat; // Tileset texture
     Nz::ModelRef m_model; // Use SetMesh when mesh changed

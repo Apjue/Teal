@@ -24,7 +24,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const std::shared_ptr<MapData>& data, const Nz::String& tileset,
+MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset,
                          TilesetCore* tcore, const Ndk::EntityHandle& e)
     : MapInstance(e, tcore)
 {

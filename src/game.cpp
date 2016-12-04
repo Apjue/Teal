@@ -32,7 +32,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initEventHandler();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(&m_maps, mapComp.map, m_pather);
+    initMapUtility(mapComp.map, m_pather);
 }
 
 
@@ -112,70 +112,68 @@ void Game::addMaps() /// \todo Load from file (lua?)
 {
     Nz::String tilesTexture = Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
-    MapData map0_0
-    {
-        /*{
-            2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-            1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-            1, 1, 1, 2, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3,
-            1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,
-            1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 3,
-            0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
-            0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
-            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
-        },*/
+    MapDataRef map0_0 = MapData::New();
 
-        {
-            "sand", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-            "grass", "sand", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water",
-            "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "water", "sand", "water", "water", "water", "water", "water",
-            "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water",
-            "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "grass", "sand", "sand", "sand", "sand", "sand", "water",
-            "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "sand", "sand",
-            "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand",
-            "concrete", "concrete", "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
-        },
+    /*{
+        2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+        1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
+        1, 1, 1, 2, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3,
+        1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,
+        1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 3,
+        0, 0, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2,
+        0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2,
+        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
+    },*/
 
-        {
-            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        }
-    };
+    map0_0->setMap({
+        "sand", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "sand", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "water", "sand", "water", "water", "water", "water", "water",
+        "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "grass", "sand", "sand", "sand", "sand", "sand", "water",
+        "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "sand", "sand",
+        "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand",
+        "concrete", "concrete", "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+    });
 
-    deactivateMapEntities(m_maps.add({ 0, 0 }, map0_0));
+    map0_0->setObs({
+        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    });
 
-    MapData map1_0
-    {
-        /*{
-            0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
-        },*/
+    MapDataLibrary::Register("0;0", deactivateMapEntities(map0_0));
 
-        {
-            "concrete", "concrete", "concrete", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
-            "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
-        },
 
-        {}
-    };
+    MapDataRef map1_0 = MapData::New();
+
+    /*{
+        0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
+    },*/
+
+    map1_0->setMap({
+        "concrete", "concrete", "concrete", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
+        "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+    });
+
 
     Nz::MaterialRef npcMat = Nz::Material::New(); // Test
     npcMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath());
@@ -196,9 +194,9 @@ void Game::addMaps() /// \todo Load from file (lua?)
     };
 
     auto npc = make_character(m_world, npcData);
-    map1_0.addEntity(npc);
+    map1_0->addEntity(npc);
 
-    deactivateMapEntities(m_maps.add({ 1, 0 }, map1_0));
+    MapDataLibrary::Register("1;0", deactivateMapEntities(map1_0));
 }
 
 void Game::initNazara()
@@ -265,10 +263,10 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
 
     auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(m_maps.get({ 0, 0 }), Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath(),
+    mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath(),
                  &m_tilesetCore);
 
-    activateMapEntities(m_maps.get({ 0, 0 }));
+    activateMapEntities(MapDataLibrary::Get("0;0"));
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 

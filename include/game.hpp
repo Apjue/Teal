@@ -14,12 +14,12 @@
 #include <NDK/Systems/RenderSystem.hpp>
 #include <Nazara/Renderer/RenderWindow.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
-#include <Nazara/Graphics/TileMap.hpp>
 #include <Nazara/Utility/Icon.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/Error.hpp>
 #include <Nazara/Graphics/ColorBackground.hpp>
 #include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Utility/EventHandler.hpp>
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/File.hpp>
@@ -31,7 +31,6 @@
 #include "factory.hpp"
 #include "data/characterdata.hpp"
 #include "micropather.h"
-#include "cache/mapcore.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
@@ -53,7 +52,6 @@ private:
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; // Main character
 
-    MapCore m_maps;
     TilesetCore m_tilesetCore;
 
     Nz::Rectui m_mapViewport;
