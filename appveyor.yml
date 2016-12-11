@@ -7,21 +7,30 @@ skip_commits:
     - coding_style.md
   message: /.\[skip ci\]./
 
-
-os:
-  - Visual Studio 2015
-
-platform:
-  - x64
-  - x86
+version: 1.0.{build}
+skip_tags: true
+os: - Visual Studio 2015
 
 environment:
   TOOLSET: vs2015
   matrix:
-      - CONFIG: Debug
-        SUFFIX: -d
+    - CONFIG: Debug
+      SUFFIX: -d
+      PLATFORM: x86
+      PLATFORMNAME: Win32
 
-      - CONFIG: Release
+    - CONFIG: Debug
+      SUFFIX: -d
+      PLATFORM: x64
+      PLATFORMNAME: x64
+
+    - CONFIG: Release
+      PLATFORM: x64
+      PLATFORMNAME: x64
+
+    - CONFIG: Release
+      PLATFORM: x86
+      PLATFORMNAME: Win32
 
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
@@ -43,32 +52,35 @@ install:
   - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/premake5.lua ./
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
-  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIX%.lib ./
 
 before_build:
-    - cd %APPVEYOR_BUILD_FOLDER%/build
-    - premake5.exe %TOOLSET%
+  - cd %APPVEYOR_BUILD_FOLDER%/build
+  - premake5.exe %TOOLSET%
+
+build:
+  verbosity: minimal
 
 build_script:
-    - cd %APPVEYOR_BUILD_FOLDER%/build
-    - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cd %APPVEYOR_BUILD_FOLDER%/build
+  - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
-    - cd %APPVEYOR_BUILD_FOLDER%/build/
-    - mkdir result && cd result
-    - mkdir TealDemo
-    - mv ../vs2015/%CONFIG%/x64/TealDemo.exe TealDemo/
-    - cd TealDemo
-    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Nazara*%SUFFIX%.dll ./
-    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/assimp.dll ./
-    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/libsndfile-1.dll ./
-    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Newton.dll ./
-    - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/soft_oal.dll ./
-    - cd ..
-    - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
-    - 7z a TealDemo.7z * && cd ../..
+  - cd %APPVEYOR_BUILD_FOLDER%/build/
+  - mkdir result && cd result
+  - mkdir TealDemo
+  - mv ../vs2015/%CONFIG%/x64/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
+  - cd TealDemo
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Nazara*%SUFFIX%.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/assimp.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/libsndfile-1.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Newton.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/soft_oal.dll ./
+  - cd ..
+  - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
+  - 7z a TealDemo.7z * && cd ../..
 
 artifacts:
-    - path: build/result/TealDemo.7z
-      name: 'TealDemo-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'
+  - path: build/result/TealDemo.7z
+    name: 'TealDemo-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'
