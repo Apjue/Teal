@@ -70,13 +70,13 @@ after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
   - mkdir result && cd result
   - mkdir TealDemo
-  - mv ../vs2015/%CONFIG%/x64/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
+  - mv ../vs2015/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
   - cd TealDemo
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Nazara*%SUFFIX%.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/assimp.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/libsndfile-1.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/Newton.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/x64/soft_oal.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Nazara*%SUFFIX%.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/assimp.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/libsndfile-1.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Newton.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/soft_oal.dll ./
   - cd ..
   - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
   - 7z a TealDemo.7z * && cd ../..
