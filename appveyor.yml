@@ -9,7 +9,7 @@ skip_commits:
 
 version: 1.0.{build}
 skip_tags: true
-os: - Visual Studio 2015
+os: Visual Studio 2015
 
 environment:
   TOOLSET: vs2015
