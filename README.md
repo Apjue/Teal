@@ -6,5 +6,5 @@ It uses [Nazara Engine](https://github.com/DigitalPulseSoftware/NazaraEngine), a
 # Build
 Platform       | Status          | Nightlies
 -------------- | --------------- | ------------------
-[Windows (MSVC)](https://ci.appveyor.com/project/S6066/teal) | ![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/github/S6066/Teal?branch=master&svg=true) | Yes
+[Windows (MSVC)](https://ci.appveyor.com/project/S6066/teal) | ![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/github/S6066/Teal?branch=master&svg=true) | [Release x64](https://ci.appveyor.com/api/projects/S6066/Teal/artifacts/build%2Fresult%2FTealDemo.7z?branch=master&job=Environment%3A%20CONFIG%3DRelease%3B%20Platform%3A%20x64) ; [Release x86](https://ci.appveyor.com/api/projects/S6066/Teal/artifacts/build%2Fresult%2FTealDemo.7z?branch=master&job=Environment%3A%20CONFIG%3DRelease%3B%20Platform%3A%20x86)
 [Linux (GCC)](https://travis-ci.org/S6066/Teal) | ![Travis CI Build Status](https://travis-ci.org/S6066/Teal.svg) | No
