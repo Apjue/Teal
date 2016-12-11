@@ -13,6 +13,7 @@ os:
 
 platform:
   - x64
+  - x86
 
 environment:
   TOOLSET: vs2015
@@ -42,7 +43,7 @@ install:
   - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/premake5.lua ./
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
-  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIX%.lib ./
 
 before_build:
@@ -51,7 +52,7 @@ before_build:
 
 build_script:
     - cd %APPVEYOR_BUILD_FOLDER%/build
-    - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
     - cd %APPVEYOR_BUILD_FOLDER%/build/
