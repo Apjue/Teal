@@ -1,4 +1,4 @@
-Coding Style exemples:
+Coding Style examples:
 
 Class Header:
 
