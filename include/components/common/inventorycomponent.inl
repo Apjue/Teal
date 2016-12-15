@@ -2,7 +2,7 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-InventoryComponent::InventoryComponent(Ndk::WorldHandle& world) : m_world(world)
+InventoryComponent::InventoryComponent()
 {
     reset();
 }

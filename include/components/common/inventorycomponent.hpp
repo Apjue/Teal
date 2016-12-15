@@ -48,7 +48,7 @@ public:
         EntityCache entities; // entities of the group
     };
 
-    inline InventoryComponent(Ndk::WorldHandle& world);
+    inline InventoryComponent();
     ~InventoryComponent() = default;
 
     ///
@@ -104,7 +104,6 @@ public:
     static Ndk::ComponentIndex componentIndex;
 
 private:
-    Ndk::WorldHandle m_world;
     std::unordered_map<std::string, Group> m_groups;
 
     ///
