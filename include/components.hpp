@@ -7,7 +7,7 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
-//Common
+// Common
 #include "components/common/animationcomponent.hpp"
 #include "components/common/defaultgraphicsposcomponent.hpp"
 #include "components/common/fightcomponent.hpp"
@@ -25,7 +25,7 @@
 #include "components/common/attackmodifiercomponent.hpp"
 #include "components/common/resistancemodifiercomponent.hpp"
 
-//Items
+// Items
 #include "components/items/ediblecomponent.hpp"
 #include "components/items/equippablecomponent.hpp"
 #include "components/items/hpgaincomponent.hpp"
