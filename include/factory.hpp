@@ -24,6 +24,16 @@
 ///       But only NPCs have the RandomMovement component
 ///
 
-extern Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos);
+extern Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos);
+
+///
+/// \fn make_item
+///
+/// \brief Creates an entity and adds it ItemComponent and NameComponent
+///
+/// \todo Add bio component or description component
+///
+
+extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name = "Item");
 
 #endif // FACTORY_HPP

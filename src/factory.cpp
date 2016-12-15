@@ -4,7 +4,7 @@
 
 #include "factory.hpp"
 
-Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos)
+Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
@@ -29,7 +29,7 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos
 
     e->AddComponent<MoveToComponent>();
     e->AddComponent<PathComponent>();
-    //e->addComponent<Components::InventoryComponent>(); // later
+    e->AddComponent<InventoryComponent>();
 
     e->AddComponent<AnimationComponent>(infos.imgsize, infos.maxframe, infos.animState);
 
@@ -37,5 +37,16 @@ Ndk::EntityHandle make_character(Ndk::WorldHandle& w, const CharacterData& infos
         e->AddComponent<RandomMovementComponent>(infos.rdMov.movInterval, infos.rdMov.nbTiles);
 
     refreshGraphicsPos(e);
+    return e;
+}
+
+Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name)
+{
+    Ndk::EntityHandle e = w->CreateEntity();
+
+    e->AddComponent<Items::ItemComponent>();
+    auto& eName = e->AddComponent<NameComponent>();
+    eName.name = name;
+
     return e;
 }
