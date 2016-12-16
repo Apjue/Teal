@@ -33,8 +33,35 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
     initMapUtility(mapComp.map, m_pather);
+
+    auto testItem = make_item(m_world, "illuminati234");
+
+    m_charac->GetComponent<InventoryComponent>().add(testItem);
 }
 
+#include <iostream>
+
+void Game::showInventory()
+{
+    auto& inv = m_charac->GetComponent<InventoryComponent>();
+
+    unsigned counter {};
+    for (auto& item : inv.getAll())
+    {
+        std::cout << "Item #" << counter << ". ";
+
+        if (item->HasComponent<NameComponent>())
+        {
+            auto& name = item->GetComponent<NameComponent>();
+            std::cout << "Name: " << name.name;
+        }
+
+        std::cout << '\n';
+        ++counter;
+    }
+
+    std::cout << std::flush;
+}
 
 void Game::addTextures()
 {
@@ -316,6 +343,16 @@ void Game::initEventHandler()
 
             moveComp.diffX = diff.x;
             moveComp.diffY = diff.y;
+        }
+    });
+
+    m_keyPressEvent.Connect(eventHandler.OnKeyPressed,
+    [this] (const Nz::EventHandler*, const Nz::WindowEvent::KeyEvent& event)
+    {
+        switch (event.code)
+        {
+        case Nz::Keyboard::I: // Inventory
+            showInventory();
         }
     });
 }

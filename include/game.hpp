@@ -58,8 +58,12 @@ private:
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
     Nz::Icon m_winIcon;
 
+    // Character functions
+    void showInventory();
+
     //Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
+    NazaraSlot(Nz::EventHandler, OnKeyPressed, m_keyPressEvent);
 
     //Init Functions
     void initNazara();
