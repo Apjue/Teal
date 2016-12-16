@@ -249,7 +249,7 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
     for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
         int newX = x + Def::MAP_DISTANCE_X[i];
-        int newY = y + Def::MAP_DISTANCE_X[i];
+        int newY = y + Def::MAP_DISTANCE_Y[i];
 
         if (adjacentPassable(x, y, newX, newY))
         {
