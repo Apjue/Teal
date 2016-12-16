@@ -64,6 +64,8 @@ private:
 
     void updateOldTileArray();
     void updateTileArray();
+
+    inline unsigned XYToIndex(unsigned x, unsigned y);
 };
 
 #include "mapdata.inl"

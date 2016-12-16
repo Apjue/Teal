@@ -32,10 +32,10 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
 
     for (std::size_t i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
     {
-        int newX = x + Def::MAP_DISTANCE_X[i];
-        int newY = y + Def::MAP_DISTANCE_Y[i];
+        unsigned newX = x + Def::MAP_DISTANCE_X[i];
+        unsigned newY = y + Def::MAP_DISTANCE_Y[i];
 
-        unsigned index = MapInstance::XYToIndex(newX, newY);
+        unsigned index = XYToIndex(newX, newY);
 
         if (index < 0 || index > 119)
             continue;
@@ -78,4 +78,9 @@ const Ndk::EntityList& MapData::getEntities() const
 Ndk::EntityList& MapData::getEntities()
 {
     return m_entities;
+}
+
+unsigned XYToIndex(unsigned x, unsigned y)
+{
+    return x + y * Def::MAPX;
 }
