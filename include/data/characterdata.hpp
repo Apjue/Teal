@@ -34,7 +34,7 @@ struct CharacterData
         unsigned nbTiles;
     };
 
-    /// 
+    ///
     /// \param size Size of the sprite's image
     /// \param pic Sprite of the character
     /// \param mf Max Frame (used for animation)
@@ -44,25 +44,32 @@ struct CharacterData
     /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
     /// \param rdMov_ Used for Random Movement settings
-    /// 
+    /// \param desc_ Description of the character
+    ///
 
-    CharacterData(const Nz::Vector2ui& size, const Nz::SpriteRef& pic, unsigned mf = 0u,
-                  const Nz::Vector2f& dg = {}, const Nz::Vector2ui& dl = {},
-                  const Nz::Vector2i& mapPos_ = {}, unsigned mhp = 100u, 
-                  const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove, 
-                  const Orientation& o_ = Orientation::Down, RandomMovement rdMov_ = RandomMovement())
+    CharacterData(const Nz::Vector2ui& size = {},
+                  const Nz::SpriteRef& pic = nullptr,
+                  unsigned mf = 0u,
+                  const Nz::Vector2f& dg = {},
+                  const Nz::Vector2ui& dl = {},
+                  const Nz::Vector2i& mapPos_ = {},
+                  unsigned mhp = 100u,
+                  const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove,
+                  const Orientation& o_ = Orientation::Down,
+                  const RandomMovement& rdMov_ = RandomMovement(),
+                  const Nz::String& desc_ = "")
 
-        : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, 
-        maxhp { mhp }, animState { animState_ }, o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_) {}
+        : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
+        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), desc(desc_) {}
 
     ~CharacterData() = default;
 
     Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;
-    unsigned maxframe; // animation frames
+    unsigned maxframe;
 
-    Nz::Vector2f defG; // default graphics pos
-    Nz::Vector2ui defL; // default logic pos
+    Nz::Vector2f defG;
+    Nz::Vector2ui defL;
 
     unsigned maxhp;
     AnimationComponent::AnimationState animState;
@@ -70,6 +77,8 @@ struct CharacterData
 
     Nz::Vector2i mapPos;
     RandomMovement rdMov;
+
+    Nz::String desc;
 };
 
 #endif // CHARACTERDATA_HPP
