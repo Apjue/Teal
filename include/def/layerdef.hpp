@@ -11,7 +11,7 @@ namespace Def
 {
 
 constexpr int MAP_LAYER { 0 };
-constexpr int CHARACTERS_LAYER { MAP_LAYER + 1 };
+constexpr int CHARACTERS_LAYER { MAP_LAYER + 1 }; // Player, NPCs, mobs
 constexpr int ITEMS_LAYER { CHARACTERS_LAYER + 1 }; // Items equipped by the character, in the map
 
 }
