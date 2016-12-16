@@ -216,7 +216,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
         if (eX > Def::MAPX || eY > Def::MAPY)
             return false;
 
-        unsigned const tile { eX + eY * Def::MAPX };
+        unsigned const tile = XYToIndex(eX, eY);
 
         unsigned const tileNumber = map->obs()[tile];
         return tileNumber == 0;

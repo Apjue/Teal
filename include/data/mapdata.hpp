@@ -18,6 +18,7 @@
 #include <unordered_map>
 #include "tiledata.hpp"
 #include "def/typedef.hpp"
+#include "def/gamedef.hpp"
 
 class MapData;
 

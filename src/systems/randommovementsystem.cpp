@@ -66,13 +66,17 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                     auto adjacentTiles = map->map->adjacentTiles(x, y);
 
                     if (adjacentTiles.size() == 0)
-                        break; // :( Todo: Make better system
+                        break;
 
                     DiffTile xy;
 
                     if (adjacentTiles.size() > 1)
                     {
                         unsigned direction = m_uni(rng);
+
+                        if (adjacentTiles.size() != 8)
+                            direction %= adjacentTiles.size();
+
                         Orientation orient = static_cast<Orientation>(direction);
                         xy = OrientToDiff(orient);
                     }

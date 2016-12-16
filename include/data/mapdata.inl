@@ -80,7 +80,7 @@ Ndk::EntityList& MapData::getEntities()
     return m_entities;
 }
 
-unsigned XYToIndex(unsigned x, unsigned y)
+unsigned MapData::XYToIndex(unsigned x, unsigned y)
 {
     return x + y * Def::MAPX;
 }
