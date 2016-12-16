@@ -66,7 +66,7 @@ public:
 private:
     Ndk::EntityHandle m_entity;
 
-    bool passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
+    bool adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
     // Micropather
     virtual float LeastCostEstimate(void* nodeStart, void* nodeEnd) override;
