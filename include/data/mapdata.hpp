@@ -14,6 +14,8 @@
 #include <Nazara/Core/ObjectRef.hpp>
 #include <Nazara/Core/RefCounted.hpp>
 #include <Nazara/Core/Resource.hpp>
+#include <Nazara/Math/Vector2.hpp>
+#include <unordered_map>
 #include "tiledata.hpp"
 #include "def/typedef.hpp"
 
@@ -42,6 +44,7 @@ public:
     inline const TILEARRAY& tiles() const;
     inline const STRINGTILEARRAY& map() const;
     inline const UNSIGNEDTILEARRAY& obs() const;
+    inline std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
 
     inline void setTiles(const TILEARRAY& nTiles);
     inline void setMap(const STRINGTILEARRAY& nMap);

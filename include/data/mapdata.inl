@@ -26,6 +26,25 @@ const UNSIGNEDTILEARRAY& MapData::obs() const
     return m_obs;
 }
 
+std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, unsigned y)
+{
+    std::unordered_map<Nz::Vector2ui, TileData> data;
+
+    for (std::size_t i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
+    {
+        int newX = x + Def::MAP_DISTANCE_X[i];
+        int newY = y + Def::MAP_DISTANCE_Y[i];
+
+        unsigned index = MapInstance::XYToIndex(newX, newY);
+
+        if (index < 0 || index > 119)
+            continue;
+
+        data[{ newX, newY }] = m_tiles[index];
+    }
+
+    return data;
+}
 
 void MapData::setTiles(const TILEARRAY& tiles)
 {
