@@ -186,7 +186,7 @@ unsigned MapInstance::XYToIndex(unsigned x, unsigned y)
     return x + y * Def::MAPX;
 }
 
-bool MapInstance::passable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
+bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     NazaraAssert(map, "Map is not valid !");
 
@@ -243,21 +243,17 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
 {
     NazaraAssert(neighbors, "Micropather neighbors null !");
 
-    static constexpr std::array<int,   8> dx   { 0,   2,   0 , -2,   1,   -1,    1,   -1 };
-    static constexpr std::array<int,   8> dy   { 2,   0,  -2,   0,   1,   -1,   -1,    1 };
-    static constexpr std::array<float, 8> cost { 2.f, 2.f, 2.f, 2.f, 1.5f, 1.5f, 1.5f, 1.5f };
-
     unsigned x {}, y {};
     NodeToXY(node, x, y);
 
-    for (std::size_t i {}; i < cost.size(); ++i)
+    for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        int newX = x + dx[i];
-        int newY = y + dy[i];
+        int newX = x + Def::MAP_DISTANCE_X[i];
+        int newY = y + Def::MAP_DISTANCE_X[i];
 
-        if (passable(x, y, newX, newY))
+        if (adjacentPassable(x, y, newX, newY))
         {
-            micropather::StateCost nodeCost = { XYToNode(newX, newY), cost[i] };
+            micropather::StateCost nodeCost = { XYToNode(newX, newY), Def::MAP_DISTANCE_COST[i] };
             neighbors->push_back(nodeCost);
         }
     }
