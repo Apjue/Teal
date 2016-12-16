@@ -2,7 +2,7 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-namespace Direction 
+namespace Direction
 {
 
 constexpr Dir operator&(Dir a, Dir b)
@@ -35,7 +35,7 @@ constexpr Dir operator~(Dir a)
 
 } //namespace Direction
 
-DiffTile OrienToXY(Orientation o)
+DiffTile OrientToDiff(Orientation o)
 {
     return DirToXY(OrienToDir(o));
 }

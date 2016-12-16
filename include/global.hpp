@@ -72,7 +72,7 @@ extern Direction::Dir XYToDir(DiffTile d);
 extern Orientation DirToOrien(Direction::Dir d);
 extern Direction::Dir OrienToDir(Orientation o);
 
-inline DiffTile OrienToXY(Orientation o);
+inline DiffTile OrientToDiff(Orientation o);
 
 ///
 /// \fn isDiagonal
