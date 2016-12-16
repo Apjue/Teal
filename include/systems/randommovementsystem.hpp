@@ -10,7 +10,7 @@
 #include <NDK/System.hpp>
 #include <random>
 #include <memory>
-#include <vector>
+#include <unordered_set>
 #include <algorithm>
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
