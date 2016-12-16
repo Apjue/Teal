@@ -46,47 +46,54 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             {
                 unsigned direction = m_uni(rng);
                 Orientation orient = static_cast<Orientation>(direction);
-                DiffTile xy = OrienToXY(orient);
+                DiffTile xy = OrientToDiff(orient);
 
                 mov.diffX = xy.x;
                 mov.diffY = xy.y;
             }
             else
             {
-                std::vector<unsigned> failList;
-                for (unsigned counter {}; counter < 8; ++counter)
+                auto map = m_map.lock();
+                NazaraAssert(map->map.IsValid(), "Map isn't valid !");
+
+                for (unsigned counter {}; counter < rd.nbTiles; ++counter)
                 {
-                    if (failList.size() == 8)
-                        break;
+                    unsigned x = pos.x;
+                    unsigned y = pos.y;
 
-                    auto map = m_map.lock();
-                    unsigned direction = m_uni(rng);
+                    MapInstance::XYToArray(x, y);
 
-                    for (unsigned dir {}; 
-                         std::find(failList.begin(), failList.end(), direction) != failList.end() && dir < 8;
-                         ++dir)
+                    auto adjacentTiles = map->map->adjacentTiles(x, y);
+
+                    if (adjacentTiles.size() == 0)
+                        break; // :( Todo: Make better system
+
+                    DiffTile xy;
+
+                    if (adjacentTiles.size() > 1)
                     {
-                        direction = dir;
+                        unsigned direction = m_uni(rng);
+                        Orientation orient = static_cast<Orientation>(direction);
+                        xy = OrientToDiff(orient);
                     }
 
-                    Orientation orient = static_cast<Orientation>(direction);
-                    DiffTile xy = OrienToXY(orient);
+                    else
+                        xy = AbsPosToDiff({ pos.x, pos.y }, adjacentTiles.begin()->first);
 
-                    unsigned Xpos = pos.x + xy.x;
-                    unsigned Ypos = pos.y + xy.y;
-                    MapInstance::XYToArray(Xpos, Ypos);
+                    unsigned newXpos = pos.x + xy.x;
+                    unsigned newYpos = pos.y + xy.y;
 
-                    unsigned tile = map->map->obs()[MapInstance::XYToIndex(Xpos, Ypos)];
+                    MapInstance::XYToArray(newXpos, newYpos);
+
+                    unsigned tile = map->map->obs()[MapInstance::XYToIndex(newXpos, newYpos)];
 
                     if (tile == 0)
                     {
-                        mov.diffX = xy.x;
-                        mov.diffY = xy.y;
+                        mov.diffX = mov.diffX + xy.x;
+                        mov.diffY = mov.diffY + xy.y;
 
                         break;
                     }
-                    else
-                        failList.push_back(direction);
                 }
             }
         }
