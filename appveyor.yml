@@ -63,14 +63,14 @@ build:
   verbosity: minimal
 
 build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%/build
+  - cd %APPVEYOR_BUILD_FOLDER%/build/%TOOLSET%
   - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
   - mkdir result && cd result
   - mkdir TealDemo
-  - mv ../vs2015/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
+  - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
   - cd TealDemo
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Nazara*%SUFFIX%.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/assimp.dll ./

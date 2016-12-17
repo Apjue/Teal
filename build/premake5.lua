@@ -11,6 +11,7 @@ local rootFolder = ".."
 workspace "Teal"
     configurations { "Debug", "Release" }
     platforms(platformData)
+    location(_ACTION)
 
     filter "platforms:x86"
         architecture "x32"
@@ -24,7 +25,6 @@ project "TealDemo"
     kind "ConsoleApp"
     language "C++"
     targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
-    location(_ACTION)
     debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
 
     files
