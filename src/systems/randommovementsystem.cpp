@@ -51,6 +51,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 mov.diffX = xy.x;
                 mov.diffY = xy.y;
             }
+
             else
             {
                 auto map = m_map.lock();
