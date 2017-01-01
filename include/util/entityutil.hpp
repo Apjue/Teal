@@ -22,11 +22,7 @@
 ///        (i.e. has GraphicsComponent, NodeComponent, DefaultGraphicsPosComponent)
 ///
 
-inline bool isMapEntity(const Ndk::EntityHandle& e)
-{
-    return e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>()
-        && e->HasComponent<DefaultGraphicsPosComponent>();
-}
+inline bool isMapEntity(const Ndk::EntityHandle& e);
 
 ///
 /// \fn hasComponentsToChangeMap
@@ -37,11 +33,7 @@ inline bool isMapEntity(const Ndk::EntityHandle& e)
 /// \todo Change name of function to isXXX ?
 ///
 
-inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& e)
-{
-    return e->HasComponent<PositionComponent>()
-        && e->HasComponent<MapPositionComponent>();
-}
+inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& e);
 
 ///
 /// \fn isItemEntity
@@ -50,9 +42,8 @@ inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& e)
 ///         (i.e. if it has the ItemComponent)
 ///
 
-inline bool isItemEntity(const Ndk::EntityHandle& e)
-{
-    return e->HasComponent<Items::ItemComponent>();
-}
+inline bool isItemEntity(const Ndk::EntityHandle& e);
+
+#include "entityutil.inl"
 
 #endif // ENTITYUTIL_HPP
