@@ -43,14 +43,15 @@ void RandomMovementSystem::OnUpdate(float elapsed)
         if (goSomewhere)
         {
             if (m_map.expired())
-            {
-                unsigned direction = m_uni(rng);
-                Orientation orient = static_cast<Orientation>(direction);
-                DiffTile xy = OrientToDiff(orient);
+                for (unsigned counter {}; counter < rd.nbTiles; ++counter)
+                {
+                    unsigned direction = m_uni(rng);
+                    Orientation orient = static_cast<Orientation>(direction);
+                    DiffTile xy = OrientToDiff(orient);
 
-                mov.diffX = xy.x;
-                mov.diffY = xy.y;
-            }
+                    mov.diffX = mov.diffX + xy.x;
+                    mov.diffY = mov.diffY + xy.y;
+                }
 
             else
             {
