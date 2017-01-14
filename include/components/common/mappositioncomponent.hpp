@@ -11,11 +11,13 @@
 
 struct MapPositionComponent : public Ndk::Component<MapPositionComponent>
 {
-    MapPositionComponent(int x_, int y_) : x { x_ }, y { y_ } {}
-    ~MapPositionComponent() = default;
+    MapPositionComponent(int x_ = 0, int y_ = 0, bool canChangeMap_ = true)
+        : x { x_ }, y { y_ }, canChangeMap(canChangeMap_) {}
 
     int x {};
     int y {};
+
+    bool canChangeMap { true };
 
     static Ndk::ComponentIndex componentIndex;
 };

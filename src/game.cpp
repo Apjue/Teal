@@ -217,7 +217,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
     CharacterData npcData
     {
         { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
-        AnimationComponent::OnMove, Orientation::DownLeft, { true }
+        AnimationComponent::OnMove, Orientation::DownLeft, { true }, false
     };
 
     auto npc = make_character(m_world, npcData);

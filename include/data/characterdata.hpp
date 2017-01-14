@@ -57,10 +57,12 @@ struct CharacterData
                   const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove,
                   const Orientation& o_ = Orientation::Down,
                   const RandomMovement& rdMov_ = RandomMovement(),
+                  bool canChangeMap_ = true,
+                  const Nz::String& name_ = "",
                   const Nz::String& desc_ = "")
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
-        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), desc(desc_) {}
+        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), canChangeMap(canChangeMap_), name(name_), desc(desc_) {}
 
     ~CharacterData() = default;
 
@@ -77,7 +79,9 @@ struct CharacterData
 
     Nz::Vector2i mapPos;
     RandomMovement rdMov;
+    bool canChangeMap;
 
+    Nz::String name;
     Nz::String desc;
 };
 

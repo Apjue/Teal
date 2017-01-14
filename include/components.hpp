@@ -24,6 +24,7 @@
 #include "components/common/randommovementcomponent.hpp"
 #include "components/common/attackmodifiercomponent.hpp"
 #include "components/common/resistancemodifiercomponent.hpp"
+#include "components/common/descriptioncomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"

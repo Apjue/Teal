@@ -31,3 +31,4 @@ Ndk::ComponentIndex MapComponent::componentIndex;
 Ndk::ComponentIndex MapPositionComponent::componentIndex;
 Ndk::ComponentIndex AttackModifierComponent::componentIndex;
 Ndk::ComponentIndex ResistanceModifierComponent::componentIndex;
+Ndk::ComponentIndex DescriptionComponent::componentIndex;

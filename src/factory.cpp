@@ -21,11 +21,10 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 
     e->AddComponent<OrientationComponent>(infos.o);
     e->AddComponent<PositionComponent>(infos.defL.x, infos.defL.y);
-    e->AddComponent<MapPositionComponent>(infos.mapPos.x, infos.mapPos.y);
+    e->AddComponent<MapPositionComponent>(infos.mapPos.x, infos.mapPos.y, infos.canChangeMap);
 
     auto& dpos = e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
     e->GetComponent<Ndk::NodeComponent>().SetPosition(dpos.x, dpos.y);
-
 
     e->AddComponent<MoveToComponent>();
     e->AddComponent<PathComponent>();
@@ -35,6 +34,9 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 
     if (infos.rdMov.randomMovement)
         e->AddComponent<RandomMovementComponent>(infos.rdMov.movInterval, infos.rdMov.nbTiles);
+
+    e->AddComponent<NameComponent>(infos.name);
+    e->AddComponent<DescriptionComponent>(infos.desc);
 
     refreshGraphicsPos(e);
     return e;
