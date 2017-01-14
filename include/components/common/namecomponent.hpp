@@ -12,6 +12,8 @@
 
 struct NameComponent : public Ndk::Component<NameComponent>
 {
+    NameComponent(const Nz::String& name_ = "") : name(name_) {}
+
     Nz::String name {};
 
     static Ndk::ComponentIndex componentIndex;
