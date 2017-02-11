@@ -14,7 +14,7 @@ std::weak_ptr<micropather::MicroPather> m_pather {};
 
 std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
 {
-    NazaraAssert(isMapUtilityInited(), "Map Utility hasn't been inited !");
+    NazaraAssert(isMapUtilityInited(), "Map Utility hasn't been initialized !");
     NazaraAssert(hasComponentsToChangeMap(p), "Entity hasn't right components to change map !");
 
     auto& mapPos = p->GetComponent<MapPositionComponent>();
