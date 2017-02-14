@@ -36,7 +36,7 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && mkdir micropather
   - cd nazara
-  - curl http://teal.esy.es/nazara/NazaraEngine-0.2.1-msvc14-%PLATFORM%.7z -o nazara.7z
+  - curl http://teal.esy.es/nazara/NazaraEngine-0.3-msvc14-%PLATFORM%.7z -o nazara.7z
   - 7z x nazara.7z
   - mv include/Nazara Nazara && mv include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
