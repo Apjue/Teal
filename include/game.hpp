@@ -23,6 +23,7 @@
 #include <Nazara/Utility/EventHandler.hpp>
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/File.hpp>
+#include <Nazara/Core/Flags.hpp>
 #include <memory>
 
 #include "components.hpp"
@@ -56,7 +57,7 @@ private:
 
     Nz::Rectui m_mapViewport;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
-    Nz::Icon m_winIcon;
+    Nz::IconRef m_winIcon;
 
     // Character functions
     void showInventory();

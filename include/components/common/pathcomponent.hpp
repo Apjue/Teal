@@ -14,7 +14,7 @@
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
-    std::queue<std::pair<Direction::Dir, bool>> path;
+    std::queue<std::pair<DirectionFlags, bool>> path;
     //To add: path.push(...);
     //To read: path.front(); && path.pop();
 

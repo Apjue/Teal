@@ -264,7 +264,8 @@ void Game::initIcon()
     Nz::Image iconImage;
     iconImage.LoadFromFile(Nz::TextureLibrary::Get(":/game/money")->GetFilePath());
 
-    m_winIcon.Create(iconImage);
+    m_winIcon = Nz::Icon::New();
+    m_winIcon->Create(iconImage);
 
     m_window.SetIcon(m_winIcon);
 }

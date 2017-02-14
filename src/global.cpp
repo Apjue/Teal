@@ -4,119 +4,135 @@
 
 #include "global.hpp"
 
-int DirToY(Direction::Dir d)
+int DirToY(DirectionFlags d)
 {
-    NazaraAssert( ( d & Direction::UpDown) != Direction::UpDown, "Up and Down" );
-    
+    NazaraAssert( (d & Dir::UpDown) != Dir::UpDown, "Cannot go up and down" );
+
     static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
-    return moves[d & Direction::UpDown];
+    auto newDir = d & Dir::UpDown;
+
+    if (newDir & Dir::Up)
+        return -1;
+
+    if (newDir & Dir::Down)
+        return 1;
+
+    return 0;
 }
 
-int DirToX(Direction::Dir d)
+int DirToX(DirectionFlags d)
 {
-    NazaraAssert( ( d & Direction::LeftRight) != Direction::LeftRight, "Left and Right");
-    
+    NazaraAssert( (d & Dir::LeftRight) != Dir::LeftRight, "Cannot go left and right");
+
     static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
-    return moves[(d & Direction::LeftRight) / 4];
+    auto newDir = d & Dir::LeftRight;
+
+    if (newDir & Dir::Left)
+        return -1;
+
+    if (newDir & Dir::Right)
+        return 1;
+
+    return 0;
 }
 
-DiffTile DirToXY(Direction::Dir d)
+DiffTile DirToXY(DirectionFlags d)
 {
-    auto const x = DirToX(d);
-    auto const y = DirToY(d);
+    int const x = DirToX(d);
+    int const y = DirToY(d);
 
     return { y ? x : x*2, x ? y : y*2 };
 }
 
-Direction::Dir XYToDir(DiffTile d)
+DirectionFlags XYToDir(DiffTile d)
 {
     int x { d.x };
     int y { d.y };
 
     NazaraAssert((x != 0 || y != 0), "x and y may not be 0");
-    //0 == no move == no direction
+    // 0 == no move == no direction
 
-    Direction::Dir dir = Direction::Up; // Must put a default value
+    auto dir = Dir::Up; // Must put a default value
 
     if (x > 0)
-        dir |= Direction::Right;
+        dir |= Dir::Right;
     else if (x < 0)
-        dir |= Direction::Left;
+        dir |= Dir::Left;
 
     if (y > 0)
-        dir |= Direction::Down;
+        dir |= Dir::Down;
     if (y >= 0)
-        dir &= ~Direction::Up;
+        dir &= ~Dir::Up;
 
     return dir;
 }
 
-Orientation DirToOrien(Direction::Dir d)
+Orientation DirToOrien(DirectionFlags d)
 {
     NazaraAssert(d, "No flag set !");
 
-    if ( (d & Direction::DownLeft) == Direction::DownLeft)
+    if (d & Dir::DownLeft)
         return Orientation::DownLeft;
 
-    if ( (d & Direction::DownRight) == Direction::DownRight)
+    if (d & Dir::DownRight)
         return Orientation::DownRight;
 
-    if ( (d & Direction::UpLeft) == Direction::UpLeft)
+    if (d & Dir::UpLeft)
         return Orientation::UpLeft;
 
-    if ( (d & Direction::UpRight) == Direction::UpRight)
+    if (d & Dir::UpRight)
         return Orientation::UpRight;
 
 
-    if ( (d & Direction::Down) == Direction::Down)
+    if (d & Dir::Down)
         return Orientation::Down;
 
-    if ( (d & Direction::Up) == Direction::Up)
+    if (d & Dir::Up)
         return Orientation::Up;
 
-    if ( (d & Direction::Left) == Direction::Left)
+    if (d & Dir::Left)
         return Orientation::Left;
 
-    if ( (d & Direction::Right) == Direction::Right)
+    if (d & Dir::Right)
         return Orientation::Right;
 
-    return {};
+    return {}; // Oh, well...
 }
 
-Direction::Dir OrienToDir(Orientation o)
+DirectionFlags OrienToDir(Orientation o)
 {
     switch (o)
     {
     case Orientation::Down:
-        return Direction::Down;
+        return Dir::Down;
         break;
 
     case Orientation::Up:
-        return Direction::Up;
+        return Dir::Up;
         break;
 
     case Orientation::Left:
-        return Direction::Left;
+        return Dir::Left;
         break;
 
     case Orientation::Right:
-        return Direction::Right;
+        return Dir::Right;
         break;
 
     case Orientation::DownLeft:
-        return Direction::DownLeft;
+        return Dir::DownLeft;
         break;
 
     case Orientation::DownRight:
-        return Direction::DownRight;
+        return Dir::DownRight;
         break;
 
     case Orientation::UpLeft:
-        return Direction::UpLeft;
+        return Dir::UpLeft;
         break;
 
     case Orientation::UpRight:
-        return Direction::UpRight;
+        return Dir::UpRight;
         break;
     }
 
@@ -124,14 +140,14 @@ Direction::Dir OrienToDir(Orientation o)
     return {};
 }
 
-bool isDiagonal(Direction::Dir dir)
+bool isDiagonal(DirectionFlags dir)
 {
     bool diag = true;
 
-    if (dir == Direction::Right
-     || dir == Direction::Down
-     || dir == Direction::Left
-     || dir == Direction::Up)
+    if (dir == Dir::Right
+     || dir == Dir::Down
+     || dir == Dir::Left
+     || dir == Dir::Up)
         diag = false;
 
     return diag;

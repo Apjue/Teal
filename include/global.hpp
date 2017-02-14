@@ -9,11 +9,11 @@
 
 #include <Nazara/Utility/Mouse.hpp>
 #include <Nazara/Math/Vector2.hpp>
+#include <Nazara/Core/Flags.hpp>
 #include <type_traits>
 #include <array>
 #include <stdexcept>
 #include "def/gamedef.hpp"
-#include "util/enumutil.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
 using DiffTile = Nz::Vector2i; // Difference Tile (from one point to another one)
@@ -30,47 +30,62 @@ enum class Orientation
     DownLeft
 };
 
-namespace Direction
+enum class Direction
 {
+    Up,
+    Down,
+    Left,
+    Right,
 
-enum Direction
-{
-    Up = 1 << 0,
-    Down = 1 << 1,
-    Left = 1 << 2,
-    Right = 1 << 3,
-
-    UpDown = Up | Down,
-    LeftRight = Left | Right,
-
-    DownRight = Down | Right,
-    UpRight = Up | Right,
-    UpLeft = Up | Left,
-    DownLeft = Down | Left
+    Max = Right
 };
 
-using Dir = Direction;
-using DirUnderlyingType = typename std::underlying_type<Dir>::type;
+template<class T>
+using EnumUnderlyingType = typename std::underlying_type<T>::type;
 
-inline constexpr Dir operator&(Dir a, Dir b);
-inline constexpr Dir operator|(Dir a, Dir b);
+template<class T>
+constexpr EnumUnderlyingType<T> toUnderlyingType(T enum_)
+{
+    return static_cast<EnumUnderlyingType<T>>(enum_);
+}
 
-inline void operator|=(Dir& a, Dir b);
-inline void operator&=(Dir& a, Dir b);
+template<>
+struct Nz::EnumAsFlags<Direction>
+{
+    static constexpr bool value = true;
+    static constexpr int  max = toUnderlyingType<Direction>(Direction::Max);
+};
 
-inline constexpr Dir operator~(Dir a);
+using DirectionFlags = Nz::Flags<Direction>;
+
+namespace Dir
+{
+
+constexpr DirectionFlags Up = Direction::Up;
+constexpr DirectionFlags Down = Direction::Down;
+constexpr DirectionFlags Left = Direction::Left;
+constexpr DirectionFlags Right = Direction::Right;
+
+constexpr DirectionFlags UpDown = Up | Down;
+constexpr DirectionFlags LeftRight = Left | Right;
+
+constexpr DirectionFlags DownRight = Down | Right;
+constexpr DirectionFlags UpRight = Up | Right;
+constexpr DirectionFlags UpLeft = Up | Left;
+constexpr DirectionFlags DownLeft = Down | Left;
 
 }
 
-//Conversion functions
-extern int DirToY(Direction::Dir d);
-extern int DirToX(Direction::Dir d);
 
-extern DiffTile DirToXY(Direction::Dir d);
-extern Direction::Dir XYToDir(DiffTile d);
+// Conversion functions
+extern int DirToY(DirectionFlags d);
+extern int DirToX(DirectionFlags d);
 
-extern Orientation DirToOrien(Direction::Dir d);
-extern Direction::Dir OrienToDir(Orientation o);
+extern DiffTile DirToXY(DirectionFlags d);
+extern DirectionFlags XYToDir(DiffTile d);
+
+extern Orientation DirToOrien(DirectionFlags d);
+extern DirectionFlags OrienToDir(Orientation o);
 
 inline DiffTile OrientToDiff(Orientation o);
 
@@ -89,7 +104,7 @@ inline DiffTile OrientToDiff(Orientation o);
 /// \return if the direction is diagonal
 ///
 
-extern bool isDiagonal(Direction::Dir dir);
+extern bool isDiagonal(DirectionFlags dir);
 inline bool isPositionValid(AbsTile pos);
 
 #include "global.inl"

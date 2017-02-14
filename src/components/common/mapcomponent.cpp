@@ -53,9 +53,9 @@ bool MapInstance::update() // Thanks Lynix for this code
     unsigned int vertexCount = width * height * 4;
 
     Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount,
-                                                          Nz::DataStorage_Hardware, Nz::BufferUsage_Static);
+                                                          Nz::DataStorage_Hardware, 0);
     Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount,
-                                                             Nz::DataStorage_Hardware, Nz::BufferUsage_Static);
+                                                             Nz::DataStorage_Hardware, 0);
 
     {
         Nz::VertexMapper vertexMapper(vertexBuffer, Nz::BufferAccess_WriteOnly);

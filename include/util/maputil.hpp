@@ -37,7 +37,7 @@ inline MapDataRef deactivateMapEntities(const MapDataRef& map);
 ///                     - a direction -> If yes, which map the entity can move to
 ///
 
-extern std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p);
+extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
 
 ///
 /// \fn changeMap

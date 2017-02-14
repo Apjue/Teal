@@ -12,10 +12,10 @@ std::weak_ptr<micropather::MicroPather> m_pather {};
 
 }
 
-std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
+std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 {
     NazaraAssert(isMapUtilityInited(), "Map Utility hasn't been initialized !");
-    NazaraAssert(hasComponentsToChangeMap(p), "Entity hasn't right components to change map !");
+    NazaraAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
 
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
@@ -23,14 +23,14 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
     // Where is the entity in the map ? Right, left, down, or up ?
 
     bool validPos { false }; // If the entity is at one extremity
-    Direction::Dir entExt { Direction::Up }; // Entity Extremity
+    auto entExt = Dir::Up; // Entity Extremity
 
     if (pos.x == 0u) // Left
     {
         if (MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y)))
         {
             validPos = true;
-            entExt = Direction::Left;
+            entExt = Dir::Left;
         }
     }
 
@@ -39,7 +39,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         if (MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y)))
         {
             validPos = true;
-            entExt = Direction::Right;
+            entExt = Dir::Right;
         }
     }
 
@@ -48,7 +48,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1)))
         {
             validPos = true;
-            entExt = Direction::Up;
+            entExt = Dir::Up;
         }
     }
 
@@ -57,7 +57,7 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
         if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1)))
         {
             validPos = true;
-            entExt = Direction::Down;
+            entExt = Dir::Down;
         }
     }
 
@@ -70,45 +70,47 @@ std::pair<bool, Direction::Dir> canChangeMap(const Ndk::EntityHandle& p)
     MapDataRef map; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
 
-    switch (entExt)
+    if (entExt & Dir::Left)
     {
-    case Direction::Left:
         map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::LMAPX;
         y = pos.y;
 
-        break;
+    }
 
-    case Direction::Right:
+    else if (entExt & Dir::Right)
+    {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
         y = pos.y;
 
-        break;
+    }
 
-    case Direction::Up:
+    else if (entExt & Dir::Up)
+    {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.x;
         y = Def::LMAPY;
 
-        break;
+    }
 
-    case Direction::Down:
+    else if (entExt & Dir::Down)
+    {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.x;
         y = 0u;
 
-        break;
+    }
 
-    default:
+    else
+    {
         NazaraError("Bad direction value");
 
         return std::make_pair(false, entExt);
-        break;
     }
 
     NazaraAssert(map, "new map null !");
@@ -136,9 +138,8 @@ bool changeMap(const Ndk::EntityHandle& p)
     unsigned mapX {}, mapY {}; // Position of the new map
     Orientation newOrient { Orientation::Down };
 
-    switch (canChange.second)
+    if (canChange.second & Dir::Left)
     {
-    case Direction::Left:
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::LMAPX;
@@ -149,9 +150,10 @@ bool changeMap(const Ndk::EntityHandle& p)
 
         newOrient = Orientation::Left;
 
-        break;
+    }
 
-    case Direction::Right:
+    else if (canChange.second & Dir::Right)
+    {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
@@ -162,9 +164,10 @@ bool changeMap(const Ndk::EntityHandle& p)
 
         newOrient = Orientation::Right;
 
-        break;
+    }
 
-    case Direction::Up:
+    else if (canChange.second & Dir::Up)
+    {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.x;
@@ -175,9 +178,10 @@ bool changeMap(const Ndk::EntityHandle& p)
 
         newOrient = Orientation::Up;
 
-        break;
+    }
 
-    case Direction::Down:
+    else if (canChange.second & Dir::Down)
+    {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.x;
@@ -187,8 +191,6 @@ bool changeMap(const Ndk::EntityHandle& p)
         mapY = mapPos.y + 1;
 
         newOrient = Orientation::Down;
-
-        break;
     }
 
     NazaraAssert(newMap, "new map null !");
