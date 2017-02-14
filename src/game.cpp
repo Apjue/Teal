@@ -245,6 +245,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<MapPositionComponent>("mappos");
     Ndk::InitializeComponent<AttackModifierComponent>("atkbonus");
     Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
+    Ndk::InitializeComponent<DescriptionComponent>("desc");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
