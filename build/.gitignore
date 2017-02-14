@@ -1,4 +1,4 @@
 vs2015
 gmake
 codelite
-codeblocks
+# codeblocks # needed for script/actions/codeblocks
