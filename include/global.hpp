@@ -84,7 +84,7 @@ extern int DirToX(DirectionFlags d);
 extern DiffTile DirToXY(DirectionFlags d);
 extern DirectionFlags XYToDir(DiffTile d);
 
-extern Orientation DirToOrien(DirectionFlags d);
+extern Orientation DirToOrient(DirectionFlags d);
 extern DirectionFlags OrienToDir(Orientation o);
 
 inline DiffTile OrientToDiff(Orientation o);

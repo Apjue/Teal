@@ -6,7 +6,7 @@
 
 int DirToY(DirectionFlags d)
 {
-    NazaraAssert( (d & Dir::UpDown) != Dir::UpDown, "Cannot go up and down" );
+    NazaraAssert((d & Dir::UpDown) != Dir::UpDown, "Cannot go up and down" );
 
     static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
     auto newDir = d & Dir::UpDown;
@@ -22,7 +22,7 @@ int DirToY(DirectionFlags d)
 
 int DirToX(DirectionFlags d)
 {
-    NazaraAssert( (d & Dir::LeftRight) != Dir::LeftRight, "Cannot go left and right");
+    NazaraAssert((d & Dir::LeftRight) != Dir::LeftRight, "Cannot go left and right");
 
     static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
     auto newDir = d & Dir::LeftRight;
@@ -67,33 +67,33 @@ DirectionFlags XYToDir(DiffTile d)
     return dir;
 }
 
-Orientation DirToOrien(DirectionFlags d)
+Orientation DirToOrient(DirectionFlags d)
 {
     NazaraAssert(d, "No flag set !");
 
-    if (d & Dir::DownLeft)
+    if (d & Dir::DownLeft == Dir::DownLeft)
         return Orientation::DownLeft;
 
-    if (d & Dir::DownRight)
+    if (d & Dir::DownRight == Dir::DownRight)
         return Orientation::DownRight;
 
-    if (d & Dir::UpLeft)
+    if (d & Dir::UpLeft == Dir::UpLeft)
         return Orientation::UpLeft;
 
-    if (d & Dir::UpRight)
+    if (d & Dir::UpRight == Dir::UpRight)
         return Orientation::UpRight;
 
 
-    if (d & Dir::Down)
+    if (d & Dir::Down == Dir::Down)
         return Orientation::Down;
 
-    if (d & Dir::Up)
+    if (d & Dir::Up == Dir::Up)
         return Orientation::Up;
 
-    if (d & Dir::Left)
+    if (d & Dir::Left == Dir::Left)
         return Orientation::Left;
 
-    if (d & Dir::Right)
+    if (d & Dir::Right == Dir::Right)
         return Orientation::Right;
 
     return {}; // Oh, well...
