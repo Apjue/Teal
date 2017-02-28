@@ -22,20 +22,14 @@ void MovementSystem::OnUpdate(float elapsed)
         if (path.empty())
             continue; // No path, no move.
 
-        if (!pos.moving)
-        {
-            pos.moving = true;
-            continue; // Continue so the animation system can animate.
-        }
-
         auto& orient = e->GetComponent<OrientationComponent>().dir;
         auto& dir = path.front();
 
-        orient = DirToOrien(dir.first); // [WORKAROUND 1]
-        auto xy = DirToXY(dir.first); // [WORKAROUND 1]
+        orient = DirToOrient(dir.first); // [WORKAROUND 1]
+        auto xy = DirToXY(dir.first);    // [WORKAROUND 1]
 
-        int moveX { xy.x };
-        int moveY { xy.y };
+        int moveX{xy.x};
+        int moveY{xy.y};
 
         bool walkMode = (path.size() == 1); // We almost finished, let's stop running
 
@@ -43,6 +37,12 @@ void MovementSystem::OnUpdate(float elapsed)
         {
             moveX = (moveX == 2 || moveX == -2) ? moveX / 2 : moveX;
             moveY = (moveY == 2 || moveY == -2) ? moveY / 2 : moveY;
+        }
+
+        if (!pos.moving)
+        {
+            pos.moving = true;
+            continue; // Continue so the animation system can animate.
         }
 
         pos.inX += moveX;
