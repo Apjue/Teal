@@ -31,9 +31,6 @@ void AnimationSystem::OnUpdate(float elapsed)
 
         switch (anim.animationState)
         {
-        case AnimationComponent::Deactivated:
-            break;
-
         case AnimationComponent::OnMove:
             OnMoveAnimation(startX, startY, gfx, anim, moving);
             break;
