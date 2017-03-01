@@ -15,20 +15,26 @@ environment:
   TOOLSET: vs2015
   matrix:
     - CONFIG: Debug
-      SUFFIX: -d
+      SUFFIXDLL: -d.dll
+      SUFFIXLIB: -d.lib
       PLATFORM: x86
       PLATFORMNAME: Win32
 
     - CONFIG: Debug
-      SUFFIX: -d
+      SUFFIXDLL: -d.dll
+      SUFFIXLIB: -d.lib
       PLATFORM: x64
       PLATFORMNAME: x64
 
     - CONFIG: Release
+      SUFFIXDLL: .dll
+      SUFFIXLIB: .lib
       PLATFORM: x64
       PLATFORMNAME: x64
 
     - CONFIG: Release
+      SUFFIXDLL: .dll
+      SUFFIXLIB: .lib
       PLATFORM: x86
       PLATFORMNAME: Win32
 
@@ -53,7 +59,7 @@ install:
   - cp %APPVEYOR_BUILD_FOLDER%/build/premake5.exe ./
   - premake5.exe %TOOLSET%
   - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIX%.lib ./
+  - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIXLIB% ./
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build
@@ -72,7 +78,7 @@ after_build:
   - mkdir TealDemo
   - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
   - cd TealDemo
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Nazara*%SUFFIX%.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Nazara*%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/assimp.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/libsndfile-1.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Newton.dll ./
