@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -140,7 +140,7 @@ bool MapInstance::update() // Thanks Lynix for this code
     subMesh->SetIndexBuffer(indexBuffer);
 
     subMesh->SetAABB(Nz::Boxf(0.f, 0.f, 0.f, width * tileSize.x, height * tileSize.y, 0.f));
-    //subMesh->GenerateAABB();
+    subMesh->GenerateAABB();
 
     mesh->AddSubMesh(subMesh);
 
