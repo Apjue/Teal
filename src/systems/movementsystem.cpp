@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -28,8 +28,8 @@ void MovementSystem::OnUpdate(float elapsed)
         orient = DirToOrient(dir.first); // [WORKAROUND 1]
         auto xy = DirToXY(dir.first);    // [WORKAROUND 1]
 
-        int moveX{xy.x};
-        int moveY{xy.y};
+        int moveX { xy.x };
+        int moveY { xy.y };
 
         bool walkMode = (path.size() == 1); // We almost finished, let's stop running
 
