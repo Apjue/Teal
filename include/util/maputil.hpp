@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -10,7 +10,7 @@
 #include <NDK/Entity.hpp>
 #include <utility>
 #include <memory>
-#include "micropather.h"
+#include <queue>
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/mappositioncomponent.hpp"
@@ -19,6 +19,7 @@
 #include "global.hpp"
 #include "data/mapdata.hpp"
 #include "util/entityutil.hpp"
+#include "micropather.h"
 
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);
@@ -68,6 +69,8 @@ extern bool isMapUtilityInited();
 
 inline Nz::String mapXYToString(int x, int y);
 inline std::pair<int, int> stringToMapXY(const Nz::String& str);
+
+extern std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start);
 
 #include "maputil.inl"
 

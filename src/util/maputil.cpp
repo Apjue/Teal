@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -231,4 +231,25 @@ void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
 bool isMapUtilityInited()
 {
     return !m_currentMap.expired() && !m_pather.expired();
+}
+
+std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start)
+{
+    std::queue<AbsTile> positions;
+
+    for (;;)
+    {
+        if (directions.empty())
+            break;
+
+        auto& dir = directions.front();
+        directions.pop();
+
+        auto xy = DirToXY(dir.first);
+
+        start.x += xy.x;
+        start.y += xy.y;
+
+        positions.push(start);
+    }
 }
