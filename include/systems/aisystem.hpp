@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -12,6 +12,7 @@
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movetocomponent.hpp"
 #include "components/common/mapcomponent.hpp"
+#include "util/maputil.hpp"
 #include "micropather.h"
 
 ///

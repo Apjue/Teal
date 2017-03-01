@@ -39,10 +39,12 @@ void AISystem::OnUpdate(float elapsed)
         if (move.diffX == 0 && move.diffY == 0)
             continue; // This entity doesn't want to move.
 
+        bool setMovingToFalse { false };
+
         if (pos.moving) // It's already moving !
         {               // Let's try to stop it
             if (isPositionValid({ pos.x, pos.y }))
-                pos.moving = false;
+                setMovingToFalse = true;
             else
                 continue; // Invalid position, can't stop it
         }
@@ -50,11 +52,7 @@ void AISystem::OnUpdate(float elapsed)
         // Ok, let's do the path.
         NazaraAssert(m_pather, "Pather is null, cannot compute path !");
 
-        // First, make sure to erase the previous path (if there is any)
-        while (!path.empty())
-            path.pop();
-
-        // Now, compute the path with the position and the move component.
+        // Compute the path with the position and the move component.
         std::vector<void*> voidPath;
         float totalCost {}; // In case of debugging
 
@@ -68,6 +66,11 @@ void AISystem::OnUpdate(float elapsed)
         // Path done, in void*. Let's add it to the entity's path, in integers
         int oldX {};
         int oldY {};
+
+        AbsTile startPos { pos.x, pos.y };
+        AbsTile lastPos {};
+
+        std::queue<std::pair<DirectionFlags, bool>> newPath;
 
         for (std::size_t i {}; i < voidPath.size(); ++i)
         {
@@ -97,18 +100,30 @@ void AISystem::OnUpdate(float elapsed)
             auto dir = XYToDir({ diffX, diffY });
             bool reExec = !isDiagonal(dir);
 
-            path.push(std::make_pair(dir, reExec));
+            newPath.push(std::make_pair(dir, reExec));
 
             oldX = static_cast<int>(absX);
             oldY = static_cast<int>(absY);
+
+            if (i == (voidPath.size() - 1))
+                lastPos = { absX, absY };
         }
 
-        // All done. Now, purge the move and the inter-pos if any
+        auto currentPath = directionsToPositions(path, startPos);
 
         move.diffX = 0;
         move.diffY = 0;
 
-        pos.inX = 0; // Inter-pos
+        if (!currentPath.empty())
+            if (lastPos == currentPath.back())
+                continue;
+
+        path = newPath;
+
+        pos.inX = 0;
         pos.inY = 0;
+
+        if (setMovingToFalse)
+            pos.moving = true;
     }
 }
