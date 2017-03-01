@@ -41,7 +41,7 @@ DiffTile DirToXY(DirectionFlags d)
     int const x = DirToX(d);
     int const y = DirToY(d);
 
-    return { y ? x : x*2, x ? y : y*2 };
+    return { y ? x : x * 2, x ? y : y * 2 };
 }
 
 DirectionFlags XYToDir(DiffTile d)
