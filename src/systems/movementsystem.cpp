@@ -25,8 +25,8 @@ void MovementSystem::OnUpdate(float elapsed)
         auto& orient = e->GetComponent<OrientationComponent>().dir;
         auto& dir = path.front();
 
-        orient = DirToOrient(dir.first); // [WORKAROUND 1]
-        auto xy = DirToXY(dir.first);    // [WORKAROUND 1]
+        orient = DirToOrient(dir.first);
+        auto xy = DirToXY(dir.first);
 
         int moveX { xy.x };
         int moveY { xy.y };
@@ -73,7 +73,7 @@ void MovementSystem::OnUpdate(float elapsed)
             if (!dir.second)
                 path.pop(); // To get next tile
             else
-                dir.second = false; // [WORKAROUND 1]
+                dir.second = false;
         }
 
         if (path.empty()) // Finished path
