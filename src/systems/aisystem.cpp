@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -95,9 +95,9 @@ void AISystem::OnUpdate(float elapsed)
             diffY = -diffY;
 
             auto dir = XYToDir({ diffX, diffY });
-            bool reExec = !isDiagonal(dir); // [WORKAROUND 1]
+            bool reExec = !isDiagonal(dir);
 
-            path.push(std::make_pair(dir, reExec)); // [WORKAROUND 1]
+            path.push(std::make_pair(dir, reExec));
 
             oldX = static_cast<int>(absX);
             oldY = static_cast<int>(absY);
