@@ -237,11 +237,8 @@ std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, b
 {
     std::queue<AbsTile> positions;
 
-    for (;;)
+    while (!directions.empty())
     {
-        if (directions.empty())
-            break;
-
         auto& dir = directions.front();
         directions.pop();
 
@@ -252,4 +249,6 @@ std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, b
 
         positions.push(start);
     }
+
+    return positions;
 }
