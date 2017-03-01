@@ -240,14 +240,13 @@ std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, b
     while (!directions.empty())
     {
         auto& dir = directions.front();
-        directions.pop();
-
         auto xy = DirToXY(dir.first);
 
         start.x += xy.x;
         start.y += xy.y;
 
         positions.push(start);
+        directions.pop();
     }
 
     return positions;
