@@ -50,7 +50,6 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
         x = Def::LMAPX;
         y = pos.y;
-
     }
 
     else if (entExt & Dir::Right)
@@ -59,7 +58,6 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
         x = 0u;
         y = pos.y;
-
     }
 
     else if (entExt & Dir::Up)
@@ -68,7 +66,6 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
         x = pos.x;
         y = Def::LMAPY;
-
     }
 
     else if (entExt & Dir::Down)
@@ -77,7 +74,6 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
         x = pos.x;
         y = 0u;
-
     }
 
     else
