@@ -23,29 +23,17 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     // Where is the entity in the map ? Right, left, down, or up ?
     DirectionFlags entExt = 0; // Entity Extremity
 
-    if (pos.x == 0u) // Left
-    {
-        if (MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y)))
-            entExt = Dir::Left;
-    }
+    if (pos.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
+        entExt = Dir::Left;
 
-    else if (pos.x == Def::LMAPX) // Right
-    {
-        if (MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y)))
-            entExt = Dir::Right;
-    }
+    else if (pos.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
+        entExt = Dir::Right;
 
-    else if (pos.y == 0u) // Up
-    {
-        if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1)))
-            entExt = Dir::Up;
-    }
+    else if (pos.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Up
+        entExt = Dir::Up;
 
-    else if (pos.y == Def::LMAPY) // Down
-    {
-        if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1)))
-            entExt = Dir::Down;
-    }
+    else if (pos.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Down
+        entExt = Dir::Down;
 
     if (!entExt)
         return std::make_pair(false, entExt); // Entity isn't even at an extremity
