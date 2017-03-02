@@ -59,7 +59,8 @@ extern bool changeMap(const Ndk::EntityHandle& p);
 ///
 
 extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
-                           const std::weak_ptr<micropather::MicroPather>& pather);
+                           const std::weak_ptr<micropather::MicroPather>& pather,
+                           const Ndk::EntityHandle& mainCharacter);
 
 ///
 /// \fn isMapUtilityInited

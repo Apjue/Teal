@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -32,9 +32,9 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initEventHandler();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(mapComp.map, m_pather);
+    initMapUtility(mapComp.map, m_pather, m_charac);
 
-    auto testItem = make_item(m_world, "illuminati234");
+    auto testItem = make_item(m_world, "Legendary sword 1234");
 
     m_charac->GetComponent<InventoryComponent>().add(testItem);
 }

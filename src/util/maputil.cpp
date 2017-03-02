@@ -7,8 +7,9 @@
 namespace
 {
 
-std::weak_ptr<MapInstance> m_currentMap {};
-std::weak_ptr<micropather::MicroPather> m_pather {};
+std::weak_ptr<MapInstance> m_currentMap;
+std::weak_ptr<micropather::MicroPather> m_pather;
+Ndk::EntityHandle m_mainChar;
 
 }
 
@@ -95,6 +96,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
 bool changeMap(const Ndk::EntityHandle& p)
 {
+    NazaraAssert(p == m_mainChar, "changeMap must only be used with the main character (provided by initMapUtility)");
     auto canChange = canChangeMap(p);
 
     if (!canChange.first)
@@ -192,15 +194,17 @@ bool changeMap(const Ndk::EntityHandle& p)
 }
 
 void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
-                    const std::weak_ptr<micropather::MicroPather>& pather)
+                    const std::weak_ptr<micropather::MicroPather>& pather,
+                    const Ndk::EntityHandle& mainCharacter)
 {
     m_currentMap = currentMap;
     m_pather = pather;
+    m_mainChar = mainCharacter;
 }
 
 bool isMapUtilityInited()
 {
-    return !m_currentMap.expired() && !m_pather.expired();
+    return !m_currentMap.expired() && !m_pather.expired() && m_mainChar.IsValid();
 }
 
 std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start)
