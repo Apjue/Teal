@@ -95,3 +95,6 @@ wdirs/x86
 # ExtLibs
 extlibs/lib/**
 extlibs/include/**
+
+# Others
+todo.txt
