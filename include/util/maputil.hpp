@@ -43,6 +43,9 @@ extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
 ///
 /// \fn changeMap
 ///
+/// \brief Change the game map.
+///        You must use it only with main character
+///
 /// \return If the entity changed map correctly
 ///
 

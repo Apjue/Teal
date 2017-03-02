@@ -170,7 +170,7 @@ bool changeMap(const Ndk::EntityHandle& p)
 
     deactivateMapEntities(currentMapLock->map);
 
-    currentMapLock->map = newMap; /// TODO: this function shouldn't change the map !
+    currentMapLock->map = newMap;
     patherLock->Reset(); // Map changed, need to reset pather's cache
 
     activateMapEntities(currentMapLock->map);
