@@ -34,14 +34,14 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     auto& mapComp = m_map->GetComponent<MapComponent>();
     initMapUtility(mapComp.map, m_pather, m_charac);
 
-    auto testItem = make_item(m_world, "Legendary sword 1234");
+    auto testItem = make_item(m_world, "Legendary sword 1234"); // [TEST]
 
-    m_charac->GetComponent<InventoryComponent>().add(testItem);
+    m_charac->GetComponent<InventoryComponent>().add(testItem); // [TEST]
 }
 
-#include <iostream>
+#include <iostream> // [TEST]
 
-void Game::showInventory()
+void Game::showInventory() // [TEST]
 {
     auto& inv = m_charac->GetComponent<InventoryComponent>();
 
