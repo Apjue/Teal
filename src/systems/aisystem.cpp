@@ -39,15 +39,8 @@ void AISystem::OnUpdate(float elapsed)
         if (move.diffX == 0 && move.diffY == 0)
             continue; // This entity doesn't want to move.
 
-        bool setMovingToFalse { false };
-
-        if (pos.moving) // It's already moving !
-        {               // Let's try to stop it
-            if (isPositionValid({ pos.x, pos.y }))
-                setMovingToFalse = true;
-            else
-                continue; // Invalid position, can't stop it
-        }
+        if (pos.moving && !isPositionValid({ pos.x, pos.y }))
+            continue; // Invalid position, can't stop it
 
         // Ok, let's do the path.
         NazaraAssert(m_pather, "Pather is null, cannot compute path !");
@@ -114,16 +107,12 @@ void AISystem::OnUpdate(float elapsed)
         move.diffX = 0;
         move.diffY = 0;
 
-        if (!currentPath.empty())
-            if (lastPos == currentPath.back())
-                continue;
+        if (!currentPath.empty() && lastPos == currentPath.back())
+            continue;
 
         path = newPath;
 
         pos.inX = 0;
         pos.inY = 0;
-
-        if (setMovingToFalse)
-            pos.moving = true;
     }
 }
