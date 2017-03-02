@@ -21,47 +21,33 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     auto& pos = p->GetComponent<PositionComponent>();
 
     // Where is the entity in the map ? Right, left, down, or up ?
-
-    bool validPos { false }; // If the entity is at one extremity
-    auto entExt = Dir::Up; // Entity Extremity
+    DirectionFlags entExt = 0; // Entity Extremity
 
     if (pos.x == 0u) // Left
     {
         if (MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y)))
-        {
-            validPos = true;
             entExt = Dir::Left;
-        }
     }
 
     else if (pos.x == Def::LMAPX) // Right
     {
         if (MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y)))
-        {
-            validPos = true;
             entExt = Dir::Right;
-        }
     }
 
     else if (pos.y == 0u) // Up
     {
         if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1)))
-        {
-            validPos = true;
             entExt = Dir::Up;
-        }
     }
 
     else if (pos.y == Def::LMAPY) // Down
     {
         if (MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1)))
-        {
-            validPos = true;
             entExt = Dir::Down;
-        }
     }
 
-    if (!validPos)
+    if (!entExt)
         return std::make_pair(false, entExt); // Entity isn't even at an extremity
 
     // Okay, now, let's check if the position where the entity
