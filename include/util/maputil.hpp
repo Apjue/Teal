@@ -64,8 +64,8 @@ extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
 ///
 /// \fn isMapUtilityInited
 ///
-/// \brief Checks if the MapCore and MapInstance pointers used by
-///        functions in this files are valid
+/// \brief Checks if the MapInstance, Micropather, and main character pointers 
+///        used by functions in this files are valid
 ///
 
 extern bool isMapUtilityInited();
