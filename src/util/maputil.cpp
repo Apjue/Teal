@@ -94,16 +94,15 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     return std::make_pair(true, entExt);
 }
 
-bool changeMap(const Ndk::EntityHandle& p)
+bool changeMap()
 {
-    NazaraAssert(p == m_mainChar, "changeMap must only be used with the main character (provided by initMapUtility)");
-    auto canChange = canChangeMap(p);
+    auto canChange = canChangeMap(m_mainChar);
 
     if (!canChange.first)
         return false;
 
-    auto& mapPos = p->GetComponent<MapPositionComponent>();
-    auto& pos = p->GetComponent<PositionComponent>();
+    auto& mapPos = m_mainChar->GetComponent<MapPositionComponent>();
+    auto& pos = m_mainChar->GetComponent<PositionComponent>();
 
     MapDataRef newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
@@ -187,8 +186,8 @@ bool changeMap(const Ndk::EntityHandle& p)
     mapPos.x = mapX;
     mapPos.y = mapY;
 
-    if (p->HasComponent<OrientationComponent>())
-        p->GetComponent<OrientationComponent>().dir = newOrient;
+    if (m_mainChar->HasComponent<OrientationComponent>())
+        m_mainChar->GetComponent<OrientationComponent>().dir = newOrient;
 
     return true;
 }
@@ -205,6 +204,11 @@ void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
 bool isMapUtilityInited()
 {
     return !m_currentMap.expired() && !m_pather.expired() && m_mainChar.IsValid();
+}
+
+Ndk::EntityHandle getMainCharacter()
+{
+    return m_mainChar;
 }
 
 std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start)

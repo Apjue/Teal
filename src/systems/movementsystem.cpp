@@ -80,9 +80,8 @@ void MovementSystem::OnUpdate(float elapsed)
         {
             pos.moving = false; // Not moving anymore
 
-            if (hasComponentsToChangeMap(e))
-                if (e->GetComponent<MapPositionComponent>().canChangeMap)
-                    changeMap(e);
+            if (hasComponentsToChangeMap(e) && e == getMainCharacter())
+                changeMap();
         }
 
         if (isMapEntity(e))

@@ -35,7 +35,7 @@ inline MapDataRef deactivateMapEntities(const MapDataRef& map);
 ///       of the entity
 ///
 /// \return A pair with - a bool      -> If the entity can change map
-///                     - a direction -> If yes, which map the entity can move to
+///                     - a direction -> If the bool is set to true, where the entity can move to
 ///
 
 extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
@@ -43,13 +43,12 @@ extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
 ///
 /// \fn changeMap
 ///
-/// \brief Change the game map.
-///        You must use it only with main character
+/// \brief Change the game map and main character's map position
 ///
 /// \return If the entity changed map correctly
 ///
 
-extern bool changeMap(const Ndk::EntityHandle& p);
+extern bool changeMap();
 
 ///
 /// \fn initMapUtility
@@ -70,6 +69,8 @@ extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
 ///
 
 extern bool isMapUtilityInited();
+
+extern Ndk::EntityHandle getMainCharacter();
 
 inline Nz::String mapXYToString(int x, int y);
 inline std::pair<int, int> stringToMapXY(const Nz::String& str);

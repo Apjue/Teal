@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -62,11 +62,11 @@ private:
     // Character functions
     void showInventory();
 
-    //Slots
+    // Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
     NazaraSlot(Nz::EventHandler, OnKeyPressed, m_keyPressEvent);
 
-    //Init Functions
+    // Init Functions
     void initNazara();
 
     void addTextures();
