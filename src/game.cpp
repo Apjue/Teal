@@ -202,7 +202,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
     });
 
 
-    Nz::MaterialRef npcMat = Nz::Material::New(); // Test
+    Nz::MaterialRef npcMat = Nz::Material::New(); // [TEST]
     npcMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath());
 
     npcMat->EnableBlending(true);
@@ -213,11 +213,10 @@ void Game::addMaps() /// \todo Load from file (lua?)
     Nz::SpriteRef npcSprite = Nz::Sprite::New(npcMat);
     npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
-
-    CharacterData npcData
+    CharacterData npcData // [TEST]
     {
         { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
-        AnimationComponent::OnMove, Orientation::DownLeft, { true }, false
+        AnimationComponent::OnMove, Orientation::DownLeft, { true }, "The Wandering NPC"
     };
 
     auto npc = make_character(m_world, npcData);

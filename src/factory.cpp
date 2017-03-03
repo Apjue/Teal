@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -21,7 +21,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 
     e->AddComponent<OrientationComponent>(infos.o);
     e->AddComponent<PositionComponent>(infos.defL.x, infos.defL.y);
-    e->AddComponent<MapPositionComponent>(infos.mapPos.x, infos.mapPos.y, infos.canChangeMap);
+    e->AddComponent<MapPositionComponent>(infos.mapPos.x, infos.mapPos.y);
 
     auto& dpos = e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
     e->GetComponent<Ndk::NodeComponent>().SetPosition(dpos.x, dpos.y);
