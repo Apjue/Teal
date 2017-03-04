@@ -30,10 +30,10 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     else if (pos.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
         entExt = Dir::Right;
 
-    else if (pos.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Up
+    else if (pos.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Up
         entExt = Dir::Up;
 
-    else if (pos.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Down
+    else if (pos.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Down
         entExt = Dir::Down;
 
     if (!entExt)
@@ -63,18 +63,18 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Up)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.x;
-        y = Def::LMAPY;
+        y = Def::LMAPY - 1;
     }
 
     else if (entExt & Dir::Down)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.x;
-        y = 0u;
+        y = 1u;
     }
 
     else
@@ -139,13 +139,13 @@ bool changeMap()
 
     else if (canChange.second & Dir::Up)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.x;
-        y = Def::LMAPY;
+        y = Def::LMAPY - 1;
 
         mapX = mapPos.x;
-        mapY = mapPos.y - 1;
+        mapY = mapPos.y + 1;
 
         newOrient = Orientation::Up;
 
@@ -153,13 +153,13 @@ bool changeMap()
 
     else if (canChange.second & Dir::Down)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.x;
-        y = 0u;
+        y = 1u;
 
         mapX = mapPos.x;
-        mapY = mapPos.y + 1;
+        mapY = mapPos.y - 1;
 
         newOrient = Orientation::Down;
     }
