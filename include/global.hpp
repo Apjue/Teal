@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -49,12 +49,17 @@ constexpr EnumUnderlyingType<T> toUnderlyingType(T enum_)
     return static_cast<EnumUnderlyingType<T>>(enum_);
 }
 
+namespace Nz
+{
+
 template<>
-struct Nz::EnumAsFlags<Direction>
+struct EnumAsFlags<Direction>
 {
     static constexpr bool value = true;
     static constexpr int  max = toUnderlyingType<Direction>(Direction::Max);
 };
+
+}
 
 using DirectionFlags = Nz::Flags<Direction>;
 
