@@ -7,18 +7,20 @@
 Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
            const Nz::Vector2ui& viewport, const Nz::String& winName) :
     m_app(app), m_world(), m_window(app.AddWindow<Nz::RenderWindow>()), m_map(), m_charac(),
-    m_mapViewport(viewport)
+    m_mapViewport(viewport), m_canvas()
 {
     addTextures();
 
     Nz::ImageRef scheme = Nz::Image::New();
     scheme->LoadFromFile(Nz::TextureLibrary::Get(":/game/scheme")->GetFilePath());
 
-    initSchemeUtility(scheme);
-
     m_window.Create(Nz::VideoMode(winSize.x, winSize.y, 32), winName);
-    m_world = app.AddWorld().CreateHandle();
+    m_window.EnableVerticalSync(true);
 
+    m_world = app.AddWorld().CreateHandle();
+    m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
+
+    initSchemeUtility(scheme);
     initNazara();
 
     initTilesetCore();
@@ -30,6 +32,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addEntities();
     addSystems();
     initEventHandler();
+    addWidgets();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
     initMapUtility(mapComp.map, m_pather, m_charac);
@@ -382,5 +385,25 @@ void Game::initEventHandler()
         case Nz::Keyboard::I: // Inventory
             showInventory();
         }
+    });
+}
+
+void Game::addWidgets()
+{
+    NazaraAssert(m_canvas, "Canvas null");
+    m_canvas->Move(0.f, static_cast<float>(Def::MAPYVIEWPORT));
+
+    auto& eventHandler = m_window.GetEventHandler();
+
+    Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
+    NazaraAssert(invButton, "Inventory button null");
+
+    invButton->SetParent(*m_canvas);
+    invButton->UpdateText(Nz::SimpleTextDrawer::Draw("Inventory", 12));
+
+    m_invButtonEvent.Connect(invButton->OnButtonTrigger,
+    [this] (const Ndk::ButtonWidget*)
+    {
+        showInventory();
     });
 }

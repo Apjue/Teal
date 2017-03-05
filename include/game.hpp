@@ -24,6 +24,8 @@
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/File.hpp>
 #include <Nazara/Core/Flags.hpp>
+#include <NDK/Canvas.hpp>
+#include <NDK/Widgets/ButtonWidget.hpp>
 #include <memory>
 
 #include "components.hpp"
@@ -35,6 +37,8 @@
 #include "cache/tilesetcore.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
+#include "def/gamedef.hpp"
+#include "def/uidef.hpp"
 
 class Game
 {
@@ -58,6 +62,7 @@ private:
     Nz::Rectui m_mapViewport;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
     Nz::IconRef m_winIcon;
+    std::unique_ptr<Ndk::Canvas> m_canvas;
 
     // Character functions
     void showInventory();
@@ -65,6 +70,7 @@ private:
     // Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
     NazaraSlot(Nz::EventHandler, OnKeyPressed, m_keyPressEvent);
+    NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_invButtonEvent);
 
     // Init Functions
     void initNazara();
@@ -80,6 +86,7 @@ private:
     void addSystems();
 
     void initEventHandler();
+    void addWidgets();
 };
 
 #include "game.inl"
