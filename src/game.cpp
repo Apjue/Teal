@@ -391,7 +391,7 @@ void Game::initEventHandler()
 void Game::addWidgets()
 {
     NazaraAssert(m_canvas, "Canvas null");
-    m_canvas->Move(0.f, static_cast<float>(Def::MAPYVIEWPORT));
+    m_canvas->SetPosition(10.f, static_cast<float>(Def::MAPYVIEWPORT) + 5);
 
     auto& eventHandler = m_window.GetEventHandler();
 
@@ -399,7 +399,9 @@ void Game::addWidgets()
     NazaraAssert(invButton, "Inventory button null");
 
     invButton->SetParent(*m_canvas);
-    invButton->UpdateText(Nz::SimpleTextDrawer::Draw("Inventory", 12));
+    invButton->UpdateText(Nz::SimpleTextDrawer::Draw("Inventory", 15));
+    invButton->SetPadding(0.f, 0.f, 0.f, 0.f);
+    invButton->ResizeToContent();
 
     m_invButtonEvent.Connect(invButton->OnButtonTrigger,
     [this] (const Ndk::ButtonWidget*)
