@@ -39,7 +39,7 @@ void AISystem::OnUpdate(float elapsed)
         if (move.diffX == 0 && move.diffY == 0)
             continue; // This entity doesn't want to move.
 
-        if (pos.moving && !isPositionValid({ pos.x, pos.y }))
+        if (pos.moving && !isPositionValid({ pos.x, pos.y }) && pos.inX == 0 && pos.inY == 0)
             continue; // Invalid position, can't stop it
 
         // Ok, let's do the path.
@@ -52,9 +52,17 @@ void AISystem::OnUpdate(float elapsed)
         int endX { static_cast<int>(pos.x) + move.diffX },
             endY { static_cast<int>(pos.y) + move.diffY };
 
-        m_pather->Solve(MapInstance::XYToNode(pos.x, pos.y),
-                        MapInstance::XYToNode(endX, endY),
-                        &voidPath, &totalCost); // returns the absolute position, not difference.
+        int result = m_pather->Solve(MapInstance::XYToNode(pos.x, pos.y),
+                                     MapInstance::XYToNode(endX, endY),
+                                     &voidPath, &totalCost); // returns the absolute position, not difference.
+        
+        if (result != 0)
+        {
+            move.diffX = 0;
+            move.diffY = 0;
+
+            continue;
+        }
 
         // Path done, in void*. Let's add it to the entity's path, in integers
         int oldX {};
