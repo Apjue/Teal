@@ -37,7 +37,8 @@ void AISystem::OnUpdate(float elapsed)
         if (move.diffX != 0 || move.diffY != 0) // This entity wants to move
         {
             auto& pos = e->GetComponent<PositionComponent>();
-            auto& path = e->GetComponent<PathComponent>().path;
+            auto& pathComp = e->GetComponent<PathComponent>();
+            auto& path = pathComp.path;
 
             AbsTile startPos { pos.x, pos.y };
             AbsTile lastPos { itou(utoi(pos.x) + move.diffX),
@@ -59,6 +60,7 @@ void AISystem::OnUpdate(float elapsed)
                 continue; // Cannot generate a path :(
 
             path = newPath;
+            pathComp.totalSize = path.size();
 
             pos.inX = 0;
             pos.inY = 0;
@@ -88,6 +90,9 @@ void AISystem::OnUpdate(float elapsed)
                 // I can't kill the monsters :(
 
                 fight.myTurn = false;
+
+                // Generate automatically attacks and co here
+                // Unless it's the main player. To verify: getMainCharacter()
             }
         }
     }
