@@ -16,7 +16,8 @@ void MovementSystem::OnUpdate(float elapsed)
 
     for (auto& e : GetEntities())
     {
-        auto& path = e->GetComponent<PathComponent>().path;
+        auto& pathComp = e->GetComponent<PathComponent>();
+        auto& path = pathComp.path;
         auto& pos = e->GetComponent<PositionComponent>();
 
         if (path.empty())
@@ -31,9 +32,7 @@ void MovementSystem::OnUpdate(float elapsed)
         int moveX { xy.x };
         int moveY { xy.y };
 
-        bool walkMode = (path.size() == 1); // We almost finished, let's stop running
-
-        if (walkMode)
+        if (pathComp.totalSize == 1) // Walk mode if path is short
         {
             moveX = (moveX == 2 || moveX == -2) ? moveX / 2 : moveX;
             moveY = (moveY == 2 || moveY == -2) ? moveY / 2 : moveY;
@@ -79,6 +78,7 @@ void MovementSystem::OnUpdate(float elapsed)
         if (path.empty()) // Finished path
         {
             pos.moving = false; // Not moving anymore
+            pathComp.totalSize = 0u;
 
             if (hasComponentsToChangeMap(e) && e == getMainCharacter())
                 changeMap();

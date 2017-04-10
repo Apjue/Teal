@@ -14,9 +14,8 @@
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
+    unsigned totalSize {};
     std::queue<std::pair<DirectionFlags, bool>> path;
-    // To add: path.push(...);
-    // To read: path.front(); && path.pop();
 
     static Ndk::ComponentIndex componentIndex;
 };
