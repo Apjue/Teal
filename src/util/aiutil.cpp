@@ -32,7 +32,7 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle&
         return {};
     }
 
-    return path;
+    return newPath;
 }
 
 std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos, const AbsTile& lastPos,
