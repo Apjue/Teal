@@ -39,26 +39,32 @@ void AISystem::OnUpdate(float elapsed)
             auto& pos = e->GetComponent<PositionComponent>();
             auto& path = e->GetComponent<PathComponent>().path;
 
-            AbsTile startPos {};
-            AbsTile lastPos {};
-
-            auto newPath = computePath(e, m_pather.get(), &startPos, &lastPos);
-
-            if (newPath.empty())
-                continue; // Cannot generate a path :(
+            AbsTile startPos { pos.x, pos.y };
+            AbsTile lastPos { static_cast<int>(pos.x) + move.diffX,
+                              static_cast<int>(pos.x) + move.diffX };
 
             auto currentPath = directionsToPositions(path, startPos);
 
-            move.diffX = 0;
-            move.diffY = 0;
-
             if (!currentPath.empty() && lastPos == currentPath.back())
+            {
+                move.diffX = 0;
+                move.diffY = 0;
+
                 continue;
+            }
+
+            auto newPath = computePath(e, m_pather.get());
+
+            if (newPath.empty())
+                continue; // Cannot generate a path :(
 
             path = newPath;
 
             pos.inX = 0;
             pos.inY = 0;
+
+            move.diffX = 0;
+            move.diffY = 0;
         }
 
         /*

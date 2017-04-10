@@ -4,18 +4,11 @@
 
 #include "util/aiutil.hpp"
 
-std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather,
-                                                        AbsTile* startPosition, AbsTile* lastPosition)
+std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather)
 {
     auto& path = e->GetComponent<PathComponent>().path;
     auto& pos = e->GetComponent<PositionComponent>();
     auto& move = e->GetComponent<MoveComponent>();
-
-    AbsTile startPos { pos.x, pos.y };
-    AbsTile lastPos {};
-
-    if (startPosition)
-        (*startPosition) = startPos;
 
     if (move.diffX == 0 && move.diffY == 0)
         return {}; // This entity doesn't want to move.
@@ -26,24 +19,40 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle&
     // Ok, let's do the path.
     NazaraAssert(pather, "Pather is null, cannot compute path !");
 
-    // Compute the path with the position and the move component.
-    std::vector<void*> voidPath;
-    float totalCost {}; // In case of debugging
-
     int endX { static_cast<int>(pos.x) + move.diffX },
         endY { static_cast<int>(pos.y) + move.diffY };
 
-    int result = pather->Solve(MapInstance::XYToNode(pos.x, pos.y),
-                                 MapInstance::XYToNode(endX, endY),
-                                 &voidPath, &totalCost); // returns the absolute position, not difference.
+    auto path = computePath({ pos.x, pos.y }, { endX, endY }, pather);
 
-    if (result != 0)
+    if (path.empty())
     {
         move.diffX = 0;
         move.diffY = 0;
 
         return {};
     }
+
+    return path;
+}
+
+std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos, const AbsTile& lastPos,
+                                                        micropather::MicroPather* pather)
+{
+    if (startPos == lastPos || !isPositionValid({ startPos.x, startPos.y }) || !isPositionValid({ lastPos.x, lastPos.y }))
+        return {};
+
+    NazaraAssert(pather, "Pather is null, cannot compute path !");
+
+    // Compute the path with the position and the move component.
+    std::vector<void*> voidPath;
+    float totalCost {}; // In case of debugging
+
+    int result = pather->Solve(MapInstance::XYToNode(startPos.x, startPos.y),
+                               MapInstance::XYToNode(lastPos.x, lastPos.y),
+                               &voidPath, &totalCost); // returns the absolute position, not difference.
+
+    if (result != 0 || voidPath.empty())
+        return {};
 
     // Path done, in void*. Let's add it to the entity's path, in integers
     int oldX {};
@@ -61,8 +70,8 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle&
         unsigned absX {}, absY {}; // Absolute position, not difference
         MapInstance::NodeToXY(node, absX, absY);
 
-        int startX { static_cast<int>(pos.x) };
-        int startY { static_cast<int>(pos.y) };
+        int startX { static_cast<int>(startPos.x) };
+        int startY { static_cast<int>(startPos.y) };
 
         if (i > 1) // If i == 1 we use the initial position
         {          // Else we use the position micropather generated before
@@ -83,13 +92,7 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle&
 
         oldX = static_cast<int>(absX);
         oldY = static_cast<int>(absY);
-
-        if (i == (voidPath.size() - 1))
-            lastPos = { absX, absY };
     }
-
-    if (lastPosition)
-        (*lastPosition) = lastPos;
 
     return newPath;
 }

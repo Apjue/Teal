@@ -17,7 +17,9 @@
 #include "util/maputil.hpp"
 #include "micropather.h"
 
-std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather,
-                                                        AbsTile* startPosition, AbsTile* lastPosition);
+std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather);
+
+std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPosition, const AbsTile& lastPosition,
+                                                        micropather::MicroPather* pather);
 
 #endif // AIUTIL_HPP
