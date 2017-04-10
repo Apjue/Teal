@@ -11,8 +11,8 @@
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
-#include "components/common/mapcomponent.hpp"
-#include "util/maputil.hpp"
+#include "components/common/fightcomponent.hpp"
+#include "util/aiutil.hpp"
 #include "micropather.h"
 
 ///

@@ -32,95 +32,33 @@ void AISystem::OnUpdate(float elapsed)
 
     for (auto& e : GetEntities())
     {
-        auto& path = e->GetComponent<PathComponent>().path;
-        auto& pos = e->GetComponent<PositionComponent>();
         auto& move = e->GetComponent<MoveComponent>();
 
-        if (move.diffX == 0 && move.diffY == 0)
-            continue; // This entity doesn't want to move.
-
-        if (pos.moving && !isPositionValid({ pos.x, pos.y }) && pos.inX == 0 && pos.inY == 0)
-            continue; // Invalid position, can't stop it
-
-        // Ok, let's do the path.
-        NazaraAssert(m_pather, "Pather is null, cannot compute path !");
-
-        // Compute the path with the position and the move component.
-        std::vector<void*> voidPath;
-        float totalCost {}; // In case of debugging
-
-        int endX { static_cast<int>(pos.x) + move.diffX },
-            endY { static_cast<int>(pos.y) + move.diffY };
-
-        int result = m_pather->Solve(MapInstance::XYToNode(pos.x, pos.y),
-                                     MapInstance::XYToNode(endX, endY),
-                                     &voidPath, &totalCost); // returns the absolute position, not difference.
-
-        if (result != 0)
+        if (move.diffX != 0 || move.diffY != 0) // This entity wants to move
         {
+            auto& pos = e->GetComponent<PositionComponent>();
+            auto& path = e->GetComponent<PathComponent>().path;
+
+            AbsTile startPos {};
+            AbsTile lastPos {};
+
+            auto newPath = computePath(e, m_pather.get(), &startPos, &lastPos);
+
+            if (newPath.empty())
+                continue; // Cannot generate a path :(
+
+            auto currentPath = directionsToPositions(path, startPos);
+
             move.diffX = 0;
             move.diffY = 0;
 
-            continue;
-        }
-
-        // Path done, in void*. Let's add it to the entity's path, in integers
-        int oldX {};
-        int oldY {};
-
-        AbsTile startPos { pos.x, pos.y };
-        AbsTile lastPos {};
-
-        std::queue<std::pair<DirectionFlags, bool>> newPath;
-
-        for (std::size_t i {}; i < voidPath.size(); ++i)
-        {
-            if (i == 0) // First tile is actually the position (micropather's fault)
+            if (!currentPath.empty() && lastPos == currentPath.back())
                 continue;
 
-            auto node = voidPath[i];
+            path = newPath;
 
-            unsigned absX {}, absY {}; // Absolute position, not difference
-            MapInstance::NodeToXY(node, absX, absY);
-
-            int startX { static_cast<int>(pos.x) };
-            int startY { static_cast<int>(pos.y) };
-
-            if (i > 1) // If i == 1 we use the initial position
-            {          // Else we use the position micropather generated before
-                startX = oldX;
-                startY = oldY;
-            }
-
-            int diffX { startX - static_cast<int>(absX) },
-                diffY { startY - static_cast<int>(absY) }; // Difference now, but reversed
-
-            diffX = -diffX; // Ok
-            diffY = -diffY;
-
-            auto dir = XYToDir({ diffX, diffY });
-            bool reExec = !isDiagonal(dir);
-
-            newPath.push(std::make_pair(dir, reExec));
-
-            oldX = static_cast<int>(absX);
-            oldY = static_cast<int>(absY);
-
-            if (i == (voidPath.size() - 1))
-                lastPos = { absX, absY };
+            pos.inX = 0;
+            pos.inY = 0;
         }
-
-        auto currentPath = directionsToPositions(path, startPos);
-
-        move.diffX = 0;
-        move.diffY = 0;
-
-        if (!currentPath.empty() && lastPos == currentPath.back())
-            continue;
-
-        path = newPath;
-
-        pos.inX = 0;
-        pos.inY = 0;
     }
 }
