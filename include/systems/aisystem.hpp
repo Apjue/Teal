@@ -12,6 +12,7 @@
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
 #include "components/common/fightcomponent.hpp"
+#include "components/common/lifecomponent.hpp"
 #include "util/aiutil.hpp"
 #include "micropather.h"
 

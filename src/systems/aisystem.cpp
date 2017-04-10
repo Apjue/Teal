@@ -70,7 +70,7 @@ void AISystem::OnUpdate(float elapsed)
         }
 
         /*
-        Todo: create another component & system for fight
+        Todo: create another component (or use fight component ?) & system (FightSystem. such original) for fight
         With a queue, like path queue
         queue will have things like:
          - Move Up|Left
@@ -80,9 +80,10 @@ void AISystem::OnUpdate(float elapsed)
         to have a new component/system to keep the order
         */
 
-        if (e->HasComponent<FightComponent>())
+        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>())
         {
             auto& fight = e->GetComponent<FightComponent>();
+            auto& life = e->GetComponent<LifeComponent>();
 
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
@@ -93,6 +94,10 @@ void AISystem::OnUpdate(float elapsed)
 
                 // Generate automatically attacks and co here
                 // Unless it's the main player. To verify: getMainCharacter()
+
+                // Do 3 AIs: Neutral, Offensive, Defensive
+                // Neutral choose between offensive & defensive
+                // example: (health < maxHealth / 4) ? defensive : offensive;
             }
         }
     }
