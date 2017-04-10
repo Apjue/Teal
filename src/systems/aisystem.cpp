@@ -40,8 +40,8 @@ void AISystem::OnUpdate(float elapsed)
             auto& path = e->GetComponent<PathComponent>().path;
 
             AbsTile startPos { pos.x, pos.y };
-            AbsTile lastPos { static_cast<int>(pos.x) + move.diffX,
-                              static_cast<int>(pos.x) + move.diffX };
+            AbsTile lastPos { itou(utoi(pos.x) + move.diffX),
+                              itou(utoi(pos.x) + move.diffX) };
 
             auto currentPath = directionsToPositions(path, startPos);
 

@@ -19,12 +19,12 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle&
     // Ok, let's do the path.
     NazaraAssert(pather, "Pather is null, cannot compute path !");
 
-    int endX { static_cast<int>(pos.x) + move.diffX },
-        endY { static_cast<int>(pos.y) + move.diffY };
+    unsigned endX { itou(utoi(pos.x) + move.diffX) },
+             endY { itou(utoi(pos.y) + move.diffY) };
 
-    auto path = computePath({ pos.x, pos.y }, { endX, endY }, pather);
+    auto newPath = computePath({ pos.x, pos.y }, { endX, endY }, pather);
 
-    if (path.empty())
+    if (newPath.empty())
     {
         move.diffX = 0;
         move.diffY = 0;

@@ -15,6 +15,7 @@
 #include "components/common/movecomponent.hpp"
 #include "components/common/mapcomponent.hpp"
 #include "util/maputil.hpp"
+#include "util/util.hpp"
 #include "micropather.h"
 
 std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather);
