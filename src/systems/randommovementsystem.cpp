@@ -6,7 +6,7 @@
 
 RandomMovementSystem::RandomMovementSystem() : m_uni(0, 7)
 {
-    Requires<PositionComponent, MoveToComponent, RandomMovementComponent>();
+    Requires<PositionComponent, MoveComponent, RandomMovementComponent>();
     SetUpdateRate(10.f); // Can be removed
 }
 
@@ -28,7 +28,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
     for (auto& e : GetEntities())
     {
         auto& rd = e->GetComponent<RandomMovementComponent>();
-        auto& mov = e->GetComponent<MoveToComponent>();
+        auto& mov = e->GetComponent<MoveComponent>();
         auto& pos = e->GetComponent<PositionComponent>();
 
         rd.currentInterval += elapsed;

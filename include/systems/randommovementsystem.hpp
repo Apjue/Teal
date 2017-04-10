@@ -14,7 +14,7 @@
 #include <algorithm>
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
-#include "components/common/movetocomponent.hpp"
+#include "components/common/movecomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"
 #include "util/random.hpp"
 #include "global.hpp"

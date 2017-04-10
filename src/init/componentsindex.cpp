@@ -23,7 +23,7 @@ Ndk::ComponentIndex InventoryComponent::componentIndex;
 Ndk::ComponentIndex OrientationComponent::componentIndex;
 Ndk::ComponentIndex AnimationComponent::componentIndex;
 Ndk::ComponentIndex PositionComponent::componentIndex;
-Ndk::ComponentIndex MoveToComponent::componentIndex;
+Ndk::ComponentIndex MoveComponent::componentIndex;
 Ndk::ComponentIndex PathComponent::componentIndex;
 Ndk::ComponentIndex FightComponent::componentIndex;
 Ndk::ComponentIndex LifeComponent::componentIndex;

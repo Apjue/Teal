@@ -6,7 +6,7 @@
 
 AISystem::AISystem()
 {
-    Requires<PathComponent, PositionComponent, MoveToComponent>();
+    Requires<PathComponent, PositionComponent, MoveComponent>();
 }
 
 AISystem::AISystem(const std::shared_ptr<micropather::MicroPather>& pather)
@@ -34,7 +34,7 @@ void AISystem::OnUpdate(float elapsed)
     {
         auto& path = e->GetComponent<PathComponent>().path;
         auto& pos = e->GetComponent<PositionComponent>();
-        auto& move = e->GetComponent<MoveToComponent>();
+        auto& move = e->GetComponent<MoveComponent>();
 
         if (move.diffX == 0 && move.diffY == 0)
             continue; // This entity doesn't want to move.
@@ -55,7 +55,7 @@ void AISystem::OnUpdate(float elapsed)
         int result = m_pather->Solve(MapInstance::XYToNode(pos.x, pos.y),
                                      MapInstance::XYToNode(endX, endY),
                                      &voidPath, &totalCost); // returns the absolute position, not difference.
-        
+
         if (result != 0)
         {
             move.diffX = 0;

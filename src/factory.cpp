@@ -26,7 +26,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     auto& dpos = e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
     e->GetComponent<Ndk::NodeComponent>().SetPosition(dpos.x, dpos.y);
 
-    e->AddComponent<MoveToComponent>();
+    e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
     e->AddComponent<InventoryComponent>();
 

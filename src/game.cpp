@@ -266,7 +266,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<OrientationComponent>("orien");
     Ndk::InitializeComponent<AnimationComponent>("anim");
     Ndk::InitializeComponent<PositionComponent>("pos");
-    Ndk::InitializeComponent<MoveToComponent>("moveto");
+    Ndk::InitializeComponent<MoveComponent>("move");
     Ndk::InitializeComponent<PathComponent>("path");
     Ndk::InitializeComponent<FightComponent>("fight");
     Ndk::InitializeComponent<LifeComponent>("life");
@@ -367,7 +367,7 @@ void Game::initEventHandler()
         if (m_mapViewport.Contains(event.x, event.y))
         {
             auto& posComp = m_charac->GetComponent<PositionComponent>();
-            auto& moveComp = m_charac->GetComponent<MoveToComponent>();
+            auto& moveComp = m_charac->GetComponent<MoveComponent>();
 
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
             auto diff = AbsPosToDiff({ posComp.x, posComp.y }, lpos);
