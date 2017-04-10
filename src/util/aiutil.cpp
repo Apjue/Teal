@@ -70,8 +70,8 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos,
         unsigned absX {}, absY {}; // Absolute position, not difference
         MapInstance::NodeToXY(node, absX, absY);
 
-        int startX { static_cast<int>(startPos.x) };
-        int startY { static_cast<int>(startPos.y) };
+        int startX { utoi(startPos.x) };
+        int startY { utoi(startPos.y) };
 
         if (i > 1) // If i == 1 we use the initial position
         {          // Else we use the position micropather generated before
@@ -79,8 +79,8 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos,
             startY = oldY;
         }
 
-        int diffX { startX - static_cast<int>(absX) },
-            diffY { startY - static_cast<int>(absY) }; // Difference now, but reversed
+        int diffX { startX - utoi(absX) },
+            diffY { startY - utoi(absY) }; // Difference now, but reversed
 
         diffX = -diffX; // Ok
         diffY = -diffY;
@@ -90,8 +90,8 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos,
 
         newPath.push(std::make_pair(dir, reExec));
 
-        oldX = static_cast<int>(absX);
-        oldY = static_cast<int>(absY);
+        oldX = utoi(absX);
+        oldY = utoi(absY);
     }
 
     return newPath;

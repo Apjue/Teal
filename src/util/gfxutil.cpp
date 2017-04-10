@@ -21,8 +21,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     unsigned const rectX { (x / Def::TILEXSIZE) * 2 }; // Rectangle where we clicked
     unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange
 
-    int const iRectX { static_cast<int>(rectX) };
-    int const iRectY { static_cast<int>(rectY) };
+    int const iRectX { utoi(rectX) };
+    int const iRectY { utoi(rectY) };
 
     unsigned const rectClickX { x % Def::TILEXSIZE }; //We need the click to see
     unsigned const rectClickY { y % Def::TILEYSIZE }; //where in the rectangle we clicked

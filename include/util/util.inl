@@ -16,12 +16,17 @@ DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
     return { diffX, diffY };
 }
 
-inline int utoi(unsigned u)
+int utoi(unsigned u)
 {
     return static_cast<int>(u);
 }
 
-inline unsigned itou(int i)
+int lltoi(long long ll)
+{
+    return static_cast<int>(ll);
+}
+
+unsigned itou(int i)
 {
     return static_cast<unsigned>(i);
 }
