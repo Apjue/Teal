@@ -60,5 +60,29 @@ void AISystem::OnUpdate(float elapsed)
             pos.inX = 0;
             pos.inY = 0;
         }
+
+        /*
+        Todo: create another component & system for fight
+        With a queue, like path queue
+        queue will have things like:
+         - Move Up|Left
+         - Attack with Legendary Sword
+         - Move Right
+        Path will be mixed with attacks, so it is necessary
+        to have a new component/system to keep the order
+        */
+
+        if (e->HasComponent<FightComponent>())
+        {
+            auto& fight = e->GetComponent<FightComponent>();
+
+            if (fight.isFighting && fight.myTurn) // Time to act !
+            {
+                // Oh no, I haven't do this part yet
+                // I can't kill the monsters :(
+
+                fight.myTurn = false;
+            }
+        }
     }
 }
