@@ -12,6 +12,8 @@
 #include <NDK/Application.hpp>
 #include <NDK/Components.hpp>
 #include <NDK/Systems/RenderSystem.hpp>
+#include <NDK/Canvas.hpp>
+#include <NDK/Widgets/ButtonWidget.hpp>
 #include <Nazara/Renderer/RenderWindow.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
 #include <Nazara/Utility/Icon.hpp>
@@ -24,8 +26,6 @@
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/File.hpp>
 #include <Nazara/Core/Flags.hpp>
-#include <NDK/Canvas.hpp>
-#include <NDK/Widgets/ButtonWidget.hpp>
 #include <memory>
 
 #include "components.hpp"
