@@ -263,7 +263,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<NameComponent>("name");
     Ndk::InitializeComponent<LevelComponent>("level");
     Ndk::InitializeComponent<InventoryComponent>("inv");
-    Ndk::InitializeComponent<OrientationComponent>("orien");
+    Ndk::InitializeComponent<OrientationComponent>("orient");
     Ndk::InitializeComponent<AnimationComponent>("anim");
     Ndk::InitializeComponent<PositionComponent>("pos");
     Ndk::InitializeComponent<MoveComponent>("move");
@@ -275,6 +275,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<AttackModifierComponent>("atkbonus");
     Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
     Ndk::InitializeComponent<DescriptionComponent>("desc");
+    Ndk::InitializeComponent<MonsterTypeComponent>("mnstrtyp");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");

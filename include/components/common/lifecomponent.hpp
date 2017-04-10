@@ -16,6 +16,8 @@ struct LifeComponent : public Ndk::Component<LifeComponent>
 
     unsigned m_hp { 100 };
     unsigned m_maxhp { 100 };
+
+    static Ndk::ComponentIndex componentIndex;
 };
 
 #endif // LIFECOMPONENT_HPP
