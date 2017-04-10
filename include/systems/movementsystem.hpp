@@ -8,13 +8,7 @@
 #define MOVEMENTSYSTEM_HPP
 
 #include <NDK/System.hpp>
-#include "components/common/pathcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/orientationcomponent.hpp"
-#include "util/gfxutil.hpp"
-#include "def/gamedef.hpp"
-#include "util/maputil.hpp"
-#include "util/entityutil.hpp"
+#include "util/movementutil.hpp"
 
 ///
 /// \class MovementSystem
