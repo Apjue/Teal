@@ -13,6 +13,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
 {
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
+    bool automaticallyAttack { false }; // In the map
 
     static Ndk::ComponentIndex componentIndex;
 };
