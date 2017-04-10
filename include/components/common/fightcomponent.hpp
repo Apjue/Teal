@@ -12,6 +12,7 @@
 struct FightComponent : public Ndk::Component<FightComponent>
 {
     bool isFighting { false };
+    bool myTurn { false }; // Waiting to kill you
 
     static Ndk::ComponentIndex componentIndex;
 };
