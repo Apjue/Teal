@@ -14,6 +14,9 @@ inline T distance(const T& x, const T& y);
 
 inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
 
+inline int utoi(unsigned u);
+inline unsigned itou(int i);
+
 #include "util.inl"
 
 #endif // UTIL_HPP
