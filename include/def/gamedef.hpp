@@ -16,6 +16,7 @@ constexpr unsigned MAPX           { 15u }; // For arrays
 constexpr unsigned MAPY           { 8u };
 
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
+constexpr  float   TILESETSIZE    { 256 };
 
 constexpr unsigned LMAPX          { 14u }; // For logic
 constexpr unsigned LMAPY          { 15u };
