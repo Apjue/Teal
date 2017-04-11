@@ -1,3 +1,4 @@
+#include "mapdata.hpp"
 // Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
@@ -24,6 +25,16 @@ const STRINGTILEARRAY& MapData::map() const
 const UNSIGNEDTILEARRAY& MapData::obs() const
 {
     return m_obs;
+}
+
+const TileData& MapData::tile(unsigned x, unsigned y) const
+{
+    return m_tiles[XYToIndex(x, y)];
+}
+
+const TileData& MapData::tile(unsigned index) const
+{
+    return m_tiles[index];
 }
 
 std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, unsigned y)
@@ -80,7 +91,7 @@ Ndk::EntityList& MapData::getEntities()
     return m_entities;
 }
 
-unsigned MapData::XYToIndex(unsigned x, unsigned y)
+unsigned MapData::XYToIndex(unsigned x, unsigned y) const
 {
     return x + y * Def::MAPX;
 }

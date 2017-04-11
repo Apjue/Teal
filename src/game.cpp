@@ -215,7 +215,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
     CharacterData npcData
     {
         { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
-        AnimationComponent::OnMove, Orientation::DownLeft, { true }, "The Wandering NPC"
+        AnimationComponent::OnMove, Orientation::DownLeft, { true }, true, "The Wandering NPC"
     };
 
     auto npc = make_character(m_world, npcData);
@@ -274,6 +274,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
     Ndk::InitializeComponent<DescriptionComponent>("desc");
     Ndk::InitializeComponent<MonsterTypeComponent>("mnstrtyp");
+    Ndk::InitializeComponent<BlockTileComponent>("blcktile");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");

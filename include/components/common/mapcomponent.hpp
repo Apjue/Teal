@@ -19,11 +19,11 @@
 #include <Nazara/Graphics/Material.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/String.hpp>
-#include <cstdint>
 #include "micropather.h"
 #include "data/mapdata.hpp"
 #include "def/layerdef.hpp"
 #include "util/util.hpp"
+#include "util/mapposutil.hpp"
 #include "cache/tilesetcore.hpp"
 
 ///
@@ -48,23 +48,17 @@ public:
 
     ~MapInstance() = default;
 
-    MapDataRef map; // You have to reset the pather after changing map
-
     Nz::MaterialRef m_mat; // Tileset texture
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
     TilesetCore* m_tilesetCore; // Used to convert tile string to tile number
 
     bool update();
-
-    // Utility
-    static void  NodeToXY(void* node, unsigned& x, unsigned& y);
-    static void* XYToNode(unsigned x, unsigned y);
-    static void  XYToArray(unsigned /*x*/, unsigned& y);
-    static std::pair<unsigned, unsigned> IndexToXY(unsigned index);
-    static unsigned XYToIndex(unsigned x, unsigned y);
+    MapDataRef getMap() const;
+    void setMap(MapDataRef newMap);
 
 private:
     Ndk::EntityHandle m_entity;
+    MapDataRef m_map; // You have to reset the pather after changing map
 
     bool adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 

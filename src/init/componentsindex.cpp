@@ -33,3 +33,4 @@ Ndk::ComponentIndex AttackModifierComponent::componentIndex;
 Ndk::ComponentIndex ResistanceModifierComponent::componentIndex;
 Ndk::ComponentIndex DescriptionComponent::componentIndex;
 Ndk::ComponentIndex MonsterTypeComponent::componentIndex;
+Ndk::ComponentIndex BlockTileComponent::componentIndex;

@@ -28,6 +28,8 @@ void MapData::updateOldTileArray()
         m_map[i] = tile.textureId;
         m_obs[i] = tile.obstacle;
     }
+
+    //updateOccupiedTiles();
 }
 
 void MapData::updateTileArray()
@@ -38,5 +40,26 @@ void MapData::updateTileArray()
 
         tile.textureId = m_map[i];
         tile.obstacle = m_obs[i];
+    }
+
+    //updateOccupiedTiles();
+}
+
+void MapData::updateOccupiedTiles()
+{
+    for (auto& tile : m_tiles)
+        tile.occupied = false;
+
+    for (auto& e : m_entities)
+    {
+        if (e->HasComponent<PositionComponent>() && e->HasComponent<BlockTileComponent>()
+            && e->GetComponent<BlockTileComponent>().blockTile)
+        {
+            auto& pos = e->GetComponent<PositionComponent>();
+            unsigned x { pos.x }, y { pos.y };
+
+            XYToArray(x, y);
+            m_tiles[XYToIndex(x, y)].occupied = true;
+        }
     }
 }

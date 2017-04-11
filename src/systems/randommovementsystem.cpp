@@ -56,16 +56,16 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             else
             {
                 auto map = m_map.lock();
-                NazaraAssert(map->map.IsValid(), "Map isn't valid !");
+                NazaraAssert(map->getMap().IsValid(), "Map isn't valid !");
 
                 for (unsigned counter {}; counter < rd.nbTiles; ++counter)
                 {
                     unsigned x = pos.x;
                     unsigned y = pos.y;
 
-                    MapInstance::XYToArray(x, y);
+                    XYToArray(x, y);
 
-                    auto adjacentTiles = map->map->adjacentTiles(x, y);
+                    auto adjacentTiles = map->getMap()->adjacentTiles(x, y);
 
                     if (adjacentTiles.size() == 0)
                         break;
@@ -89,9 +89,9 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                     unsigned newXpos = pos.x + xy.x;
                     unsigned newYpos = pos.y + xy.y;
 
-                    MapInstance::XYToArray(newXpos, newYpos);
+                    XYToArray(newXpos, newYpos);
 
-                    unsigned tile = map->map->obs()[MapInstance::XYToIndex(newXpos, newYpos)];
+                    unsigned tile = map->getMap()->obs()[XYToIndex(newXpos, newYpos)];
 
                     if (tile == 0)
                     {

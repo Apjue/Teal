@@ -47,8 +47,8 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos,
     std::vector<void*> voidPath;
     float totalCost {}; // In case of debugging
 
-    int result = pather->Solve(MapInstance::XYToNode(startPos.x, startPos.y),
-                               MapInstance::XYToNode(lastPos.x, lastPos.y),
+    int result = pather->Solve(XYToNode(startPos.x, startPos.y),
+                               XYToNode(lastPos.x, lastPos.y),
                                &voidPath, &totalCost); // returns the absolute position, not difference.
 
     if (result != 0 || voidPath.empty())
@@ -68,7 +68,7 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos,
         auto node = voidPath[i];
 
         unsigned absX {}, absY {}; // Absolute position, not difference
-        MapInstance::NodeToXY(node, absX, absY);
+        NodeToXY(node, absX, absY);
 
         int startX { utoi(startPos.x) };
         int startY { utoi(startPos.y) };

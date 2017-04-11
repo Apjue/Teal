@@ -26,6 +26,7 @@
 #include "components/common/resistancemodifiercomponent.hpp"
 #include "components/common/descriptioncomponent.hpp"
 #include "components/common/monstertypecomponent.hpp"
+#include "components/common/blocktilecomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"

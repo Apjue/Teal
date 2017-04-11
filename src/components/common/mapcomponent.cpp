@@ -28,7 +28,7 @@ MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset,
                          TilesetCore* tcore, const Ndk::EntityHandle& e)
     : MapInstance(e, tcore)
 {
-    map = data;
+    m_map = data;
 
     if (!m_mat->SetDiffuseMap(tileset))
         NazaraError("Error: Map Material SetDiffuseMap failed !");
@@ -39,7 +39,7 @@ MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset,
 bool MapInstance::update() // Thanks Lynix for this code
 {
     NazaraAssert(m_tilesetCore, "TilesetCore nullptr !");
-    NazaraAssert(map, "Map is not valid !");
+    NazaraAssert(m_map, "Map is not valid !");
 
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
@@ -117,7 +117,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                auto tileName = map->map()[x + y * width];
+                auto tileName = m_map->map()[x + y * width];
                 unsigned tileNumber = m_tilesetCore->get(tileName);
 
                 float textureX = tileSize.x * tileNumber;
@@ -150,45 +150,19 @@ bool MapInstance::update() // Thanks Lynix for this code
     return true;
 }
 
-void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
+MapDataRef MapInstance::getMap() const
 {
-    int index {};
-    index = static_cast<int>(reinterpret_cast<std::intptr_t>(node));
-    auto xy = IndexToXY(static_cast<unsigned>(index));
-
-    x = xy.first;
-    y = xy.second;
+    return m_map;
 }
 
-void* MapInstance::XYToNode(unsigned x, unsigned y)
+void MapInstance::setMap(MapDataRef newMap)
 {
-    std::size_t result = static_cast<std::size_t>(XYToIndex(x, y));
-    return reinterpret_cast<void*>(result);
-}
-
-void MapInstance::XYToArray(unsigned /*x*/, unsigned& y)
-{
-    y /= 2;
-}
-
-std::pair<unsigned, unsigned> MapInstance::IndexToXY(unsigned index)
-{
-    unsigned x {}, y {};
-
-    y = index / Def::MAPX;
-    x = index - y * Def::MAPX;
-
-    return std::make_pair(x, y);
-}
-
-unsigned MapInstance::XYToIndex(unsigned x, unsigned y)
-{
-    return x + y * Def::MAPX;
+    m_map = newMap;
 }
 
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
-    NazaraAssert(map, "Map is not valid !");
+    NazaraAssert(m_map, "Map is not valid !");
 
     // Step 1.
     {
@@ -217,9 +191,9 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
             return false;
 
         unsigned const tile = XYToIndex(eX, eY);
+        auto& tiledata = m_map->tile(tile);
 
-        unsigned const tileNumber = map->obs()[tile];
-        return tileNumber == 0;
+        return tiledata.obstacle == 0 /*&& !tiledata.occupied*/;
     }
 }
 

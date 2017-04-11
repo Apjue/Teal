@@ -86,7 +86,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     NazaraAssert(map, "new map null !");
 
-    MapInstance::XYToArray(x, y);
+    XYToArray(x, y);
 
     if (map->obs()[x + y * Def::MAPX] != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
@@ -169,12 +169,12 @@ bool changeMap()
     auto currentMapLock = m_currentMap.lock();
     auto patherLock = m_pather.lock();
 
-    deactivateMapEntities(currentMapLock->map);
+    deactivateMapEntities(currentMapLock->getMap());
 
-    currentMapLock->map = newMap;
+    currentMapLock->setMap(newMap);
     patherLock->Reset(); // Map changed, need to reset pather's cache
 
-    activateMapEntities(currentMapLock->map);
+    activateMapEntities(currentMapLock->getMap());
 
 
     if (!currentMapLock->update())
