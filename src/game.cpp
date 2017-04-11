@@ -205,18 +205,14 @@ void Game::addMaps() /// \todo Load from file (lua?)
     });
 
 
-    Nz::MaterialRef npcMat = Nz::Material::New(); // [TEST]
-    npcMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath());
-
-    npcMat->EnableBlending(true);
-    npcMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
-    npcMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    npcMat->EnableDepthWrite(false);
+    Nz::MaterialRef npcMat = Nz::Material::New();
+    npcMat->Configure("Translucent2D");
+    npcMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
 
     Nz::SpriteRef npcSprite = Nz::Sprite::New(npcMat);
     npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
-    CharacterData npcData // [TEST]
+    CharacterData npcData
     {
         { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
         AnimationComponent::OnMove, Orientation::DownLeft, { true }, "The Wandering NPC"
@@ -230,7 +226,8 @@ void Game::addMaps() /// \todo Load from file (lua?)
 
     MapDataRef map0_1 = MapData::New();
 
-    map0_1->setMap({
+    map0_1->setMap
+    ({
         "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
         "water", "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "water", "water", "water",
         "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "sand", "sand", "water", "water",
@@ -241,7 +238,8 @@ void Game::addMaps() /// \todo Load from file (lua?)
         "grass", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water"
     });
 
-    map0_1->setObs({
+    map0_1->setObs
+    ({
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
@@ -331,12 +329,8 @@ void Game::addEntities()
 
 
     Nz::MaterialRef charMat = Nz::Material::New();
-    charMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath() );
-
-    charMat->EnableBlending(true);
-    charMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
-    charMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    charMat->EnableDepthWrite(false);
+    charMat->Configure("Translucent2D");
+    charMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
 
     Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
