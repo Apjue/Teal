@@ -120,12 +120,12 @@ bool MapInstance::update() // Thanks Lynix for this code
                 auto tileName = map->map()[x + y * width];
                 unsigned tileNumber = m_tilesetCore->get(tileName);
 
-                float textureX = 64.f * tileNumber;
+                float textureX = tileSize.x * tileNumber;
 
-                texCoordsPtr[0].Set((textureX + 0.f ) / 256.f, 0.f);
-                texCoordsPtr[1].Set((textureX + 64.f) / 256.f, 0.f);
-                texCoordsPtr[2].Set((textureX + 64.f) / 256.f, 1.f);
-                texCoordsPtr[3].Set((textureX + 0.f ) / 256.f, 1.f);
+                texCoordsPtr[0].Set((textureX + 0.f       ) / Def::TILESETSIZE, 0.f);
+                texCoordsPtr[1].Set((textureX + tileSize.x) / Def::TILESETSIZE, 0.f);
+                texCoordsPtr[2].Set((textureX + tileSize.x) / Def::TILESETSIZE, 1.f);
+                texCoordsPtr[3].Set((textureX + 0.f       ) / Def::TILESETSIZE, 1.f);
             }
         }
     }
