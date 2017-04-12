@@ -29,7 +29,7 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
         move.diffX = 0;
         move.diffY = 0;
 
-        return {};
+        return PathComponent::PathPool {};
     }
 
     return newPath;
