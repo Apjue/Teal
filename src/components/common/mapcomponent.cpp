@@ -24,18 +24,6 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset,
-                         TilesetCore* tcore, const Ndk::EntityHandle& e)
-    : MapInstance(e, tcore)
-{
-    m_map = data;
-
-    if (!m_mat->SetDiffuseMap(tileset))
-        NazaraError("Error: Map Material SetDiffuseMap failed !");
-
-    update();
-}
-
 bool MapInstance::update() // Thanks Lynix for this code
 {
     NazaraAssert(m_tilesetCore, "TilesetCore nullptr !");
@@ -150,16 +138,6 @@ bool MapInstance::update() // Thanks Lynix for this code
     return true;
 }
 
-MapDataRef MapInstance::getMap() const
-{
-    return m_map;
-}
-
-void MapInstance::setMap(MapDataRef newMap)
-{
-    m_map = newMap;
-}
-
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     NazaraAssert(m_map, "Map is not valid !");
@@ -193,7 +171,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
         unsigned const tile = XYToIndex(eX, eY);
         auto& tiledata = m_map->tile(tile);
 
-        return tiledata.obstacle == 0 /*&& !tiledata.occupied*/;
+        return tiledata.obstacle == 0 && !tiledata.occupied;
     }
 }
 

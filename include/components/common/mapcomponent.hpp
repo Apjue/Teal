@@ -37,8 +37,8 @@ class MapInstance : public micropather::Graph
 {
 public:
     MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore);
-    MapInstance(const MapDataRef& data, const Nz::String& tileset,
-                TilesetCore* tcore, const Ndk::EntityHandle& e);
+    inline MapInstance(const MapDataRef& data, const Nz::String& tileset,
+                       TilesetCore* tcore, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
     MapInstance& operator=(const MapInstance&) = default;
@@ -53,8 +53,8 @@ public:
     TilesetCore* m_tilesetCore; // Used to convert tile string to tile number
 
     bool update();
-    MapDataRef getMap() const;
-    void setMap(MapDataRef newMap);
+    inline MapDataRef getMap() const;
+    inline void setMap(MapDataRef newMap);
 
 private:
     Ndk::EntityHandle m_entity;
@@ -86,10 +86,7 @@ struct MapComponent : public Ndk::Component<MapComponent>
     std::shared_ptr<MapInstance> map;
 
     template<class... Args>
-    void init(Args&&... args)
-    {
-        map = std::make_shared<MapInstance>(std::forward<Args>(args)..., m_entity);
-    }
+    inline void init(Args&&... args);
 
     static Ndk::ComponentIndex componentIndex;
 
@@ -97,5 +94,7 @@ private:
     MapComponent(const MapComponent&&) = delete;
     MapComponent& operator=(const MapComponent&&) = delete;
 };
+
+#include "mapcomponent.inl"
 
 #endif // MAPCOMPONENT_HPP

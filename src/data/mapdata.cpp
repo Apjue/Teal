@@ -18,33 +18,6 @@ MapData::MapData(const TILEARRAY& tiles_)
     updateOldTileArray();
 }
 
-
-void MapData::updateOldTileArray()
-{
-    for (unsigned i {}; i < m_tiles.size(); ++i)
-    {
-        auto& tile = m_tiles[i];
-
-        m_map[i] = tile.textureId;
-        m_obs[i] = tile.obstacle;
-    }
-
-    //updateOccupiedTiles();
-}
-
-void MapData::updateTileArray()
-{
-    for (unsigned i {}; i < m_tiles.size(); ++i)
-    {
-        auto& tile = m_tiles[i];
-
-        tile.textureId = m_map[i];
-        tile.obstacle = m_obs[i];
-    }
-
-    //updateOccupiedTiles();
-}
-
 void MapData::updateOccupiedTiles()
 {
     for (auto& tile : m_tiles)
@@ -63,3 +36,30 @@ void MapData::updateOccupiedTiles()
         }
     }
 }
+
+void MapData::updateOldTileArray()
+{
+    for (unsigned i {}; i < m_tiles.size(); ++i)
+    {
+        auto& tile = m_tiles[i];
+
+        m_map[i] = tile.textureId;
+        m_obs[i] = tile.obstacle;
+    }
+
+    updateOccupiedTiles();
+}
+
+void MapData::updateTileArray()
+{
+    for (unsigned i {}; i < m_tiles.size(); ++i)
+    {
+        auto& tile = m_tiles[i];
+
+        tile.textureId = m_map[i];
+        tile.obstacle = m_obs[i];
+    }
+
+    updateOccupiedTiles();
+}
+

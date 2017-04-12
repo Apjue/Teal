@@ -46,8 +46,8 @@ public:
     static inline MapDataRef New(Args&&... args);
 
     inline const TILEARRAY& tiles() const;
-    inline const STRINGTILEARRAY& map() const;
-    inline const UNSIGNEDTILEARRAY& obs() const;
+    inline const STRINGTILEARRAY& map() const; // Todo: Delete. Only Use Tile Array
+    inline const UNSIGNEDTILEARRAY& obs() const; // Todo: ^
 
     inline const TileData& tile(unsigned x, unsigned y) const;
     inline const TileData& tile(unsigned index) const;
@@ -61,6 +61,8 @@ public:
     inline const Ndk::EntityList& getEntities() const;
     inline Ndk::EntityList& getEntities();
 
+    void updateOccupiedTiles();
+
 private:
     TILEARRAY m_tiles;
     STRINGTILEARRAY m_map;
@@ -71,7 +73,6 @@ private:
 
     void updateOldTileArray();
     void updateTileArray();
-    void updateOccupiedTiles();
 
     inline unsigned XYToIndex(unsigned x, unsigned y) const;
 };

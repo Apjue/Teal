@@ -72,6 +72,12 @@ void moveEntity(const Ndk::EntityHandle & e)
 
         if (hasComponentsToChangeMap(e) && e == getMainCharacter())
             changeMap();
+
+        if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)
+        {
+            refreshOccupiedTiles();
+            clearPatherCache();
+        }
     }
 
     if (isMapEntity(e))

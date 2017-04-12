@@ -15,7 +15,7 @@ Ndk::EntityHandle m_mainChar;
 
 std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 {
-    NazaraAssert(isMapUtilityInited(), "Map Utility hasn't been initialized !");
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     NazaraAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
 
     auto& mapPos = p->GetComponent<MapPositionComponent>();
@@ -96,6 +96,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
 bool changeMap()
 {
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     auto canChange = canChangeMap(m_mainChar);
 
     if (!canChange.first)
@@ -165,20 +166,16 @@ bool changeMap()
     }
 
     NazaraAssert(newMap, "new map null !");
-
     auto currentMapLock = m_currentMap.lock();
-    auto patherLock = m_pather.lock();
 
     deactivateMapEntities(currentMapLock->getMap());
-
     currentMapLock->setMap(newMap);
-    patherLock->Reset(); // Map changed, need to reset pather's cache
-
     activateMapEntities(currentMapLock->getMap());
-
 
     if (!currentMapLock->update())
         NazaraError("Cannot update map");
+
+    clearPatherCache();
 
     pos.x = x;
     pos.y = y;
@@ -201,13 +198,14 @@ void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
     m_mainChar = mainCharacter;
 }
 
-bool isMapUtilityInited()
+bool isMapUtilityInitialized()
 {
     return !m_currentMap.expired() && !m_pather.expired() && m_mainChar.IsValid();
 }
 
 Ndk::EntityHandle getMainCharacter()
 {
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     return m_mainChar;
 }
 
@@ -228,4 +226,16 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
     }
 
     return positions;
+}
+
+void refreshOccupiedTiles()
+{
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    m_currentMap.lock()->getMap()->updateOccupiedTiles();
+}
+
+void clearPatherCache()
+{
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    m_pather.lock()->Reset();
 }

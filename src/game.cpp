@@ -343,6 +343,7 @@ void Game::addEntities()
     };
 
     m_charac = make_character(m_world, mainCharacData);
+    m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
 }
 
 void Game::addSystems()

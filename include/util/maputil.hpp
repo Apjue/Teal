@@ -25,6 +25,9 @@
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);
 
+inline Nz::String mapXYToString(int x, int y);
+inline std::pair<int, int> stringToMapXY(const Nz::String& str);
+
 ///
 /// \fn canChangeMap
 ///
@@ -63,20 +66,20 @@ extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                            const Ndk::EntityHandle& mainCharacter);
 
 ///
-/// \fn isMapUtilityInited
+/// \fn isMapUtilityInitialized
 ///
 /// \brief Checks if the MapInstance, Micropather, and main character pointers
 ///        used by functions in this files are valid
 ///
 
-extern bool isMapUtilityInited();
+extern bool isMapUtilityInitialized();
 
 extern Ndk::EntityHandle getMainCharacter();
 
-inline Nz::String mapXYToString(int x, int y);
-inline std::pair<int, int> stringToMapXY(const Nz::String& str);
-
 extern std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
+
+extern void refreshOccupiedTiles();
+extern void clearPatherCache();
 
 #include "maputil.inl"
 
