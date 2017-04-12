@@ -14,8 +14,10 @@
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
+    using PathPool = std::queue<std::pair<DirectionFlags, bool>>;
+
+    PathPool path;
     unsigned totalSize {};
-    std::queue<std::pair<DirectionFlags, bool>> path;
 
     static Ndk::ComponentIndex componentIndex;
 };

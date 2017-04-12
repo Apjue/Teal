@@ -4,17 +4,17 @@
 
 #include "util/aiutil.hpp"
 
-std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather)
+PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather)
 {
     auto& path = e->GetComponent<PathComponent>().path;
     auto& pos = e->GetComponent<PositionComponent>();
     auto& move = e->GetComponent<MoveComponent>();
 
     if (move.diffX == 0 && move.diffY == 0)
-        return {}; // This entity doesn't want to move.
+        return PathComponent::PathPool {}; // This entity doesn't want to move.
 
     if (pos.moving && !isPositionValid({ pos.x, pos.y }) && pos.inX == 0 && pos.inY == 0)
-        return {}; // Invalid position, can't stop it
+        return PathComponent::PathPool {}; // Invalid position, can't stop it
 
     // Ok, let's do the path.
     NazaraAssert(pather, "Pather is null, cannot compute path !");
@@ -35,11 +35,11 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle&
     return newPath;
 }
 
-std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos, const AbsTile& lastPos,
+PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos,
                                                         micropather::MicroPather* pather)
 {
     if (startPos == lastPos || !isPositionValid({ startPos.x, startPos.y }) || !isPositionValid({ lastPos.x, lastPos.y }))
-        return {};
+        return PathComponent::PathPool {};
 
     NazaraAssert(pather, "Pather is null, cannot compute path !");
 
@@ -52,13 +52,13 @@ std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPos,
                                &voidPath, &totalCost); // returns the absolute position, not difference.
 
     if (result != 0 || voidPath.empty())
-        return {};
+        return PathComponent::PathPool {};
 
     // Path done, in void*. Let's add it to the entity's path, in integers
     int oldX {};
     int oldY {};
 
-    std::queue<std::pair<DirectionFlags, bool>> newPath;
+    PathComponent::PathPool newPath;
 
     for (std::size_t i {}; i < voidPath.size(); ++i)
     {

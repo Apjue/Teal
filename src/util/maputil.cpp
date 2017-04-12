@@ -211,7 +211,7 @@ Ndk::EntityHandle getMainCharacter()
     return m_mainChar;
 }
 
-std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start)
+std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
 {
     std::queue<AbsTile> positions;
 

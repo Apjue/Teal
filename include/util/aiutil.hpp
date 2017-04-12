@@ -18,9 +18,9 @@
 #include "util/util.hpp"
 #include "micropather.h"
 
-std::queue<std::pair<DirectionFlags, bool>> computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather);
+PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather);
 
-std::queue<std::pair<DirectionFlags, bool>> computePath(const AbsTile& startPosition, const AbsTile& lastPosition,
+PathComponent::PathPool computePath(const AbsTile& startPosition, const AbsTile& lastPosition,
                                                         micropather::MicroPather* pather);
 
 #endif // AIUTIL_HPP
