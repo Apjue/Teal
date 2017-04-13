@@ -12,22 +12,21 @@
 namespace Def
 {
 
-// Real MAPX = 8 (see realnum.png)
-// Real MAPY = 8
+constexpr unsigned REALMAPX       { 8u  }; // see realnum.png
+constexpr unsigned REALMAPY       { 8u  };
 
-// Long MAPX = 15 (see longnum.png)
-// Long MAPY = 16
+constexpr unsigned LONGMAPX       { 15u }; // see longnum.png
+constexpr unsigned LONGMAPY       { 16u };
 
-// Logic MAPX/Y = Long MAPX/Y - 1 (see logicnum.png)
 
-constexpr unsigned MAPX           { 15u }; // For arrays
-constexpr unsigned MAPY           { 8u };
+constexpr unsigned MAPX           { LONGMAPX }; // For arrays
+constexpr unsigned MAPY           { REALMAPY };
+
+constexpr unsigned LMAPX          { LONGMAPX - 1u }; // For logic
+constexpr unsigned LMAPY          { LONGMAPY - 1u }; // see logicnum.png
 
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
 constexpr  float   TILESETSIZE    { 256 };
-
-constexpr unsigned LMAPX          { 14u }; // For logic
-constexpr unsigned LMAPY          { 15u };
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
