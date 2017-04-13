@@ -25,6 +25,7 @@ constexpr unsigned MAPY           { REALMAPY };
 constexpr unsigned LMAPX          { LONGMAPX - 1u }; // For logic
 constexpr unsigned LMAPY          { LONGMAPY - 1u }; // see logicnum.png
 
+
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
 constexpr  float   TILESETSIZE    { 256 };
 
@@ -34,12 +35,12 @@ constexpr unsigned TILEYSIZE      { 32u };
 constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
 constexpr unsigned TILEGYSIZE     { TILEYSIZE / 2 };
 
+
 constexpr unsigned MAXPOSINTILE   { 4u };
 constexpr unsigned MAXGXPOSINTILE { TILEGXSIZE / MAXPOSINTILE };
 constexpr unsigned MAXGYPOSINTILE { TILEGYSIZE / MAXPOSINTILE };
 
 constexpr  float   MAXFPS         { 10 }; // Updates per second
-
 constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
 
 constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
