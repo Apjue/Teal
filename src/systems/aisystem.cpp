@@ -60,7 +60,7 @@ void AISystem::OnUpdate(float elapsed)
                 continue; // Cannot generate a path :(
 
             path = newPath;
-            pathComp.totalSize = path.size();
+            pathComp.totalSize = static_cast<unsigned>(path.size());
 
             pos.inX = 0;
             pos.inY = 0;
