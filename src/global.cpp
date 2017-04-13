@@ -36,7 +36,7 @@ int DirToX(DirectionFlags d)
     return 0;
 }
 
-DiffTile DirToXY(DirectionFlags d) // MAP_RESTRUCTURATION_TODO X = 2, but Y = 2 now
+DiffTile DirToXY(DirectionFlags d)
 {
     int const x = DirToX(d);
     int const y = DirToY(d);
@@ -44,7 +44,7 @@ DiffTile DirToXY(DirectionFlags d) // MAP_RESTRUCTURATION_TODO X = 2, but Y = 2 
     return { y ? x : x * 2, x ? y : y * 2 };
 }
 
-DirectionFlags XYToDir(DiffTile d) // MAP_RESTRUCTURATION_TODO
+DirectionFlags XYToDir(DiffTile d) // MAP_RESTRUCTURATION_MAYBE_TODO
 {
     int x { d.x };
     int y { d.y };

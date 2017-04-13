@@ -155,7 +155,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
         0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     },*/
 
-    map0_0->setMap({
+    /*
         "sand", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water",
         "grass", "sand", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water",
         "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "water", "sand", "water", "water", "water", "water", "water",
@@ -164,9 +164,30 @@ void Game::addMaps() /// \todo Load from file (lua?)
         "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "sand", "sand",
         "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand",
         "concrete", "concrete", "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+    */
+
+    map0_0->setMap
+    ({
+        "sand",  "sand", "sand", "water", "water", "water", "water", "water",
+            "grass", "sand", "sand", "water", "water", "water", "water",
+        "grass", "sand", "sand", "sand", "water", "water", "water", "water",
+            "sand", "sand", "sand", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sand", "water", "water", "water", "water",
+            "grass", "sand", "sand", "sand", "sand", "water", "water",
+        "grass", "grass", "sand", "grass", "sand", "sand", "water", "water",
+            "grass", "grass", "grass", "sand", "sand", "water", "water",
+        "grass", "grass", "grass", "sand", "grass", "sand", "sand", "water",
+            "grass", "sand", "grass", "sand", "sand", "sand", "sand",
+        "concrete", "grass", "grass", "grass", "sand", "sand", "sand", "sand",
+            "concrete", "grass", "grass", "grass", "grass", "sand", "sand",
+        "concrete", "concrete", "grass", "grass", "grass", "grass", "sand", "sand",
+            "concrete", "concrete", "grass", "grass", "sand", "grass", "sand",
+        "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "sand"
+            "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass"
     });
 
-    map0_0->setObs({
+    /*map0_0->setObs
+    ({
         0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1,
@@ -175,6 +196,26 @@ void Game::addMaps() /// \todo Load from file (lua?)
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    });*/
+
+    map0_0->setObs
+    ({
+        0, 0, 0, 1, 1, 1, 1, 1,
+          0, 0, 0, 1, 1, 1, 1,
+        0, 0, 0, 0, 1, 1, 1, 1,
+          0, 0, 0, 1, 1, 1, 1,
+        0, 0, 0, 0, 1, 1, 1, 1,
+          0, 0, 0, 0, 0, 1, 1,
+        0, 0, 0, 0, 0, 0, 1, 1,
+          0, 0, 0, 0, 0, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 1,
+          0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0
     });
 
     MapDataLibrary::Register("0;0", deactivateMapEntities(map0_0));
@@ -193,15 +234,24 @@ void Game::addMaps() /// \todo Load from file (lua?)
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
     },*/
 
-    map1_0->setMap({
-        "concrete", "concrete", "concrete", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
-        "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+    map1_0->setMap
+    ({
+        "concrete", "concrete", "sand", "sand", "sand", "sand", "sand", "sand",
+              "concrete", "grass", "sand", "sand", "sand", "sand", "sand",
+        "concrete", "grass", "grass", "grass", "sand", "sand", "sand", "sand",
+              "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+              "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
+              "grass", "grass", "grass", "grass", "grass", "sand", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
+              "grass", "grass", "grass", "grass", "grass", "grass", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
+              "grass", "grass", "grass", "grass", "grass", "grass", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand",
+              "grass", "grass", "grass", "grass", "grass", "grass", "sand",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand",
+              "grass", "grass", "grass", "grass", "grass", "grass", "grass",
     });
 
 
@@ -226,7 +276,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
 
     MapDataRef map0_1 = MapData::New();
 
-    map0_1->setMap
+    map0_1->setMap // todo
     ({
         "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
         "water", "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "water", "water", "water",
@@ -238,7 +288,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
         "grass", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water"
     });
 
-    map0_1->setObs
+    map0_1->setObs // todo
     ({
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,

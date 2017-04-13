@@ -66,31 +66,21 @@ bool MapInstance::update() // Thanks Lynix for this code
                 auto posPtr = positionPtr + vertex;
                 auto texCoordsPtr = uvPtr + vertex;
 
-                if (x % 2 == 0)
-                {
-                    if (x == 0)
-                    {
-                        posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
-                        posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
-                    }
 
-                    else
-                    {
-                        posPtr[0].Set((x / 2.f + 0) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[1].Set((x / 2.f + 1) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[2].Set((x / 2.f + 1) * tileSize.x, (y + 1) * tileSize.y);
-                        posPtr[3].Set((x / 2.f + 0) * tileSize.x, (y + 1) * tileSize.y);
-                    }
+                if (x < Def::REALMAPX)
+                {
+                    posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
+                    posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
+                    posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
+                    posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
                 }
 
                 else
                 {
-                    posPtr[0].Set((x + 0) * tileSize.x - x * tileSize.x / 2.f, ((y + 0) * tileSize.y) + tileSize.y / 2.f);
-                    posPtr[1].Set((x + 1) * tileSize.x - x * tileSize.x / 2.f, ((y + 0) * tileSize.y) + tileSize.y / 2.f);
-                    posPtr[2].Set((x + 1) * tileSize.x - x * tileSize.x / 2.f, ((y + 1) * tileSize.y) + tileSize.y / 2.f);
-                    posPtr[3].Set((x + 0) * tileSize.x - x * tileSize.x / 2.f, ((y + 1) * tileSize.y) + tileSize.y / 2.f);
+                    posPtr[0].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[1].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[2].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[3].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
                 }
 
                 posPtr[0].y = -posPtr[0].y;
@@ -105,7 +95,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                auto tileName = m_map->map()[x + y * width];
+                auto tileName = m_map->tile(XYToIndex(x, y)).textureId;
                 unsigned tileNumber = m_tilesetCore->get(tileName);
 
                 float textureX = tileSize.x * tileNumber;
@@ -145,13 +135,13 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
     // Step 1.
     {
         if ((sX == eX - 2 && sY == eY)
-         || (sX == eX + 2 && sY == eY) // MAP_RESTRUCTURATION_TODO
+         || (sX == eX + 2 && sY == eY)
          || (sX == eX && sY == eY - 2)
          || (sX == eX && sY == eY + 2)
             // Diagonals
          || (sX == eX + 1 && sY == eY + 1)
          || (sX == eX - 1 && sY == eY - 1)
-         || (sX == eX + 1 && sY == eY - 1) // <<<<<<<<<
+         || (sX == eX + 1 && sY == eY - 1)
          || (sX == eX - 1 && sY == eY + 1))
             ; // Ok, continue
         else
@@ -200,7 +190,7 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
 
     for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        int newX = x + Def::MAP_DISTANCE_X[i]; // MAP_RESTRUCTURATION_TODO
+        int newX = x + Def::MAP_DISTANCE_X[i];
         int newY = y + Def::MAP_DISTANCE_Y[i];
 
         if (adjacentPassable(x, y, newX, newY))
