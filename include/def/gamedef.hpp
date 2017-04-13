@@ -12,6 +12,14 @@
 namespace Def
 {
 
+// Real MAPX = 8 (see realnum.png)
+// Real MAPY = 8
+
+// Long MAPX = 15 (see longnum.png)
+// Long MAPY = 16
+
+// Logic MAPX/Y = Long MAPX/Y - 1 (see logicnum.png)
+
 constexpr unsigned MAPX           { 15u }; // For arrays
 constexpr unsigned MAPY           { 8u };
 
