@@ -145,13 +145,13 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
     // Step 1.
     {
         if ((sX == eX - 2 && sY == eY)
-         || (sX == eX + 2 && sY == eY)
+         || (sX == eX + 2 && sY == eY) // MAP_RESTRUCTURATION_TODO
          || (sX == eX && sY == eY - 2)
          || (sX == eX && sY == eY + 2)
             // Diagonals
          || (sX == eX + 1 && sY == eY + 1)
          || (sX == eX - 1 && sY == eY - 1)
-         || (sX == eX + 1 && sY == eY - 1)
+         || (sX == eX + 1 && sY == eY - 1) // <<<<<<<<<
          || (sX == eX - 1 && sY == eY + 1))
             ; // Ok, continue
         else
@@ -200,7 +200,7 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
 
     for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        int newX = x + Def::MAP_DISTANCE_X[i];
+        int newX = x + Def::MAP_DISTANCE_X[i]; // MAP_RESTRUCTURATION_TODO
         int newY = y + Def::MAP_DISTANCE_Y[i];
 
         if (adjacentPassable(x, y, newX, newY))

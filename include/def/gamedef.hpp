@@ -45,7 +45,7 @@ constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, righ
 
 constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
 
-constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   2,   0 , -2,   1,   -1,    1,   -1    };
+constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   2,   0 , -2,   1,   -1,    1,   -1    }; // MAP_RESTRUCTURATION_TODO
 constexpr std::array<int,   8> MAP_DISTANCE_Y    { 2,   0,  -2,   0,   1,   -1,   -1,    1    };
 constexpr std::array<float, 8> MAP_DISTANCE_COST { 2.f, 2.f, 2.f, 2.f, 1.5f, 1.5f, 1.5f, 1.5f };
 
