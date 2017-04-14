@@ -24,22 +24,10 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset,
-                         TilesetCore* tcore, const Ndk::EntityHandle& e)
-    : MapInstance(e, tcore)
-{
-    map = data;
-
-    if (!m_mat->SetDiffuseMap(tileset))
-        NazaraError("Error: Map Material SetDiffuseMap failed !");
-
-    update();
-}
-
 bool MapInstance::update() // Thanks Lynix for this code
 {
     NazaraAssert(m_tilesetCore, "TilesetCore nullptr !");
-    NazaraAssert(map, "Map is not valid !");
+    NazaraAssert(m_map, "Map is not valid !");
 
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
@@ -78,31 +66,21 @@ bool MapInstance::update() // Thanks Lynix for this code
                 auto posPtr = positionPtr + vertex;
                 auto texCoordsPtr = uvPtr + vertex;
 
-                if (x % 2 == 0)
-                {
-                    if (x == 0)
-                    {
-                        posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
-                        posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
-                    }
 
-                    else
-                    {
-                        posPtr[0].Set((x / 2.f + 0) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[1].Set((x / 2.f + 1) * tileSize.x, (y + 0) * tileSize.y);
-                        posPtr[2].Set((x / 2.f + 1) * tileSize.x, (y + 1) * tileSize.y);
-                        posPtr[3].Set((x / 2.f + 0) * tileSize.x, (y + 1) * tileSize.y);
-                    }
+                if (x < Def::REALMAPX)
+                {
+                    posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
+                    posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
+                    posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
+                    posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
                 }
 
                 else
                 {
-                    posPtr[0].Set((x + 0) * tileSize.x - x * tileSize.x / 2.f, ((y + 0) * tileSize.y) + tileSize.y / 2.f);
-                    posPtr[1].Set((x + 1) * tileSize.x - x * tileSize.x / 2.f, ((y + 0) * tileSize.y) + tileSize.y / 2.f);
-                    posPtr[2].Set((x + 1) * tileSize.x - x * tileSize.x / 2.f, ((y + 1) * tileSize.y) + tileSize.y / 2.f);
-                    posPtr[3].Set((x + 0) * tileSize.x - x * tileSize.x / 2.f, ((y + 1) * tileSize.y) + tileSize.y / 2.f);
+                    posPtr[0].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[1].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[2].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[3].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
                 }
 
                 posPtr[0].y = -posPtr[0].y;
@@ -117,15 +95,15 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                auto tileName = map->map()[x + y * width];
+                auto tileName = m_map->tile(XYToIndex(x, y)).textureId;
                 unsigned tileNumber = m_tilesetCore->get(tileName);
 
-                float textureX = 64.f * tileNumber;
+                float textureX = tileSize.x * tileNumber;
 
-                texCoordsPtr[0].Set((textureX + 0.f ) / 256.f, 0.f);
-                texCoordsPtr[1].Set((textureX + 64.f) / 256.f, 0.f);
-                texCoordsPtr[2].Set((textureX + 64.f) / 256.f, 1.f);
-                texCoordsPtr[3].Set((textureX + 0.f ) / 256.f, 1.f);
+                texCoordsPtr[0].Set((textureX + 0.f       ) / Def::TILESETSIZE, 0.f);
+                texCoordsPtr[1].Set((textureX + tileSize.x) / Def::TILESETSIZE, 0.f);
+                texCoordsPtr[2].Set((textureX + tileSize.x) / Def::TILESETSIZE, 1.f);
+                texCoordsPtr[3].Set((textureX + 0.f       ) / Def::TILESETSIZE, 1.f);
             }
         }
     }
@@ -150,45 +128,9 @@ bool MapInstance::update() // Thanks Lynix for this code
     return true;
 }
 
-void MapInstance::NodeToXY(void* node, unsigned& x, unsigned& y)
-{
-    int index {};
-    index = static_cast<int>(reinterpret_cast<std::intptr_t>(node));
-    auto xy = IndexToXY(static_cast<unsigned>(index));
-
-    x = xy.first;
-    y = xy.second;
-}
-
-void* MapInstance::XYToNode(unsigned x, unsigned y)
-{
-    std::size_t result = static_cast<std::size_t>(XYToIndex(x, y));
-    return reinterpret_cast<void*>(result);
-}
-
-void MapInstance::XYToArray(unsigned /*x*/, unsigned& y)
-{
-    y /= 2;
-}
-
-std::pair<unsigned, unsigned> MapInstance::IndexToXY(unsigned index)
-{
-    unsigned x {}, y {};
-
-    y = index / Def::MAPX;
-    x = index - y * Def::MAPX;
-
-    return std::make_pair(x, y);
-}
-
-unsigned MapInstance::XYToIndex(unsigned x, unsigned y)
-{
-    return x + y * Def::MAPX;
-}
-
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
-    NazaraAssert(map, "Map is not valid !");
+    NazaraAssert(m_map, "Map is not valid !");
 
     // Step 1.
     {
@@ -217,9 +159,9 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
             return false;
 
         unsigned const tile = XYToIndex(eX, eY);
+        auto& tiledata = m_map->tile(tile);
 
-        unsigned const tileNumber = map->obs()[tile];
-        return tileNumber == 0;
+        return tiledata.obstacle == 0 && !tiledata.occupied;
     }
 }
 

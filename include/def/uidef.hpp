@@ -7,11 +7,13 @@
 #ifndef UIDEF_HPP
 #define UIDEF_HPP
 
+#include "gamedef.hpp"
+
 namespace Def
 {
 
-constexpr unsigned MAPXSIZE { 512u };
-constexpr unsigned MAPYSIZE { 256u }; // 8 tiles * 32px
+constexpr unsigned MAPXSIZE { Def::REALMAPX * Def::TILEXSIZE };
+constexpr unsigned MAPYSIZE { Def::REALMAPY * Def::TILEYSIZE };
 
 constexpr unsigned MAPXVIEWPORT { MAPXSIZE };
 constexpr unsigned MAPYVIEWPORT { MAPYSIZE + 16u };
@@ -19,8 +21,8 @@ constexpr unsigned MAPYVIEWPORT { MAPYSIZE + 16u };
 constexpr unsigned BUTTONSXSIZE { MAPXSIZE };
 constexpr unsigned BUTTONSYSIZE { 90u };
 
-constexpr unsigned WINXSIZE { MAPXSIZE };
-constexpr unsigned WINYSIZE { MAPYSIZE + BUTTONSYSIZE };
+constexpr unsigned WINXSIZE { MAPXVIEWPORT };
+constexpr unsigned WINYSIZE { MAPYVIEWPORT + BUTTONSYSIZE };
 
 }
 

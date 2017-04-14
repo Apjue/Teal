@@ -4,7 +4,7 @@
 
 DiffTile OrientToDiff(Orientation o)
 {
-    return DirToXY(OrienToDir(o));
+    return DirToXY(OrientToDir(o));
 }
 
 bool isPositionValid(AbsTile pos)

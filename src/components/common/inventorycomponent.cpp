@@ -46,7 +46,5 @@ void InventoryComponent::reset()
     m_groups.clear();
 
     for (auto const& name : { "all", "edible", "equippable", "resource" })
-    {
         m_groups[name] = Group { name };
-    }
 }

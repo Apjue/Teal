@@ -43,8 +43,8 @@ std::pair<int, int> stringToMapXY(const Nz::String& str)
     result[0].ToInteger(&lx);
     result[1].ToInteger(&ly);
 
-    int x = static_cast<int>(ly);
-    int y = static_cast<int>(ly);
+    int x = lltoi(ly);
+    int y = lltoi(ly);
 
     return std::make_pair(x, y);
 }

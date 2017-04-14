@@ -44,6 +44,8 @@ struct CharacterData
     /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
     /// \param rdMov_ Used for Random Movement settings
+    /// \param blockTile_ Blocks the tile
+    /// \param name_ Name of the character
     /// \param desc_ Description of the character
     ///
 
@@ -57,11 +59,12 @@ struct CharacterData
                   const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove,
                   const Orientation& o_ = Orientation::Down,
                   const RandomMovement& rdMov_ = RandomMovement(),
+                  bool blockTile_ = false,
                   const Nz::String& name_ = "",
                   const Nz::String& desc_ = "")
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
-        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), name(name_), desc(desc_) {}
+        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_) {}
 
     ~CharacterData() = default;
 
@@ -78,6 +81,7 @@ struct CharacterData
 
     Nz::Vector2i mapPos;
     RandomMovement rdMov;
+    bool blockTile;
 
     Nz::String name;
     Nz::String desc;

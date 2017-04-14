@@ -132,9 +132,9 @@ void Game::initTilesetCore()
     unsigned sand = grass + 1;
     unsigned water = sand + 1;
 
-    m_tilesetCore.add(concrete, "concrete");
+    m_tilesetCore.add(concrete, "cncrt");
     m_tilesetCore.add(grass, "grass");
-    m_tilesetCore.add(sand, "sand");
+    m_tilesetCore.add(sand, "sandy");
     m_tilesetCore.add(water, "water");
 }
 
@@ -155,18 +155,39 @@ void Game::addMaps() /// \todo Load from file (lua?)
         0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2
     },*/
 
-    map0_0->setMap({
-        "sand", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "sand", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "water", "sand", "water", "water", "water", "water", "water",
-        "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water",
-        "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "grass", "sand", "sand", "sand", "sand", "sand", "water",
-        "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "sand", "sand",
-        "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand",
-        "concrete", "concrete", "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+    /*
+        "sandy", "grass", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "sandy", "water", "sandy", "water", "water", "water", "water", "water",
+        "grass", "grass", "grass", "grass", "sandy", "grass", "grass", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sandy", "grass", "grass", "sandy", "sandy", "grass", "sandy", "sandy", "sandy", "sandy", "sandy", "water",
+        "cncrt", "cncrt", "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "sandy", "sandy", "sandy",
+        "cncrt", "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "grass", "sandy", "grass", "grass", "sandy", "sandy", "sandy",
+        "cncrt", "cncrt", "cncrt", "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy"
+    */
+
+    map0_0->setMap
+    ({
+        "sandy",  "sandy", "sandy", "water", "water", "water", "water", "water",
+            "grass", "sandy", "sandy", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "sandy", "water", "water", "water", "water",
+            "sandy", "sandy", "sandy", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sandy", "water", "water", "water", "water",
+            "grass", "sandy", "sandy", "sandy", "sandy", "water", "water",
+        "grass", "grass", "sandy", "grass", "sandy", "sandy", "water", "water",
+            "grass", "grass", "grass", "sandy", "sandy", "water", "water",
+        "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "water",
+            "grass", "sandy", "grass", "sandy", "sandy", "sandy", "sandy",
+        "cncrt", "grass", "grass", "grass", "sandy", "sandy", "sandy", "sandy",
+            "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
+        "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
+            "cncrt", "cncrt", "grass", "grass", "sandy", "grass", "sandy",
+        "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy"
+            "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass"
     });
 
-    map0_0->setObs({
+    /*map0_0->setObs
+    ({
         0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1,
@@ -175,6 +196,26 @@ void Game::addMaps() /// \todo Load from file (lua?)
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    });*/
+
+    map0_0->setObs
+    ({
+        0, 0, 0, 1, 1, 1, 1, 1,
+          0, 0, 0, 1, 1, 1, 1,
+        0, 0, 0, 0, 1, 1, 1, 1,
+          0, 0, 0, 1, 1, 1, 1,
+        0, 0, 0, 0, 1, 1, 1, 1,
+          0, 0, 0, 0, 0, 1, 1,
+        0, 0, 0, 0, 0, 0, 1, 1,
+          0, 0, 0, 0, 0, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 1,
+          0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0
     });
 
     MapDataLibrary::Register("0;0", deactivateMapEntities(map0_0));
@@ -193,33 +234,38 @@ void Game::addMaps() /// \todo Load from file (lua?)
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2
     },*/
 
-    map1_0->setMap({
-        "concrete", "concrete", "concrete", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
-        "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+    map1_0->setMap
+    ({
+        "cncrt", "cncrt", "sandy", "sandy", "sandy", "sandy", "sandy", "sandy",
+            "cncrt", "grass", "sandy", "sandy", "sandy", "sandy", "sandy",
+        "cncrt", "grass", "grass", "grass", "sandy", "sandy", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass"
     });
 
 
-    Nz::MaterialRef npcMat = Nz::Material::New(); // [TEST]
-    npcMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath());
-
-    npcMat->EnableBlending(true);
-    npcMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
-    npcMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    npcMat->EnableDepthWrite(false);
+    Nz::MaterialRef npcMat = Nz::Material::New();
+    npcMat->Configure("Translucent2D");
+    npcMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
 
     Nz::SpriteRef npcSprite = Nz::Sprite::New(npcMat);
     npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
 
-    CharacterData npcData // [TEST]
+    CharacterData npcData
     {
         { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
-        AnimationComponent::OnMove, Orientation::DownLeft, { true }, "The Wandering NPC"
+        AnimationComponent::OnMove, Orientation::DownLeft, { true }, true, "The Wandering NPC"
     };
 
     auto npc = make_character(m_world, npcData);
@@ -230,26 +276,44 @@ void Game::addMaps() /// \todo Load from file (lua?)
 
     MapDataRef map0_1 = MapData::New();
 
-    map0_1->setMap({
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "water", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "sand", "sand", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "sand", "water", "water", "water", "water",
-        "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water"
+    map0_1->setMap
+    ({
+        "water", "water", "water", "water", "water", "water", "water", "water",
+            "water", "water", "water", "water", "water", "water", "water",
+        "water", "water", "water", "water", "water", "sandy", "water", "water",
+            "water", "water", "water", "water", "sandy", "sandy", "water",
+        "water", "water", "water", "water", "sandy", "sandy", "sandy", "water",
+            "water", "water", "water", "water", "sandy", "sandy", "water",
+        "water", "water", "water", "water", "water", "sandy", "water", "water",
+            "water", "water", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "water", "water", "water", "water", "water", "water",
+            "sandy", "water", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "water", "water", "water", "water", "water", "water",
+            "sandy", "sandy", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "sandy", "water", "water", "water", "water", "water",
+            "sandy", "sandy", "water", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "water", "water", "water", "water", "water",
+            "sandy", "sandy", "sandy", "water", "water", "water", "water"
     });
 
-    map0_1->setObs({
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
-        0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    map0_1->setObs
+    ({
+        1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 0, 1, 1,
+          1, 1, 1, 1, 0, 0, 1,
+        1, 1, 1, 1, 0, 0, 0, 1,
+          1, 1, 1, 1, 0, 0, 1,
+        1, 1, 1, 1, 1, 0, 1, 1,
+          1, 1, 1, 1, 1, 1, 1,
+        0, 1, 1, 1, 1, 1, 1, 1,
+          0, 1, 1, 1, 1, 1, 1,
+        0, 0, 1, 1, 1, 1, 1, 1,
+          0, 0, 1, 1, 1, 1, 1,
+        0, 0, 0, 1, 1, 1, 1, 1,
+          0, 0, 1, 1, 1, 1, 1,
+        0, 0, 0, 1, 1, 1, 1, 1,
+          0, 0, 0, 1, 1, 1, 1
     });
 
     MapDataLibrary::Register("0;1", deactivateMapEntities(map0_1));
@@ -263,10 +327,10 @@ void Game::initNazara()
     Ndk::InitializeComponent<NameComponent>("name");
     Ndk::InitializeComponent<LevelComponent>("level");
     Ndk::InitializeComponent<InventoryComponent>("inv");
-    Ndk::InitializeComponent<OrientationComponent>("orien");
+    Ndk::InitializeComponent<OrientationComponent>("orient");
     Ndk::InitializeComponent<AnimationComponent>("anim");
     Ndk::InitializeComponent<PositionComponent>("pos");
-    Ndk::InitializeComponent<MoveToComponent>("moveto");
+    Ndk::InitializeComponent<MoveComponent>("move");
     Ndk::InitializeComponent<PathComponent>("path");
     Ndk::InitializeComponent<FightComponent>("fight");
     Ndk::InitializeComponent<LifeComponent>("life");
@@ -275,6 +339,8 @@ void Game::initNazara()
     Ndk::InitializeComponent<AttackModifierComponent>("atkbonus");
     Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
     Ndk::InitializeComponent<DescriptionComponent>("desc");
+    Ndk::InitializeComponent<MonsterTypeComponent>("mnstrtyp");
+    Ndk::InitializeComponent<BlockTileComponent>("blcktile");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
@@ -330,12 +396,8 @@ void Game::addEntities()
 
 
     Nz::MaterialRef charMat = Nz::Material::New();
-    charMat->LoadFromFile(Nz::TextureLibrary::Get(":/game/char/villager")->GetFilePath() );
-
-    charMat->EnableBlending(true);
-    charMat->SetDstBlend(Nz::BlendFunc_InvSrcAlpha);
-    charMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-    charMat->EnableDepthWrite(false);
+    charMat->Configure("Translucent2D");
+    charMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
 
     Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
     charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
@@ -347,6 +409,7 @@ void Game::addEntities()
     };
 
     m_charac = make_character(m_world, mainCharacData);
+    m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
 }
 
 void Game::addSystems()
@@ -366,14 +429,21 @@ void Game::initEventHandler()
     { // Lambda to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y))
         {
-            auto& posComp = m_charac->GetComponent<PositionComponent>();
-            auto& moveComp = m_charac->GetComponent<MoveToComponent>();
+            auto& pos = m_charac->GetComponent<PositionComponent>();
+            auto& move = m_charac->GetComponent<MoveComponent>();
+            auto& path = m_charac->GetComponent<PathComponent>();
 
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
-            auto diff = AbsPosToDiff({ posComp.x, posComp.y }, lpos);
 
-            moveComp.diffX = diff.x;
-            moveComp.diffY = diff.y;
+            if (lpos == AbsTile { pos.x, pos.y })
+                return;
+
+            auto diff = AbsPosToDiff({ pos.x, pos.y }, lpos);
+
+            move.diffX = diff.x;
+            move.diffY = diff.y;
+
+            path.wantedPos = lpos;
         }
     });
 

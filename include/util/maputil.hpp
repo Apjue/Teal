@@ -15,6 +15,7 @@
 #include "components/common/positioncomponent.hpp"
 #include "components/common/mappositioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
+#include "components/common/pathcomponent.hpp"
 #include "def/gamedef.hpp"
 #include "global.hpp"
 #include "data/mapdata.hpp"
@@ -23,6 +24,9 @@
 
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);
+
+inline Nz::String mapXYToString(int x, int y);
+inline std::pair<int, int> stringToMapXY(const Nz::String& str);
 
 ///
 /// \fn canChangeMap
@@ -62,20 +66,20 @@ extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                            const Ndk::EntityHandle& mainCharacter);
 
 ///
-/// \fn isMapUtilityInited
+/// \fn isMapUtilityInitialized
 ///
-/// \brief Checks if the MapInstance, Micropather, and main character pointers 
+/// \brief Checks if the MapInstance, Micropather, and main character pointers
 ///        used by functions in this files are valid
 ///
 
-extern bool isMapUtilityInited();
+extern bool isMapUtilityInitialized();
 
 extern Ndk::EntityHandle getMainCharacter();
 
-inline Nz::String mapXYToString(int x, int y);
-inline std::pair<int, int> stringToMapXY(const Nz::String& str);
+extern std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 
-extern std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start);
+extern void refreshOccupiedTiles();
+extern void clearPatherCache();
 
 #include "maputil.inl"
 

@@ -14,6 +14,7 @@
 #include "util/gfxutil.hpp"
 #include "def/layerdef.hpp"
 #include "data/characterdata.hpp"
+//#include "data/mapobjectdata.hpp"
 
 ///
 /// \fn make_character
@@ -31,9 +32,10 @@ extern Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const Charact
 ///
 /// \brief Creates an entity and adds it ItemComponent and NameComponent
 ///
-/// \todo Add bio component or description component
-///
 
-extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name = "Item");
+extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name = "Item",
+                                   const Nz::String& desc = "Empty description");
+
+//extern Ndk::EntityHandle make_mapObject(const Ndk::WorldHandle& w, const MapObjectData& infos);
 
 #endif // FACTORY_HPP

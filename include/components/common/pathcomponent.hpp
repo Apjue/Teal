@@ -11,12 +11,17 @@
 #include <queue>
 #include <utility>
 #include "global.hpp"
+#include "def/gamedef.hpp"
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
-    std::queue<std::pair<DirectionFlags, bool>> path;
-    // To add: path.push(...);
-    // To read: path.front(); && path.pop();
+    using PathPool = std::queue<std::pair<DirectionFlags, bool>>;
+
+    PathPool path;
+    unsigned totalSize {};
+
+    AbsTile oldWantedPos {};
+    AbsTile wantedPos {};
 
     static Ndk::ComponentIndex componentIndex;
 };

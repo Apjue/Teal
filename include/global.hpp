@@ -90,7 +90,7 @@ extern DiffTile DirToXY(DirectionFlags d);
 extern DirectionFlags XYToDir(DiffTile d);
 
 extern Orientation DirToOrient(DirectionFlags d);
-extern DirectionFlags OrienToDir(Orientation o);
+extern DirectionFlags OrientToDir(Orientation o);
 
 inline DiffTile OrientToDiff(Orientation o);
 

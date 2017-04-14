@@ -17,8 +17,11 @@
 #include <Nazara/Math/Vector2.hpp>
 #include <unordered_map>
 #include "tiledata.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/blocktilecomponent.hpp"
 #include "def/typedef.hpp"
 #include "def/gamedef.hpp"
+#include "util/mapposutil.hpp"
 
 class MapData;
 
@@ -43,17 +46,22 @@ public:
     static inline MapDataRef New(Args&&... args);
 
     inline const TILEARRAY& tiles() const;
-    inline const STRINGTILEARRAY& map() const;
-    inline const UNSIGNEDTILEARRAY& obs() const;
+    inline const STRINGTILEARRAY& map() const; // Todo: Delete. Only Use Tile Array
+    inline const UNSIGNEDTILEARRAY& obs() const; // Todo: ^
+
+    inline const TileData& tile(unsigned x, unsigned y) const;
+    inline const TileData& tile(unsigned index) const;
     inline std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
 
     inline void setTiles(const TILEARRAY& nTiles);
-    inline void setMap(const STRINGTILEARRAY& nMap);
-    inline void setObs(const UNSIGNEDTILEARRAY& nObs);
+    inline void setMap(const STRINGTILEARRAY& nMap); // Todo: Delete. Only Use Tile Array
+    inline void setObs(const UNSIGNEDTILEARRAY& nObs); // Todo: ^
 
     inline void addEntity(const Ndk::EntityHandle& e);
     inline const Ndk::EntityList& getEntities() const;
     inline Ndk::EntityList& getEntities();
+
+    void updateOccupiedTiles();
 
 private:
     TILEARRAY m_tiles;
@@ -66,7 +74,7 @@ private:
     void updateOldTileArray();
     void updateTileArray();
 
-    inline unsigned XYToIndex(unsigned x, unsigned y);
+    inline unsigned XYToIndex(unsigned x, unsigned y) const;
 };
 
 #include "mapdata.inl"

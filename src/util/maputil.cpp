@@ -15,7 +15,7 @@ Ndk::EntityHandle m_mainChar;
 
 std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 {
-    NazaraAssert(isMapUtilityInited(), "Map Utility hasn't been initialized !");
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     NazaraAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
 
     auto& mapPos = p->GetComponent<MapPositionComponent>();
@@ -25,7 +25,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     DirectionFlags entExt = 0; // Entity Extremity
 
     if (pos.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
-        entExt = Dir::Left;
+        entExt = Dir::Left; // MAP_RESTRUCTURATION_MAYBE_TODO
 
     else if (pos.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
         entExt = Dir::Right;
@@ -49,7 +49,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
-        x = Def::LMAPX;
+        x = Def::LMAPX; // MAP_RESTRUCTURATION_MAYBE_TODO
         y = pos.y;
     }
 
@@ -86,9 +86,9 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     NazaraAssert(map, "new map null !");
 
-    MapInstance::XYToArray(x, y);
+    XYToArray(x, y);
 
-    if (map->obs()[x + y * Def::MAPX] != 0)
+    if (map->tile(XYToIndex(x, y)).obstacle != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
 
     return std::make_pair(true, entExt);
@@ -96,6 +96,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
 bool changeMap()
 {
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     auto canChange = canChangeMap(m_mainChar);
 
     if (!canChange.first)
@@ -113,7 +114,7 @@ bool changeMap()
     {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
-        x = Def::LMAPX;
+        x = Def::LMAPX; // MAP_RESTRUCTURATION_MAYBE_TODO
         y = pos.y;
 
         mapX = mapPos.x - 1;
@@ -165,20 +166,16 @@ bool changeMap()
     }
 
     NazaraAssert(newMap, "new map null !");
-
     auto currentMapLock = m_currentMap.lock();
-    auto patherLock = m_pather.lock();
 
-    deactivateMapEntities(currentMapLock->map);
-
-    currentMapLock->map = newMap;
-    patherLock->Reset(); // Map changed, need to reset pather's cache
-
-    activateMapEntities(currentMapLock->map);
-
+    deactivateMapEntities(currentMapLock->getMap());
+    currentMapLock->setMap(newMap);
+    activateMapEntities(currentMapLock->getMap());
 
     if (!currentMapLock->update())
         NazaraError("Cannot update map");
+
+    clearPatherCache();
 
     pos.x = x;
     pos.y = y;
@@ -201,17 +198,18 @@ void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
     m_mainChar = mainCharacter;
 }
 
-bool isMapUtilityInited()
+bool isMapUtilityInitialized()
 {
     return !m_currentMap.expired() && !m_pather.expired() && m_mainChar.IsValid();
 }
 
 Ndk::EntityHandle getMainCharacter()
 {
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     return m_mainChar;
 }
 
-std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, bool>> directions, AbsTile start)
+std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
 {
     std::queue<AbsTile> positions;
 
@@ -228,4 +226,16 @@ std::queue<AbsTile> directionsToPositions(std::queue<std::pair<DirectionFlags, b
     }
 
     return positions;
+}
+
+void refreshOccupiedTiles()
+{
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    m_currentMap.lock()->getMap()->updateOccupiedTiles();
+}
+
+void clearPatherCache()
+{
+    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    m_pather.lock()->Reset();
 }

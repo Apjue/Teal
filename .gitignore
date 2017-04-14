@@ -1,4 +1,4 @@
-﻿# Project files
+# Project files
 **.user
 
 # Visual Studio
@@ -12,6 +12,7 @@
 **.nativecodeanalysis.xml
 **.VC.opendb
 **.VC.db
+**.lastbuildstate
 .vs
 .vscode
 

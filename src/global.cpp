@@ -44,7 +44,7 @@ DiffTile DirToXY(DirectionFlags d)
     return { y ? x : x * 2, x ? y : y * 2 };
 }
 
-DirectionFlags XYToDir(DiffTile d)
+DirectionFlags XYToDir(DiffTile d) // MAP_RESTRUCTURATION_MAYBE_TODO
 {
     int x { d.x };
     int y { d.y };
@@ -99,7 +99,7 @@ Orientation DirToOrient(DirectionFlags d)
     return {}; // Oh, well...
 }
 
-DirectionFlags OrienToDir(Orientation o)
+DirectionFlags OrientToDir(Orientation o)
 {
     switch (o)
     {

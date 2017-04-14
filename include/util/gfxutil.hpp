@@ -12,13 +12,13 @@
 #include <NDK/Components/NodeComponent.hpp>
 #include <Nazara/Core/Color.hpp>
 #include <Nazara/Utility/Image.hpp>
-
 #include <vector>
 #include "def/gamedef.hpp"
 #include "global.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/defaultgraphicsposcomponent.hpp"
 #include "util/entityutil.hpp"
+#include "util/util.hpp"
 
 ///
 /// \fn getRenderableFromGraphicsComponent

@@ -14,41 +14,41 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
     gfx.Attach(infos.sprite, Def::CHARACTERS_LAYER);
 
-    e->AddComponent<Ndk::NodeComponent>();
+    e->AddComponent<Ndk::NodeComponent>().SetPosition(infos.defG.x, infos.defG.y);
 
     e->AddComponent<LifeComponent>(infos.maxhp);
     e->AddComponent<FightComponent>();
 
-    e->AddComponent<OrientationComponent>(infos.o);
     e->AddComponent<PositionComponent>(infos.defL.x, infos.defL.y);
     e->AddComponent<MapPositionComponent>(infos.mapPos.x, infos.mapPos.y);
 
-    auto& dpos = e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
-    e->GetComponent<Ndk::NodeComponent>().SetPosition(dpos.x, dpos.y);
+    e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
 
-    e->AddComponent<MoveToComponent>();
+    e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
     e->AddComponent<InventoryComponent>();
 
     e->AddComponent<AnimationComponent>(infos.imgsize, infos.maxframe, infos.animState);
+    e->AddComponent<OrientationComponent>(infos.o);
 
     if (infos.rdMov.randomMovement)
         e->AddComponent<RandomMovementComponent>(infos.rdMov.movInterval, infos.rdMov.nbTiles);
 
     e->AddComponent<NameComponent>(infos.name);
     e->AddComponent<DescriptionComponent>(infos.desc);
+    e->AddComponent<BlockTileComponent>().blockTile = infos.blockTile;
 
     refreshGraphicsPos(e);
     return e;
 }
 
-Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name)
+Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name, const Nz::String& desc)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<Items::ItemComponent>();
-    auto& eName = e->AddComponent<NameComponent>();
-    eName.name = name;
+    e->AddComponent<NameComponent>().name = name;
+    e->AddComponent<DescriptionComponent>().description = desc;
 
     return e;
 }

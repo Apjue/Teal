@@ -14,6 +14,7 @@ struct TileData
     Nz::String textureId;
     unsigned obstacle {}; // 0 = can pass, 1 = can't pass but can view through (in fight), 2 = can't pass and can't view through
     bool visible { true };
+    bool occupied {}; // Occupied by a movable (or not) NPC. Not available in fight
 };
 
 #endif // TILEDATA_HPP

@@ -10,15 +10,16 @@
 #include <NDK/System.hpp>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
-#include "components/common/movetocomponent.hpp"
-#include "components/common/mapcomponent.hpp"
-#include "util/maputil.hpp"
+#include "components/common/movecomponent.hpp"
+#include "components/common/fightcomponent.hpp"
+#include "components/common/lifecomponent.hpp"
+#include "util/aiutil.hpp"
 #include "micropather.h"
 
 ///
 /// \class AISystem
 ///
-/// \brief Compute a path using the Position and MoveTo component
+/// \brief Compute a path using the Position and Move component
 ///        And write it to the Path component.
 ///
 /// \note It uses micropather

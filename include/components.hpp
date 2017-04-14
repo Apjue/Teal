@@ -16,7 +16,7 @@
 #include "components/common/lifecomponent.hpp"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/mappositioncomponent.hpp"
-#include "components/common/movetocomponent.hpp"
+#include "components/common/movecomponent.hpp"
 #include "components/common/namecomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "components/common/pathcomponent.hpp"
@@ -25,6 +25,8 @@
 #include "components/common/attackmodifiercomponent.hpp"
 #include "components/common/resistancemodifiercomponent.hpp"
 #include "components/common/descriptioncomponent.hpp"
+#include "components/common/monstertypecomponent.hpp"
+#include "components/common/blocktilecomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"
