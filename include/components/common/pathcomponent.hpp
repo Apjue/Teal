@@ -11,6 +11,7 @@
 #include <queue>
 #include <utility>
 #include "global.hpp"
+#include "def/gamedef.hpp"
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
@@ -18,6 +19,7 @@ struct PathComponent : public Ndk::Component<PathComponent>
 
     PathPool path;
     unsigned totalSize {};
+    AbsTile wantedPos { Def::LMAPX + 1, Def::LMAPY + 1 };
 
     static Ndk::ComponentIndex componentIndex;
 };

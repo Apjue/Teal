@@ -278,17 +278,25 @@ void Game::addMaps() /// \todo Load from file (lua?)
 
     map0_1->setMap // todo
     ({
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "sandy", "sandy", "sandy", "water", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "sandy", "water", "water", "water", "water",
-        "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water"
+        "water", "water", "water", "water", "water", "water", "water", "water",
+            "water", "water", "water", "water", "water", "water", "water",
+        "water", "water", "water", "water", "water", "sandy", "water", "water",
+            "water", "water", "water", "water", "sandy", "sandy", "water",
+        "water", "water", "water", "water", "sandy", "sandy", "sandy", "water",
+            "water", "water", "water", "water", "sandy", "sandy", "water",
+        "water", "water", "water", "water", "water", "sandy", "water", "water",
+            "water", "water", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "water", "water", "water", "water", "water", "water",
+            "sandy", "water", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "water", "water", "water", "water", "water", "water",
+            "sandy", "sandy", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "sandy", "water", "water", "water", "water", "water",
+            "sandy", "sandy", "water", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "water", "water", "water", "water", "water",
+            "sandy", "sandy", "sandy", "water", "water", "water", "water"
     });
 
-    map0_1->setObs // todo
+    /*map0_1->setObs // todo
     ({
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,
@@ -298,7 +306,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
         0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    });
+    });*/
 
     MapDataLibrary::Register("0;1", deactivateMapEntities(map0_1));
 }
@@ -413,14 +421,18 @@ void Game::initEventHandler()
     { // Lambda to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y))
         {
-            auto& posComp = m_charac->GetComponent<PositionComponent>();
-            auto& moveComp = m_charac->GetComponent<MoveComponent>();
+            auto& pos = m_charac->GetComponent<PositionComponent>();
+            auto& move = m_charac->GetComponent<MoveComponent>();
 
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
-            auto diff = AbsPosToDiff({ posComp.x, posComp.y }, lpos);
 
-            moveComp.diffX = diff.x;
-            moveComp.diffY = diff.y;
+            if (lpos == AbsTile { pos.x, pos.y })
+                return;
+
+            auto diff = AbsPosToDiff({ pos.x, pos.y }, lpos);
+
+            move.diffX = diff.x;
+            move.diffY = diff.y;
         }
     });
 
