@@ -105,11 +105,12 @@ void AISystem::OnUpdate(float elapsed)
                 // Generate automatically attacks and co here
                 // Unless it's the main player. To verify: getMainCharacter()
 
-                // Do 3 AIs (per type of monster + 1 general AI): Neutral, Offensive, Defensive
-                // Neutral choose between offensive & defensive
-                // example: (health < maxHealth / 4) ? defensive : offensive;
+                // Do 3 AIs (per type of monster + generals AIs): Neutral, Offensive, Defensive
+                // Neutral choose between offensive & defensive ? with a maxAP/maxMP argument to do both
+                // example: (health < maxHealth / 4) ? defensive(6, 3) : offensive(6, 3);
 
-                // Do "level" of AI: Stupid, Average, Smart, etc.
+                // Do "levels" of AI: Stupid, Average, Smart, etc.
+                // Do AIs in Lua
             }
         }
     }

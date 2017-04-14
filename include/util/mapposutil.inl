@@ -18,7 +18,7 @@ void* XYToNode(unsigned x, unsigned y)
     return reinterpret_cast<void*>(result);
 }
 
-void XYToArray(unsigned& x, unsigned& y) // done
+void XYToArray(unsigned& x, unsigned& y)
 {
     unsigned tmpX = x;
     x /= 2;
@@ -29,7 +29,7 @@ void XYToArray(unsigned& x, unsigned& y) // done
     y /= 2;
 }
 
-std::pair<unsigned, unsigned> IndexToXY(unsigned index) // done
+std::pair<unsigned, unsigned> IndexToXY(unsigned index)
 {
     unsigned x {}, y {};
 
@@ -39,7 +39,7 @@ std::pair<unsigned, unsigned> IndexToXY(unsigned index) // done
     return std::make_pair(x, y);
 }
 
-unsigned XYToIndex(unsigned x, unsigned y) // done
+unsigned XYToIndex(unsigned x, unsigned y)
 {
     return x + y * Def::MAPX;
 }
