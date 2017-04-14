@@ -42,7 +42,7 @@ void AISystem::OnUpdate(float elapsed)
 
             AbsTile startPos { pos.x, pos.y };
             AbsTile lastPos { itou(utoi(pos.x) + move.diffX),
-                              itou(utoi(pos.x) + move.diffX) };
+                              itou(utoi(pos.y) + move.diffY) };
 
             auto currentPath = directionsToPositions(path, startPos);
 
