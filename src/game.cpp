@@ -132,9 +132,9 @@ void Game::initTilesetCore()
     unsigned sand = grass + 1;
     unsigned water = sand + 1;
 
-    m_tilesetCore.add(concrete, "concrete");
+    m_tilesetCore.add(concrete, "cncrt");
     m_tilesetCore.add(grass, "grass");
-    m_tilesetCore.add(sand, "sand");
+    m_tilesetCore.add(sand, "sandy");
     m_tilesetCore.add(water, "water");
 }
 
@@ -156,34 +156,34 @@ void Game::addMaps() /// \todo Load from file (lua?)
     },*/
 
     /*
-        "sand", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "sand", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "water", "sand", "water", "water", "water", "water", "water",
-        "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand", "sand", "water", "water", "water", "water",
-        "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "grass", "sand", "sand", "sand", "sand", "sand", "water",
-        "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "sand", "sand", "sand", "sand", "sand",
-        "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "sand", "grass", "grass", "sand", "sand", "sand",
-        "concrete", "concrete", "concrete", "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand"
+        "sandy", "grass", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "sandy", "water", "sandy", "water", "water", "water", "water", "water",
+        "grass", "grass", "grass", "grass", "sandy", "grass", "grass", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sandy", "grass", "grass", "sandy", "sandy", "grass", "sandy", "sandy", "sandy", "sandy", "sandy", "water",
+        "cncrt", "cncrt", "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "sandy", "sandy", "sandy",
+        "cncrt", "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "grass", "sandy", "grass", "grass", "sandy", "sandy", "sandy",
+        "cncrt", "cncrt", "cncrt", "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy"
     */
 
     map0_0->setMap
     ({
-        "sand",  "sand", "sand", "water", "water", "water", "water", "water",
-            "grass", "sand", "sand", "water", "water", "water", "water",
-        "grass", "sand", "sand", "sand", "water", "water", "water", "water",
-            "sand", "sand", "sand", "water", "water", "water", "water",
-        "grass", "grass", "grass", "sand", "water", "water", "water", "water",
-            "grass", "sand", "sand", "sand", "sand", "water", "water",
-        "grass", "grass", "sand", "grass", "sand", "sand", "water", "water",
-            "grass", "grass", "grass", "sand", "sand", "water", "water",
-        "grass", "grass", "grass", "sand", "grass", "sand", "sand", "water",
-            "grass", "sand", "grass", "sand", "sand", "sand", "sand",
-        "concrete", "grass", "grass", "grass", "sand", "sand", "sand", "sand",
-            "concrete", "grass", "grass", "grass", "grass", "sand", "sand",
-        "concrete", "concrete", "grass", "grass", "grass", "grass", "sand", "sand",
-            "concrete", "concrete", "grass", "grass", "sand", "grass", "sand",
-        "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass", "sand"
-            "concrete", "concrete", "concrete", "grass", "grass", "grass", "grass"
+        "sandy",  "sandy", "sandy", "water", "water", "water", "water", "water",
+            "grass", "sandy", "sandy", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "sandy", "water", "water", "water", "water",
+            "sandy", "sandy", "sandy", "water", "water", "water", "water",
+        "grass", "grass", "grass", "sandy", "water", "water", "water", "water",
+            "grass", "sandy", "sandy", "sandy", "sandy", "water", "water",
+        "grass", "grass", "sandy", "grass", "sandy", "sandy", "water", "water",
+            "grass", "grass", "grass", "sandy", "sandy", "water", "water",
+        "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "water",
+            "grass", "sandy", "grass", "sandy", "sandy", "sandy", "sandy",
+        "cncrt", "grass", "grass", "grass", "sandy", "sandy", "sandy", "sandy",
+            "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
+        "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
+            "cncrt", "cncrt", "grass", "grass", "sandy", "grass", "sandy",
+        "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy"
+            "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass"
     });
 
     /*map0_0->setObs
@@ -236,22 +236,22 @@ void Game::addMaps() /// \todo Load from file (lua?)
 
     map1_0->setMap
     ({
-        "concrete", "concrete", "sand", "sand", "sand", "sand", "sand", "sand",
-              "concrete", "grass", "sand", "sand", "sand", "sand", "sand",
-        "concrete", "grass", "grass", "grass", "sand", "sand", "sand", "sand",
-              "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-              "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "sand", "sand", "sand",
-              "grass", "grass", "grass", "grass", "grass", "sand", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
-              "grass", "grass", "grass", "grass", "grass", "grass", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "sand", "sand",
-              "grass", "grass", "grass", "grass", "grass", "grass", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand",
-              "grass", "grass", "grass", "grass", "grass", "grass", "sand",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sand",
-              "grass", "grass", "grass", "grass", "grass", "grass", "grass",
+        "cncrt", "cncrt", "sandy", "sandy", "sandy", "sandy", "sandy", "sandy",
+            "cncrt", "grass", "sandy", "sandy", "sandy", "sandy", "sandy",
+        "cncrt", "grass", "grass", "grass", "sandy", "sandy", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
+            "grass", "grass", "grass", "grass", "grass", "grass", "grass"
     });
 
 
@@ -279,13 +279,13 @@ void Game::addMaps() /// \todo Load from file (lua?)
     map0_1->setMap // todo
     ({
         "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "water", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "sand", "sand", "sand", "sand", "sand", "water", "water",
-        "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "sand", "water", "water", "water", "water",
-        "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
-        "grass", "sand", "sand", "sand", "sand", "sand", "water", "water", "water", "water", "water", "water", "water", "water", "water"
+        "water", "water", "water", "water", "water", "water", "water", "water", "water", "sandy", "sandy", "sandy", "water", "water", "water",
+        "water", "water", "water", "water", "water", "water", "water", "water", "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water",
+        "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "sandy", "water", "water", "water", "water",
+        "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+        "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water", "water",
+        "grass", "sandy", "sandy", "sandy", "sandy", "sandy", "water", "water", "water", "water", "water", "water", "water", "water", "water"
     });
 
     map0_1->setObs // todo
