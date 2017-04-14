@@ -423,6 +423,7 @@ void Game::initEventHandler()
         {
             auto& pos = m_charac->GetComponent<PositionComponent>();
             auto& move = m_charac->GetComponent<MoveComponent>();
+            auto& path = m_charac->GetComponent<PathComponent>();
 
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
 
@@ -433,6 +434,8 @@ void Game::initEventHandler()
 
             move.diffX = diff.x;
             move.diffY = diff.y;
+
+            path.wantedPos = lpos;
         }
     });
 

@@ -44,6 +44,15 @@ void AISystem::OnUpdate(float elapsed)
             AbsTile lastPos { itou(utoi(pos.x) + move.diffX),
                               itou(utoi(pos.y) + move.diffY) };
 
+            if (isPositionValid(startPos))
+                pathComp.oldWantedPos = { Def::LMAPX + 2, Def::LMAPY + 2 };
+
+            if (pathComp.wantedPos == pathComp.oldWantedPos) // Stop spam-clicking
+                continue;
+
+            pathComp.oldWantedPos = pathComp.wantedPos;
+            pathComp.wantedPos = { Def::LMAPX + 1, Def::LMAPY + 1 };
+
             auto currentPath = directionsToPositions(path, startPos);
 
             if (!currentPath.empty() && lastPos == currentPath.back())
@@ -67,6 +76,7 @@ void AISystem::OnUpdate(float elapsed)
 
             move.diffX = 0;
             move.diffY = 0;
+
         }
 
         /*

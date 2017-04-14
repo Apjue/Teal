@@ -19,7 +19,9 @@ struct PathComponent : public Ndk::Component<PathComponent>
 
     PathPool path;
     unsigned totalSize {};
-    AbsTile wantedPos { Def::LMAPX + 1, Def::LMAPY + 1 };
+
+    AbsTile oldWantedPos {};
+    AbsTile wantedPos {};
 
     static Ndk::ComponentIndex componentIndex;
 };
