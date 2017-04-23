@@ -1,5 +1,5 @@
 ﻿vs2015
-vs2017 # To have a .sln for VS 2017, generate one for VS2015 with premake and let VS2017 fix it
+vs2017
 gmake
 codelite
 # codeblocks # needed for script/actions/codeblocks
