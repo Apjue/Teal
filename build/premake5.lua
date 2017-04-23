@@ -11,6 +11,9 @@ end
 
 local rootFolder = ".."
 
+os.mkdir(_ACTION);
+os.copyfile(rootFolder .. "/.editorconfig", _ACTION .. "/.editorconfig")
+
 workspace "Teal"
     configurations { "Debug", "Release" }
     platforms(platformData)
@@ -38,7 +41,7 @@ project "TealDemo"
     }
 
     libdirs
-    { 
+    {
         rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/micropather/",
         rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/nazara/"
     }
