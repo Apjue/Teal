@@ -62,7 +62,11 @@ private:
     Nz::Rectui m_mapViewport;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
     Nz::IconRef m_winIcon;
-    std::unique_ptr<Ndk::Canvas> m_canvas;
+    std::unique_ptr<Ndk::Canvas> m_canvas; // Wait until Nazara fix widgets bugs to use this more
+
+    bool m_paused { false };
+    Ndk::EntityHandle m_background;
+    Ndk::EntityHandle m_pauseText;
 
     // Character functions
     void showInventory();
@@ -87,6 +91,9 @@ private:
 
     void initEventHandler();
     void addWidgets();
+
+    void addPauseMenu();
+    void enablePauseMenu(bool enable = true);
 };
 
 #include "game.inl"

@@ -5,9 +5,8 @@
 #include "game.hpp"
 
 Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
-           const Nz::Vector2ui& viewport, const Nz::String& winName) :
-    m_app(app), m_world(), m_window(app.AddWindow<Nz::RenderWindow>()), m_map(), m_charac(),
-    m_mapViewport(viewport), m_canvas()
+           const Nz::Vector2ui& viewport, const Nz::String& winName)
+    : m_app(app), m_window(app.AddWindow<Nz::RenderWindow>()), m_mapViewport(viewport)
 {
     addTextures();
 
@@ -33,6 +32,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addSystems();
     initEventHandler();
     addWidgets();
+    addPauseMenu();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
     initMapUtility(mapComp.map, m_pather, m_charac);
@@ -160,7 +160,7 @@ void Game::addMaps() /// \todo Load from file (lua?)
             "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
         "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
             "cncrt", "cncrt", "grass", "grass", "sandy", "grass", "sandy",
-        "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy"
+        "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy",
             "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass"
     });
 
@@ -382,7 +382,7 @@ void Game::initEventHandler()
     m_mouseButtonEvent.Connect(eventHandler.OnMouseButtonPressed,
     [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseButtonEvent& event)
     { // Lambda to move the player if the user clicked in the map
-        if (m_mapViewport.Contains(event.x, event.y))
+        if (m_mapViewport.Contains(event.x, event.y) && !m_paused)
         {
             auto& pos = m_charac->GetComponent<PositionComponent>();
             auto& move = m_charac->GetComponent<MoveComponent>();
@@ -405,6 +405,12 @@ void Game::initEventHandler()
     m_keyPressEvent.Connect(eventHandler.OnKeyPressed,
     [this] (const Nz::EventHandler*, const Nz::WindowEvent::KeyEvent& event)
     {
+        if (event.code == Nz::Keyboard::Escape) // Pause menu
+            enablePauseMenu(!m_paused);
+
+        if (m_paused)
+            return;
+
         switch (event.code)
         {
         case Nz::Keyboard::I: // Inventory
@@ -431,6 +437,56 @@ void Game::addWidgets()
     m_invButtonEvent.Connect(invButton->OnButtonTrigger,
     [this] (const Ndk::ButtonWidget*)
     {
-        showInventory();
+        if (!m_paused)
+            showInventory();
     });
+}
+
+void Game::addPauseMenu()
+{
+    // Background
+    m_background = m_world->CreateEntity();
+    m_background->AddComponent<Ndk::NodeComponent>();
+
+    auto& gfxBG = m_background->AddComponent<Ndk::GraphicsComponent>();
+
+    Nz::Color colorBG(0, 0, 0, 170);
+
+    Nz::SpriteRef spriteBG = Nz::Sprite::New();
+
+    spriteBG->GetMaterial()->Configure("Translucent2D");
+    spriteBG->SetColor(colorBG);
+    spriteBG->SetSize(static_cast<float>(Def::WINXSIZE), static_cast<float>(Def::WINYSIZE));
+
+    gfxBG.Attach(spriteBG, Def::PAUSE_MENU_BACKGROUND_LAYER);
+
+    // Pause Text
+    m_pauseText = m_world->CreateEntity();
+    m_pauseText->AddComponent<Ndk::NodeComponent>();
+
+    auto& gfxPause = m_pauseText->AddComponent<Ndk::GraphicsComponent>();
+
+    Nz::TextSpriteRef textPause = Nz::TextSprite::New();
+    textPause->Update(Nz::SimpleTextDrawer::Draw("Pause menu", 20));
+
+    gfxPause.Attach(textPause, Def::PAUSE_MENU_BUTTONS_LAYER);
+
+    auto& nodePause = m_pauseText->GetComponent<Ndk::NodeComponent>();
+    Nz::Boxf textBox = gfxPause.GetBoundingVolume().aabb;
+
+    nodePause.SetPosition(Def::WINXSIZE / 2 - textBox.width / 2, 20);
+
+    enablePauseMenu(false);
+}
+
+void Game::enablePauseMenu(bool enable)
+{
+    m_paused = enable;
+    m_background->Enable(enable);
+    m_pauseText->Enable(enable);
+
+    m_world->GetSystem<AISystem>().Enable(!enable);
+    m_world->GetSystem<MovementSystem>().Enable(!enable);
+    m_world->GetSystem<AnimationSystem>().Enable(!enable);
+    m_world->GetSystem<RandomMovementSystem>().Enable(!enable);
 }
