@@ -1,10 +1,10 @@
-// Copyright (C) 2017 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include "util/movementutil.hpp"
 
-void moveEntity(const Ndk::EntityHandle & e)
+void moveEntity(const Ndk::EntityHandle& e)
 {
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -32,5 +32,6 @@ Ndk::ComponentIndex MapPositionComponent::componentIndex;
 Ndk::ComponentIndex AttackModifierComponent::componentIndex;
 Ndk::ComponentIndex ResistanceModifierComponent::componentIndex;
 Ndk::ComponentIndex DescriptionComponent::componentIndex;
-Ndk::ComponentIndex MonsterTypeComponent::componentIndex;
+Ndk::ComponentIndex CombatBehaviorComponent::componentIndex;
 Ndk::ComponentIndex BlockTileComponent::componentIndex;
+Ndk::ComponentIndex MonsterComponent::componentIndex;

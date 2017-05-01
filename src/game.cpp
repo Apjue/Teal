@@ -294,8 +294,9 @@ void Game::initNazara()
     Ndk::InitializeComponent<AttackModifierComponent>("atkbonus");
     Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
     Ndk::InitializeComponent<DescriptionComponent>("desc");
-    Ndk::InitializeComponent<MonsterTypeComponent>("mnstrtyp");
+    Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");
     Ndk::InitializeComponent<BlockTileComponent>("blcktile");
+    Ndk::InitializeComponent<MonsterComponent>("monster");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");

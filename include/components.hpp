@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -25,8 +25,9 @@
 #include "components/common/attackmodifiercomponent.hpp"
 #include "components/common/resistancemodifiercomponent.hpp"
 #include "components/common/descriptioncomponent.hpp"
-#include "components/common/monstertypecomponent.hpp"
+#include "components/common/combatbehaviorcomponent.hpp"
 #include "components/common/blocktilecomponent.hpp"
+#include "components/common/monstercomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"
