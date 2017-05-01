@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -12,8 +12,10 @@
 #include "components/common/positioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "components/common/blocktilecomponent.hpp"
-#include "util/gfxutil.hpp"
+#include "components/common/movecomponent.hpp"
 #include "def/gamedef.hpp"
+#include "data/mapdata.hpp"
+#include "util/gfxutil.hpp"
 #include "util/maputil.hpp"
 #include "util/entityutil.hpp"
 

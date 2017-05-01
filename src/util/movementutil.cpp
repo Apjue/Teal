@@ -60,7 +60,28 @@ void moveEntity(const Ndk::EntityHandle& e)
     if (pos.inX == 0 && pos.inY == 0) // Next tile reached
     {
         if (!dir.second)
+        {
             path.pop(); // To get next tile
+
+            if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
+            {
+                unsigned x { moveX + pos.x }, y { moveY + pos.y };
+                auto& mapPos = e->GetComponent<MapPositionComponent>();
+
+                XYToArray(x, y);
+                MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y));
+
+                if (currentMap->tile(x, y).obstacle != 0)
+                {
+                    auto dirs = directionsToPositions(path, { pos.x, pos.y });
+                    auto& move = e->GetComponent<MoveComponent>();
+                    auto diff = AbsPosToDiff({ pos.x,pos.y }, dirs.back());
+
+                    move.diffX = diff.x;
+                    move.diffY = diff.y;
+                }
+            }
+        }
         else
             dir.second = false;
     }
