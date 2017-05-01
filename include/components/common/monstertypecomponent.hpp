@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -16,10 +16,6 @@ struct MonsterTypeComponent : public Ndk::Component<MonsterTypeComponent>
     /// \brief Monster's behavior
     ///        - Melee
     ///          Goes near enemy and attack it
-    ///
-    ///        - Pusher
-    ///          Acts like Melee but only push enemies
-    ///          Used to push enemies in obstacles, making more damage
     ///
     ///        - Stalker
     ///          Acts like Melee, or use a spell to become invisible and hide near the enemy
