@@ -222,7 +222,7 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
         start.y += xy.y;
 
         positions.push(start);
-        directions.pop();
+        directions.erase(directions.begin());
     }
 
     return positions;

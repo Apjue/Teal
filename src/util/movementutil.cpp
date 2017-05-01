@@ -61,24 +61,34 @@ void moveEntity(const Ndk::EntityHandle& e)
     {
         if (!dir.second)
         {
-            path.pop(); // To get next tile
+            path.erase(path.begin()); // To get next tile
 
             if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
             {
-                unsigned x { moveX + pos.x }, y { moveY + pos.y };
                 auto& mapPos = e->GetComponent<MapPositionComponent>();
-
-                XYToArray(x, y);
                 MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y));
 
-                if (currentMap->tile(x, y).obstacle != 0)
+                for (unsigned i {}, x {}, y {}, posX { pos.x }, posY { pos.y }; i < path.size(); ++i)
                 {
-                    auto dirs = directionsToPositions(path, { pos.x, pos.y });
-                    auto& move = e->GetComponent<MoveComponent>();
-                    auto diff = AbsPosToDiff({ pos.x,pos.y }, dirs.back());
+                    auto moveXY = DirToXY(path[i].first);
 
-                    move.diffX = diff.x;
-                    move.diffY = diff.y;
+                    x = posX + moveXY.x;
+                    y = posY + moveXY.y;
+
+                    XYToArray(x, y);
+
+                    posX += moveXY.x;
+                    posY += moveXY.y;
+
+                    if (currentMap->tile(x, y).obstacle != 0)
+                    {
+                        auto dirs = directionsToPositions(path, { pos.x, pos.y });
+                        auto& move = e->GetComponent<MoveComponent>();
+                        auto diff = AbsPosToDiff({ pos.x, pos.y }, dirs.back());
+
+                        move.diffX = diff.x;
+                        move.diffY = diff.y;
+                    }
                 }
             }
         }

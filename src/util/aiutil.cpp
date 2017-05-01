@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -88,7 +88,7 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
         auto dir = XYToDir({ diffX, diffY });
         bool reExec = !isDiagonal(dir);
 
-        newPath.push(std::make_pair(dir, reExec));
+        newPath.push_back(std::make_pair(dir, reExec));
 
         oldX = utoi(absX);
         oldY = utoi(absY);

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -18,7 +18,7 @@ void* XYToNode(unsigned x, unsigned y)
     return reinterpret_cast<void*>(result);
 }
 
-void XYToArray(unsigned& x, unsigned& y)
+void XYToArray(unsigned& x, unsigned& y) // redo
 {
     unsigned tmpX = x;
     x /= 2;
@@ -29,7 +29,7 @@ void XYToArray(unsigned& x, unsigned& y)
     y /= 2;
 }
 
-std::pair<unsigned, unsigned> IndexToXY(unsigned index)
+std::pair<unsigned, unsigned> IndexToXY(unsigned index) // redo ?
 {
     unsigned x {}, y {};
 
@@ -39,7 +39,7 @@ std::pair<unsigned, unsigned> IndexToXY(unsigned index)
     return std::make_pair(x, y);
 }
 
-unsigned XYToIndex(unsigned x, unsigned y)
+unsigned XYToIndex(unsigned x, unsigned y) // redo
 {
     return x + y * Def::MAPX;
 }
