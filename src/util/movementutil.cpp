@@ -80,7 +80,9 @@ void moveEntity(const Ndk::EntityHandle& e)
                     posX += moveXY.x;
                     posY += moveXY.y;
 
-                    if (currentMap->tile(x, y).obstacle != 0)
+                    auto& tile = currentMap->tile(x, y);
+
+                    if (tile.obstacle != 0 || tile.occupied) // bug: même lastpos donc ai system ne fait rien
                     {
                         auto dirs = directionsToPositions(path, { pos.x, pos.y });
                         auto& move = e->GetComponent<MoveComponent>();
@@ -88,6 +90,7 @@ void moveEntity(const Ndk::EntityHandle& e)
 
                         move.diffX = diff.x;
                         move.diffY = diff.y;
+                        move.playerInitiated = false;
                     }
                 }
             }

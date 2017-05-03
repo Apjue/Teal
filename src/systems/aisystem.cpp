@@ -55,7 +55,7 @@ void AISystem::OnUpdate(float elapsed)
 
             auto currentPath = directionsToPositions(path, startPos);
 
-            if (!currentPath.empty() && lastPos == currentPath.back())
+            if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated)
             {
                 move.diffX = 0;
                 move.diffY = 0;

@@ -121,7 +121,8 @@ void Game::addTextures()
         if (line.Split(customPair, " ; ") != 2u)
             continue; // Need 2 values
 
-        Nz::TextureLibrary::Register(customPair[0], Nz::TextureManager::Get(prefix + customPair[1]));
+        Nz::TextureLibrary::Register(customPair[0], Nz::TextureManager::Get(customPair[1]));
+        NazaraDebug("Texture loaded !");
     }
 }
 
@@ -398,6 +399,7 @@ void Game::initEventHandler()
 
             move.diffX = diff.x;
             move.diffY = diff.y;
+            move.playerInitiated = true;
 
             path.wantedPos = lpos;
         }
