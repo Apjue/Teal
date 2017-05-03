@@ -70,7 +70,7 @@ build:
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%/build/%TOOLSET%
-  - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild "TealDemo.vcxproj" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
