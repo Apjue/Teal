@@ -1,5 +1,5 @@
 # Include Files
-Download micropather and nazara include files [here](http://teal.esy.es)* and put them into `extlibs/include/<LibName>` (`LibName` is nazara or micropather)  
+Download micropather and Nazara include files [here](http://teal.esy.es)* (or [here](https://nazara.digitalpulsesoftware.net/files/) for Nazara) and put them into `extlibs/include/<LibName>` (`LibName` is nazara or micropather)  
 
 # Dependencies
 After that, go into `extlibs/src/micropather` and download micropather's files from http://teal.esy.es.  
