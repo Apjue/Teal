@@ -65,9 +65,6 @@ before_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build
   - premake5.exe %TOOLSET%
 
-build:
-  verbosity: minimal
-
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%/build/%TOOLSET%
   - msbuild "TealDemo.vcxproj" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
