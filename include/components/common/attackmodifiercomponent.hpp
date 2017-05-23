@@ -11,6 +11,9 @@
 
 struct AttackModifierComponent : public Ndk::Component<AttackModifierComponent>
 {
+    AttackModifierComponent(int n = 0, int a = 0, int f = 0, int w = 0, int e = 0)
+        : neutral { n }, air { a }, fire { f }, water { w }, earth { e } {}
+
     int neutral {};
     int air {};
     int fire {};
