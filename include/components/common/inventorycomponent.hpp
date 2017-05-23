@@ -30,9 +30,6 @@
 
 class InventoryComponent : public Ndk::Component<InventoryComponent>
 {
-    using EntityType = Ndk::EntityHandle;
-    using EntityCache = std::unordered_set<EntityType>;
-
 public:
     class Group
     {
@@ -41,22 +38,22 @@ public:
         Group(const std::string& name_) : name { name_ } {}
         ~Group() = default;
 
-        inline void add(const EntityType& e);
-        inline void remove(const EntityType& e);
+        inline void add(const Ndk::EntityHandle& e);
+        inline void remove(const Ndk::EntityHandle& e);
 
         std::string name { "undefined" }; // ID of the group
-        EntityCache entities; // entities of the group
+        Ndk::EntityList entities; // entities of the group
     };
 
     inline InventoryComponent();
     ~InventoryComponent() = default;
 
-    void add(const EntityType& e);
-    void remove(const EntityType& e);
-    bool has(const EntityType& e);
+    void add(const Ndk::EntityHandle& e);
+    void remove(const Ndk::EntityHandle& e);
+    bool has(const Ndk::EntityHandle& e);
 
-    inline const EntityCache& getAll();
-    inline const Group& group(const std::string& name);
+    inline const Ndk::EntityList getAll();
+    inline const Group group(const std::string& name);
 
     static Ndk::ComponentIndex componentIndex;
 
@@ -67,7 +64,7 @@ private:
     /// \fn reset
     ///
     /// \brief Clears the inventory
-    ///        Also used to init the inventory with empty groups
+    ///        Also used to initialize the inventory with empty groups
     ///
 
     void reset();

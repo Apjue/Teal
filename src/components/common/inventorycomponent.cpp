@@ -1,10 +1,10 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include "components/common/inventorycomponent.hpp"
 
-void InventoryComponent::add(const EntityType& e)
+void InventoryComponent::add(const Ndk::EntityHandle& e)
 {
     NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
@@ -21,7 +21,7 @@ void InventoryComponent::add(const EntityType& e)
         m_groups["resource"].add(e);
 }
 
-void InventoryComponent::remove(const EntityType& e)
+void InventoryComponent::remove(const Ndk::EntityHandle& e)
 {
     NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
@@ -31,14 +31,11 @@ void InventoryComponent::remove(const EntityType& e)
     }
 }
 
-bool InventoryComponent::has(const EntityType& e)
+bool InventoryComponent::has(const Ndk::EntityHandle& e)
 {
     NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
-    auto& group = m_groups["all"];
-    auto it = group.entities.find(e);
-
-    return it == group.entities.end();
+    return m_groups["all"].entities.Has(e);
 }
 
 void InventoryComponent::reset()
