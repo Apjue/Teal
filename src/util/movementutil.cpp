@@ -82,7 +82,7 @@ void moveEntity(const Ndk::EntityHandle& e)
 
                     auto& tile = currentMap->tile(x, y);
 
-                    if (tile.obstacle != 0 || tile.occupied) // bug: même lastpos donc ai system ne fait rien
+                    if (tile.obstacle != 0 || tile.occupied)
                     {
                         auto dirs = directionsToPositions(path, { pos.x, pos.y });
                         auto& move = e->GetComponent<MoveComponent>();
