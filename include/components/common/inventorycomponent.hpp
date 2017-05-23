@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -51,54 +51,11 @@ public:
     inline InventoryComponent();
     ~InventoryComponent() = default;
 
-    ///
-    /// \fn add
-    ///
-    /// \brief Adds an entity to the inventory
-    ///
-    /// \param e Entity to add
-    ///
-
     void add(const EntityType& e);
-
-    ///
-    /// \fn remove
-    ///
-    /// \brief Removes an entity to the inventory
-    ///
-    /// \param e Entity to remove
-    ///
-
     void remove(const EntityType& e);
-
-    ///
-    /// \fn has
-    ///
-    /// \brief Check if the inventory contains an entity
-    ///
-    /// \param e Entity to check
-    ///
-    /// \returns If the inventory contains the entity
-    ///
-
     bool has(const EntityType& e);
 
-    ///
-    /// \fn getAll
-    ///
-    /// \returns All entities the inventory contains
-    ///
-
     inline const EntityCache& getAll();
-
-    ///
-    /// \fn group
-    ///
-    /// \param name Name of the group
-    ///
-    /// \returns A group of the inventory
-    ///
-
     inline const Group& group(const std::string& name);
 
     static Ndk::ComponentIndex componentIndex;
