@@ -69,7 +69,7 @@ private:
     Ndk::EntityHandle m_pauseText;
 
     // Character functions
-    void showInventory();
+    void showInventory(bool detail = false);
 
     // Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);

@@ -38,13 +38,14 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initMapUtility(mapComp.map, m_pather, m_charac);
 
     auto testItem = make_item(m_world, "Legendary sword 1234"); // [TEST]
+    testItem->AddComponent<AttackModifierComponent>(10);
 
     m_charac->GetComponent<InventoryComponent>().add(testItem); // [TEST]
 }
 
 #include <iostream> // [TEST]
 
-void Game::showInventory() // [TEST]
+void Game::showInventory(bool detail) // [TEST]
 {
     auto& inv = m_charac->GetComponent<InventoryComponent>();
 
@@ -57,6 +58,31 @@ void Game::showInventory() // [TEST]
         {
             auto& name = item->GetComponent<NameComponent>();
             std::cout << "Name: " << name.name;
+        }
+
+        if (detail)
+        {
+            if (item->HasComponent<AttackModifierComponent>())
+            {
+                auto& atk = item->GetComponent<AttackModifierComponent>();
+                std::cout << "\n  Attack Modifier:\n";
+                std::cout << "    Neutral: " << atk.neutral << '\n';
+                std::cout << "    Air: " << atk.air << '\n';
+                std::cout << "    Fire: " << atk.fire << '\n';
+                std::cout << "    Water: " << atk.water << '\n';
+                std::cout << "    Earth: " << atk.earth << '\n';
+            }
+
+            if (item->HasComponent<ResistanceModifierComponent>())
+            {
+                auto& res = item->GetComponent<ResistanceModifierComponent>();
+                std::cout << "\n  Resistance Modifier:\n";
+                std::cout << "    Neutral: " << res.neutral << '\n';
+                std::cout << "    Air: " << res.air << '\n';
+                std::cout << "    Fire: " << res.fire << '\n';
+                std::cout << "    Water: " << res.water << '\n';
+                std::cout << "    Earth: " << res.earth << '\n';
+            }
         }
 
         std::cout << '\n';
@@ -417,7 +443,7 @@ void Game::initEventHandler()
         switch (event.code)
         {
         case Nz::Keyboard::I: // Inventory
-            showInventory();
+            showInventory(event.shift);
         }
     });
 }
@@ -470,7 +496,10 @@ void Game::addPauseMenu()
     auto& gfxPause = m_pauseText->AddComponent<Ndk::GraphicsComponent>();
 
     Nz::TextSpriteRef textPause = Nz::TextSprite::New();
-    textPause->Update(Nz::SimpleTextDrawer::Draw("Pause menu", 20));
+    textPause->Update(Nz::SimpleTextDrawer::Draw("Pause menu\n"
+                                                 "ESC = Toggle Pause Menu\n"
+                                                 "(Shift) I = Inventory\n"
+                                                 "C = Caracteristics (not done)", 20));
 
     gfxPause.Attach(textPause, Def::PAUSE_MENU_BUTTONS_LAYER);
 
