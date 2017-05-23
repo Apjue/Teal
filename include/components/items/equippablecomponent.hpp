@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+ï»¿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -18,7 +18,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
     {
         Head,  // casque
         Neck,  // amulette
-        Arms,  // épaulières, protections de bras
+        Arms,  // Ã©pauliÃ¨res, protections de bras
         Hands, // armes, boucliers
         Wrist, // bracelets
         Digit, // bagues
@@ -28,10 +28,11 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
         Feet   // bottes
     };
 
-    enum class Side // For digit, wrists, hands
+    enum class Side // For digits, wrists, hands
     {
         Right,
-        Left
+        Left,
+        Both
     };
 
     BodyPart bodypart;

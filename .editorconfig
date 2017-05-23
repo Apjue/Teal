@@ -1,16 +1,16 @@
-# http://editorconfig.org/
+﻿# http://editorconfig.org/
 
 root = true
 
 [*]
 charset = utf-8
 
-[*.{hpp,inl,cpp,lua}]
+[**.{hpp,inl,cpp,lua}]
 indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{html,htm,css}]
+[**.{html,htm,css}]
 indent_style = space
 indent_size = 4

@@ -34,6 +34,18 @@ struct CharacterData
         unsigned nbTiles;
     };
 
+    struct Elements
+    {
+        Elements(int n = 0, int a = 0, int f = 0, int w = 0, int e = 0)
+            : neutral { n }, air { a }, fire { f }, water { w }, earth { e } {}
+
+        int neutral {};
+        int air {};
+        int fire {};
+        int water {};
+        int earth {};
+    };
+
     ///
     /// \param size Size of the sprite's image
     /// \param pic Sprite of the character
@@ -47,6 +59,8 @@ struct CharacterData
     /// \param blockTile_ Blocks the tile
     /// \param name_ Name of the character
     /// \param desc_ Description of the character
+    /// \param atk_ Attack Modifier
+    /// \param res_ Resistance Modifier
     ///
 
     CharacterData(const Nz::Vector2ui& size = {},
@@ -61,10 +75,12 @@ struct CharacterData
                   const RandomMovement& rdMov_ = RandomMovement(),
                   bool blockTile_ = false,
                   const Nz::String& name_ = "",
-                  const Nz::String& desc_ = "")
+                  const Nz::String& desc_ = "",
+                  Elements atk_ = {},
+                  Elements res_ = {})
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
-        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_) {}
+        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_) {}
 
     ~CharacterData() = default;
 
@@ -85,6 +101,9 @@ struct CharacterData
 
     Nz::String name;
     Nz::String desc;
+
+    Elements atk;
+    Elements res;
 };
 
 #endif // CHARACTERDATA_HPP

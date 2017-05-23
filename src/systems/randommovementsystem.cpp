@@ -59,10 +59,10 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 auto map = m_map.lock();
                 NazaraAssert(map->getMap().IsValid(), "Map isn't valid !");
 
-                for (unsigned counter {}; counter < rd.nbTiles; ++counter)
-                {
-                    unsigned x = pos.x;
-                    unsigned y = pos.y;
+                for (unsigned counter {}, x { pos.x }, y { pos.y }; counter < rd.nbTiles; ++counter)
+                { // TODO: Redo this. Only works with 1 tile
+                    x = pos.x;
+                    y = pos.y;
 
                     XYToArray(x, y);
 

@@ -70,7 +70,7 @@ void Game::showInventory(bool detail) // [TEST]
                 std::cout << "    Air: " << atk.air << '\n';
                 std::cout << "    Fire: " << atk.fire << '\n';
                 std::cout << "    Water: " << atk.water << '\n';
-                std::cout << "    Earth: " << atk.earth << '\n';
+                std::cout << "    Earth: " << atk.earth;
             }
 
             if (item->HasComponent<ResistanceModifierComponent>())
@@ -81,7 +81,7 @@ void Game::showInventory(bool detail) // [TEST]
                 std::cout << "    Air: " << res.air << '\n';
                 std::cout << "    Fire: " << res.fire << '\n';
                 std::cout << "    Water: " << res.water << '\n';
-                std::cout << "    Earth: " << res.earth << '\n';
+                std::cout << "    Earth: " << res.earth;
             }
         }
 
@@ -90,6 +90,33 @@ void Game::showInventory(bool detail) // [TEST]
     }
 
     std::cout << std::flush;
+}
+
+void Game::showCaracteristics()
+{
+    std::cout << "Main character caracteristics";
+    if (m_charac->HasComponent<AttackModifierComponent>())
+    {
+        auto& atk = m_charac->GetComponent<AttackModifierComponent>();
+        std::cout << "\n  Attack Modifier:\n";
+        std::cout << "    Neutral: " << atk.neutral << '\n';
+        std::cout << "    Air: " << atk.air << '\n';
+        std::cout << "    Fire: " << atk.fire << '\n';
+        std::cout << "    Water: " << atk.water << '\n';
+        std::cout << "    Earth: " << atk.earth;
+    }
+
+    if (m_charac->HasComponent<ResistanceModifierComponent>())
+    {
+        auto& res = m_charac->GetComponent<ResistanceModifierComponent>();
+        std::cout << "\n  Resistance Modifier:\n";
+        std::cout << "    Neutral: " << res.neutral << '\n';
+        std::cout << "    Air: " << res.air << '\n';
+        std::cout << "    Fire: " << res.fire << '\n';
+        std::cout << "    Water: " << res.water << '\n';
+        std::cout << "    Earth: " << res.earth;
+    }
+    std::cout << std::endl;
 }
 
 void Game::addTextures()
@@ -148,7 +175,7 @@ void Game::addTextures()
             continue; // Need 2 values
 
         Nz::TextureLibrary::Register(customPair[0], Nz::TextureManager::Get(customPair[1]));
-        NazaraDebug("Texture loaded !");
+        NazaraDebug("Texture" + customPair[0] + "loaded !");
     }
 }
 
@@ -165,7 +192,7 @@ void Game::initTilesetCore()
     m_tilesetCore.add(water, "water");
 }
 
-void Game::addMaps() /// \todo Load from file (lua?)
+void Game::addMaps() /// \todo Load from file (lua)
 {
     Nz::String tilesTexture = Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
@@ -388,7 +415,7 @@ void Game::addEntities()
 
     CharacterData mainCharacData
     {
-        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u
+        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove, Orientation::Down, {}, false, "me", "", { 0, 0, 100, 0, 0 }
     };
 
     m_charac = make_character(m_world, mainCharacData);
@@ -444,6 +471,11 @@ void Game::initEventHandler()
         {
         case Nz::Keyboard::I: // Inventory
             showInventory(event.shift);
+            break;
+
+        case Nz::Keyboard::C: // Caracteristics
+            showCaracteristics();
+            break;
         }
     });
 }
@@ -499,7 +531,7 @@ void Game::addPauseMenu()
     textPause->Update(Nz::SimpleTextDrawer::Draw("Pause menu\n"
                                                  "ESC = Toggle Pause Menu\n"
                                                  "(Shift) I = Inventory\n"
-                                                 "C = Caracteristics (not done)", 20));
+                                                 "C = Caracteristics", 20));
 
     gfxPause.Attach(textPause, Def::PAUSE_MENU_BUTTONS_LAYER);
 

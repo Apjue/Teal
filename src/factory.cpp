@@ -38,6 +38,20 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     e->AddComponent<DescriptionComponent>(infos.desc);
     e->AddComponent<BlockTileComponent>().blockTile = infos.blockTile;
 
+    auto& atk = e->AddComponent<AttackModifierComponent>();
+    atk.neutral = infos.atk.neutral;
+    atk.air = infos.atk.air;
+    atk.fire = infos.atk.fire;
+    atk.water = infos.atk.water;
+    atk.earth = infos.atk.earth;
+
+    auto& res = e->AddComponent<ResistanceModifierComponent>();
+    res.neutral = infos.res.neutral;
+    res.air = infos.res.air;
+    res.fire = infos.res.fire;
+    res.water = infos.res.water;
+    res.earth = infos.res.earth;
+
     refreshGraphicsPos(e);
     return e;
 }
