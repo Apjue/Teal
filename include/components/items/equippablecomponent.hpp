@@ -16,23 +16,23 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
 {
     enum BodyPart
     {
-        Head,  // casque
-        Neck,  // amulette
-        Arms,  // épaulières, protections de bras
-        Hands, // armes, boucliers
-        Wrist, // bracelets
-        Digit, // bagues
-        Chest, // armures
-        Hip,   // ceintures
-        Legs,  // protections de jambes
-        Feet   // bottes
+        Head,  // Casque
+        Neck,  // Amulette
+        Arms,  // Protections de bras
+        Hands, // Armes / boucliers
+        Wrist, // Bracelets
+        Digit, // Bagues
+        Chest, // armure
+        Hip,   // Ceinture
+        Legs,  // Jeans
+        Feet   // Bottes
     };
 
     enum class Side // For digits, wrists, hands
     {
         Right,
         Left,
-        Both
+        Both // A heavy hammer or a bow need both hands
     };
 
     BodyPart bodypart;

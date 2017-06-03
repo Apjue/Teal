@@ -351,10 +351,11 @@ void Game::initNazara()
     Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");
     Ndk::InitializeComponent<BlockTileComponent>("blcktile");
     Ndk::InitializeComponent<MonsterComponent>("monster");
+    Ndk::InitializeComponent<EquipmentComponent>("equip");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
-    Ndk::InitializeComponent<Items::EquippableComponent>("equip");
+    Ndk::InitializeComponent<Items::EquippableComponent>("iequip");
     Ndk::InitializeComponent<Items::EdibleComponent>("edible");
     Ndk::InitializeComponent<Items::ResourceComponent>("res");
 

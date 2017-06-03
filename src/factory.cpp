@@ -52,6 +52,8 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     res.water = infos.res.water;
     res.earth = infos.res.earth;
 
+    e->AddComponent<EquipmentComponent>();
+
     refreshGraphicsPos(e);
     return e;
 }

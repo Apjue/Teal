@@ -28,6 +28,7 @@
 #include "components/common/combatbehaviorcomponent.hpp"
 #include "components/common/blocktilecomponent.hpp"
 #include "components/common/monstercomponent.hpp"
+#include "components/common/equipmentcomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"

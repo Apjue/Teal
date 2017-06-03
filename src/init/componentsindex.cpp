@@ -35,3 +35,4 @@ Ndk::ComponentIndex DescriptionComponent::componentIndex;
 Ndk::ComponentIndex CombatBehaviorComponent::componentIndex;
 Ndk::ComponentIndex BlockTileComponent::componentIndex;
 Ndk::ComponentIndex MonsterComponent::componentIndex;
+Ndk::ComponentIndex EquipmentComponent::componentIndex;
