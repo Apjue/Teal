@@ -35,7 +35,7 @@ bool InventoryComponent::has(const Ndk::EntityHandle& e)
 {
     NazaraAssert(isItemEntity(e), "Entity isn't an item !");
 
-    return m_groups["all"].entities.Has(e);
+    return m_groups["all"].entities.Has(e.GetObject());
 }
 
 void InventoryComponent::reset()
