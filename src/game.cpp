@@ -121,10 +121,10 @@ void Game::showCaracteristics()
 
 void Game::addTextures()
 {
-    Nz::String rootPrefix =        "../data/";
-    Nz::String imgPrefix = rootPrefix +     "img/";
-    Nz::String addonsPrefix = rootPrefix +  "addons/";
-        Nz::String addonsImgPrefix = addonsPrefix + "imgs/";
+    static Nz::String rootPrefix =        "../data/";
+    static Nz::String imgPrefix = rootPrefix +     "img/";
+    static Nz::String addonsPrefix = rootPrefix +  "addons/";
+        static Nz::String addonsImgPrefix = addonsPrefix + "imgs/";
 
     std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
     {
