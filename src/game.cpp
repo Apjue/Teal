@@ -126,7 +126,7 @@ void Game::addTextures()
     static Nz::String addonsPrefix = rootPrefix +  "addons/";
         static Nz::String addonsImgPrefix = addonsPrefix + "imgs/";
 
-    std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
+    std::vector<std::pair<Nz::String, Nz::String>> filepaths
     {
         { ":/game/money", "game/main/money.png" },
         { ":/game/scheme", "game/main/scheme.png" },
