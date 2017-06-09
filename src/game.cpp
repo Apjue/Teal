@@ -121,7 +121,10 @@ void Game::showCaracteristics()
 
 void Game::addTextures()
 {
-    Nz::String prefix = "../data/img/";
+    Nz::String rootPrefix =        "../data/";
+    Nz::String imgPrefix = rootPrefix +     "img/";
+    Nz::String addonsPrefix = rootPrefix +  "addons/";
+        Nz::String addonsImgPrefix = addonsPrefix + "imgs/";
 
     std::vector<std::pair<Nz::String, Nz::String>> filepaths // Todo: Make an additional textures file
     {
@@ -135,7 +138,7 @@ void Game::addTextures()
     };
 
     for (auto& pair : filepaths)
-        Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(prefix + pair.second));
+        Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(imgPrefix + pair.second));
 
     // Load custom textures
     // Custom textures can be used in custom mods
@@ -143,13 +146,13 @@ void Game::addTextures()
     /// \todo Custom mods
 
     // First, checks if it exists
-    if (!Nz::File::Exists(prefix + "../addons/additional_textures"))
+    if (!Nz::File::Exists(addonsPrefix + "additional_textures"))
         return;
 
     // Now, open it
     Nz::File customTextures;
 
-    if (!customTextures.Open(prefix + "../addons/additional_textures",
+    if (!customTextures.Open(addonsPrefix + "additional_textures",
                              Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
     {
         NazaraError("Cannot open custom textures file");
@@ -174,8 +177,17 @@ void Game::addTextures()
         if (line.Split(customPair, " ; ") != 2u)
             continue; // Need 2 values
 
-        Nz::TextureLibrary::Register(customPair[0], Nz::TextureManager::Get(customPair[1]));
-        NazaraDebug("Texture" + customPair[0] + "loaded !");
+        auto texture = Nz::TextureManager::Get(addonsImgPrefix + customPair[1]);
+
+        if (!texture.IsValid())
+        {
+            NazaraDebug("Texture " + customPair[0] + " can't be loaded - wrong filepath.\n"
+                        "Provided filepath = " + customPair[1]);
+            continue;
+        }
+
+        Nz::TextureLibrary::Register(customPair[0], texture);
+        NazaraDebug("Texture " + customPair[0] + " loaded !");
     }
 }
 
