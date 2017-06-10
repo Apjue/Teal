@@ -1,3 +1,6 @@
+dofile("script/actions/codeblocks/_codeblocks.lua")
+dofile("script/actions/codeblocks/codeblocks.lua")
+
 local platformData
 if (os.is64bit()) then
     platformData = {"x64", "x86"}
