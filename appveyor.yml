@@ -59,7 +59,7 @@ install:
   - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
   - cp micropather.h %APPVEYOR_BUILD_FOLDER%/extlibs/include/micropather/
-  - cp %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/** ./
+  - cp -r %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/** ./
   - premake5.exe %TOOLSET%
   - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIXLIB% ./
