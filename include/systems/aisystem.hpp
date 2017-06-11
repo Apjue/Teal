@@ -14,6 +14,7 @@
 #include "components/common/fightcomponent.hpp"
 #include "components/common/lifecomponent.hpp"
 #include "util/aiutil.hpp"
+#include "def/gamedef.hpp"
 #include "micropather.h"
 
 ///

@@ -50,8 +50,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                     Orientation orient = static_cast<Orientation>(direction);
                     DiffTile xy = OrientToDiff(orient);
 
-                    mov.diffX = mov.diffX + xy.x;
-                    mov.diffY = mov.diffY + xy.y;
+                    mov.tile = { pos.x + xy.x, pos.y + xy.y };
                     mov.playerInitiated = false;
                 }
 
@@ -97,8 +96,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
                     if (tile == 0)
                     {
-                        mov.diffX = mov.diffX + xy.x;
-                        mov.diffY = mov.diffY + xy.y;
+                        mov.tile = { pos.x + xy.x, pos.y + xy.y };
                         mov.playerInitiated = false;
 
                         break;

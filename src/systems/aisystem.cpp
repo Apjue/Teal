@@ -35,23 +35,27 @@ void AISystem::OnUpdate(float elapsed)
     {
         auto& move = e->GetComponent<MoveComponent>();
 
-        if (move.diffX != 0 || move.diffY != 0) // This entity wants to move
+        if (move.tile != toVector(Def::NOMOVEPOS)) // This entity wants to move
         {
             auto& pos = e->GetComponent<PositionComponent>();
             auto& pathComp = e->GetComponent<PathComponent>();
             auto& path = pathComp.path;
 
             AbsTile startPos { pos.x, pos.y };
-            AbsTile lastPos { itou(utoi(pos.x) + move.diffX),
-                              itou(utoi(pos.y) + move.diffY) };
+
+            if (move.tile == startPos)
+            {
+                move.tile = toVector(Def::NOMOVEPOS);
+                continue;
+            }
+
+            AbsTile lastPos { move.tile };
 
             auto currentPath = directionsToPositions(path, startPos);
 
             if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
-            { // Else, recompute path in case an object moved and blocks the path
-                move.diffX = 0;
-                move.diffY = 0;
-
+            {                                                                                  // Else, recompute path in case an object moved and blocks the path
+                move.tile = toVector(Def::NOMOVEPOS);
                 continue;
             }
 
@@ -66,8 +70,7 @@ void AISystem::OnUpdate(float elapsed)
             pos.inX = 0;
             pos.inY = 0;
 
-            move.diffX = 0;
-            move.diffY = 0;
+            move.tile = toVector(Def::NOMOVEPOS);
 
         }
 

@@ -91,12 +91,10 @@ void moveEntity(const Ndk::EntityHandle& e)
 
                     if (tile.obstacle != 0 || tile.occupied)
                     {
-                        auto dirs = directionsToPositions(path, { pos.x, pos.y });
                         auto& move = e->GetComponent<MoveComponent>();
-                        auto diff = AbsPosToDiff({ pos.x, pos.y }, dirs.back());
+                        auto dirs = directionsToPositions(path, { pos.x, pos.y });
 
-                        move.diffX = diff.x;
-                        move.diffY = diff.y;
+                        move.tile = dirs.back();
                         move.playerInitiated = false;
                     }
                 }

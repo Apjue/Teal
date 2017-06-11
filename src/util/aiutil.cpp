@@ -12,20 +12,15 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
 
     NazaraAssert(pather, "Pather is null, cannot compute path !");
 
-    if (move.diffX == 0 && move.diffY == 0)
+    if (move.tile == toVector(Def::NOMOVEPOS))
         return PathComponent::PathPool {}; // This entity doesn't want to move.
 
     if (pos.moving && !isPositionValid({ pos.x, pos.y }))
         return PathComponent::PathPool {}; // Invalid position, can't stop it
 
     // Ok, let's do the path.
-    unsigned endX { itou(utoi(pos.x) + move.diffX) },
-             endY { itou(utoi(pos.y) + move.diffY) };
-
-    auto newPath = computePath({ pos.x, pos.y }, { endX, endY }, pather);
-
-    move.diffX = 0;
-    move.diffY = 0;
+    auto newPath = computePath({ pos.x, pos.y }, move.tile, pather);
+    move.tile = toVector(Def::NOMOVEPOS);
 
     return newPath;
 }

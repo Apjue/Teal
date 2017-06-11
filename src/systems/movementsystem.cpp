@@ -7,7 +7,7 @@
 MovementSystem::MovementSystem()
 {
     Requires<PathComponent, PositionComponent, OrientationComponent>();
-    SetUpdateRate(Def::MAXFPS);
+    SetUpdateRate(Def::MAXSYSTEMUPS);
     SetUpdateOrder(2);
 }
 

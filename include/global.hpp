@@ -14,6 +14,7 @@
 #include <array>
 #include <stdexcept>
 #include "def/gamedef.hpp"
+#include "util/nzstlcompatibility.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
 using DiffTile = Nz::Vector2i; // Difference Tile (from one point to another one)

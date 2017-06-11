@@ -452,18 +452,11 @@ void Game::initEventHandler()
     { // Lambda to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y) && !m_paused)
         {
-            auto& pos = m_charac->GetComponent<PositionComponent>();
             auto& move = m_charac->GetComponent<MoveComponent>();
 
-            auto lpos = getTileFromGlobalCoords({ event.x, event.y });
+            auto tile = getTileFromGlobalCoords({ event.x, event.y });
 
-            if (lpos == AbsTile { pos.x, pos.y })
-                return;
-
-            auto diff = AbsPosToDiff({ pos.x, pos.y }, lpos);
-
-            move.diffX = diff.x;
-            move.diffY = diff.y;
+            move.tile = tile;
             move.playerInitiated = true;
         }
     });

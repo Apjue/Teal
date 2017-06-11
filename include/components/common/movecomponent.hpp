@@ -8,15 +8,15 @@
 #define MOVECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include "global.hpp"
 
 struct MoveComponent : public Ndk::Component<MoveComponent>
 {
-    int diffX {}; // The position where we want to go
-    int diffY {}; // Adds it to the Position's XY to get the tile
-                  // 0 == nowhere
-    /// \todo replace by absolute position
+    AbsTile tile { toVector(Def::NOMOVEPOS) }; // The absolute position where we want to go
+                  // Def::NOMOVEPOS == nowhere
 
-    bool playerInitiated {};
+    bool playerInitiated {}; // If player clicks to the same location and if this is set to true, AISystem ignore the request
+                             // Else, AISystem recompute a path (maybe something moved and is now blocking the path ?)
 
     static Ndk::ComponentIndex componentIndex;
 };
