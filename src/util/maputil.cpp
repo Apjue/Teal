@@ -25,7 +25,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     DirectionFlags entExt = 0; // Entity Extremity
 
     if (pos.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
-        entExt = Dir::Left; // MAP_RESTRUCTURATION_MAYBE_TODO
+        entExt = Dir::Left;
 
     else if (pos.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
         entExt = Dir::Right;
@@ -49,7 +49,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
-        x = Def::LMAPX; // MAP_RESTRUCTURATION_MAYBE_TODO
+        x = Def::LMAPX;
         y = pos.y;
     }
 
@@ -114,7 +114,7 @@ bool changeMap()
     {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
-        x = Def::LMAPX; // MAP_RESTRUCTURATION_MAYBE_TODO
+        x = Def::LMAPX;
         y = pos.y;
 
         mapX = mapPos.x - 1;

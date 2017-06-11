@@ -57,7 +57,7 @@ void AISystem::OnUpdate(float elapsed)
 
             auto newPath = computePath(e, m_pather.get()); /// \todo only if pos inX == inY == 0
 
-            if (newPath.empty())
+            if (newPath.empty()) // when moving diffX isn't cleared. replace diffX/Y by an absolute pos
                 continue; // Cannot generate a path :(
 
             path = newPath;

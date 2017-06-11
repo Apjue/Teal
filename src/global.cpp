@@ -44,7 +44,7 @@ DiffTile DirToXY(DirectionFlags d)
     return { y ? x : x * 2, x ? y : y * 2 };
 }
 
-DirectionFlags XYToDir(DiffTile d) // MAP_RESTRUCTURATION_MAYBE_TODO
+DirectionFlags XYToDir(DiffTile d)
 {
     int x { d.x };
     int y { d.y };

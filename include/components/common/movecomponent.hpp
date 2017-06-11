@@ -14,6 +14,7 @@ struct MoveComponent : public Ndk::Component<MoveComponent>
     int diffX {}; // The position where we want to go
     int diffY {}; // Adds it to the Position's XY to get the tile
                   // 0 == nowhere
+    /// \todo replace by absolute position
 
     bool playerInitiated {};
 

@@ -22,8 +22,8 @@ constexpr unsigned LONGMAPY       { 16u };
 constexpr unsigned MAPX           { LONGMAPX }; // For arrays
 constexpr unsigned MAPY           { REALMAPY };
 
-constexpr unsigned LMAPX          { LONGMAPX - 1u }; // For logic
-constexpr unsigned LMAPY          { LONGMAPY - 1u }; // see logicnum.png
+constexpr unsigned LMAPX          { LONGMAPX - 1u }; // see logicnum.png
+constexpr unsigned LMAPY          { LONGMAPY - 1u };
 
 
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
@@ -45,7 +45,7 @@ constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, righ
 
 constexpr  auto    DEFAULTMAPTILESET { ":/game/tileset" };
 
-constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   2,   0 , -2,   1,   -1,    1,   -1    }; // MAP_RESTRUCTURATION_MAYBE_TODO
+constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   2,   0 , -2,   1,   -1,    1,   -1    };
 constexpr std::array<int,   8> MAP_DISTANCE_Y    { 2,   0,  -2,   0,   1,   -1,   -1,    1    };
 constexpr std::array<float, 8> MAP_DISTANCE_COST { 2.f, 2.f, 2.f, 2.f, 1.5f, 1.5f, 1.5f, 1.5f };
 
