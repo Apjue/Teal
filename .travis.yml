@@ -87,7 +87,7 @@ after_success:
   - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo result/
   - cd result
   - cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
-  - cp ${TRAVIS_BUILD_DIR}/wdirs ./
+  - cp -r ${TRAVIS_BUILD_DIR}/wdirs ./
 
 #deploy:
 #  skip_cleanup: true
