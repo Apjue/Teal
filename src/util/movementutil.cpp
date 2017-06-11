@@ -36,26 +36,33 @@ void moveEntity(const Ndk::EntityHandle& e)
 
     pos.inX += moveX;
     pos.inY += moveY;
+    
+    bool resetPosInX { true };
+    
+    if (pos.inX > 0 && pos.inX >= Def::MAXPOSINTILE)
+        pos.x += (pos.inX / Def::MAXPOSINTILE);
 
-    if (pos.inX % Def::MAXPOSINTILE == 0) // Next horizontal tile reached
-    {
-        if (pos.inX > 0)
-            pos.x += (pos.inX / Def::MAXPOSINTILE);
-        else
-            pos.x -= (-pos.inX / Def::MAXPOSINTILE);
+    else if (-pos.inX >= Def::MAXPOSINTILE)
+        pos.x -= (-pos.inX / Def::MAXPOSINTILE);
 
-        pos.inX = 0;
-    }
+    else
+        resetPosInX = false;
 
-    if (pos.inY % Def::MAXPOSINTILE == 0) // Next vertical tile reached
-    {
-        if (pos.inY > 0)
-            pos.y += (pos.inY / Def::MAXPOSINTILE);
-        else
-            pos.y -= (-pos.inY / Def::MAXPOSINTILE);
+    pos.inX = resetPosInX ? 0 : pos.inX;
 
-        pos.inY = 0;
-    }
+
+    bool resetPosInY { true };
+
+    if (pos.inY > 0 && pos.inY >= Def::MAXPOSINTILE)
+        pos.y += (pos.inY / Def::MAXPOSINTILE);
+
+    else if (-pos.inY >= Def::MAXPOSINTILE)
+        pos.y -= (-pos.inY / Def::MAXPOSINTILE);
+
+    else
+        resetPosInY = false;
+
+    pos.inY = resetPosInY ? 0 : pos.inY;
 
     if (pos.inX == 0 && pos.inY == 0) // Next tile reached
     {
@@ -104,7 +111,7 @@ void moveEntity(const Ndk::EntityHandle& e)
         pos.moving = false; // Not moving anymore
         pathComp.totalSize = 0u;
 
-        if (hasComponentsToChangeMap(e) && e == getMainCharacter())
+        if (e == getMainCharacter() && hasComponentsToChangeMap(e))
             changeMap();
 
         if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)

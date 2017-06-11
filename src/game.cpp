@@ -374,8 +374,8 @@ void Game::initNazara()
     // Systems
     Ndk::InitializeSystem<AISystem>();
     Ndk::InitializeSystem<MovementSystem>();
-    Ndk::InitializeSystem<AnimationSystem>();
     Ndk::InitializeSystem<RandomMovementSystem>();
+    Ndk::InitializeSystem<AnimationSystem>();
 }
 
 void Game::initIcon()
@@ -439,8 +439,8 @@ void Game::addSystems()
 {
     m_world->AddSystem<AISystem>(m_pather);
     m_world->AddSystem<MovementSystem>();
-    m_world->AddSystem<AnimationSystem>();
     m_world->AddSystem<RandomMovementSystem>();
+    m_world->AddSystem<AnimationSystem>();
 }
 
 void Game::initEventHandler()
@@ -454,7 +454,6 @@ void Game::initEventHandler()
         {
             auto& pos = m_charac->GetComponent<PositionComponent>();
             auto& move = m_charac->GetComponent<MoveComponent>();
-            auto& path = m_charac->GetComponent<PathComponent>();
 
             auto lpos = getTileFromGlobalCoords({ event.x, event.y });
 
@@ -466,8 +465,6 @@ void Game::initEventHandler()
             move.diffX = diff.x;
             move.diffY = diff.y;
             move.playerInitiated = true;
-
-            path.wantedPos = lpos;
         }
     });
 

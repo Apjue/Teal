@@ -7,6 +7,7 @@
 AISystem::AISystem()
 {
     Requires<PathComponent, PositionComponent, MoveComponent>();
+    SetUpdateOrder(1);
 }
 
 AISystem::AISystem(const std::shared_ptr<micropather::MicroPather>& pather)
@@ -44,26 +45,17 @@ void AISystem::OnUpdate(float elapsed)
             AbsTile lastPos { itou(utoi(pos.x) + move.diffX),
                               itou(utoi(pos.y) + move.diffY) };
 
-            if (isPositionValid(startPos))
-                pathComp.oldWantedPos = { Def::LMAPX + 2, Def::LMAPY + 2 };
-
-            if (pathComp.wantedPos == pathComp.oldWantedPos) // Stop spam-clicking
-                continue;
-
-            pathComp.oldWantedPos = pathComp.wantedPos;
-            pathComp.wantedPos = { Def::LMAPX + 1, Def::LMAPY + 1 };
-
             auto currentPath = directionsToPositions(path, startPos);
 
-            if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated)
-            {
+            if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
+            { // Else, recompute path in case an object moved and blocks the path
                 move.diffX = 0;
                 move.diffY = 0;
 
                 continue;
             }
 
-            auto newPath = computePath(e, m_pather.get());
+            auto newPath = computePath(e, m_pather.get()); /// \todo only if pos inX == inY == 0
 
             if (newPath.empty())
                 continue; // Cannot generate a path :(
@@ -88,6 +80,8 @@ void AISystem::OnUpdate(float elapsed)
          - Move Right
         Path will be mixed with attacks, so it is necessary
         to have a new component/system to keep the order
+        ============================================
+        or use movement system for movement & fight system for fight. seems legit
         */
 
         if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>())

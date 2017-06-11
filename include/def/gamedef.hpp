@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -36,7 +36,7 @@ constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
 constexpr unsigned TILEGYSIZE     { TILEYSIZE / 2 };
 
 
-constexpr unsigned MAXPOSINTILE   { 4u };
+constexpr   int    MAXPOSINTILE   { 4 };
 constexpr unsigned MAXGXPOSINTILE { TILEGXSIZE / MAXPOSINTILE };
 constexpr unsigned MAXGYPOSINTILE { TILEGYSIZE / MAXPOSINTILE };
 

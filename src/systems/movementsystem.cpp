@@ -8,6 +8,7 @@ MovementSystem::MovementSystem()
 {
     Requires<PathComponent, PositionComponent, OrientationComponent>();
     SetUpdateRate(Def::MAXFPS);
+    SetUpdateOrder(2);
 }
 
 void MovementSystem::OnUpdate(float elapsed)

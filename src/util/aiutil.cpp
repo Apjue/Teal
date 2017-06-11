@@ -10,33 +10,27 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
     auto& pos = e->GetComponent<PositionComponent>();
     auto& move = e->GetComponent<MoveComponent>();
 
+    NazaraAssert(pather, "Pather is null, cannot compute path !");
+
     if (move.diffX == 0 && move.diffY == 0)
         return PathComponent::PathPool {}; // This entity doesn't want to move.
 
-    if (pos.moving && !isPositionValid({ pos.x, pos.y }) && pos.inX == 0 && pos.inY == 0)
+    if (pos.moving && !isPositionValid({ pos.x, pos.y }))
         return PathComponent::PathPool {}; // Invalid position, can't stop it
 
     // Ok, let's do the path.
-    NazaraAssert(pather, "Pather is null, cannot compute path !");
-
     unsigned endX { itou(utoi(pos.x) + move.diffX) },
              endY { itou(utoi(pos.y) + move.diffY) };
 
     auto newPath = computePath({ pos.x, pos.y }, { endX, endY }, pather);
 
-    if (newPath.empty())
-    {
-        move.diffX = 0;
-        move.diffY = 0;
-
-        return PathComponent::PathPool {};
-    }
+    move.diffX = 0;
+    move.diffY = 0;
 
     return newPath;
 }
 
-PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos,
-                                                        micropather::MicroPather* pather)
+PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos, micropather::MicroPather* pather)
 {
     if (startPos == lastPos || !isPositionValid({ startPos.x, startPos.y }) || !isPositionValid({ lastPos.x, lastPos.y }))
         return PathComponent::PathPool {};
