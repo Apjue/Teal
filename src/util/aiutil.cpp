@@ -18,11 +18,7 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
     if (pos.moving && !isPositionValid({ pos.x, pos.y }))
         return PathComponent::PathPool {}; // Invalid position, can't stop it
 
-    // Ok, let's do the path.
-    auto newPath = computePath({ pos.x, pos.y }, move.tile, pather);
-    move.tile = toVector(Def::NOMOVEPOS);
-
-    return newPath;
+    return computePath({ pos.x, pos.y }, move.tile, pather);
 }
 
 PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos, micropather::MicroPather* pather)

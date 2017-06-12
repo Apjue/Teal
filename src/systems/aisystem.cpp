@@ -59,19 +59,27 @@ void AISystem::OnUpdate(float elapsed)
                 continue;
             }
 
-            auto newPath = computePath(e, m_pather.get()); /// \todo only if pos inX == inY == 0
+            PathComponent::PathPool newPath;
 
-            if (newPath.empty()) // when moving diffX isn't cleared. replace diffX/Y by an absolute pos
-                continue; // Cannot generate a path :(
+            if (pos.inX == 0 && pos.inY == 0)
+                newPath = computePath(e, m_pather.get());
+            else
+                continue;
 
-            path = newPath;
-            pathComp.totalSize = static_cast<unsigned>(path.size());
+            if (!newPath.empty())
+            {
+                path = newPath;
+                pathComp.totalSize = static_cast<unsigned>(path.size());
 
-            pos.inX = 0;
-            pos.inY = 0;
+                pos.inX = 0;
+                pos.inY = 0;
+            }
+
+            /// \todo if !move.playerInitiated and no path found (something blocked and still blocking)
+            ///       - stand still if valid pos
+            ///       - or use a function to go to nearest valid tile
 
             move.tile = toVector(Def::NOMOVEPOS);
-
         }
 
         /*
