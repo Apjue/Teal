@@ -91,8 +91,7 @@ void AISystem::OnUpdate(float elapsed)
          - Move Right
         Path will be mixed with attacks, so it is necessary
         to have a new component/system to keep the order
-        ============================================
-        or use movement system for movement & fight system for fight. seems legit
+        use movementutil for move functions, no need to use move system
         */
 
         if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>())
