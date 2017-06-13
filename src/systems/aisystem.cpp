@@ -94,6 +94,9 @@ void AISystem::OnUpdate(float elapsed)
         use movementutil for move functions, no need to use move system
         */
 
+        // All swords/hammers/offensive item has an attack
+        // create an OffensiveComponent ?
+
         if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>())
         {
             auto& fight = e->GetComponent<FightComponent>();

@@ -8,7 +8,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
            const Nz::Vector2ui& viewport, const Nz::String& winName)
     : m_app(app), m_window(app.AddWindow<Nz::RenderWindow>()), m_mapViewport(viewport)
 {
-    addTextures();
+    loadTextures();
 
     Nz::ImageRef scheme = Nz::Image::New();
     scheme->LoadFromFile(Nz::TextureLibrary::Get(":/game/scheme")->GetFilePath());
@@ -23,11 +23,12 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initNazara();
 
     initTilesetCore();
-    addMaps();
+    loadMaps();
 
     initIcon();
     initCam();
 
+    loadSkills();
     addEntities();
     addSystems();
     initEventHandler();
@@ -92,7 +93,7 @@ void Game::showInventory(bool detail) // [TEST]
     std::cout << std::flush;
 }
 
-void Game::showCaracteristics()
+void Game::showCaracteristics() // [TEST]
 {
     std::cout << "Main character caracteristics";
     if (m_charac->HasComponent<AttackModifierComponent>())
@@ -119,7 +120,7 @@ void Game::showCaracteristics()
     std::cout << std::endl;
 }
 
-void Game::addTextures()
+void Game::loadTextures()
 {
     static Nz::String rootPrefix =        "../data/";
     static Nz::String imgPrefix = rootPrefix +     "img/";
@@ -204,7 +205,7 @@ void Game::initTilesetCore()
     m_tilesetCore.add(water, "water");
 }
 
-void Game::addMaps() /// \todo Load from file (lua)
+void Game::loadMaps() /// \todo Load from file (lua)
 {
     Nz::String tilesTexture = Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath();
 
@@ -338,6 +339,15 @@ void Game::addMaps() /// \todo Load from file (lua)
     });
 
     MapDataLibrary::Register("0;1", deactivateMapEntities(map0_1));
+}
+
+void Game::loadSkills()
+{
+    /// \todo Load skills in lua
+
+    // test
+    SkillData s { 10 };
+    m_skills.addSkill("random_skill", s);
 }
 
 void Game::initNazara()

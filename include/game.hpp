@@ -35,6 +35,7 @@
 #include "data/characterdata.hpp"
 #include "micropather.h"
 #include "cache/tilesetcore.hpp"
+#include "cache/skillstore.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
 #include "def/gamedef.hpp"
@@ -67,6 +68,7 @@ private:
     bool m_paused { false };
     Ndk::EntityHandle m_background;
     Ndk::EntityHandle m_pauseText;
+    SkillStore m_skills;
 
     // Character functions
     void showInventory(bool detail = false);
@@ -80,9 +82,10 @@ private:
     // Init Functions
     void initNazara();
 
-    void addTextures();
+    void loadTextures();
     void initTilesetCore();
-    void addMaps();
+    void loadMaps();
+    void loadSkills();
 
     void initIcon();
     void initCam();

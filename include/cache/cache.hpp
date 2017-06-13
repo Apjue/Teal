@@ -1,3 +1,7 @@
+﻿// Copyright (C) 2017 Samy Bensaid
+// This file is part of the TealDemo project.
+// For conditions of distribution and use, see copyright notice in LICENSE
+
 #ifndef CACHE_HPP
 #define CACHE_HPP
 
@@ -15,25 +19,28 @@ using DefaultCacheProducer = SharedPointerProducer<T>;
 ///
 /// \class Cache
 ///
-/// \brief wraps Producer<T>::create() objects
+/// \brief Wraps ManagerType objects
+///        If object not found, m_empty ManagerType object is returned.
+///
+/// \note In template, K and T are just used for Producer and Container's default values.
 ///
 
-template<class Key, class T, class Producer = DefaultCacheProducer<T>>
+template<class K, class T, class Producer = DefaultCacheProducer<T>, class Container = std::unordered_map<K, decltype(Producer::create())>>
 class Cache
 {
 public:
-    using ManagerType = decltype(Producer::create());
-    using InternalCache = std::unordered_map<Key, ManagerType>;
+    using InternalCache = Container;
+    using Key = typename Container::key_type;
+    using ManagerType = typename Container::mapped_type;
 
-    static ManagerType empty; // Value to return if not found
 
-    Cache() = default;
+    Cache(ManagerType empty);
     ~Cache() = default;
 
     ///
     /// \fn get
     ///
-    /// \return The item with Key k, or empty if not found
+    /// \return The item with Key k, or m_empty if not found
     ///
 
     const ManagerType& get(const Key& k) const;
@@ -43,11 +50,12 @@ public:
 
     inline void clear();
 
-    inline const InternalCache& getInternalCache() const;
-    inline InternalCache& getInternalCache();
+    inline const InternalCache& getUnderlyingCache() const;
+    inline InternalCache& getUnderlyingCache();
 
 protected:
     InternalCache m_objects;
+    const ManagerType m_empty; // Value to return if not found
 
     template<class... Args>
     typename InternalCache::iterator add_(const Key& k, Args&&... args);

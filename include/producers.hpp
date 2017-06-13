@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -20,8 +20,7 @@ struct SharedPointerProducer
     template<class... Args>
     static std::shared_ptr<T> create(Args&&... args)
     {
-        std::shared_ptr<T> res = std::make_shared<T>(std::forward<Args>(args)...);
-        return res;
+        return std::make_shared<T>(std::forward<Args>(args)...);
     }
 };
 
@@ -31,8 +30,7 @@ struct RawPointerProducer
     template<class... Args>
     static T* create(Args&&... args)
     {
-        std::unique_ptr<T> res = std::make_unique<T>(std::forward<Args>(args)...);
-        return res.release();
+        return std::make_unique<T>(std::forward<Args>(args)...).release();
     }
 };
 
@@ -42,8 +40,7 @@ struct NzObjectRefProducer
     template<class... Args>
     static Nz::ObjectRef<T> create(Args&&... args)
     {
-        Nz::ObjectRef<T> res = T::New(std::forward<Args>(args)...);
-        return res;
+        return T::New(std::forward<Args>(args)...);
     }
 };
 

@@ -14,7 +14,7 @@
 /// \class MovementSystem
 ///
 /// \brief Moves any entity which has a path and a position component.
-///        If the path is empty, it does nothing
+///        If the path is m_empty, it does nothing
 ///        The move needs severals calls to update to be fully done
 ///
 

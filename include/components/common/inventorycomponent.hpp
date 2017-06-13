@@ -64,7 +64,7 @@ private:
     /// \fn reset
     ///
     /// \brief Clears the inventory
-    ///        Also used to initialize the inventory with empty groups
+    ///        Also used to initialize the inventory with m_empty groups
     ///
 
     void reset();
