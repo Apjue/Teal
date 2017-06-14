@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,13 +8,13 @@ template<class T>
 non_nullptr<T>::non_nullptr(T* ptr) noexcept
     : m_ptr(ptr)
 {
-    NazaraAssert(ptr, "Ptr is null !");
+    TealAssert(ptr, "Ptr is null !");
 }
 
 template<class T>
 non_nullptr& non_nullptr<T>::operator=(T* ptr) noexcept
 {
-    NazaraAssert(ptr, "Ptr is null !");
+    TealAssert(ptr, "Ptr is null !");
     m_ptr = ptr;
     return *this;
 }

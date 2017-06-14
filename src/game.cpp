@@ -346,7 +346,8 @@ void Game::loadSkills()
     /// \todo Load skills in lua
 
     // test
-    SkillData s { 10 };
+    SkillData s;
+    s.damageList.push_back(std::make_pair<unsigned, int>(0, 10));
     m_skills.addSkill("random_skill", s);
 }
 
@@ -495,13 +496,13 @@ void Game::initEventHandler()
 
 void Game::addWidgets()
 {
-    NazaraAssert(m_canvas, "Canvas null");
+    TealAssert(m_canvas, "Canvas null");
     m_canvas->SetPosition(10.f, static_cast<float>(Def::MAPYVIEWPORT) + 5);
 
     auto& eventHandler = m_window.GetEventHandler();
 
     Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
-    NazaraAssert(invButton, "Inventory button null");
+    TealAssert(invButton, "Inventory button null");
 
     invButton->SetParent(*m_canvas);
     invButton->UpdateText(Nz::SimpleTextDrawer::Draw("Inventory", 15));

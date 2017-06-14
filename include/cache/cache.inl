@@ -6,7 +6,7 @@ template<class K, class T, class P, class C>
 Cache<K, T, P, C>::Cache(ManagerType empty) : m_empty { empty } {}
 
 template<class K, class T, class P, class C>
-const typename Cache<K, T, P, C>::ManagerType& Cache<K, T, P, C>::get(const Key& k) const
+auto Cache<K, T, P, C>::get(const Key& k) const -> const ManagerType&
 {
     auto it = m_objects.find(k);
 
@@ -24,26 +24,26 @@ void Cache<K, T, P, C>::clear()
 
 template<class K, class T, class P, class C>
 template<class... Args>
-typename Cache<K, T, P, C>::ManagerType Cache<K, T, P, C>::add(const Key& k, Args&&... args)
+auto Cache<K, T, P, C>::add(const Key& k, Args&&... args) -> ManagerType
 {
     return add_(k, std::forward<Args>(args)...)->second;
 }
 
 template<class K, class T, class P, class C>
 template<class... Args>
-typename Cache<K, T, P, C>::InternalCache::iterator Cache<K, T, P, C>::add_(const Key& k, Args&&... args)
+auto Cache<K, T, P, C>::add_(const Key& k, Args&&... args) -> InternalCache::iterator
 {
     return m_objects.emplace(k, P::template create<Args...>(std::forward<Args>(args)...)).first;
 }
 
 template<class K, class T, class P, class C>
-const typename Cache<K, T, P, C>::InternalCache& Cache<K, T, P, C>::getUnderlyingCache() const
+auto Cache<K, T, P, C>::getUnderlyingCache() const -> const InternalCache&
 {
     return m_objects;
 }
 
 template<class K, class T, class P, class C>
-typename Cache<K, T, P, C>::InternalCache& Cache<K, T, P, C>::getUnderlyingCache()
+auto Cache<K, T, P, C>::getUnderlyingCache() -> InternalCache&
 {
     return m_objects;
 }

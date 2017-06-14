@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -18,6 +18,7 @@
 #include "components/common/randommovementcomponent.hpp"
 #include "util/random.hpp"
 #include "global.hpp"
+#include "util/assert.hpp"
 
 class RandomMovementSystem : public Ndk::System<RandomMovementSystem>
 {

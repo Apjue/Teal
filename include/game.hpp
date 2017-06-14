@@ -27,15 +27,15 @@
 #include <Nazara/Core/File.hpp>
 #include <Nazara/Core/Flags.hpp>
 #include <memory>
-
 #include "components.hpp"
 #include "systems.hpp"
+#include "util/assert.hpp"
 #include "util/util.hpp"
 #include "factory.hpp"
 #include "data/characterdata.hpp"
 #include "micropather.h"
 #include "cache/tilesetcore.hpp"
-#include "cache/skillstore.hpp"
+#include "cache/doublestore.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
 #include "def/gamedef.hpp"

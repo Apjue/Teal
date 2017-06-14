@@ -2,27 +2,28 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-InventoryComponent::InventoryComponent()
+void InventoryComponent::add(const Ndk::EntityHandle& e)
 {
-    reset();
+    TealAssert(isItemEntity(e), "Entity isn't an item !");
+    m_items.Insert(e.GetObject());
 }
 
-void InventoryComponent::Group::add(const Ndk::EntityHandle& e)
+void InventoryComponent::remove(const Ndk::EntityHandle& e)
 {
-    entities.Insert(e);
+    m_items.Remove(e);
 }
 
-void InventoryComponent::Group::remove(const Ndk::EntityHandle& e)
+bool InventoryComponent::has(const Ndk::EntityHandle& e)
 {
-    entities.Remove(e);
+    return m_items.Has(e.GetObject());
 }
 
-const Ndk::EntityList InventoryComponent::getAll()
+void InventoryComponent::clear()
 {
-    return m_groups["all"].entities;
+    m_items.Clear();
 }
 
-const InventoryComponent::Group InventoryComponent::group(const std::string& name)
+const Ndk::EntityList& InventoryComponent::getAll() const
 {
-    return m_groups[name];
+    return m_items;
 }

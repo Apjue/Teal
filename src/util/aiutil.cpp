@@ -10,7 +10,7 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
     auto& pos = e->GetComponent<PositionComponent>();
     auto& move = e->GetComponent<MoveComponent>();
 
-    NazaraAssert(pather, "Pather is null, cannot compute path !");
+    TealAssert(pather, "Pather is null, cannot compute path !");
 
     if (move.tile == toVector(Def::NOMOVEPOS))
         return PathComponent::PathPool {}; // This entity doesn't want to move.
@@ -26,7 +26,7 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
     if (startPos == lastPos || !isPositionValid({ startPos.x, startPos.y }) || !isPositionValid({ lastPos.x, lastPos.y }))
         return PathComponent::PathPool {};
 
-    NazaraAssert(pather, "Pather is null, cannot compute path !");
+    TealAssert(pather, "Pather is null, cannot compute path !");
 
     // Compute the path with the position and the move component.
     std::vector<void*> voidPath;

@@ -26,8 +26,8 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
 
 bool MapInstance::update() // Thanks Lynix for this code
 {
-    NazaraAssert(m_tilesetCore, "TilesetCore nullptr !");
-    NazaraAssert(m_map, "Map is not valid !");
+    TealAssert(m_tilesetCore, "TilesetCore nullptr !");
+    TealAssert(m_map, "Map is not valid !");
 
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
@@ -130,7 +130,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
-    NazaraAssert(m_map, "Map is not valid !");
+    TealAssert(m_map, "Map is not valid !");
 
     // Step 1.
     {
@@ -183,7 +183,7 @@ float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
 
 void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)
 {
-    NazaraAssert(neighbors, "Micropather neighbors null !");
+    TealAssert(neighbors, "Micropather neighbors null !");
 
     unsigned x {}, y {};
     NodeToXY(node, x, y);

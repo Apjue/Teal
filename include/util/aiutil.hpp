@@ -16,6 +16,7 @@
 #include "components/common/mapcomponent.hpp"
 #include "util/maputil.hpp"
 #include "util/util.hpp"
+#include "util/assert.hpp"
 #include "micropather.h"
 
 PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather);

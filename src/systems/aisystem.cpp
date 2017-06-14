@@ -18,7 +18,7 @@ AISystem::AISystem(const std::shared_ptr<micropather::MicroPather>& pather)
 
 void AISystem::reset()
 {
-    NazaraAssert(m_pather, "Pather is null, cannot reset it !");
+    TealAssert(m_pather, "Pather is null, cannot reset it !");
     m_pather->Reset();
 }
 

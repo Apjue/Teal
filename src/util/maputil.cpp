@@ -15,8 +15,8 @@ Ndk::EntityHandle m_mainChar;
 
 std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 {
-    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    NazaraAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
 
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
@@ -84,7 +84,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
         return std::make_pair(false, entExt);
     }
 
-    NazaraAssert(map, "new map null !");
+    TealAssert(map, "new map null !");
 
     XYToArray(x, y);
 
@@ -96,7 +96,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
 bool changeMap()
 {
-    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     auto canChange = canChangeMap(m_mainChar);
 
     if (!canChange.first)
@@ -165,7 +165,7 @@ bool changeMap()
         newOrient = Orientation::Down;
     }
 
-    NazaraAssert(newMap, "new map null !");
+    TealAssert(newMap, "new map null !");
     auto currentMapLock = m_currentMap.lock();
 
     deactivateMapEntities(currentMapLock->getMap());
@@ -205,7 +205,7 @@ bool isMapUtilityInitialized()
 
 Ndk::EntityHandle getMainCharacter()
 {
-    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     return m_mainChar;
 }
 
@@ -230,12 +230,12 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
 
 void refreshOccupiedTiles()
 {
-    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     m_currentMap.lock()->getMap()->updateOccupiedTiles();
 }
 
 void clearPatherCache()
 {
-    NazaraAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     m_pather.lock()->Reset();
 }

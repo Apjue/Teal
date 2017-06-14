@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -13,8 +13,8 @@ Nz::ImageRef m_scheme {};
 
 AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
-    NazaraAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
-    NazaraAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
+    TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
+    TealAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
 
@@ -88,7 +88,7 @@ void initSchemeUtility(Nz::ImageRef newScheme)
 
 void refreshGraphicsPos(const Ndk::EntityHandle& charac)
 {
-    NazaraAssert(isMapEntity(charac), "Entity isn't a map entity !");
+    TealAssert(isMapEntity(charac), "Entity isn't a map entity !");
 
     auto& pos = charac->GetComponent<PositionComponent>();
     auto& gfxcomp = charac->GetComponent<Ndk::GraphicsComponent>();

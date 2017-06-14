@@ -8,6 +8,7 @@
 #define EQUIPPABLECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include "cache/doublestore.hpp"
 
 namespace Items
 {
@@ -37,6 +38,8 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
 
     BodyPart bodypart;
     Side side;
+
+    SkillStore::LightId attackId {}; // For swords, bows, hammers...
 
     static Ndk::ComponentIndex componentIndex;
 };

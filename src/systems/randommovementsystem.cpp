@@ -57,7 +57,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             else
             {
                 auto map = m_map.lock();
-                NazaraAssert(map->getMap().IsValid(), "Map isn't valid !");
+                TealAssert(map->getMap().IsValid(), "Map isn't valid !");
 
                 for (unsigned counter {}, x { pos.x }, y { pos.y }; counter < rd.nbTiles; ++counter)
                 { // TODO: Redo this. Only works with 1 tile
