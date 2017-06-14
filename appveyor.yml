@@ -78,7 +78,18 @@ after_build:
   - mkdir TealDemo
   - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
   - cd TealDemo
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Nazara*%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraLua%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraNetwork%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraNoise%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./  
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/assimp.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/libsndfile-1.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Newton.dll ./
