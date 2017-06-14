@@ -16,6 +16,28 @@ enum class Element
     Earth
 };
 
+namespace std
+{
 
+template<>
+struct hash<Element>
+{
+    using argument_type = Element;
+    using result_type = std::size_t;
+
+    ///
+    /// \brief Specialisation of std to hash
+    /// \return Result of the hash
+    ///
+    /// \param p Pair to hash
+    ///
+
+    result_type operator()(argument_type const& e) const
+    {
+        return static_cast<result_type>(e);
+    }
+};
+
+}
 
 #endif // ELEMENTDATA_HPP

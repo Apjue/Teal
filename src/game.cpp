@@ -2,6 +2,7 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <iostream> // [TEST]
 #include "game.hpp"
 
 Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
@@ -29,6 +30,8 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initCam();
 
     loadSkills();
+    loadItems();
+
     addEntities();
     addSystems();
     initEventHandler();
@@ -37,14 +40,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
     initMapUtility(mapComp.map, m_pather, m_charac);
-
-    auto testItem = make_item(m_world, "Legendary sword 1234"); // [TEST]
-    testItem->AddComponent<AttackModifierComponent>(10);
-
-    m_charac->GetComponent<InventoryComponent>().add(testItem); // [TEST]
 }
-
-#include <iostream> // [TEST]
 
 void Game::showInventory(bool detail) // [TEST]
 {
@@ -350,6 +346,15 @@ void Game::loadSkills()
     s.damageList.push_back(std::make_pair<Element, int>(Element::Neutral, 10));
 
     m_skills.addSkill("random_skill", s);
+}
+
+void Game::loadItems()
+{
+    auto testItem = make_item(m_world, "Excalibur");
+    testItem->AddComponent<AttackModifierComponent>(0, 0, 150);
+    testItem->AddComponent<ResistanceModifierComponent>(100, 100, 100, 0, 100);
+
+    m_charac->GetComponent<InventoryComponent>().add(testItem);
 }
 
 void Game::initNazara()

@@ -86,6 +86,7 @@ private:
     void initTilesetCore();
     void loadMaps();
     void loadSkills();
+    void loadItems();
 
     void initIcon();
     void initCam();
