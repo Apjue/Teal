@@ -15,7 +15,7 @@
 #include "util/assert.hpp"
 
 #ifdef TEAL_DEBUG
-    #include "util/entityutil.hpp" // isItemEntity
+    #include "util/entityutil.hpp"
 #endif
 
 ///

@@ -9,14 +9,14 @@
 
 #include <vector>
 #include <utility>
+#include "elementdata.hpp"
 
 struct SkillData
 {
-    std::vector<std::pair<unsigned /* element */, int /* damage */>> damageList;
-    // 0 = neutral, 1 = air, 2 = fire, 3 = water, 4 = earth
+    std::vector<std::pair<Element, int>> damageList;
     
-    unsigned minRange {};
-    unsigned maxRange {};
+    unsigned minRange { 1u };
+    unsigned maxRange { 5u };
 
     // StateStore::ID stateToEnter {};
     // EffectStore::ID effect {}; // push, pull, etc.
@@ -28,7 +28,7 @@ struct SkillData
         Both
     };
 
-    Target target {};
+    Target target { Target::Enemies };
 
     enum class AreaType
     {
@@ -39,9 +39,9 @@ struct SkillData
         Circle
     };
 
-    AreaType areaType {};
-    unsigned areaMinRange {};
-    unsigned areaMaxRange {};
+    AreaType areaType { AreaType::Cross };
+    unsigned areaMinRange { 0u };
+    unsigned areaMaxRange { 0u };
 };
 
 #endif // SKILLDATA_HPP

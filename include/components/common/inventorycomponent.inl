@@ -10,7 +10,7 @@ void InventoryComponent::add(const Ndk::EntityHandle& e)
 
 void InventoryComponent::remove(const Ndk::EntityHandle& e)
 {
-    m_items.Remove(e);
+    m_items.Remove(e.GetObject());
 }
 
 bool InventoryComponent::has(const Ndk::EntityHandle& e)

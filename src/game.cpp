@@ -67,22 +67,22 @@ void Game::showInventory(bool detail) // [TEST]
             {
                 auto& atk = item->GetComponent<AttackModifierComponent>();
                 std::cout << "\n  Attack Modifier:\n";
-                std::cout << "    Neutral: " << atk.neutral << '\n';
-                std::cout << "    Air: " << atk.air << '\n';
-                std::cout << "    Fire: " << atk.fire << '\n';
-                std::cout << "    Water: " << atk.water << '\n';
-                std::cout << "    Earth: " << atk.earth;
+                std::cout << "    Neutral: " << atk.data[Element::Neutral] << '\n';
+                std::cout << "    Air: " << atk.data[Element::Air] << '\n';
+                std::cout << "    Fire: " << atk.data[Element::Fire] << '\n';
+                std::cout << "    Water: " << atk.data[Element::Water] << '\n';
+                std::cout << "    Earth: " << atk.data[Element::Earth];
             }
 
             if (item->HasComponent<ResistanceModifierComponent>())
             {
                 auto& res = item->GetComponent<ResistanceModifierComponent>();
                 std::cout << "\n  Resistance Modifier:\n";
-                std::cout << "    Neutral: " << res.neutral << '\n';
-                std::cout << "    Air: " << res.air << '\n';
-                std::cout << "    Fire: " << res.fire << '\n';
-                std::cout << "    Water: " << res.water << '\n';
-                std::cout << "    Earth: " << res.earth;
+                std::cout << "    Neutral: " << res.data[Element::Neutral] << '\n';
+                std::cout << "    Air: " << res.data[Element::Air] << '\n';
+                std::cout << "    Fire: " << res.data[Element::Fire] << '\n';
+                std::cout << "    Water: " << res.data[Element::Water] << '\n';
+                std::cout << "    Earth: " << res.data[Element::Earth];
             }
         }
 
@@ -100,22 +100,22 @@ void Game::showCaracteristics() // [TEST]
     {
         auto& atk = m_charac->GetComponent<AttackModifierComponent>();
         std::cout << "\n  Attack Modifier:\n";
-        std::cout << "    Neutral: " << atk.neutral << '\n';
-        std::cout << "    Air: " << atk.air << '\n';
-        std::cout << "    Fire: " << atk.fire << '\n';
-        std::cout << "    Water: " << atk.water << '\n';
-        std::cout << "    Earth: " << atk.earth;
+        std::cout << "    Neutral: " << atk.data[Element::Neutral] << '\n';
+        std::cout << "    Air: " << atk.data[Element::Air] << '\n';
+        std::cout << "    Fire: " << atk.data[Element::Fire] << '\n';
+        std::cout << "    Water: " << atk.data[Element::Water] << '\n';
+        std::cout << "    Earth: " << atk.data[Element::Earth];
     }
 
     if (m_charac->HasComponent<ResistanceModifierComponent>())
     {
         auto& res = m_charac->GetComponent<ResistanceModifierComponent>();
         std::cout << "\n  Resistance Modifier:\n";
-        std::cout << "    Neutral: " << res.neutral << '\n';
-        std::cout << "    Air: " << res.air << '\n';
-        std::cout << "    Fire: " << res.fire << '\n';
-        std::cout << "    Water: " << res.water << '\n';
-        std::cout << "    Earth: " << res.earth;
+        std::cout << "    Neutral: " << res.data[Element::Neutral] << '\n';
+        std::cout << "    Air: " << res.data[Element::Air] << '\n';
+        std::cout << "    Fire: " << res.data[Element::Fire] << '\n';
+        std::cout << "    Water: " << res.data[Element::Water] << '\n';
+        std::cout << "    Earth: " << res.data[Element::Earth];
     }
     std::cout << std::endl;
 }
@@ -347,7 +347,8 @@ void Game::loadSkills()
 
     // test
     SkillData s;
-    s.damageList.push_back(std::make_pair<unsigned, int>(0, 10));
+    s.damageList.push_back(std::make_pair<Element, int>(Element::Neutral, 10));
+
     m_skills.addSkill("random_skill", s);
 }
 
@@ -439,7 +440,8 @@ void Game::addEntities()
 
     CharacterData mainCharacData
     {
-        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove, Orientation::Down, {}, false, "me", "", { 0, 0, 100, 0, 0 }
+        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove, 
+        Orientation::Down, {}, false, "me", "", { { Element::Fire, 100 } }
     };
 
     m_charac = make_character(m_world, mainCharacData);

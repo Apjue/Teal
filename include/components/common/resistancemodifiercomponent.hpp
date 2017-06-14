@@ -8,17 +8,23 @@
 #define ATTACKRESISTANCECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <unordered_map>
+#include "data/elementdata.hpp"
 
 struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierComponent>
 {
     ResistanceModifierComponent(int n = 0, int a = 0, int f = 0, int w = 0, int e = 0)
-        : neutral { n }, air { a }, fire { f }, water { w }, earth { e } {}
+    {
+        data[Element::Neutral] = n;
+        data[Element::Air] = a;
+        data[Element::Fire] = f;
+        data[Element::Water] = w;
+        data[Element::Earth] = e;
+    }
 
-    int neutral {};
-    int air {};
-    int fire {};
-    int water {};
-    int earth {};
+    ~ResistanceModifierComponent() = default;
+
+    std::unordered_map<Element, int> data;
 
     static Ndk::ComponentIndex componentIndex;
 };
