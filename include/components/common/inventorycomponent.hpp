@@ -9,6 +9,7 @@
 
 #include <NDK/Component.hpp>
 #include <NDK/World.hpp>
+#include <NDK/EntityList.hpp>
 #include <Nazara/Core/Error.hpp>
 #include "components/items/itemcomponent.hpp"
 #include "util/assert.hpp"
