@@ -29,11 +29,12 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initIcon();
     initCam();
 
+    addEntities();
+    addSystems();
+
     loadSkills();
     loadItems();
 
-    addEntities();
-    addSystems();
     initEventHandler();
     addWidgets();
     addPauseMenu();
