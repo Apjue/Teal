@@ -7,29 +7,21 @@
 #ifndef SKILLDATA_HPP
 #define SKILLDATA_HPP
 
+#include <Nazara/Core/String.hpp>
+#include <Nazara/Renderer/Texture.hpp>
+#include <memory>
 #include <vector>
-#include <utility>
-#include "elementdata.hpp"
+#include "attack.hpp"
 
 struct SkillData
 {
-    std::vector<std::pair<Element, int>> damageList;
-    
-    unsigned minRange { 1u };
-    unsigned maxRange { 5u };
+    std::vector<std::shared_ptr<Attack>> attackList;
 
-    // StateStore::ID stateToEnter {};
     // EffectStore::ID effect {}; // push, pull, etc.
 
-    enum class Target
-    {
-        Allies,
-        Enemies,
-        Both
-    };
-
-    Target target { Target::Enemies };
-
+    unsigned minRange { 1u };
+    unsigned maxRange { 5u };
+    
     enum class AreaType
     {
         Cross,
@@ -42,6 +34,10 @@ struct SkillData
     AreaType areaType { AreaType::Cross };
     unsigned areaMinRange { 0u };
     unsigned areaMaxRange { 0u };
+
+    Nz::String name;
+    Nz::String description; // Text description. Fight description will be auto generated
+    Nz::TextureRef icon;
 };
 
 #endif // SKILLDATA_HPP

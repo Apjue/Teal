@@ -36,7 +36,7 @@ void AnimationSystem::OnUpdate(float elapsed)
             OnMoveAnimation(startX, startY, gfx, anim, moving);
             break;
 
-        case AnimationComponent::OnEmote:
+        case AnimationComponent::OnEmote: // EmoteStore
             break;
         }
     }

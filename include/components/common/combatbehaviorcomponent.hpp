@@ -41,7 +41,18 @@ struct CombatBehaviorComponent : public Ndk::Component<CombatBehaviorComponent>
     ///          Attacks and hide from long distance
     ///
 
-    Nz::String behavior;
+    enum Behavior
+    {
+        Melee,
+        Stalker,
+        HitAndRun,
+        DSummonner,
+        OSummoner,
+        Summonner,
+        LongDistance
+    };
+
+    Behavior behavior;
 
     static Ndk::ComponentIndex componentIndex;
 };

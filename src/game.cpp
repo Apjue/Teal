@@ -122,7 +122,7 @@ void Game::loadTextures()
     static Nz::String rootPrefix =        "../data/";
     static Nz::String imgPrefix = rootPrefix +     "img/";
     static Nz::String addonsPrefix = rootPrefix +  "addons/";
-        static Nz::String addonsImgPrefix = addonsPrefix + "imgs/";
+    static Nz::String addonsImgPrefix = addonsPrefix +     "imgs/";
 
     std::vector<std::pair<Nz::String, Nz::String>> filepaths
     {

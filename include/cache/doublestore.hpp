@@ -11,12 +11,14 @@
 #include <unordered_map>
 #include <vector>
 #include "data/skilldata.hpp"
+#include "data/states.hpp"
 
 template<class Value, class LightID = std::size_t, class HeavyID = Nz::String>
 class DoubleStore;
 
 using SkillStore = DoubleStore<SkillData>;
-//using StateStore = DoubleStore<StateData>;
+using StateStore = DoubleStore<std::shared_ptr<State>>;
+//using EffectStore = DoubleStore<EffectData>;
 
 ///
 /// \class DoubleStore
