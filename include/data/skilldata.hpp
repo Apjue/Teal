@@ -12,6 +12,8 @@
 #include <memory>
 #include <vector>
 #include "attack.hpp"
+#include "damagedata.hpp"
+#include "statedata.hpp"
 
 struct SkillData
 {

@@ -10,6 +10,7 @@
 #include <Nazara/Core/String.hpp>
 #include <unordered_map>
 #include <vector>
+#include <memory>
 #include "data/skilldata.hpp"
 #include "data/states.hpp"
 

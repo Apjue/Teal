@@ -344,7 +344,7 @@ void Game::loadSkills()
 
     // test
     SkillData s;
-    s.damageList.push_back(std::make_pair<Element, int>(Element::Neutral, 10));
+    s.attackList.push_back(std::make_shared<DamageData>(Element::Neutral, 10));
 
     m_skills.addSkill("random_skill", s);
 }
