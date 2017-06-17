@@ -12,13 +12,13 @@
 #include <vector>
 #include <memory>
 #include "data/skilldata.hpp"
-#include "data/states.hpp"
+#include "data/statemetadata.hpp"
 
 template<class Value, class LightID = std::size_t, class HeavyID = Nz::String>
 class DoubleStore;
 
 using SkillStore = DoubleStore<SkillData>;
-using StateStore = DoubleStore<std::shared_ptr<State>>;
+using StateMDStore = DoubleStore<StateMetaData>;
 //using EffectStore = DoubleStore<EffectData>;
 
 ///

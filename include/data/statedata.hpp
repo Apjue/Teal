@@ -7,12 +7,13 @@
 #ifndef STATEDATA_HPP
 #define STATEDATA_HPP
 
-#include "cache/doublestore.hpp"
+#include <memory>
 #include "attack.hpp"
+#include "states.hpp"
 
 struct StateData : public Attack
 {
-    StateStore::LightId stateId {};
+    std::shared_ptr<State> state;
 };
 
 #endif // STATEDATA_HPP

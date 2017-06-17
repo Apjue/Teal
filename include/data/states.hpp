@@ -16,22 +16,28 @@ struct State
 {
     State() = default;
     virtual ~State() = default;
-
-    Nz::String name;
-    Nz::String description; // Text description. Fight description will be auto generated
-    Nz::TextureRef icon; // For player
 };
 
 struct PoisonnedState : public State
 {
     unsigned turns {};
     std::pair<Element, unsigned> damage;
+
+    static Nz::String getMetadataID()
+    {
+        return "poison";
+    }
 };
 
 struct RegenerationState : public State
 {
     unsigned turns {};
     std::pair<Element, unsigned> health;
+
+    static Nz::String getMetadataID()
+    {
+        return "regen";
+    }
 };
 
 #endif // STATES_HPP

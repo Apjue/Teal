@@ -13,6 +13,9 @@
 
 struct DamageData : public Attack
 {
+    DamageData() = default;
+    DamageData(Element e, int d) : damage { e, d } {}
+
     std::pair<Element, int> damage;
 };
 

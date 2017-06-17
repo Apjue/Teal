@@ -32,6 +32,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addEntities();
     addSystems();
 
+    loadStates();
     loadSkills();
     loadItems();
 
@@ -336,6 +337,12 @@ void Game::loadMaps() /// \todo Load from file (lua)
     });
 
     MapDataLibrary::Register("0;1", deactivateMapEntities(map0_1));
+}
+
+void Game::loadStates()
+{
+    StateMetaData poison { "Poisonned", "You are poisonned. Life sucks." };
+    m_states.addSkill(PoisonnedState::getMetadataID(), poison);
 }
 
 void Game::loadSkills()

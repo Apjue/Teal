@@ -33,6 +33,7 @@
 #include "util/util.hpp"
 #include "factory.hpp"
 #include "data/characterdata.hpp"
+#include "data/skilldata.hpp"
 #include "micropather.h"
 #include "cache/tilesetcore.hpp"
 #include "cache/doublestore.hpp"
@@ -68,6 +69,8 @@ private:
     bool m_paused { false };
     Ndk::EntityHandle m_background;
     Ndk::EntityHandle m_pauseText;
+
+    StateMDStore m_states;
     SkillStore m_skills;
 
     // Character functions
@@ -85,6 +88,8 @@ private:
     void loadTextures();
     void initTilesetCore();
     void loadMaps();
+
+    void loadStates();
     void loadSkills();
     void loadItems();
 
