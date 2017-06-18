@@ -326,7 +326,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
           1, 1, 1, 1, 0, 0, 1,
         1, 1, 1, 1, 1, 0, 1, 1,
           1, 1, 1, 1, 1, 1, 1,
-        0, 1, 1, 1, 1, 1, 1, 1,
+        0, 0, 1, 1, 1, 1, 1, 1,
           0, 1, 1, 1, 1, 1, 1,
         0, 0, 1, 1, 1, 1, 1, 1,
           0, 0, 1, 1, 1, 1, 1,
@@ -361,11 +361,11 @@ void Game::loadSkills()
 
 void Game::loadItems()
 {
-    auto testItem = make_item(m_world, "Excalibur");
-    testItem->AddComponent<AttackModifierComponent>(0, 0, 150);
-    testItem->AddComponent<ResistanceModifierComponent>(100, 100, 100, 0, 100);
+    auto legendarySword = make_item(m_world, "Excalibur");
+    legendarySword->AddComponent<AttackModifierComponent>(0, 0, 150);
+    legendarySword->AddComponent<ResistanceModifierComponent>(100, 100, 100, 0, 100);
 
-    m_charac->GetComponent<InventoryComponent>().add(testItem);
+    m_charac->GetComponent<InventoryComponent>().add(legendarySword);
 }
 
 void Game::initNazara()
