@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -91,7 +91,7 @@ void Game::showInventory(bool detail) // [TEST]
     std::cout << std::flush;
 }
 
-void Game::showCaracteristics() // [TEST]
+void Game::showCharacteristics() // [TEST]
 {
     std::cout << "Main character caracteristics";
     if (m_charac->HasComponent<AttackModifierComponent>())
@@ -366,6 +366,7 @@ void Game::loadItems()
     legendarySword->AddComponent<ResistanceModifierComponent>(100, 100, 100, 0, 100);
 
     m_charac->GetComponent<InventoryComponent>().add(legendarySword);
+    m_charac->GetComponent<EquipmentComponent>().equipped.Insert(legendarySword.GetObject());
 }
 
 void Game::initNazara()
@@ -404,6 +405,7 @@ void Game::initNazara()
     Ndk::InitializeSystem<MovementSystem>();
     Ndk::InitializeSystem<RandomMovementSystem>();
     Ndk::InitializeSystem<AnimationSystem>();
+    Ndk::InitializeSystem<FightSystem>();
 }
 
 void Game::initIcon()
@@ -468,6 +470,7 @@ void Game::addSystems()
 {
     m_world->AddSystem<AISystem>(m_pather);
     m_world->AddSystem<MovementSystem>();
+    m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>();
     m_world->AddSystem<AnimationSystem>();
 }
@@ -506,7 +509,7 @@ void Game::initEventHandler()
             break;
 
         case Nz::Keyboard::C: // Caracteristics
-            showCaracteristics();
+            showCharacteristics();
             break;
         }
     });

@@ -10,17 +10,19 @@
 #include <Nazara/Core/String.hpp>
 #include <Nazara/Renderer/Texture.hpp>
 #include <utility>
+#include <unordered_map>
 #include "elementdata.hpp"
 
 struct State
 {
     State() = default;
     virtual ~State() = default;
+
+    unsigned turns {};
 };
 
 struct PoisonnedState : public State
 {
-    unsigned turns {};
     std::pair<Element, unsigned> damage;
 
     static Nz::String getMetadataID()
@@ -31,12 +33,57 @@ struct PoisonnedState : public State
 
 struct RegenerationState : public State
 {
-    unsigned turns {};
     std::pair<Element, unsigned> health;
 
     static Nz::String getMetadataID()
     {
         return "regen";
+    }
+};
+
+struct WeaknessState : public State
+{
+    std::unordered_map<Element, unsigned> attack;
+    std::unordered_map<Element, unsigned> resistance;
+
+    static Nz::String getMetadataID()
+    {
+        return "weakness";
+    }
+};
+
+struct PowerState : public State
+{
+    std::unordered_map<Element, unsigned> attack;
+    std::unordered_map<Element, unsigned> resistance;
+
+    static Nz::String getMetadataID()
+    {
+        return "power";
+    }
+};
+
+struct ParalyzedState : public State
+{
+    static Nz::String getMetadataID()
+    {
+        return "paralyzed";
+    }
+};
+
+struct SleepingState : public State // = paralyzed until attacked
+{
+    static Nz::String getMetadataID()
+    {
+        return "sleeping";
+    }
+};
+
+struct ConfusedState : public State // aka drunk
+{
+    static Nz::String getMetadataID()
+    {
+        return "confused";
     }
 };
 

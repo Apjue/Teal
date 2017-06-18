@@ -8,7 +8,7 @@ RandomMovementSystem::RandomMovementSystem() : m_uni(0, 7)
 {
     Requires<PositionComponent, MoveComponent, RandomMovementComponent>();
     SetUpdateRate(10.f); // Can be removed
-    SetUpdateOrder(3);
+    SetUpdateOrder(4);
 }
 
 RandomMovementSystem::RandomMovementSystem(const std::weak_ptr<MapInstance>& map)

@@ -45,6 +45,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     res.data = infos.res;
 
     e->AddComponent<EquipmentComponent>();
+    e->AddComponent<CombatBehaviorComponent>();
 
     refreshGraphicsPos(e);
     return e;

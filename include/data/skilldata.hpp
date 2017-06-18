@@ -14,10 +14,14 @@
 #include "attack.hpp"
 #include "damagedata.hpp"
 #include "statedata.hpp"
+#include "characteristicmodifier.hpp"
 
 struct SkillData
 {
     std::vector<std::shared_ptr<Attack>> attackList;
+
+    unsigned movementPoints {};
+    unsigned actionPoints { 3 };
 
     // EffectStore::ID effect {}; // push, pull, etc.
 

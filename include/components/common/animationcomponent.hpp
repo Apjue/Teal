@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -14,9 +14,10 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {
     enum AnimationState // When to animate ?
     {
-        Deactivated = 1 << 0,
-        OnMove = 1 << 1,
-        OnEmote = 1 << 2
+        Deactivated = 0,
+        OnMove,
+        OnEmote,
+        OnFight
     };
 
     ///
@@ -34,6 +35,7 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
     Nz::Vector2ui size {};
     unsigned maxframe {};
     AnimationState animationState;
+    bool animated {};
 
     static Ndk::ComponentIndex componentIndex;
 };

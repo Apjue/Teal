@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,7 +8,7 @@ AnimationSystem::AnimationSystem()
 {
     Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent>();
     SetUpdateRate(Def::MAXSYSTEMUPS);
-    SetUpdateOrder(4);
+    SetUpdateOrder(5);
 }
 
 void AnimationSystem::OnUpdate(float elapsed)
@@ -23,20 +23,26 @@ void AnimationSystem::OnUpdate(float elapsed)
         Nz::Sprite* gfx = getRenderableFromGraphicsComponent<Nz::Sprite>(sprite);
 
         if (!gfx)
+        {
+            anim.animated = false;
             continue; // No sprite has been found
-
-        int const intDir = static_cast<int>(dir);
-
-        unsigned const startX = intDir * anim.size.x; // Get the x and the y
-        unsigned const startY = anim.frame * anim.size.y;
+        }
 
         switch (anim.animationState)
         {
         case AnimationComponent::OnMove:
+            int const intDir = static_cast<int>(dir);
+
+            unsigned const startX = intDir * anim.size.x; // Get the x and the y
+            unsigned const startY = anim.frame * anim.size.y;
+
             OnMoveAnimation(startX, startY, gfx, anim, moving);
             break;
 
         case AnimationComponent::OnEmote: // EmoteStore
+            break;
+
+        case AnimationComponent::OnFight:
             break;
         }
     }
@@ -49,6 +55,7 @@ void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::Spri
     {
         anim.frame = 0;
         gfx->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
+        anim.animated = false;
 
         return;
     }
@@ -58,6 +65,8 @@ void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::Spri
         gfx->SetTextureRect({ startX, startY, anim.size.x, anim.size.y });
 
         ++anim.frame;
+        anim.animated = true;
+
         if (anim.frame > anim.maxframe)
             anim.frame = 0;
     }

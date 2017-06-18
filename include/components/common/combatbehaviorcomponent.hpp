@@ -43,6 +43,7 @@ struct CombatBehaviorComponent : public Ndk::Component<CombatBehaviorComponent>
 
     enum Behavior
     {
+        Passive = 0,
         Melee,
         Stalker,
         HitAndRun,
