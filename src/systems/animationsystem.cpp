@@ -28,14 +28,14 @@ void AnimationSystem::OnUpdate(float elapsed)
             continue; // No sprite has been found
         }
 
+        int const intDir = static_cast<int>(dir);
+
+        unsigned const startX = intDir * anim.size.x; // Get the x and the y
+        unsigned const startY = anim.frame * anim.size.y;
+
         switch (anim.animationState)
         {
         case AnimationComponent::OnMove:
-            int const intDir = static_cast<int>(dir);
-
-            unsigned const startX = intDir * anim.size.x; // Get the x and the y
-            unsigned const startY = anim.frame * anim.size.y;
-
             OnMoveAnimation(startX, startY, gfx, anim, moving);
             break;
 

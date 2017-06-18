@@ -23,6 +23,7 @@
 
 class FightSystem : public Ndk::System<FightSystem>
 {
+public:
     FightSystem();
     ~FightSystem() = default;
 

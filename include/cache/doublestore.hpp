@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include "util/assert.hpp"
 #include "data/skilldata.hpp"
 #include "data/statemetadata.hpp"
 
