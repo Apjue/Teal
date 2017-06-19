@@ -26,6 +26,7 @@
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/File.hpp>
 #include <Nazara/Core/Flags.hpp>
+#include <Nazara/Lua.hpp>
 #include <memory>
 #include "components.hpp"
 #include "systems.hpp"
@@ -70,8 +71,15 @@ private:
     Ndk::EntityHandle m_background;
     Ndk::EntityHandle m_pauseText;
 
+    const Nz::String m_rootPrefix =         "../data/";
+    const Nz::String m_imgPrefix = m_rootPrefix +    "img/";
+    const Nz::String m_addonsPrefix = m_rootPrefix + "addons/";
+    const Nz::String m_addonsImgPrefix = m_addonsPrefix +    "imgs/";
+    const Nz::String m_scriptPrefix = m_rootPrefix + "script/";
+    
     StateMDStore m_states;
     SkillStore m_skills;
+
 
     // Character functions
     void showInventory(bool detail = false);

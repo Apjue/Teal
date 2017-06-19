@@ -120,11 +120,6 @@ void Game::showCharacteristics() // [TEST]
 
 void Game::loadTextures()
 {
-    static Nz::String rootPrefix =        "../data/";
-    static Nz::String imgPrefix = rootPrefix +     "img/";
-    static Nz::String addonsPrefix = rootPrefix +  "addons/";
-    static Nz::String addonsImgPrefix = addonsPrefix +     "imgs/";
-
     std::vector<std::pair<Nz::String, Nz::String>> filepaths
     {
         { ":/game/money", "game/main/money.png" },
@@ -137,7 +132,7 @@ void Game::loadTextures()
     };
 
     for (auto& pair : filepaths)
-        Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(imgPrefix + pair.second));
+        Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(m_imgPrefix + pair.second));
 
     // Load custom textures
     // Custom textures can be used in custom mods
@@ -145,13 +140,13 @@ void Game::loadTextures()
     /// \todo Custom mods
 
     // First, checks if it exists
-    if (!Nz::File::Exists(addonsPrefix + "additional_textures"))
+    if (!Nz::File::Exists(m_addonsPrefix + "additional_textures"))
         return;
 
     // Now, open it
     Nz::File customTextures;
 
-    if (!customTextures.Open(addonsPrefix + "additional_textures",
+    if (!customTextures.Open(m_addonsPrefix + "additional_textures",
                              Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
     {
         NazaraError("Cannot open custom textures file");
@@ -176,7 +171,7 @@ void Game::loadTextures()
         if (line.Split(customPair, " ; ") != 2u)
             continue; // Need 2 values
 
-        auto texture = Nz::TextureManager::Get(addonsImgPrefix + customPair[1]);
+        auto texture = Nz::TextureManager::Get(m_addonsImgPrefix + customPair[1]);
 
         if (!texture.IsValid())
         {
@@ -205,8 +200,41 @@ void Game::initTilesetCore()
 
 void Game::loadMaps() /// \todo Load from file (lua)
 {
-    Nz::String tilesTexture = Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath();
+    Nz::Directory maps { m_scriptPrefix + "maps/" };
 
+    while (maps.NextResult())
+    {
+        if (!maps.GetResultName().EndsWith(".lua"))
+            continue;
+
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(maps.GetResultPath()))
+            NazaraDebug("Error loading map " + maps.GetResultName());
+
+        // Fun starts
+        lua.GetGlobal("teal_map");
+
+        MapDataRef map = MapData::New();
+        TILEARRAY tiles;
+
+        for (int i { 1 }; i <= Def::TILEARRAYSIZE; ++i)
+        {
+            lua.PushInteger(i);
+            lua.GetTable();
+
+            tiles[i - 1].textureId =  lua.CheckField<Nz::String>("textureId", -2);
+            tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle", -2);
+            tiles[i - 1].visible = lua.CheckField<bool>("visible", -2);
+
+            lua.Pop();
+        }
+
+        map->setTiles(tiles);
+
+        MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
+    }
+    
     MapDataRef map0_0 = MapData::New();
 
     map0_0->setMap

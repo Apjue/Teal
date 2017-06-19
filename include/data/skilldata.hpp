@@ -14,7 +14,6 @@
 #include "attack.hpp"
 #include "damagedata.hpp"
 #include "statedata.hpp"
-#include "characteristicmodifier.hpp"
 
 struct SkillData
 {

@@ -46,6 +46,9 @@ struct WeaknessState : public State
     std::unordered_map<Element, unsigned> attack;
     std::unordered_map<Element, unsigned> resistance;
 
+    unsigned movementsPoints {};
+    unsigned actionPoints {};
+
     static Nz::String getMetadataID()
     {
         return "weakness";
@@ -56,6 +59,9 @@ struct PowerState : public State
 {
     std::unordered_map<Element, unsigned> attack;
     std::unordered_map<Element, unsigned> resistance;
+
+    unsigned movementsPoints {};
+    unsigned actionPoints {};
 
     static Nz::String getMetadataID()
     {
