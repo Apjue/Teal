@@ -201,12 +201,10 @@ void Game::initTilesetCore()
 void Game::loadMaps() /// \todo Load from file (lua)
 {
     Nz::Directory maps { m_scriptPrefix + "maps/" };
+    maps.SetPattern("*.lua");
 
     while (maps.NextResult())
     {
-        if (!maps.GetResultName().EndsWith(".lua"))
-            continue;
-
         Nz::LuaInstance lua;
 
         if (!lua.ExecuteFromFile(maps.GetResultPath()))
@@ -214,6 +212,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
 
         // Fun starts
         lua.GetGlobal("teal_map");
+        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua teal_maps isn't a table !");
 
         MapDataRef map = MapData::New();
         TILEARRAY tiles;
@@ -223,6 +222,8 @@ void Game::loadMaps() /// \todo Load from file (lua)
             lua.PushInteger(i);
             lua.GetTable();
 
+            TealAssert(lua.GetType(-2) == Nz::LuaType_Table, Nz::String { "Lua teal_maps." } + i + " isn't a table !");
+
             tiles[i - 1].textureId =  lua.CheckField<Nz::String>("textureId", -2);
             tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle", -2);
             tiles[i - 1].visible = lua.CheckField<bool>("visible", -2);
@@ -231,6 +232,24 @@ void Game::loadMaps() /// \todo Load from file (lua)
         }
 
         map->setTiles(tiles);
+
+        lua.PushString("entities");
+        lua.GetTable();
+
+        TealAssert(lua.GetType(-2) == Nz::LuaType_Table, "Lua teal_maps.entities isn't a table !");
+
+        for (int i { 1 };; ++i)
+        {
+            if (lua.GetField(Nz::String::Number(i), -2) == Nz::LuaType_Nil)
+            {
+                lua.Pop();
+                break;
+            }
+
+            // get entities...
+
+            lua.Pop();
+        }
 
         MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
     }
