@@ -202,17 +202,21 @@ void Game::loadMaps() /// \todo Load from file (lua)
 {
     Nz::Directory maps { m_scriptPrefix + "maps/" };
     maps.SetPattern("*.lua");
+    maps.Open();
 
     while (maps.NextResult())
     {
         Nz::LuaInstance lua;
 
         if (!lua.ExecuteFromFile(maps.GetResultPath()))
-            NazaraDebug("Error loading map " + maps.GetResultName());
+        {
+            NazaraError("Error loading map " + maps.GetResultName());
+            continue;
+        }
 
         // Fun starts
         lua.GetGlobal("teal_map");
-        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua teal_maps isn't a table !");
+        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
 
         MapDataRef map = MapData::New();
         TILEARRAY tiles;
@@ -222,11 +226,11 @@ void Game::loadMaps() /// \todo Load from file (lua)
             lua.PushInteger(i);
             lua.GetTable();
 
-            TealAssert(lua.GetType(-2) == Nz::LuaType_Table, Nz::String { "Lua teal_maps." } + i + " isn't a table !");
+            TealAssert(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
 
-            tiles[i - 1].textureId =  lua.CheckField<Nz::String>("textureId", -2);
-            tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle", -2);
-            tiles[i - 1].visible = lua.CheckField<bool>("visible", -2);
+            tiles[i - 1].textureId =  lua.CheckField<Nz::String>("textureId");
+            tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle");
+            tiles[i - 1].visible = lua.CheckField<bool>("visible");
 
             lua.Pop();
         }
@@ -236,22 +240,27 @@ void Game::loadMaps() /// \todo Load from file (lua)
         lua.PushString("entities");
         lua.GetTable();
 
-        TealAssert(lua.GetType(-2) == Nz::LuaType_Table, "Lua teal_maps.entities isn't a table !");
+        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
 
         for (int i { 1 };; ++i)
         {
-            if (lua.GetField(Nz::String::Number(i), -2) == Nz::LuaType_Nil)
+            lua.PushInteger(i);
+            if (lua.GetTable() == Nz::LuaType_Nil)
             {
                 lua.Pop();
                 break;
             }
 
             // get entities...
+            // not just name of entities: pos in map too
 
             lua.Pop();
         }
 
+        lua.Pop();
+
         MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
+        NazaraDebug("Lua: loaded map " + maps.GetResultName() + " at pos " + lua.CheckField<Nz::String>("pos"));
     }
     
     MapDataRef map0_0 = MapData::New();

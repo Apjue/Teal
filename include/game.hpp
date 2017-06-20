@@ -95,6 +95,9 @@ private:
 
     void loadTextures();
     void initTilesetCore();
+
+    //void loadNPCs();
+    //void loadMapobjects();
     void loadMaps();
 
     void loadStates();
