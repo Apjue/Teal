@@ -664,4 +664,5 @@ void Game::enablePauseMenu(bool enable)
     m_world->GetSystem<MovementSystem>().Enable(!enable);
     m_world->GetSystem<AnimationSystem>().Enable(!enable);
     m_world->GetSystem<RandomMovementSystem>().Enable(!enable);
+    m_world->GetSystem<FightSystem>().Enable(!enable);
 }
