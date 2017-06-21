@@ -28,6 +28,7 @@
 #include <Nazara/Core/Flags.hpp>
 #include <Nazara/Lua.hpp>
 #include <memory>
+#include <exception>
 #include "components.hpp"
 #include "systems.hpp"
 #include "util/assert.hpp"

@@ -28,7 +28,7 @@ constexpr unsigned LMAPY          { LONGMAPY - 1u };
 
 
 constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
-constexpr  float   TILESETSIZE    { 256 };
+extern    float    TILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };

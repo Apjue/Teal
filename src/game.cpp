@@ -187,15 +187,34 @@ void Game::loadTextures()
 
 void Game::initTilesetCore()
 {
-    unsigned concrete = 0;
-    unsigned grass = concrete + 1;
-    unsigned sand = grass + 1;
-    unsigned water = sand + 1;
+    TealAssert(Nz::File::Exists(m_scriptPrefix + "tilesetcore.lua"), "tilesetcore.lua not found !");
+    Nz::LuaInstance lua;
 
-    m_tilesetCore.add(concrete, "cncrt");
-    m_tilesetCore.add(grass, "grass");
-    m_tilesetCore.add(sand, "sandy");
-    m_tilesetCore.add(water, "water");
+    if (!lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"))
+        throw std::runtime_error { "Lua: tilesetcore.lua loading failed !" };
+
+    lua.GetGlobal("teal_tilesetcore");
+    TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
+
+    unsigned tileNumber {};
+
+    for (int i { 1 };; ++i)
+    {
+        lua.PushInteger(i);
+
+        if (lua.GetTable() != Nz::LuaType_Table)
+        {
+            lua.Pop();
+            break;
+        }
+
+        m_tilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
+        ++tileNumber;
+        
+        lua.Pop();
+    }
+
+    Def::TILESETSIZE = static_cast<float>(tileNumber) * 64.f;
 }
 
 void Game::loadMaps() /// \todo Load from file (lua)
@@ -245,7 +264,8 @@ void Game::loadMaps() /// \todo Load from file (lua)
         for (int i { 1 };; ++i)
         {
             lua.PushInteger(i);
-            if (lua.GetTable() == Nz::LuaType_Nil)
+
+            if (lua.GetTable() != Nz::LuaType_Table)
             {
                 lua.Pop();
                 break;
