@@ -3,9 +3,13 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include "util/movementutil.hpp"
+#include "cache/tilesetcore.hpp"
+#include "util/assert.hpp"
 
-void moveEntity(const Ndk::EntityHandle& e)
+void moveEntity(const Ndk::EntityHandle& e, TilesetCore* ftcore)
 {
+    TealAssert(ftcore, "Fight TilesetCore null !");
+
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;
     auto& pos = e->GetComponent<PositionComponent>();
@@ -89,7 +93,7 @@ void moveEntity(const Ndk::EntityHandle& e)
 
                     auto& tile = currentMap->tile(x, y);
 
-                    if (tile.obstacle != 0 || tile.occupied)
+                    if (tile.obstacle == "obs" || tile.occupied)
                     {
                         auto& move = e->GetComponent<MoveComponent>();
                         auto dirs = directionsToPositions(path, { pos.x, pos.y });

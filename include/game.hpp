@@ -62,6 +62,7 @@ private:
     Ndk::EntityHandle m_charac; // Main character
 
     TilesetCore m_tilesetCore;
+    TilesetCore m_fightTilesetCore;
 
     Nz::Rectui m_mapViewport;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System

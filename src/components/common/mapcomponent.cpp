@@ -4,8 +4,8 @@
 
 #include "components/common/mapcomponent.hpp"
 
-MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
-    : m_entity(e), m_tilesetCore(tcore)
+MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore)
+    : m_entity(e), m_tilesetCore(tcore), m_fightTilesetCore(ftcore)
 {
     m_mat = Nz::Material::New("Translucent2D");
 
@@ -27,6 +27,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore)
 bool MapInstance::update() // Thanks Lynix for this code
 {
     TealAssert(m_tilesetCore, "TilesetCore nullptr !");
+    TealAssert(m_tilesetCore, "Fight TilesetCore nullptr !");
     TealAssert(m_map, "Map is not valid !");
 
     Nz::MeshRef mesh = Nz::Mesh::New();
@@ -99,11 +100,12 @@ bool MapInstance::update() // Thanks Lynix for this code
                 unsigned tileNumber = m_tilesetCore->get(tileName);
 
                 float textureX = tileSize.x * tileNumber;
+                float tilesetSize = Def::TILESETSIZE; // m_fightMode ? Def::FIGHTTILESETSIZE : Def::TILESETSIZE;
 
-                texCoordsPtr[0].Set((textureX + 0.f       ) / Def::TILESETSIZE, 0.f);
-                texCoordsPtr[1].Set((textureX + tileSize.x) / Def::TILESETSIZE, 0.f);
-                texCoordsPtr[2].Set((textureX + tileSize.x) / Def::TILESETSIZE, 1.f);
-                texCoordsPtr[3].Set((textureX + 0.f       ) / Def::TILESETSIZE, 1.f);
+                texCoordsPtr[0].Set((textureX + 0.f       ) / tilesetSize, 0.f);
+                texCoordsPtr[1].Set((textureX + tileSize.x) / tilesetSize, 0.f);
+                texCoordsPtr[2].Set((textureX + tileSize.x) / tilesetSize, 1.f);
+                texCoordsPtr[3].Set((textureX + 0.f       ) / tilesetSize, 1.f);
             }
         }
     }
@@ -130,6 +132,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
+    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
     TealAssert(m_map, "Map is not valid !");
 
     // Step 1.
@@ -161,7 +164,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
         unsigned const tile = XYToIndex(eX, eY);
         auto& tiledata = m_map->tile(tile);
 
-        return tiledata.obstacle == 0 && !tiledata.occupied;
+        return tiledata.obstacle != "obs" && !tiledata.occupied;
     }
 }
 

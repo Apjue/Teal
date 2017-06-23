@@ -21,6 +21,7 @@
 #include "global.hpp"
 #include "data/mapdata.hpp"
 #include "util/entityutil.hpp"
+#include "cache/tilesetcore.hpp"
 #include "micropather.h"
 
 inline MapDataRef activateMapEntities(const MapDataRef& map);
@@ -64,6 +65,7 @@ extern bool changeMap();
 
 extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                            const std::weak_ptr<micropather::MicroPather>& pather,
+                           TilesetCore* ftcore,
                            const Ndk::EntityHandle& mainCharacter);
 
 ///

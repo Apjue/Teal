@@ -1,10 +1,10 @@
-// Copyright (C) 2017 Samy Bensaid
+﻿// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset,
-                         TilesetCore* tcore, const Ndk::EntityHandle& e)
-    : MapInstance(e, tcore)
+                         TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
+    : MapInstance(e, tcore, ftcore)
 {
     m_map = data;
 

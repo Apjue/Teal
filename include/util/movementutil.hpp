@@ -19,6 +19,6 @@
 #include "util/maputil.hpp"
 #include "util/entityutil.hpp"
 
-void moveEntity(const Ndk::EntityHandle& e);
+void moveEntity(const Ndk::EntityHandle& e, TilesetCore* ftcore);
 
 #endif // MOVEMENTUTIL_HPP

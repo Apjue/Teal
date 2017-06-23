@@ -41,7 +41,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addPauseMenu();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(mapComp.map, m_pather, m_charac);
+    initMapUtility(mapComp.map, m_pather, &m_fightTilesetCore, m_charac);
 }
 
 void Game::showInventory(bool detail) // [TEST]
@@ -188,33 +188,66 @@ void Game::loadTextures()
 void Game::initTilesetCore()
 {
     TealAssert(Nz::File::Exists(m_scriptPrefix + "tilesetcore.lua"), "tilesetcore.lua not found !");
-    Nz::LuaInstance lua;
 
-    if (!lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"))
-        throw std::runtime_error { "Lua: tilesetcore.lua loading failed !" };
-
-    lua.GetGlobal("teal_tilesetcore");
-    TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
-
-    unsigned tileNumber {};
-
-    for (int i { 1 };; ++i)
     {
-        lua.PushInteger(i);
+        Nz::LuaInstance lua;
 
-        if (lua.GetTable() != Nz::LuaType_Table)
+        if (!lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"))
+            throw std::runtime_error { "Lua: tilesetcore.lua loading failed !" };
+
+        lua.GetGlobal("teal_tilesetcore");
+        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
+
+        unsigned tileNumber {};
+
+        for (int i { 1 };; ++i)
         {
+            lua.PushInteger(i);
+
+            if (lua.GetTable() != Nz::LuaType_Table)
+            {
+                lua.Pop();
+                break;
+            }
+
+            m_tilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
+            ++tileNumber;
+
             lua.Pop();
-            break;
         }
 
-        m_tilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
-        ++tileNumber;
-        
-        lua.Pop();
+        Def::TILESETSIZE = static_cast<float>(tileNumber) * 64.f;
     }
 
-    Def::TILESETSIZE = static_cast<float>(tileNumber) * 64.f;
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"))
+            throw std::runtime_error { "Lua: tilesetcore.lua loading failed !" };
+
+        lua.GetGlobal("teal_fighttilesetcore");
+        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_fighttilesetcore isn't a table !");
+
+        unsigned tileNumber {};
+
+        for (int i { 1 };; ++i)
+        {
+            lua.PushInteger(i);
+
+            if (lua.GetTable() != Nz::LuaType_Table)
+            {
+                lua.Pop();
+                break;
+            }
+            
+            m_fightTilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
+            ++tileNumber;
+
+            lua.Pop();
+        }
+
+        Def::FIGHTTILESETSIZE = static_cast<float>(tileNumber) * 64.f;
+    }
 }
 
 void Game::loadMaps() /// \todo Load from file (lua)
@@ -307,22 +340,22 @@ void Game::loadMaps() /// \todo Load from file (lua)
 
     map0_0->setObs
     ({
-        0, 0, 0, 1, 1, 1, 1, 1,
-          0, 0, 0, 1, 1, 1, 1,
-        0, 0, 0, 0, 1, 1, 1, 1,
-          0, 0, 0, 1, 1, 1, 1,
-        0, 0, 0, 0, 1, 1, 1, 1,
-          0, 0, 0, 0, 0, 1, 1,
-        0, 0, 0, 0, 0, 0, 1, 1,
-          0, 0, 0, 0, 0, 1, 1,
-        0, 0, 0, 0, 0, 0, 0, 1,
-          0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0
+        "walk", "walk", "walk", "obs", "obs", "obs", "obs", "obs",
+          "walk", "walk", "walk", "obs", "obs", "obs", "obs",
+        "walk", "walk", "walk", "walk", "obs", "obs", "obs", "obs",
+          "walk", "walk", "walk", "obs", "obs", "obs", "obs",
+        "walk", "walk", "walk", "walk", "obs", "obs", "obs", "obs",
+          "walk", "walk", "walk", "walk", "walk", "obs", "obs",
+        "walk", "walk", "walk", "walk", "walk", "walk", "obs", "obs",
+          "walk", "walk", "walk", "walk", "walk", "obs", "obs",
+        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "obs",
+          "walk", "walk", "walk", "walk", "walk", "walk", "walk",
+        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk",
+          "walk", "walk", "walk", "walk", "walk", "walk", "walk",
+        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk",
+          "walk", "walk", "walk", "walk", "walk", "walk", "walk",
+        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk",
+          "walk", "walk", "walk", "walk", "walk", "walk", "walk"
     });
 
     MapDataLibrary::Register("0;0", deactivateMapEntities(map0_0));
@@ -365,7 +398,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
     };
 
     auto npc = make_character(m_world, npcData);
-    map1_0->addEntity(npc);
+    map1_0->getEntities().Insert(npc);
 
     MapDataLibrary::Register("1;0", deactivateMapEntities(map1_0));
 
@@ -394,22 +427,22 @@ void Game::loadMaps() /// \todo Load from file (lua)
 
     map0_1->setObs
     ({
-        1, 1, 1, 1, 1, 1, 1, 1,
-          1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 0, 1, 1,
-          1, 1, 1, 1, 0, 0, 1,
-        1, 1, 1, 1, 0, 0, 0, 1,
-          1, 1, 1, 1, 0, 0, 1,
-        1, 1, 1, 1, 1, 0, 1, 1,
-          1, 1, 1, 1, 1, 1, 1,
-        0, 0, 1, 1, 1, 1, 1, 1,
-          0, 1, 1, 1, 1, 1, 1,
-        0, 0, 1, 1, 1, 1, 1, 1,
-          0, 0, 1, 1, 1, 1, 1,
-        0, 0, 0, 1, 1, 1, 1, 1,
-          0, 0, 1, 1, 1, 1, 1,
-        0, 0, 0, 1, 1, 1, 1, 1,
-          0, 0, 0, 1, 1, 1, 1
+        "obs", "obs", "obs", "obs", "obs", "obs", "obs", "obs",
+          "obs", "obs", "obs", "obs", "obs", "obs", "obs",
+        "obs", "obs", "obs", "obs", "obs", "walk", "obs", "obs",
+          "obs", "obs", "obs", "obs", "walk", "walk", "obs",
+        "obs", "obs", "obs", "obs", "walk", "walk", "walk", "obs",
+          "obs", "obs", "obs", "obs", "walk", "walk", "obs",
+        "obs", "obs", "obs", "obs", "obs", "walk", "obs", "obs",
+          "obs", "obs", "obs", "obs", "obs", "obs", "obs",
+        "walk", "walk", "obs", "obs", "obs", "obs", "obs", "obs",
+          "walk", "obs", "obs", "obs", "obs", "obs", "obs",
+        "walk", "walk", "obs", "obs", "obs", "obs", "obs", "obs",
+          "walk", "walk", "obs", "obs", "obs", "obs", "obs",
+        "walk", "walk", "walk", "obs", "obs", "obs", "obs", "obs",
+          "walk", "walk", "obs", "obs", "obs", "obs", "obs",
+        "walk", "walk", "walk", "obs", "obs", "obs", "obs", "obs",
+          "walk", "walk", "walk", "obs", "obs", "obs", "obs"
     });
 
     MapDataLibrary::Register("0;1", deactivateMapEntities(map0_1));
@@ -517,7 +550,7 @@ void Game::addEntities()
 
     auto& mapComp = m_map->AddComponent<MapComponent>();
     mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath(),
-                 &m_tilesetCore);
+                 &m_tilesetCore, &m_fightTilesetCore);
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
 
@@ -545,7 +578,7 @@ void Game::addEntities()
 void Game::addSystems()
 {
     m_world->AddSystem<AISystem>(m_pather);
-    m_world->AddSystem<MovementSystem>();
+    m_world->AddSystem<MovementSystem>(&m_fightTilesetCore);
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>();
     m_world->AddSystem<AnimationSystem>();

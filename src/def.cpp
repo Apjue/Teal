@@ -5,3 +5,4 @@
 #include "def/gamedef.hpp"
 
 float Def::TILESETSIZE {};
+float Def::FIGHTTILESETSIZE {};

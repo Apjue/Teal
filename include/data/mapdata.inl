@@ -22,7 +22,7 @@ const STRINGTILEARRAY& MapData::map() const
     return m_map;
 }
 
-const UNSIGNEDTILEARRAY& MapData::obs() const
+const STRINGTILEARRAY& MapData::obs() const
 {
     return m_obs;
 }
@@ -69,17 +69,12 @@ void MapData::setMap(const STRINGTILEARRAY& map)
     updateTileArray();
 }
 
-void MapData::setObs(const UNSIGNEDTILEARRAY& obs)
+void MapData::setObs(const STRINGTILEARRAY& obs)
 {
     m_obs = obs;
     updateTileArray();
 }
 
-
-void MapData::addEntity(const Ndk::EntityHandle& e)
-{
-    m_entities.Insert(e);
-}
 
 const Ndk::EntityList& MapData::getEntities() const
 {

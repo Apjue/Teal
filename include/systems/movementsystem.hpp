@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,6 +9,7 @@
 
 #include <NDK/System.hpp>
 #include "util/movementutil.hpp"
+#include "cache/tilesetcore.hpp"
 
 ///
 /// \class MovementSystem
@@ -21,12 +22,14 @@
 class MovementSystem : public Ndk::System<MovementSystem>
 {
 public:
-    MovementSystem();
+    MovementSystem(TilesetCore* ftcore);
     ~MovementSystem() = default;
 
     static Ndk::SystemIndex systemIndex;
 
 private:
+    TilesetCore* m_fightTilesetCore {};
+
     void OnUpdate(float elapsed) override;
 };
 

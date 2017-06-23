@@ -4,7 +4,8 @@
 
 #include "systems/movementsystem.hpp"
 
-MovementSystem::MovementSystem()
+MovementSystem::MovementSystem(TilesetCore* ftcore)
+    : m_fightTilesetCore { ftcore }
 {
     Requires<PathComponent, PositionComponent, OrientationComponent>();
     SetUpdateRate(Def::MAXSYSTEMUPS);
@@ -22,6 +23,6 @@ void MovementSystem::OnUpdate(float elapsed)
         if (path.empty())
             continue; // No path, no move.
 
-        moveEntity(e);
+        moveEntity(e, m_fightTilesetCore);
     }
 }

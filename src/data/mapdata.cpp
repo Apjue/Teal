@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -6,7 +6,7 @@
 
 MapDataLibrary::LibraryMap MapData::s_library;
 
-MapData::MapData(const STRINGTILEARRAY& map_, const UNSIGNEDTILEARRAY& obs_)
+MapData::MapData(const STRINGTILEARRAY& map_, const STRINGTILEARRAY& obs_)
     : m_map(map_), m_obs(obs_)
 {
     updateTileArray();

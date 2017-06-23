@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -37,7 +37,7 @@ public:
     MapData() = default;
     ~MapData() = default;
 
-    MapData(const STRINGTILEARRAY& map_, const UNSIGNEDTILEARRAY& obs_);
+    MapData(const STRINGTILEARRAY& map_, const STRINGTILEARRAY& obs_);
     MapData(const TILEARRAY& tiles_);
 
     MapData(MapData&&) = default;
@@ -47,7 +47,7 @@ public:
 
     inline const TILEARRAY& tiles() const;
     inline const STRINGTILEARRAY& map() const; // Todo: Delete. Only Use Tile Array
-    inline const UNSIGNEDTILEARRAY& obs() const; // Todo: ^
+    inline const STRINGTILEARRAY& obs() const; // Todo: ^
 
     inline const TileData& tile(unsigned x, unsigned y) const;
     inline const TileData& tile(unsigned index) const;
@@ -55,9 +55,8 @@ public:
 
     inline void setTiles(const TILEARRAY& nTiles);
     inline void setMap(const STRINGTILEARRAY& nMap); // Todo: Delete. Only Use Tile Array
-    inline void setObs(const UNSIGNEDTILEARRAY& nObs); // Todo: ^
+    inline void setObs(const STRINGTILEARRAY& nObs); // Todo: ^
 
-    inline void addEntity(const Ndk::EntityHandle& e);
     inline const Ndk::EntityList& getEntities() const;
     inline Ndk::EntityList& getEntities();
 
@@ -66,7 +65,7 @@ public:
 private:
     TILEARRAY m_tiles;
     STRINGTILEARRAY m_map;
-    UNSIGNEDTILEARRAY m_obs;
+    STRINGTILEARRAY m_obs;
     Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
 
     static MapDataLibrary::LibraryMap s_library;
