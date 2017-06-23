@@ -191,12 +191,10 @@ void Game::initTilesetCore()
 
     {
         Nz::LuaInstance lua;
-
-        if (!lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"))
-            throw std::runtime_error { "Lua: tilesetcore.lua loading failed !" };
+        TealException(lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
 
         lua.GetGlobal("teal_tilesetcore");
-        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
+        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
 
         unsigned tileNumber {};
 
@@ -221,12 +219,10 @@ void Game::initTilesetCore()
 
     {
         Nz::LuaInstance lua;
-
-        if (!lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"))
-            throw std::runtime_error { "Lua: tilesetcore.lua loading failed !" };
+        TealException(lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
 
         lua.GetGlobal("teal_fighttilesetcore");
-        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_fighttilesetcore isn't a table !");
+        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_fighttilesetcore isn't a table !");
 
         unsigned tileNumber {};
 
@@ -263,12 +259,13 @@ void Game::loadMaps() /// \todo Load from file (lua)
         if (!lua.ExecuteFromFile(maps.GetResultPath()))
         {
             NazaraError("Error loading map " + maps.GetResultName());
+            TealException(maps.GetResultName() != "map0_0.lua", "Lua: starting map fails to load");
             continue;
         }
 
         // Fun starts
         lua.GetGlobal("teal_map");
-        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
+        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
 
         MapDataRef map = MapData::New();
         TILEARRAY tiles;
@@ -278,7 +275,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
             lua.PushInteger(i);
             lua.GetTable();
 
-            TealAssert(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
+            TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
 
             tiles[i - 1].textureId =  lua.CheckField<Nz::String>("textureId");
             tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle");
@@ -292,7 +289,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
         lua.PushString("entities");
         lua.GetTable();
 
-        TealAssert(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
+        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
 
         for (int i { 1 };; ++i)
         {
