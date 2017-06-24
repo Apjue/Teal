@@ -12,6 +12,11 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
     m_mat->EnableFaceCulling(true);
     m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
 
+    m_fightMat = Nz::Material::New("Translucent2D");
+
+    m_fightMat->EnableFaceCulling(true);
+    m_fightMat->SetFaceFilling(Nz::FaceFilling_Fill);
+
     m_model = Nz::Model::New();
 
     if (!m_entity->HasComponent<Ndk::NodeComponent>())
@@ -96,11 +101,18 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                auto tileName = m_map->tile(XYToIndex(x, y)).textureId;
-                unsigned tileNumber = m_tilesetCore->get(tileName);
+                const TileData& tile = m_map->tile(XYToIndex(x, y));
+                unsigned tileNumber {};
+
+                if (m_fightMode)
+                    tileNumber = m_fightTilesetCore->get(tile.fightTextureId);
+
+                else
+                    tileNumber = m_tilesetCore->get(tile.textureId);
+
 
                 float textureX = tileSize.x * tileNumber;
-                float tilesetSize = Def::TILESETSIZE; // m_fightMode ? Def::FIGHTTILESETSIZE : Def::TILESETSIZE;
+                float tilesetSize = m_fightMode ? Def::FIGHTTILESETSIZE : Def::TILESETSIZE;
 
                 texCoordsPtr[0].Set((textureX + 0.f       ) / tilesetSize, 0.f);
                 texCoordsPtr[1].Set((textureX + tileSize.x) / tilesetSize, 0.f);
@@ -124,8 +136,10 @@ bool MapInstance::update() // Thanks Lynix for this code
 
     mesh->AddSubMesh(subMesh);
 
+    Nz::MaterialRef material = m_fightMode ? m_fightMat : m_mat;
+
     m_model->SetMesh(mesh);
-    m_model->SetMaterial(0, m_mat);
+    m_model->SetMaterial(0, material);
 
     return true;
 }

@@ -38,7 +38,7 @@ class MapInstance : public micropather::Graph
 {
 public:
     MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore);
-    inline MapInstance(const MapDataRef& data, const Nz::String& tileset,
+    inline MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
                        TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
@@ -50,11 +50,12 @@ public:
     ~MapInstance() = default;
 
     Nz::MaterialRef m_mat; // Tileset texture
+    Nz::MaterialRef m_fightMat;
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
 
     TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
     TilesetCore* m_fightTilesetCore {};
-    //bool m_fightMode {};
+    bool m_fightMode {};
 
     bool update();
     inline MapDataRef getMap() const;

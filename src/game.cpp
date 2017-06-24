@@ -126,6 +126,7 @@ void Game::loadTextures()
         { ":/game/scheme", "game/main/scheme.png" },
         { ":/game/teal", "game/main/teal.png" },
         { Def::DEFAULTMAPTILESET, "game/main/tileset.png" },
+        { ":/game/fight_tileset", "game/main/tileset_fight.png" },
         { ":/game/char/villager", "game/char/villager.png" }
 
         //...
@@ -435,7 +436,10 @@ void Game::addEntities()
 
     auto& mapComp = m_map->AddComponent<MapComponent>();
     mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath(),
-                 &m_tilesetCore, &m_fightTilesetCore);
+                 Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
+
+    //mapComp.map->m_fightMode = true;
+    //mapComp.map->update();
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
 
