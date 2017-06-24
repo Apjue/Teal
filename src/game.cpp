@@ -41,7 +41,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addPauseMenu();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(mapComp.map, m_pather, &m_fightTilesetCore, m_charac);
+    initMapUtility(mapComp.map, m_pather, m_charac);
 }
 
 void Game::showInventory(bool detail) // [TEST]
@@ -149,7 +149,7 @@ void Game::loadTextures()
     if (!customTextures.Open(m_addonsPrefix + "additional_textures",
                              Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
     {
-        NazaraError("Cannot open custom textures file");
+        NazaraNotice("Cannot open custom textures file");
         return;
     }
 
@@ -175,7 +175,7 @@ void Game::loadTextures()
 
         if (!texture.IsValid())
         {
-            NazaraDebug("Texture " + customPair[0] + " can't be loaded - wrong filepath.\n"
+            NazaraError("Texture " + customPair[0] + " can't be loaded - wrong filepath.\n"
                         "Provided filepath = " + customPair[1]);
             continue;
         }
@@ -187,7 +187,7 @@ void Game::loadTextures()
 
 void Game::initTilesetCore()
 {
-    TealAssert(Nz::File::Exists(m_scriptPrefix + "tilesetcore.lua"), "tilesetcore.lua not found !");
+    TealException(Nz::File::Exists(m_scriptPrefix + "tilesetcore.lua"), "tilesetcore.lua not found !");
 
     {
         Nz::LuaInstance lua;
@@ -277,7 +277,9 @@ void Game::loadMaps() /// \todo Load from file (lua)
 
             TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
 
-            tiles[i - 1].textureId =  lua.CheckField<Nz::String>("textureId");
+            tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
+            tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
+
             tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle");
             tiles[i - 1].visible = lua.CheckField<bool>("visible");
 
@@ -313,74 +315,6 @@ void Game::loadMaps() /// \todo Load from file (lua)
         NazaraDebug("Lua: loaded map " + maps.GetResultName() + " at pos " + lua.CheckField<Nz::String>("pos"));
     }
     
-    MapDataRef map0_0 = MapData::New();
-
-    map0_0->setMap
-    ({
-        "sandy",  "sandy", "sandy", "water", "water", "water", "water", "water",
-            "grass", "sandy", "sandy", "water", "water", "water", "water",
-        "grass", "sandy", "sandy", "sandy", "water", "water", "water", "water",
-            "sandy", "sandy", "sandy", "water", "water", "water", "water",
-        "grass", "grass", "grass", "sandy", "water", "water", "water", "water",
-            "grass", "sandy", "sandy", "sandy", "sandy", "water", "water",
-        "grass", "grass", "sandy", "grass", "sandy", "sandy", "water", "water",
-            "grass", "grass", "grass", "sandy", "sandy", "water", "water",
-        "grass", "grass", "grass", "sandy", "grass", "sandy", "sandy", "water",
-            "grass", "sandy", "grass", "sandy", "sandy", "sandy", "sandy",
-        "cncrt", "grass", "grass", "grass", "sandy", "sandy", "sandy", "sandy",
-            "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
-        "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy", "sandy",
-            "cncrt", "cncrt", "grass", "grass", "sandy", "grass", "sandy",
-        "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass", "sandy",
-            "cncrt", "cncrt", "cncrt", "grass", "grass", "grass", "grass"
-    });
-
-    map0_0->setObs
-    ({
-        "walk", "walk", "walk", "obs", "obs", "obs", "obs", "obs",
-          "walk", "walk", "walk", "obs", "obs", "obs", "obs",
-        "walk", "walk", "walk", "walk", "obs", "obs", "obs", "obs",
-          "walk", "walk", "walk", "obs", "obs", "obs", "obs",
-        "walk", "walk", "walk", "walk", "obs", "obs", "obs", "obs",
-          "walk", "walk", "walk", "walk", "walk", "obs", "obs",
-        "walk", "walk", "walk", "walk", "walk", "walk", "obs", "obs",
-          "walk", "walk", "walk", "walk", "walk", "obs", "obs",
-        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "obs",
-          "walk", "walk", "walk", "walk", "walk", "walk", "walk",
-        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk",
-          "walk", "walk", "walk", "walk", "walk", "walk", "walk",
-        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk",
-          "walk", "walk", "walk", "walk", "walk", "walk", "walk",
-        "walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk",
-          "walk", "walk", "walk", "walk", "walk", "walk", "walk"
-    });
-
-    MapDataLibrary::Register("0;0", deactivateMapEntities(map0_0));
-
-
-    MapDataRef map1_0 = MapData::New();
-
-    map1_0->setMap
-    ({
-        "cncrt", "cncrt", "sandy", "sandy", "sandy", "sandy", "sandy", "sandy",
-            "cncrt", "grass", "sandy", "sandy", "sandy", "sandy", "sandy",
-        "cncrt", "grass", "grass", "grass", "sandy", "sandy", "sandy", "sandy",
-            "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
-        "grass", "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
-            "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
-        "grass", "grass", "grass", "grass", "grass", "sandy", "sandy", "sandy",
-            "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
-        "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
-            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
-        "grass", "grass", "grass", "grass", "grass", "grass", "sandy", "sandy",
-            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
-            "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
-        "grass", "grass", "grass", "grass", "grass", "grass", "grass", "sandy",
-            "grass", "grass", "grass", "grass", "grass", "grass", "grass"
-    });
-
-
     Nz::MaterialRef npcMat = Nz::Material::New();
     npcMat->Configure("Translucent2D");
     npcMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
@@ -395,54 +329,8 @@ void Game::loadMaps() /// \todo Load from file (lua)
     };
 
     auto npc = make_character(m_world, npcData);
-    map1_0->getEntities().Insert(npc);
-
-    MapDataLibrary::Register("1;0", deactivateMapEntities(map1_0));
-
-
-    MapDataRef map0_1 = MapData::New();
-
-    map0_1->setMap
-    ({
-        "water", "water", "water", "water", "water", "water", "water", "water",
-            "water", "water", "water", "water", "water", "water", "water",
-        "water", "water", "water", "water", "water", "sandy", "water", "water",
-            "water", "water", "water", "water", "sandy", "sandy", "water",
-        "water", "water", "water", "water", "sandy", "sandy", "sandy", "water",
-            "water", "water", "water", "water", "sandy", "sandy", "water",
-        "water", "water", "water", "water", "water", "sandy", "water", "water",
-            "water", "water", "water", "water", "water", "water", "water",
-        "sandy", "sandy", "water", "water", "water", "water", "water", "water",
-            "sandy", "water", "water", "water", "water", "water", "water",
-        "sandy", "sandy", "water", "water", "water", "water", "water", "water",
-            "sandy", "sandy", "water", "water", "water", "water", "water",
-        "sandy", "sandy", "sandy", "water", "water", "water", "water", "water",
-            "sandy", "sandy", "water", "water", "water", "water", "water",
-        "grass", "sandy", "sandy", "water", "water", "water", "water", "water",
-            "sandy", "sandy", "sandy", "water", "water", "water", "water"
-    });
-
-    map0_1->setObs
-    ({
-        "obs", "obs", "obs", "obs", "obs", "obs", "obs", "obs",
-          "obs", "obs", "obs", "obs", "obs", "obs", "obs",
-        "obs", "obs", "obs", "obs", "obs", "walk", "obs", "obs",
-          "obs", "obs", "obs", "obs", "walk", "walk", "obs",
-        "obs", "obs", "obs", "obs", "walk", "walk", "walk", "obs",
-          "obs", "obs", "obs", "obs", "walk", "walk", "obs",
-        "obs", "obs", "obs", "obs", "obs", "walk", "obs", "obs",
-          "obs", "obs", "obs", "obs", "obs", "obs", "obs",
-        "walk", "walk", "obs", "obs", "obs", "obs", "obs", "obs",
-          "walk", "obs", "obs", "obs", "obs", "obs", "obs",
-        "walk", "walk", "obs", "obs", "obs", "obs", "obs", "obs",
-          "walk", "walk", "obs", "obs", "obs", "obs", "obs",
-        "walk", "walk", "walk", "obs", "obs", "obs", "obs", "obs",
-          "walk", "walk", "obs", "obs", "obs", "obs", "obs",
-        "walk", "walk", "walk", "obs", "obs", "obs", "obs", "obs",
-          "walk", "walk", "walk", "obs", "obs", "obs", "obs"
-    });
-
-    MapDataLibrary::Register("0;1", deactivateMapEntities(map0_1));
+    npc->Enable(false);
+    MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
 }
 
 void Game::loadStates()
@@ -575,7 +463,7 @@ void Game::addEntities()
 void Game::addSystems()
 {
     m_world->AddSystem<AISystem>(m_pather);
-    m_world->AddSystem<MovementSystem>(&m_fightTilesetCore);
+    m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>();
     m_world->AddSystem<AnimationSystem>();

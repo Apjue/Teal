@@ -37,25 +37,19 @@ public:
     MapData() = default;
     ~MapData() = default;
 
-    MapData(const STRINGTILEARRAY& map_, const STRINGTILEARRAY& obs_);
     MapData(const TILEARRAY& tiles_);
-
     MapData(MapData&&) = default;
 
     template<class... Args>
     static inline MapDataRef New(Args&&... args);
 
+
     inline const TILEARRAY& tiles() const;
-    inline const STRINGTILEARRAY& map() const; // Todo: Delete. Only Use Tile Array
-    inline const STRINGTILEARRAY& obs() const; // Todo: ^
+    inline void setTiles(const TILEARRAY& nTiles);
 
     inline const TileData& tile(unsigned x, unsigned y) const;
     inline const TileData& tile(unsigned index) const;
     inline std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
-
-    inline void setTiles(const TILEARRAY& nTiles);
-    inline void setMap(const STRINGTILEARRAY& nMap); // Todo: Delete. Only Use Tile Array
-    inline void setObs(const STRINGTILEARRAY& nObs); // Todo: ^
 
     inline const Ndk::EntityList& getEntities() const;
     inline Ndk::EntityList& getEntities();
@@ -64,14 +58,9 @@ public:
 
 private:
     TILEARRAY m_tiles;
-    STRINGTILEARRAY m_map;
-    STRINGTILEARRAY m_obs;
     Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
 
     static MapDataLibrary::LibraryMap s_library;
-
-    void updateOldTileArray();
-    void updateTileArray();
 
     inline unsigned XYToIndex(unsigned x, unsigned y) const;
 };

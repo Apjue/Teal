@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -12,9 +12,6 @@
 #include "gamedef.hpp"
 
 struct TileData;
-
-using STRINGTILEARRAY = std::array<Nz::String, Def::TILEARRAYSIZE>;
-using UNSIGNEDTILEARRAY = std::array<unsigned, Def::TILEARRAYSIZE>;
 using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
 #endif // TYPEDEF_HPP

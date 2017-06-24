@@ -27,9 +27,9 @@ teal_tilesetcore =
 }
 
 walk = 0 -- 0 must be walkable/non-obstacle
-obs = walk + 1
--- block = obs + 1
-red =  obs + 1
+empty = walk + 1
+-- block = empty + 1
+red =  empty + 1
 blue = red + 1
 
 teal_fighttilesetcore =
@@ -40,8 +40,8 @@ teal_fighttilesetcore =
 	},
 
 	{
-		name = "obs",
-		index = obs
+		name = "empty",
+		index = empty
 	},
 
 	{

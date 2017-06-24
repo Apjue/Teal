@@ -92,7 +92,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
                     XYToArray(newXpos, newYpos);
 
-                    if (map->getMap()->obs()[XYToIndex(newXpos, newYpos)] != "obs")
+                    if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).obstacle == 0)
                     {
                         mov.tile = { pos.x + xy.x, pos.y + xy.y };
                         mov.playerInitiated = false;

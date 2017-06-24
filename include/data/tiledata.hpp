@@ -12,8 +12,10 @@
 struct TileData
 {
     Nz::String textureId;
-    Nz::String obstacle; /// \todo isObstacle() for obs | block
+    Nz::String fightTextureId;
     bool visible { true };
+
+    unsigned obstacle {}; // 0 = walk/view, 1 = view/obstacle, 2 = !view/obstacle
     bool occupied {}; // Occupied by a movable (or not) NPC. Not available in fight
 };
 

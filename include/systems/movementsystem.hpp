@@ -22,14 +22,12 @@
 class MovementSystem : public Ndk::System<MovementSystem>
 {
 public:
-    MovementSystem(TilesetCore* ftcore);
+    MovementSystem();
     ~MovementSystem() = default;
 
     static Ndk::SystemIndex systemIndex;
 
 private:
-    TilesetCore* m_fightTilesetCore {};
-
     void OnUpdate(float elapsed) override;
 };
 

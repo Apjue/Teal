@@ -65,7 +65,6 @@ extern bool changeMap();
 
 extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                            const std::weak_ptr<micropather::MicroPather>& pather,
-                           TilesetCore* ftcore,
                            const Ndk::EntityHandle& mainCharacter);
 
 ///

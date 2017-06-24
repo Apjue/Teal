@@ -6,17 +6,8 @@
 
 MapDataLibrary::LibraryMap MapData::s_library;
 
-MapData::MapData(const STRINGTILEARRAY& map_, const STRINGTILEARRAY& obs_)
-    : m_map(map_), m_obs(obs_)
-{
-    updateTileArray();
-}
-
 MapData::MapData(const TILEARRAY& tiles_)
-    : m_tiles(tiles_)
-{
-    updateOldTileArray();
-}
+    : m_tiles(tiles_) {}
 
 void MapData::updateOccupiedTiles()
 {
@@ -37,29 +28,4 @@ void MapData::updateOccupiedTiles()
     }
 }
 
-void MapData::updateOldTileArray()
-{
-    for (unsigned i {}; i < m_tiles.size(); ++i)
-    {
-        auto& tile = m_tiles[i];
-
-        m_map[i] = tile.textureId;
-        m_obs[i] = tile.obstacle;
-    }
-
-    updateOccupiedTiles();
-}
-
-void MapData::updateTileArray()
-{
-    for (unsigned i {}; i < m_tiles.size(); ++i)
-    {
-        auto& tile = m_tiles[i];
-
-        tile.textureId = m_map[i];
-        tile.obstacle = m_obs[i];
-    }
-
-    updateOccupiedTiles();
-}
 

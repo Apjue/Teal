@@ -12,19 +12,10 @@ MapDataRef MapData::New(Args&&... args)
     return object.release();
 }
 
+
 const TILEARRAY& MapData::tiles() const
 {
     return m_tiles;
-}
-
-const STRINGTILEARRAY& MapData::map() const
-{
-    return m_map;
-}
-
-const STRINGTILEARRAY& MapData::obs() const
-{
-    return m_obs;
 }
 
 const TileData& MapData::tile(unsigned x, unsigned y) const
@@ -48,7 +39,7 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
 
         unsigned index = XYToIndex(newX, newY);
 
-        if (index < 0 || index > 119)
+        if (index < 0 || index > Def::TILEARRAYSIZE)
             continue;
 
         data[{ newX, newY }] = m_tiles[index];
@@ -60,19 +51,6 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
 void MapData::setTiles(const TILEARRAY& tiles)
 {
     m_tiles = tiles;
-    updateOldTileArray();
-}
-
-void MapData::setMap(const STRINGTILEARRAY& map)
-{
-    m_map = map;
-    updateTileArray();
-}
-
-void MapData::setObs(const STRINGTILEARRAY& obs)
-{
-    m_obs = obs;
-    updateTileArray();
 }
 
 

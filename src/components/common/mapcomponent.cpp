@@ -164,7 +164,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
         unsigned const tile = XYToIndex(eX, eY);
         auto& tiledata = m_map->tile(tile);
 
-        return tiledata.obstacle != "obs" && !tiledata.occupied;
+        return tiledata.obstacle == 0 && !tiledata.occupied;
     }
 }
 

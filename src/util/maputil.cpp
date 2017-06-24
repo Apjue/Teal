@@ -9,7 +9,6 @@ namespace
 
 std::weak_ptr<MapInstance> m_currentMap;
 std::weak_ptr<micropather::MicroPather> m_pather;
-TilesetCore* m_fightTilesetCore {};
 Ndk::EntityHandle m_mainChar;
 
 }
@@ -89,7 +88,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     XYToArray(x, y);
 
-    if (map->tile(XYToIndex(x, y)).obstacle == "obs")
+    if (map->tile(XYToIndex(x, y)).obstacle != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
 
     return std::make_pair(true, entExt);
@@ -192,18 +191,16 @@ bool changeMap()
 
 void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
                     const std::weak_ptr<micropather::MicroPather>& pather,
-                    TilesetCore* ftcore,
                     const Ndk::EntityHandle& mainCharacter)
 {
     m_currentMap = currentMap;
     m_pather = pather;
-    m_fightTilesetCore = ftcore;
     m_mainChar = mainCharacter;
 }
 
 bool isMapUtilityInitialized()
 {
-    return !m_currentMap.expired() && !m_pather.expired() && m_fightTilesetCore && m_mainChar.IsValid();
+    return !m_currentMap.expired() && !m_pather.expired() && m_mainChar.IsValid();
 }
 
 Ndk::EntityHandle getMainCharacter()
