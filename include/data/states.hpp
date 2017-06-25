@@ -31,13 +31,13 @@ struct PoisonnedState : public State
     }
 };
 
-struct RegenerationState : public State
+struct HealedState : public State
 {
     std::pair<Element, unsigned> health;
 
     static Nz::String getMetadataID()
     {
-        return "regen";
+        return "heal";
     }
 };
 

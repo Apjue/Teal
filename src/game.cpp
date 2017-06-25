@@ -339,8 +339,8 @@ void Game::loadStates()
     StateMetaData poison { "Poisonned", "You are poisonned. Life sucks." };
     m_states.addSkill(PoisonnedState::getMetadataID(), poison);
 
-    StateMetaData regen { "Regeneration", "You are regenerating. Life is cool." };
-    m_states.addSkill(RegenerationState::getMetadataID(), regen);
+    StateMetaData regen { "Regeneration", "You are healed. Life is cool." };
+    m_states.addSkill(HealedState::getMetadataID(), regen);
 }
 
 void Game::loadSkills()
