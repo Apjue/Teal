@@ -1,2 +1,3 @@
+build/* linguist-vendored
 extlibs/* linguist-vendored
 wdirs/* linguist-vendored
