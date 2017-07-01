@@ -101,7 +101,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
 
-                const TileData& tile = m_map->tile(XYToIndex(x, y));
+                const TileData& tile = m_map->tile(XYToIndex(x, y)); /// \todo Invisible tile
                 unsigned tileNumber {};
 
                 if (m_fightMode)
