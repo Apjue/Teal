@@ -41,6 +41,7 @@
 #include "cache/doublestore.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
+#include "util/variant.hpp"
 #include "def/gamedef.hpp"
 #include "def/uidef.hpp"
 
