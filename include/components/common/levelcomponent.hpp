@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -11,6 +11,8 @@
 
 struct LevelComponent : public Ndk::Component<LevelComponent>
 {
+    LevelComponent(unsigned lvl = 1) : level { lvl } {}
+
     unsigned level {};
 
     static Ndk::ComponentIndex componentIndex;
