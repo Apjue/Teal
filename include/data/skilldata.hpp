@@ -19,13 +19,14 @@ struct SkillData
 {
     std::vector<std::shared_ptr<Attack>> attackList;
 
-    unsigned movementPoints {};
+    unsigned movementPoints { 0 }; // MP/AP required
     unsigned actionPoints { 3 };
 
     // EffectStore::ID effect {}; // push, pull, etc.
 
     unsigned minRange { 1u };
     unsigned maxRange { 5u };
+    bool modifiableRange { false };
     
     enum class AreaType
     {
