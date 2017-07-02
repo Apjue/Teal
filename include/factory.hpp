@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -34,7 +34,7 @@ extern Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const Charact
 ///
 
 extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name = "Item",
-                                   const Nz::String& desc = "Empty description");
+                                   const Nz::String& desc = "Empty description", unsigned level = 1);
 
 //extern Ndk::EntityHandle make_mapObject(const Ndk::WorldHandle& w, const MapObjectData& infos);
 
