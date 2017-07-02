@@ -52,6 +52,7 @@ struct CharacterData
     /// \param desc_ Description of the character
     /// \param atk_ Attack Modifier
     /// \param res_ Resistance Modifier
+    /// \param level_ Level of the character
     ///
 
     CharacterData(const Nz::Vector2ui& size = {},
@@ -68,10 +69,11 @@ struct CharacterData
                   const Nz::String& name_ = "",
                   const Nz::String& desc_ = "",
                   Elements atk_ = {},
-                  Elements res_ = {})
+                  Elements res_ = {},
+                  unsigned level_ = { 1 })
 
         : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
-        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_) {}
+        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ } {}
 
     ~CharacterData() = default;
 
@@ -95,6 +97,8 @@ struct CharacterData
 
     Elements atk;
     Elements res;
+
+    unsigned level;
 };
 
 #endif // CHARACTERDATA_HPP

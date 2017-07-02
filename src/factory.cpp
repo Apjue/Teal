@@ -46,18 +46,20 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<CombatBehaviorComponent>();
+    e->AddComponent<LevelComponent>(infos.level);
 
     refreshGraphicsPos(e);
     return e;
 }
 
-Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name, const Nz::String& desc)
+Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name, const Nz::String& desc, unsigned level)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<Items::ItemComponent>();
     e->AddComponent<NameComponent>().name = name;
     e->AddComponent<DescriptionComponent>().description = desc;
+    e->AddComponent<LevelComponent>(level);
 
     return e;
 }
