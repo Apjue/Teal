@@ -16,6 +16,11 @@
 #include "staticmax.hpp"
 #include "isoneof.hpp"
 
+// https://gist.github.com/tibordp/6909880
+
+namespace Detail
+{
+
 template<typename... Ts>
 struct VariantHelper;
 
@@ -29,10 +34,12 @@ struct VariantHelper<F, Ts...>
 
 template<> struct VariantHelper<>
 {
-    inline static void destroy(const std::type_index& id, void * data) {}
-    inline static void move(const std::type_index& old_t, void * old_v, void * new_v) {}
-    inline static void copy(const std::type_index& old_t, const void * old_v, void * new_v) {}
+    inline static void destroy(const std::type_index& id, void* data) {}
+    inline static void move(const std::type_index& old_t, void* old_v, void* new_v) {}
+    inline static void copy(const std::type_index& old_t, const void* old_v, void* new_v) {}
 };
+
+} // namespace Detail
 
 template<typename... Ts>
 class Variant
@@ -55,18 +62,20 @@ public:
     inline bool valid();
 
 
-    template<typename T, typename... Args, typename = typename std::enable_if<IsOneOf<T, Ts...>::value, void>::type>
+    template<typename T, typename... Args, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
     inline void set(Args&&... args);
 
-    template<typename T, typename = typename std::enable_if<IsOneOf<T, Ts...>::value, void>::type>
+    template<typename T, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
     inline T& get();
 
+    inline void reset();
+
 private:
-    static const size_t data_size = StaticMax<sizeof(Ts)...>::value;
-    static const size_t data_align = StaticMax<alignof(Ts)...>::value;
+    static const std::size_t data_size = StaticMax<sizeof(Ts)...>::value;
+    static const std::size_t data_align = StaticMax<alignof(Ts)...>::value;
 
     using Data = typename std::aligned_storage<data_size, data_align>::type;
-    using Helper = VariantHelper<Ts...>;
+    using Helper = Detail::VariantHelper<Ts...>;
 
     static inline std::type_index invalid_type();
 

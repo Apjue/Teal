@@ -2,6 +2,9 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+namespace Detail
+{
+
 template<typename F, typename... Ts>
 void VariantHelper<F, Ts...>::destroy(const std::type_index& id, void* data)
 {
@@ -32,6 +35,7 @@ void VariantHelper<F, Ts...>::copy(const std::type_index& old_t, const void* old
         VariantHelper<Ts...>::copy(old_t, old_v, new_v);
 }
 
+} // namespace Detail
 
 template<typename... Ts>
 Variant<Ts...>::Variant() : m_typeid(invalid_type()) {}
@@ -89,9 +93,10 @@ template<typename... Ts>
 template<typename T, typename... Args, typename>
 void Variant<Ts...>::set(Args&&... args)
 {
-    Helper::destroy(m_typeid, &m_data);
+    if (valid())
+        Helper::destroy(m_typeid, &m_data);
 
-    new (&m_data) T(std::forward<Args>(args)...); // is one of
+    new (&m_data) T(std::forward<Args>(args)...);
     m_typeid = typeid(T);
 }
 
@@ -99,6 +104,8 @@ template<typename... Ts>
 template<typename T, typename>
 T& Variant<Ts...>::get()
 {
+    TealAssert(valid(), "Uninitialized variant !");
+
     if (m_typeid == typeid(T))
     {
         T* ptr = static_cast<T*>(&m_data);
@@ -109,6 +116,13 @@ T& Variant<Ts...>::get()
 
     else
         throw std::bad_cast {};
+}
+
+template<typename... Ts>
+void Variant<Ts...>::reset()
+{
+    Helper::Destroy(m_typeid, &m_data);
+    m_typeid = invalid_type();
 }
 
 template<typename... Ts>
