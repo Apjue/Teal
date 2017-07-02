@@ -99,7 +99,6 @@ template<typename... Ts>
 template<typename T, typename>
 T& Variant<Ts...>::get()
 {
-
     if (m_typeid == typeid(T))
     {
         T* ptr = static_cast<T*>(&m_data);
