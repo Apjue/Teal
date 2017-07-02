@@ -99,6 +99,8 @@ template<typename... Ts>
 template<typename T>
 T& Variant<Ts...>::get()
 {
+    TealAssert(valid(), "Variant not initialized !");
+
     if (m_typeid == typeid(T))
     {
         T* ptr = static_cast<T*>(&m_data);
