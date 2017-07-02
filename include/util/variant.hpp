@@ -37,28 +37,28 @@ template<typename... Ts>
 class Variant
 {
 public:
-    Variant();
-    ~Variant();
+    inline Variant();
+    inline ~Variant();
 
-    Variant(const Variant<Ts...>& other);
-    Variant(Variant<Ts...>&& other);
+    inline Variant(const Variant<Ts...>& other);
+    inline Variant(Variant<Ts...>&& other);
 
 
-    Variant<Ts...>& operator= (const Variant<Ts...>& other);
-    Variant<Ts...>& operator= (Variant<Ts...>&& other);
+    inline Variant<Ts...>& operator= (const Variant<Ts...>& other);
+    inline Variant<Ts...>& operator= (Variant<Ts...>&& other);
 
 
     template<typename T>
-    bool is();
+    inline bool is();
 
-    bool valid();
+    inline bool valid();
 
 
     template<typename T, typename... Args>
-    void set(Args&&... args);
+    inline void set(Args&&... args);
 
     template<typename T>
-    T& get();
+    inline T& get();
 
 private:
     static const size_t data_size = StaticMax<sizeof(Ts)...>::value;
@@ -67,10 +67,7 @@ private:
     using Data = typename std::aligned_storage<data_size, data_align>::type;
     using Helper = VariantHelper<Ts...>;
 
-    static inline std::type_index invalid_type()
-    {
-        return typeid(void);
-    }
+    static inline std::type_index invalid_type();
 
     std::type_index m_typeid;
     Data m_data;

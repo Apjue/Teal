@@ -6,7 +6,7 @@ template<typename F, typename... Ts>
 void VariantHelper<F, Ts...>::destroy(const std::type_index& id, void* data)
 {
     if (id == typeid(F))
-        reinterpret_cast<F*>(data)->~F();
+        static_cast<F*>(data)->~F();
 
     else
         VariantHelper<Ts...>::destroy(id, data);
@@ -16,7 +16,7 @@ template<typename F, typename... Ts>
 void VariantHelper<F, Ts...>::move(const std::type_index& old_t, void* old_v, void* new_v)
 {
     if (old_t == typeid(F))
-        new (new_v) F(std::move(*reinterpret_cast<F*>(old_v)));
+        new (new_v) F(std::move(*static_cast<F*>(old_v)));
 
     else
         VariantHelper<Ts...>::move(old_t, old_v, new_v);
@@ -26,7 +26,7 @@ template<typename F, typename... Ts>
 void VariantHelper<F, Ts...>::copy(const std::type_index& old_t, const void* old_v, void* new_v)
 {
     if (old_t == typeid(F))
-        new (new_v) F(*reinterpret_cast<const F*>(old_v));
+        new (new_v) F(*static_cast<const F*>(old_v));
 
     else
         VariantHelper<Ts...>::copy(old_t, old_v, new_v);
@@ -101,7 +101,7 @@ T& Variant<Ts...>::get()
 {
     if (m_typeid == typeid(T))
     {
-        T* ptr = reinterpret_cast<T*>(&m_data);
+        T* ptr = static_cast<T*>(&m_data);
         TealAssert(ptr, "Variant: Cannot cast Aligned Storage to T");
 
         return *ptr;
@@ -109,4 +109,10 @@ T& Variant<Ts...>::get()
 
     else
         throw std::bad_cast {};
+}
+
+template<typename... Ts>
+std::type_index Variant<Ts...>::invalid_type()
+{
+    return typeid(void);
 }
