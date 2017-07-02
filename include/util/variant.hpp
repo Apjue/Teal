@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <string>
 #include "staticmax.hpp"
+#include "isoneof.hpp"
 
 template<typename... Ts>
 struct VariantHelper;
@@ -54,10 +55,10 @@ public:
     inline bool valid();
 
 
-    template<typename T, typename... Args>
+    template<typename T, typename... Args, typename = typename std::enable_if<IsOneOf<T, Ts...>::value, void>::type>
     inline void set(Args&&... args);
 
-    template<typename T>
+    template<typename T, typename = typename std::enable_if<IsOneOf<T, Ts...>::value, void>::type>
     inline T& get();
 
 private:

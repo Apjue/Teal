@@ -86,20 +86,19 @@ bool Variant<Ts...>::valid()
 
 
 template<typename... Ts>
-template<typename T, typename... Args>
+template<typename T, typename... Args, typename>
 void Variant<Ts...>::set(Args&&... args)
 {
     Helper::destroy(m_typeid, &m_data);
 
-    new (&m_data) T(std::forward<Args>(args)...);
+    new (&m_data) T(std::forward<Args>(args)...); // is one of
     m_typeid = typeid(T);
 }
 
 template<typename... Ts>
-template<typename T>
+template<typename T, typename>
 T& Variant<Ts...>::get()
 {
-    TealAssert(valid(), "Variant not initialized !");
 
     if (m_typeid == typeid(T))
     {
