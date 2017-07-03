@@ -17,6 +17,6 @@
     #define TealAssert(a, err) for (;;) break
 #endif
 
-#define TealException(a, err) if (!(a)) throw std::runtime_error { Nz::String { err } + " File: " __FILE__ ", line: " + Nz::String::Number(__LINE__) + ", function: " NAZARA_FUNCTION }
+#define TealException(a, err) if (!(a)) throw std::runtime_error { Nz::String { err } + " File: " + __FILE__ + ", line: " + Nz::String::Number(__LINE__) + ", function: " + NAZARA_FUNCTION }
 
 #endif // ASSERT_HPP

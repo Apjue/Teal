@@ -5,17 +5,17 @@
 void InventoryComponent::add(const Ndk::EntityHandle& e)
 {
     TealAssert(isItemEntity(e), "Entity isn't an item !");
-    m_items.Insert(e);
+    m_items.Insert(e.GetObject());
 }
 
 void InventoryComponent::remove(const Ndk::EntityHandle& e)
 {
-    m_items.Remove(e);
+    m_items.Remove(e.GetObject());
 }
 
 bool InventoryComponent::has(const Ndk::EntityHandle& e)
 {
-    return m_items.Has(e);
+    return m_items.Has(e.GetObject());
 }
 
 void InventoryComponent::clear()
