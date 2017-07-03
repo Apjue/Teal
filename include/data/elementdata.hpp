@@ -7,14 +7,26 @@
 #ifndef ELEMENTDATA_HPP
 #define ELEMENTDATA_HPP
 
+#include "util/underlyingtype.hpp"
+
 enum class Element
 {
     Neutral,
     Air,
     Fire,
     Water,
-    Earth
+    Earth,
+
+    Max = Earth
 };
+
+inline Element& operator++(Element& e)
+{
+    EnumUnderlyingType<Element> i = toUnderlyingType<Element>(e);
+    e = static_cast<Element>(++i);
+
+    return e;
+}
 
 namespace std
 {

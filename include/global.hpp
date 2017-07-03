@@ -10,12 +10,12 @@
 #include <Nazara/Utility/Mouse.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/Flags.hpp>
-#include <type_traits>
 #include <array>
 #include <stdexcept>
 #include "def/gamedef.hpp"
 #include "util/assert.hpp"
 #include "util/nzstlcompatibility.hpp"
+#include "util/underlyingtype.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
 using DiffTile = Nz::Vector2i; // Difference Tile (from one point to another one)
@@ -41,15 +41,6 @@ enum class Direction
 
     Max = Right
 };
-
-template<class T>
-using EnumUnderlyingType = typename std::underlying_type<T>::type;
-
-template<class T>
-constexpr EnumUnderlyingType<T> toUnderlyingType(T enum_)
-{
-    return static_cast<EnumUnderlyingType<T>>(enum_);
-}
 
 namespace Nz
 {

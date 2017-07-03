@@ -9,6 +9,7 @@
 
 #include <Nazara/Core/String.hpp>
 #include <array>
+#include <vector>
 #include "gamedef.hpp"
 
 struct TileData;
@@ -16,6 +17,8 @@ using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
 template<class... Ts>
 class Variant;
+
 using LuaArgument = Variant<Nz::String, double, bool>;
+using LuaArguments = std::vector<LuaArgument>;
 
 #endif // TYPEDEF_HPP
