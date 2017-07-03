@@ -109,8 +109,6 @@ T& Variant<Ts...>::get()
     if (m_typeid == typeid(T))
     {
         T* ptr = reinterpret_cast<T*>(&m_data);
-        TealAssert(ptr, "Variant: Cannot cast Aligned Storage to T");
-
         return *ptr;
     }
 
