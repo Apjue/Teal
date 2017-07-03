@@ -9,35 +9,104 @@
 
 #include <NDK/Component.hpp>
 #include "cache/doublestore.hpp"
+#include "util/variant.hpp"
+#include "def/typedef.hpp"
 
 namespace Items
 {
 
 struct EquippableComponent : public Ndk::Component<EquippableComponent>
 {
+    EquippableComponent(const LuaArguments& args)
+    {
+        TealException(args.size() <= 3, "Too much arguments");
+
+        if (args.size() > 0)
+            bodypart = stringToBodypart(args[0].get<Nz::String>());
+
+        if (args.size() > 1)
+            side = stringToSide(args[1].get<Nz::String>());
+
+        if (args.size() > 2)
+            attackId = static_cast<SkillStore::LightId>(args[2].get<double>());
+    }
+
     enum BodyPart
     {
-        Head,  // Casque
+        Head = 1,  // Casque
         Neck,  // Amulette
         Arms,  // Protections de bras
         Hands, // Armes / boucliers
-        Wrist, // Bracelets
-        Digit, // Bagues
+        Wrists, // Bracelets
+        Digits, // Bagues
         Chest, // armure
         Hip,   // Ceinture
         Legs,  // Jeans
         Feet   // Bottes
     };
 
-    enum class Side // For digits, wrists, hands
+    BodyPart stringToBodypart(Nz::String string)
     {
+        string = string.ToLower();
+
+        if (string == "head")
+            return Head;
+
+        if (string == "neck")
+            return Neck;
+
+        if (string == "arms")
+            return Arms;
+
+        if (string == "hands")
+            return Hands;
+
+        if (string == "wrists")
+            return Wrists;
+
+        if (string == "digits")
+            return Digits;
+
+        if (string == "chest")
+            return Chest;
+
+        if (string == "hip")
+            return Hip;
+
+        if (string == "legs")
+            return Legs;
+
+        if (string == "feet")
+            return Feet;
+
+        return {};
+    }
+
+    enum Side // For digits, wrists, hands
+    {
+        Both = 1, // A heavy hammer or a bow need both hands
         Right,
-        Left,
-        Both // A heavy hammer or a bow need both hands
+        Left
     };
 
-    BodyPart bodypart;
-    Side side;
+    Side stringToSide(Nz::String string)
+    {
+        string = string.ToLower();
+
+        if (string == "both")
+            return Both;
+
+        if (string == "right")
+            return Right;
+
+        if (string == "left")
+            return Left;
+
+        return {};
+    }
+
+    BodyPart bodypart {};
+    Side side {};
 
     SkillStore::LightId attackId {}; // For swords, bows, hammers...
 

@@ -437,6 +437,23 @@ void Game::loadItems()
             if (componentType == "ResistanceModifier")
                 item->AddComponent<ResistanceModifierComponent>(arguments);
 
+            if (componentType == "Edible")
+                item->AddComponent<Items::EdibleComponent>(arguments);
+
+            if (componentType == "Equippable")
+            {
+                if (arguments.size() > 2)
+                    arguments[2].set<double>(m_skills.getSkillIndex(arguments[2].get<Nz::String>()));
+
+                item->AddComponent<Items::EquippableComponent>(arguments);
+            }
+
+            if (componentType == "HPGain")
+                item->AddComponent<Items::HPGainComponent>(arguments);
+
+            if (componentType == "Resource")
+                item->AddComponent<Items::ResourceComponent>(arguments);
+
             lua.Pop();
         }
 

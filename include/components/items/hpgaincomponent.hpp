@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,6 +8,8 @@
 #define HPGAINCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include "util/variant.hpp"
+#include "def/typedef.hpp"
 
 namespace Items
 {
@@ -21,6 +23,17 @@ namespace Items
 
 struct HPGainComponent : public Ndk::Component<HPGainComponent>
 {
+    HPGainComponent(const LuaArguments& args)
+    {
+        TealException(args.size() <= 2, "Too many arguments");
+
+        if (args.size() > 0)
+            diff = static_cast<int>(args[0].get<double>());
+
+        if (args.size() > 1)
+            abs = static_cast<unsigned>(args[1].get<double>());
+    }
+
     int diff {}; // can be negative, e.g. for poison
     unsigned abs {};
 
