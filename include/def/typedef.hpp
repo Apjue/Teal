@@ -14,4 +14,8 @@
 struct TileData;
 using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
+template<class... Ts>
+class Variant;
+using LuaArgument = Variant<Nz::String, double, bool>;
+
 #endif // TYPEDEF_HPP

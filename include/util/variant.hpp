@@ -20,10 +20,10 @@
 namespace Detail
 {
 
-template<typename... Ts>
+template<class... Ts>
 struct VariantHelper;
 
-template<typename F, typename... Ts>
+template<class F, class... Ts>
 struct VariantHelper<F, Ts...>
 {
     inline static void destroy(const std::type_index& id, void* data);
@@ -40,7 +40,7 @@ template<> struct VariantHelper<>
 
 } // namespace Detail
 
-template<typename... Ts>
+template<class... Ts>
 class Variant
 {
 public:
@@ -55,16 +55,16 @@ public:
     inline Variant<Ts...>& operator= (Variant<Ts...>&& other);
 
 
-    template<typename T>
+    template<class T>
     inline bool is();
 
     inline bool valid();
 
 
-    template<typename T, typename... Args, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
+    template<class T, class... Args, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
     inline void set(Args&&... args);
 
-    template<typename T, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
+    template<class T, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
     inline T& get();
 
     inline void reset();
