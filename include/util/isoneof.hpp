@@ -7,6 +7,8 @@
 #ifndef ISONEOF_HPP
 #define ISONEOF_HPP
 
+#include <type_traits>
+
 template <typename...> struct IsOneOf
 {
     static constexpr bool value = false;
