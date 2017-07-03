@@ -12,8 +12,7 @@
 #include <typeinfo>
 #include <typeindex>
 #include <type_traits>
-#include <string>
-#include "staticmax.hpp"
+#include <algorithm>
 #include "isoneof.hpp"
 
 // https://gist.github.com/tibordp/6909880
@@ -71,10 +70,7 @@ public:
     inline void reset();
 
 private:
-    static const std::size_t data_size = StaticMax<sizeof(Ts)...>::value;
-    static const std::size_t data_align = StaticMax<alignof(Ts)...>::value;
-
-    using Data = typename std::aligned_storage<data_size, data_align>::type;
+    using Data = typename std::aligned_union<0, Ts...>;
     using Helper = Detail::VariantHelper<Ts...>;
 
     static inline std::type_index invalid_type();
