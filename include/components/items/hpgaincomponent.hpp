@@ -8,7 +8,6 @@
 #define HPGAINCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include "util/variant.hpp"
 #include "def/typedef.hpp"
 
 namespace Items
@@ -28,10 +27,10 @@ struct HPGainComponent : public Ndk::Component<HPGainComponent>
         TealException(args.size() <= 2, "Too many arguments");
 
         if (args.size() > 0)
-            diff = static_cast<int>(args[0].get<double>());
+            diff = static_cast<int>(args[0].value.get<double>());
 
         if (args.size() > 1)
-            abs = static_cast<unsigned>(args[1].get<double>());
+            abs = static_cast<unsigned>(args[1].value.get<double>());
     }
 
     int diff {}; // can be negative, e.g. for poison

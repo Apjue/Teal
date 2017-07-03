@@ -9,7 +9,6 @@
 
 #include <NDK/Component.hpp>
 #include "cache/doublestore.hpp"
-#include "util/variant.hpp"
 #include "def/typedef.hpp"
 
 namespace Items
@@ -22,13 +21,13 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
         TealException(args.size() <= 3, "Too much arguments");
 
         if (args.size() > 0)
-            bodypart = stringToBodypart(args[0].get<Nz::String>());
+            bodypart = stringToBodypart(args[0].value.get<Nz::String>());
 
         if (args.size() > 1)
-            side = stringToSide(args[1].get<Nz::String>());
+            side = stringToSide(args[1].value.get<Nz::String>());
 
         if (args.size() > 2)
-            attackId = static_cast<SkillStore::LightId>(args[2].get<double>());
+            attackId = static_cast<SkillStore::LightId>(args[2].value.get<double>());
     }
 
     enum BodyPart

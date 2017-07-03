@@ -408,15 +408,15 @@ void Game::loadItems()
                 switch (lua.GetType(-1))
                 {
                 case Nz::LuaType_Boolean:
-                    arg.set<bool>(lua.CheckBoolean(-1));
+                    arg.value.set<bool>(lua.CheckBoolean(-1));
                     break;
 
                 case Nz::LuaType_Number:
-                    arg.set<double>(lua.CheckNumber(-1));
+                    arg.value.set<double>(lua.CheckNumber(-1));
                     break;
 
                 case Nz::LuaType_String:
-                    arg.set<Nz::String>(Nz::String { lua.CheckString(-1) });
+                    arg.value.set<Nz::String>(Nz::String { lua.CheckString(-1) });
                     break;
 
                 default:
@@ -443,7 +443,7 @@ void Game::loadItems()
             if (componentType == "Equippable")
             {
                 if (arguments.size() > 2)
-                    arguments[2].set<double>(m_skills.getSkillIndex(arguments[2].get<Nz::String>()));
+                    arguments[2].value.set<double>(m_skills.getSkillIndex(arguments[2].value.get<Nz::String>()));
 
                 item->AddComponent<Items::EquippableComponent>(arguments);
             }

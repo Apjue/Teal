@@ -10,15 +10,17 @@
 #include <Nazara/Core/String.hpp>
 #include <array>
 #include <vector>
+#include "util/variant.hpp"
 #include "gamedef.hpp"
 
 struct TileData;
 using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
 
-template<class... Ts>
-class Variant;
+struct LuaArgument
+{
+    Variant<Nz::String, double, bool, LuaArgument*> value;
+};
 
-using LuaArgument = Variant<Nz::String, double, bool>;
 using LuaArguments = std::vector<LuaArgument>;
 
 #endif // TYPEDEF_HPP

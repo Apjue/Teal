@@ -1,5 +1,5 @@
 ﻿// Copyright (C) 2017 Samy Bensaid
-// This file is part of the  project.
+// This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -17,6 +17,7 @@
     #define TealAssert(a, err) for (;;) break
 #endif
 
-#define TealException(a, err) if (!(a)) throw std::runtime_error { Nz::String { err } + Nz::String { " File: " } + Nz::String { __FILE__ } + Nz::String { ", line: " } + Nz::String::Number(__LINE__) + Nz::String { ", function: " } + NAZARA_FUNCTION }
+#define TealException(a, err) if (!(a)) throw std::runtime_error { Nz::String { err } + Nz::String { " File: " } + Nz::String { __FILE__ } + Nz::String { ", line: " } + \
+                                                                   Nz::String::Number(__LINE__) + Nz::String { ", function: " } + NAZARA_FUNCTION }
 
 #endif // ASSERT_HPP

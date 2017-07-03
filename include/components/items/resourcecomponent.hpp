@@ -8,7 +8,6 @@
 #define RESOURCECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include "util/variant.hpp"
 #include "def/typedef.hpp"
 
 namespace Items
