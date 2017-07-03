@@ -119,7 +119,9 @@ T& Variant<Ts...>::get()
 template<typename... Ts>
 void Variant<Ts...>::reset()
 {
-    Helper::Destroy(m_typeid, &m_data);
+    if (valid())
+        Helper::Destroy(m_typeid, &m_data);
+
     m_typeid = invalid_type();
 }
 
