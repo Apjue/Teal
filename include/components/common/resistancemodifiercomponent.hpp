@@ -7,9 +7,13 @@
 #ifndef ATTACKRESISTANCECOMPONENT_HPP
 #define ATTACKRESISTANCECOMPONENT_HPP
 
+#include <Nazara/Core/String.hpp>
 #include <NDK/Component.hpp>
 #include <unordered_map>
 #include "data/elementdata.hpp"
+#include "def/typedef.hpp"
+#include "util/variant.hpp"
+#include "util/assert.hpp"
 
 struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierComponent>
 {
@@ -20,6 +24,22 @@ struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierCom
         data[Element::Fire] = f;
         data[Element::Water] = w;
         data[Element::Earth] = e;
+    }
+
+    ResistanceModifierComponent(const LuaArguments& arguments)
+    {
+        TealException(arguments.size() <= 5, "Too much arguments !");
+
+        Element e {};
+
+        for (auto& variant : arguments)
+        {
+            data[e] = static_cast<int>(variant.get<double>());
+            ++e;
+
+            if (e > Element::Max)
+                break;
+        }
     }
 
     ~ResistanceModifierComponent() = default;

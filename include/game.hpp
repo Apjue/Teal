@@ -83,7 +83,7 @@ private:
     
     StateMDStore m_states;
     SkillStore m_skills;
-
+    Ndk::EntityList m_items;
 
     // Character functions
     void showInventory(bool detail = false);

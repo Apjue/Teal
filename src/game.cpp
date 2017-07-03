@@ -265,8 +265,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
         }
 
         // Fun starts
-        lua.GetGlobal("teal_map");
-        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
+        TealException(lua.GetGlobal("teal_map") == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
 
         MapDataRef map = MapData::New();
         TILEARRAY tiles;
@@ -356,12 +355,96 @@ void Game::loadSkills()
 
 void Game::loadItems()
 {
-    auto legendarySword = make_item(m_world, "Excalibur");
-    legendarySword->AddComponent<AttackModifierComponent>(0, 0, 150);
-    legendarySword->AddComponent<ResistanceModifierComponent>(100, 100, 100, 0, 100);
+    Nz::Directory items { m_scriptPrefix + "items/" };
+    items.SetPattern("*.lua");
+    items.Open();
 
-    m_charac->GetComponent<InventoryComponent>().add(legendarySword);
-    m_charac->GetComponent<EquipmentComponent>().equipped.Insert(legendarySword.GetObject());
+    while (items.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(items.GetResultPath()))
+        {
+            NazaraError("Error loading item " + items.GetResultName());
+            continue;
+        }
+
+        TealException(lua.GetGlobal("teal_item") == Nz::LuaType_Table, "Lua: teal_item isn't a table !");
+
+        Nz::String name = lua.CheckField<Nz::String>("name");
+        Nz::String desc = lua.CheckField<Nz::String>("desc", "No description");
+        unsigned  level = lua.CheckField<unsigned>("level", 1);
+
+        Ndk::EntityHandle item = make_item(m_world, name, desc, level);
+
+        TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
+
+        for (int i { 1 };; ++i)
+        {
+            lua.PushInteger(i);
+
+            if (lua.GetTable() == Nz::LuaType_Nil)
+            {
+                lua.Pop();
+                break;
+            }
+
+            Nz::String componentType = lua.CheckField<Nz::String>("component");
+            LuaArguments arguments;
+
+            for (int i { 1 };; ++i)
+            {
+                lua.PushInteger(i);
+
+                if (lua.GetTable() == Nz::LuaType_Nil)
+                {
+                    lua.Pop();
+                    break;
+                }
+
+                LuaArgument arg;
+                bool holdValue { true };
+
+                switch (lua.GetType(-1))
+                {
+                case Nz::LuaType_Boolean:
+                    arg.set<bool>(lua.CheckBoolean(-1));
+                    break;
+
+                case Nz::LuaType_Number:
+                    arg.set<double>(lua.CheckNumber(-1));
+                    break;
+
+                case Nz::LuaType_String:
+                    arg.set<Nz::String>(Nz::String { lua.CheckString(-1) });
+                    break;
+
+                default:
+                    holdValue = false;
+                    NazaraError("Lua: In item's component " + componentType + ", argument #" + i + "not supported.");
+                    break;
+                }
+
+                TealException(holdValue, "Invalid argument");
+                arguments.push_back(arg);
+
+                lua.Pop();
+            }
+
+            if (componentType == "AttackModifier")
+                item->AddComponent<AttackModifierComponent>(arguments);
+
+            if (componentType == "ResistanceModifier")
+                item->AddComponent<ResistanceModifierComponent>(arguments);
+
+            lua.Pop();
+        }
+
+        item->Enable(false);
+        m_items.Insert(item);
+
+        NazaraDebug("Item loaded - " + item->GetComponent<NameComponent>().name);
+    }
 }
 
 void Game::initNazara()
