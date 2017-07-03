@@ -56,21 +56,24 @@ public:
 
 
     template<class T>
-    inline bool is();
+    inline bool is() const;
 
-    inline bool valid();
+    inline bool valid() const;
 
 
-    template<class T, class... Args, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
+    template<class T, class... Args, class = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
     inline void set(Args&&... args);
 
-    template<class T, typename = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
+    template<class T, class = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
+    inline const T& get() const;
+
+    template<class T, class = typename std::enable_if<IsOneOf<T, Ts...>::value>::type>
     inline T& get();
 
     inline void reset();
 
 private:
-    using Data = typename std::aligned_union<0, Ts...>;
+    using Data = typename std::aligned_union<0, Ts...>::type;
     using Helper = Detail::VariantHelper<Ts...>;
 
     static inline std::type_index invalid_type();

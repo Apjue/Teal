@@ -82,20 +82,20 @@ Variant<Ts...>& Variant<Ts...>::operator= (Variant<Ts...>&& other)
 
 template<class... Ts>
 template<class T>
-bool Variant<Ts...>::is()
+bool Variant<Ts...>::is() const
 {
     return m_typeid == typeid(T);
 }
 
 template<class... Ts>
-bool Variant<Ts...>::valid()
+bool Variant<Ts...>::valid() const
 {
     return m_typeid != invalid_type();
 }
 
 
 template<class... Ts>
-template<class T, class... Args, typename>
+template<class T, class... Args, class>
 void Variant<Ts...>::set(Args&&... args)
 {
     if (valid())
@@ -106,7 +106,23 @@ void Variant<Ts...>::set(Args&&... args)
 }
 
 template<class... Ts>
-template<class T, typename>
+template<class T, class>
+const T& Variant<Ts...>::get() const
+{
+    TealAssert(valid(), "Uninitialized variant !");
+
+    if (m_typeid == typeid(T))
+    {
+        const T* ptr = reinterpret_cast<const T*>(&m_data);
+        return *ptr;
+    }
+
+    else
+        throw std::bad_cast {};
+}
+
+template<class... Ts>
+template<class T, class>
 T& Variant<Ts...>::get()
 {
     TealAssert(valid(), "Uninitialized variant !");
