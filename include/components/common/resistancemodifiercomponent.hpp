@@ -26,15 +26,19 @@ struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierCom
         data[Element::Earth] = e;
     }
 
-    ResistanceModifierComponent(const LuaArguments& arguments)
+    ResistanceModifierComponent(const LuaArguments& args)
     {
-        TealException(arguments.size() <= 5, "Too much arguments !");
+        if (args.empty())
+            return;
+
+        TealException(args.size() <= 1, "Too much arguments !");
+        TealException(args[0].args.size() <= 5, "Too much arguments !");
 
         Element e {};
 
-        for (auto& variant : arguments)
+        for (auto& variant : args[0].args)
         {
-            data[e] = static_cast<int>(variant.value.get<double>());
+            data[e] = static_cast<int>(variant.get<double>());
             ++e;
 
             if (e > Element::Max)

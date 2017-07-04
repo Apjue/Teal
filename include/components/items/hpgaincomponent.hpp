@@ -24,13 +24,16 @@ struct HPGainComponent : public Ndk::Component<HPGainComponent>
 {
     HPGainComponent(const LuaArguments& args)
     {
-        TealException(args.size() <= 2, "Too many arguments");
+        if (args.empty())
+            return;
 
-        if (args.size() > 0)
-            diff = static_cast<int>(args[0].value.get<double>());
+        TealException(args[0].args.size() <= 2, "Too many arguments");
 
-        if (args.size() > 1)
-            abs = static_cast<unsigned>(args[1].value.get<double>());
+        if (args[0].args.size() > 0)
+            diff = static_cast<int>(args[0].args[0].get<double>());
+
+        if (args[0].args.size() > 1)
+            abs = static_cast<unsigned>(args[0].args[1].get<double>());
     }
 
     int diff {}; // can be negative, e.g. for poison

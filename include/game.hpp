@@ -45,6 +45,7 @@
 #include "def/typedef.hpp"
 #include "def/uidef.hpp"
 #include "util/variant.hpp"
+#include "util/luaparser.hpp"
 
 class Game
 {

@@ -390,46 +390,7 @@ void Game::loadItems()
             }
 
             Nz::String componentType = lua.CheckField<Nz::String>("component");
-            LuaArguments arguments;
-
-            for (int i { 1 };; ++i)
-            {
-                lua.PushInteger(i);
-
-                if (lua.GetTable() == Nz::LuaType_Nil)
-                {
-                    lua.Pop();
-                    break;
-                }
-
-                LuaArgument arg;
-                bool holdValue { true };
-
-                switch (lua.GetType(-1))
-                {
-                case Nz::LuaType_Boolean:
-                    arg.value.set<bool>(lua.CheckBoolean(-1));
-                    break;
-
-                case Nz::LuaType_Number:
-                    arg.value.set<double>(lua.CheckNumber(-1));
-                    break;
-
-                case Nz::LuaType_String:
-                    arg.value.set<Nz::String>(Nz::String { lua.CheckString(-1) });
-                    break;
-
-                default:
-                    holdValue = false;
-                    NazaraError("Lua: In item's component " + componentType + ", argument #" + i + "not supported.");
-                    break;
-                }
-
-                TealException(holdValue, "Invalid argument");
-                arguments.push_back(arg);
-
-                lua.Pop();
-            }
+            LuaArguments arguments = parseLua(lua);
 
             if (componentType == "AttackModifier")
                 item->AddComponent<AttackModifierComponent>(arguments);
@@ -442,8 +403,8 @@ void Game::loadItems()
 
             if (componentType == "Equippable")
             {
-                if (arguments.size() > 2)
-                    arguments[2].value.set<double>(m_skills.getSkillIndex(arguments[2].value.get<Nz::String>()));
+                if (arguments.size() >= 1 && arguments[0].args.size() >= 3)
+                    arguments[0].args[2].set<double>(m_skills.getSkillIndex(arguments[0].args[2].get<Nz::String>()));
 
                 item->AddComponent<Items::EquippableComponent>(arguments);
             }
