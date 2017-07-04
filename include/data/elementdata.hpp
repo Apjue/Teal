@@ -28,6 +28,25 @@ inline Element& operator++(Element& e)
     return e;
 }
 
+inline Element stringToElement(Nz::String string)
+{
+    string = string.ToLower();
+        
+    if (string == "air")
+        return Element::Air;
+
+    if (string == "fire")
+        return Element::Fire;
+
+    if (string == "water")
+        return Element::Water;
+
+    if (string == "earth")
+        return Element::Earth;
+
+    return Element::Neutral;
+}
+
 namespace std
 {
 
