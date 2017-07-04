@@ -427,8 +427,8 @@ void Game::loadItems()
 
             if (componentType == "Equippable")
             {
-                if (arguments.size() >= 1 && arguments[0].args.size() >= 3)
-                    arguments[0].args[2].set<double>(m_skills.getSkillIndex(arguments[0].args[2].get<Nz::String>()));
+                if (arguments.vars.size() >= 3)
+                    arguments.vars[2].set<double>(m_skills.getSkillIndex(arguments.vars[2].get<Nz::String>()));
 
                 item->AddComponent<Items::EquippableComponent>(arguments);
             }

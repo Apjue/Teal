@@ -28,15 +28,14 @@ struct AttackModifierComponent : public Ndk::Component<AttackModifierComponent>
 
     AttackModifierComponent(const LuaArguments& args)
     {
-        if (args.empty())
+        if (args.vars.empty())
             return;
 
-        TealException(args.size() <= 1, "Too much arguments !");
-        TealException(args[0].args.size() <= 5, "Too much arguments !");
+        TealException(args.vars.size() <= 5, "Too much arguments !");
 
         Element e {};
 
-        for (auto& variant : args[0].args)
+        for (auto& variant : args.vars)
         {
             data[e] = static_cast<int>(variant.get<double>());
             ++e;

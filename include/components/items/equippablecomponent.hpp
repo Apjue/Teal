@@ -18,20 +18,19 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
 {
     EquippableComponent(const LuaArguments& args)
     {
-        if (args.empty())
+        if (args.vars.empty())
             return;
 
-        TealException(args.size() == 1, "Too much arguments");
-        TealException(args[0].args.size() <= 3, "Too much arguments");
+        TealException(args.vars.size() <= 3, "Too much arguments");
 
-        if (args[0].args.size() > 0)
-            bodypart = stringToBodypart(args[0].args[0].get<Nz::String>());
+        if (args.vars.size() > 0)
+            bodypart = stringToBodypart(args.vars[0].get<Nz::String>());
 
-        if (args[0].args.size() > 1)
-            side = stringToSide(args[0].args[1].get<Nz::String>());
+        if (args.vars.size() > 1)
+            side = stringToSide(args.vars[1].get<Nz::String>());
 
-        if (args[0].args.size() > 2)
-            attackId = static_cast<SkillStore::LightId>(args[0].args[2].get<double>());
+        if (args.vars.size() > 2)
+            attackId = static_cast<SkillStore::LightId>(args.vars[2].get<double>());
     }
 
     enum BodyPart

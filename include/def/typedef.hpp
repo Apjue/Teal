@@ -21,11 +21,11 @@ using LuaBasicArgument = Variant<Nz::String, double, bool>;
 
 struct LuaTableArgument
 {
-    std::vector<LuaBasicArgument> args;
+    std::vector<LuaBasicArgument> vars;
     std::vector<std::shared_ptr<LuaTableArgument>> tables;
 };
 
 using LuaArgument = LuaTableArgument;
-using LuaArguments = std::vector<LuaArgument>;
+using LuaArguments = LuaTableArgument;
 
 #endif // TYPEDEF_HPP

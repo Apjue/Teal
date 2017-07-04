@@ -14,9 +14,17 @@
 #include "attack.hpp"
 #include "damagedata.hpp"
 #include "statedata.hpp"
+#include "def/typedef.hpp"
 
 struct SkillData
 {
+    SkillData() = default;
+
+    SkillData(const LuaArguments& args)
+    {
+
+    }
+
     std::vector<std::shared_ptr<Attack>> attackList;
 
     unsigned movementPoints { 0 }; // MP/AP required
@@ -32,18 +40,28 @@ struct SkillData
     {
         Cross,
         Plus,
-        Aligned,
-        Perpendicular,
-        Circle
+        Circle,
+
+        AlignedCenterRL, // Will switch to AlignedUp if number is uneven
+        AlignedCenterDU, // Will switch to AlignedUp if number is uneven
+        AlignedRight,
+        AlignedLeft,
+        AlignedDown,
+        AlignedUp
     };
 
     AreaType areaType { AreaType::Cross };
     unsigned areaMinRange { 0u };
     unsigned areaMaxRange { 0u };
 
+    Nz::String codename;
     Nz::String name;
-    Nz::String description; // Text description. Fight description will be auto generated
+
+    Nz::String description;
+    Nz::String fightDescription;
     Nz::TextureRef icon;
+
+    // void generateFightDescription();
 };
 
 #endif // SKILLDATA_HPP

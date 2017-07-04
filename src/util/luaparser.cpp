@@ -8,7 +8,6 @@ LuaArguments parseLua(Nz::LuaInstance& lua)
 {
     std::map<int /*depth*/, int /*index*/> index;
     LuaArguments arguments;
-    arguments.push_back({});
 
     for (unsigned i { 1 }, depth { 1 }, tableIndex { 1 }; depth > 0; ++i)
     {
@@ -26,26 +25,26 @@ LuaArguments parseLua(Nz::LuaInstance& lua)
             continue;
         }
 
-        LuaArgument table;
+        LuaTableArgument table; // BUG: tableindex
         LuaBasicArgument arg;
 
         switch (lua.GetType(-1))
         {
             case Nz::LuaType_Boolean:
                 arg.set<bool>(lua.CheckBoolean(-1));
-                (arguments.end() - tableIndex)->args.push_back(arg);
+                arguments.vars.push_back(arg);
 
                 break;
 
             case Nz::LuaType_Number:
                 arg.set<double>(lua.CheckNumber(-1));
-                (arguments.end() - tableIndex)->args.push_back(arg);
+                arguments.vars.push_back(arg);
 
                 break;
 
             case Nz::LuaType_String:
                 arg.set<Nz::String>(Nz::String { lua.CheckString(-1) });
-                (arguments.end() - tableIndex)->args.push_back(arg);
+                arguments.vars.push_back(arg);
 
                 break;
 
@@ -54,7 +53,7 @@ LuaArguments parseLua(Nz::LuaInstance& lua)
                 i = 1;
 
                 tableIndex = 1;
-                arguments.push_back(table);
+                arguments.tables.push_back(std::make_shared<LuaTableArgument>(table));
 
                 ++depth;
                 break;
