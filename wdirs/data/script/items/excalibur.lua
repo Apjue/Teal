@@ -14,6 +14,11 @@ teal_item =
         {
             component = "ResistanceModifier",
             100, 100, 100, 0, 100
+        },
+
+        {
+            component = "Equippable",
+            "Hands", "Both" --, "item_excalibur"
         }
     }
 }
