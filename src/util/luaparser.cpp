@@ -10,7 +10,7 @@ LuaArguments parseLua(Nz::LuaInstance & lua)
     LuaArguments arguments;
     arguments.push_back({});
 
-    for (unsigned j { 1 }, depth { 1 }, tableIndex { 1 };; ++j)
+    for (unsigned i { 1 }, depth { 1 }, tableIndex { 1 };; ++i)
     {
         lua.PushInteger(j);
 
@@ -23,7 +23,7 @@ LuaArguments parseLua(Nz::LuaInstance & lua)
             if (depth == 0)
                 break;
 
-            j = index[depth];
+            i = index[depth];
             index[depth] = 0;
 
             continue;
@@ -53,8 +53,8 @@ LuaArguments parseLua(Nz::LuaInstance & lua)
                 break;
 
             case Nz::LuaType_Table:
-                index[depth] = j;
-                j = 0;
+                index[depth] = i;
+                i = 0;
 
                 tableIndex = 1;
                 arguments.push_back(table);
