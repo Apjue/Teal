@@ -33,8 +33,8 @@ extern Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const Charact
 /// \brief Creates an entity and adds it ItemComponent and NameComponent
 ///
 
-extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name = "Item",
-                                   const Nz::String& desc = "Empty description", unsigned level = 1);
+extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codename, 
+                                   const Nz::String& name = "Item", const Nz::String& desc = "Empty description", unsigned level = 1);
 
 //extern Ndk::EntityHandle make_mapObject(const Ndk::WorldHandle& w, const MapObjectData& infos);
 

@@ -394,11 +394,12 @@ void Game::loadItems()
 
         TealException(lua.GetGlobal("teal_item") == Nz::LuaType_Table, "Lua: teal_item isn't a table !");
 
+        Nz::String codename = lua.CheckField<Nz::String>("codename");
         Nz::String name = lua.CheckField<Nz::String>("name");
         Nz::String desc = lua.CheckField<Nz::String>("desc", "No description");
         unsigned  level = lua.CheckField<unsigned>("level", 1);
 
-        Ndk::EntityHandle item = make_item(m_world, name, desc, level);
+        Ndk::EntityHandle item = make_item(m_world, codename, name, desc, level);
 
         TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 

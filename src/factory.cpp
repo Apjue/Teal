@@ -52,11 +52,12 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     return e;
 }
 
-Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& name, const Nz::String& desc, unsigned level)
+Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
+                            const Nz::String& desc, unsigned level)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
-    e->AddComponent<Items::ItemComponent>();
+    e->AddComponent<Items::ItemComponent>(codename);
     e->AddComponent<NameComponent>().name = name;
     e->AddComponent<DescriptionComponent>().description = desc;
     e->AddComponent<LevelComponent>(level);

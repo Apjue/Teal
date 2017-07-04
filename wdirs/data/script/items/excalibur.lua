@@ -1,5 +1,6 @@
 teal_item =
 {
+    codename = "excalibur",
     name = "Excalibur",
     desc = "Legendary Sword",
     level = 1,
