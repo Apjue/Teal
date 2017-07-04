@@ -348,9 +348,32 @@ void Game::loadSkills()
 
     // test
     SkillData s;
-    s.attackList.push_back(std::make_shared<DamageData>(Element::Neutral, 10));
+    s.attackList.push_back(std::make_shared<DamageData>(Element::Fire, 100));
 
-    m_skills.addSkill("random_skill", s);
+    m_skills.addSkill("item_excalibur", s);
+    
+    Nz::Directory skills { m_scriptPrefix + "skills/" };
+    skills.SetPattern("*.lua");
+    skills.Open();
+
+    while (skills.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(skills.GetResultPath()))
+        {
+            NazaraError("Error loading item " + skills.GetResultName());
+            continue;
+        }
+
+        TealException(lua.GetGlobal("teal_skill") == Nz::LuaType_Table, "Lua: teal_skill isn't a table !");
+
+        LuaArguments args = parseLua(lua);
+        SkillData s(args);
+
+        m_skills.addSkill(s.codename, s);
+        NazaraDebug("Skill " + s.name + " loaded !");
+    }
 }
 
 void Game::loadItems()
