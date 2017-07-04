@@ -312,7 +312,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
         lua.Pop();
 
         MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
-        NazaraDebug("Lua: loaded map " + maps.GetResultName() + " at pos " + lua.CheckField<Nz::String>("pos"));
+        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + lua.CheckField<Nz::String>("pos"));
     }
     
     Nz::MaterialRef npcMat = Nz::Material::New();
@@ -372,7 +372,7 @@ void Game::loadSkills()
         SkillData s(args);
 
         m_skills.addSkill(s.codename, s);
-        NazaraDebug("Skill " + s.name + " loaded !");
+        NazaraDebug("Skill " + s.name + " loaded ! (" + s.codename + ")");
     }
 }
 
