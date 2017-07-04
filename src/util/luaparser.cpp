@@ -4,24 +4,21 @@
 
 #include "util/luaparser.hpp"
 
-LuaArguments parseLua(Nz::LuaInstance & lua)
+LuaArguments parseLua(Nz::LuaInstance& lua)
 {
     std::map<int /*depth*/, int /*index*/> index;
     LuaArguments arguments;
     arguments.push_back({});
 
-    for (unsigned i { 1 }, depth { 1 }, tableIndex { 1 };; ++i)
+    for (unsigned i { 1 }, depth { 1 }, tableIndex { 1 }; depth == 0; ++i)
     {
         lua.PushInteger(i);
 
         if (lua.GetTable() == Nz::LuaType_Nil)
         {
-            lua.Pop(1);
+            lua.Pop();
             --depth;
             ++tableIndex;
-
-            if (depth == 0)
-                break;
 
             i = index[depth];
             index[depth] = 0;
