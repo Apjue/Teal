@@ -12,7 +12,7 @@ LuaArguments parseLua(Nz::LuaInstance & lua)
 
     for (unsigned i { 1 }, depth { 1 }, tableIndex { 1 };; ++i)
     {
-        lua.PushInteger(j);
+        lua.PushInteger(i);
 
         if (lua.GetTable() == Nz::LuaType_Nil)
         {
