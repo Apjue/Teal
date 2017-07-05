@@ -3,14 +3,16 @@ teal_skill =
     {
         {
             "damage", -- type of attack
+            "enemies", -- target
             "fire", -- element
             100 -- damage
         },
 
         {
             "state",
-            "poisonned", -- type of state
+            "enemies",
             3, -- number of turns
+            "poison", -- type of state
 
             "fire",
             10

@@ -47,7 +47,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
         Feet   // Bottes
     };
 
-    BodyPart stringToBodypart(Nz::String string)
+    static BodyPart stringToBodypart(Nz::String string)
     {
         string = string.ToLower();
 
@@ -91,7 +91,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
         Left
     };
 
-    Side stringToSide(Nz::String string)
+    static Side stringToSide(Nz::String string)
     {
         string = string.ToLower();
 

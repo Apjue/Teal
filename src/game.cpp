@@ -336,22 +336,14 @@ void Game::loadMaps() /// \todo Load from file (lua)
 void Game::loadStates()
 {
     StateMetaData poison { "Poisonned", "You are poisonned. Life sucks." };
-    m_states.addSkill(PoisonnedState::getMetadataID(), poison);
+    m_states.addItem(PoisonnedState::getMetadataID(), poison);
 
     StateMetaData regen { "Regeneration", "You are healed. Life is cool." };
-    m_states.addSkill(HealedState::getMetadataID(), regen);
+    m_states.addItem(HealedState::getMetadataID(), regen);
 }
 
 void Game::loadSkills()
-{
-    /// \todo Load skills in lua
-
-    // test
-    SkillData s;
-    s.attackList.push_back(std::make_shared<DamageData>(Element::Fire, 100));
-
-    m_skills.addSkill("item_excalibur", s);
-    
+{    
     Nz::Directory skills { m_scriptPrefix + "skills/" };
     skills.SetPattern("*.lua");
     skills.Open();
@@ -373,7 +365,7 @@ void Game::loadSkills()
 
         SkillData s(args);
 
-        m_skills.addSkill(s.codename, s);
+        m_skills.addItem(s.codename, s);
         NazaraDebug("Skill " + s.name + " loaded ! (" + s.codename + ")");
     }
 }
@@ -432,7 +424,7 @@ void Game::loadItems()
             if (componentType == "Equippable")
             {
                 if (arguments.vars.size() >= 3)
-                    arguments.vars[2].set<double>(m_skills.getSkillIndex(arguments.vars[2].get<Nz::String>()));
+                    arguments.vars[2].set<double>(m_skills.getItemIndex(arguments.vars[2].get<Nz::String>()));
 
                 item->AddComponent<Items::EquippableComponent>(arguments);
             }

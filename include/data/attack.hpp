@@ -8,10 +8,17 @@
 #define ATTACK_HPP
 
 #include "attackdata.hpp"
+#include "def/typedef.hpp"
 
 struct Attack
 {
     Attack() = default;
+    Attack(const LuaArguments& args)
+    {
+        if (args.vars.size() >= 2)
+            data.target = AttackData::stringToTarget(args.vars[1].get<Nz::String>());
+    }
+
     virtual ~Attack() = default;
 
     AttackData data;
