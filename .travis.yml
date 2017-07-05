@@ -79,7 +79,7 @@ before_script:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - make -j4 config=${CONFIG}_x64
+  - make -j16 config=${CONFIG}_x64
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
