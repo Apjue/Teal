@@ -4,58 +4,41 @@
 
 #include "util/luaparser.hpp"
 
-LuaArguments parseLua(Nz::LuaInstance& lua)
+void parseLua(Nz::LuaInstance& lua, LuaArguments& table)
 {
-    std::map<int /*depth*/, int /*index*/> index;
-    LuaArguments arguments;
-
-    for (unsigned i { 1 }, depth { 1 }, tableIndex { 1 }; depth > 0; ++i)
+    for (unsigned i { 1 };; ++i)
     {
         lua.PushInteger(i);
 
         if (lua.GetTable() == Nz::LuaType_Nil)
         {
             lua.Pop();
-            --depth;
-            ++tableIndex;
-
-            i = index[depth];
-            index[depth] = 1;
-
-            continue;
+            break;
         }
 
-        LuaTableArgument table; // BUG: tableindex
         LuaBasicArgument arg;
+        LuaTableArgument tableArg;
 
         switch (lua.GetType(-1))
         {
             case Nz::LuaType_Boolean:
                 arg.set<bool>(lua.CheckBoolean(-1));
-                arguments.vars.push_back(arg);
-
+                table.vars.push_back(arg);
                 break;
 
             case Nz::LuaType_Number:
                 arg.set<double>(lua.CheckNumber(-1));
-                arguments.vars.push_back(arg);
-
+                table.vars.push_back(arg);
                 break;
 
             case Nz::LuaType_String:
                 arg.set<Nz::String>(Nz::String { lua.CheckString(-1) });
-                arguments.vars.push_back(arg);
-
+                table.vars.push_back(arg);
                 break;
 
             case Nz::LuaType_Table:
-                index[depth] = i;
-                i = 1;
-
-                tableIndex = 1;
-                arguments.tables.push_back(std::make_shared<LuaTableArgument>(table));
-
-                ++depth;
+                table.tables.push_back(std::make_shared<LuaTableArgument>(tableArg));
+                parseLua(lua, *(table.tables.back().get()));
                 break;
 
             default:
@@ -65,6 +48,4 @@ LuaArguments parseLua(Nz::LuaInstance& lua)
 
         lua.Pop();
     }
-
-    return arguments;
 }

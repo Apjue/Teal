@@ -368,7 +368,9 @@ void Game::loadSkills()
 
         TealException(lua.GetGlobal("teal_skill") == Nz::LuaType_Table, "Lua: teal_skill isn't a table !");
 
-        LuaArguments args = parseLua(lua);
+        LuaArguments args;
+        parseLua(lua, args);
+
         SkillData s(args);
 
         m_skills.addSkill(s.codename, s);
@@ -414,7 +416,9 @@ void Game::loadItems()
             }
 
             Nz::String componentType = lua.CheckField<Nz::String>("component");
-            LuaArguments arguments = parseLua(lua);
+
+            LuaArguments arguments;
+            parseLua(lua, arguments);
 
             if (componentType == "AttackModifier")
                 item->AddComponent<AttackModifierComponent>(arguments);

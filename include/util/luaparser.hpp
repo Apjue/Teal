@@ -9,7 +9,8 @@
 
 #include <Nazara/Lua.hpp>
 #include "def/typedef.hpp"
+#include "util/assert.hpp"
 
-extern LuaArguments parseLua(Nz::LuaInstance& lua);
+extern void parseLua(Nz::LuaInstance& lua, LuaArguments& table);
 
 #endif // LUAPARSER_HPP
