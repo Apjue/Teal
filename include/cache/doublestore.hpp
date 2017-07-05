@@ -39,9 +39,9 @@ public:
     DoubleStore() = default;
     ~DoubleStore() = default;
 
-    inline LightID addSkill(const HeavyID& name, const Value& skill);
-    inline Value&  getSkill(LightID id);
-    inline LightID getSkillIndex(const HeavyID& name);
+    inline LightID addItem(const HeavyID& name, const Value& skill);
+    inline Value&  getItem(LightID id);
+    inline LightID getItemIndex(const HeavyID& name);
 
 private:
     LightID m_counter;

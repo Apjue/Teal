@@ -3,7 +3,7 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 template<class Value, class LightID, class HeavyID>
-auto DoubleStore<Value, LightID, HeavyID>::addSkill(const HeavyID& name, const Value& skill) -> LightID
+auto DoubleStore<Value, LightID, HeavyID>::addItem(const HeavyID& name, const Value& skill) -> LightID
 {
     TealAssert(m_conversionTable.find(name) == m_conversionTable.end(), "Item with that name already exists !");
 
@@ -14,13 +14,13 @@ auto DoubleStore<Value, LightID, HeavyID>::addSkill(const HeavyID& name, const V
 }
 
 template<class Value, class LightID, class HeavyID>
-auto DoubleStore<Value, LightID, HeavyID>::getSkill(LightID id) -> Value&
+auto DoubleStore<Value, LightID, HeavyID>::getItem(LightID id) -> Value&
 {
     return m_items[id];
 }
 
 template<class Value, class LightID, class HeavyID>
-auto DoubleStore<Value, LightID, HeavyID>::getSkillIndex(const HeavyID& name) -> LightID
+auto DoubleStore<Value, LightID, HeavyID>::getItemIndex(const HeavyID& name) -> LightID
 {
     TealAssert(m_conversionTable.find(name) != m_conversionTable.end(), "Item with that name does not exist !");
     return m_conversionTable[name];
