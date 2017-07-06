@@ -120,22 +120,40 @@ void Game::showCharacteristics() // [TEST]
 
 void Game::loadTextures()
 {
-    std::vector<std::pair<Nz::String, Nz::String>> filepaths
+    TealException(Nz::File::Exists(m_scriptPrefix + "textures.lua"), "textures.lua not found !");
+
+    Nz::LuaInstance lua;
+    TealException(lua.ExecuteFromFile(m_scriptPrefix + "textures.lua"), "Lua: textures.lua loading failed !");
+    TealException(lua.GetGlobal("teal_textures") == Nz::LuaType_Table, "Lua: teal_textures isn't a table !");
+
+    for (int i { 1 };; ++i)
     {
-        { ":/game/money", "game/main/money.png" },
-        { ":/game/scheme", "game/main/scheme.png" },
-        { ":/game/teal", "game/main/teal.png" },
-        { ":/game/tileset", "game/main/tileset.png" },
-        { ":/game/fight_tileset", "game/main/tileset_fight.png" },
-        { ":/game/char/villager", "game/char/villager.png" }
+        lua.PushInteger(i);
 
-        //...
-    };
+        if (lua.GetTable() != Nz::LuaType_Table)
+        {
+            lua.Pop();
+            break;
+        }
 
-    for (auto& pair : filepaths)
-        Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(m_imgPrefix + pair.second));
+        lua.PushInteger(1);
+        lua.GetTable();
+
+        Nz::String id = lua.CheckString(-1);
+        lua.Pop();
 
 
+        lua.PushInteger(2);
+        lua.GetTable();
+
+        Nz::String filepath = lua.CheckString(-1);
+        lua.Pop();
+
+        Nz::TextureLibrary::Register(id, Nz::TextureManager::Get(m_imgPrefix + filepath));
+        NazaraDebug("Texture " + id + " loaded ! (" + filepath + ")");
+
+        lua.Pop();
+    }
 }
 
 void Game::initTilesetCore()
@@ -145,9 +163,7 @@ void Game::initTilesetCore()
     {
         Nz::LuaInstance lua;
         TealException(lua.ExecuteFromFile(m_scriptPrefix + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
-
-        lua.GetGlobal("teal_tilesetcore");
-        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
+        TealException(lua.GetGlobal("teal_tilesetcore") == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
 
         unsigned tileNumber {};
 
