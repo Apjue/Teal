@@ -308,7 +308,7 @@ void Game::loadMetaData()
     m_states.addItem(PoisonnedState::getMetadataID(), { "Poisonned", "You are poisonned. Life sucks." });
     m_states.addItem(HealedState::getMetadataID(), { "Regeneration", "You are healed. Life is cool." });
 
-    m_effects.addItem(PullEffect::getMetadataID(), { "Pull" });
+    m_effects.addItem(PullEffect::getMetadataID(), { "Pull", "You are pulled. Someone wants the D." });
     m_effects.addItem(PushEffect::getMetadataID(), { "Push" });
 }
 
