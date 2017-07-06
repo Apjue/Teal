@@ -150,7 +150,7 @@ void Game::loadTextures()
         lua.Pop();
 
         Nz::TextureLibrary::Register(id, Nz::TextureManager::Get(m_imgPrefix + filepath));
-        NazaraDebug("Texture " + id + " loaded ! (" + filepath + ")");
+        NazaraDebug("Texture " + id + " loaded !");
 
         lua.Pop();
     }
