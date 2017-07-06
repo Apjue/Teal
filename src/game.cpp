@@ -32,7 +32,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addEntities();
     addSystems();
 
-    loadStates();
+    loadMetaData();
     loadSkills();
     loadItems();
 
@@ -333,13 +333,15 @@ void Game::loadMaps() /// \todo Load from file (lua)
     MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
 }
 
-void Game::loadStates()
+void Game::loadMetaData()
 {
-    StateMetaData poison { "Poisonned", "You are poisonned. Life sucks." };
-    m_states.addItem(PoisonnedState::getMetadataID(), poison);
+    /// \todo lua
 
-    StateMetaData regen { "Regeneration", "You are healed. Life is cool." };
-    m_states.addItem(HealedState::getMetadataID(), regen);
+    m_states.addItem(PoisonnedState::getMetadataID(), { "Poisonned", "You are poisonned. Life sucks." });
+    m_states.addItem(HealedState::getMetadataID(), { "Regeneration", "You are healed. Life is cool." });
+
+    m_effects.addItem(PullEffect::getMetadataID(), { "Pull" });
+    m_effects.addItem(PushEffect::getMetadataID(), { "Push" });
 }
 
 void Game::loadSkills()

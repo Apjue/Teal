@@ -18,6 +18,7 @@ struct StateData : public Attack
     StateData() = default;
     StateData(const LuaArguments& args) : Attack(args)
     {
+        TealException(args.vars.size() >= 4, "Wrong number of arguments. Need at least 4");
         TealAssert(args.vars[0].get<Nz::String>() == "state", "Wrong type of attack");
 
         Nz::String stateType = args.vars[3].get<Nz::String>().ToLower();

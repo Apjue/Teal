@@ -19,8 +19,8 @@ struct DamageData : public Attack
 
     DamageData(const LuaArguments& args) : Attack(args)
     {
-        TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
         TealAssert(args.vars[0].get<Nz::String>() == "damage", "Wrong type");
+        TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
 
         damage.first = stringToElement(args.vars[2].get<Nz::String>());
         damage.second = static_cast<int>(args.vars[3].get<double>());

@@ -8,13 +8,19 @@
 #define STATEMETADATA_HPP
 
 #include <Nazara/Core/String.hpp>
-#include <Nazara/Renderer/Texture.hpp>
 
 struct StateMetaData
 {
     Nz::String name;
     Nz::String description;
-    Nz::TextureRef icon;
+    Nz::String icon;
+};
+
+struct EffectMetaData
+{
+    Nz::String name;
+    Nz::String description;
+    Nz::String icon;
 };
 
 #endif // STATEMETADATA_HPP

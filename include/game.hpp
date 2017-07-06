@@ -83,6 +83,7 @@ private:
     const Nz::String m_scriptPrefix = m_rootPrefix + "script/";
     
     StateMDStore m_states;
+    EffectMDStore m_effects;
     SkillStore m_skills;
     Ndk::EntityList m_items;
 
@@ -105,7 +106,7 @@ private:
     //void loadMapobjects();
     void loadMaps();
 
-    void loadStates();
+    void loadMetaData();
     void loadSkills();
     void loadItems();
 

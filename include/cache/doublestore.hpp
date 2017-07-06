@@ -13,14 +13,14 @@
 #include <memory>
 #include "util/assert.hpp"
 #include "data/skilldata.hpp"
-#include "data/statemetadata.hpp"
+#include "data/metadata.hpp"
 
 template<class Value, class LightID = std::size_t, class HeavyID = Nz::String>
 class DoubleStore;
 
 using SkillStore = DoubleStore<SkillData>;
 using StateMDStore = DoubleStore<StateMetaData>;
-//using EffectStore = DoubleStore<EffectData>;
+using EffectMDStore = DoubleStore<EffectMetaData>;
 
 ///
 /// \class DoubleStore

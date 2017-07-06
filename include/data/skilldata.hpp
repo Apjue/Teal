@@ -14,6 +14,7 @@
 #include "attack.hpp"
 #include "damagedata.hpp"
 #include "statedata.hpp"
+#include "effectdata.hpp"
 #include "def/typedef.hpp"
 
 struct SkillData
@@ -37,6 +38,12 @@ struct SkillData
                 {
                     TealException(!table->vars.empty(), "Empty arguments !");
                     attackList.push_back(std::make_shared<StateData>(*(table.get())));
+                }
+
+                else if (table->vars.at(0).get<Nz::String>() == "effect")
+                {
+                    TealException(!table->vars.empty(), "Empty arguments !");
+                    attackList.push_back(std::make_shared<EffectData>(*(table.get())));
                 }
             }
 
