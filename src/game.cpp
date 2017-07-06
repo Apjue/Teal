@@ -125,7 +125,7 @@ void Game::loadTextures()
         { ":/game/money", "game/main/money.png" },
         { ":/game/scheme", "game/main/scheme.png" },
         { ":/game/teal", "game/main/teal.png" },
-        { Def::DEFAULTMAPTILESET, "game/main/tileset.png" },
+        { ":/game/tileset", "game/main/tileset.png" },
         { ":/game/fight_tileset", "game/main/tileset_fight.png" },
         { ":/game/char/villager", "game/char/villager.png" }
 
@@ -135,55 +135,7 @@ void Game::loadTextures()
     for (auto& pair : filepaths)
         Nz::TextureLibrary::Register(pair.first, Nz::TextureManager::Get(m_imgPrefix + pair.second));
 
-    // Load custom textures
-    // Custom textures can be used in custom mods
 
-    /// \todo Custom mods
-
-    // First, checks if it exists
-    if (!Nz::File::Exists(m_addonsPrefix + "additional_textures"))
-        return;
-
-    // Now, open it
-    Nz::File customTextures;
-
-    if (!customTextures.Open(m_addonsPrefix + "additional_textures",
-                             Nz::OpenMode_ReadOnly | Nz::OpenMode_Text))
-    {
-        NazaraNotice("Cannot open custom textures file");
-        return;
-    }
-
-    if (customTextures.GetSize() == 0)
-        return; // Empty file
-
-    std::vector<Nz::String> customPair;
-
-    while (!customTextures.EndOfFile())
-    {
-        auto line = customTextures.ReadLine();
-
-        if (line.StartsWith("#") || // Comment
-            line.IsEmpty() || line == ' ') // Empty line
-            continue;
-
-        customPair.clear();
-
-        if (line.Split(customPair, " ; ") != 2u)
-            continue; // Need 2 values
-
-        auto texture = Nz::TextureManager::Get(m_addonsImgPrefix + customPair[1]);
-
-        if (!texture.IsValid())
-        {
-            NazaraError("Texture " + customPair[0] + " can't be loaded - wrong filepath.\n"
-                        "Provided filepath = " + customPair[1]);
-            continue;
-        }
-
-        Nz::TextureLibrary::Register(customPair[0], texture);
-        NazaraDebug("Texture " + customPair[0] + " loaded !");
-    }
 }
 
 void Game::initTilesetCore()
@@ -518,7 +470,7 @@ void Game::addEntities()
     m_map = m_world->CreateEntity();
 
     auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(Def::DEFAULTMAPTILESET)->GetFilePath(),
+    mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
                  Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
 
     //mapComp.map->m_fightMode = true;
