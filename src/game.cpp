@@ -359,9 +359,10 @@ void Game::loadItems()
         Nz::String codename = lua.CheckField<Nz::String>("codename");
         Nz::String name = lua.CheckField<Nz::String>("name");
         Nz::String desc = lua.CheckField<Nz::String>("desc", "No description");
-        unsigned  level = lua.CheckField<unsigned>("level", 1);
+        unsigned  level = lua.CheckField<unsigned>("level");
+        Nz::String icon = lua.CheckField<Nz::String>("icon");
 
-        Ndk::EntityHandle item = make_item(m_world, codename, name, desc, level);
+        Ndk::EntityHandle item = make_item(m_world, codename, name, desc, level, icon == "" ? Nz::TextureLibrary::Get(":/game/unknown") : Nz::TextureLibrary::Get(icon));
 
         TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 
@@ -430,19 +431,21 @@ void Game::initNazara()
     Ndk::InitializeComponent<LifeComponent>("life");
     Ndk::InitializeComponent<MapComponent>("map");
     Ndk::InitializeComponent<MapPositionComponent>("mappos");
-    Ndk::InitializeComponent<AttackModifierComponent>("atkbonus");
-    Ndk::InitializeComponent<ResistanceModifierComponent>("atkres");
+    Ndk::InitializeComponent<AttackModifierComponent>("atkmodif");
+    Ndk::InitializeComponent<ResistanceModifierComponent>("resmodif");
     Ndk::InitializeComponent<DescriptionComponent>("desc");
     Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");
     Ndk::InitializeComponent<BlockTileComponent>("blcktile");
     Ndk::InitializeComponent<MonsterComponent>("monster");
     Ndk::InitializeComponent<EquipmentComponent>("equip");
+    Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");
+    Ndk::InitializeComponent<IconComponent>("icon");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
     Ndk::InitializeComponent<Items::EquippableComponent>("iequip");
     Ndk::InitializeComponent<Items::EdibleComponent>("edible");
-    Ndk::InitializeComponent<Items::ResourceComponent>("res");
+    Ndk::InitializeComponent<Items::ResourceComponent>("resource");
 
     // Systems
     Ndk::InitializeSystem<AISystem>();

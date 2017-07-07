@@ -5,5 +5,6 @@ teal_textures =
     { ":/game/teal", "game/main/teal.png" },
     { ":/game/tileset", "game/main/tileset.png" },
     { ":/game/fight_tileset", "game/main/tileset_fight.png" },
-    { ":/game/char/villager", "game/char/villager.png" }
+    { ":/game/char/villager", "game/char/villager.png" },
+    { ":/game/unknown", "game/main/unknown.png" }
 }

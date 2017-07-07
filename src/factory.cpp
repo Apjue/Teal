@@ -53,7 +53,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 }
 
 Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
-                            const Nz::String& desc, unsigned level)
+                            const Nz::String& desc, unsigned level, Nz::TextureRef icon)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
@@ -61,6 +61,27 @@ Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codenam
     e->AddComponent<NameComponent>().name = name;
     e->AddComponent<DescriptionComponent>().description = desc;
     e->AddComponent<LevelComponent>(level);
+    e->AddComponent<IconComponent>().icon = icon;;
+
+    return e;
+}
+
+extern Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, Nz::Vector2f size, int renderOrder)
+{
+    TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
+
+    Ndk::EntityHandle e = w->CreateEntity();
+
+    e->AddComponent<Ndk::NodeComponent>();
+    e->AddComponent<LogicEntityIdComponent>().logicEntity = logicItem;
+
+    auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
+
+    Nz::SpriteRef sprite = Nz::Sprite::New();
+    sprite->SetTexture(logicItem->GetComponent<IconComponent>().icon, false);
+    sprite->SetSize(size);
+
+    gfx.Attach(sprite, renderOrder);
 
     return e;
 }

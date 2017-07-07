@@ -4,6 +4,7 @@ teal_item =
     name = "Excalibur",
     desc = "Legendary Sword",
     level = 1,
+    icon = "",
 
     components =
     {

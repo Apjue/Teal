@@ -29,6 +29,8 @@
 #include "components/common/blocktilecomponent.hpp"
 #include "components/common/monstercomponent.hpp"
 #include "components/common/equipmentcomponent.hpp"
+#include "components/common/logicentityidcomponent.hpp"
+#include "components/common/iconcomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"
