@@ -12,7 +12,8 @@ Class Header:
 #ifndef CLASSNAME_HPP
 #define CLASSNAME_HPP
 
-#include <ExternalLib/Header.hpp>
+#include <NDK/Header.hpp>
+#include <Nazara/Module/Header.hpp>
 #include <STLHeader>
 #include "myheader.hpp"
 
@@ -20,10 +21,11 @@ class MyClass : public AnotherClass
 {
 public:
     DefaultConstructor() = default;
-    DefaultDestructor() = default;
 
     Constructors();
-    Destructor(); // Only if required, else use default destructor
+
+    ~DefaultDestructor() = default;
+    ~Destructor(); // Only if required, else use default destructor
 
     functionA(unsigned a, unsigned long b, int short c);
     virtual functionB(const unsigned& a, const unsigned long* b) const override;
@@ -49,12 +51,12 @@ Class Source:
 
 MyClass::functionB(const unsigned& a, const unsigned long* b) const
 {
-    for (int i {}; i < 10; ++i);
+    for (int i { 4 }; i < 10; ++i);
 
     const int c;
     const unsigned& d { a };
 
-    //...
+    // ...
 }
 
 ```
