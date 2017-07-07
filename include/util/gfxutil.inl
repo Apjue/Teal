@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -10,8 +10,6 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
     std::vector<Nz::InstancedRenderableRef> attached;
     gfx.GetAttachedRenderables(&attached);
 
-    T* rdable {};
-
     for (auto&& renderable : attached)
     {
         T* casted = dynamic_cast<T*>(renderable.Get());
@@ -20,5 +18,5 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
             return casted;
     }
 
-    return rdable;
+    return nullptr;
 }
