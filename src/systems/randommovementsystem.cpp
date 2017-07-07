@@ -50,7 +50,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                     Orientation orient = static_cast<Orientation>(direction);
                     DiffTile xy = OrientToDiff(orient);
 
-                    mov.tile = { pos.x + xy.x, pos.y + xy.y };
+                    mov.tile = pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) };
                     mov.playerInitiated = false;
                 }
 
@@ -59,10 +59,10 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 auto map = m_map.lock();
                 TealAssert(map->getMap().IsValid(), "Map isn't valid !");
 
-                for (unsigned counter {}, x { pos.x }, y { pos.y }; counter < rd.nbTiles; ++counter)
+                for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
                 { // TODO: Redo this. Only works with 1 tile
-                    x = pos.x;
-                    y = pos.y;
+                    x = pos.xy.x;
+                    y = pos.xy.y;
 
                     XYToArray(x, y);
 
@@ -85,16 +85,16 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                     }
 
                     else
-                        xy = AbsPosToDiff({ pos.x, pos.y }, adjacentTiles.begin()->first);
+                        xy = AbsPosToDiff(pos.xy, adjacentTiles.begin()->first);
 
-                    unsigned newXpos = pos.x + xy.x;
-                    unsigned newYpos = pos.y + xy.y;
+                    unsigned newXpos = (pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) }).x;
+                    unsigned newYpos = (pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) }).y;
 
                     XYToArray(newXpos, newYpos);
 
                     if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).obstacle == 0)
                     {
-                        mov.tile = { pos.x + xy.x, pos.y + xy.y };
+                        mov.tile = pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) };
                         mov.playerInitiated = false;
 
                         break;

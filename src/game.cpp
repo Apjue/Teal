@@ -29,12 +29,12 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initIcon();
     initCam();
 
-    addEntities();
-    addSystems();
-
     loadMetaData();
     loadSkills();
     loadItems();
+
+    addEntities();
+    addSystems();
 
     initEventHandler();
     addWidgets();
@@ -303,8 +303,6 @@ void Game::loadMaps() /// \todo Load from file (lua)
 
 void Game::loadMetaData()
 {
-    /// \todo lua
-
     m_states.addItem(PoisonnedState::getMetadataID(), { "Poisonned", "You are poisonned. Life sucks." });
     m_states.addItem(HealedState::getMetadataID(), { "Regeneration", "You are healed. Life is cool." });
 
@@ -491,6 +489,16 @@ void Game::addEntities()
 
     //mapComp.map->m_fightMode = true;
     //mapComp.map->update();
+
+    /*auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<Items::ItemComponent>().codename == "excalibur"; });
+
+    if (it != m_items.end())
+    {
+        auto& newItem = (*it)->Clone();
+
+        newItem->AddComponent<PositionComponent>().xy = { 2u, 2u };
+        MapDataLibrary::Get("0;0")->getEntities().Insert(newItem);
+    }*/
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,20 +8,15 @@
 #define POSITIONCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include "global.hpp"
 
 struct PositionComponent : public Ndk::Component<PositionComponent>
 {
-    PositionComponent(unsigned x_ = 0, unsigned y_ = 0) : x { x_ }, y { y_ } {}
+    PositionComponent() = default;
+    PositionComponent(const AbsTile& pos) : xy { pos } {}
 
-    unsigned x {}; //The actual position
-    unsigned y {}; //(absolute)
-
-                   //num:
-                   //X: +32px == +1
-                   //Y: +16px == +1
-
-    int inX {}; //Position in tile from x/y.
-    int inY {}; //difference.
+    AbsTile xy {}; // The actual position (absolute)
+    DiffTile inXY {}; // Position in tile from x/y (difference)
 
     bool moving { false };
 

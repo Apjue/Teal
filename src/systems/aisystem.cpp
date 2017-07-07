@@ -41,7 +41,7 @@ void AISystem::OnUpdate(float elapsed)
             auto& pathComp = e->GetComponent<PathComponent>();
             auto& path = pathComp.path;
 
-            AbsTile startPos { pos.x, pos.y };
+            AbsTile startPos = pos.xy;
 
             if (move.tile == startPos)
             {
@@ -61,7 +61,7 @@ void AISystem::OnUpdate(float elapsed)
 
             PathComponent::PathPool newPath;
 
-            if (pos.inX == 0 && pos.inY == 0)
+            if (pos.inXY == pos.inXY.Zero())
                 newPath = computePath(e, m_pather.get());
             else
                 continue;
@@ -71,8 +71,7 @@ void AISystem::OnUpdate(float elapsed)
                 path = newPath;
                 pathComp.totalSize = static_cast<unsigned>(path.size());
 
-                pos.inX = 0;
-                pos.inY = 0;
+                pos.inXY = pos.inXY.Zero();
             }
 
             /// \todo if !move.playerInitiated and no path found (something blocked and still blocking)

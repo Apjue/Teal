@@ -24,16 +24,16 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     // Where is the entity in the map ? Right, left, down, or up ?
     DirectionFlags entExt = 0; // Entity Extremity
 
-    if (pos.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
+    if (pos.xy.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
         entExt = Dir::Left;
 
-    else if (pos.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
+    else if (pos.xy.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
         entExt = Dir::Right;
 
-    else if (pos.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Up
+    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Up
         entExt = Dir::Up;
 
-    else if (pos.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Down
+    else if (pos.xy.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Down
         entExt = Dir::Down;
 
     if (!entExt)
@@ -50,7 +50,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
         map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::LMAPX;
-        y = pos.y;
+        y = pos.xy.y;
     }
 
     else if (entExt & Dir::Right)
@@ -58,14 +58,14 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
         map = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
-        y = pos.y;
+        y = pos.xy.y;
     }
 
     else if (entExt & Dir::Up)
     {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
-        x = pos.x;
+        x = pos.xy.x;
         y = Def::LMAPY - 1;
     }
 
@@ -73,7 +73,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     {
         map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
-        x = pos.x;
+        x = pos.xy.x;
         y = 1u;
     }
 
@@ -115,7 +115,7 @@ bool changeMap()
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::LMAPX;
-        y = pos.y;
+        y = pos.xy.y;
 
         mapX = mapPos.x - 1;
         mapY = mapPos.y;
@@ -129,7 +129,7 @@ bool changeMap()
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
-        y = pos.y;
+        y = pos.xy.y;
 
         mapX = mapPos.x + 1;
         mapY = mapPos.y;
@@ -142,7 +142,7 @@ bool changeMap()
     {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
-        x = pos.x;
+        x = pos.xy.x;
         y = Def::LMAPY - 1;
 
         mapX = mapPos.x;
@@ -156,7 +156,7 @@ bool changeMap()
     {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
-        x = pos.x;
+        x = pos.xy.x;
         y = 1u;
 
         mapX = mapPos.x;
@@ -177,8 +177,7 @@ bool changeMap()
 
     clearPatherCache();
 
-    pos.x = x;
-    pos.y = y;
+    pos.xy = { x, y };
 
     mapPos.x = mapX;
     mapPos.y = mapY;

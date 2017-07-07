@@ -15,15 +15,15 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
     if (move.tile == toVector(Def::NOMOVEPOS))
         return PathComponent::PathPool {}; // This entity doesn't want to move.
 
-    if (pos.moving && !isPositionValid({ pos.x, pos.y }))
+    if (pos.moving && !isPositionValid(pos.xy))
         return PathComponent::PathPool {}; // Invalid position, can't stop it
 
-    return computePath({ pos.x, pos.y }, move.tile, pather);
+    return computePath(pos.xy, move.tile, pather);
 }
 
 PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos, micropather::MicroPather* pather)
 {
-    if (startPos == lastPos || !isPositionValid({ startPos.x, startPos.y }) || !isPositionValid({ lastPos.x, lastPos.y }))
+    if (startPos == lastPos || !isPositionValid(startPos) || !isPositionValid(lastPos))
         return PathComponent::PathPool {};
 
     TealAssert(pather, "Pather is null, cannot compute path !");

@@ -8,11 +8,13 @@
 #define MOVEMENTUTIL_HPP
 
 #include <NDK/Entity.hpp>
+#include <algorithm>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "components/common/blocktilecomponent.hpp"
 #include "components/common/movecomponent.hpp"
+#include "components/common/inventorycomponent.hpp"
 #include "def/gamedef.hpp"
 #include "data/mapdata.hpp"
 #include "util/gfxutil.hpp"

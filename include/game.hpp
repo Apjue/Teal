@@ -29,6 +29,7 @@
 #include <Nazara/Lua.hpp>
 #include <memory>
 #include <exception>
+#include <algorithm>
 #include "components.hpp"
 #include "systems.hpp"
 #include "util/assert.hpp"

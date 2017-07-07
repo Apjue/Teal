@@ -21,13 +21,10 @@ void moveEntity(const Ndk::EntityHandle& e)
     orient = DirToOrient(dir.first);
     auto xy = DirToXY(dir.first);
 
-    int moveX { xy.x };
-    int moveY { xy.y };
-
     if (pathComp.totalSize == 1) // Walk mode if path is short
     {
-        moveX = (moveX == 2 || moveX == -2) ? moveX / 2 : moveX;
-        moveY = (moveY == 2 || moveY == -2) ? moveY / 2 : moveY;
+        xy.x = (xy.x == 2 || xy.x == -2) ? xy.x / 2 : xy.x;
+        xy.y = (xy.y == 2 || xy.y == -2) ? xy.y / 2 : xy.y;
     }
 
     if (!pos.moving)
@@ -36,37 +33,36 @@ void moveEntity(const Ndk::EntityHandle& e)
         return; // Return so the animation system can animate.
     }
 
-    pos.inX += moveX;
-    pos.inY += moveY;
+    pos.inXY += xy;
     
     bool resetPosInX { true };
     
-    if (pos.inX > 0 && pos.inX >= Def::MAXPOSINTILE)
-        pos.x += (pos.inX / Def::MAXPOSINTILE);
+    if (pos.inXY.x > 0 && pos.inXY.x >= Def::MAXPOSINTILE)
+        pos.xy.x += (pos.inXY.x / Def::MAXPOSINTILE);
 
-    else if (-pos.inX >= Def::MAXPOSINTILE)
-        pos.x -= (-pos.inX / Def::MAXPOSINTILE);
+    else if (-pos.inXY.x >= Def::MAXPOSINTILE)
+        pos.xy.x -= (-pos.inXY.x / Def::MAXPOSINTILE);
 
     else
         resetPosInX = false;
 
-    pos.inX = resetPosInX ? 0 : pos.inX;
+    pos.inXY.x = resetPosInX ? 0 : pos.inXY.x;
 
 
     bool resetPosInY { true };
 
-    if (pos.inY > 0 && pos.inY >= Def::MAXPOSINTILE)
-        pos.y += (pos.inY / Def::MAXPOSINTILE);
+    if (pos.inXY.y > 0 && pos.inXY.y >= Def::MAXPOSINTILE)
+        pos.xy.y += (pos.inXY.y / Def::MAXPOSINTILE);
 
-    else if (-pos.inY >= Def::MAXPOSINTILE)
-        pos.y -= (-pos.inY / Def::MAXPOSINTILE);
+    else if (-pos.inXY.y >= Def::MAXPOSINTILE)
+        pos.xy.y -= (-pos.inXY.y / Def::MAXPOSINTILE);
 
     else
         resetPosInY = false;
 
-    pos.inY = resetPosInY ? 0 : pos.inY;
+    pos.inXY.y = resetPosInY ? 0 : pos.inXY.y;
 
-    if (pos.inX == 0 && pos.inY == 0) // Next tile reached
+    if (pos.inXY == pos.inXY.Zero()) // Next tile reached
     {
         if (!dir.second)
         {
@@ -77,7 +73,7 @@ void moveEntity(const Ndk::EntityHandle& e)
                 auto& mapPos = e->GetComponent<MapPositionComponent>();
                 MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y));
 
-                for (unsigned i {}, x {}, y {}, posX { pos.x }, posY { pos.y }; i < path.size(); ++i)
+                for (unsigned i {}, x {}, y {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
                 {
                     auto moveXY = DirToXY(path[i].first);
 
@@ -94,7 +90,7 @@ void moveEntity(const Ndk::EntityHandle& e)
                     if (tile.obstacle != 0 || tile.occupied)
                     {
                         auto& move = e->GetComponent<MoveComponent>();
-                        auto dirs = directionsToPositions(path, { pos.x, pos.y });
+                        auto dirs = directionsToPositions(path, pos.xy);
 
                         move.tile = dirs.back();
                         move.playerInitiated = false;
@@ -111,8 +107,39 @@ void moveEntity(const Ndk::EntityHandle& e)
         pos.moving = false; // Not moving anymore
         pathComp.totalSize = 0u;
 
-        if (e == getMainCharacter() && hasComponentsToChangeMap(e))
-            changeMap();
+        if (e == getMainCharacter())
+        {
+            if (hasComponentsToChangeMap(e))
+            {
+                if (e->HasComponent<InventoryComponent>())
+                {
+                    auto& mapPos = e->GetComponent<MapPositionComponent>();
+                    MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y));
+
+                    auto& inv = e->GetComponent<InventoryComponent>();
+
+                    for (;;)
+                    {
+                        auto it = std::find_if(currentMap->getEntities().begin(), currentMap->getEntities().end(),
+                                               [&e] (const Ndk::EntityHandle& item)
+                        { return isItemEntity(item) && item->HasComponent<PositionComponent>() &&
+                                 item->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy; });
+
+                        if (it == currentMap->getEntities().end())
+                            break;
+
+                        TealAssert(it->IsValid() && (*it)->IsValid(), "Item isn't valid");
+
+                        inv.add(*it);
+                        currentMap->getEntities().Remove(*it);
+                    }
+                }
+
+                changeMap();
+            }
+
+            
+        }
 
         if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)
         {
