@@ -362,7 +362,7 @@ void Game::loadItems()
         unsigned  level = lua.CheckField<unsigned>("level");
         Nz::String icon = lua.CheckField<Nz::String>("icon");
 
-        Ndk::EntityHandle item = make_item(m_world, codename, name, desc, level, icon == "" ? Nz::TextureLibrary::Get(":/game/unknown") : Nz::TextureLibrary::Get(icon));
+        Ndk::EntityHandle item = make_item(m_world, codename, name, desc, level, Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
         TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 
@@ -493,15 +493,21 @@ void Game::addEntities()
     //mapComp.map->m_fightMode = true;
     //mapComp.map->update();
 
-    /*auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<Items::ItemComponent>().codename == "excalibur"; });
+    auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<Items::ItemComponent>().codename == "excalibur"; });
 
     if (it != m_items.end())
     {
-        auto& newItem = (*it)->Clone();
+        auto& gfxEntity = make_graphicalItem(m_world, (*it)->Clone(), { 40, 40 }, { 12, -3 }, 5);
 
-        newItem->AddComponent<PositionComponent>().xy = { 2u, 2u };
-        MapDataLibrary::Get("0;0")->getEntities().Insert(newItem);
-    }*/
+        gfxEntity->AddComponent<PositionComponent>().xy = { 2u, 2u };
+        auto& mappos = gfxEntity->AddComponent<MapPositionComponent>();
+
+        mappos.x = 0;
+        mappos.y = 0;
+
+        refreshGraphicsPos(gfxEntity);
+        MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
+    }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
 

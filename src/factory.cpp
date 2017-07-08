@@ -66,7 +66,7 @@ Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codenam
     return e;
 }
 
-extern Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, Nz::Vector2f size, int renderOrder)
+extern Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
 {
     TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
 
@@ -74,6 +74,7 @@ extern Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk
 
     e->AddComponent<Ndk::NodeComponent>();
     e->AddComponent<LogicEntityIdComponent>().logicEntity = logicItem;
+    e->AddComponent<DefaultGraphicsPosComponent>(defGfxPos.x, defGfxPos.y);
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
 

@@ -15,6 +15,8 @@
 #include "components/common/blocktilecomponent.hpp"
 #include "components/common/movecomponent.hpp"
 #include "components/common/inventorycomponent.hpp"
+#include "components/common/iconcomponent.hpp"
+#include "components/common/logicentityidcomponent.hpp"
 #include "def/gamedef.hpp"
 #include "data/mapdata.hpp"
 #include "util/gfxutil.hpp"

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -18,7 +18,7 @@
 
 struct DefaultGraphicsPosComponent : public Ndk::Component<DefaultGraphicsPosComponent>
 {
-    DefaultGraphicsPosComponent(float x_, float y_) : x { x_ }, y { y_ } {}
+    DefaultGraphicsPosComponent(float x_ = 0.f, float y_ = 0.f) : x { x_ }, y { y_ } {}
 
     float x {};
     float y {};

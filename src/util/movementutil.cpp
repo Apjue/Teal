@@ -122,15 +122,18 @@ void moveEntity(const Ndk::EntityHandle& e)
                     {
                         auto it = std::find_if(currentMap->getEntities().begin(), currentMap->getEntities().end(),
                                                [&e] (const Ndk::EntityHandle& item)
-                        { return isItemEntity(item) && item->HasComponent<PositionComponent>() &&
+                        { return item->HasComponent<LogicEntityIdComponent>() && isMapEntity(item) &&
                                  item->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy; });
 
                         if (it == currentMap->getEntities().end())
                             break;
 
                         TealAssert(it->IsValid() && (*it)->IsValid(), "Item isn't valid");
+                        TealAssert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid() &&
+                                   (*it)->GetComponent<LogicEntityIdComponent>().logicEntity->IsValid(), "Pointed Item isn't valid");
 
-                        inv.add(*it);
+                        inv.add((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
+                        (*it)->Kill(); // I'm sorry.
                         currentMap->getEntities().Remove(*it);
                     }
                 }
