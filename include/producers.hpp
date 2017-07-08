@@ -17,6 +17,8 @@
 template<class T>
 struct SharedPointerProducer
 {
+    using Type = T;
+
     template<class... Args>
     static std::shared_ptr<T> create(Args&&... args)
     {
@@ -27,6 +29,8 @@ struct SharedPointerProducer
 template<class T>
 struct RawPointerProducer
 {
+    using Type = T;
+
     template<class... Args>
     static T* create(Args&&... args)
     {
@@ -37,6 +41,8 @@ struct RawPointerProducer
 template<class T>
 struct NzObjectRefProducer
 {
+    using Type = T;
+
     template<class... Args>
     static Nz::ObjectRef<T> create(Args&&... args)
     {
@@ -47,6 +53,8 @@ struct NzObjectRefProducer
 template<class T>
 struct NzObjectRefCopier
 {
+    using Type = T;
+
     template<class... Args>
     static Nz::ObjectRef<T> create(Args&&... args)
     {
@@ -58,6 +66,8 @@ struct NzObjectRefCopier
 template<class T>
 struct NzObjectHandleProducer
 {
+    using Type = T;
+
     template<class... Args>
     static Nz::ObjectHandle<T> create(Args&&... args)
     {

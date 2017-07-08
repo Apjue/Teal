@@ -71,7 +71,7 @@ void moveEntity(const Ndk::EntityHandle& e)
             if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
             {
                 auto& mapPos = e->GetComponent<MapPositionComponent>();
-                MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y));
+                MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y));
 
                 for (unsigned i {}, x {}, y {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
                 {
@@ -114,7 +114,7 @@ void moveEntity(const Ndk::EntityHandle& e)
                 if (e->HasComponent<InventoryComponent>())
                 {
                     auto& mapPos = e->GetComponent<MapPositionComponent>();
-                    MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y));
+                    MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y));
 
                     auto& inv = e->GetComponent<InventoryComponent>();
 

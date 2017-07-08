@@ -502,9 +502,6 @@ void Game::addEntities()
         gfxEntity->AddComponent<PositionComponent>().xy = { 2u, 2u };
         auto& mappos = gfxEntity->AddComponent<MapPositionComponent>();
 
-        mappos.x = 0;
-        mappos.y = 0;
-
         refreshGraphicsPos(gfxEntity);
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
     }

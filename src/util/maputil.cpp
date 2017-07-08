@@ -24,16 +24,16 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     // Where is the entity in the map ? Right, left, down, or up ?
     DirectionFlags entExt = 0; // Entity Extremity
 
-    if (pos.xy.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
+    if (pos.xy.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y))) // Left
         entExt = Dir::Left;
 
-    else if (pos.xy.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
+    else if (pos.xy.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y))) // Right
         entExt = Dir::Right;
 
-    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Up
+    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1))) // Up
         entExt = Dir::Up;
 
-    else if (pos.xy.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Down
+    else if (pos.xy.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1))) // Down
         entExt = Dir::Down;
 
     if (!entExt)
@@ -47,7 +47,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     if (entExt & Dir::Left)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y));
 
         x = Def::LMAPX;
         y = pos.xy.y;
@@ -55,7 +55,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Right)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y));
 
         x = 0u;
         y = pos.xy.y;
@@ -63,7 +63,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Up)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1));
 
         x = pos.xy.x;
         y = Def::LMAPY - 1;
@@ -71,7 +71,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Down)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1));
 
         x = pos.xy.x;
         y = 1u;
@@ -112,13 +112,13 @@ bool changeMap()
 
     if (canChange.second & Dir::Left)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y));
 
         x = Def::LMAPX;
         y = pos.xy.y;
 
-        mapX = mapPos.x - 1;
-        mapY = mapPos.y;
+        mapX = mapPos.xy.x - 1;
+        mapY = mapPos.xy.y;
 
         newOrient = Orientation::Left;
 
@@ -126,13 +126,13 @@ bool changeMap()
 
     else if (canChange.second & Dir::Right)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y));
 
         x = 0u;
         y = pos.xy.y;
 
-        mapX = mapPos.x + 1;
-        mapY = mapPos.y;
+        mapX = mapPos.xy.x + 1;
+        mapY = mapPos.xy.y;
 
         newOrient = Orientation::Right;
 
@@ -140,13 +140,13 @@ bool changeMap()
 
     else if (canChange.second & Dir::Up)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1));
 
         x = pos.xy.x;
         y = Def::LMAPY - 1;
 
-        mapX = mapPos.x;
-        mapY = mapPos.y + 1;
+        mapX = mapPos.xy.x;
+        mapY = mapPos.xy.y + 1;
 
         newOrient = Orientation::Up;
 
@@ -154,13 +154,13 @@ bool changeMap()
 
     else if (canChange.second & Dir::Down)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1));
 
         x = pos.xy.x;
         y = 1u;
 
-        mapX = mapPos.x;
-        mapY = mapPos.y - 1;
+        mapX = mapPos.xy.x;
+        mapY = mapPos.xy.y - 1;
 
         newOrient = Orientation::Down;
     }
@@ -179,8 +179,8 @@ bool changeMap()
 
     pos.xy = { x, y };
 
-    mapPos.x = mapX;
-    mapPos.y = mapY;
+    mapPos.xy.x = mapX;
+    mapPos.xy.y = mapY;
 
     if (m_mainChar->HasComponent<OrientationComponent>())
         m_mainChar->GetComponent<OrientationComponent>().dir = newOrient;

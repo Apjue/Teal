@@ -8,14 +8,13 @@
 #define MAPPOSITIONCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Math/Vector2.hpp>
 
 struct MapPositionComponent : public Ndk::Component<MapPositionComponent>
 {
-    MapPositionComponent(int x_ = 0, int y_ = 0)
-        : x { x_ }, y { y_ } {}
+    MapPositionComponent(const Nz::Vector2i& pos = {}) : xy { pos } {}
 
-    int x {};
-    int y {};
+    Nz::Vector2i xy;
 
     static Ndk::ComponentIndex componentIndex;
 };
