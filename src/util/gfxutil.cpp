@@ -95,7 +95,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& charac)
     auto& gfxpos = charac->GetComponent<Ndk::NodeComponent>();
     auto& dpos = charac->GetComponent<DefaultGraphicsPosComponent>();
 
-    Nz::Vector2f defPos { dpos.x, dpos.y };
+    Nz::Vector2f defPos { dpos.xy };
 
     unsigned const gX = pos.xy.x * Def::TILEGXSIZE; // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TILEGYSIZE;

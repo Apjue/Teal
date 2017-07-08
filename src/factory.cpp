@@ -22,7 +22,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     e->AddComponent<PositionComponent>(infos.defL);
     e->AddComponent<MapPositionComponent>(infos.mapPos);
 
-    e->AddComponent<DefaultGraphicsPosComponent>(infos.defG.x, infos.defG.y);
+    e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);
 
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
@@ -74,7 +74,7 @@ extern Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk
 
     e->AddComponent<Ndk::NodeComponent>();
     e->AddComponent<LogicEntityIdComponent>().logicEntity = logicItem;
-    e->AddComponent<DefaultGraphicsPosComponent>(defGfxPos.x, defGfxPos.y);
+    e->AddComponent<DefaultGraphicsPosComponent>(defGfxPos);
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
 

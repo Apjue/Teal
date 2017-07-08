@@ -8,6 +8,7 @@
 #define DEFAULTGRAPHICSPOSCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Math/Vector2.hpp>
 
 ///
 /// \struct DefaultGraphicsPosComponent
@@ -18,10 +19,9 @@
 
 struct DefaultGraphicsPosComponent : public Ndk::Component<DefaultGraphicsPosComponent>
 {
-    DefaultGraphicsPosComponent(float x_ = 0.f, float y_ = 0.f) : x { x_ }, y { y_ } {}
+    DefaultGraphicsPosComponent(const Nz::Vector2f& pos = {}) : xy { pos } {}
 
-    float x {};
-    float y {};
+    Nz::Vector2f xy;
 
     static Ndk::ComponentIndex componentIndex;
 };
