@@ -44,7 +44,9 @@ template<class... Ts>
 class Variant
 {
 public:
-    inline Variant();
+    static_assert(sizeof...(Ts) > 0, "Variant must not be empty");
+
+    Variant() = default;
     inline ~Variant();
 
     inline Variant(const Variant<Ts...>& other);
@@ -78,7 +80,7 @@ private:
 
     static inline std::type_index invalid_type();
 
-    std::type_index m_typeid;
+    std::type_index m_typeid { invalid_type() };
     Data m_data;
 };
 

@@ -38,12 +38,6 @@ void VariantHelper<F, Ts...>::copy(const std::type_index& old_t, const void* old
 } // namespace Detail
 
 template<class... Ts>
-Variant<Ts...>::Variant() : m_typeid(invalid_type())
-{
-    static_assert(sizeof...(Ts) > 0, "Variant must not be empty");
-}
-
-template<class... Ts>
 Variant<Ts...>::~Variant()
 {
     Helper::destroy(m_typeid, &m_data);
@@ -54,14 +48,12 @@ template<class... Ts>
 Variant<Ts...>::Variant(const Variant<Ts...>& other) : m_typeid(other.m_typeid)
 {
     Helper::copy(other.m_typeid, &other.m_data, &m_data);
-    static_assert(sizeof...(Ts) > 0, "Variant must not be empty");
 }
 
 template<class... Ts>
 Variant<Ts...>::Variant(Variant<Ts...>&& other) : m_typeid(other.m_typeid)
 {
     Helper::move(other.m_typeid, &other.m_data, &m_data);
-    static_assert(sizeof...(Ts) > 0, "Variant must not be empty");
 }
 
 
