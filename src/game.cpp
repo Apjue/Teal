@@ -204,7 +204,7 @@ void Game::initTilesetCore()
                 lua.Pop();
                 break;
             }
-            
+
             m_fightTilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
             ++tileNumber;
 
@@ -282,7 +282,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
         MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
         NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + lua.CheckField<Nz::String>("pos"));
     }
-    
+
     Nz::MaterialRef npcMat = Nz::Material::New();
     npcMat->Configure("Translucent2D");
     npcMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
@@ -311,7 +311,7 @@ void Game::loadMetaData()
 }
 
 void Game::loadSkills()
-{    
+{
     Nz::Directory skills { m_scriptPrefix + "skills/" };
     skills.SetPattern("*.lua");
     skills.Open();
@@ -497,7 +497,9 @@ void Game::addEntities()
 
     if (it != m_items.end())
     {
-        auto& gfxEntity = make_graphicalItem(m_world, (*it)->Clone(), { 40, 40 }, { 12, -3 }, 5);
+        auto &logicItem = (*it)->Clone();
+
+        auto &gfxEntity = make_graphicalItem(m_world, logicItem, {40, 40}, {12, -3}, 5);
 
         gfxEntity->AddComponent<PositionComponent>().xy = { 2u, 2u };
         auto& mappos = gfxEntity->AddComponent<MapPositionComponent>();
@@ -524,7 +526,7 @@ void Game::addEntities()
 
     CharacterData mainCharacData
     {
-        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove, 
+        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove,
         Orientation::Down, {}, false, "me", "", { { Element::Fire, 100 } }
     };
 
