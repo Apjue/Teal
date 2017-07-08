@@ -66,7 +66,8 @@ void moveEntity(const Ndk::EntityHandle& e)
     {
         if (!dir.second)
         {
-            path.erase(path.begin()); // To get next tile
+            std::swap(*(path.begin()), path.back());
+            path.pop_back(); // To get next tile
 
             if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
             {
