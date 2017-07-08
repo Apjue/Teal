@@ -500,7 +500,7 @@ void Game::addEntities()
         auto gfxEntity = make_graphicalItem(m_world, (*it)->Clone(), { 40, 40 }, { 12, -3 }, 5);
 
         gfxEntity->AddComponent<PositionComponent>().xy = { 2u, 2u };
-        auto& mappos = gfxEntity->AddComponent<MapPositionComponent>();
+        gfxEntity->AddComponent<MapPositionComponent>();
 
         refreshGraphicsPos(gfxEntity);
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
