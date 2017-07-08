@@ -95,6 +95,7 @@ private:
     // Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
     NazaraSlot(Nz::EventHandler, OnKeyPressed, m_keyPressEvent);
+    NazaraSlot(Nz::EventHandler, OnMouseMoved, m_mouseMovedEvent);
     NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_invButtonEvent);
 
     // Init Functions

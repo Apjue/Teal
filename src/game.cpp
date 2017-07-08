@@ -538,12 +538,12 @@ void Game::addSystems()
     m_world->AddSystem<AnimationSystem>();
 }
 
-void Game::initEventHandler()
+void Game::initEventHandler() // const WindowEvent::MouseMoveEvent&
 {
     auto& eventHandler = m_window.GetEventHandler();
 
     m_mouseButtonEvent.Connect(eventHandler.OnMouseButtonPressed,
-    [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseButtonEvent& event)
+                               [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseButtonEvent& event)
     { // Lambda to move the player if the user clicked in the map
         if (m_mapViewport.Contains(event.x, event.y) && !m_paused)
         {
@@ -557,7 +557,7 @@ void Game::initEventHandler()
     });
 
     m_keyPressEvent.Connect(eventHandler.OnKeyPressed,
-    [this] (const Nz::EventHandler*, const Nz::WindowEvent::KeyEvent& event)
+                            [this] (const Nz::EventHandler*, const Nz::WindowEvent::KeyEvent& event)
     {
         if (event.code == Nz::Keyboard::Escape) // Pause menu
             enablePauseMenu(!m_paused);
@@ -567,14 +567,24 @@ void Game::initEventHandler()
 
         switch (event.code)
         {
-        case Nz::Keyboard::I: // Inventory
-            showInventory(event.shift);
-            break;
+            case Nz::Keyboard::I: // Inventory
+                showInventory(event.shift);
+                break;
 
-        case Nz::Keyboard::C: // Caracteristics
-            showCharacteristics();
-            break;
+            case Nz::Keyboard::C: // Caracteristics
+                showCharacteristics();
+                break;
         }
+    });
+
+    m_mouseMovedEvent.Connect(eventHandler.OnMouseMoved,
+                              [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseMoveEvent& event)
+    {
+        if (m_mapViewport.Contains(event.x, event.y) && !m_paused)
+            m_window.SetCursor(Nz::SystemCursor_Pointer);
+
+        else
+            m_window.SetCursor(Nz::SystemCursor_Default);
     });
 }
 
