@@ -31,7 +31,7 @@ auto Cache<K, T, P, C>::add(const Key& k, Args&&... args) -> ManagerType
 
 template<class K, class T, class P, class C>
 template<class... Args>
-auto Cache<K, T, P, C>::add_(const Key& k, Args&&... args) -> InternalCache::iterator
+auto Cache<K, T, P, C>::add_(const Key& k, Args&&... args) -> typename InternalCache::iterator
 {
     return m_objects.emplace(k, P::template create<Args...>(std::forward<Args>(args)...)).first;
 }

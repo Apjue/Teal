@@ -9,6 +9,7 @@
 
 #include <unordered_map>
 #include <utility>
+#include <type_traits>
 #include "producers.hpp"
 #include "util/util.hpp"
 #include "util/classhash.hpp"
@@ -22,8 +23,6 @@ using DefaultCacheProducer = SharedPointerProducer<T>;
 /// \brief Wraps ManagerType objects
 ///        If object not found, m_empty ManagerType object is returned.
 ///
-/// \note In template, K and T are just used for Producer and Container's default values.
-///
 
 template<class K, class T, class Producer = DefaultCacheProducer<T>, class Container = std::unordered_map<K, decltype(Producer::create())>>
 class Cache
@@ -33,6 +32,9 @@ public:
     using Key = typename Container::key_type;
     using ManagerType = typename Container::mapped_type;
 
+    static_assert(std::is_same<K, Key>::value, "Keys types are different !");
+    static_assert(std::is_same<T, typename Producer::Type>::value, "Objects types are different !");
+    static_assert(std::is_same<decltype(Producer::create()), ManagerType>::value, "Objects types are different !");
 
     Cache(ManagerType empty);
     ~Cache() = default;
