@@ -497,9 +497,7 @@ void Game::addEntities()
 
     if (it != m_items.end())
     {
-        auto &logicItem = (*it)->Clone();
-
-        auto &gfxEntity = make_graphicalItem(m_world, logicItem, {40, 40}, {12, -3}, 5);
+        auto gfxEntity = make_graphicalItem(m_world, (*it)->Clone(), {40, 40}, {12, -3}, 5);
 
         gfxEntity->AddComponent<PositionComponent>().xy = { 2u, 2u };
         auto& mappos = gfxEntity->AddComponent<MapPositionComponent>();
