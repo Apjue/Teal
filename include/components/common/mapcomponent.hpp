@@ -47,7 +47,7 @@ public:
     MapInstance(MapInstance&&) = default;
     MapInstance& operator=(MapInstance&&) = default;
 
-    ~MapInstance() override = default;
+    ~MapInstance() = default;
 
     bool update();
     inline MapDataRef getMap() const;
