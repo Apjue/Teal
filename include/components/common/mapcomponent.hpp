@@ -47,7 +47,7 @@ public:
     MapInstance(MapInstance&&) = default;
     MapInstance& operator=(MapInstance&&) = default;
 
-    ~MapInstance() = default;
+    ~MapInstance() override = default;
 
     Nz::MaterialRef m_mat; // Tileset texture
     Nz::MaterialRef m_fightMat;
