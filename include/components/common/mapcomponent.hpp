@@ -19,6 +19,7 @@
 #include <Nazara/Graphics/Material.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/String.hpp>
+#include <Nazara/Graphics/TileMap.hpp>
 #include "micropather.h"
 #include "data/mapdata.hpp"
 #include "def/layerdef.hpp"
@@ -49,7 +50,7 @@ public:
 
     ~MapInstance() override = default;
 
-    bool update();
+    void update();
     inline MapDataRef getMap() const;
     inline void setMap(MapDataRef newMap);
 
@@ -63,7 +64,7 @@ private:
 
     Nz::MaterialRef m_mat; // Tileset texture
     Nz::MaterialRef m_fightMat;
-    Nz::ModelRef m_model; // Use SetMesh when mesh changed
+    Nz::TileMapRef m_tilemap;
 
     TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
     TilesetCore* m_fightTilesetCore {};
