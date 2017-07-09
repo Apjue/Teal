@@ -149,6 +149,10 @@ void moveEntity(const Ndk::EntityHandle& e)
 
                         inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
                         (*it)->Kill(); // I'm sorry.
+
+                        if (itIndex > it)
+                            --itIndex;
+
                         mapEntities.Remove(*it);
                     }
                 }
