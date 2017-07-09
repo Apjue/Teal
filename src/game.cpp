@@ -562,8 +562,14 @@ void Game::initEventHandler() // const WindowEvent::MouseMoveEvent&
         if (event.code == Nz::Keyboard::Escape) // Pause menu
             enablePauseMenu(!m_paused);
 
-        if (m_paused)
+        if (!m_paused)
+            m_window.SetCursor(Nz::SystemCursor_Pointer);
+
+        else
+        {
+            m_window.SetCursor(Nz::SystemCursor_Default);
             return;
+        }
 
         switch (event.code)
         {
