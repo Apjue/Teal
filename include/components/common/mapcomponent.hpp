@@ -49,6 +49,18 @@ public:
 
     ~MapInstance() override = default;
 
+    bool update();
+    inline MapDataRef getMap() const;
+    inline void setMap(MapDataRef newMap);
+
+    inline void setFightMode(bool f);
+    inline bool getFightMode() const;
+    inline void toggleFightMode();
+
+private:
+    Ndk::EntityHandle m_entity;
+    MapDataRef m_map; // You have to reset the pather after changing map
+
     Nz::MaterialRef m_mat; // Tileset texture
     Nz::MaterialRef m_fightMat;
     Nz::ModelRef m_model; // Use SetMesh when mesh changed
@@ -56,14 +68,6 @@ public:
     TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
     TilesetCore* m_fightTilesetCore {};
     bool m_fightMode {};
-
-    bool update();
-    inline MapDataRef getMap() const;
-    inline void setMap(MapDataRef newMap);
-
-private:
-    Ndk::EntityHandle m_entity;
-    MapDataRef m_map; // You have to reset the pather after changing map
 
     bool adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 
