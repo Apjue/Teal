@@ -17,8 +17,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
     m_fightMat->EnableFaceCulling(true);
     m_fightMat->SetFaceFilling(Nz::FaceFilling_Fill);
 
-    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MAPX, Def::MAPY }, Nz::Vector2f { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) });
-    m_tilemap->EnableIsometricMode(true);
+    m_model = Nz::Model::New();
 
     if (!m_entity->HasComponent<Ndk::NodeComponent>())
         m_entity->AddComponent<Ndk::NodeComponent>();
@@ -27,32 +26,115 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
         m_entity->AddComponent<Ndk::GraphicsComponent>();
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
-    graphicsComponent.Attach(m_tilemap, Def::MAP_LAYER);
+    graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
-void MapInstance::update()
+bool MapInstance::update() // Thanks Lynix for this code
 {
     TealAssert(m_tilesetCore, "TilesetCore nullptr !");
-    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
+    TealAssert(m_tilesetCore, "Fight TilesetCore nullptr !");
     TealAssert(m_map, "Map is not valid !");
 
-    TilesetCore* tcore = m_fightMode ? m_fightTilesetCore : m_tilesetCore;
+    Nz::MeshRef mesh = Nz::Mesh::New();
+    mesh->CreateStatic();
+
+    constexpr unsigned int width = Def::MAPX;
+    constexpr unsigned int height = Def::MAPY;
+
+    Nz::Vector2f tileSize { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) };
+
+    unsigned int indexCount = width * height * 6;
+    unsigned int vertexCount = width * height * 4;
+
+    Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount,
+                                                          Nz::DataStorage_Hardware, 0);
+    Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount,
+                                                             Nz::DataStorage_Hardware, 0);
+
+    {
+        Nz::VertexMapper vertexMapper(vertexBuffer, Nz::BufferAccess_WriteOnly);
+
+        auto positionPtr = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_Position);
+        auto uvPtr = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_TexCoord);
+
+        Nz::IndexMapper indexMapper(indexBuffer, Nz::BufferAccess_WriteOnly);
+
+        for (unsigned i {}; i < indexCount; ++i)
+            indexMapper.Set(i, i);
+
+        for (unsigned x {}; x < width; ++x)
+        {
+            for (unsigned y {}; y < height; ++y)
+            {
+                unsigned index = (x + y * width) * 6;
+                unsigned vertex = (x + y * width) * 4;
+
+                auto posPtr = positionPtr + vertex;
+                auto texCoordsPtr = uvPtr + vertex;
+
+
+                if (x < Def::REALMAPX)
+                {
+                    posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
+                    posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
+                    posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
+                    posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
+                }
+
+                else
+                {
+                    posPtr[0].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[1].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[2].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[3].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
+                }
+
+                posPtr[0].y = -posPtr[0].y;
+                posPtr[1].y = -posPtr[1].y;
+                posPtr[2].y = -posPtr[2].y;
+                posPtr[3].y = -posPtr[3].y;
+
+                indexMapper.Set(index + 0, vertex + 0);
+                indexMapper.Set(index + 1, vertex + 2);
+                indexMapper.Set(index + 2, vertex + 1);
+                indexMapper.Set(index + 3, vertex + 3);
+                indexMapper.Set(index + 4, vertex + 2);
+                indexMapper.Set(index + 5, vertex + 0);
+
+                const TileData& tile = m_map->tile(XYToIndex(x, y)); /// \todo Invisible tile
+                unsigned tileNumber = m_fightMode ? m_fightTilesetCore->get(tile.fightTextureId) : m_tilesetCore->get(tile.textureId);
+
+                float textureX = tileSize.x * tileNumber;
+                float tilesetSize = m_fightMode ? Def::FIGHTTILESETSIZE : Def::TILESETSIZE;
+
+                texCoordsPtr[0].Set((textureX + 0.f       ) / tilesetSize, 0.f);
+                texCoordsPtr[1].Set((textureX + tileSize.x) / tilesetSize, 0.f);
+                texCoordsPtr[2].Set((textureX + tileSize.x) / tilesetSize, 1.f);
+                texCoordsPtr[3].Set((textureX + 0.f       ) / tilesetSize, 1.f);
+            }
+        }
+    }
+
+    Nz::StaticMeshRef subMesh = Nz::StaticMesh::New(mesh);
+    if (!subMesh->Create(vertexBuffer))
+    {
+        NazaraError("Failed to create StaticMesh");
+        return false;
+    }
+
+    subMesh->SetIndexBuffer(indexBuffer);
+
+    subMesh->SetAABB(Nz::Boxf(0.f, 0.f, 0.f, width * tileSize.x, height * tileSize.y, 0.f));
+    subMesh->GenerateAABB();
+
+    mesh->AddSubMesh(subMesh);
 
     Nz::MaterialRef material = m_fightMode ? m_fightMat : m_mat;
-    m_tilemap->SetMaterial(0, material);
 
-    for (unsigned i {}; i < Def::TILEARRAYSIZE; ++i)
-    {
-        auto& tile = m_map->tile(i);
-        Nz::Vector2ui tilePos { IndexToXY(i).first, IndexToXY(i).second };
-        Nz::Rectui tileRect { tcore->get(m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TILEXSIZE, 0u, Def::TILEXSIZE, Def::TILEYSIZE };
+    m_model->SetMesh(mesh);
+    m_model->SetMaterial(0, material);
 
-        if (tile.visible)
-            m_tilemap->EnableTile(tilePos, tileRect);
-
-        else
-            m_tilemap->DisableTile(tilePos);
-    }
+    return true;
 }
 
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
