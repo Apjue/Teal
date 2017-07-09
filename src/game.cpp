@@ -47,9 +47,9 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
 void Game::showInventory(bool detail) // [TEST]
 {
     auto& inv = m_charac->GetComponent<InventoryComponent>();
-
     unsigned counter {};
-    for (auto& item : inv.getAll())
+
+    for (auto& item : inv.items)
     {
         std::cout << "Item #" << counter << ". ";
 

@@ -11,42 +11,12 @@
 #include <NDK/World.hpp>
 #include <NDK/EntityList.hpp>
 #include <Nazara/Core/Error.hpp>
-#include "components/items/itemcomponent.hpp"
-#include "util/assert.hpp"
 
-#ifdef TEAL_DEBUG
-    #include "util/entityutil.hpp"
-#endif
-
-///
-///
-/// \class InventoryComponent
-///
-/// \brief Contains items
-///
-/// \note Items are entities which at least have the Item Component
-///
-
-class InventoryComponent : public Ndk::Component<InventoryComponent>
+struct InventoryComponent : public Ndk::Component<InventoryComponent>
 {
-public:
-
-    InventoryComponent() = default;
-    ~InventoryComponent() = default;
-
-    inline void add(const Ndk::EntityHandle& e);
-    inline void remove(const Ndk::EntityHandle& e);
-    inline bool has(const Ndk::EntityHandle& e);
-
-    inline void clear();
-    inline const Ndk::EntityList& getAll() const;
+    Ndk::EntityList items;
 
     static Ndk::ComponentIndex componentIndex;
-
-private:
-    Ndk::EntityList m_items;
 };
-
-#include "inventorycomponent.inl"
 
 #endif // INVENTORYCOMPONENT_HPP
