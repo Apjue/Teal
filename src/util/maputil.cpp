@@ -172,9 +172,7 @@ bool changeMap()
     currentMapLock->setMap(newMap);
     activateMapEntities(currentMapLock->getMap());
 
-    if (!currentMapLock->update())
-        NazaraError("Cannot update map");
-
+    currentMapLock->update();
     clearPatherCache();
 
     pos.xy = { x, y };
