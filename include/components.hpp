@@ -31,6 +31,7 @@
 #include "components/common/equipmentcomponent.hpp"
 #include "components/common/logicentityidcomponent.hpp"
 #include "components/common/iconcomponent.hpp"
+#include "components/common/clonecomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"

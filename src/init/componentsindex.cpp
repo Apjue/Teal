@@ -38,3 +38,4 @@ Ndk::ComponentIndex MonsterComponent::componentIndex;
 Ndk::ComponentIndex EquipmentComponent::componentIndex;
 Ndk::ComponentIndex LogicEntityIdComponent::componentIndex;
 Ndk::ComponentIndex IconComponent::componentIndex;
+Ndk::ComponentIndex CloneComponent::componentIndex;

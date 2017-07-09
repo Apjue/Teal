@@ -38,6 +38,7 @@ struct CharacterData
     using Elements = std::unordered_map<Element, int>;
 
     ///
+    /// \param name Codename of the character (for illegal purposes, i.e. cloning)
     /// \param size Size of the sprite's image
     /// \param pic Sprite of the character
     /// \param mf Max Frame (used for animation)
@@ -55,7 +56,8 @@ struct CharacterData
     /// \param level_ Level of the character
     ///
 
-    CharacterData(const Nz::Vector2ui& size = {},
+    CharacterData(const Nz::String& name,
+                  const Nz::Vector2ui& size = {},
                   const Nz::SpriteRef& pic = nullptr,
                   unsigned mf = 0u,
                   const Nz::Vector2f& dg = {},
@@ -72,10 +74,12 @@ struct CharacterData
                   Elements res_ = {},
                   unsigned level_ = { 1 })
 
-        : imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
+        : codename { name }, imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
         o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ } {}
 
     ~CharacterData() = default;
+
+    Nz::String codename;
 
     Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;

@@ -16,6 +16,8 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 
     e->AddComponent<Ndk::NodeComponent>().SetPosition(infos.defG.x, infos.defG.y);
 
+    e->AddComponent<CloneComponent>(infos.codename);
+
     e->AddComponent<LifeComponent>(infos.maxhp);
     e->AddComponent<FightComponent>();
 
@@ -57,7 +59,8 @@ Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codenam
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
-    e->AddComponent<Items::ItemComponent>(codename);
+    e->AddComponent<Items::ItemComponent>();
+    e->AddComponent<CloneComponent>(codename);
     e->AddComponent<NameComponent>().name = name;
     e->AddComponent<DescriptionComponent>().description = desc;
     e->AddComponent<LevelComponent>(level);

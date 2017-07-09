@@ -21,10 +21,6 @@ namespace Items
 
 struct ItemComponent : public Ndk::Component<ItemComponent>
 {
-    ItemComponent(const Nz::String& cn) : codename(cn) {}
-
-    Nz::String codename;
-
     static Ndk::ComponentIndex componentIndex;
 };
 

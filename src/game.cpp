@@ -23,6 +23,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initSchemeUtility(scheme);
     initNazara();
 
+    loadCharacters();
     initTilesetCore();
     loadMaps();
 
@@ -217,6 +218,11 @@ void Game::initTilesetCore()
     }
 }
 
+void Game::loadCharacters()
+{
+
+}
+
 void Game::loadMaps() /// \todo Load from file (lua)
 {
     Nz::Directory maps { m_scriptPrefix + "maps/" };
@@ -273,8 +279,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
                 break;
             }
 
-            // get entities...
-            // not just name of entities: pos in map too
+            // get entities (codename)
 
             lua.Pop();
         }
@@ -294,7 +299,7 @@ void Game::loadMaps() /// \todo Load from file (lua)
 
     CharacterData npcData
     {
-        { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
+        "villager", { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
         AnimationComponent::OnMove, Orientation::DownLeft, { true }, true, "The Wandering NPC"
     };
 
@@ -442,6 +447,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<EquipmentComponent>("equip");
     Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");
     Ndk::InitializeComponent<IconComponent>("icon");
+    Ndk::InitializeComponent<CloneComponent>("clone");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
@@ -495,7 +501,7 @@ void Game::addEntities()
     //mapComp.map->m_fightMode = true;
     //mapComp.map->update();
 
-    auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<Items::ItemComponent>().codename == "excalibur"; });
+    auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
 
     if (it != m_items.end())
     {
@@ -523,7 +529,7 @@ void Game::addEntities()
 
     CharacterData mainCharacData
     {
-        { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove,
+        "villager", { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove,
         Orientation::Down, {}, false, "me", "", { { Element::Fire, 100 } }
     };
 
