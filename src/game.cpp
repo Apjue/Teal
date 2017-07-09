@@ -93,7 +93,7 @@ void Game::showInventory(bool detail) // [TEST]
 
 void Game::showCharacteristics() // [TEST]
 {
-    std::cout << "Main character caracteristics";
+    std::cout << "Main character characteristics";
     if (m_charac->HasComponent<AttackModifierComponent>())
     {
         auto& atk = m_charac->GetComponent<AttackModifierComponent>();
