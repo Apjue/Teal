@@ -9,6 +9,7 @@
 
 #include <NDK/Component.hpp>
 #include <Nazara/Math/Rect.hpp>
+#include <Nazara/Core/String.hpp>
 
 struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {
@@ -19,6 +20,22 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
         OnEmote,
         OnFight
     };
+
+    static AnimationState stringToAnimState(Nz::String string)
+    {
+        string = string.ToLower();
+
+        if (string == "onmove")
+            return OnMove;
+
+        if (string == "onemote")
+            return OnMove;
+
+        if (string == "onfight")
+            return OnMove;
+
+        return Deactivated;
+    }
 
     ///
     /// \fn AnimationComponent

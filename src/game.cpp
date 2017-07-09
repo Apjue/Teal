@@ -220,10 +220,25 @@ void Game::initTilesetCore()
 
 void Game::loadCharacters()
 {
+    Nz::Directory chars { m_scriptPrefix + "characters/" };
+    chars.SetPattern("*.lua");
+    chars.Open();
 
+    while (chars.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(chars.GetResultPath()))
+        {
+            NazaraError("Error loading character " + chars.GetResultName());
+            continue;
+        }
+
+
+    }
 }
 
-void Game::loadMaps() /// \todo Load from file (lua)
+void Game::loadMaps()
 {
     Nz::Directory maps { m_scriptPrefix + "maps/" };
     maps.SetPattern("*.lua");

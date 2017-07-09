@@ -10,6 +10,7 @@
 #include <Nazara/Utility/Mouse.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/Flags.hpp>
+#include <Nazara/Core/String.hpp>
 #include <array>
 #include <stdexcept>
 #include "def/gamedef.hpp"
@@ -31,6 +32,8 @@ enum class Orientation
     Left,
     DownLeft
 };
+
+inline Orientation stringToOrientation(Nz::String string);
 
 enum class Direction
 {
