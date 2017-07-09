@@ -97,6 +97,7 @@ void Game::showCharacteristics() // [TEST]
     if (m_charac->HasComponent<AttackModifierComponent>())
     {
         auto& atk = m_charac->GetComponent<AttackModifierComponent>();
+
         std::cout << "\n  Attack Modifier:\n";
         std::cout << "    Neutral: " << atk.data[Element::Neutral] << '\n';
         std::cout << "    Air: " << atk.data[Element::Air] << '\n';
@@ -108,6 +109,7 @@ void Game::showCharacteristics() // [TEST]
     if (m_charac->HasComponent<ResistanceModifierComponent>())
     {
         auto& res = m_charac->GetComponent<ResistanceModifierComponent>();
+
         std::cout << "\n  Resistance Modifier:\n";
         std::cout << "    Neutral: " << res.data[Element::Neutral] << '\n';
         std::cout << "    Air: " << res.data[Element::Air] << '\n';
