@@ -1,0 +1,101 @@
+#include <Nazara/Graphics/TileMap.hpp>
+
+class MapInstance : public micropather::Graph
+{
+public:
+    MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore);
+    inline MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
+                       TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e);
+
+    MapInstance(const MapInstance&) = default;
+    MapInstance& operator=(const MapInstance&) = default;
+
+    MapInstance(MapInstance&&) = default;
+    MapInstance& operator=(MapInstance&&) = default;
+
+    ~MapInstance() override = default;
+
+    void update();
+    inline MapDataRef getMap() const;
+    inline void setMap(MapDataRef newMap);
+
+    inline void setFightMode(bool f);
+    inline bool getFightMode() const;
+    inline void toggleFightMode();
+
+private:
+    Ndk::EntityHandle m_entity;
+    MapDataRef m_map; // You have to reset the pather after changing map
+
+    Nz::MaterialRef m_mat; // Tileset texture
+    Nz::MaterialRef m_fightMat;
+    Nz::TileMapRef m_tilemap;
+
+    TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
+    TilesetCore* m_fightTilesetCore {};
+    bool m_fightMode {};
+
+    bool adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
+
+    // Micropather
+    virtual float LeastCostEstimate(void* nodeStart, void* nodeEnd) override;
+    virtual void  AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) override;
+    virtual void  PrintStateInfo(void* /*node*/) override {}
+};
+
+
+
+
+
+
+
+MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore)
+    : m_entity(e), m_tilesetCore(tcore), m_fightTilesetCore(ftcore)
+{
+    m_mat = Nz::Material::New("Translucent2D");
+
+    m_mat->EnableFaceCulling(true);
+    m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
+
+    m_fightMat = Nz::Material::New("Translucent2D");
+
+    m_fightMat->EnableFaceCulling(true);
+    m_fightMat->SetFaceFilling(Nz::FaceFilling_Fill);
+    
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MAPX, Def::MAPY }, Nz::Vector2f { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) });
+    m_tilemap->EnableIsometricMode(true);
+
+    if (!m_entity->HasComponent<Ndk::NodeComponent>())
+        m_entity->AddComponent<Ndk::NodeComponent>();
+
+    if (!m_entity->HasComponent<Ndk::GraphicsComponent>())
+        m_entity->AddComponent<Ndk::GraphicsComponent>();
+
+    auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
+    graphicsComponent.Attach(m_tilemap, Def::MAP_LAYER);
+}
+
+void MapInstance::update()
+{
+    TealAssert(m_tilesetCore, "TilesetCore nullptr !");
+    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
+    TealAssert(m_map, "Map is not valid !");
+
+    TilesetCore* tcore = m_fightMode ? m_fightTilesetCore : m_tilesetCore;
+
+    Nz::MaterialRef material = m_fightMode ? m_fightMat : m_mat;
+    m_tilemap->SetMaterial(0, material);
+
+    for (unsigned i {}; i < Def::TILEARRAYSIZE; ++i)
+    {
+        auto& tile = m_map->tile(i);
+        Nz::Vector2ui tilePos { IndexToXY(i).first, IndexToXY(i).second };
+        Nz::Rectui tileRect { tcore->get(m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TILEXSIZE, 0u, Def::TILEXSIZE, Def::TILEYSIZE };
+
+        if (tile.visible)
+            m_tilemap->EnableTile(tilePos, tileRect);
+
+        else
+            m_tilemap->DisableTile(tilePos);
+    }
+}
