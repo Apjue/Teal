@@ -32,7 +32,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
 bool MapInstance::update() // Thanks Lynix for this code
 {
     TealAssert(m_tilesetCore, "TilesetCore nullptr !");
-    TealAssert(m_tilesetCore, "Fight TilesetCore nullptr !");
+    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
     TealAssert(m_map, "Map is not valid !");
 
     Nz::MeshRef mesh = Nz::Mesh::New();
