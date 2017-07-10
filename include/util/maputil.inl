@@ -7,7 +7,13 @@ MapDataRef activateMapEntities(const MapDataRef& map)
     TealAssert(map, "map not valid !");
 
     for (auto& e : map->getEntities())
-        e->Enable();
+    {
+        e->Enable(true);
+
+        if (e->HasComponent<LogicEntityIdComponent>())
+            if (e->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid())
+                e->GetComponent<LogicEntityIdComponent>().logicEntity->Enable(true);
+    }
 
     return map;
 }
@@ -17,7 +23,13 @@ MapDataRef deactivateMapEntities(const MapDataRef& map)
     TealAssert(map, "map not valid !");
 
     for (auto& e : map->getEntities())
+    {
         e->Enable(false);
+
+        if (e->HasComponent<LogicEntityIdComponent>())
+            if (e->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid())
+                e->GetComponent<LogicEntityIdComponent>().logicEntity->Enable(false);
+    }
 
     return map;
 }

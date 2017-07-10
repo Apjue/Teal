@@ -16,6 +16,7 @@
 #include "components/common/mappositioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "components/common/pathcomponent.hpp"
+#include "components/common/logicentityidcomponent.hpp"
 #include "util/assert.hpp"
 #include "def/gamedef.hpp"
 #include "global.hpp"

@@ -128,8 +128,9 @@ void moveEntity(const Ndk::EntityHandle& e)
 
                         auto it = std::find_if(itIndex, mapEntities.end(),
                                                [&e] (const Ndk::EntityHandle& item)
-                        { return item->HasComponent<LogicEntityIdComponent>() && isMapEntity(item) &&
-                                 item->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy; });
+                        { return item->HasComponent<LogicEntityIdComponent>() && item->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid() && isMapEntity(item) && 
+                                 item->GetComponent<LogicEntityIdComponent>().logicEntity->HasComponent<PositionComponent>() &&
+                                 item->GetComponent<LogicEntityIdComponent>().logicEntity->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy; });
 
                         if (it == mapEntities.end())
                             break;
@@ -147,6 +148,7 @@ void moveEntity(const Ndk::EntityHandle& e)
                             continue;
                         }
 
+                        (*it)->GetComponent<LogicEntityIdComponent>().logicEntity->RemoveComponent<PositionComponent>();
                         inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
                         (*it)->Kill(); // I'm sorry.
 
@@ -172,4 +174,12 @@ void moveEntity(const Ndk::EntityHandle& e)
 
     if (isMapEntity(e))
         refreshGraphicsPos(e);
+
+    if (e->HasComponent<GraphicalEntitiesComponent>())
+    {
+        for (auto& gfxCharacter : e->GetComponent<GraphicalEntitiesComponent>().entities)
+        {
+            refreshGraphicsPos(e, gfxCharacter);
+        }
+    }
 }

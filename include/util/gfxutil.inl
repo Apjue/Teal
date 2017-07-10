@@ -20,3 +20,9 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
 
     return nullptr;
 }
+
+void refreshGraphicsPos(const Ndk::EntityHandle& entity)
+{
+    refreshGraphicsPos(entity, entity);
+}
+

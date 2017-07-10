@@ -319,8 +319,9 @@ void Game::loadMaps()
     };
 
     auto npc = make_character(m_world, npcData);
-    npc->Enable(false);
+
     MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
+    deactivateMapEntities(MapDataLibrary::Get("1;0"));
 }
 
 void Game::loadMetaData()
@@ -384,7 +385,7 @@ void Game::loadItems()
         unsigned  level = lua.CheckField<unsigned>("level");
         Nz::String icon = lua.CheckField<Nz::String>("icon");
 
-        Ndk::EntityHandle item = make_item(m_world, codename, name, desc, level, Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
+        Ndk::EntityHandle item = make_logicalItem(m_world, codename, name, desc, level, Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
         TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 
@@ -463,6 +464,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");
     Ndk::InitializeComponent<IconComponent>("icon");
     Ndk::InitializeComponent<CloneComponent>("clone");
+    Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
@@ -513,24 +515,23 @@ void Game::addEntities()
     mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
                  Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
 
-    //mapComp.map->m_fightMode = true;
+    //mapComp.map->setFightMode(true);
     //mapComp.map->update();
 
     auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
 
     if (it != m_items.end())
     {
-        auto gfxEntity = make_graphicalEntity(m_world, (*it)->Clone(), { 40, 40 }, { 12, -3 }, 5);
+        auto logicEntity = (*it)->Clone();
+        logicEntity->AddComponent<PositionComponent>().xy = { 2, 2 };
+        logicEntity->Enable(true);
 
-        gfxEntity->AddComponent<PositionComponent>().xy = { 2u, 2u };
-        gfxEntity->AddComponent<MapPositionComponent>();
+        auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MAP_ITEMS_LAYER);
 
-        refreshGraphicsPos(gfxEntity);
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
     }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
-
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
 
 
@@ -549,6 +550,7 @@ void Game::addEntities()
     };
 
     m_charac = make_character(m_world, mainCharacData);
+
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
 }
 

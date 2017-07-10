@@ -86,14 +86,14 @@ void initSchemeUtility(Nz::ImageRef newScheme)
     m_scheme = newScheme;
 }
 
-void refreshGraphicsPos(const Ndk::EntityHandle& charac)
+void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity)
 {
-    TealAssert(isMapEntity(charac), "Entity isn't a map entity !");
+    TealAssert(isMapEntity(graphicalEntity), "Graphical Entity isn't a graphical entity !");
 
-    auto& pos = charac->GetComponent<PositionComponent>();
-    auto& gfxcomp = charac->GetComponent<Ndk::GraphicsComponent>();
-    auto& gfxpos = charac->GetComponent<Ndk::NodeComponent>();
-    auto& dpos = charac->GetComponent<DefaultGraphicsPosComponent>();
+    auto& pos = logicEntity->GetComponent<PositionComponent>();
+    auto& gfxcomp = graphicalEntity->GetComponent<Ndk::GraphicsComponent>();
+    auto& gfxpos = graphicalEntity->GetComponent<Ndk::NodeComponent>();
+    auto& dpos = graphicalEntity->GetComponent<DefaultGraphicsPosComponent>();
 
     Nz::Vector2f defPos { dpos.xy };
 
@@ -106,7 +106,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& charac)
     float const finalY = static_cast<float>(gY) + static_cast<float>(gInY) + defPos.y; // (so it's graphics pos)
 
     if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
-     || finalY != gfxpos.GetPosition().y) // no need to move it
+        || finalY != gfxpos.GetPosition().y) // no need to move it
     {
         float const moveX = finalX - gfxpos.GetPosition().x;
         float const moveY = finalY - gfxpos.GetPosition().y;

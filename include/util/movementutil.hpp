@@ -17,6 +17,7 @@
 #include "components/common/inventorycomponent.hpp"
 #include "components/common/iconcomponent.hpp"
 #include "components/common/logicentityidcomponent.hpp"
+#include "components/common/graphicalentitiescomponent.hpp"
 #include "def/gamedef.hpp"
 #include "data/mapdata.hpp"
 #include "util/gfxutil.hpp"

@@ -15,6 +15,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     gfx.Attach(infos.sprite, Def::CHARACTERS_LAYER);
 
     e->AddComponent<Ndk::NodeComponent>().SetPosition(infos.defG.x, infos.defG.y);
+    e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);
 
     e->AddComponent<CloneComponent>(infos.codename);
 
@@ -23,8 +24,6 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
 
     e->AddComponent<PositionComponent>(infos.defL);
     e->AddComponent<MapPositionComponent>(infos.mapPos);
-
-    e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);
 
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
@@ -54,8 +53,8 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     return e;
 }
 
-Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
-                            const Nz::String& desc, unsigned level, Nz::TextureRef icon)
+Ndk::EntityHandle make_logicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
+                                   const Nz::String& desc, unsigned level, Nz::TextureRef icon)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
@@ -64,13 +63,23 @@ Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codenam
     e->AddComponent<NameComponent>().name = name;
     e->AddComponent<DescriptionComponent>().description = desc;
     e->AddComponent<LevelComponent>(level);
-    e->AddComponent<IconComponent>().icon = icon;;
+    e->AddComponent<IconComponent>().icon = icon;
+    e->AddComponent<GraphicalEntitiesComponent>();
 
     return e;
 }
 
-extern Ndk::EntityHandle make_graphicalEntity(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
+extern Ndk::EntityHandle make_mapItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
 {
+    auto e = make_graphicalItem(w, logicItem, size, defGfxPos, renderOrder);
+    logicItem->GetComponent<GraphicalEntitiesComponent>().entities.Insert(e);
+
+    return e;
+}
+
+Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
+{
+    TealAssert(logicItem->HasComponent<Items::ItemComponent>(), "Item isn't an actual item !");
     TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
 
     Ndk::EntityHandle e = w->CreateEntity();
@@ -86,6 +95,7 @@ extern Ndk::EntityHandle make_graphicalEntity(const Ndk::WorldHandle& w, const N
     sprite->SetSize(size);
 
     gfx.Attach(sprite, renderOrder);
+    refreshGraphicsPos(logicItem, e);
 
     return e;
 }

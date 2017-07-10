@@ -64,10 +64,11 @@ extern void initSchemeUtility(Nz::ImageRef newScheme);
 ///
 /// \brief Refreshes the Graphics Position of an entity containing
 ///        a Sprite attached to a GraphicsComponent, using the
-///        Position component
+///        Position component of a logical entity
 ///
 
-extern void refreshGraphicsPos(const Ndk::EntityHandle& charac);
+extern void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity);
+inline void refreshGraphicsPos(const Ndk::EntityHandle& entity);
 
 #include "gfxutil.inl"
 

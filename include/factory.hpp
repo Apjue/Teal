@@ -17,27 +17,14 @@
 #include "data/characterdata.hpp"
 //#include "data/mapobjectdata.hpp"
 
-///
-/// \fn make_character
-///
-/// \brief Creates a character with all required components
-///
-/// \note There's no difference between a player and a NPC
-///       But only NPCs have the RandomMovement component
-///
-
 extern Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos);
 
-///
-/// \fn make_item
-///
-/// \brief Creates an entity and adds it ItemComponent and NameComponent
-///
 
-extern Ndk::EntityHandle make_item(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name = "Item",
-                                   const Nz::String& desc = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
+extern Ndk::EntityHandle make_logicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name = "Item",
+                                          const Nz::String& desc = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
 
-extern Ndk::EntityHandle make_graphicalEntity(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder = 0);
+extern Ndk::EntityHandle make_mapItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder = 0);
+extern Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder = 0);
 
 //extern Ndk::EntityHandle make_mapObject(const Ndk::WorldHandle& w, const MapObjectData& infos);
 

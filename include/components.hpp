@@ -32,6 +32,7 @@
 #include "components/common/logicentityidcomponent.hpp"
 #include "components/common/iconcomponent.hpp"
 #include "components/common/clonecomponent.hpp"
+#include "components/common/graphicalentitiescomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"
