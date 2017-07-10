@@ -524,10 +524,8 @@ void Game::addEntities()
     {
         auto logicEntity = (*it)->Clone();
         logicEntity->AddComponent<PositionComponent>().xy = { 2, 2 };
-        logicEntity->Enable(true);
 
         auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MAP_ITEMS_LAYER);
-
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
     }
 

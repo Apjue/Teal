@@ -1,12 +1,12 @@
 ﻿teal_character =
 {
     codename = "villager",
-    sizex = 113, sizey = 99,
+    size = { 113, 99 },
     sprite = ":/game/char/villager",
     maxanimframes = 15,
-    defgfxposx = -25, defgfxposy = -66,
-    deflgposx = 1, deflgposy = 1,
-    mapposx = 0, mapposy = 0,
+    defgfxpos = { -25, -66 },
+    deflgcpos = { 1, 1 },
+    mappos = { 0, 0 },
     maxhealth = 100,
     animtype = "onmove",
     orientation = "downleft",
