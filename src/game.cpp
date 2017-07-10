@@ -230,11 +230,62 @@ void Game::loadCharacters()
 
         if (!lua.ExecuteFromFile(chars.GetResultPath()))
         {
-            NazaraError("Error loading character " + chars.GetResultName());
+            NazaraNotice("Error loading character " + chars.GetResultName());
+            NazaraNotice(lua.GetLastError());
             continue;
         }
 
+        TealException(lua.GetGlobal("teal_character") == Nz::LuaType_Table, "Lua: teal_character isn't a table !");
 
+        auto codename = lua.CheckField<Nz::String>("codename");
+        auto sprite = lua.CheckField<Nz::String>("sprite", ":/game/unknown");
+        auto maxFrames = lua.CheckField<unsigned>("maxanimframes", 1u, -1);
+        auto maxHealth = lua.CheckField<unsigned>("maxhealth", 100u, -1);
+        auto animType = AnimationComponent::stringToAnimState(lua.CheckField<Nz::String>("animtype", "onmove"));
+        auto orientation = stringToOrientation(lua.CheckField<Nz::String>("orientation", "downleft"));
+        auto blockTile = lua.CheckField<bool>("blocktile", false);
+        auto name = lua.CheckField<Nz::String>("name", "Unnamed");
+        auto description = lua.CheckField<Nz::String>("description", "Empty");
+        auto level = lua.CheckField<unsigned>("level", 1u, -1);
+
+        TealException(lua.GetField("size") == Nz::LuaType_Table, "Lua: teal_character.size isn't a table !");
+
+        lua.PushInteger(1);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.x isn't a number !");
+
+        int sizex = static_cast<int>(lua.CheckInteger(-1));
+        TealException(sizex > 0, "Invalid size.x");
+        lua.Pop();
+
+
+        lua.PushInteger(2);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.y isn't a number !");
+
+        int sizey = static_cast<int>(lua.CheckInteger(-1));
+        TealException(sizey > 0, "Invalid size.y");
+        lua.Pop();
+
+        Nz::Vector2ui size = { static_cast<unsigned>(sizex), static_cast<unsigned>(sizey) };
+        lua.Pop();
+
+
+        TealException(lua.GetField("defgfxpos") == Nz::LuaType_Table, "Lua: teal_character.defgfxpos isn't a table !");
+
+        lua.PushInteger(1);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.x isn't a number !");
+
+        int defgfxposx = static_cast<int>(lua.CheckInteger(-1));
+        lua.Pop();
+
+
+        lua.PushInteger(2);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.y isn't a number !");
+        
+        int defgfxposy = static_cast<int>(lua.CheckInteger(-1));
+        lua.Pop();
+
+        Nz::Vector2i defgfxpos = { defgfxposx, defgfxposy };
+        lua.Pop();
     }
 }
 
@@ -250,7 +301,8 @@ void Game::loadMaps()
 
         if (!lua.ExecuteFromFile(maps.GetResultPath()))
         {
-            NazaraError("Error loading map " + maps.GetResultName());
+            NazaraNotice("Error loading map " + maps.GetResultName());
+            NazaraNotice(lua.GetLastError());
             TealException(maps.GetResultName() != "map0_0.lua", "Lua: starting map fails to load");
             continue;
         }
@@ -345,7 +397,8 @@ void Game::loadSkills()
 
         if (!lua.ExecuteFromFile(skills.GetResultPath()))
         {
-            NazaraError("Error loading item " + skills.GetResultName());
+            NazaraNotice("Error loading item " + skills.GetResultName());
+            NazaraNotice(lua.GetLastError());
             continue;
         }
 
@@ -373,7 +426,8 @@ void Game::loadItems()
 
         if (!lua.ExecuteFromFile(items.GetResultPath()))
         {
-            NazaraError("Error loading item " + items.GetResultName());
+            NazaraNotice("Error loading item " + items.GetResultName());
+            NazaraNotice(lua.GetLastError());
             continue;
         }
 

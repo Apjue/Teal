@@ -1,6 +1,6 @@
 teal_textures =
 {
-	{ ":/game/money", "game/main/money.png" },
+    { ":/game/money", "game/main/money.png" },
     { ":/game/scheme", "game/main/scheme.png" },
     { ":/game/teal", "game/main/teal.png" },
     { ":/game/tileset", "game/main/tileset.png" },
