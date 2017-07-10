@@ -286,6 +286,89 @@ void Game::loadCharacters()
 
         Nz::Vector2i defgfxpos = { defgfxposx, defgfxposy };
         lua.Pop();
+
+
+        TealException(lua.GetField("deflgcpos") == Nz::LuaType_Table, "Lua: teal_character.deflgcpos isn't a table !");
+
+        lua.PushInteger(1);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.deflgcpos.x isn't a number !");
+
+        int deflgcposx = static_cast<int>(lua.CheckInteger(-1));
+        TealException(deflgcposx > 0, "Invalid deflgcpos.y");
+        lua.Pop();
+
+
+        lua.PushInteger(2);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.deflgcpos.y isn't a number !");
+
+        int deflgcposy = static_cast<int>(lua.CheckInteger(-1));
+        TealException(deflgcposy > 0, "Invalid deflgcpos.y");
+        lua.Pop();
+
+        Nz::Vector2ui deflgcpos = { static_cast<unsigned>(deflgcposx), static_cast<unsigned>(deflgcposy) };
+        lua.Pop();
+
+
+        TealException(lua.GetField("mappos") == Nz::LuaType_Table, "Lua: teal_character.mappos isn't a table !");
+
+        lua.PushInteger(1);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.mappos.x isn't a number !");
+
+        int mapposx = static_cast<int>(lua.CheckInteger(-1));
+        lua.Pop();
+
+
+        lua.PushInteger(2);
+        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.mappos.y isn't a number !");
+
+        int mapposy = static_cast<int>(lua.CheckInteger(-1));
+        lua.Pop();
+
+        Nz::Vector2i mappos = { mapposx, mapposy };
+        lua.Pop();
+
+        CharacterData::RandomMovement random;
+
+        if (lua.GetField("random") == Nz::LuaType_Table)
+        {
+            lua.PushInteger(1);
+
+            if (lua.GetTable() == Nz::LuaType_Boolean && lua.CheckBoolean(-1))
+            {
+                lua.Pop();
+                random = true;
+
+                lua.PushInteger(2);
+
+                if (lua.GetTable() == Nz::LuaType_Number)
+                {
+                    float movInterval = lua.CheckNumber(-1);
+                    TealException(movInterval > 0.f, "Invalid move interval");
+
+                    random.movInterval = movInterval;
+                    lua.Pop();
+
+                    lua.PushInteger(3);
+
+                    if (lua.GetTable() == Nz::LuaType_Number)
+                    {
+                        int nbTiles = lua.CheckNumber(-1);
+                        TealException(nbTiles > 0, "Invalid tiles number");
+
+                        random.nbTiles = nbTiles;
+                        lua.Pop();
+                    }
+
+                    lua.Pop();
+                }
+
+                lua.Pop();
+            }
+
+            lua.Pop();
+        }
+
+        lua.Pop();
     }
 }
 
