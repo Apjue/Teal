@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -6,6 +6,17 @@
 
 #ifndef RANDOM_HPP
 #define RANDOM_HPP
+
+#include <random>
+
+#ifdef TEAL_USE_STDRAND
+
+#include <cstdlib>
+#include <ctime>
+
+std::srand(std::time(0));
+
+#endif
 
 ///
 /// \class RandomNumber
@@ -15,7 +26,7 @@
 ///
 /// \example RandomNumber<std::mt19937> rng;
 ///          std::uniform_int_distribution<> uni(0, 5);
-///          int random_number = uni(rng);
+///          int number = uni(rng);
 ///
 
 template<class Generator>
@@ -28,8 +39,17 @@ public:
     static result_type min();
     static result_type max();
 
-private:
-    static Generator& instance();
+    static Generator generator;
+};
+
+template<class Generator>
+Generator RandomNumber<Generator>::generator
+{
+#ifdef TEAL_USE_STDRAND
+    std::rand()
+#else
+    std::random_device {}()
+#endif
 };
 
 #include "random.inl"
