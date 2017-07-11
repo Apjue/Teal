@@ -45,6 +45,34 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initMapUtility(mapComp.map, m_pather, m_charac);
 }
 
+Ndk::EntityHandle Game::cloneCharacter(const Nz::String& codename)
+{
+    Ndk::EntityHandle e;
+    auto it = std::find_if(m_characters.begin(), m_characters.end(),
+                           [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "villager"; });
+
+    if (it != m_characters.end())
+    {
+        e = (*it)->Clone();
+        auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
+
+        std::vector<Nz::InstancedRenderableRef> renderables;
+        gfx.GetAttachedRenderables(&renderables);
+
+        for (auto& renderable : renderables)
+        {
+            if (typeid(*(renderable.Get())) != typeid(Nz::Sprite))
+                continue;
+
+            gfx.Detach(renderable);
+            Nz::InstancedRenderableRef newRenderable = Nz::Sprite::New(*(static_cast<Nz::Sprite*>(renderable.Get())));
+            gfx.Attach(newRenderable);
+        }
+    }
+
+    return e;
+}
+
 void Game::showInventory(bool detail) // [TEST]
 {
     auto& inv = m_charac->GetComponent<InventoryComponent>();
@@ -274,17 +302,17 @@ void Game::loadCharacters()
         lua.PushInteger(1);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.x isn't a number !");
 
-        int defgfxposx = static_cast<int>(lua.CheckInteger(-1));
+        float defgfxposx = static_cast<float>(lua.CheckInteger(-1));
         lua.Pop();
 
 
         lua.PushInteger(2);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.y isn't a number !");
         
-        int defgfxposy = static_cast<int>(lua.CheckInteger(-1));
+        float defgfxposy = static_cast<float>(lua.CheckInteger(-1));
         lua.Pop();
 
-        Nz::Vector2i defgfxpos = { defgfxposx, defgfxposy };
+        Nz::Vector2f defgfxpos = { defgfxposx, defgfxposy };
         lua.Pop();
 
 
@@ -342,7 +370,7 @@ void Game::loadCharacters()
 
                 if (lua.GetTable() == Nz::LuaType_Number)
                 {
-                    float movInterval = lua.CheckNumber(-1);
+                    float movInterval = static_cast<float>(lua.CheckNumber(-1));
                     TealException(movInterval > 0.f, "Invalid move interval");
 
                     random.movInterval = movInterval;
@@ -352,7 +380,7 @@ void Game::loadCharacters()
 
                     if (lua.GetTable() == Nz::LuaType_Number)
                     {
-                        int nbTiles = lua.CheckNumber(-1);
+                        int nbTiles = static_cast<int>(lua.CheckNumber(-1));
                         TealException(nbTiles > 0, "Invalid tiles number");
 
                         random.nbTiles = nbTiles;
@@ -361,7 +389,7 @@ void Game::loadCharacters()
 
                     lua.Pop();
                 }
-
+                
                 lua.Pop();
             }
 
@@ -369,6 +397,100 @@ void Game::loadCharacters()
         }
 
         lua.Pop();
+
+        CharacterData::Elements attack;
+
+        if (lua.GetField("attack") == Nz::LuaType_Table)
+        {
+            for (int i {};;)
+            {
+                lua.PushInteger(i);
+
+                if (lua.GetTable() == Nz::LuaType_Table)
+                {
+                    lua.PushInteger(1);
+                    lua.GetTable();
+
+                    Nz::String element = lua.CheckString(-1);
+                    lua.Pop();
+
+                    lua.PushInteger(2);
+                    lua.GetTable();
+
+                    int modifier = static_cast<int>(lua.CheckInteger(-1));
+                    lua.Pop();
+
+                    attack[stringToElement(element)] = modifier;
+                }
+
+                else
+                {
+                    lua.Pop();
+                    break;
+                }
+
+                lua.Pop();
+            }
+        }
+
+        lua.Pop();
+
+
+        CharacterData::Elements res;
+
+        if (lua.GetField("resistance") == Nz::LuaType_Table)
+        {
+            for (int i {};;)
+            {
+                lua.PushInteger(i);
+
+                if (lua.GetTable() == Nz::LuaType_Table)
+                {
+                    lua.PushInteger(1);
+                    lua.GetTable();
+
+                    Nz::String element = lua.CheckString(-1);
+                    lua.Pop();
+
+                    lua.PushInteger(2);
+                    lua.GetTable();
+
+                    int modifier = static_cast<int>(lua.CheckInteger(-1));
+                    lua.Pop();
+
+                    res[stringToElement(element)] = modifier;
+                }
+
+                else
+                {
+                    lua.Pop();
+                    break;
+                }
+
+                lua.Pop();
+            }
+        }
+
+        lua.Pop();
+
+        Nz::MaterialRef charMat = Nz::Material::New();
+        charMat->Configure("Translucent2D");
+        charMat->SetDiffuseMap(Nz::TextureLibrary::Get(sprite));
+
+        Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
+        charSprite->SetTextureRect({ 0u, 0u, size.x, size.y });
+
+        CharacterData characterData
+        {
+            codename, size, charSprite, maxFrames, defgfxpos, deflgcpos, mappos, maxHealth,
+            animType, orientation, random, blockTile, name, description, attack, res, level
+        };
+
+        auto character = make_character(m_world, characterData);
+        character->Enable(false);
+
+        m_characters.Insert(character);
+        NazaraDebug("Character " + name + " loaded ! (" + chars.GetResultName() + ")");
     }
 }
 
@@ -440,21 +562,13 @@ void Game::loadMaps()
         NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + lua.CheckField<Nz::String>("pos"));
     }
 
-    Nz::MaterialRef npcMat = Nz::Material::New();
-    npcMat->Configure("Translucent2D");
-    npcMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
+    auto npc = cloneCharacter("villager");
+    npc->GetComponent<MapPositionComponent>().xy.x = 1;
+    npc->GetComponent<PositionComponent>().xy = { 5, 5 };
+    npc->GetComponent<NameComponent>().name = "The Wandering NPC";
+    npc->AddComponent<RandomMovementComponent>(7.5f, 1);
 
-    Nz::SpriteRef npcSprite = Nz::Sprite::New(npcMat);
-    npcSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
-
-    CharacterData npcData
-    {
-        "villager", { 113u, 99u }, npcSprite, 15, { -25.f, -66.f }, { 5, 5 }, { 1, 0 }, 100u,
-        AnimationComponent::OnMove, Orientation::DownLeft, { true }, true, "The Wandering NPC"
-    };
-
-    auto npc = make_character(m_world, npcData);
-
+    refreshGraphicsPos(npc);
     MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
     deactivateMapEntities(MapDataLibrary::Get("1;0"));
 }
@@ -655,11 +769,11 @@ void Game::addEntities()
     //mapComp.map->setFightMode(true);
     //mapComp.map->update();
 
-    auto it = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
+    auto swordIt = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
 
-    if (it != m_items.end())
+    if (swordIt != m_items.end())
     {
-        auto logicEntity = (*it)->Clone();
+        auto logicEntity = (*swordIt)->Clone();
         logicEntity->AddComponent<PositionComponent>().xy = { 2, 2 };
 
         auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MAP_ITEMS_LAYER);
@@ -668,25 +782,10 @@ void Game::addEntities()
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
-
-
-    Nz::MaterialRef charMat = Nz::Material::New();
-    charMat->Configure("Translucent2D");
-    charMat->SetDiffuseMap(Nz::TextureLibrary::Get(":/game/char/villager"));
-
-    Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
-    charSprite->SetTextureRect({ 0u, 0u, 113u, 99u });
-
-
-    CharacterData mainCharacData
-    {
-        "villager", { 113u, 99u }, charSprite, 15, { -25.f, -66.f }, { 1, 1 }, { 0, 0 }, 100u, AnimationComponent::OnMove,
-        Orientation::Down, {}, false, "me", "", { { Element::Fire, 100 } }
-    };
-
-    m_charac = make_character(m_world, mainCharacData);
-
+    
+    m_charac = cloneCharacter("villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
+    refreshGraphicsPos(m_charac);
 }
 
 void Game::addSystems()

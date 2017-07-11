@@ -30,6 +30,7 @@
 #include <memory>
 #include <exception>
 #include <algorithm>
+#include <type_traits>
 #include "components.hpp"
 #include "systems.hpp"
 #include "util/assert.hpp"
@@ -86,7 +87,12 @@ private:
     StateMDStore m_states;
     EffectMDStore m_effects;
     SkillStore m_skills;
+
     Ndk::EntityList m_items;
+    Ndk::EntityList m_characters;
+
+    // Illegal functions
+    Ndk::EntityHandle cloneCharacter(const Nz::String& codename);
 
     // Character functions
     void showInventory(bool detail = false);
