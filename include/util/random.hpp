@@ -7,14 +7,13 @@
 #ifndef RANDOM_HPP
 #define RANDOM_HPP
 
-#include <random>
+#include <ctime>
 
 #ifdef TEAL_USE_STDRAND
 
 #include <cstdlib>
-#include <ctime>
 
-std::srand(std::time(0));
+std::srand(static_cast<unsigned>(std::time(nullptr)));
 
 #endif
 
@@ -48,7 +47,7 @@ Generator RandomNumber<Generator>::generator
 #ifdef TEAL_USE_STDRAND
     std::rand()
 #else
-    std::random_device {}()
+    static_cast<unsigned>(std::time(nullptr))
 #endif
 };
 
