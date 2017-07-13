@@ -49,25 +49,12 @@ Ndk::EntityHandle Game::cloneCharacter(const Nz::String& codename)
 {
     Ndk::EntityHandle e;
     auto it = std::find_if(m_characters.begin(), m_characters.end(),
-                           [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "villager"; });
+                           [&codename] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == codename; });
 
     if (it != m_characters.end())
     {
         e = (*it)->Clone();
-        auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
-
-        std::vector<Nz::InstancedRenderableRef> renderables;
-        gfx.GetAttachedRenderables(&renderables);
-
-        for (auto& renderable : renderables)
-        {
-            if (typeid(*(renderable.Get())) != typeid(Nz::Sprite))
-                continue;
-
-            gfx.Detach(renderable);
-            Nz::InstancedRenderableRef newRenderable = Nz::Sprite::New(*(static_cast<Nz::Sprite*>(renderable.Get())));
-            gfx.Attach(newRenderable);
-        }
+        cloneRenderables(e);
     }
 
     return e;
@@ -716,6 +703,7 @@ void Game::initNazara()
     Ndk::InitializeComponent<IconComponent>("icon");
     Ndk::InitializeComponent<CloneComponent>("clone");
     Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");
+    Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");

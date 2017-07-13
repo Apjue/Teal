@@ -40,3 +40,4 @@ Ndk::ComponentIndex LogicEntityIdComponent::componentIndex;
 Ndk::ComponentIndex IconComponent::componentIndex;
 Ndk::ComponentIndex CloneComponent::componentIndex;
 Ndk::ComponentIndex GraphicalEntitiesComponent::componentIndex;
+Ndk::ComponentIndex RenderablesStorageComponent::componentIndex;

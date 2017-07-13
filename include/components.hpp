@@ -33,6 +33,7 @@
 #include "components/common/iconcomponent.hpp"
 #include "components/common/clonecomponent.hpp"
 #include "components/common/graphicalentitiescomponent.hpp"
+#include "components/common/renderablesstoragecomponent.hpp"
 
 // Items
 #include "components/items/ediblecomponent.hpp"

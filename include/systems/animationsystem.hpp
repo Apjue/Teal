@@ -34,7 +34,7 @@ public:
 private:
     void OnUpdate(float elapsed) override;
 
-    void OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
+    void OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef sprite,
                          AnimationComponent& anim, bool moving);
 };
 

@@ -17,6 +17,7 @@
 #include "global.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/defaultgraphicsposcomponent.hpp"
+#include "components/common/renderablesstoragecomponent.hpp"
 #include "util/assert.hpp"
 #include "util/entityutil.hpp"
 #include "util/util.hpp"
@@ -32,6 +33,9 @@
 
 template<class T>
 inline T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx);
+
+inline void cloneRenderables(const Ndk::EntityHandle& e);
+inline void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables);
 
 ///
 /// \fn getTileFromGlobalCoords

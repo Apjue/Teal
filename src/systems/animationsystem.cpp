@@ -6,7 +6,7 @@
 
 AnimationSystem::AnimationSystem()
 {
-    Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent>();
+    Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent, RenderablesStorageComponent>();
     SetUpdateRate(Def::MAXSYSTEMUPS);
     SetUpdateOrder(5);
 }
@@ -17,17 +17,13 @@ void AnimationSystem::OnUpdate(float elapsed)
     {
         auto& anim = e->GetComponent<AnimationComponent>();
         bool  moving = e->GetComponent<PositionComponent>().moving;
-        auto& sprite = e->GetComponent<Ndk::GraphicsComponent>();
+        auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
         auto  dir = e->GetComponent<OrientationComponent>().dir;
+        auto& sprites = e->GetComponent<RenderablesStorageComponent>().sprites;
 
-        Nz::Sprite* gfx = getRenderableFromGraphicsComponent<Nz::Sprite>(sprite);
-
-        if (!gfx)
-        {
-            anim.animated = false;
-            continue; // No sprite has been found
-        }
-
+        if (sprites.empty())
+            continue;
+        
         int const intDir = static_cast<int>(dir);
 
         unsigned const startX = intDir * anim.size.x; // Get the x and the y
@@ -36,10 +32,11 @@ void AnimationSystem::OnUpdate(float elapsed)
         switch (anim.animationState)
         {
         case AnimationComponent::OnMove:
-            OnMoveAnimation(startX, startY, gfx, anim, moving);
+            for (auto sprite : sprites)
+                OnMoveAnimation(startX, startY, sprite, anim, moving);
             break;
 
-        case AnimationComponent::OnEmote: // EmoteStore
+        case AnimationComponent::OnEmote: // EmoteStore ?
             break;
 
         case AnimationComponent::OnFight:
@@ -48,13 +45,13 @@ void AnimationSystem::OnUpdate(float elapsed)
     }
 }
 
-void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef gfx,
+void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef sprite,
                                       AnimationComponent& anim, bool moving)
 {
     if (!moving || anim.maxframe == 0) // Reset animation, and change direction
     {
         anim.frame = 0;
-        gfx->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
+        sprite->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
         anim.animated = false;
 
         return;
@@ -62,7 +59,7 @@ void AnimationSystem::OnMoveAnimation(unsigned startX, unsigned startY, Nz::Spri
 
     else // Animation !
     {
-        gfx->SetTextureRect({ startX, startY, anim.size.x, anim.size.y });
+        sprite->SetTextureRect({ startX, startY, anim.size.x, anim.size.y });
 
         ++anim.frame;
         anim.animated = true;
