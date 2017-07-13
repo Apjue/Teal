@@ -12,10 +12,10 @@ T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
 
     for (auto&& renderable : attached)
     {
-        T* casted = dynamic_cast<T*>(renderable.Get());
+        if (typeid(*(renderable.Get())) != typeid(T))
+            continue;
 
-        if (casted)
-            return casted;
+        return static_cast<T*>(renderable.Get());
     }
 
     return nullptr;
