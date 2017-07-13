@@ -9,12 +9,14 @@
 
 #include <type_traits>
 
-template <typename...> struct IsOneOf
+template <typename...>
+struct IsOneOf
 {
     static constexpr bool value = false;
 };
 
-template <typename T, typename S, typename... Ts> struct IsOneOf<T, S, Ts...>
+template <typename T, typename S, typename... Ts>
+struct IsOneOf<T, S, Ts...>
 {
     static constexpr bool value = std::is_same<T, S>::value || IsOneOf<T, Ts...>::value;
 };

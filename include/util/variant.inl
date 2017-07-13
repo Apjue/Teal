@@ -5,34 +5,48 @@
 namespace Detail
 {
 
-template<class F, class... Ts>
-void VariantHelper<F, Ts...>::destroy(const std::type_index& id, void* data)
+template<class T, class F, class... Ts>
+void VariantHelper<T, F, Ts...>::destroy(const std::size_t& index, void* data)
 {
-    if (id == typeid(F))
-        static_cast<F*>(data)->~F();
+    TealAssert(index == 0u, "Invalid index !");
+
+    if (index == IndexOf<T, F, Ts...>::value)
+    {
+        static_cast<T*>(data)->~T();
+    }
 
     else
-        VariantHelper<Ts...>::destroy(id, data);
+        VariantHelper<T, Ts...>::destroy(index, data);
 }
 
-template<class F, class... Ts>
-void VariantHelper<F, Ts...>::move(const std::type_index& old_t, void* old_v, void* new_v)
+
+template<class T, class F, class... Ts>
+void VariantHelper<T, F, Ts...>::move(const std::size_t& index, void* oldValue, void* newValue)
 {
-    if (old_t == typeid(F))
-        new (new_v) F(std::move(*static_cast<F*>(old_v)));
+    TealAssert(index == 0u, "Invalid index !");
+
+    if (index == IndexOf<T, F, Ts...>::value)
+    {
+        new (newValue) T(std::move(*static_cast<T*>(oldValue)));
+    }
 
     else
-        VariantHelper<Ts...>::move(old_t, old_v, new_v);
+        VariantHelper<T, Ts...>::destroy(index, oldValue, newValue);
 }
 
-template<class F, class... Ts>
-void VariantHelper<F, Ts...>::copy(const std::type_index& old_t, const void* old_v, void* new_v)
+template<class T, class F, class... Ts>
+void VariantHelper<T, F, Ts...>::copy(const std::size_t& index, const void* oldValue, void* newValue)
 {
-    if (old_t == typeid(F))
-        new (new_v) F(*static_cast<const F*>(old_v));
+    TealAssert(index == 0u, "Invalid index !");
+
+    if (index == IndexOf<T, F, Ts...>::value)
+    {
+        new (newValue) T(*static_cast<T*>(oldValue));
+    }
 
     else
-        VariantHelper<Ts...>::copy(old_t, old_v, new_v);
+        VariantHelper<T, Ts...>::destroy(index, oldValue, newValue);
+
 }
 
 } // namespace Detail
@@ -40,34 +54,39 @@ void VariantHelper<F, Ts...>::copy(const std::type_index& old_t, const void* old
 template<class... Ts>
 Variant<Ts...>::~Variant()
 {
-    Helper::destroy(m_typeid, &m_data);
+    if (valid())
+        Helper::destroy(m_index, &m_data);
 }
 
 
 template<class... Ts>
-Variant<Ts...>::Variant(const Variant<Ts...>& other) : m_typeid(other.m_typeid)
+Variant<Ts...>::Variant(const Variant<Ts...>& other) : m_index { other.m_index }
 {
-    Helper::copy(other.m_typeid, &other.m_data, &m_data);
+    Helper::copy(m_index, &other.m_data, &m_data);
 }
 
 template<class... Ts>
-Variant<Ts...>::Variant(Variant<Ts...>&& other) : m_typeid(other.m_typeid)
+Variant<Ts...>::Variant(Variant<Ts...>&& other) : m_index { other.m_index }
 {
-    Helper::move(other.m_typeid, &other.m_data, &m_data);
+    Helper::move(m_index, &other.m_data, &m_data);
 }
 
 
 template<class... Ts>
 Variant<Ts...>& Variant<Ts...>::operator= (const Variant<Ts...>& other)
 {
-    Helper::copy(other.m_typeid, &other.m_data, &m_data);
+    m_index = other.m_index;
+    Helper::copy(m_index, &other.m_data, &m_data);
+
     return *this;
 }
 
 template<class... Ts>
 Variant<Ts...>& Variant<Ts...>::operator= (Variant<Ts...>&& other)
 {
-    Helper::move(other.m_typeid, &other.m_data, &m_data);
+    m_index = other.m_index;
+    Helper::move(m_index, &other.m_data, &m_data);
+
     return *this;
 }
 
@@ -76,13 +95,13 @@ template<class... Ts>
 template<class T>
 bool Variant<Ts...>::is() const
 {
-    return m_typeid == typeid(T);
+    return m_index == IndexOf<T, void, Ts...>::value;
 }
 
 template<class... Ts>
 bool Variant<Ts...>::valid() const
 {
-    return m_typeid != invalid_type();
+    return m_index != 0u; // void
 }
 
 
@@ -91,10 +110,10 @@ template<class T, class... Args, class>
 void Variant<Ts...>::set(Args&&... args)
 {
     if (valid())
-        Helper::destroy(m_typeid, &m_data);
+        Helper::destroy(m_index, &m_data);
 
     new (&m_data) T(std::forward<Args>(args)...);
-    m_typeid = typeid(T);
+    m_index = IndexOf<T, void, Ts...>::value;
 }
 
 template<class... Ts>
@@ -103,7 +122,7 @@ const T& Variant<Ts...>::get() const
 {
     TealAssert(valid(), "Uninitialized variant !");
 
-    if (m_typeid == typeid(T))
+    if (m_index == IndexOf<T, void, Ts...>::value)
     {
         const T* ptr = reinterpret_cast<const T*>(&m_data);
         return *ptr;
@@ -119,7 +138,7 @@ T& Variant<Ts...>::get()
 {
     TealAssert(valid(), "Uninitialized variant !");
 
-    if (m_typeid == typeid(T))
+    if (m_index == IndexOf<T, void, Ts...>::value)
     {
         T* ptr = reinterpret_cast<T*>(&m_data);
         return *ptr;
@@ -133,13 +152,7 @@ template<class... Ts>
 void Variant<Ts...>::reset()
 {
     if (valid())
-        Helper::Destroy(m_typeid, &m_data);
+        Helper::destroy(m_index, &m_data);
 
-    m_typeid = invalid_type();
-}
-
-template<class... Ts>
-std::type_index Variant<Ts...>::invalid_type()
-{
-    return typeid(void);
+    m_index = 0u;
 }

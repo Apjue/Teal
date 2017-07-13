@@ -7,15 +7,11 @@
 #ifndef VARIANT_HPP
 #define VARIANT_HPP
 
-#include <iostream>
 #include <utility>
-#include <typeinfo>
-#include <typeindex>
 #include <type_traits>
-#include <algorithm>
+#include "assert.hpp"
 #include "isoneof.hpp"
-
-// https://gist.github.com/tibordp/6909880
+#include "indexof.hpp"
 
 namespace Detail
 {
@@ -23,19 +19,20 @@ namespace Detail
 template<class... Ts>
 struct VariantHelper;
 
-template<class F, class... Ts>
-struct VariantHelper<F, Ts...>
+template<class T, class F, class... Ts>
+struct VariantHelper<T, F, Ts...>
 {
-    inline static void destroy(const std::type_index& id, void* data);
-    inline static void move(const std::type_index& old_t, void* old_v, void* new_v);
-    inline static void copy(const std::type_index& old_t, const void* old_v, void* new_v);
+    inline static void destroy(const std::size_t& index, void* data);
+    inline static void move(const std::size_t& index, void* oldValue, void* newValue);
+    inline static void copy(const std::size_t& index, const void* oldValue, void* new_v);
 };
 
-template<> struct VariantHelper<>
+template<class T>
+struct VariantHelper<T>
 {
-    inline static void destroy(const std::type_index& id, void* data) {}
-    inline static void move(const std::type_index& old_t, void* old_v, void* new_v) {}
-    inline static void copy(const std::type_index& old_t, const void* old_v, void* new_v) {}
+    inline static void destroy(const std::size_t& index, void* data) {}
+    inline static void move(const std::size_t& index, void* oldValue, void* newValue) {}
+    inline static void copy(const std::size_t& index, const void* oldValue, void* newValue) {}
 };
 
 } // namespace Detail
@@ -44,7 +41,7 @@ template<class... Ts>
 class Variant
 {
 public:
-    static_assert(sizeof...(Ts) > 0, "Variant must not be empty");
+    static_assert(sizeof...(Ts) > 1, "Variant must have at least 2 different types");
 
     Variant() = default;
     inline ~Variant();
@@ -76,11 +73,9 @@ public:
 
 private:
     using Data = typename std::aligned_union<0, Ts...>::type;
-    using Helper = Detail::VariantHelper<Ts...>;
+    using Helper = Detail::VariantHelper<void, Ts...>;
 
-    static inline std::type_index invalid_type();
-
-    std::type_index m_typeid { invalid_type() };
+    std::size_t m_index {};
     Data m_data;
 };
 
