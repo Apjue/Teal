@@ -22,18 +22,6 @@
 #include "util/entityutil.hpp"
 #include "util/util.hpp"
 
-///
-/// \fn getRenderableFromGraphicsComponent
-///
-/// \brief Returns the first renderable it found in the Graphics Component
-///        or nullptr if it didn't found one
-///
-/// \param gfx Graphics Component to search into
-///
-
-template<class T>
-inline T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx);
-
 inline void cloneRenderables(const Ndk::EntityHandle& e);
 inline void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables);
 

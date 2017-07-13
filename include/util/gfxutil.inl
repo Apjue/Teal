@@ -4,25 +4,6 @@
 
 #include "gfxutil.hpp"
 
-template<class T>
-T* getRenderableFromGraphicsComponent(Ndk::GraphicsComponent& gfx)
-{
-    static_assert(std::is_base_of<Nz::InstancedRenderable, T>::value, "T is not a renderable !");
-
-    std::vector<Nz::InstancedRenderableRef> attached;
-    gfx.GetAttachedRenderables(&attached);
-
-    for (auto&& renderable : attached)
-    {
-        if (typeid(*(renderable.Get())) != typeid(T))
-            continue;
-
-        return static_cast<T*>(renderable.Get());
-    }
-
-    return nullptr;
-}
-
 void cloneRenderables(const Ndk::EntityHandle& e)
 {
     cloneRenderables(e->GetComponent<Ndk::GraphicsComponent>(), e->GetComponent<RenderablesStorageComponent>());
