@@ -19,20 +19,20 @@ namespace Detail
 template<class... Ts>
 struct VariantHelper;
 
-template<class T, class F, class... Ts>
-struct VariantHelper<T, F, Ts...>
+template<class Union, class T, class... Ts>
+struct VariantHelper<Union, T, Ts...>
 {
-    inline static void destroy(const std::size_t& index, void* data);
-    inline static void move(const std::size_t& index, void* oldValue, void* newValue);
-    inline static void copy(const std::size_t& index, const void* oldValue, void* new_v);
+    inline static void destroy(std::size_t index, Union* data);
+    inline static void move(std::size_t index, Union* oldValue, Union* newValue);
+    inline static void copy(std::size_t index, const Union* oldValue, Union* new_v);
 };
 
-template<class T>
-struct VariantHelper<T>
+template<class Union>
+struct VariantHelper<Union>
 {
-    inline static void destroy(const std::size_t& index, void* data) {}
-    inline static void move(const std::size_t& index, void* oldValue, void* newValue) {}
-    inline static void copy(const std::size_t& index, const void* oldValue, void* newValue) {}
+    inline static void destroy(std::size_t index, Union* data) {}
+    inline static void move(std::size_t index, Union* oldValue, Union* newValue) {}
+    inline static void copy(std::size_t index, const Union* oldValue, Union* newValue) {}
 };
 
 } // namespace Detail
@@ -73,7 +73,7 @@ public:
 
 private:
     using Data = typename std::aligned_union<0, Ts...>::type;
-    using Helper = Detail::VariantHelper<void, Ts...>;
+    using Helper = Detail::VariantHelper<Data, Ts...>;
 
     std::size_t m_index {};
     Data m_data;

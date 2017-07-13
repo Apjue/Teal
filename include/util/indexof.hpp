@@ -9,7 +9,7 @@
 
 #include <type_traits>
 
-template <class...>
+template <typename...>
 struct IndexOf;
 
 // Found
