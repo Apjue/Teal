@@ -94,6 +94,8 @@ Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::Entit
     sprite->SetSize(size);
 
     gfx.Attach(sprite, renderOrder);
+    e->AddComponent<RenderablesStorageComponent>().sprites.push_back(sprite);
+
     refreshGraphicsPos(logicItem, e);
 
     return e;
