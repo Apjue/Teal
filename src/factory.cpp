@@ -18,9 +18,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);
 
     e->AddComponent<CloneComponent>(infos.codename);
-
     e->AddComponent<LifeComponent>(infos.maxhp);
-    e->AddComponent<FightComponent>();
 
     e->AddComponent<PositionComponent>(infos.defL);
     e->AddComponent<MapPositionComponent>(infos.mapPos);
