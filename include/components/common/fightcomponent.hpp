@@ -15,6 +15,9 @@
 
 struct FightComponent : public Ndk::Component<FightComponent>
 {
+    FightComponent(bool autoAttack = false, unsigned mov = 3, unsigned action = 6)
+        : automaticallyAttack { autoAttack }, movementPoints { mov }, actionPoints { action } {}
+
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
     std::vector<std::shared_ptr<State>> states;

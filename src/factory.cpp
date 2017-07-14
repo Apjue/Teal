@@ -34,6 +34,9 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     if (infos.rdMov.randomMovement)
         e->AddComponent<RandomMovementComponent>(infos.rdMov.movInterval, infos.rdMov.nbTiles);
 
+    if (infos.fight.fight)
+        e->AddComponent<FightComponent>(infos.fight.autoAttack, infos.fight.movementPoints, infos.fight.actionPoints);
+
     e->AddComponent<NameComponent>(infos.name);
     e->AddComponent<DescriptionComponent>(infos.desc);
     e->AddComponent<BlockTileComponent>().blockTile = infos.blockTile;

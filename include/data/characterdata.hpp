@@ -35,6 +35,17 @@ struct CharacterData
         unsigned nbTiles;
     };
 
+    struct Fight
+    {
+        Fight(bool f = false, bool autoAtk = false, unsigned mov = 3, unsigned action = 6)
+            : fight { f }, autoAttack { autoAtk }, movementPoints { mov }, actionPoints { action } {}
+
+        bool fight;
+        bool autoAttack;
+        unsigned movementPoints;
+        unsigned actionPoints;
+    };
+
     using Elements = std::unordered_map<Element, int>;
 
     ///
@@ -54,6 +65,7 @@ struct CharacterData
     /// \param atk_ Attack Modifier
     /// \param res_ Resistance Modifier
     /// \param level_ Level of the character
+    /// \param fight_ Used for fight settings
     ///
 
     CharacterData(const Nz::String& name,
@@ -72,10 +84,11 @@ struct CharacterData
                   const Nz::String& desc_ = "",
                   Elements atk_ = {},
                   Elements res_ = {},
-                  unsigned level_ = { 1 })
+                  unsigned level_ = { 1 },
+                  const Fight& fight_ = {})
 
         : codename { name }, imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
-        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ } {}
+        o { o_ }, mapPos { mapPos_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ }, fight { fight_ } {}
 
     ~CharacterData() = default;
 
@@ -103,6 +116,7 @@ struct CharacterData
     Elements res;
 
     unsigned level;
+    Fight fight;
 };
 
 #endif // CHARACTERDATA_HPP

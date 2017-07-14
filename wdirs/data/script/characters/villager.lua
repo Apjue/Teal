@@ -19,5 +19,12 @@ teal_character =
     resistance =
     {
         { "neutral", 10 }
+    },
+
+    fight =
+    {
+        autoAttack = false,
+        movementPoints = 3,
+        actionPoints = 6
     }
 }

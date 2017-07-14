@@ -460,6 +460,18 @@ void Game::loadCharacters()
 
         lua.Pop();
 
+        CharacterData::Fight fight;
+
+        if (lua.GetField("fight") == Nz::LuaType_Table)
+        {
+            fight.fight = true;
+            fight.autoAttack = lua.CheckField<bool>("autoAttack", false);
+            fight.movementPoints = lua.CheckField<unsigned>("movementPoints", 3, -1);
+            fight.actionPoints = lua.CheckField<unsigned>("actionPoints", 6, -1);
+        }
+
+        lua.Pop();
+
         Nz::MaterialRef charMat = Nz::Material::New();
         charMat->Configure("Translucent2D");
         charMat->SetDiffuseMap(Nz::TextureLibrary::Get(sprite));
@@ -469,8 +481,8 @@ void Game::loadCharacters()
 
         CharacterData characterData
         {
-            codename, size, charSprite, maxFrames, defgfxpos, deflgcpos, mappos, maxHealth,
-            animType, orientation, random, blockTile, name, description, attack, res, level
+            codename, size, charSprite, maxFrames, defgfxpos, deflgcpos, mappos, maxHealth, animType,
+            orientation, random, blockTile, name, description, attack, res, level, fight
         };
 
         auto character = make_character(m_world, characterData);
