@@ -17,8 +17,9 @@ struct FightComponent : public Ndk::Component<FightComponent>
 {
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
-    bool automaticallyAttack { false }; // In the map
+    std::vector<std::shared_ptr<State>> states;
 
+    bool automaticallyAttack { false }; // In the map
     unsigned movementPoints { 3 };
     unsigned actionPoints { 6 };
 
@@ -27,8 +28,6 @@ struct FightComponent : public Ndk::Component<FightComponent>
 
     PathComponent::PathPool path;
     unsigned totalSize {};
-
-    std::vector<std::shared_ptr<State>> states;
 
     static Ndk::ComponentIndex componentIndex;
 };
