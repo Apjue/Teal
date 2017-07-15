@@ -11,7 +11,7 @@ Nz::ImageRef m_scheme {};
 
 }
 
-AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
+AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords) // COORDFIX_REDO
 {
     TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
     TealAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
@@ -24,58 +24,58 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     int const iRectX { utoi(rectX) };
     int const iRectY { utoi(rectY) };
 
-    unsigned const rectClickX { x % Def::TILEXSIZE }; //We need the click to see
-    unsigned const rectClickY { y % Def::TILEYSIZE }; //where in the rectangle we clicked
+    unsigned const rectClickX { x % Def::TILEXSIZE }; // We need the click to see
+    unsigned const rectClickY { y % Def::TILEYSIZE }; // where in the rectangle we clicked
 
     Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
     int losangeX {};
     int losangeY {};
 
-    //Blue == up left
+    // Blue == up left
     if (color == Nz::Color::Blue)
     {
         losangeX = iRectX - 1;
         losangeY = iRectY - 1;
     }
 
-    //Red == up right
+    // Red == up right
     if (color == Nz::Color::Red)
     {
         losangeX = iRectX + 1;
         losangeY = iRectY - 1;
     }
 
-    //Yellow == down left
+    // Yellow == down left
     if (color == Nz::Color::Yellow)
     {
         losangeX = iRectX - 1;
         losangeY = iRectY + 1;
     }
 
-    //Green == down right
+    // Green == down right
     if (color == Nz::Color::Green)
     {
         losangeX = iRectX + 1;
         losangeY = iRectY + 1;
     }
 
-    //White == The tile.
+    // White == The tile.
     if (color == Nz::Color::White)
     {
         losangeX = iRectX;
         losangeY = iRectY;
     }
 
-    //If the tile is negative:
+    // If the tile is negative:
     losangeX = (losangeX < 0) ? 0 : losangeX;
     losangeY = (losangeY < 0) ? 0 : losangeY;
 
     unsigned fLosangeX { static_cast<unsigned>(losangeX) };
     unsigned fLosangeY { static_cast<unsigned>(losangeY) };
 
-    //If tile is out the map:
-    fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX;
+    // If tile is out the map:
+    fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX; // COORDFIX_REDO
     fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
 
     return { fLosangeX, fLosangeY };
@@ -86,7 +86,7 @@ void initSchemeUtility(Nz::ImageRef newScheme)
     m_scheme = newScheme;
 }
 
-void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity)
+void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity) // COORDFIX_REDO
 {
     TealAssert(isMapEntity(graphicalEntity), "Graphical Entity isn't a graphical entity !");
 

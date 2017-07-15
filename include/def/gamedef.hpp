@@ -15,7 +15,7 @@ namespace Def
 {
 
 constexpr unsigned REALMAPX       { 8u  }; // see realnum.png
-constexpr unsigned REALMAPY       { 8u  };
+constexpr unsigned REALMAPY       { 8u  }; // COORDFIX_REDO
 
 constexpr unsigned LONGMAPX       { 15u }; // see longnum.png
 constexpr unsigned LONGMAPY       { 16u };
@@ -27,7 +27,7 @@ constexpr unsigned LMAPX          { LONGMAPX - 1u }; // see logicnum.png
 constexpr unsigned LMAPY          { LONGMAPY - 1u };
 
 
-constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY };
+constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY }; // COORDFIX_REDO
 extern    float    TILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
 extern    float    FIGHTTILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
 

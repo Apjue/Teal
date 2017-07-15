@@ -23,7 +23,7 @@ void moveEntity(const Ndk::EntityHandle& e)
 
     if (pathComp.totalSize == 1) // Walk mode if path is short
     {
-        xy.x = (xy.x == 2 || xy.x == -2) ? xy.x / 2 : xy.x;
+        xy.x = (xy.x == 2 || xy.x == -2) ? xy.x / 2 : xy.x; // COORDFIX_REDO
         xy.y = (xy.y == 2 || xy.y == -2) ? xy.y / 2 : xy.y;
     }
 
@@ -33,7 +33,7 @@ void moveEntity(const Ndk::EntityHandle& e)
         return; // Return so the animation system can animate.
     }
 
-    pos.inXY += xy;
+    pos.inXY += xy; // COORDFIX_REDO
     
     bool resetPosInX { true };
     

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -12,7 +12,7 @@
 namespace Def
 {
 
-constexpr unsigned MAPXSIZE { Def::REALMAPX * Def::TILEXSIZE };
+constexpr unsigned MAPXSIZE { Def::REALMAPX * Def::TILEXSIZE }; // COORDFIX_REDO
 constexpr unsigned MAPYSIZE { Def::REALMAPY * Def::TILEYSIZE };
 
 constexpr unsigned MAPXVIEWPORT { MAPXSIZE };

@@ -13,7 +13,7 @@ Ndk::EntityHandle m_mainChar;
 
 }
 
-std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
+std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p) // COORDFIX_REDO
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
@@ -94,7 +94,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     return std::make_pair(true, entExt);
 }
 
-bool changeMap()
+bool changeMap() // COORDFIX_REDO
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     auto canChange = canChangeMap(m_mainChar);

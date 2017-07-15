@@ -65,5 +65,5 @@ Ndk::EntityList& MapData::getEntities()
 
 unsigned MapData::XYToIndex(unsigned x, unsigned y) const
 {
-    return x + y * Def::MAPX;
+    return x + y * Def::MAPX; // COORDFIX_REDO
 }

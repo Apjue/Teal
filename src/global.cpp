@@ -36,7 +36,7 @@ int DirToX(DirectionFlags d)
     return 0;
 }
 
-DiffTile DirToXY(DirectionFlags d)
+DiffTile DirToXY(DirectionFlags d) // COORDFIX_REDO
 {
     int const x = DirToX(d);
     int const y = DirToY(d);
@@ -44,7 +44,7 @@ DiffTile DirToXY(DirectionFlags d)
     return { y ? x : x * 2, x ? y : y * 2 };
 }
 
-DirectionFlags XYToDir(DiffTile d)
+DirectionFlags XYToDir(DiffTile d) // COORDFIX_REDO
 {
     int x { d.x };
     int y { d.y };

@@ -39,7 +39,7 @@ DiffTile OrientToDiff(Orientation o)
     return DirToXY(OrientToDir(o));
 }
 
-bool isPositionValid(AbsTile pos)
+bool isPositionValid(AbsTile pos) // COORDFIX_REDO
 {
     return pos.x % 2 == pos.y % 2;
 }

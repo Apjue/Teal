@@ -38,7 +38,7 @@ bool MapInstance::update() // Thanks Lynix for this code
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
 
-    constexpr unsigned int width = Def::MAPX;
+    constexpr unsigned int width = Def::MAPX; // COORDFIX_REDO
     constexpr unsigned int height = Def::MAPY;
 
     Nz::Vector2f tileSize { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) };
@@ -83,7 +83,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 
                 else
                 {
-                    posPtr[0].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[0].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f); // COORDFIX_REDO
                     posPtr[1].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
                     posPtr[2].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
                     posPtr[3].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
@@ -160,12 +160,12 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 2.
     {
-        if (eX > Def::LMAPX || eY > Def::LMAPY)
+        if (eX > Def::LMAPX || eY > Def::LMAPY) // COORDFIX_REDO
             return false;
 
         XYToArray(eX, eY);
 
-        if (eX > Def::MAPX || eY > Def::MAPY)
+        if (eX > Def::MAPX || eY > Def::MAPY) // COORDFIX_REDO
             return false;
 
         unsigned const tile = XYToIndex(eX, eY);

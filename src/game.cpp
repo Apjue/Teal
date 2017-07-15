@@ -781,7 +781,7 @@ void Game::addEntities()
     }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
-    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
+    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8); // COORDFIX_REDO
     
     m_charac = cloneCharacter("villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);

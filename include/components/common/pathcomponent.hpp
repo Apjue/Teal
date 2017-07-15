@@ -15,9 +15,9 @@
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
-    using PathPool = std::vector<std::pair<DirectionFlags, bool>>;
+    using PathPool = std::vector<std::pair<DirectionFlags, bool>>; // delete reExec ?
 
-    PathPool path;
+    PathPool path; // COORDFIX_REDO
     unsigned totalSize {};
 
     static Ndk::ComponentIndex componentIndex;
