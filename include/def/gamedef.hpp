@@ -22,22 +22,19 @@ constexpr unsigned ARRAYMAPY      { MAPY + 1u };
 
 
 constexpr unsigned TILEARRAYSIZE  { ARRAYMAPX * ARRAYMAPY };
-extern    float    TILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
-extern    float    FIGHTTILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
+extern     float   TILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
+extern     float   FIGHTTILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
 
-constexpr unsigned TILEGXSIZE     { TILEXSIZE / 2 };
-constexpr unsigned TILEGYSIZE     { TILEYSIZE / 2 };
-
 
 constexpr   int    MAXPOSINTILE   { 4 };
-constexpr unsigned MAXGXPOSINTILE { TILEGXSIZE / MAXPOSINTILE };
-constexpr unsigned MAXGYPOSINTILE { TILEGYSIZE / MAXPOSINTILE };
+constexpr unsigned MAXGXPOSINTILE { (TILEXSIZE / 2) / MAXPOSINTILE };
+constexpr unsigned MAXGYPOSINTILE { (TILEYSIZE / 2) / MAXPOSINTILE };
 
 constexpr  float   MAXSYSTEMUPS   { 10 }; // Updates per second
-constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
+constexpr   int    MAXDIR         { 4  }; // Max directions: Up, down, left, right
 
 
 constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   1,   0,  -1,   0,    0,    1,   -1    };
