@@ -650,20 +650,21 @@ void Game::loadItems()
             }
 
             Nz::String componentType = lua.CheckField<Nz::String>("component");
+            componentType = componentType.ToLower();
 
             LuaArguments arguments;
             parseLua(lua, arguments);
 
-            if (componentType == "AttackModifier")
+            if (componentType == "attackmodifier")
                 item->AddComponent<AttackModifierComponent>(arguments);
 
-            if (componentType == "ResistanceModifier")
+            if (componentType == "resistancemodifier")
                 item->AddComponent<ResistanceModifierComponent>(arguments);
 
-            if (componentType == "Edible")
+            if (componentType == "edible")
                 item->AddComponent<Items::EdibleComponent>(arguments);
 
-            if (componentType == "Equippable")
+            if (componentType == "equippable")
             {
                 if (arguments.vars.size() >= 3)
                     arguments.vars[2].set<double>(m_skills.getItemIndex(arguments.vars[2].get<Nz::String>()));
@@ -671,10 +672,10 @@ void Game::loadItems()
                 item->AddComponent<Items::EquippableComponent>(arguments);
             }
 
-            if (componentType == "HPGain")
+            if (componentType == "hpgain")
                 item->AddComponent<Items::HPGainComponent>(arguments);
 
-            if (componentType == "Resource")
+            if (componentType == "resource")
                 item->AddComponent<Items::ResourceComponent>(arguments);
 
             lua.Pop();
