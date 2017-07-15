@@ -14,20 +14,14 @@
 namespace Def
 {
 
-constexpr unsigned REALMAPX       { 8u  }; // see realnum.png
-constexpr unsigned REALMAPY       { 8u  }; // COORDFIX_REDO
+constexpr unsigned MAPX           { 7u };
+constexpr unsigned MAPY           { 14u };
 
-constexpr unsigned LONGMAPX       { 15u }; // see longnum.png
-constexpr unsigned LONGMAPY       { 16u };
-
-constexpr unsigned MAPX           { LONGMAPX }; // For arrays
-constexpr unsigned MAPY           { REALMAPY };
-
-constexpr unsigned LMAPX          { LONGMAPX - 1u }; // see logicnum.png
-constexpr unsigned LMAPY          { LONGMAPY - 1u };
+constexpr unsigned ARRAYMAPX      { MAPX + 1u };
+constexpr unsigned ARRAYMAPY      { MAPY + 1u };
 
 
-constexpr unsigned TILEARRAYSIZE  { MAPX * MAPY }; // COORDFIX_REDO
+constexpr unsigned TILEARRAYSIZE  { ARRAYMAPX * ARRAYMAPY };
 extern    float    TILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
 extern    float    FIGHTTILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
 
@@ -45,9 +39,10 @@ constexpr unsigned MAXGYPOSINTILE { TILEGYSIZE / MAXPOSINTILE };
 constexpr  float   MAXSYSTEMUPS   { 10 }; // Updates per second
 constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
 
-constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   2,   0 , -2,   1,   -1,    1,   -1    };
-constexpr std::array<int,   8> MAP_DISTANCE_Y    { 2,   0,  -2,   0,   1,   -1,   -1,    1    };
-constexpr std::array<float, 8> MAP_DISTANCE_COST { 2.f, 2.f, 2.f, 2.f, 1.5f, 1.5f, 1.5f, 1.5f };
+
+constexpr std::array<int,   8> MAP_DISTANCE_X    { 0,   1,   0,  -1,   0,    0,    1,   -1    };
+constexpr std::array<int,   8> MAP_DISTANCE_Y    { 2,   0,  -2,   0,   1,   -1,    1,   -1    };
+constexpr std::array<float, 8> MAP_DISTANCE_COST { 1.f, 2.f, 1.f, 2.f, 1.5f, 1.5f, 1.5f, 1.5f };
 
 constexpr std::pair<unsigned, unsigned> NOMOVEPOS { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
