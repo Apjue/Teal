@@ -139,12 +139,11 @@ bool MapInstance::update() // Thanks Lynix for this code
 
 bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
-    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
     TealAssert(m_map, "Map is not valid !");
 
     // Step 1.
     {
-        if ((sX == eX - 2 && sY == eY)
+        if ((sX == eX - 2 && sY == eY) // COORDFIX_REDO
          || (sX == eX + 2 && sY == eY)
          || (sX == eX && sY == eY - 2)
          || (sX == eX && sY == eY + 2)
@@ -160,12 +159,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 2.
     {
-        if (eX > Def::LMAPX || eY > Def::LMAPY) // COORDFIX_REDO
-            return false;
-
-        XYToArray(eX, eY);
-
-        if (eX > Def::MAPX || eY > Def::MAPY) // COORDFIX_REDO
+        if (eX > Def::MAPX || eY > Def::MAPY + 1u)
             return false;
 
         unsigned const tile = XYToIndex(eX, eY);
@@ -175,7 +169,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
     }
 }
 
-float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
+float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd) // COORDFIX_REDO ?
 {
     unsigned sX {}, sY {};
     NodeToXY(nodeStart, sX, sY);
@@ -185,13 +179,13 @@ float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
 
 
     unsigned rX { distance(sX, eX) },
-        rY { distance(sY, eY) };
+             rY { distance(sY, eY) };
 
     unsigned const estimated { rX + rY };
     return static_cast<float>(estimated);
 }
 
-void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)
+void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) // COORDFIX_REDO
 {
     TealAssert(neighbors, "Micropather neighbors null !");
 
