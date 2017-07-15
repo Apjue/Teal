@@ -12,17 +12,14 @@
 namespace Def
 {
 
-constexpr unsigned MAPXSIZE { Def::REALMAPX * Def::TILEXSIZE }; // COORDFIX_REDO
-constexpr unsigned MAPYSIZE { Def::REALMAPY * Def::TILEYSIZE };
-
-constexpr unsigned MAPXVIEWPORT { MAPXSIZE };
-constexpr unsigned MAPYVIEWPORT { MAPYSIZE + 16u };
+constexpr unsigned MAPXSIZE { Def::ARRAYMAPX * Def::TILEXSIZE }; // COORDFIX_REDO
+constexpr unsigned MAPYSIZE { (Def::MAPY + 2) / 2 * Def::TILEYSIZE + TILEYSIZE / 2 };
 
 constexpr unsigned BUTTONSXSIZE { MAPXSIZE };
 constexpr unsigned BUTTONSYSIZE { 90u };
 
-constexpr unsigned WINXSIZE { MAPXVIEWPORT };
-constexpr unsigned WINYSIZE { MAPYVIEWPORT + BUTTONSYSIZE };
+constexpr unsigned WINXSIZE { MAPXSIZE };
+constexpr unsigned WINYSIZE { MAPYSIZE + BUTTONSYSIZE };
 
 }
 
