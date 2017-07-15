@@ -19,8 +19,9 @@ void MovementSystem::OnUpdate(float elapsed)
     {
         auto& path = e->GetComponent<PathComponent>().path;
 
-        if (path.empty())
-            continue; // No path, no move.
+        if (path.empty() ||
+            (e->HasComponent<FightComponent>() && e->GetComponent<FightComponent>().isFighting)) // Path should be empty in this case though
+            continue;
 
         moveEntity(e);
     }

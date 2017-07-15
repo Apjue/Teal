@@ -41,64 +41,52 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             goSomewhere = true;
         }
 
-        if (goSomewhere)
+        goSomewhere = e->HasComponent<FightComponent>() && e->GetComponent<FightComponent>().isFighting ? false : goSomewhere;
+
+        if (goSomewhere && !m_map.expired())
         {
-            if (m_map.expired())
-                for (unsigned counter {}; counter < rd.nbTiles; ++counter)
+            auto map = m_map.lock();
+            TealAssert(map->getMap().IsValid(), "Map isn't valid !");
+
+            for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
+            { /// \todo Redo this. Does not work as intended
+                x = pos.xy.x;
+                y = pos.xy.y;
+
+                XYToArray(x, y);
+
+                auto adjacentTiles = map->getMap()->adjacentTiles(x, y);
+
+                if (adjacentTiles.size() == 0)
+                    break;
+
+                DiffTile xy;
+
+                if (adjacentTiles.size() > 1)
                 {
                     unsigned direction = m_uni(rng);
-                    Orientation orient = static_cast<Orientation>(direction);
-                    DiffTile xy = OrientToDiff(orient);
 
+                    if (adjacentTiles.size() != 8)
+                        direction %= adjacentTiles.size();
+
+                    Orientation orient = static_cast<Orientation>(direction);
+                    xy = OrientToDiff(orient);
+                }
+                
+                else
+                    xy = AbsPosToDiff(pos.xy, adjacentTiles.begin()->first);
+
+                unsigned newXpos = (DiffTile { static_cast<int>(pos.xy.x), static_cast<int>(pos.xy.y) } + xy).x;
+                unsigned newYpos = (DiffTile { static_cast<int>(pos.xy.x), static_cast<int>(pos.xy.y) } +xy).x;
+
+                XYToArray(newXpos, newYpos);
+
+                if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).obstacle == 0)
+                {
                     mov.tile = pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) };
                     mov.playerInitiated = false;
-                }
 
-            else
-            {
-                auto map = m_map.lock();
-                TealAssert(map->getMap().IsValid(), "Map isn't valid !");
-
-                for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
-                { // TODO: Redo this. Only works with 1 tile
-                    x = pos.xy.x;
-                    y = pos.xy.y;
-
-                    XYToArray(x, y);
-
-                    auto adjacentTiles = map->getMap()->adjacentTiles(x, y);
-
-                    if (adjacentTiles.size() == 0)
-                        break;
-
-                    DiffTile xy;
-
-                    if (adjacentTiles.size() > 1)
-                    {
-                        unsigned direction = m_uni(rng);
-
-                        if (adjacentTiles.size() != 8)
-                            direction %= adjacentTiles.size();
-
-                        Orientation orient = static_cast<Orientation>(direction);
-                        xy = OrientToDiff(orient);
-                    }
-
-                    else
-                        xy = AbsPosToDiff(pos.xy, adjacentTiles.begin()->first);
-
-                    unsigned newXpos = (pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) }).x;
-                    unsigned newYpos = (pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) }).y;
-
-                    XYToArray(newXpos, newYpos);
-
-                    if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).obstacle == 0)
-                    {
-                        mov.tile = pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) };
-                        mov.playerInitiated = false;
-
-                        break;
-                    }
+                    break;
                 }
             }
         }

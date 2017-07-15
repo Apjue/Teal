@@ -16,6 +16,7 @@
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"
+#include "components/common/fightcomponent.hpp"
 #include "util/random.hpp"
 #include "global.hpp"
 #include "util/assert.hpp"

@@ -793,7 +793,7 @@ void Game::addSystems()
     m_world->AddSystem<AISystem>(m_pather);
     m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<FightSystem>();
-    m_world->AddSystem<RandomMovementSystem>();
+    m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);
     m_world->AddSystem<AnimationSystem>();
 }
 

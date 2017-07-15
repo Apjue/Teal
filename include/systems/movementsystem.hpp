@@ -8,6 +8,10 @@
 #define MOVEMENTSYSTEM_HPP
 
 #include <NDK/System.hpp>
+#include "components/common/positioncomponent.hpp"
+#include "components/common/pathcomponent.hpp"
+#include "components/common/orientationcomponent.hpp"
+#include "components/common/fightcomponent.hpp"
 #include "util/movementutil.hpp"
 #include "cache/tilesetcore.hpp"
 
@@ -15,7 +19,7 @@
 /// \class MovementSystem
 ///
 /// \brief Moves any entity which has a path and a position component.
-///        If the path is m_empty, it does nothing
+///        If the path is empty, it does nothing
 ///        The move needs severals calls to update to be fully done
 ///
 
