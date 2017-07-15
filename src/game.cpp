@@ -797,7 +797,7 @@ void Game::addSystems()
     m_world->AddSystem<AnimationSystem>();
 }
 
-void Game::initEventHandler() // const WindowEvent::MouseMoveEvent&
+void Game::initEventHandler()
 {
     auto& eventHandler = m_window.GetEventHandler();
 
