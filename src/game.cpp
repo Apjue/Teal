@@ -856,7 +856,7 @@ void Game::initEventHandler()
 void Game::addWidgets()
 {
     TealAssert(m_canvas, "Canvas null");
-    m_canvas->SetPosition(10.f, static_cast<float>(Def::MAPYVIEWPORT) + 5);
+    m_canvas->SetPosition(Def::BUTTONSMARGINX, Def::MAPYSIZE + Def::BUTTONSMARGINY);
 
     auto& eventHandler = m_window.GetEventHandler();
 

@@ -15,11 +15,14 @@ namespace Def
 constexpr unsigned MAPXSIZE { Def::ARRAYMAPX * Def::TILEXSIZE }; // COORDFIX_REDO
 constexpr unsigned MAPYSIZE { (Def::MAPY + 2) / 2 * Def::TILEYSIZE + TILEYSIZE / 2 };
 
+constexpr unsigned BUTTONSMARGINX { 10u };
+constexpr unsigned BUTTONSMARGINY { 5u };
+
 constexpr unsigned BUTTONSXSIZE { MAPXSIZE };
 constexpr unsigned BUTTONSYSIZE { 90u };
 
 constexpr unsigned WINXSIZE { MAPXSIZE };
-constexpr unsigned WINYSIZE { MAPYSIZE + BUTTONSYSIZE };
+constexpr unsigned WINYSIZE { MAPYSIZE + BUTTONSMARGINY + BUTTONSYSIZE };
 
 }
 
