@@ -18,28 +18,17 @@ void* XYToNode(unsigned x, unsigned y)
     return reinterpret_cast<void*>(result);
 }
 
-void XYToArray(unsigned& x, unsigned& y) // COORDFIX_REDO
-{
-    unsigned tmpX = x;
-    x /= 2;
-
-    if (tmpX % 2 != 0)
-        x += Def::REALMAPX;
-
-    y /= 2;
-}
-
-std::pair<unsigned, unsigned> IndexToXY(unsigned index) // COORDFIX_REDO
+std::pair<unsigned, unsigned> IndexToXY(unsigned index)
 {
     unsigned x {}, y {};
 
-    y = index / Def::MAPX; // COORDFIX_REDO
-    x = index - y * Def::MAPX;
+    y = index / Def::MAPX;
+    x = index - (y * Def::MAPX);
 
     return std::make_pair(x, y);
 }
 
-unsigned XYToIndex(unsigned x, unsigned y) // COORDFIX_REDO
+unsigned XYToIndex(unsigned x, unsigned y)
 {
     return x + y * Def::MAPX;
 }
