@@ -50,14 +50,16 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
             for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
             { /// \todo Redo this. Does not work as intended
-                x = pos.xy.x;
-                y = pos.xy.y;
+                AbsTile wantedPos = mov.tile == toVector(Def::NOMOVEPOS) ? pos.xy : mov.tile;
+
+                x = wantedPos.x;
+                y = wantedPos.y;
 
                 XYToArray(x, y);
 
                 auto adjacentTiles = map->getMap()->adjacentTiles(x, y);
 
-                if (adjacentTiles.size() == 0)
+                if (adjacentTiles.empty())
                     break;
 
                 DiffTile xy;
@@ -74,16 +76,21 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 }
                 
                 else
-                    xy = AbsPosToDiff(pos.xy, adjacentTiles.begin()->first);
+                    xy = AbsPosToDiff(wantedPos, adjacentTiles.begin()->first);
 
-                unsigned newXpos = (DiffTile { static_cast<int>(pos.xy.x), static_cast<int>(pos.xy.y) } + xy).x;
-                unsigned newYpos = (DiffTile { static_cast<int>(pos.xy.x), static_cast<int>(pos.xy.y) } +xy).x;
+                AbsTile newPos { wantedPos.x + xy.x, wantedPos.y + xy.y };
+
+                unsigned newXpos = newPos.x;
+                unsigned newYpos = newPos.y;
 
                 XYToArray(newXpos, newYpos);
 
                 if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).obstacle == 0)
                 {
-                    mov.tile = pos.xy + AbsTile { static_cast<unsigned>(xy.x), static_cast<unsigned>(xy.y) };
+                    wantedPos.x += xy.x;
+                    wantedPos.y += xy.y;
+
+                    mov.tile = wantedPos;
                     mov.playerInitiated = false;
 
                     break;

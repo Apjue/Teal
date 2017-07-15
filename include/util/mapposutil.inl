@@ -24,7 +24,7 @@ void XYToArray(unsigned& x, unsigned& y) // redo
     x /= 2;
 
     if (tmpX % 2 != 0)
-        x += 8u;
+        x += Def::REALMAPX;
 
     y /= 2;
 }
