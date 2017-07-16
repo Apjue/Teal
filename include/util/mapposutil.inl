@@ -18,17 +18,51 @@ void* XYToNode(unsigned x, unsigned y)
     return reinterpret_cast<void*>(result);
 }
 
-std::pair<unsigned, unsigned> IndexToXY(unsigned index)
+std::pair<unsigned, unsigned> IndexToXY(unsigned index) // COORDFIX_REDO
 {
-    unsigned x {}, y {};
+    unsigned evenLines {};
+    unsigned unevenLines {};
 
-    y = index / Def::MAPX;
-    x = index - (y * Def::MAPX);
+    for (unsigned i {}; i < index; ++i)
+    {
+        unsigned num = evenLines * Def::MAPX + unevenLines * (Def::MAPX - 1u);
+        num += (i - num);
+
+        if (evenLines == unevenLines && num % Def::MAPX == 0)
+            ++evenLines;
+
+        else if (evenLines > unevenLines && num % (Def::MAPX - 1u) == 0)
+            ++unevenLines;
+    }
+
+    index -= evenLines * Def::MAPX;
+    index -= unevenLines * (Def::MAPX - 1u);
+    
+    unsigned x { index };
+    unsigned y { unevenLines + evenLines };
 
     return std::make_pair(x, y);
 }
 
 unsigned XYToIndex(unsigned x, unsigned y)
 {
-    return x + y * Def::MAPX;
+    unsigned result { x };
+    bool even { true };
+
+    for (unsigned i {}; i < y; ++i)
+    {
+        if (even)
+        {
+            result += Def::MAPX;
+            even = false;
+        }
+
+        else
+        {
+            result += (Def::MAPX - 1u);
+            even = true;
+        }
+    }
+
+    return result;
 }
