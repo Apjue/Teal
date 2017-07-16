@@ -66,8 +66,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     unsigned fLosangeY { static_cast<unsigned>(losangeY) };
 
     // If tile is out the map:
-    fLosangeX = (fLosangeX > Def::MAPX + 1u) ? Def::MAPX + 1u : fLosangeX;
-    fLosangeY = (fLosangeY > Def::MAPY + 1u) ? Def::MAPY + 1u : fLosangeY;
+    fLosangeX = (fLosangeX > Def::ARRAYMAPX) ? Def::ARRAYMAPX : fLosangeX;
+    fLosangeY = (fLosangeY > Def::ARRAYMAPY) ? Def::ARRAYMAPY : fLosangeY;
 
     return { fLosangeX, fLosangeY };
 }
@@ -77,7 +77,7 @@ void initSchemeUtility(Nz::ImageRef newScheme)
     m_scheme = newScheme;
 }
 
-void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity) // COORDFIX_REDO
+void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity)
 {
     TealAssert(isMapEntity(graphicalEntity), "Graphical Entity isn't a graphical entity !");
 

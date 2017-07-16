@@ -4,65 +4,29 @@
 
 #include "global.hpp"
 
-int DirToY(DirectionFlags d)
+DiffTile DirToXY(DirectionFlags d)
 {
-    TealAssert((d & Dir::UpDown) != Dir::UpDown, "Cannot go up and down" );
+    auto pos = toUnderlyingType(DirToOrient(d));
+    int x = Def::MAP_DISTANCE_X[pos];
+    int y = Def::MAP_DISTANCE_Y[pos];
 
-    static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
-    auto newDir = d & Dir::UpDown;
-
-    if (newDir & Dir::Up)
-        return -1;
-
-    if (newDir & Dir::Down)
-        return 1;
-
-    return 0;
+    return { x, y };
 }
 
-int DirToX(DirectionFlags d)
-{
-    TealAssert((d & Dir::LeftRight) != Dir::LeftRight, "Cannot go left and right");
-
-    static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
-    auto newDir = d & Dir::LeftRight;
-
-    if (newDir & Dir::Left)
-        return -1;
-
-    if (newDir & Dir::Right)
-        return 1;
-
-    return 0;
-}
-
-DiffTile DirToXY(DirectionFlags d) // COORDFIX_REDO
-{
-    int const x = DirToX(d);
-    int const y = DirToY(d);
-
-    return { y ? x : x * 2, x ? y : y * 2 };
-}
-
-DirectionFlags XYToDir(DiffTile d) // COORDFIX_REDO
+DirectionFlags XYToDir(DiffTile d)
 {
     int x { d.x };
     int y { d.y };
 
     TealAssert((x != 0 || y != 0), "x and y may not be 0");
-    // 0 == no move == no direction
 
     auto dir = Dir::Up; // Must put a default value
 
-    if (x > 0)
-        dir |= Dir::Right;
-    else if (x < 0)
-        dir |= Dir::Left;
-
-    if (y > 0)
-        dir |= Dir::Down;
-    if (y >= 0)
-        dir &= ~Dir::Up;
+    for (unsigned i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
+    {
+        if (x == Def::MAP_DISTANCE_X[i] && y == Def::MAP_DISTANCE_Y[i])
+            return OrientToDir(static_cast<Orientation>(i));
+    }
 
     return dir;
 }

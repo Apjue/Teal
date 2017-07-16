@@ -13,7 +13,7 @@ Ndk::EntityHandle m_mainChar;
 
 }
 
-std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p) // COORDFIX_REDO
+std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
@@ -27,13 +27,13 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p) // COOR
     if (pos.xy.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y))) // Left
         entExt = Dir::Left;
 
-    else if (pos.xy.x == Def::LMAPX && MapDataLibrary::Has(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y))) // Right
+    else if (pos.xy.x == Def::MAPX && MapDataLibrary::Has(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y))) // Right
         entExt = Dir::Right;
 
     else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1))) // Up
         entExt = Dir::Up;
 
-    else if (pos.xy.y == Def::LMAPY && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1))) // Down
+    else if (pos.xy.y == Def::ARRAYMAPY && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1))) // Down
         entExt = Dir::Down;
 
     if (!entExt)
@@ -49,7 +49,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p) // COOR
     {
         map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y));
 
-        x = Def::LMAPX;
+        x = Def::MAPX;
         y = pos.xy.y;
     }
 
@@ -66,7 +66,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p) // COOR
         map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1));
 
         x = pos.xy.x;
-        y = Def::LMAPY - 1;
+        y = Def::MAPY;
     }
 
     else if (entExt & Dir::Down)
@@ -80,21 +80,18 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p) // COOR
     else
     {
         NazaraError("Bad direction value");
-
         return std::make_pair(false, entExt);
     }
 
     TealAssert(map, "new map null !");
-
-    XYToArray(x, y);
-
+    
     if (map->tile(XYToIndex(x, y)).obstacle != 0)
         return std::make_pair(false, entExt); // It's an obstacle.
 
     return std::make_pair(true, entExt);
 }
 
-bool changeMap() // COORDFIX_REDO
+bool changeMap()
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     auto canChange = canChangeMap(m_mainChar);
@@ -114,7 +111,7 @@ bool changeMap() // COORDFIX_REDO
     {
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y));
 
-        x = Def::LMAPX;
+        x = Def::MAPX;
         y = pos.xy.y;
 
         mapX = mapPos.xy.x - 1;
@@ -143,7 +140,7 @@ bool changeMap() // COORDFIX_REDO
         newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1));
 
         x = pos.xy.x;
-        y = Def::LMAPY - 1;
+        y = Def::MAPY;
 
         mapX = mapPos.xy.x;
         mapY = mapPos.xy.y + 1;

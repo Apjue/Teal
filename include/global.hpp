@@ -79,9 +79,6 @@ constexpr DirectionFlags DownLeft = Down | Left;
 
 
 // Conversion functions
-extern int DirToY(DirectionFlags d);
-extern int DirToX(DirectionFlags d);
-
 extern DiffTile DirToXY(DirectionFlags d);
 extern DirectionFlags XYToDir(DiffTile d);
 
