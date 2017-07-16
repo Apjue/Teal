@@ -38,8 +38,8 @@ bool MapInstance::update() // Thanks Lynix for this code
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
 
-    constexpr unsigned int width = Def::MAPX; // COORDFIX_REDO
-    constexpr unsigned int height = Def::MAPY;
+    constexpr unsigned int width = Def::ARRAYMAPX;
+    constexpr unsigned int height = Def::ARRAYMAPY;
 
     Nz::Vector2f tileSize { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) };
 
@@ -72,8 +72,8 @@ bool MapInstance::update() // Thanks Lynix for this code
                 auto posPtr = positionPtr + vertex;
                 auto texCoordsPtr = uvPtr + vertex;
 
-
-                if (x < Def::REALMAPX)
+                
+                if (y % 2 == 0)
                 {
                     posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
                     posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
@@ -83,10 +83,10 @@ bool MapInstance::update() // Thanks Lynix for this code
 
                 else
                 {
-                    posPtr[0].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f); // COORDFIX_REDO
-                    posPtr[1].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 0) * tileSize.y + tileSize.y / 2.f);
-                    posPtr[2].Set((x + 1 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
-                    posPtr[3].Set((x + 0 - Def::REALMAPX) * tileSize.x + Def::TILEGXSIZE, (y + 1) * tileSize.y + tileSize.y / 2.f);
+                    posPtr[0].Set((x + 0) * tileSize.x + Def::TILEXSIZE / 2, (y + 0) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[1].Set((x + 1) * tileSize.x + Def::TILEXSIZE / 2, (y + 0) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[2].Set((x + 1) * tileSize.x + Def::TILEXSIZE / 2, (y + 1) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[3].Set((x + 0) * tileSize.x + Def::TILEXSIZE / 2, (y + 1) * tileSize.y + Def::TILEYSIZE / 2);
                 }
 
                 posPtr[0].y = -posPtr[0].y;
@@ -100,6 +100,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 indexMapper.Set(index + 3, vertex + 3);
                 indexMapper.Set(index + 4, vertex + 2);
                 indexMapper.Set(index + 5, vertex + 0);
+
 
                 const TileData& tile = m_map->tile(XYToIndex(x, y)); /// \todo Invisible tile
                 unsigned tileNumber = m_fightMode ? m_fightTilesetCore->get(tile.fightTextureId) : m_tilesetCore->get(tile.textureId);
@@ -169,7 +170,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
     }
 }
 
-float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd) // COORDFIX_REDO ?
+float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
 {
     unsigned sX {}, sY {};
     NodeToXY(nodeStart, sX, sY);
@@ -185,7 +186,7 @@ float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd) // COORDFIX
     return static_cast<float>(estimated);
 }
 
-void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors) // COORDFIX_REDO
+void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)
 {
     TealAssert(neighbors, "Micropather neighbors null !");
 
