@@ -34,7 +34,7 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
     for (std::size_t i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
     {
         unsigned newX = x + Def::MAP_DISTANCE_X[i]; // todo: bugfix: array +1 => other line
-        unsigned newY = y + Def::MAP_DISTANCE_Y[i];
+        unsigned newY = y + Def::MAP_DISTANCE_Y[i]; // COORDFIX_REDO
 
         unsigned index = XYToIndex(newX, newY);
 

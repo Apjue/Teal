@@ -12,7 +12,7 @@
 namespace Def
 {
 
-constexpr unsigned MAPXSIZE { Def::ARRAYMAPX * Def::TILEXSIZE }; // COORDFIX_REDO
+constexpr unsigned MAPXSIZE { (Def::MAPX + 1) * Def::TILEXSIZE };
 constexpr unsigned MAPYSIZE { (Def::MAPY + 2) / 2 * Def::TILEYSIZE + TILEYSIZE / 2 };
 
 constexpr unsigned BUTTONSMARGINX { 10u };

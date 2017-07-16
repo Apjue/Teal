@@ -20,10 +20,7 @@ void MapData::updateOccupiedTiles()
             && e->GetComponent<BlockTileComponent>().blockTile)
         {
             auto& pos = e->GetComponent<PositionComponent>();
-            unsigned x { pos.xy.x }, y { pos.xy.y };
-
-            XYToArray(x, y);
-            m_tiles[XYToIndex(x, y)].occupied = true;
+            m_tiles[XYToIndex(pos.xy.x, pos.xy.y)].occupied = true;
         }
     }
 }

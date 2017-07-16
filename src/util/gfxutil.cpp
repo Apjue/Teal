@@ -11,7 +11,7 @@ Nz::ImageRef m_scheme {};
 
 }
 
-AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords) // COORDFIX_REDO
+AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
     TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
     TealAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
@@ -29,43 +29,34 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords) // COORDFIX_REDO
 
     Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
-    int losangeX {};
-    int losangeY {};
+    int losangeX { iRectX };
+    int losangeY { iRectY };
 
-    // Blue == up left
+    Orientation o = Orientation::Down;
+
+
     if (color == Nz::Color::Blue)
-    {
-        losangeX = iRectX - 1;
-        losangeY = iRectY - 1;
-    }
+        o = Orientation::UpLeft;
 
-    // Red == up right
     if (color == Nz::Color::Red)
-    {
-        losangeX = iRectX + 1;
-        losangeY = iRectY - 1;
-    }
+        o = Orientation::UpRight;
 
-    // Yellow == down left
     if (color == Nz::Color::Yellow)
-    {
-        losangeX = iRectX - 1;
-        losangeY = iRectY + 1;
-    }
+        o = Orientation::DownLeft;
 
-    // Green == down right
     if (color == Nz::Color::Green)
-    {
-        losangeX = iRectX + 1;
-        losangeY = iRectY + 1;
-    }
+        o = Orientation::DownRight;
 
-    // White == The tile.
     if (color == Nz::Color::White)
-    {
-        losangeX = iRectX;
-        losangeY = iRectY;
-    }
+        o = Orientation::Up;
+
+
+    if (o == Orientation::Down)
+        NazaraError("Error in scheme !");
+
+    losangeX = Def::MAP_DISTANCE_X[toUnderlyingType(o)];
+    losangeY = Def::MAP_DISTANCE_Y[toUnderlyingType(o)];
+
 
     // If the tile is negative:
     losangeX = (losangeX < 0) ? 0 : losangeX;
@@ -75,8 +66,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords) // COORDFIX_REDO
     unsigned fLosangeY { static_cast<unsigned>(losangeY) };
 
     // If tile is out the map:
-    fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX; // COORDFIX_REDO
-    fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
+    fLosangeX = (fLosangeX > Def::MAPX + 1u) ? Def::MAPX + 1u : fLosangeX;
+    fLosangeY = (fLosangeY > Def::MAPY + 1u) ? Def::MAPY + 1u : fLosangeY;
 
     return { fLosangeX, fLosangeY };
 }
@@ -97,16 +88,16 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     Nz::Vector2f defPos { dpos.xy };
 
-    unsigned const gX = pos.xy.x * Def::TILEGXSIZE; // convert logic pos to graphics pos
-    unsigned const gY = pos.xy.y * Def::TILEGYSIZE;
+    unsigned const gX = pos.xy.x * Def::TILEXSIZE + pos.xy.y % 2 == 0 ? 0u : 32u ; // convert logic pos to graphics pos
+    unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
     int const gInX = pos.inXY.x * Def::MAXGXPOSINTILE;
     int const gInY = pos.inXY.y * Def::MAXGYPOSINTILE;
 
     float const finalX = static_cast<float>(gX) + static_cast<float>(gInX) + defPos.x; // We will move using this
     float const finalY = static_cast<float>(gY) + static_cast<float>(gInY) + defPos.y; // (so it's graphics pos)
 
-    if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
-        || finalY != gfxpos.GetPosition().y) // no need to move it
+    if (finalX != gfxpos.GetPosition().x || // if the entity is already at that position
+        finalY != gfxpos.GetPosition().y) // no need to move it
     {
         float const moveX = finalX - gfxpos.GetPosition().x;
         float const moveY = finalY - gfxpos.GetPosition().y;

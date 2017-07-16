@@ -160,7 +160,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 2.
     {
-        if (eX > Def::MAPX || eY > Def::MAPY + 1u)
+        if (!isPositionValid({ eX, eY }))
             return false;
 
         unsigned const tile = XYToIndex(eX, eY);

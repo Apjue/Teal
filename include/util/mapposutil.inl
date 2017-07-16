@@ -18,7 +18,7 @@ void* XYToNode(unsigned x, unsigned y)
     return reinterpret_cast<void*>(result);
 }
 
-std::pair<unsigned, unsigned> IndexToXY(unsigned index) // COORDFIX_REDO
+std::pair<unsigned, unsigned> IndexToXY(unsigned index)
 {
     unsigned evenLines {};
     unsigned unevenLines {};

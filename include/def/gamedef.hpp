@@ -29,16 +29,21 @@ constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
 
 
-constexpr   int    MAXPOSINTILE   { 4 };
-constexpr unsigned MAXGXPOSINTILE { (TILEXSIZE / 2) / MAXPOSINTILE };
-constexpr unsigned MAXGYPOSINTILE { (TILEYSIZE / 2) / MAXPOSINTILE };
+constexpr   int    MAXLPOSXINTILE { 4 };
+constexpr   int    MAXLPOSYINTILE { 4 };
+
+constexpr   int    MAXPOSXINTILE  { 8 };
+constexpr   int    MAXPOSYINTILE  { 4 };
+
+constexpr unsigned MAXGXPOSINTILE { (TILEXSIZE / 2) / MAXPOSXINTILE };
+constexpr unsigned MAXGYPOSINTILE { (TILEYSIZE / 2) / MAXPOSYINTILE };
 
 constexpr  float   MAXSYSTEMUPS   { 10 }; // Updates per second
 constexpr   int    MAXDIR         { 4  }; // Max directions: Up, down, left, right
 
 
-constexpr std::array<int, 8>   MAP_DISTANCE_X    {  0,   1,    1,   0,    0,  -1,   -1,   0    }; // See Orientation
-constexpr std::array<int, 8>   MAP_DISTANCE_Y    { -2,   1,    0,  -1,   -2,  -1,    0,   1    };
+constexpr std::array<int,   8> MAP_DISTANCE_X    {  0,   1,    1,   0,    0,  -1,   -1,   0    }; // See Orientation
+constexpr std::array<int,   8> MAP_DISTANCE_Y    { -2,   1,    0,  -1,   -2,  -1,    0,   1    };
 constexpr std::array<float, 8> MAP_DISTANCE_COST {  1.f, 1.5f, 2.f, 1.5f, 1.f, 1.5f, 2.f, 1.5f };
 
 constexpr std::pair<unsigned, unsigned> NOMOVEPOS { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
