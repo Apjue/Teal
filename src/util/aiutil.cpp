@@ -21,7 +21,7 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
     return computePath(pos.xy, move.tile, pather);
 }
 
-PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos, micropather::MicroPather* pather) // COORDFIX_REDO
+PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& lastPos, micropather::MicroPather* pather)
 {
     if (startPos == lastPos || !isPositionValid(startPos) || !isPositionValid(lastPos))
         return PathComponent::PathPool {};
