@@ -4,16 +4,16 @@
 
 #include "global.hpp"
 
-DiffTile DirToXY(DirectionFlags d)
+DiffTile DirToXY(DirectionFlags d, bool even) // COORDFIX_REDO
 {
     auto pos = toUnderlyingType(DirToOrient(d));
-    int x = Def::MAP_DISTANCE_X[pos];
-    int y = Def::MAP_DISTANCE_Y[pos];
+    int x = even ? Def::MAP_DISTANCE_EVEN_X[pos] : Def::MAP_DISTANCE_UNEVEN_X[pos];
+    int y = even ? Def::MAP_DISTANCE_EVEN_Y[pos] : Def::MAP_DISTANCE_UNEVEN_Y[pos];
 
     return { x, y };
 }
 
-DirectionFlags XYToDir(DiffTile d)
+DirectionFlags XYToDir(DiffTile d, bool even)
 {
     int x { d.x };
     int y { d.y };
@@ -22,9 +22,10 @@ DirectionFlags XYToDir(DiffTile d)
 
     auto dir = Dir::Up; // Must put a default value
 
-    for (unsigned i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
+    for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        if (x == Def::MAP_DISTANCE_X[i] && y == Def::MAP_DISTANCE_Y[i])
+        if (x == even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i]
+         && y == even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i])
             return OrientToDir(static_cast<Orientation>(i));
     }
 

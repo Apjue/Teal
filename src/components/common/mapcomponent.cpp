@@ -125,7 +125,7 @@ bool MapInstance::update() // Thanks Lynix for this code
 
     subMesh->SetIndexBuffer(indexBuffer);
 
-    subMesh->SetAABB(Nz::Boxf(0.f, 0.f, 0.f, width * tileSize.x, height * tileSize.y, 0.f));
+    subMesh->SetAABB(Nz::Boxf (0.f, 0.f, 0.f, width * tileSize.x, height * tileSize.y, 0.f));
     subMesh->GenerateAABB();
 
     mesh->AddSubMesh(subMesh);
@@ -193,10 +193,12 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
     unsigned x {}, y {};
     NodeToXY(node, x, y);
 
+    bool even = isLineEven(y);
+
     for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        int newX = x + Def::MAP_DISTANCE_X[i];
-        int newY = y + Def::MAP_DISTANCE_Y[i];
+        int newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
+        int newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
 
         if (adjacentPassable(x, y, newX, newY))
         {

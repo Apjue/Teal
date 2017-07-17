@@ -18,8 +18,8 @@ void moveEntity(const Ndk::EntityHandle& e)
     auto& orient = e->GetComponent<OrientationComponent>().dir;
     auto& dir = path.front();
 
-    orient = DirToOrient(dir.first);
-    auto xy = DirToXY(dir.first);
+    orient = DirToOrient(dir);
+    auto xy = DirToXY(dir);
 
     if (pathComp.totalSize == 1) // Walk mode if path is short
     {

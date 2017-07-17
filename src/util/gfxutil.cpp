@@ -32,6 +32,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     int losangeX { iRectX };
     int losangeY { iRectY };
 
+    bool even = isLineEven(losangeY < 0 ? 0 : losangeY);
+
     Orientation o = Orientation::Down;
 
 
@@ -54,8 +56,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     if (o == Orientation::Down)
         NazaraError("Error in scheme !");
 
-    losangeX = Def::MAP_DISTANCE_X[toUnderlyingType(o)];
-    losangeY = Def::MAP_DISTANCE_Y[toUnderlyingType(o)];
+    losangeX += even ? Def::MAP_DISTANCE_EVEN_X[toUnderlyingType(o)] : Def::MAP_DISTANCE_EVEN_X[toUnderlyingType(o)];
+    losangeY += even ? Def::MAP_DISTANCE_EVEN_Y[toUnderlyingType(o)] : Def::MAP_DISTANCE_EVEN_Y[toUnderlyingType(o)];
 
 
     // If the tile is negative:

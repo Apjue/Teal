@@ -30,11 +30,16 @@ const TileData& MapData::tile(unsigned index) const
 std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, unsigned y)
 {
     std::unordered_map<Nz::Vector2ui, TileData> data;
+    bool even = isLineEven(y);
 
-    for (std::size_t i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
+    for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        unsigned newX = x + Def::MAP_DISTANCE_X[i]; // todo: bugfix: array +1 => other line
-        unsigned newY = y + Def::MAP_DISTANCE_Y[i]; // COORDFIX_REDO
+        unsigned newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
+        unsigned newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
+
+        if (IndexToXY(XYToIndex(newX, newY)).second != y
+        && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
+            continue;
 
         unsigned index = XYToIndex(newX, newY);
 

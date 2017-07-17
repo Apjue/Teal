@@ -66,3 +66,34 @@ unsigned XYToIndex(unsigned x, unsigned y)
 
     return result;
 }
+
+bool isLineEven(unsigned y)
+{
+    auto pair = countLines(y);
+    return isLineEven(pair.first, pair.second);
+}
+
+bool isLineEven(unsigned evenLines, unsigned unevenLines)
+{
+    return evenLines > unevenLines;
+}
+
+std::pair<unsigned, unsigned> countLines(unsigned y)
+{
+    unsigned evenLines {};
+    unsigned unevenLines {};
+
+    for (unsigned i {}; i < XYToIndex(0u, y); ++i)
+    {
+        unsigned num = evenLines * Def::MAPX + unevenLines * (Def::MAPX - 1u);
+        num += (i - num);
+
+        if (evenLines == unevenLines && num % (Def::MAPX - 1u) == 0) // COORDFIX_REDO => bug ?
+            ++evenLines;
+
+        else if (evenLines > unevenLines && num % Def::MAPX - 1u == 0)
+            ++unevenLines;
+    }
+
+    return std::make_pair(evenLines, unevenLines);
+}
