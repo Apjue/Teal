@@ -12,10 +12,18 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
     m_mat->EnableFaceCulling(true);
     m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
 
+    auto matSampler = m_mat->GetDiffuseSampler();
+    matSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
+    m_mat->SetDiffuseSampler(matSampler);
+
     m_fightMat = Nz::Material::New("Translucent2D");
 
     m_fightMat->EnableFaceCulling(true);
     m_fightMat->SetFaceFilling(Nz::FaceFilling_Fill);
+
+    auto fightMatSampler = m_fightMat->GetDiffuseSampler();
+    fightMatSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
+    m_fightMat->SetDiffuseSampler(fightMatSampler);
 
     m_model = Nz::Model::New();
 
