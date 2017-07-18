@@ -26,7 +26,7 @@ void moveEntity(const Ndk::EntityHandle& e)
         return; // Return so the animation system can animate.
     }
 
-    pos.direction = dir; // COORDFIX_REDO
+    pos.direction = dir;
     ++pos.advancement;
     
     if (pos.advancement >= Def::MAXPOSINTILE)

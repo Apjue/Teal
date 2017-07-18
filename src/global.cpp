@@ -4,7 +4,7 @@
 
 #include "global.hpp"
 
-DiffTile DirToXY(DirectionFlags d, bool even) // COORDFIX_REDO
+DiffTile DirToXY(DirectionFlags d, bool even)
 {
     auto pos = toUnderlyingType(DirToOrient(d));
     int x = even ? Def::MAP_DISTANCE_EVEN_X[pos] : Def::MAP_DISTANCE_UNEVEN_X[pos];
