@@ -38,7 +38,7 @@ bool MapInstance::update() // Thanks Lynix for this code
     Nz::MeshRef mesh = Nz::Mesh::New();
     mesh->CreateStatic();
 
-    constexpr unsigned int width = Def::ARRAYMAPX;
+    constexpr unsigned int width = Def::ARRAYMAPX; // COORDFIX_REDO
     constexpr unsigned int height = Def::ARRAYMAPY;
 
     Nz::Vector2f tileSize { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) };
@@ -46,10 +46,8 @@ bool MapInstance::update() // Thanks Lynix for this code
     unsigned int indexCount = width * height * 6;
     unsigned int vertexCount = width * height * 4;
 
-    Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount,
-                                                          Nz::DataStorage_Hardware, 0);
-    Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount,
-                                                             Nz::DataStorage_Hardware, 0);
+    Nz::IndexBufferRef indexBuffer = Nz::IndexBuffer::New(vertexCount > std::numeric_limits<Nz::UInt16>::max(), indexCount, Nz::DataStorage_Hardware, 0);
+    Nz::VertexBufferRef vertexBuffer = Nz::VertexBuffer::New(Nz::VertexDeclaration::Get(Nz::VertexLayout_XY_UV), vertexCount, Nz::DataStorage_Hardware, 0);
 
     {
         Nz::VertexMapper vertexMapper(vertexBuffer, Nz::BufferAccess_WriteOnly);
@@ -72,21 +70,22 @@ bool MapInstance::update() // Thanks Lynix for this code
                 auto posPtr = positionPtr + vertex;
                 auto texCoordsPtr = uvPtr + vertex;
 
+                unsigned realY = (y == 0 ? y : y / 2u);
                 
-                if (y % 2 == 0)
+                if (isLineEven(y))
                 {
-                    posPtr[0].Set((x + 0) * tileSize.x, (y + 0) * tileSize.y);
-                    posPtr[1].Set((x + 1) * tileSize.x, (y + 0) * tileSize.y);
-                    posPtr[2].Set((x + 1) * tileSize.x, (y + 1) * tileSize.y);
-                    posPtr[3].Set((x + 0) * tileSize.x, (y + 1) * tileSize.y);
+                    posPtr[0].Set((x + 0) * tileSize.x, (realY + 0) * tileSize.y);
+                    posPtr[1].Set((x + 1) * tileSize.x, (realY + 0) * tileSize.y);
+                    posPtr[2].Set((x + 1) * tileSize.x, (realY + 1) * tileSize.y);
+                    posPtr[3].Set((x + 0) * tileSize.x, (realY + 1) * tileSize.y);
                 }
 
                 else
                 {
-                    posPtr[0].Set((x + 0) * tileSize.x + Def::TILEXSIZE / 2, (y + 0) * tileSize.y + Def::TILEYSIZE / 2);
-                    posPtr[1].Set((x + 1) * tileSize.x + Def::TILEXSIZE / 2, (y + 0) * tileSize.y + Def::TILEYSIZE / 2);
-                    posPtr[2].Set((x + 1) * tileSize.x + Def::TILEXSIZE / 2, (y + 1) * tileSize.y + Def::TILEYSIZE / 2);
-                    posPtr[3].Set((x + 0) * tileSize.x + Def::TILEXSIZE / 2, (y + 1) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[0].Set((x + 0) * tileSize.x + tileSize.x / 2, (realY + 0) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[1].Set((x + 1) * tileSize.x + tileSize.x / 2, (realY + 0) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[2].Set((x + 1) * tileSize.x + tileSize.x / 2, (realY + 1) * tileSize.y + Def::TILEYSIZE / 2);
+                    posPtr[3].Set((x + 0) * tileSize.x + tileSize.x / 2, (realY + 1) * tileSize.y + Def::TILEYSIZE / 2);
                 }
 
                 posPtr[0].y = -posPtr[0].y;
@@ -138,7 +137,7 @@ bool MapInstance::update() // Thanks Lynix for this code
     return true;
 }
 
-bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
+bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY) // COORDFIX_REDO ?
 {
     TealAssert(m_map, "Map is not valid !");
 
@@ -193,8 +192,8 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
 
     for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        int newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
-        int newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
+        int newX = x + (even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i]);
+        int newY = y + (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]);
 
         if (adjacentPassable(x, y, newX, newY))
         {
