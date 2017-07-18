@@ -86,7 +86,7 @@ extern DirectionFlags XYToDir(DiffTile d, bool even);
 extern Orientation DirToOrient(DirectionFlags d);
 extern DirectionFlags OrientToDir(Orientation o);
 
-inline DiffTile OrientToDiff(Orientation o);
+inline DiffTile OrientToDiff(Orientation o, bool even);
 
 ///
 /// \fn isDiagonal
