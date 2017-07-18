@@ -135,8 +135,6 @@ void moveEntity(const Ndk::EntityHandle& e)
         refreshGraphicsPos(e);
 
     if (e->HasComponent<GraphicalEntitiesComponent>())
-    {
         for (auto& gfxCharacter : e->GetComponent<GraphicalEntitiesComponent>().entities)
             refreshGraphicsPos(e, gfxCharacter);
-    }
 }
