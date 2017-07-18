@@ -80,6 +80,7 @@ constexpr DirectionFlags DownLeft = Down | Left;
 
 // Conversion functions
 extern DiffTile DirToXY(DirectionFlags d, bool even);
+extern DiffTile DirToGXY(DirectionFlags d);
 extern DirectionFlags XYToDir(DiffTile d, bool even);
 
 extern Orientation DirToOrient(DirectionFlags d);

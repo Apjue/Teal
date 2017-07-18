@@ -19,7 +19,6 @@ inline std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 inline unsigned XYToIndex(unsigned x, unsigned y);
 
 inline bool isLineEven(unsigned y);
-inline bool isLineEven(unsigned evenLines, unsigned unevenLines);
 inline std::pair<unsigned, unsigned> countLines(unsigned y);
 
 #include "mapposutil.inl"

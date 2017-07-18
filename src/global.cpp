@@ -13,6 +13,29 @@ DiffTile DirToXY(DirectionFlags d, bool even) // COORDFIX_REDO
     return { x, y };
 }
 
+DiffTile DirToGXY(DirectionFlags d)
+{
+    TealAssert(d, "No flag set !");
+    TealAssert(d != Dir::LeftRight && d != Dir::UpDown, "Strange flags you have there");
+
+    int x {}, y {};
+    int modifier = isDiagonal(d) ? 1 : 2;
+
+    if (d & Dir::Up)
+        y -= modifier;
+
+    if (d & Dir::Down)
+        y += modifier;
+
+    if (d & Dir::Left)
+        x -= modifier;
+
+    if (d & Dir::Right)
+        x += modifier;
+
+    return { x, y };
+}
+
 DirectionFlags XYToDir(DiffTile d, bool even)
 {
     int x { d.x };

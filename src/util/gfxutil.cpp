@@ -90,13 +90,14 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     Nz::Vector2f defPos { dpos.xy };
 
-    unsigned const gX = pos.xy.x * Def::TILEXSIZE + pos.xy.y % 2 == 0 ? 0u : 32u ; // convert logic pos to graphics pos
+    unsigned const gX = pos.xy.x * Def::TILEXSIZE + isLineEven(pos.xy.y) ? 0u : 32u ; // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
-    int const gInX = pos.inXY.x * Def::MAXGXPOSINTILE;
-    int const gInY = pos.inXY.y * Def::MAXGYPOSINTILE;
 
-    float const finalX = static_cast<float>(gX) + static_cast<float>(gInX) + defPos.x; // We will move using this
-    float const finalY = static_cast<float>(gY) + static_cast<float>(gInY) + defPos.y; // (so it's graphics pos)
+    DiffTile gInXY = DirToGXY(pos.direction);
+    gInXY *= pos.advancement;
+
+    float const finalX = static_cast<float>(gX) + static_cast<float>(gInXY.x) + defPos.x; // We will move using this
+    float const finalY = static_cast<float>(gY) + static_cast<float>(gInXY.y) + defPos.y; // (so it's graphics pos)
 
     if (finalX != gfxpos.GetPosition().x || // if the entity is already at that position
         finalY != gfxpos.GetPosition().y) // no need to move it

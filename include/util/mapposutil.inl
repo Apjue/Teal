@@ -69,13 +69,7 @@ unsigned XYToIndex(unsigned x, unsigned y)
 
 bool isLineEven(unsigned y)
 {
-    auto pair = countLines(y);
-    return isLineEven(pair.first, pair.second);
-}
-
-bool isLineEven(unsigned evenLines, unsigned unevenLines)
-{
-    return evenLines > unevenLines;
+    return y % 2 == 0;
 }
 
 std::pair<unsigned, unsigned> countLines(unsigned y)

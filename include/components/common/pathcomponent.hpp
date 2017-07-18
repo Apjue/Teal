@@ -16,9 +16,7 @@
 struct PathComponent : public Ndk::Component<PathComponent>
 {
     using PathPool = std::vector<DirectionFlags>;
-
     PathPool path;
-    unsigned totalSize {};
 
     static Ndk::ComponentIndex componentIndex;
 };

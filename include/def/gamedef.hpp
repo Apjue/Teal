@@ -22,24 +22,19 @@ constexpr unsigned ARRAYMAPY      { MAPY + 1u };
 
 
 constexpr unsigned TILEARRAYSIZE  { ARRAYMAPX * ARRAYMAPY };
-extern     float   TILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
-extern     float   FIGHTTILESETSIZE; // Must only be modified in game.cpp:initTilesetCore()
+extern     float   TILESETSIZE;      // Must only be modified in game.cpp:initTilesetCore()
+extern     float   FIGHTTILESETSIZE; // ^ /// \todo const ?
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
 
 
-constexpr   int    MAXLPOSXINTILE { 4 };
-constexpr   int    MAXLPOSYINTILE { 4 };
-
-constexpr   int    MAXPOSXINTILE  { 8 };
-constexpr   int    MAXPOSYINTILE  { 4 };
-
-constexpr unsigned MAXGXPOSINTILE { (TILEXSIZE / 2) / MAXPOSXINTILE };
-constexpr unsigned MAXGYPOSINTILE { (TILEYSIZE / 2) / MAXPOSYINTILE };
+constexpr   int    MAXPOSINTILE   { 4 }; // Must be dividable by TILEXSIZE & TILEYSIZE
+constexpr unsigned MAXGXPOSINTILE { (TILEXSIZE / 2) / MAXPOSINTILE };
+constexpr unsigned MAXGYPOSINTILE { (TILEYSIZE / 2) / MAXPOSINTILE };
 
 constexpr  float   MAXSYSTEMUPS   { 10 }; // Updates per second
-constexpr   int    MAXDIR { 4 }; // Max directions: Up, down, left, right
+constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
 constexpr std::pair<unsigned, unsigned> NOMOVEPOS { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 

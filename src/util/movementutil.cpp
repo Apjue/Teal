@@ -15,98 +15,57 @@ void moveEntity(const Ndk::EntityHandle& e)
     if (path.empty())
         return; // No path, no move.
 
-    auto& orient = e->GetComponent<OrientationComponent>().dir;
     auto& dir = path.front();
+    auto xy = DirToXY(dir, isLineEven(pos.xy.y));
 
-    orient = DirToOrient(dir);
-    auto xy = DirToXY(dir);
-
-    if (pathComp.totalSize == 1) // Walk mode if path is short
-    {
-        xy.x = (xy.x == 2 || xy.x == -2) ? xy.x / 2 : xy.x; // COORDFIX_REDO
-        xy.y = (xy.y == 2 || xy.y == -2) ? xy.y / 2 : xy.y;
-    }
-
+    e->GetComponent<OrientationComponent>().dir = DirToOrient(dir);
+    
     if (!pos.moving)
     {
         pos.moving = true;
         return; // Return so the animation system can animate.
     }
 
-    pos.inXY += xy; // COORDFIX_REDO
+    pos.direction = dir; // COORDFIX_REDO
+    ++pos.advancement;
     
-    bool resetPosInX { true };
-    
-    if (pos.inXY.x > 0 && pos.inXY.x >= Def::MAXPOSINTILE)
-        pos.xy.x += (pos.inXY.x / Def::MAXPOSINTILE);
+    if (pos.advancement >= Def::MAXPOSINTILE)
+        pos.advancement = 0;
 
-    else if (-pos.inXY.x >= Def::MAXPOSINTILE)
-        pos.xy.x -= (-pos.inXY.x / Def::MAXPOSINTILE);
-
-    else
-        resetPosInX = false;
-
-    pos.inXY.x = resetPosInX ? 0 : pos.inXY.x;
-
-
-    bool resetPosInY { true };
-
-    if (pos.inXY.y > 0 && pos.inXY.y >= Def::MAXPOSINTILE)
-        pos.xy.y += (pos.inXY.y / Def::MAXPOSINTILE);
-
-    else if (-pos.inXY.y >= Def::MAXPOSINTILE)
-        pos.xy.y -= (-pos.inXY.y / Def::MAXPOSINTILE);
-
-    else
-        resetPosInY = false;
-
-    pos.inXY.y = resetPosInY ? 0 : pos.inXY.y;
-
-    if (pos.inXY == pos.inXY.Zero()) // Next tile reached
+    if (pos.advancement == 0) // Next tile reached
     {
-        if (!dir.second)
+        std::swap(*(path.begin()), path.back());
+        path.pop_back(); // To get next tile
+
+        if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
         {
-            std::swap(*(path.begin()), path.back());
-            path.pop_back(); // To get next tile
+            auto& mapPos = e->GetComponent<MapPositionComponent>();
+            MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y));
 
-            if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
+            for (unsigned i {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
             {
-                auto& mapPos = e->GetComponent<MapPositionComponent>();
-                MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y));
+                auto moveXY = DirToXY(path[i], isLineEven(posY));
 
-                for (unsigned i {}, x {}, y {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
+                posX += moveXY.x;
+                posY += moveXY.y;
+                
+                auto& tile = currentMap->tile(posX, posY);
+
+                if (tile.obstacle != 0 || tile.occupied)
                 {
-                    auto moveXY = DirToXY(path[i].first);
+                    auto& move = e->GetComponent<MoveComponent>();
+                    auto  dirs = directionsToPositions(path, pos.xy);
 
-                    x = posX + moveXY.x;
-                    y = posY + moveXY.y;
-
-                    XYToArray(x, y);
-
-                    posX += moveXY.x;
-                    posY += moveXY.y;
-
-                    auto& tile = currentMap->tile(x, y);
-
-                    if (tile.obstacle != 0 || tile.occupied)
-                    {
-                        auto& move = e->GetComponent<MoveComponent>();
-                        auto dirs = directionsToPositions(path, pos.xy);
-
-                        move.tile = dirs.back();
-                        move.playerInitiated = false;
-                    }
+                    move.tile = dirs.back();
+                    move.playerInitiated = false;
                 }
             }
         }
-        else
-            dir.second = false;
     }
 
     if (path.empty()) // Finished path
     {
         pos.moving = false; // Not moving anymore
-        pathComp.totalSize = 0u;
 
         if (e == getMainCharacter())
         {
@@ -178,8 +137,6 @@ void moveEntity(const Ndk::EntityHandle& e)
     if (e->HasComponent<GraphicalEntitiesComponent>())
     {
         for (auto& gfxCharacter : e->GetComponent<GraphicalEntitiesComponent>().entities)
-        {
             refreshGraphicsPos(e, gfxCharacter);
-        }
     }
 }
