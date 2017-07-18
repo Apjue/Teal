@@ -16,6 +16,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
     matSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
     m_mat->SetDiffuseSampler(matSampler);
 
+
     m_fightMat = Nz::Material::New("Translucent2D");
 
     m_fightMat->EnableFaceCulling(true);
@@ -25,7 +26,6 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
     fightMatSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
     m_fightMat->SetDiffuseSampler(fightMatSampler);
 
-    m_model = Nz::Model::New();
 
     if (!m_entity->HasComponent<Ndk::NodeComponent>())
         m_entity->AddComponent<Ndk::NodeComponent>();
@@ -34,6 +34,8 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
         m_entity->AddComponent<Ndk::GraphicsComponent>();
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
+    m_model = Nz::Model::New();
+
     graphicsComponent.Attach(m_model, Def::MAP_LAYER);
 }
 
