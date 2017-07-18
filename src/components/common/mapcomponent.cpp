@@ -144,18 +144,14 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 1.
     {
-        if ((sX == eX - 2 && sY == eY) // COORDFIX_REDO
-         || (sX == eX + 2 && sY == eY)
-         || (sX == eX && sY == eY - 2)
-         || (sX == eX && sY == eY + 2)
-            // Diagonals
-         || (sX == eX + 1 && sY == eY + 1)
-         || (sX == eX - 1 && sY == eY - 1)
-         || (sX == eX + 1 && sY == eY - 1)
-         || (sX == eX - 1 && sY == eY + 1))
-            ; // Ok, continue
-        else
-            return false;
+        bool even = isLineEven(sY);
+
+        for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+        {
+            if (IndexToXY(XYToIndex(eX, eY)).second != sY
+            && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
+                return false;
+        }
     }
 
     // Step 2.

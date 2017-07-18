@@ -47,8 +47,8 @@ DirectionFlags XYToDir(DiffTile d, bool even)
 
     for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        if (x == even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i]
-         && y == even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i])
+        if (x == (even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i])
+         && y == (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]))
             return OrientToDir(static_cast<Orientation>(i));
     }
 

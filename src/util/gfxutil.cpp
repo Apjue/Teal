@@ -93,8 +93,13 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     unsigned const gX = pos.xy.x * Def::TILEXSIZE + isLineEven(pos.xy.y) ? 0u : 32u ; // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
 
-    DiffTile gInXY = DirToGXY(pos.direction);
-    gInXY *= pos.advancement;
+    DiffTile gInXY {};
+
+    if (pos.direction)
+    {
+        gInXY = DirToGXY(pos.direction);
+        gInXY *= pos.advancement;
+    }
 
     float const finalX = static_cast<float>(gX) + static_cast<float>(gInXY.x) + defPos.x; // We will move using this
     float const finalY = static_cast<float>(gY) + static_cast<float>(gInXY.y) + defPos.y; // (so it's graphics pos)

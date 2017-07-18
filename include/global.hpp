@@ -16,6 +16,7 @@
 #include "def/gamedef.hpp"
 #include "util/assert.hpp"
 #include "util/nzstlcompatibility.hpp"
+#include "util/mapposutil.hpp"
 #include "util/underlyingtype.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
