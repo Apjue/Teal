@@ -68,7 +68,7 @@ bool MapInstance::update() // Thanks Lynix for this code
                 auto posPtr = positionPtr + vertex;
                 auto texCoordsPtr = uvPtr + vertex;
 
-                unsigned realY = (y == 0 ? y : y / 2u);
+                unsigned realY = y / 2u;
                 
                 if (isLineEven(y))
                 {
