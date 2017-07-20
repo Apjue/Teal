@@ -39,10 +39,10 @@ constexpr std::pair<unsigned, unsigned> NOMOVEPOS { std::numeric_limits<unsigned
 
 
 constexpr std::array<int,   8> MAP_DISTANCE_EVEN_X   {  0,   0,    1,   0,    0,  -1,   -1,  -1    }; // See Orientation
-constexpr std::array<int,   8> MAP_DISTANCE_EVEN_Y   { -2,   1,    0,  -1,   -2,  -1,    0,   1    };
+constexpr std::array<int,   8> MAP_DISTANCE_EVEN_Y   {  2,   1,    0,  -1,   -2,  -1,    0,   1    };
 
 constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_X {  0,   1,    1,   1,    0,   0,   -1,   0    };
-constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_Y { -2,   1,    0,  -1,   -2,  -1,    0,   1    };
+constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_Y {  2,   1,    0,  -1,   -2,  -1,    0,   1    };
 
 constexpr std::array<float, 8> MAP_DISTANCE_COST     {  1.f, 1.5f, 2.f, 1.5f, 1.f, 1.5f, 2.f, 1.5f };
 
