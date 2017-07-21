@@ -775,7 +775,7 @@ void Game::addEntities()
     if (swordIt != m_items.end())
     {
         auto logicEntity = (*swordIt)->Clone();
-        logicEntity->AddComponent<PositionComponent>().xy = { 2, 2 };
+        logicEntity->AddComponent<PositionComponent>().xy = { 1, 2 };
 
         auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MAP_ITEMS_LAYER);
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
@@ -786,6 +786,7 @@ void Game::addEntities()
     
     m_charac = cloneCharacter("villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
+    m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
     refreshGraphicsPos(m_charac);
 }
 
