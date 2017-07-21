@@ -28,10 +28,16 @@ std::pair<unsigned, unsigned> IndexToXY(unsigned index)
         unsigned num = evenLines * Def::MAPX + unevenLines * (Def::MAPX - 1u);
         
         if (evenLines == unevenLines && (i - num) > Def::MAPX)
+        {
             ++evenLines;
+            --index;
+        }
 
         else if (evenLines > unevenLines && (i - num) > (Def::MAPX - 1u))
+        {
             ++unevenLines;
+            --index;
+        }
     }
 
     index -= evenLines * Def::MAPX;
@@ -52,13 +58,13 @@ unsigned XYToIndex(unsigned x, unsigned y)
     {
         if (even)
         {
-            result += Def::MAPX;
+            result += Def::ARRAYMAPX;
             even = false;
         }
 
         else
         {
-            result += (Def::MAPX - 1u);
+            result += Def::MAPX;
             even = true;
         }
     }
@@ -75,16 +81,23 @@ std::pair<unsigned, unsigned> countLines(unsigned y)
 {
     unsigned evenLines {};
     unsigned unevenLines {};
+    auto index = XYToIndex(0u, y);
 
-    for (unsigned i {}; i < XYToIndex(0u, y); ++i)
+    for (unsigned i {}; i < index; ++i)
     {
         unsigned num = evenLines * Def::MAPX + unevenLines * (Def::MAPX - 1u);
 
         if (evenLines == unevenLines && (i - num) > Def::MAPX)
+        {
             ++evenLines;
+            --index;
+        }
 
         else if (evenLines > unevenLines && (i - num) > (Def::MAPX - 1u))
+        {
             ++unevenLines;
+            --index;
+        }
     }
 
     return std::make_pair(evenLines, unevenLines);

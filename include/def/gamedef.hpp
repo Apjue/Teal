@@ -34,7 +34,7 @@ constexpr unsigned MAXGXPOSINTILE { (TILEXSIZE / 2) / MAXPOSINTILE };
 constexpr unsigned MAXGYPOSINTILE { (TILEYSIZE / 2) / MAXPOSINTILE };
 
 constexpr  float   MAXSYSTEMUPS   { 10 }; // Updates per second
-constexpr   int    MAXDIR         { 4 }; // Max directions: Up, down, left, right
+constexpr   int    MAXDIR         { 4  }; // Max directions: Up, down, left, right
 constexpr std::pair<unsigned, unsigned> NOMOVEPOS { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 

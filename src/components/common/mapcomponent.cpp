@@ -17,7 +17,7 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, Tileset
     m_fightMat->EnableFaceCulling(true);
     m_fightMat->SetFaceFilling(Nz::FaceFilling_Fill);
 
-    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MAPY, Def::MAPX }, Nz::Vector2f { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) });
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MAPX + 1, Def::MAPY + 2 }, Nz::Vector2f { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) });
     m_tilemap->EnableIsometricMode(true);
 
     if (!m_entity->HasComponent<Ndk::NodeComponent>())
@@ -44,7 +44,8 @@ void MapInstance::update()
     for (unsigned i {}; i < Def::TILEARRAYSIZE; ++i)
     {
         auto& tile = m_map->tile(i);
-        Nz::Vector2ui tilePos { IndexToXY(i).first, IndexToXY(i).second };
+        auto  pos = IndexToXY(i);
+        Nz::Vector2ui tilePos { pos.first, pos.second };
 
         if (tile.visible)
         {
