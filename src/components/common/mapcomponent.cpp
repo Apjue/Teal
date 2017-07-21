@@ -64,14 +64,27 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 1.
     {
-        bool even = isLineEven(sY);
+        const std::array<int, 8u>* mapDistanceX = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_X : &Def::MAP_DISTANCE_UNEVEN_X;
+        const std::array<int, 8u>* mapDistanceY = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_Y : &Def::MAP_DISTANCE_UNEVEN_Y;
+        bool found { false };
 
-        for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+        for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i) // bug around there
         {
-            if (IndexToXY(XYToIndex(eX, eY)).second != sY
-            && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
-                return false;
+            if (sX + (*mapDistanceX)[i] == eX && sY + (*mapDistanceY)[i] == eY)
+            {
+                if (IndexToXY(XYToIndex(eX, eY)).second != sY && (*mapDistanceY)[i] == 0)
+                    continue;
+
+                else
+                {
+                    found = true;
+                    break;
+                }
+            }
         }
+
+        if (!found)
+            return false;
     }
 
     // Step 2.
