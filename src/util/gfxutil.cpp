@@ -11,29 +11,25 @@ Nz::ImageRef m_scheme {};
 
 }
 
-AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
+AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords) // bug
 {
     TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
     TealAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
 
-    unsigned const rectX { (x / Def::TILEXSIZE) * 2 }; // Rectangle where we clicked
-    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange // < bug
-
-    int const iRectX { utoi(rectX) };
-    int const iRectY { utoi(rectY) };
+    unsigned const rectX { (x / Def::TILEXSIZE)     }; // Rectangle where we clicked
+    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange
 
     unsigned const rectClickX { x % Def::TILEXSIZE }; // We need the click to see
     unsigned const rectClickY { y % Def::TILEYSIZE }; // where in the rectangle we clicked
 
     Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
-    int losangeX { iRectX };
-    int losangeY { iRectY };
+    int losangeX { utoi(rectX) };
+    int losangeY { utoi(rectY) };
 
-    bool even = isLineEven(losangeY < 0 ? 0 : losangeY);
-
+    bool even = isLineEven(rectY);
     Orientation o = Orientation::Down;
 
 
