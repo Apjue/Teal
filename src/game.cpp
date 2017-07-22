@@ -809,8 +809,7 @@ void Game::initEventHandler()
         if (m_mapViewport.Contains(event.x, event.y) && !m_paused)
         {
             auto& move = m_charac->GetComponent<MoveComponent>();
-
-            auto tile = getTileFromGlobalCoords({ event.x, event.y });
+            auto  tile = getTileFromGlobalCoords({ event.x, event.y });
 
             move.tile = tile;
             move.playerInitiated = true;

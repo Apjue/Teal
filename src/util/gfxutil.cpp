@@ -19,7 +19,7 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     unsigned const x { coords.x }, y { coords.y };
 
     unsigned const rectX { (x / Def::TILEXSIZE) * 2 }; // Rectangle where we clicked
-    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange
+    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange // < bug
 
     int const iRectX { utoi(rectX) };
     int const iRectY { utoi(rectY) };
