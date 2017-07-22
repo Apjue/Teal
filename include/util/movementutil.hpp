@@ -25,5 +25,7 @@
 #include "util/entityutil.hpp"
 
 void moveEntity(const Ndk::EntityHandle& e);
+void recomputeIfObstacle(const Ndk::EntityHandle& e);
+void getItemsFromGround(const Ndk::EntityHandle& e);
 
 #endif // MOVEMENTUTIL_HPP
