@@ -10,6 +10,7 @@
 #include <Nazara/Prerequesites.hpp>
 #include <utility>
 #include <cstdint>
+#include "util/assert.hpp"
 #include "def/gamedef.hpp"
 
 inline void  NodeToXY(void* node, unsigned& x, unsigned& y);
