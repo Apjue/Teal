@@ -62,6 +62,9 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 {
     TealAssert(m_map, "Map is not valid !");
 
+    if (!isPositionValid({ eX, eY }))
+        return false;
+
     // Step 1.
     {
         const std::array<int, 8u>* mapDistanceX = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_X : &Def::MAP_DISTANCE_UNEVEN_X;
@@ -89,9 +92,6 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 2.
     {
-        if (!isPositionValid({ eX, eY }))
-            return false;
-
         unsigned const tile = XYToIndex(eX, eY);
         auto& tiledata = m_map->tile(tile);
 
