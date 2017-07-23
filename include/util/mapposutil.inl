@@ -85,7 +85,7 @@ unsigned XYToIndex(unsigned x, unsigned y)
 
 bool isLineEven(unsigned y)
 {
-    TealAssert(y <= Def::ARRAYMAPY, "Invalid y !");
+    TealAssert(y <= (Def::ARRAYMAPY + 1u), "Invalid y !");
     return y % 2 == 0;
 }
 

@@ -23,7 +23,7 @@ constexpr unsigned ARRAYMAPY      { MAPY + 1u };
 
 constexpr unsigned TILEARRAYSIZE  { ARRAYMAPX * ARRAYMAPY };
 extern     float   TILESETSIZE;      // Must only be modified in game.cpp:initTilesetCore()
-extern     float   FIGHTTILESETSIZE; // ^ /// \todo const ?
+extern     float   FIGHTTILESETSIZE; // ^
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
 constexpr unsigned TILEYSIZE      { 32u };
@@ -38,13 +38,13 @@ constexpr   int    MAXDIR         { 4  }; // Max directions: Up, down, left, rig
 constexpr std::pair<unsigned, unsigned> NOMOVEPOS { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 
-constexpr std::array<int,   8> MAP_DISTANCE_EVEN_X   {  0,   0,    1,   0,    0,  -1,   -1,  -1    }; // See Orientation
-constexpr std::array<int,   8> MAP_DISTANCE_EVEN_Y   {  2,   1,    0,  -1,   -2,  -1,    0,   1    }; // COORDFIX_REDO check ?
+constexpr std::array<int,   8> MAP_DISTANCE_EVEN_X   { 0,    0,   1,   0,   0,   -1,  -1,  -1   }; // See Orientation
+constexpr std::array<int,   8> MAP_DISTANCE_EVEN_Y   { 2,    1,   0,  -1,  -2,   -1,   0,   1   }; // COORDFIX_REDO check ?
 
-constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_X {  0,   1,    1,   1,    0,   0,   -1,   0    };
-constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_Y {  2,   1,    0,  -1,   -2,  -1,    0,   1    };
+constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_X { 0,    1,   1,   1,   0,    0,  -1,   0   };
+constexpr std::array<int,   8> MAP_DISTANCE_UNEVEN_Y { 2,    1,   0,  -1,  -2,   -1,   0,   1   };
 
-constexpr std::array<float, 8> MAP_DISTANCE_COST     {  1.f, 1.5f, 2.f, 1.5f, 1.f, 1.5f, 2.f, 1.5f };
+constexpr std::array<float, 8> MAP_DISTANCE_COST     { 1.5f, 1.f, 2.f, 1.f, 1.5f, 1.f, 2.f, 1.f };
 
 }
 
