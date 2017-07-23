@@ -770,7 +770,8 @@ void Game::addEntities()
     //mapComp.map->setFightMode(true);
     //mapComp.map->update();
 
-    auto swordIt = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
+    auto swordIt = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e)
+                                                                   { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
 
     if (swordIt != m_items.end())
     {
