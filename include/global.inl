@@ -41,5 +41,5 @@ DiffTile OrientToDiff(Orientation o, bool even)
 
 bool isPositionValid(AbsTile pos)
 {
-    return (isLineEven(pos.y) ? pos.x <= Def::MAPX : pos.x < Def::MAPX) && pos.y <= Def::ARRAYMAPY;
+    return (isLineEven(pos.y) ? pos.x <= Def::MAPX : pos.x < Def::MAPX) && pos.y <= Def::ARRAYMAPY; // ISLINEVEN_CRASH
 }

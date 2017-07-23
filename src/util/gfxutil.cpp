@@ -11,15 +11,15 @@ Nz::ImageRef m_scheme {};
 
 }
 
-AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords) // bug
+AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
     TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
     TealAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
 
-    unsigned const rectX { (x / Def::TILEXSIZE)     }; // Rectangle where we clicked
-    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange
+    unsigned const rectX { (x / Def::TILEXSIZE)      }; // Rectangle where we clicked
+    unsigned const rectY { (y / Def::TILEYSIZE) * 2u }; // We need losange
 
     unsigned const rectClickX { x % Def::TILEXSIZE }; // We need the click to see
     unsigned const rectClickY { y % Def::TILEYSIZE }; // where in the rectangle we clicked
@@ -89,7 +89,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     Nz::Vector2f defPos { dpos.xy };
 
-    unsigned const gX = pos.xy.x * Def::TILEXSIZE + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos
+    unsigned const gX = pos.xy.x * Def::TILEXSIZE + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos ISLINEVEN_CRASH
     unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
 
     DiffTile gInXY {};

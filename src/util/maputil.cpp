@@ -210,7 +210,7 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
     while (!directions.empty())
     {
         auto& dir = directions.front();
-        auto xy = DirToXY(dir, isLineEven(start.y));
+        auto xy = DirToXY(dir, isLineEven(start.y)); // ISLINEVEN_CRASH
 
         start.x += xy.x;
         start.y += xy.y;

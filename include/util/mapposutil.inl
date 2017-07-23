@@ -83,8 +83,11 @@ unsigned XYToIndex(unsigned x, unsigned y)
     return result;
 }
 
+#include <Nazara/Core/Log.hpp>
+
 bool isLineEven(unsigned y)
 {
+    NazaraDebug("isLineEven/y = " + Nz::String::Number(y));
     TealAssert(y <= Def::ARRAYMAPY, "Invalid y !");
     return y % 2 == 0;
 }

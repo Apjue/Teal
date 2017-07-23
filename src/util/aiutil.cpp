@@ -70,7 +70,7 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
         diffX = -diffX; // Ok
         diffY = -diffY;
 
-        newPath.push_back(XYToDir({ diffX, diffY }, isLineEven(startY)));
+        newPath.push_back(XYToDir({ diffX, diffY }, isLineEven(startY))); // ISLINEVEN_CRASH
 
         oldX = utoi(absX);
         oldY = utoi(absY);

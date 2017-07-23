@@ -70,7 +70,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                         direction %= adjacentTiles.size();
 
                     Orientation orient = static_cast<Orientation>(direction);
-                    xy = OrientToDiff(orient, isLineEven(y));
+                    xy = OrientToDiff(orient, isLineEven(y)); // ISLINEVEN_CRASH
                 }
                 
                 else
