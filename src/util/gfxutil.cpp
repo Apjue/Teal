@@ -97,7 +97,8 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     if (pos.direction)
     {
         gInXY = DirToGXY(pos.direction);
-        gInXY *= pos.advancement;
+        gInXY.x *= pos.advancement * Def::MAXGXPOSINTILE;
+        gInXY.y *= pos.advancement * Def::MAXGYPOSINTILE;
     }
 
     float const finalX = static_cast<float>(gX) + static_cast<float>(gInXY.x) + defPos.x; // We will move using this
