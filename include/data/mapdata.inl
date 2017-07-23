@@ -37,6 +37,9 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
         unsigned newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
         unsigned newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
 
+        if (!isPositionValid({ newX, newY }))
+            continue;
+
         if (IndexToXY(XYToIndex(newX, newY)).second != y
         && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
             continue;
