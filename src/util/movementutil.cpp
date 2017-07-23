@@ -15,7 +15,7 @@ void moveEntity(const Ndk::EntityHandle& e)
     if (path.empty())
         return; // No path, no move.
 
-    bool  even = isLineEven(pos.xy.y); // ISLINEVEN_CRASH
+    bool  even = isLineEven(pos.xy.y);
     auto& dir = path.front();
     auto  xy = DirToXY(dir, even);
 
@@ -88,7 +88,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
 
     for (unsigned i {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
     {
-        auto moveXY = DirToXY(path[i], isLineEven(posY)); // ISLINEVEN_CRASH
+        auto moveXY = DirToXY(path[i], isLineEven(posY));
 
         posX += moveXY.x;
         posY += moveXY.y;

@@ -67,7 +67,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 1.
     {
-        const std::array<int, 8u>* mapDistanceX = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_X : &Def::MAP_DISTANCE_UNEVEN_X; // ISLINEVEN_CRASH
+        const std::array<int, 8u>* mapDistanceX = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_X : &Def::MAP_DISTANCE_UNEVEN_X;
         const std::array<int, 8u>* mapDistanceY = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_Y : &Def::MAP_DISTANCE_UNEVEN_Y;
         bool found { false };
 
@@ -122,7 +122,7 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
     unsigned x {}, y {};
     NodeToXY(node, x, y);
 
-    bool even = isLineEven(y); // ISLINEVEN_CRASH
+    bool even = isLineEven(y);
 
     for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {

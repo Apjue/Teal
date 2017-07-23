@@ -89,7 +89,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     Nz::Vector2f defPos { dpos.xy };
 
-    unsigned const gX = pos.xy.x * Def::TILEXSIZE + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos ISLINEVEN_CRASH
+    unsigned const gX = pos.xy.x * Def::TILEXSIZE + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
 
     DiffTile gInXY {};

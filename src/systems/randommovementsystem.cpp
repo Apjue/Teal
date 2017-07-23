@@ -50,7 +50,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
             for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
             { /// \todo Redo this. Does not work as intended
-                AbsTile wantedPos = mov.tile == toVector(Def::NOMOVEPOS) ? pos.xy : mov.tile;
+                AbsTile wantedPos = (mov.tile == toVector(Def::NOMOVEPOS) ? pos.xy : mov.tile);
 
                 x = wantedPos.x;
                 y = wantedPos.y;
@@ -70,7 +70,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                         direction %= adjacentTiles.size();
 
                     Orientation orient = static_cast<Orientation>(direction);
-                    xy = OrientToDiff(orient, isLineEven(y)); // ISLINEVEN_CRASH
+                    xy = OrientToDiff(orient, isLineEven(y));
                 }
                 
                 else
