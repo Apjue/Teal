@@ -58,7 +58,7 @@ void MapInstance::update()
     }
 }
 
-bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY) // COORDFIX_REDO ?
+bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY)
 {
     TealAssert(m_map, "Map is not valid !");
 
@@ -71,7 +71,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
         const std::array<int, 8u>* mapDistanceY = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_Y : &Def::MAP_DISTANCE_UNEVEN_Y;
         bool found { false };
 
-        for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i) // bug around there
+        for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
         {
             if (sX + (*mapDistanceX)[i] == eX && sY + (*mapDistanceY)[i] == eY)
             {
