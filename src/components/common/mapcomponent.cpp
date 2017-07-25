@@ -56,7 +56,7 @@ void MapInstance::update()
         auto  pos = IndexToXY(i);
         Nz::Vector2ui tilePos { pos.first, pos.second };
 
-        if (tile.visible)
+        if (tile.isVisible())
         {
             Nz::Rectui tileRect { tcore->get(m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TILEXSIZE, 0u, Def::TILEXSIZE, Def::TILEYSIZE };
             m_tilemap->EnableTile(tilePos, tileRect);
@@ -101,10 +101,10 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 2.
     {
-        unsigned const tile = XYToIndex(eX, eY);
-        auto& tiledata = m_map->tile(tile);
+        unsigned const tileindex = XYToIndex(eX, eY);
+        auto& tile = m_map->tile(tileindex);
 
-        return tiledata.obstacle == 0 && !tiledata.occupied;
+        return tile.isWalkable();
     }
 }
 

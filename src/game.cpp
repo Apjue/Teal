@@ -527,8 +527,23 @@ void Game::loadMaps()
             tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
             tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
 
-            tiles[i - 1].obstacle = lua.CheckField<unsigned>("obstacle");
-            tiles[i - 1].visible = lua.CheckField<bool>("visible");
+            unsigned obstacle = lua.CheckField<unsigned>("obstacle");
+            
+            switch (obstacle)
+            {
+                case 1:
+                    tiles[i - 1].addFlag("viewobstacle");
+                    break;
+
+                case 2:
+                    tiles[i - 1].addFlag("blockobstacle");
+                    break;
+            }
+
+            bool visible = lua.CheckField<bool>("visible");
+
+            if (!visible)
+                tiles[i - 1].addFlag("invisible");
 
             lua.Pop();
         }

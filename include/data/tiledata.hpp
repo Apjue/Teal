@@ -11,12 +11,35 @@
 
 struct TileData
 {
+    bool occupied {}; // Occupied by a NPC or monster
+
     Nz::String textureId;
     Nz::String fightTextureId;
-    bool visible { true };
 
-    unsigned obstacle {}; // 0 = walk/view, 1 = view/obstacle, 2 = !view/obstacle
-    bool occupied {}; // Occupied by a movable (or not) NPC. Not available in fight
+    ///
+    /// \brief Flags a tile can have
+    ///        Possible flags:
+    ///        - invisible
+    ///        - viewobstacle
+    ///        - blockobstacle
+    ///        - redspawn
+    ///        - bluespawn
+    ///
+
+    Nz::String flags;
+
+    inline void addFlag(const Nz::String& flag)
+    {
+        if (!flags.IsEmpty())
+            flags.Append(" ; ");
+
+        flags.Append(flag);
+    }
+
+    inline bool isVisible()  const { return !flags.Contains("invisible"); }
+    inline bool isObstacle() const { return flags.Contains("obstacle");   }
+    inline bool isWalkable() const { return !isObstacle() && !occupied;   }
+    inline bool isSpawn()    const { return flags.Contains("spawn");      }
 };
 
 #endif // TILEDATA_HPP

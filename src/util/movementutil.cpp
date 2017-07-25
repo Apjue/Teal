@@ -95,7 +95,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
 
         auto& tile = currentMap->tile(posX, posY);
 
-        if (tile.obstacle != 0 || tile.occupied)
+        if (!tile.isWalkable())
         {
             auto& move = e->GetComponent<MoveComponent>();
             auto  dirs = directionsToPositions(path, pos.xy);

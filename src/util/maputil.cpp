@@ -85,7 +85,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     TealAssert(map, "new map null !");
     
-    if (map->tile(XYToIndex(x, y)).obstacle != 0)
+    if (!map->tile(XYToIndex(x, y)).isWalkable())
         return std::make_pair(false, entExt); // It's an obstacle.
 
     return std::make_pair(true, entExt);
