@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+﻿// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -12,17 +12,17 @@
 namespace Def
 {
 
-constexpr unsigned MAPXSIZE { Def::REALMAPX * Def::TILEXSIZE };
-constexpr unsigned MAPYSIZE { Def::REALMAPY * Def::TILEYSIZE };
+constexpr unsigned MAPXSIZE { (Def::ARRAYMAPX) * Def::TILEXSIZE };
+constexpr unsigned MAPYSIZE { (Def::ARRAYMAPY + 1u) / 2 * Def::TILEYSIZE + TILEYSIZE / 2 };
 
-constexpr unsigned MAPXVIEWPORT { MAPXSIZE };
-constexpr unsigned MAPYVIEWPORT { MAPYSIZE + 16u };
+constexpr unsigned BUTTONSMARGINX { 10u };
+constexpr unsigned BUTTONSMARGINY { 5u };
 
 constexpr unsigned BUTTONSXSIZE { MAPXSIZE };
 constexpr unsigned BUTTONSYSIZE { 90u };
 
-constexpr unsigned WINXSIZE { MAPXVIEWPORT };
-constexpr unsigned WINYSIZE { MAPYVIEWPORT + BUTTONSYSIZE };
+constexpr unsigned WINXSIZE { MAPXSIZE };
+constexpr unsigned WINYSIZE { MAPYSIZE + BUTTONSMARGINY + BUTTONSYSIZE };
 
 }
 

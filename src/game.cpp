@@ -650,20 +650,21 @@ void Game::loadItems()
             }
 
             Nz::String componentType = lua.CheckField<Nz::String>("component");
+            componentType = componentType.ToLower();
 
             LuaArguments arguments;
             parseLua(lua, arguments);
 
-            if (componentType == "AttackModifier")
+            if (componentType == "attackmodifier")
                 item->AddComponent<AttackModifierComponent>(arguments);
 
-            if (componentType == "ResistanceModifier")
+            if (componentType == "resistancemodifier")
                 item->AddComponent<ResistanceModifierComponent>(arguments);
 
-            if (componentType == "Edible")
+            if (componentType == "edible")
                 item->AddComponent<Items::EdibleComponent>(arguments);
 
-            if (componentType == "Equippable")
+            if (componentType == "equippable")
             {
                 if (arguments.vars.size() >= 3)
                     arguments.vars[2].set<double>(m_skills.getItemIndex(arguments.vars[2].get<Nz::String>()));
@@ -671,10 +672,10 @@ void Game::loadItems()
                 item->AddComponent<Items::EquippableComponent>(arguments);
             }
 
-            if (componentType == "HPGain")
+            if (componentType == "hpgain")
                 item->AddComponent<Items::HPGainComponent>(arguments);
 
-            if (componentType == "Resource")
+            if (componentType == "resource")
                 item->AddComponent<Items::ResourceComponent>(arguments);
 
             lua.Pop();
@@ -769,22 +770,24 @@ void Game::addEntities()
     //mapComp.map->setFightMode(true);
     //mapComp.map->update();
 
-    auto swordIt = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
+    auto swordIt = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e)
+                                                                   { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
 
     if (swordIt != m_items.end())
     {
         auto logicEntity = (*swordIt)->Clone();
-        logicEntity->AddComponent<PositionComponent>().xy = { 2, 2 };
+        logicEntity->AddComponent<PositionComponent>().xy = { 1, 2 };
 
         auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MAP_ITEMS_LAYER);
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
     }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
-    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::MAPX * Def::MAPY, 8);
+    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ARRAYMAPX * Def::ARRAYMAPY, 8);
     
     m_charac = cloneCharacter("villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
+    m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
     refreshGraphicsPos(m_charac);
 }
 
@@ -807,8 +810,7 @@ void Game::initEventHandler()
         if (m_mapViewport.Contains(event.x, event.y) && !m_paused)
         {
             auto& move = m_charac->GetComponent<MoveComponent>();
-
-            auto tile = getTileFromGlobalCoords({ event.x, event.y });
+            auto  tile = getTileFromGlobalCoords({ event.x, event.y });
 
             move.tile = tile;
             move.playerInitiated = true;
@@ -856,7 +858,7 @@ void Game::initEventHandler()
 void Game::addWidgets()
 {
     TealAssert(m_canvas, "Canvas null");
-    m_canvas->SetPosition(10.f, static_cast<float>(Def::MAPYVIEWPORT) + 5);
+    m_canvas->SetPosition(static_cast<float>(Def::BUTTONSMARGINX), static_cast<float>(Def::MAPYSIZE + Def::BUTTONSMARGINY));
 
     auto& eventHandler = m_window.GetEventHandler();
 

@@ -4,65 +4,53 @@
 
 #include "global.hpp"
 
-int DirToY(DirectionFlags d)
+DiffTile DirToXY(DirectionFlags d, bool even)
 {
-    TealAssert((d & Dir::UpDown) != Dir::UpDown, "Cannot go up and down" );
+    auto pos = toUnderlyingType(DirToOrient(d));
+    int x = even ? Def::MAP_DISTANCE_EVEN_X[pos] : Def::MAP_DISTANCE_UNEVEN_X[pos];
+    int y = even ? Def::MAP_DISTANCE_EVEN_Y[pos] : Def::MAP_DISTANCE_UNEVEN_Y[pos];
 
-    static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
-    auto newDir = d & Dir::UpDown;
-
-    if (newDir & Dir::Up)
-        return -1;
-
-    if (newDir & Dir::Down)
-        return 1;
-
-    return 0;
+    return { x, y };
 }
 
-int DirToX(DirectionFlags d)
+DiffTile DirToGXY(DirectionFlags d)
 {
-    TealAssert((d & Dir::LeftRight) != Dir::LeftRight, "Cannot go left and right");
+    TealAssert(d, "No flag set !");
+    TealAssert(d != Dir::LeftRight && d != Dir::UpDown, "Strange flags you have there");
 
-    static constexpr std::array<int, 4> moves { 0, -1, 1, 0 };
-    auto newDir = d & Dir::LeftRight;
+    int x {}, y {};
+    int modifier = isDiagonal(d) ? 1 : 2;
 
-    if (newDir & Dir::Left)
-        return -1;
+    if (d & Dir::Up)
+        y -= modifier;
 
-    if (newDir & Dir::Right)
-        return 1;
+    if (d & Dir::Down)
+        y += modifier;
 
-    return 0;
+    if (d & Dir::Left)
+        x -= modifier;
+
+    if (d & Dir::Right)
+        x += modifier;
+
+    return { x, y };
 }
 
-DiffTile DirToXY(DirectionFlags d)
-{
-    int const x = DirToX(d);
-    int const y = DirToY(d);
-
-    return { y ? x : x * 2, x ? y : y * 2 };
-}
-
-DirectionFlags XYToDir(DiffTile d)
+DirectionFlags XYToDir(DiffTile d, bool even)
 {
     int x { d.x };
     int y { d.y };
 
     TealAssert((x != 0 || y != 0), "x and y may not be 0");
-    // 0 == no move == no direction
 
     auto dir = Dir::Up; // Must put a default value
 
-    if (x > 0)
-        dir |= Dir::Right;
-    else if (x < 0)
-        dir |= Dir::Left;
-
-    if (y > 0)
-        dir |= Dir::Down;
-    if (y >= 0)
-        dir &= ~Dir::Up;
+    for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+    {
+        if (x == (even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i])
+         && y == (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]))
+            return OrientToDir(static_cast<Orientation>(i));
+    }
 
     return dir;
 }

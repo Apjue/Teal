@@ -70,10 +70,7 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
         diffX = -diffX; // Ok
         diffY = -diffY;
 
-        auto dir = XYToDir({ diffX, diffY });
-        bool reExec = !isDiagonal(dir);
-
-        newPath.push_back(std::make_pair(dir, reExec));
+        newPath.push_back(XYToDir({ diffX, diffY }, isLineEven(startY)));
 
         oldX = utoi(absX);
         oldY = utoi(absY);

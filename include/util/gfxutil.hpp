@@ -19,6 +19,7 @@
 #include "components/common/defaultgraphicsposcomponent.hpp"
 #include "components/common/renderablesstoragecomponent.hpp"
 #include "util/assert.hpp"
+#include "util/mapposutil.hpp"
 #include "util/entityutil.hpp"
 #include "util/util.hpp"
 

@@ -16,7 +16,9 @@ struct PositionComponent : public Ndk::Component<PositionComponent>
     PositionComponent(const AbsTile& pos) : xy { pos } {}
 
     AbsTile xy {}; // The actual position (absolute)
-    DiffTile inXY {}; // Position in tile from x/y (difference)
+
+    DirectionFlags direction; // replaces inXY
+    unsigned advancement {};
 
     bool moving { false };
 

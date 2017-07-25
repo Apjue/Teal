@@ -18,65 +18,57 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 
     unsigned const x { coords.x }, y { coords.y };
 
-    unsigned const rectX { (x / Def::TILEXSIZE) * 2 }; // Rectangle where we clicked
-    unsigned const rectY { (y / Def::TILEYSIZE) * 2 }; // We need losange
+    unsigned const rectX { (x / Def::TILEXSIZE)      }; // Rectangle where we clicked
+    unsigned const rectY { (y / Def::TILEYSIZE) * 2u }; // We need losange
 
-    int const iRectX { utoi(rectX) };
-    int const iRectY { utoi(rectY) };
-
-    unsigned const rectClickX { x % Def::TILEXSIZE }; //We need the click to see
-    unsigned const rectClickY { y % Def::TILEYSIZE }; //where in the rectangle we clicked
+    unsigned const rectClickX { x % Def::TILEXSIZE }; // We need the click to see
+    unsigned const rectClickY { y % Def::TILEYSIZE }; // where in the rectangle we clicked
 
     Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
-    int losangeX {};
-    int losangeY {};
+    int losangeX { utoi(rectX) };
+    int losangeY { utoi(rectY) };
 
-    //Blue == up left
+    bool even = isLineEven(rectY);
+    Orientation o = Orientation::Down;
+
+
     if (color == Nz::Color::Blue)
-    {
-        losangeX = iRectX - 1;
-        losangeY = iRectY - 1;
-    }
+        o = Orientation::UpLeft;
 
-    //Red == up right
     if (color == Nz::Color::Red)
-    {
-        losangeX = iRectX + 1;
-        losangeY = iRectY - 1;
-    }
+        o = Orientation::UpRight;
 
-    //Yellow == down left
     if (color == Nz::Color::Yellow)
-    {
-        losangeX = iRectX - 1;
-        losangeY = iRectY + 1;
-    }
+        o = Orientation::DownLeft;
 
-    //Green == down right
     if (color == Nz::Color::Green)
-    {
-        losangeX = iRectX + 1;
-        losangeY = iRectY + 1;
-    }
+        o = Orientation::DownRight;
 
-    //White == The tile.
     if (color == Nz::Color::White)
+        o = Orientation::Up;
+
+
+    if (o == Orientation::Down)
+        NazaraError("Error in scheme !");
+
+    if (o != Orientation::Up)
     {
-        losangeX = iRectX;
-        losangeY = iRectY;
+        losangeX += even ? Def::MAP_DISTANCE_EVEN_X[toUnderlyingType(o)] : Def::MAP_DISTANCE_EVEN_X[toUnderlyingType(o)];
+        losangeY += even ? Def::MAP_DISTANCE_EVEN_Y[toUnderlyingType(o)] : Def::MAP_DISTANCE_EVEN_Y[toUnderlyingType(o)];
     }
 
-    //If the tile is negative:
+
+    // If the tile is negative:
     losangeX = (losangeX < 0) ? 0 : losangeX;
     losangeY = (losangeY < 0) ? 0 : losangeY;
 
     unsigned fLosangeX { static_cast<unsigned>(losangeX) };
     unsigned fLosangeY { static_cast<unsigned>(losangeY) };
 
-    //If tile is out the map:
-    fLosangeX = (fLosangeX > Def::LMAPX) ? Def::LMAPX : fLosangeX;
-    fLosangeY = (fLosangeY > Def::LMAPY) ? Def::LMAPY : fLosangeY;
+    // If tile is out the map:
+    fLosangeX = (fLosangeX > Def::ARRAYMAPX) ? Def::ARRAYMAPX : fLosangeX;
+    fLosangeY = (fLosangeY > Def::ARRAYMAPY) ? Def::ARRAYMAPY : fLosangeY;
 
     return { fLosangeX, fLosangeY };
 }
@@ -97,16 +89,23 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     Nz::Vector2f defPos { dpos.xy };
 
-    unsigned const gX = pos.xy.x * Def::TILEGXSIZE; // convert logic pos to graphics pos
-    unsigned const gY = pos.xy.y * Def::TILEGYSIZE;
-    int const gInX = pos.inXY.x * Def::MAXGXPOSINTILE;
-    int const gInY = pos.inXY.y * Def::MAXGYPOSINTILE;
+    unsigned const gX = pos.xy.x * Def::TILEXSIZE + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos
+    unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
 
-    float const finalX = static_cast<float>(gX) + static_cast<float>(gInX) + defPos.x; // We will move using this
-    float const finalY = static_cast<float>(gY) + static_cast<float>(gInY) + defPos.y; // (so it's graphics pos)
+    DiffTile gInXY {};
 
-    if (finalX != gfxpos.GetPosition().x  // if the entity is already at that position
-        || finalY != gfxpos.GetPosition().y) // no need to move it
+    if (pos.direction)
+    {
+        gInXY = DirToGXY(pos.direction);
+        gInXY.x *= pos.advancement * Def::MAXGXPOSINTILE;
+        gInXY.y *= pos.advancement * Def::MAXGYPOSINTILE;
+    }
+
+    float const finalX = static_cast<float>(gX) + static_cast<float>(gInXY.x) + defPos.x; // We will move using this
+    float const finalY = static_cast<float>(gY) + static_cast<float>(gInXY.y) + defPos.y; // (so it's graphics pos)
+
+    if (finalX != gfxpos.GetPosition().x || // if the entity is already at that position
+        finalY != gfxpos.GetPosition().y) // no need to move it
     {
         float const moveX = finalX - gfxpos.GetPosition().x;
         float const moveY = finalY - gfxpos.GetPosition().y;

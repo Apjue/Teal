@@ -55,13 +55,13 @@ void AISystem::OnUpdate(float elapsed)
 
             if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
             {                                                                                  // Else, recompute path in case an object moved and blocks the path
-                move.tile = toVector(Def::NOMOVEPOS);
+                move.tile = toVector(Def::NOMOVEPOS);                                          // (See MovementSystem)
                 continue;
             }
 
             PathComponent::PathPool newPath;
 
-            if (pos.inXY == pos.inXY.Zero())
+            if (pos.advancement == 0)
                 newPath = computePath(e, m_pather.get());
             else
                 continue;
@@ -69,9 +69,7 @@ void AISystem::OnUpdate(float elapsed)
             if (!newPath.empty())
             {
                 path = newPath;
-                pathComp.totalSize = static_cast<unsigned>(path.size());
-
-                pos.inXY = pos.inXY.Zero();
+                pos.advancement = 0;
             }
 
             /// \todo if !move.playerInitiated and no path found (something blocked and still blocking)

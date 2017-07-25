@@ -8,17 +8,15 @@
 #define PATHCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include <queue>
+#include <vector>
 #include <utility>
 #include "global.hpp"
 #include "def/gamedef.hpp"
 
 struct PathComponent : public Ndk::Component<PathComponent>
 {
-    using PathPool = std::vector<std::pair<DirectionFlags, bool>>;
-
+    using PathPool = std::vector<DirectionFlags>;
     PathPool path;
-    unsigned totalSize {};
 
     static Ndk::ComponentIndex componentIndex;
 };

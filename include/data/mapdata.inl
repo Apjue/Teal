@@ -30,15 +30,23 @@ const TileData& MapData::tile(unsigned index) const
 std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, unsigned y)
 {
     std::unordered_map<Nz::Vector2ui, TileData> data;
+    bool even = isLineEven(y);
 
-    for (std::size_t i {}; i < Def::MAP_DISTANCE_X.size(); ++i)
+    for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
     {
-        unsigned newX = x + Def::MAP_DISTANCE_X[i];
-        unsigned newY = y + Def::MAP_DISTANCE_Y[i];
+        unsigned newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
+        unsigned newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
+
+        if (!isPositionValid({ newX, newY }))
+            continue;
+
+        if (IndexToXY(XYToIndex(newX, newY)).second != y
+        && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
+            continue;
 
         unsigned index = XYToIndex(newX, newY);
 
-        if (index < 0 || index > Def::TILEARRAYSIZE)
+        if (index > Def::TILEARRAYSIZE)
             continue;
 
         data[{ newX, newY }] = m_tiles[index];
@@ -61,9 +69,4 @@ const Ndk::EntityList& MapData::getEntities() const
 Ndk::EntityList& MapData::getEntities()
 {
     return m_entities;
-}
-
-unsigned MapData::XYToIndex(unsigned x, unsigned y) const
-{
-    return x + y * Def::MAPX;
 }

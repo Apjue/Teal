@@ -16,6 +16,7 @@
 #include "def/gamedef.hpp"
 #include "util/assert.hpp"
 #include "util/nzstlcompatibility.hpp"
+#include "util/mapposutil.hpp"
 #include "util/underlyingtype.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
@@ -79,16 +80,14 @@ constexpr DirectionFlags DownLeft = Down | Left;
 
 
 // Conversion functions
-extern int DirToY(DirectionFlags d);
-extern int DirToX(DirectionFlags d);
-
-extern DiffTile DirToXY(DirectionFlags d);
-extern DirectionFlags XYToDir(DiffTile d);
+extern DiffTile DirToXY(DirectionFlags d, bool even);
+extern DiffTile DirToGXY(DirectionFlags d);
+extern DirectionFlags XYToDir(DiffTile d, bool even);
 
 extern Orientation DirToOrient(DirectionFlags d);
 extern DirectionFlags OrientToDir(Orientation o);
 
-inline DiffTile OrientToDiff(Orientation o);
+inline DiffTile OrientToDiff(Orientation o, bool even);
 
 ///
 /// \fn isDiagonal

@@ -34,12 +34,15 @@ Orientation stringToOrientation(Nz::String string)
 }
 
 
-DiffTile OrientToDiff(Orientation o)
+DiffTile OrientToDiff(Orientation o, bool even)
 {
-    return DirToXY(OrientToDir(o));
+    return DirToXY(OrientToDir(o), even);
 }
 
 bool isPositionValid(AbsTile pos)
 {
-    return pos.x % 2 == pos.y % 2;
+    if (pos.x > Def::ARRAYMAPX || pos.y > Def::ARRAYMAPY)
+        return false;
+
+    return (isLineEven(pos.y) ? pos.x <= Def::MAPX : pos.x < Def::MAPX) && pos.y <= Def::ARRAYMAPY;
 }

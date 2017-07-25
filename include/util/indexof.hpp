@@ -14,7 +14,7 @@ struct IndexOf;
 
 // Found
 template <class T, class... Rest>
-struct IndexOf<T, T, Rest...> : std::integral_constant<std::size_t, 1u> {};
+struct IndexOf<T, T, Rest...> : std::integral_constant<std::size_t, 0u> {};
 
 // Still searching
 template <class T, class Other, class... Rest>

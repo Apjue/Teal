@@ -50,13 +50,11 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
             for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
             { /// \todo Redo this. Does not work as intended
-                AbsTile wantedPos = mov.tile == toVector(Def::NOMOVEPOS) ? pos.xy : mov.tile;
+                AbsTile wantedPos = (mov.tile == toVector(Def::NOMOVEPOS) ? pos.xy : mov.tile);
 
                 x = wantedPos.x;
                 y = wantedPos.y;
-
-                XYToArray(x, y);
-
+                
                 auto adjacentTiles = map->getMap()->adjacentTiles(x, y);
 
                 if (adjacentTiles.empty())
@@ -72,7 +70,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                         direction %= adjacentTiles.size();
 
                     Orientation orient = static_cast<Orientation>(direction);
-                    xy = OrientToDiff(orient);
+                    xy = OrientToDiff(orient, isLineEven(y));
                 }
                 
                 else
@@ -82,8 +80,6 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
                 unsigned newXpos = newPos.x;
                 unsigned newYpos = newPos.y;
-
-                XYToArray(newXpos, newYpos);
 
                 if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).obstacle == 0)
                 {

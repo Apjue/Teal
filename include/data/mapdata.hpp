@@ -61,8 +61,6 @@ private:
     Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
 
     static MapDataLibrary::LibraryMap s_library;
-
-    inline unsigned XYToIndex(unsigned x, unsigned y) const;
 };
 
 #include "mapdata.inl"
