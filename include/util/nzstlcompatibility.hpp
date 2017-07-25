@@ -9,8 +9,8 @@
 
 // Nz::Vector2 and std::pair
 
-#include <utility>
 #include <Nazara/Math/Vector2.hpp>
+#include <utility>
 
 template<class T>
 std::pair<T, T> toPair(const Nz::Vector2<T>& v);
