@@ -1,8 +1,34 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <NDK/Components.hpp>
+#include <NDK/Systems/RenderSystem.hpp>
+#include <Nazara/Core/Error.hpp>
+#include <Nazara/Graphics/ColorBackground.hpp>
+#include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Renderer/Texture.hpp>
+#include <Nazara/Graphics/Sprite.hpp>
+#include <Nazara/Core/File.hpp>
+#include <Nazara/Lua.hpp>
+#include <exception>
+#include <algorithm>
+#include <type_traits>
 #include <iostream> // [TEST]
+#include "components.hpp"
+#include "systems.hpp"
+#include "factory.hpp"
+#include "data/characterdata.hpp"
+#include "data/skilldata.hpp"
+#include "util/assert.hpp"
+#include "util/util.hpp"
+#include "util/maputil.hpp"
+#include "util/gfxutil.hpp"
+#include "util/luaparser.hpp"
+#include "def/gamedef.hpp"
+#include "def/typedef.hpp"
+#include "def/uidef.hpp"
+#include "def/layerdef.hpp"
 #include "game.hpp"
 
 Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
@@ -515,7 +541,7 @@ void Game::loadMaps()
         TealException(lua.GetGlobal("teal_map") == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
 
         MapDataRef map = MapData::New();
-        TILEARRAY tiles;
+        TileArray tiles;
 
         for (int i { 1 }; i <= Def::TILEARRAYSIZE; ++i)
         {
@@ -615,12 +641,9 @@ void Game::loadSkills()
 
         TealException(lua.GetGlobal("teal_skill") == Nz::LuaType_Table, "Lua: teal_skill isn't a table !");
 
-        LuaArguments args;
-        parseLua(lua, args);
-
-        SkillData s(args);
-
+        SkillData s(parseLua(lua));
         m_skills.addItem(s.codename, s);
+
         NazaraDebug("Skill " + s.name + " loaded ! (" + s.codename + ")");
     }
 }

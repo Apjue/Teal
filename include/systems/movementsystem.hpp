@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,12 +8,6 @@
 #define MOVEMENTSYSTEM_HPP
 
 #include <NDK/System.hpp>
-#include "components/common/positioncomponent.hpp"
-#include "components/common/pathcomponent.hpp"
-#include "components/common/orientationcomponent.hpp"
-#include "components/common/fightcomponent.hpp"
-#include "util/movementutil.hpp"
-#include "cache/tilesetcore.hpp"
 
 ///
 /// \class MovementSystem

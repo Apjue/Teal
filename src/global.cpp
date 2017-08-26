@@ -1,7 +1,12 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <Nazara/Utility/Mouse.hpp>
+#include <array>
+#include <stdexcept>
+#include "util/assert.hpp"
+#include "util/nzstlcompatibility.hpp"
 #include "global.hpp"
 
 DiffTile DirToXY(DirectionFlags d, bool even)
@@ -62,7 +67,7 @@ Orientation DirToOrient(DirectionFlags d)
     if ((d & Dir::DownLeft) == Dir::DownLeft)
         return Orientation::DownLeft;
 
-    if ((d & Dir::DownRight) == Dir::DownRight) // Okay, my fault...
+    if ((d & Dir::DownRight) == Dir::DownRight)
         return Orientation::DownRight;
 
     if ((d & Dir::UpLeft) == Dir::UpLeft)
@@ -84,7 +89,7 @@ Orientation DirToOrient(DirectionFlags d)
     if ((d & Dir::Right) == Dir::Right)
         return Orientation::Right;
 
-    return {}; // Oh, well...
+    return {};
 }
 
 DirectionFlags OrientToDir(Orientation o)
@@ -93,35 +98,27 @@ DirectionFlags OrientToDir(Orientation o)
     {
     case Orientation::Down:
         return Dir::Down;
-        break;
 
     case Orientation::Up:
         return Dir::Up;
-        break;
 
     case Orientation::Left:
         return Dir::Left;
-        break;
 
     case Orientation::Right:
         return Dir::Right;
-        break;
 
     case Orientation::DownLeft:
         return Dir::DownLeft;
-        break;
 
     case Orientation::DownRight:
         return Dir::DownRight;
-        break;
 
     case Orientation::UpLeft:
         return Dir::UpLeft;
-        break;
 
     case Orientation::UpRight:
         return Dir::UpRight;
-        break;
     }
 
     TealAssert(false, "No flag set !");

@@ -1,14 +1,24 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <unordered_set>
+#include <algorithm>
+#include "global.hpp"
+#include "util/assert.hpp"
+#include "util/util.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/movecomponent.hpp"
+#include "components/common/randommovementcomponent.hpp"
+#include "components/common/fightcomponent.hpp"
 #include "systems/randommovementsystem.hpp"
+#include "def/systemdef.hpp"
 
 RandomMovementSystem::RandomMovementSystem() : m_uni(0, 7)
 {
     Requires<PositionComponent, MoveComponent, RandomMovementComponent>();
     SetUpdateRate(10.f); // Can be removed
-    SetUpdateOrder(4);
+    SetUpdateOrder(Def::RandomMovementSystemUpdateOrder);
 }
 
 RandomMovementSystem::RandomMovementSystem(const std::weak_ptr<MapInstance>& map)

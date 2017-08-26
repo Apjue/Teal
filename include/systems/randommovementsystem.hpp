@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,18 +8,9 @@
 #define RANDOMMOVEMENTSYSTEM_HPP
 
 #include <NDK/System.hpp>
-#include <random>
 #include <memory>
-#include <unordered_set>
-#include <algorithm>
 #include "components/common/mapcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/movecomponent.hpp"
-#include "components/common/randommovementcomponent.hpp"
-#include "components/common/fightcomponent.hpp"
 #include "util/random.hpp"
-#include "global.hpp"
-#include "util/assert.hpp"
 
 class RandomMovementSystem : public Ndk::System<RandomMovementSystem>
 {

@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,10 +9,7 @@
 
 #include <NDK/System.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
-#include <NDK/Components/GraphicsComponent.hpp>
-#include "components.hpp"
-#include "def/gamedef.hpp"
-#include "util/gfxutil.hpp"
+#include "components/common/animationcomponent.hpp"
 
 ///
 /// \class AnimationSystem

@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,13 +8,7 @@
 #define AISYSTEM_HPP
 
 #include <NDK/System.hpp>
-#include "components/common/pathcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/movecomponent.hpp"
-#include "components/common/fightcomponent.hpp"
-#include "components/common/lifecomponent.hpp"
-#include "util/aiutil.hpp"
-#include "def/gamedef.hpp"
+#include <memory>
 #include "micropather.h"
 
 ///

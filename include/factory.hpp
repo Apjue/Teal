@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,11 +9,7 @@
 
 #include <NDK/World.hpp>
 #include <NDK/Entity.hpp>
-#include <NDK/Components.hpp>
 #include <Nazara/Renderer/Texture.hpp>
-#include "components.hpp"
-#include "util/gfxutil.hpp"
-#include "def/layerdef.hpp"
 #include "data/characterdata.hpp"
 //#include "data/mapobjectdata.hpp"
 

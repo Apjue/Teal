@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -12,7 +12,7 @@ MapDataRef MapData::New(Args&&... args)
 }
 
 
-const TILEARRAY& MapData::tiles() const
+const TileArray& MapData::tiles() const
 {
     return m_tiles;
 }
@@ -27,35 +27,7 @@ const TileData& MapData::tile(unsigned index) const
     return m_tiles[index];
 }
 
-std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, unsigned y)
-{
-    std::unordered_map<Nz::Vector2ui, TileData> data;
-    bool even = isLineEven(y);
-
-    for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
-    {
-        unsigned newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
-        unsigned newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
-
-        if (!isPositionValid({ newX, newY }))
-            continue;
-
-        if (IndexToXY(XYToIndex(newX, newY)).second != y
-        && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
-            continue;
-
-        unsigned index = XYToIndex(newX, newY);
-
-        if (index > Def::TILEARRAYSIZE)
-            continue;
-
-        data[{ newX, newY }] = m_tiles[index];
-    }
-
-    return data;
-}
-
-void MapData::setTiles(const TILEARRAY& tiles)
+void MapData::setTiles(const TileArray& tiles)
 {
     m_tiles = tiles;
 }

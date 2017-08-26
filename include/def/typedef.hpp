@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -15,7 +15,7 @@
 #include "gamedef.hpp"
 
 struct TileData;
-using TILEARRAY = std::array<TileData, Def::TILEARRAYSIZE>;
+using TileArray = std::array<TileData, Def::TILEARRAYSIZE>;
 
 using LuaBasicArgument = Variant<Nz::String, double, bool>;
 

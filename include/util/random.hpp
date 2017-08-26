@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -42,11 +42,11 @@ public:
 template<class Generator>
 Generator RandomNumber<Generator>::generator
 (
-#ifdef TEAL_RANDOM_DEVICE_BROKEN
-    static_cast<unsigned>(std::time(nullptr))
-#else
-    std::random_device {}()
-#endif
+    #ifdef TEAL_RANDOM_DEVICE_BROKEN
+        static_cast<unsigned>(std::time(nullptr))
+    #else
+        std::random_device {}()
+    #endif
 );
 
 #include "random.inl"

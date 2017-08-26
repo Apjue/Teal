@@ -1,7 +1,16 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <Nazara/Core/Error.hpp>
+#include <vector>
+#include "components/common/positioncomponent.hpp"
+#include "components/common/movecomponent.hpp"
+#include "components/common/mapcomponent.hpp"
+#include "util/maputil.hpp"
+#include "util/util.hpp"
+#include "util/assert.hpp"
+#include "util/nzstlcompatibility.hpp"
 #include "util/aiutil.hpp"
 
 PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather)

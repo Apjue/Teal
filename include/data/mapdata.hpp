@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,18 +9,13 @@
 
 #include <NDK/Entity.hpp>
 #include <NDK/EntityList.hpp>
-#include <Nazara/Graphics/Material.hpp>
 #include <Nazara/Core/ObjectLibrary.hpp>
 #include <Nazara/Core/ObjectRef.hpp>
 #include <Nazara/Core/RefCounted.hpp>
 #include <Nazara/Core/Resource.hpp>
-#include <Nazara/Math/Vector2.hpp>
-#include <unordered_map>
-#include "tiledata.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/blocktilecomponent.hpp"
+#include <memory>
 #include "def/typedef.hpp"
-#include "def/gamedef.hpp"
+#include "data/tiledata.hpp"
 #include "util/mapposutil.hpp"
 
 class MapData;
@@ -29,7 +24,7 @@ using MapDataConstRef = Nz::ObjectRef<const MapData>;
 using MapDataLibrary = Nz::ObjectLibrary<MapData>;
 using MapDataRef = Nz::ObjectRef<MapData>;
 
-class MapData : public Nz::RefCounted, public Nz::Resource
+class MapData : public Nz::RefCounted, public Nz::Resource /// \todo Remove MapPositionComponent and add position in mapdata ?
 {
     friend MapDataLibrary;
 
@@ -37,19 +32,19 @@ public:
     MapData() = default;
     ~MapData() = default;
 
-    MapData(const TILEARRAY& tiles_);
+    MapData(const TileArray& tiles_);
     MapData(MapData&&) = default;
 
     template<class... Args>
     static inline MapDataRef New(Args&&... args);
 
 
-    inline const TILEARRAY& tiles() const;
-    inline void setTiles(const TILEARRAY& nTiles);
+    inline const TileArray& tiles() const;
+    inline void setTiles(const TileArray& nTiles);
 
     inline const TileData& tile(unsigned x, unsigned y) const;
     inline const TileData& tile(unsigned index) const;
-    inline std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
+    std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
 
     inline const Ndk::EntityList& getEntities() const;
     inline Ndk::EntityList& getEntities();
@@ -57,7 +52,7 @@ public:
     void updateOccupiedTiles();
 
 private:
-    TILEARRAY m_tiles;
+    TileArray m_tiles;
     Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
 
     static MapDataLibrary::LibraryMap s_library;

@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -7,23 +7,21 @@
 #ifndef MAPUTIL_HPP
 #define MAPUTIL_HPP
 
-#include <NDK/Entity.hpp>
-#include <utility>
-#include <memory>
-#include <queue>
-#include "components/common/mapcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/mappositioncomponent.hpp"
-#include "components/common/orientationcomponent.hpp"
-#include "components/common/pathcomponent.hpp"
-#include "components/common/logicentityidcomponent.hpp"
-#include "util/assert.hpp"
+#include <NDK/Entity.hpp> //
+#include <Nazara/Core/String.hpp> //
+#include <utility> //
+#include <queue> //
+#include <vector> //
+#include "components/common/mapcomponent.hpp" //
+#include "components/common/pathcomponent.hpp" //
+#include "components/common/logicentityidcomponent.hpp" //
+#include "util/assert.hpp" //
 #include "def/gamedef.hpp"
-#include "global.hpp"
-#include "data/mapdata.hpp"
+#include "global.hpp" //
+#include "data/mapdata.hpp" //
 #include "util/entityutil.hpp"
-#include "cache/tilesetcore.hpp"
-#include "micropather.h"
+#include "util/util.hpp" //
+#include "micropather.h" //
 
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);

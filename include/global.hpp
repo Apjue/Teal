@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -7,17 +7,12 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
-#include <Nazara/Utility/Mouse.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/Flags.hpp>
 #include <Nazara/Core/String.hpp>
-#include <array>
-#include <stdexcept>
-#include "def/gamedef.hpp"
-#include "util/assert.hpp"
-#include "util/nzstlcompatibility.hpp"
 #include "util/mapposutil.hpp"
 #include "util/underlyingtype.hpp"
+#include "def/gamedef.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)
 using DiffTile = Nz::Vector2i; // Difference Tile (from one point to another one)

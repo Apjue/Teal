@@ -1,7 +1,14 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/Components/NodeComponent.hpp>
+#include <Nazara/Math/Vector2.hpp>
+#include "def/layerdef.hpp"
+#include "util/assert.hpp"
+#include "util/util.hpp"
+#include "util/mapposutil.hpp"
 #include "components/common/mapcomponent.hpp"
 
 MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore)

@@ -1,13 +1,23 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include "components/common/pathcomponent.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/movecomponent.hpp"
+#include "components/common/fightcomponent.hpp"
+#include "components/common/lifecomponent.hpp"
+#include "util/aiutil.hpp"
+#include "util/nzstlcompatibility.hpp"
+#include "util/maputil.hpp"
+#include "def/gamedef.hpp"
+#include "def/systemdef.hpp"
 #include "systems/aisystem.hpp"
 
 AISystem::AISystem()
 {
     Requires<PathComponent, PositionComponent, MoveComponent>();
-    SetUpdateOrder(1);
+    SetUpdateOrder(Def::AISystemUpdateOrder);
 }
 
 AISystem::AISystem(const std::shared_ptr<micropather::MicroPather>& pather)

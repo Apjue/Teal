@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,18 +9,13 @@
 
 #include <NDK/Component.hpp>
 #include <NDK/Entity.hpp>
-#include <NDK/Components/GraphicsComponent.hpp>
-#include <NDK/Components/NodeComponent.hpp>
 #include <Nazara/Graphics/TileMap.hpp>
 #include <Nazara/Graphics/Material.hpp>
-#include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/String.hpp>
+#include <Nazara/Core/Error.hpp>
+#include <memory>
 #include "micropather.h"
 #include "data/mapdata.hpp"
-#include "def/layerdef.hpp"
-#include "util/assert.hpp"
-#include "util/util.hpp"
-#include "util/mapposutil.hpp"
 #include "cache/tilesetcore.hpp"
 
 ///

@@ -1,12 +1,27 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "util/movementutil.hpp"
-#include "cache/tilesetcore.hpp"
+#include <algorithm>
+#include "components/common/pathcomponent.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/orientationcomponent.hpp"
+#include "components/common/blocktilecomponent.hpp"
+#include "components/common/movecomponent.hpp"
+#include "components/common/inventorycomponent.hpp"
+#include "components/common/iconcomponent.hpp"
+#include "components/common/logicentityidcomponent.hpp"
+#include "components/common/graphicalentitiescomponent.hpp"
+#include "def/gamedef.hpp"
+#include "data/mapdata.hpp"
+#include "util/gfxutil.hpp"
+#include "util/maputil.hpp"
+#include "util/entityutil.hpp"
 #include "util/assert.hpp"
+#include "cache/tilesetcore.hpp"
+#include "util/movementutil.hpp"
 
-void moveEntity(const Ndk::EntityHandle& e)
+void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
 {
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;
@@ -15,9 +30,9 @@ void moveEntity(const Ndk::EntityHandle& e)
     if (path.empty())
         return; // No path, no move.
 
-    bool  even = isLineEven(pos.xy.y);
+    bool even = isLineEven(pos.xy.y);
     auto& dir = path.front();
-    auto  xy = DirToXY(dir, even);
+    auto xy = DirToXY(dir, even);
 
     e->GetComponent<OrientationComponent>().dir = DirToOrient(dir);
     
@@ -59,7 +74,8 @@ void moveEntity(const Ndk::EntityHandle& e)
                 if (e->HasComponent<InventoryComponent>())
                     getItemsFromGround(e);
 
-                changeMap();
+                if (allowMapChange)
+                    changeMap();
             }
         }
 

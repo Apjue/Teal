@@ -1,28 +1,36 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <NDK/Components/GraphicsComponent.hpp>
+#include "components/common/orientationcomponent.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/renderablesstoragecomponent.hpp"
+#include "def/gamedef.hpp"
+#include "def/systemdef.hpp"
+#include "util/gfxutil.hpp"
 #include "systems/animationsystem.hpp"
 
 AnimationSystem::AnimationSystem()
 {
     Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent, RenderablesStorageComponent>();
     SetUpdateRate(Def::MAXSYSTEMUPS);
-    SetUpdateOrder(5);
+    SetUpdateOrder(Def::AnimationSystemUpdateOrder);
 }
 
 void AnimationSystem::OnUpdate(float elapsed)
 {
     for (auto& e : GetEntities())
     {
-        auto& anim = e->GetComponent<AnimationComponent>();
-        bool  moving = e->GetComponent<PositionComponent>().moving;
-        auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
-        auto  dir = e->GetComponent<OrientationComponent>().dir;
         auto& sprites = e->GetComponent<RenderablesStorageComponent>().sprites;
 
         if (sprites.empty())
             continue;
+
+        auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
+        auto& anim = e->GetComponent<AnimationComponent>();
+        bool  moving = e->GetComponent<PositionComponent>().moving;
+        auto  dir = e->GetComponent<OrientationComponent>().dir;
         
         int const intDir = static_cast<int>(dir);
 

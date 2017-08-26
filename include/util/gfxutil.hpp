@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -7,24 +7,13 @@
 #ifndef GFXUTIL_HPP
 #define GFXUTIL_HPP
 
-#include <Nazara/Graphics/Sprite.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
-#include <NDK/Components/NodeComponent.hpp>
-#include <Nazara/Core/Color.hpp>
 #include <Nazara/Utility/Image.hpp>
-#include <vector>
-#include "def/gamedef.hpp"
-#include "global.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/defaultgraphicsposcomponent.hpp"
 #include "components/common/renderablesstoragecomponent.hpp"
-#include "util/assert.hpp"
-#include "util/mapposutil.hpp"
-#include "util/entityutil.hpp"
-#include "util/util.hpp"
+#include "global.hpp"
 
 inline void cloneRenderables(const Ndk::EntityHandle& e);
-inline void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables);
+extern void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables);
 
 ///
 /// \fn getTileFromGlobalCoords

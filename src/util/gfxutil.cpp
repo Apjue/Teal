@@ -1,7 +1,18 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <Nazara/Graphics/Sprite.hpp>
+#include <NDK/Components/NodeComponent.hpp>
+#include <Nazara/Core/Color.hpp>
+#include <vector>
+#include "def/gamedef.hpp"
+#include "components/common/positioncomponent.hpp"
+#include "components/common/defaultgraphicsposcomponent.hpp"
+#include "util/assert.hpp"
+#include "util/mapposutil.hpp"
+#include "util/entityutil.hpp"
+#include "util/util.hpp"
 #include "util/gfxutil.hpp"
 
 namespace
@@ -9,6 +20,44 @@ namespace
 
 Nz::ImageRef m_scheme {};
 
+}
+
+void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables)
+{
+    for (auto& sprite : renderables.sprites)
+    {
+        Nz::SpriteRef newSprite = Nz::Sprite::New(*(static_cast<Nz::Sprite*>(sprite.Get())));
+
+        gfx.Detach(sprite);
+        gfx.Attach(newSprite);
+
+        sprite.Swap(newSprite);
+        break;
+    }
+
+    for (auto& model : renderables.models)
+    {
+        Nz::ModelRef newModel = Nz::Model::New(*(static_cast<Nz::Model*>(model.Get())));
+
+        gfx.Detach(model);
+        gfx.Attach(newModel);
+
+        model.Swap(newModel);
+
+        break;
+    }
+
+    for (auto& textSprite : renderables.textSprites)
+    {
+        Nz::TextSpriteRef newTextSprite = Nz::TextSprite::New(*(static_cast<Nz::TextSprite*>(textSprite.Get())));
+
+        gfx.Detach(textSprite);
+        gfx.Attach(newTextSprite);
+
+        textSprite.Swap(newTextSprite);
+
+        break;
+    }
 }
 
 AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)

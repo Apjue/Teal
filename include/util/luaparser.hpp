@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,8 +9,10 @@
 
 #include <Nazara/Lua.hpp>
 #include "def/typedef.hpp"
-#include "util/assert.hpp"
 
+inline LuaArguments parseLua(Nz::LuaInstance& lua);
 extern void parseLua(Nz::LuaInstance& lua, LuaArguments& table);
+
+#include "luaparser.inl"
 
 #endif // LUAPARSER_HPP
