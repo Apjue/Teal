@@ -61,7 +61,7 @@ project "TealDemo"
     filter "configurations:Debug"
         defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
         links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "micropather-d" }
-        flags { "symbols" }
+        symbols "on"
 
     filter "configurations:Release"
         defines { "NDEBUG" }
