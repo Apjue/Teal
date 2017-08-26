@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -81,7 +81,7 @@ private:
     const Nz::String m_rootPrefix =         "../data/";
     const Nz::String m_imgPrefix = m_rootPrefix +    "img/";
     const Nz::String m_addonsPrefix = m_rootPrefix + "addons/";
-    const Nz::String m_addonsImgPrefix = m_addonsPrefix +    "imgs/";
+    const Nz::String m_addonsImgPrefix = m_addonsPrefix +    "img/";
     const Nz::String m_scriptPrefix = m_rootPrefix + "script/";
     
     StateMDStore m_states;

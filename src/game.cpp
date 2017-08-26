@@ -295,7 +295,7 @@ void Game::loadCharacters()
 
         lua.PushInteger(2);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.y isn't a number !");
-        
+
         float defgfxposy = static_cast<float>(lua.CheckInteger(-1));
         lua.Pop();
 
@@ -376,7 +376,7 @@ void Game::loadCharacters()
 
                     lua.Pop();
                 }
-                
+
                 lua.Pop();
             }
 
@@ -528,7 +528,7 @@ void Game::loadMaps()
             tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
 
             unsigned obstacle = lua.CheckField<unsigned>("obstacle");
-            
+
             switch (obstacle)
             {
                 case 1:
@@ -799,7 +799,7 @@ void Game::addEntities()
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ARRAYMAPX * Def::ARRAYMAPY, 8);
-    
+
     m_charac = cloneCharacter("villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
