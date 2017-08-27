@@ -52,8 +52,8 @@ before_install:
 install:
   - cd ${TRAVIS_BUILD_DIR}/build
 #  - sudo chmod +x premake5-linux32
-  - sudo chmod +x premake5-linux64
-  - sudo chmod +x premake5-osx64
+  - sudo chmod u+x,g+x,o+x premake5-linux64
+  - sudo chmod u+x,g+x,o+x premake5-osx64
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && mkdir micropather
   - cd nazara
