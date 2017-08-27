@@ -64,28 +64,36 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];
         sprite = Nz::Sprite::New();
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, tofloat(i * 32), 0.f }), Def::MapLayer);
+
+        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, tofloat(i * Def::TileSizeY), 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_rightBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_rightBorder[i];
         sprite = Nz::Sprite::New();
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(Def::MapSizeX), tofloat(i * 32), 0.f }), Def::MapLayer);
+
+        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(Def::MapSizeX), tofloat(i * Def::TileSizeY), 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_upBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_upBorder[i];
         sprite = Nz::Sprite::New();
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * 32), 0.f, 0.f }), Def::MapLayer);
+
+        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX), 0.f, 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_downBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_downBorder[i];
         sprite = Nz::Sprite::New();
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * 32), tofloat(Def::MapSizeY), 0.f }), Def::MapLayer);
+
+        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX), tofloat(Def::MapSizeY), 0.f }), Def::MapLayer);
     }
 }
 
