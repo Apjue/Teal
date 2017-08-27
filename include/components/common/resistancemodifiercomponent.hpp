@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -14,6 +14,7 @@
 #include "def/typedef.hpp"
 #include "util/variant.hpp"
 #include "util/assert.hpp"
+#include "util/util.hpp"
 
 struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierComponent>
 {
@@ -37,7 +38,7 @@ struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierCom
 
         for (auto& variant : args.vars)
         {
-            data[e] = static_cast<int>(variant.get<double>());
+            data[e] = toint(variant.get<double>());
             ++e;
 
             if (e > Element::Max)

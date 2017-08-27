@@ -39,6 +39,14 @@ DiffTile OrientToDiff(Orientation o, bool even)
     return DirToXY(OrientToDir(o), even);
 }
 
+DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
+{
+    int diffX { toint(to.x) - toint(from.x) },
+        diffY { toint(to.y) - toint(from.y) };
+
+    return { diffX, diffY };
+}
+
 bool isPositionValid(AbsTile pos)
 {
     if (pos.x > Def::ArrayMapX || pos.y > Def::ArrayMapY)

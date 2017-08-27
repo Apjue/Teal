@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -11,6 +11,7 @@
 #include <utility>
 #include <cstdint>
 #include "util/assert.hpp"
+#include "util/util.hpp"
 #include "def/gamedef.hpp"
 
 inline void  NodeToXY(void* node, unsigned& x, unsigned& y);

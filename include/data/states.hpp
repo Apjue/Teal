@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -14,6 +14,7 @@
 #include "elementdata.hpp"
 #include "def/typedef.hpp"
 #include "util/assert.hpp"
+#include "util/util.hpp"
 
 struct State
 {
@@ -22,7 +23,7 @@ struct State
     State(const LuaArguments& args)
     {
         TealException(args.vars.size() >= 4, "Wrong number of arguments. Need at least 4");
-        turns = static_cast<unsigned>(args.vars[2].get<double>());
+        turns = tounsigned(args.vars[2].get<double>());
     }
 
     virtual ~State() = default;
@@ -40,7 +41,7 @@ struct PoisonnedState : public State
         TealAssert(args.vars[3].get<Nz::String>() == getMetadataID(), "Wrong type of state");
 
         damage.first = stringToElement(args.vars[4].get<Nz::String>());
-        damage.second = static_cast<int>(args.vars[5].get<double>());
+        damage.second = toint(args.vars[5].get<double>());
     }
 
     std::pair<Element, unsigned> damage;
@@ -61,7 +62,7 @@ struct HealedState : public State
         TealAssert(args.vars[3].get<Nz::String>() == getMetadataID(), "Wrong type of state");
 
         health.first = stringToElement(args.vars[4].get<Nz::String>());
-        health.second = static_cast<int>(args.vars[5].get<double>());
+        health.second = toint(args.vars[5].get<double>());
     }
 
     std::pair<Element, unsigned> health;

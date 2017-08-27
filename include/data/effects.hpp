@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -9,6 +9,7 @@
 
 #include <Nazara/Core/String.hpp>
 #include "def/typedef.hpp"
+#include "util/util.hpp"
 
 struct Effect
 {
@@ -23,7 +24,7 @@ struct PullEffect : public Effect
     PullEffect(const LuaArguments& args)
     {
         TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
-        tiles = static_cast<unsigned>(args.vars[3].get<double>());
+        tiles = tounsigned(args.vars[3].get<double>());
     }
 
     unsigned tiles {};
@@ -41,7 +42,7 @@ struct PushEffect : public Effect
     PushEffect(const LuaArguments& args)
     {
         TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
-        tiles = static_cast<unsigned>(args.vars[3].get<double>());
+        tiles = tounsigned(args.vars[3].get<double>());
     }
 
     unsigned tiles {};

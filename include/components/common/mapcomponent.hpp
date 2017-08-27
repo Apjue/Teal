@@ -7,16 +7,19 @@
 #ifndef MAPCOMPONENT_HPP
 #define MAPCOMPONENT_HPP
 
+#include <NDK/World.hpp>
 #include <NDK/Component.hpp>
-#include <NDK/Entity.hpp>
 #include <Nazara/Graphics/TileMap.hpp>
 #include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Graphics/Sprite.hpp>
 #include <Nazara/Core/String.hpp>
 #include <Nazara/Core/Error.hpp>
 #include <memory>
+#include <array>
 #include "micropather.h"
-#include "data/mapdata.hpp"
 #include "cache/tilesetcore.hpp"
+#include "data/mapdata.hpp"
+#include "def/gamedef.hpp"
 
 ///
 /// \class MapInstance
@@ -27,6 +30,9 @@
 
 class MapInstance : public micropather::Graph
 {
+    static const unsigned s_borderTilesNumberX { Def::MapX + 1u };
+    static const unsigned s_borderTilesNumberY { Def::MapY / 2 + 1u };
+
 public:
     MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e);
     inline MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
@@ -49,6 +55,7 @@ public:
     inline void toggleFightMode();
 
 private:
+    Ndk::WorldHandle m_world;
     Ndk::EntityHandle m_entity;
     MapDataRef m_map; // You have to reset the pather after changing map
 
@@ -59,6 +66,12 @@ private:
     TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
     TilesetCore* m_fightTilesetCore {};
     bool m_fightMode {};
+
+    Ndk::EntityHandle m_borderEntity;
+    std::array<Nz::SpriteRef, s_borderTilesNumberY> m_leftBorder;
+    std::array<Nz::SpriteRef, s_borderTilesNumberY> m_rightBorder;
+    std::array<Nz::SpriteRef, s_borderTilesNumberX> m_upBorder;
+    std::array<Nz::SpriteRef, s_borderTilesNumberX> m_downBorder;
 
     bool adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 

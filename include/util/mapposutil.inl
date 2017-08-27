@@ -1,12 +1,12 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 void NodeToXY(void* node, unsigned& x, unsigned& y)
 {
     int index {};
-    index = static_cast<int>(reinterpret_cast<std::intptr_t>(node));
-    auto xy = IndexToXY(static_cast<unsigned>(index));
+    index = toint(reinterpret_cast<std::intptr_t>(node));
+    auto xy = IndexToXY(tounsigned(index));
 
     x = xy.first;
     y = xy.second;

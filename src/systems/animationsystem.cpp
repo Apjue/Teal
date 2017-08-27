@@ -32,7 +32,7 @@ void AnimationSystem::OnUpdate(float elapsed)
         bool  moving = e->GetComponent<PositionComponent>().moving;
         auto  dir = e->GetComponent<OrientationComponent>().dir;
         
-        int const intDir = static_cast<int>(dir);
+        int const intDir = toint(dir);
 
         unsigned const startX = intDir * anim.size.x; // Get the x and the y
         unsigned const startY = anim.frame * anim.size.y;

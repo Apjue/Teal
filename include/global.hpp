@@ -83,6 +83,7 @@ extern Orientation DirToOrient(DirectionFlags d);
 extern DirectionFlags OrientToDir(Orientation o);
 
 inline DiffTile OrientToDiff(Orientation o, bool even);
+inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
 
 ///
 /// \fn isDiagonal

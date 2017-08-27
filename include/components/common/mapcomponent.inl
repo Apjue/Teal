@@ -32,6 +32,7 @@ void MapInstance::setMap(MapDataRef newMap)
 inline void MapInstance::setFightMode(bool f)
 {
     m_fightMode = f;
+    update();
 }
 
 inline bool MapInstance::getFightMode() const

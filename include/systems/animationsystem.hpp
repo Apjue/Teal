@@ -10,6 +10,7 @@
 #include <NDK/System.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
 #include "components/common/animationcomponent.hpp"
+#include "util/util.hpp"
 
 ///
 /// \class AnimationSystem

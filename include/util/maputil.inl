@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -55,8 +55,8 @@ std::pair<int, int> stringToMapXY(const Nz::String& str)
     result[0].ToInteger(&lx);
     result[1].ToInteger(&ly);
 
-    int x = lltoi(ly);
-    int y = lltoi(ly);
+    int x = toint(ly);
+    int y = toint(ly);
 
     return std::make_pair(x, y);
 }

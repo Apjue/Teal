@@ -227,7 +227,7 @@ void Game::loadTilesetCore()
             lua.Pop();
         }
 
-        Def::TilesetSize = static_cast<float>(tileNumber) * 64.f;
+        Def::TilesetSize = tofloat(tileNumber) * 64.f;
     }
 
     {
@@ -255,7 +255,7 @@ void Game::loadTilesetCore()
             lua.Pop();
         }
 
-        Def::FightTilesetSize = static_cast<float>(tileNumber) * 64.f;
+        Def::FightTilesetSize = tofloat(tileNumber) * 64.f;
     }
 }
 
@@ -294,7 +294,7 @@ void Game::loadCharacters()
         lua.PushInteger(1);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.x isn't a number !");
 
-        int sizex = static_cast<int>(lua.CheckInteger(-1));
+        int sizex = toint(lua.CheckInteger(-1));
         TealException(sizex > 0, "Invalid size.x");
         lua.Pop();
 
@@ -302,11 +302,11 @@ void Game::loadCharacters()
         lua.PushInteger(2);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.y isn't a number !");
 
-        int sizey = static_cast<int>(lua.CheckInteger(-1));
+        int sizey = toint(lua.CheckInteger(-1));
         TealException(sizey > 0, "Invalid size.y");
         lua.Pop();
 
-        Nz::Vector2ui size = { static_cast<unsigned>(sizex), static_cast<unsigned>(sizey) };
+        Nz::Vector2ui size = { tounsigned(sizex), tounsigned(sizey) };
         lua.Pop();
 
 
@@ -315,14 +315,14 @@ void Game::loadCharacters()
         lua.PushInteger(1);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.x isn't a number !");
 
-        float defgfxposx = static_cast<float>(lua.CheckInteger(-1));
+        float defgfxposx = tofloat(lua.CheckInteger(-1));
         lua.Pop();
 
 
         lua.PushInteger(2);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.y isn't a number !");
 
-        float defgfxposy = static_cast<float>(lua.CheckInteger(-1));
+        float defgfxposy = tofloat(lua.CheckInteger(-1));
         lua.Pop();
 
         Nz::Vector2f defgfxpos = { defgfxposx, defgfxposy };
@@ -334,7 +334,7 @@ void Game::loadCharacters()
         lua.PushInteger(1);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.deflgcpos.x isn't a number !");
 
-        int deflgcposx = static_cast<int>(lua.CheckInteger(-1));
+        int deflgcposx = toint(lua.CheckInteger(-1));
         TealException(deflgcposx > 0, "Invalid deflgcpos.y");
         lua.Pop();
 
@@ -342,11 +342,11 @@ void Game::loadCharacters()
         lua.PushInteger(2);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.deflgcpos.y isn't a number !");
 
-        int deflgcposy = static_cast<int>(lua.CheckInteger(-1));
+        int deflgcposy = toint(lua.CheckInteger(-1));
         TealException(deflgcposy > 0, "Invalid deflgcpos.y");
         lua.Pop();
 
-        Nz::Vector2ui deflgcpos = { static_cast<unsigned>(deflgcposx), static_cast<unsigned>(deflgcposy) };
+        Nz::Vector2ui deflgcpos = { tounsigned(deflgcposx), tounsigned(deflgcposy) };
         lua.Pop();
 
 
@@ -355,14 +355,14 @@ void Game::loadCharacters()
         lua.PushInteger(1);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.mappos.x isn't a number !");
 
-        int mapposx = static_cast<int>(lua.CheckInteger(-1));
+        int mapposx = toint(lua.CheckInteger(-1));
         lua.Pop();
 
 
         lua.PushInteger(2);
         TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.mappos.y isn't a number !");
 
-        int mapposy = static_cast<int>(lua.CheckInteger(-1));
+        int mapposy = toint(lua.CheckInteger(-1));
         lua.Pop();
 
         Nz::Vector2i mappos = { mapposx, mapposy };
@@ -383,7 +383,7 @@ void Game::loadCharacters()
 
                 if (lua.GetTable() == Nz::LuaType_Number)
                 {
-                    float movInterval = static_cast<float>(lua.CheckNumber(-1));
+                    float movInterval = tofloat(lua.CheckNumber(-1));
                     TealException(movInterval > 0.f, "Invalid move interval");
 
                     random.movInterval = movInterval;
@@ -393,7 +393,7 @@ void Game::loadCharacters()
 
                     if (lua.GetTable() == Nz::LuaType_Number)
                     {
-                        int nbTiles = static_cast<int>(lua.CheckNumber(-1));
+                        int nbTiles = toint(lua.CheckNumber(-1));
                         TealException(nbTiles > 0, "Invalid tiles number");
 
                         random.nbTiles = nbTiles;
@@ -430,7 +430,7 @@ void Game::loadCharacters()
                     lua.PushInteger(2);
                     lua.GetTable();
 
-                    int modifier = static_cast<int>(lua.CheckInteger(-1));
+                    int modifier = toint(lua.CheckInteger(-1));
                     lua.Pop();
 
                     attack[stringToElement(element)] = modifier;
@@ -468,7 +468,7 @@ void Game::loadCharacters()
                     lua.PushInteger(2);
                     lua.GetTable();
 
-                    int modifier = static_cast<int>(lua.CheckInteger(-1));
+                    int modifier = toint(lua.CheckInteger(-1));
                     lua.Pop();
 
                     res[stringToElement(element)] = modifier;
@@ -896,7 +896,7 @@ void Game::initEventHandler()
 void Game::addWidgets()
 {
     TealAssert(m_canvas, "Canvas null");
-    m_canvas->SetPosition(static_cast<float>(Def::ButtonsMarginX), static_cast<float>(Def::MapSizeY + Def::ButtonsMarginY));
+    m_canvas->SetPosition(tofloat(Def::ButtonsMarginX), tofloat(Def::MapSizeY + Def::ButtonsMarginY));
 
     auto& eventHandler = m_window.GetEventHandler();
 
@@ -930,7 +930,7 @@ void Game::addPauseMenu()
 
     spriteBG->GetMaterial()->Configure("Translucent2D");
     spriteBG->SetColor(colorBG);
-    spriteBG->SetSize(static_cast<float>(Def::WindowSizeX), static_cast<float>(Def::WindowSizeY));
+    spriteBG->SetSize(tofloat(Def::WindowSizeX), tofloat(Def::WindowSizeY));
 
     gfxBG.Attach(spriteBG, Def::PauseMenuBackgroundLayer);
 

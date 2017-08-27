@@ -75,8 +75,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 
     Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
-    int losangeX { utoi(rectX) };
-    int losangeY { utoi(rectY) };
+    int losangeX { toint(rectX) };
+    int losangeY { toint(rectY) };
 
     bool even = isLineEven(rectY);
     Orientation o = Orientation::Down;
@@ -112,8 +112,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     losangeX = (losangeX < 0) ? 0 : losangeX;
     losangeY = (losangeY < 0) ? 0 : losangeY;
 
-    unsigned fLosangeX { static_cast<unsigned>(losangeX) };
-    unsigned fLosangeY { static_cast<unsigned>(losangeY) };
+    unsigned fLosangeX { tounsigned(losangeX) };
+    unsigned fLosangeY { tounsigned(losangeY) };
 
     // If tile is out the map:
     fLosangeX = (fLosangeX > Def::ArrayMapX) ? Def::ArrayMapX : fLosangeX;
@@ -150,8 +150,8 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
         gInXY.y *= pos.advancement * Def::MaxGYPosInTile;
     }
 
-    float const finalX = static_cast<float>(gX) + static_cast<float>(gInXY.x) + defPos.x; // We will move using this
-    float const finalY = static_cast<float>(gY) + static_cast<float>(gInXY.y) + defPos.y; // (so it's graphics pos)
+    float const finalX = tofloat(gX) + tofloat(gInXY.x) + defPos.x; // We will move using this
+    float const finalY = tofloat(gY) + tofloat(gInXY.y) + defPos.y; // (so it's graphics pos)
 
     if (finalX != gfxpos.GetPosition().x || // if the entity is already at that position
         finalY != gfxpos.GetPosition().y) // no need to move it

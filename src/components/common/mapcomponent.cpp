@@ -5,6 +5,8 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <Nazara/Math/Vector2.hpp>
+#include "global.hpp"
+#include "def/uidef.hpp"
 #include "def/layerdef.hpp"
 #include "util/assert.hpp"
 #include "util/util.hpp"
@@ -14,6 +16,9 @@
 MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
     : m_entity(e), m_tilesetCore(tcore), m_fightTilesetCore(ftcore)
 {
+    NazaraAssert(m_entity->GetWorld(), "World is null");
+    m_world = m_entity->GetWorld()->CreateHandle();
+
     m_tileset = Nz::Material::New("Translucent2D");
 
     m_tileset->EnableFaceCulling(true);
@@ -29,8 +34,9 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
     m_fightTileset->EnableFaceCulling(true);
     m_fightTileset->SetFaceFilling(Nz::FaceFilling_Fill);
 
-    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { static_cast<float>(Def::TileSizeX), static_cast<float>(Def::TileSizeY) });
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { tofloat(Def::TileSizeX), tofloat(Def::TileSizeY) });
     m_tilemap->EnableIsometricMode(true);
+
     auto fightMatSampler = m_fightTileset->GetDiffuseSampler();
     fightMatSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
     m_fightTileset->SetDiffuseSampler(fightMatSampler);
@@ -44,6 +50,43 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
     graphicsComponent.Attach(m_tilemap, Def::MapLayer);
+
+
+    m_borderEntity = m_world->CreateEntity();
+
+    auto& borderNode = m_borderEntity->AddComponent<Ndk::NodeComponent>();
+    borderNode.SetParent(m_entity);
+    borderNode.Move(-tofloat(Def::TileSizeX / 2), -tofloat(Def::TileSizeY / 2));
+
+    auto& borderGfx = m_borderEntity->AddComponent<Ndk::GraphicsComponent>();
+
+    for (unsigned i {}; i < m_leftBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_leftBorder[i];
+        sprite = Nz::Sprite::New();
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, tofloat(i * 32), 0.f }), Def::MapLayer);
+    }
+
+    for (unsigned i {}; i < m_rightBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_rightBorder[i];
+        sprite = Nz::Sprite::New();
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(Def::MapSizeX), tofloat(i * 32), 0.f }), Def::MapLayer);
+    }
+
+    for (unsigned i {}; i < m_upBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_upBorder[i];
+        sprite = Nz::Sprite::New();
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * 32), 0.f, 0.f }), Def::MapLayer);
+    }
+
+    for (unsigned i {}; i < m_downBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_downBorder[i];
+        sprite = Nz::Sprite::New();
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * 32), tofloat(Def::MapSizeY), 0.f }), Def::MapLayer);
+    }
 }
 
 void MapInstance::update()
@@ -128,7 +171,7 @@ float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
              rY { distance(sY, eY) };
 
     unsigned const estimated { rX + rY };
-    return static_cast<float>(estimated);
+    return tofloat(estimated);
 }
 
 void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)

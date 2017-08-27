@@ -12,6 +12,7 @@
 #ifdef TEAL_RANDOM_DEVICE_BROKEN
 
 #include <ctime>
+#include "util/util.hpp"
 
 #endif
 
@@ -43,7 +44,7 @@ template<class Generator>
 Generator RandomNumber<Generator>::generator
 (
     #ifdef TEAL_RANDOM_DEVICE_BROKEN
-        static_cast<unsigned>(std::time(nullptr))
+        tounsigned(std::time(nullptr))
     #else
         std::random_device {}()
     #endif

@@ -8,25 +8,26 @@ T distance(const T& x, const T& y)
     return (x > y) ? x - y : y - x;
 }
 
-DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
+template<class T>
+float tofloat(T x)
 {
-    int diffX { static_cast<int>(to.x) - static_cast<int>(from.x) },
-        diffY { static_cast<int>(to.y) - static_cast<int>(from.y) };
-
-    return { diffX, diffY };
+    return static_cast<float>(x);
 }
 
-int utoi(unsigned u)
+template<class T>
+int toint(T x)
 {
-    return static_cast<int>(u);
+    return static_cast<int>(x);
 }
 
-int lltoi(long long ll)
+template<class T>
+unsigned tounsigned(T x)
 {
-    return static_cast<int>(ll);
+    return static_cast<unsigned>(x);
 }
 
-unsigned itou(int i)
+template<class T>
+long long tolonglong(T x)
 {
-    return static_cast<unsigned>(i);
+    return static_cast<long long>(x);
 }

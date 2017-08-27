@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -7,17 +7,21 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-#include "global.hpp"
-
 template<class T>
 inline T distance(const T& x, const T& y);
 
-inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
 
-inline int utoi(unsigned u);
-inline int lltoi(long long ll);
+template<class T>
+float tofloat(T x);
 
-inline unsigned itou(int i);
+template<class T>
+int toint(T x);
+
+template<class T>
+unsigned tounsigned(T x);
+
+template<class T>
+long long tolonglong(T x);
 
 #include "util.inl"
 

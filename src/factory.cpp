@@ -6,13 +6,14 @@
 #include "components.hpp"
 #include "def/layerdef.hpp"
 #include "util/gfxutil.hpp"
+#include "util/util.hpp"
 #include "factory.hpp"
 
 Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
-    infos.sprite->SetSize(static_cast<float>(infos.imgsize.x), static_cast<float>(infos.imgsize.y));
+    infos.sprite->SetSize(tofloat(infos.imgsize.x), tofloat(infos.imgsize.y));
     infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Bug fix until new version
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();

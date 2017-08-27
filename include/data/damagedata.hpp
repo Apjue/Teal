@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -11,6 +11,7 @@
 #include "elementdata.hpp"
 #include "attack.hpp"
 #include "def/typedef.hpp"
+#include "util/util.hpp"
 
 struct DamageData : public Attack
 {
@@ -23,7 +24,7 @@ struct DamageData : public Attack
         TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
 
         damage.first = stringToElement(args.vars[2].get<Nz::String>());
-        damage.second = static_cast<int>(args.vars[3].get<double>());
+        damage.second = toint(args.vars[3].get<double>());
     }
 
 
