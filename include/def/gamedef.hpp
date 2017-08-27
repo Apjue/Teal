@@ -34,7 +34,7 @@ constexpr unsigned MaxGXPosInTile { (TileSizeX / 2) / MaxPosInTile };
 constexpr unsigned MaxGYPosInTile { (TileSizeY / 2) / MaxPosInTile };
 
 constexpr  float   MaxSystemUPS   { 10 }; // Updates per second
-constexpr   int    MaxDirs         { 4  }; // Max directions: Up, down, left, right
+constexpr   int    MaxDirs        { 4  }; // Max directions: Up, down, left, right
 constexpr std::pair<unsigned, unsigned> StandStillPos { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 
