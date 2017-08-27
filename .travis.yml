@@ -50,6 +50,10 @@ before_install:
   - sudo apt-get install libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev
 
 install:
+  - cd ${TRAVIS_BUILD_DIR}/build
+#  - sudo chmod +x premake5-linux32
+  - sudo chmod +x premake5-linux64
+  - sudo chmod +x premake5-osx64
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && mkdir micropather
   - cd nazara
