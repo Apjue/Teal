@@ -14,7 +14,7 @@
 AnimationSystem::AnimationSystem()
 {
     Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent, RenderablesStorageComponent>();
-    SetUpdateRate(Def::MAXSYSTEMUPS);
+    SetUpdateRate(Def::MaxSystemUPS);
     SetUpdateOrder(Def::AnimationSystemUpdateOrder);
 }
 

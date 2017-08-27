@@ -11,8 +11,8 @@ int main()
     Nz::Initializer<Ndk::Sdk> sdk;
     Ndk::Application app;
 
-    Game game { app, { Def::WINXSIZE, Def::WINYSIZE },
-                     { Def::MAPXSIZE, Def::MAPYSIZE }, "TealDemo - Prototype" };
+    Game game { app, { Def::WindowSizeX, Def::WindowSizeY },
+                     { Def::MapSizeX, Def::MapSizeY }, "TealDemo - Prototype" };
 
     // app.EnableFPSCounter(true);
     

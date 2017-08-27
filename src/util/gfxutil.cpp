@@ -67,11 +67,11 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 
     unsigned const x { coords.x }, y { coords.y };
 
-    unsigned const rectX { (x / Def::TILEXSIZE)      }; // Rectangle where we clicked
-    unsigned const rectY { (y / Def::TILEYSIZE) * 2u }; // We need losange
+    unsigned const rectX { (x / Def::TileSizeX)      }; // Rectangle where we clicked
+    unsigned const rectY { (y / Def::TileSizeY) * 2u }; // We need losange
 
-    unsigned const rectClickX { x % Def::TILEXSIZE }; // We need the click to see
-    unsigned const rectClickY { y % Def::TILEYSIZE }; // where in the rectangle we clicked
+    unsigned const rectClickX { x % Def::TileSizeX }; // We need the click to see
+    unsigned const rectClickY { y % Def::TileSizeY }; // where in the rectangle we clicked
 
     Nz::Color color = m_scheme->GetPixelColor(rectClickX, rectClickY);
 
@@ -103,8 +103,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 
     if (o != Orientation::Up)
     {
-        losangeX += even ? Def::MAP_DISTANCE_EVEN_X[toUnderlyingType(o)] : Def::MAP_DISTANCE_EVEN_X[toUnderlyingType(o)];
-        losangeY += even ? Def::MAP_DISTANCE_EVEN_Y[toUnderlyingType(o)] : Def::MAP_DISTANCE_EVEN_Y[toUnderlyingType(o)];
+        losangeX += even ? Def::MapDistanceEvenX[toUnderlyingType(o)] : Def::MapDistanceEvenX[toUnderlyingType(o)];
+        losangeY += even ? Def::MapDistanceEvenY[toUnderlyingType(o)] : Def::MapDistanceEvenY[toUnderlyingType(o)];
     }
 
 
@@ -116,8 +116,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     unsigned fLosangeY { static_cast<unsigned>(losangeY) };
 
     // If tile is out the map:
-    fLosangeX = (fLosangeX > Def::ARRAYMAPX) ? Def::ARRAYMAPX : fLosangeX;
-    fLosangeY = (fLosangeY > Def::ARRAYMAPY) ? Def::ARRAYMAPY : fLosangeY;
+    fLosangeX = (fLosangeX > Def::ArrayMapX) ? Def::ArrayMapX : fLosangeX;
+    fLosangeY = (fLosangeY > Def::ArrayMapY) ? Def::ArrayMapY : fLosangeY;
 
     return { fLosangeX, fLosangeY };
 }
@@ -138,16 +138,16 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     Nz::Vector2f defPos { dpos.xy };
 
-    unsigned const gX = pos.xy.x * Def::TILEXSIZE + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos
-    unsigned const gY = pos.xy.y * Def::TILEYSIZE / 2;
+    unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos
+    unsigned const gY = pos.xy.y * Def::TileSizeY / 2;
 
     DiffTile gInXY {};
 
     if (pos.direction)
     {
         gInXY = DirToGXY(pos.direction);
-        gInXY.x *= pos.advancement * Def::MAXGXPOSINTILE;
-        gInXY.y *= pos.advancement * Def::MAXGYPOSINTILE;
+        gInXY.x *= pos.advancement * Def::MaxGXPosInTile;
+        gInXY.y *= pos.advancement * Def::MaxGYPosInTile;
     }
 
     float const finalX = static_cast<float>(gX) + static_cast<float>(gInXY.x) + defPos.x; // We will move using this

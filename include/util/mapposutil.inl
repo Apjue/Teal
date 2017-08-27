@@ -11,14 +11,14 @@ void NodeToXY(void* node, unsigned& x, unsigned& y)
     x = xy.first;
     y = xy.second;
 
-    TealAssert(x <  Def::ARRAYMAPX, "Invalid x !");
-    TealAssert(y <= Def::ARRAYMAPY, "Invalid y !");
+    TealAssert(x <  Def::ArrayMapX, "Invalid x !");
+    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
 }
 
 void* XYToNode(unsigned x, unsigned y)
 {
-    TealAssert(x < Def::ARRAYMAPX, "Invalid x !");
-    TealAssert(y <= Def::ARRAYMAPY, "Invalid y !");
+    TealAssert(x < Def::ArrayMapX, "Invalid x !");
+    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
 
     std::size_t result = static_cast<std::size_t>(XYToIndex(x, y));
     return reinterpret_cast<void*>(result);
@@ -26,30 +26,30 @@ void* XYToNode(unsigned x, unsigned y)
 
 std::pair<unsigned, unsigned> IndexToXY(unsigned index)
 {
-    TealAssert(index < Def::TILEARRAYSIZE, "Invalid index !");
+    TealAssert(index < Def::TileArraySize, "Invalid index !");
 
     unsigned evenLines {};
     unsigned unevenLines {};
 
     for (unsigned i {}; i <= index; ++i)
     {
-        unsigned num = evenLines * Def::MAPX + unevenLines * (Def::MAPX - 1u);
+        unsigned num = evenLines * Def::MapX + unevenLines * (Def::MapX - 1u);
         
-        if (evenLines == unevenLines && (i - num) > Def::MAPX)
+        if (evenLines == unevenLines && (i - num) > Def::MapX)
         {
             ++evenLines;
             --index;
         }
 
-        else if (evenLines > unevenLines && (i - num) > (Def::MAPX - 1u))
+        else if (evenLines > unevenLines && (i - num) > (Def::MapX - 1u))
         {
             ++unevenLines;
             --index;
         }
     }
 
-    index -= evenLines * Def::MAPX;
-    index -= unevenLines * (Def::MAPX - 1u);
+    index -= evenLines * Def::MapX;
+    index -= unevenLines * (Def::MapX - 1u);
     
     unsigned x { index };
     unsigned y { unevenLines + evenLines };
@@ -59,8 +59,8 @@ std::pair<unsigned, unsigned> IndexToXY(unsigned index)
 
 unsigned XYToIndex(unsigned x, unsigned y)
 {
-    TealAssert(x < Def::ARRAYMAPX, "Invalid x !");
-    TealAssert(y <= Def::ARRAYMAPY, "Invalid y !");
+    TealAssert(x < Def::ArrayMapX, "Invalid x !");
+    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
 
     unsigned result { x };
     bool even { true };
@@ -69,13 +69,13 @@ unsigned XYToIndex(unsigned x, unsigned y)
     {
         if (even)
         {
-            result += Def::ARRAYMAPX;
+            result += Def::ArrayMapX;
             even = false;
         }
 
         else
         {
-            result += Def::MAPX;
+            result += Def::MapX;
             even = true;
         }
     }
@@ -85,13 +85,13 @@ unsigned XYToIndex(unsigned x, unsigned y)
 
 bool isLineEven(unsigned y)
 {
-    TealAssert(y <= (Def::ARRAYMAPY + 1u), "Invalid y !");
+    TealAssert(y <= (Def::ArrayMapY + 1u), "Invalid y !");
     return y % 2 == 0;
 }
 
 std::pair<unsigned, unsigned> countLines(unsigned y)
 {
-    TealAssert(y <= Def::ARRAYMAPY, "Invalid y !");
+    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
 
     unsigned evenLines {};
     unsigned unevenLines {};
@@ -99,15 +99,15 @@ std::pair<unsigned, unsigned> countLines(unsigned y)
 
     for (unsigned i {}; i < index; ++i)
     {
-        unsigned num = evenLines * Def::MAPX + unevenLines * (Def::MAPX - 1u);
+        unsigned num = evenLines * Def::MapX + unevenLines * (Def::MapX - 1u);
 
-        if (evenLines == unevenLines && (i - num) > Def::MAPX)
+        if (evenLines == unevenLines && (i - num) > Def::MapX)
         {
             ++evenLines;
             --index;
         }
 
-        else if (evenLines > unevenLines && (i - num) > (Def::MAPX - 1u))
+        else if (evenLines > unevenLines && (i - num) > (Def::MapX - 1u))
         {
             ++unevenLines;
             --index;

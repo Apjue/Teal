@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -41,8 +41,8 @@ DiffTile OrientToDiff(Orientation o, bool even)
 
 bool isPositionValid(AbsTile pos)
 {
-    if (pos.x > Def::ARRAYMAPX || pos.y > Def::ARRAYMAPY)
+    if (pos.x > Def::ArrayMapX || pos.y > Def::ArrayMapY)
         return false;
 
-    return (isLineEven(pos.y) ? pos.x <= Def::MAPX : pos.x < Def::MAPX) && pos.y <= Def::ARRAYMAPY;
+    return (isLineEven(pos.y) ? pos.x <= Def::MapX : pos.x < Def::MapX) && pos.y <= Def::ArrayMapY;
 }

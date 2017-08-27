@@ -45,7 +45,7 @@ void AISystem::OnUpdate(float elapsed)
     {
         auto& move = e->GetComponent<MoveComponent>();
 
-        if (move.tile != toVector(Def::NOMOVEPOS)) // This entity wants to move
+        if (move.tile != toVector(Def::StandStillPos)) // This entity wants to move
         {
             auto& pos = e->GetComponent<PositionComponent>();
             auto& pathComp = e->GetComponent<PathComponent>();
@@ -55,7 +55,7 @@ void AISystem::OnUpdate(float elapsed)
 
             if (move.tile == startPos)
             {
-                move.tile = toVector(Def::NOMOVEPOS);
+                move.tile = toVector(Def::StandStillPos);
                 continue;
             }
 
@@ -65,7 +65,7 @@ void AISystem::OnUpdate(float elapsed)
 
             if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
             {                                                                                  // Else, recompute path in case an object moved and blocks the path
-                move.tile = toVector(Def::NOMOVEPOS);                                          // (See MovementSystem)
+                move.tile = toVector(Def::StandStillPos);                                          // (See MovementSystem)
                 continue;
             }
 
@@ -86,7 +86,7 @@ void AISystem::OnUpdate(float elapsed)
             ///       - stand still if valid pos
             ///       - or use a function to go to nearest valid tile
 
-            move.tile = toVector(Def::NOMOVEPOS);
+            move.tile = toVector(Def::StandStillPos);
         }
 
         /*

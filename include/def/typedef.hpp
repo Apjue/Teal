@@ -15,7 +15,7 @@
 #include "gamedef.hpp"
 
 struct TileData;
-using TileArray = std::array<TileData, Def::TILEARRAYSIZE>;
+using TileArray = std::array<TileData, Def::TileArraySize>;
 
 using LuaBasicArgument = Variant<Nz::String, double, bool>;
 

@@ -12,8 +12,8 @@
 DiffTile DirToXY(DirectionFlags d, bool even)
 {
     auto pos = toUnderlyingType(DirToOrient(d));
-    int x = even ? Def::MAP_DISTANCE_EVEN_X[pos] : Def::MAP_DISTANCE_UNEVEN_X[pos];
-    int y = even ? Def::MAP_DISTANCE_EVEN_Y[pos] : Def::MAP_DISTANCE_UNEVEN_Y[pos];
+    int x = even ? Def::MapDistanceEvenX[pos] : Def::MapDistanceUnevenX[pos];
+    int y = even ? Def::MapDistanceEvenY[pos] : Def::MapDistanceUnevenY[pos];
 
     return { x, y };
 }
@@ -50,10 +50,10 @@ DirectionFlags XYToDir(DiffTile d, bool even)
 
     auto dir = Dir::Up; // Must put a default value
 
-    for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+    for (unsigned i {}; i < Def::MapDistanceCost.size(); ++i)
     {
-        if (x == (even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i])
-         && y == (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]))
+        if (x == (even ? Def::MapDistanceEvenX[i] : Def::MapDistanceUnevenX[i])
+         && y == (even ? Def::MapDistanceEvenY[i] : Def::MapDistanceUnevenY[i]))
             return OrientToDir(static_cast<Orientation>(i));
     }
 

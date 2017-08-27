@@ -16,7 +16,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Bug fix until new version
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
-    gfx.Attach(infos.sprite, Def::CHARACTERS_LAYER);
+    gfx.Attach(infos.sprite, Def::CharactersLayer);
 
     e->AddComponent<Ndk::NodeComponent>().SetPosition(infos.defG.x, infos.defG.y);
     e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);

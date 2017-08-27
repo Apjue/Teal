@@ -21,7 +21,7 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
 
     TealAssert(pather, "Pather is null, cannot compute path !");
 
-    if (move.tile == toVector(Def::NOMOVEPOS))
+    if (move.tile == toVector(Def::StandStillPos))
         return PathComponent::PathPool {}; // This entity doesn't want to move.
 
     if (pos.moving && !isPositionValid(pos.xy))

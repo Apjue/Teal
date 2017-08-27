@@ -60,7 +60,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
             for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
             { /// \todo Redo this. Does not work as intended
-                AbsTile wantedPos = (mov.tile == toVector(Def::NOMOVEPOS) ? pos.xy : mov.tile);
+                AbsTile wantedPos = (mov.tile == toVector(Def::StandStillPos) ? pos.xy : mov.tile);
 
                 x = wantedPos.x;
                 y = wantedPos.y;

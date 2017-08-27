@@ -45,13 +45,13 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
     pos.direction = dir;
     ++pos.advancement;
     
-    if (pos.advancement >= Def::MAXPOSINTILE)
+    if (pos.advancement >= Def::MaxPosInTile)
         pos.advancement = 0;
 
     if (pos.advancement == 0) // Next tile reached
     {
-        const std::array<int, 8u>* mapDistanceX = (even ? &Def::MAP_DISTANCE_EVEN_X : &Def::MAP_DISTANCE_UNEVEN_X);
-        const std::array<int, 8u>* mapDistanceY = (even ? &Def::MAP_DISTANCE_EVEN_Y : &Def::MAP_DISTANCE_UNEVEN_Y);
+        const std::array<int, 8u>* mapDistanceX = (even ? &Def::MapDistanceEvenX : &Def::MapDistanceUnevenX);
+        const std::array<int, 8u>* mapDistanceY = (even ? &Def::MapDistanceEvenY : &Def::MapDistanceUnevenY);
 
         pos.xy.x += (*mapDistanceX)[toUnderlyingType(DirToOrient(dir))];
         pos.xy.y += (*mapDistanceY)[toUnderlyingType(DirToOrient(dir))];

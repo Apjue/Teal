@@ -227,7 +227,7 @@ void Game::loadTilesetCore()
             lua.Pop();
         }
 
-        Def::TILESETSIZE = static_cast<float>(tileNumber) * 64.f;
+        Def::TilesetSize = static_cast<float>(tileNumber) * 64.f;
     }
 
     {
@@ -255,7 +255,7 @@ void Game::loadTilesetCore()
             lua.Pop();
         }
 
-        Def::FIGHTTILESETSIZE = static_cast<float>(tileNumber) * 64.f;
+        Def::FightTilesetSize = static_cast<float>(tileNumber) * 64.f;
     }
 }
 
@@ -543,7 +543,7 @@ void Game::loadMaps()
         MapDataRef map = MapData::New();
         TileArray tiles;
 
-        for (int i { 1 }; i <= Def::TILEARRAYSIZE; ++i)
+        for (int i { 1 }; i <= Def::TileArraySize; ++i)
         {
             lua.PushInteger(i);
             lua.GetTable();
@@ -816,12 +816,12 @@ void Game::addEntities()
         auto logicEntity = (*swordIt)->Clone();
         logicEntity->AddComponent<PositionComponent>().xy = { 1, 2 };
 
-        auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MAP_ITEMS_LAYER);
+        auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MapItemsLayer);
         MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
     }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
-    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ARRAYMAPX * Def::ARRAYMAPY, 8);
+    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
 
     m_charac = cloneCharacter("villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
@@ -896,7 +896,7 @@ void Game::initEventHandler()
 void Game::addWidgets()
 {
     TealAssert(m_canvas, "Canvas null");
-    m_canvas->SetPosition(static_cast<float>(Def::BUTTONSMARGINX), static_cast<float>(Def::MAPYSIZE + Def::BUTTONSMARGINY));
+    m_canvas->SetPosition(static_cast<float>(Def::ButtonsMarginX), static_cast<float>(Def::MapSizeY + Def::ButtonsMarginY));
 
     auto& eventHandler = m_window.GetEventHandler();
 
@@ -930,9 +930,9 @@ void Game::addPauseMenu()
 
     spriteBG->GetMaterial()->Configure("Translucent2D");
     spriteBG->SetColor(colorBG);
-    spriteBG->SetSize(static_cast<float>(Def::WINXSIZE), static_cast<float>(Def::WINYSIZE));
+    spriteBG->SetSize(static_cast<float>(Def::WindowSizeX), static_cast<float>(Def::WindowSizeY));
 
-    gfxBG.Attach(spriteBG, Def::PAUSE_MENU_BACKGROUND_LAYER);
+    gfxBG.Attach(spriteBG, Def::PauseMenuBackgroundLayer);
 
     // Pause Text
     m_pauseText = m_world->CreateEntity();
@@ -946,12 +946,12 @@ void Game::addPauseMenu()
                                                  "(Shift) I = Inventory\n"
                                                  "C = Caracteristics", 20));
 
-    gfxPause.Attach(textPause, Def::PAUSE_MENU_BUTTONS_LAYER);
+    gfxPause.Attach(textPause, Def::PauseMenuButtonsLayer);
 
     auto& nodePause = m_pauseText->GetComponent<Ndk::NodeComponent>();
     Nz::Boxf textBox = gfxPause.GetBoundingVolume().aabb;
 
-    nodePause.SetPosition(Def::WINXSIZE / 2 - textBox.width / 2, 20);
+    nodePause.SetPosition(Def::WindowSizeX / 2 - textBox.width / 2, 20);
 
     enablePauseMenu(false);
 }

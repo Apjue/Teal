@@ -19,21 +19,21 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
     std::unordered_map<Nz::Vector2ui, TileData> data;
     bool even = isLineEven(y);
 
-    for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+    for (std::size_t i {}; i < Def::MapDistanceCost.size(); ++i)
     {
-        unsigned newX = x + even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i];
-        unsigned newY = y + even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i];
+        unsigned newX = x + even ? Def::MapDistanceEvenX[i] : Def::MapDistanceUnevenX[i];
+        unsigned newY = y + even ? Def::MapDistanceEvenY[i] : Def::MapDistanceUnevenY[i];
 
         if (!isPositionValid({ newX, newY }))
             continue;
 
         if (IndexToXY(XYToIndex(newX, newY)).second != y
-            && (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]) == 0)
+            && (even ? Def::MapDistanceEvenY[i] : Def::MapDistanceUnevenY[i]) == 0)
             continue;
 
         unsigned index = XYToIndex(newX, newY);
 
-        if (index > Def::TILEARRAYSIZE)
+        if (index > Def::TileArraySize)
             continue;
 
         data[{ newX, newY }] = m_tiles[index];

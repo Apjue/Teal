@@ -29,7 +29,7 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
     m_fightTileset->EnableFaceCulling(true);
     m_fightTileset->SetFaceFilling(Nz::FaceFilling_Fill);
 
-    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MAPX + 1, Def::MAPY + 2 }, Nz::Vector2f { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) });
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { static_cast<float>(Def::TileSizeX), static_cast<float>(Def::TileSizeY) });
     m_tilemap->EnableIsometricMode(true);
     auto fightMatSampler = m_fightTileset->GetDiffuseSampler();
     fightMatSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
@@ -43,7 +43,7 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         m_entity->AddComponent<Ndk::GraphicsComponent>();
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
-    graphicsComponent.Attach(m_tilemap, Def::MAP_LAYER);
+    graphicsComponent.Attach(m_tilemap, Def::MapLayer);
 }
 
 void MapInstance::update()
@@ -57,7 +57,7 @@ void MapInstance::update()
     Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
     m_tilemap->SetMaterial(0, material);
 
-    for (unsigned i {}; i < Def::TILEARRAYSIZE; ++i)
+    for (unsigned i {}; i < Def::TileArraySize; ++i)
     {
         auto& tile = m_map->tile(i);
         auto  pos = IndexToXY(i);
@@ -65,7 +65,7 @@ void MapInstance::update()
 
         if (tile.isVisible())
         {
-            Nz::Rectui tileRect { tcore->get(m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TILEXSIZE, 0u, Def::TILEXSIZE, Def::TILEYSIZE };
+            Nz::Rectui tileRect { tcore->get(m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
             m_tilemap->EnableTile(tilePos, tileRect);
         }
 
@@ -83,11 +83,11 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
 
     // Step 1.
     {
-        const std::array<int, 8u>* mapDistanceX = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_X : &Def::MAP_DISTANCE_UNEVEN_X;
-        const std::array<int, 8u>* mapDistanceY = isLineEven(sY) ? &Def::MAP_DISTANCE_EVEN_Y : &Def::MAP_DISTANCE_UNEVEN_Y;
+        const std::array<int, 8u>* mapDistanceX = isLineEven(sY) ? &Def::MapDistanceEvenX : &Def::MapDistanceUnevenX;
+        const std::array<int, 8u>* mapDistanceY = isLineEven(sY) ? &Def::MapDistanceEvenY : &Def::MapDistanceUnevenY;
         bool found { false };
 
-        for (unsigned i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+        for (unsigned i {}; i < Def::MapDistanceCost.size(); ++i)
         {
             if (sX + (*mapDistanceX)[i] == eX && sY + (*mapDistanceY)[i] == eY)
             {
@@ -140,14 +140,14 @@ void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* 
 
     bool even = isLineEven(y);
 
-    for (std::size_t i {}; i < Def::MAP_DISTANCE_COST.size(); ++i)
+    for (std::size_t i {}; i < Def::MapDistanceCost.size(); ++i)
     {
-        int newX = x + (even ? Def::MAP_DISTANCE_EVEN_X[i] : Def::MAP_DISTANCE_UNEVEN_X[i]);
-        int newY = y + (even ? Def::MAP_DISTANCE_EVEN_Y[i] : Def::MAP_DISTANCE_UNEVEN_Y[i]);
+        int newX = x + (even ? Def::MapDistanceEvenX[i] : Def::MapDistanceUnevenX[i]);
+        int newY = y + (even ? Def::MapDistanceEvenY[i] : Def::MapDistanceUnevenY[i]);
 
         if (adjacentPassable(x, y, newX, newY))
         {
-            micropather::StateCost nodeCost = { XYToNode(newX, newY), Def::MAP_DISTANCE_COST[i] };
+            micropather::StateCost nodeCost = { XYToNode(newX, newY), Def::MapDistanceCost[i] };
             neighbors->push_back(nodeCost);
         }
     }
