@@ -31,7 +31,7 @@
 class MapInstance : public micropather::Graph
 {
     static const unsigned s_borderTilesNumberX { Def::MapX + 1u };
-    static const unsigned s_borderTilesNumberY { Def::MapY / 2 + 1u };
+    static const unsigned s_borderTilesNumberY { Def::MapY / 2 + 2u };
 
 public:
     MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e);
@@ -47,6 +47,8 @@ public:
     ~MapInstance() override = default;
 
     void update();
+    void updateBorders();
+
     inline MapDataRef getMap() const;
     inline void setMap(MapDataRef newMap);
 
@@ -57,7 +59,7 @@ public:
 private:
     Ndk::WorldHandle m_world;
     Ndk::EntityHandle m_entity;
-    MapDataRef m_map; // You have to reset the pather after changing map
+    MapDataRef m_map; // You have to clear the pather's cache after changing map
 
     Nz::MaterialRef m_tileset;
     Nz::MaterialRef m_fightTileset;

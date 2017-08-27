@@ -93,7 +93,7 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         sprite = Nz::Sprite::New();
 
         sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX), tofloat(Def::MapSizeY), 0.f }), Def::MapLayer);
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX + Def::TileSizeX / 2), tofloat(Def::MapSizeY), 0.f }), Def::MapLayer);
     }
 }
 
@@ -104,8 +104,8 @@ void MapInstance::update()
     TealAssert(m_map, "Map is not valid !");
 
     TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
-
     Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
+
     m_tilemap->SetMaterial(0, material);
 
     for (unsigned i {}; i < Def::TileArraySize; ++i)
@@ -122,6 +122,54 @@ void MapInstance::update()
 
         else
             m_tilemap->DisableTile(tilePos);
+    }
+
+    updateBorders();
+}
+
+void MapInstance::updateBorders()
+{
+    TealAssert(m_tilesetCore, "TilesetCore nullptr !");
+    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
+    TealAssert(m_map, "Map is not valid !");
+
+    TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
+    Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
+
+    for (unsigned i {}; i < m_leftBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_leftBorder[i];
+        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+        sprite->SetMaterial(m_tileset, false);
+        sprite->SetTextureRect(tileRect);
+    }
+
+    for (unsigned i {}; i < m_rightBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_rightBorder[i];
+        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+        sprite->SetMaterial(m_tileset, false);
+        sprite->SetTextureRect(tileRect);
+    }
+
+    for (unsigned i {}; i < m_upBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_upBorder[i];
+        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+        sprite->SetMaterial(m_tileset, false);
+        sprite->SetTextureRect(tileRect);
+    }
+
+    for (unsigned i {}; i < m_downBorder.size(); ++i)
+    {
+        Nz::SpriteRef& sprite = m_downBorder[i];
+        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+        sprite->SetMaterial(m_tileset, false);
+        sprite->SetTextureRect(tileRect);
     }
 }
 
