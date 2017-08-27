@@ -82,7 +82,7 @@ private:
     void initNazara();
 
     void loadTextures();
-    void initTilesetCore();
+    void loadTilesetCore();
 
     void loadCharacters();
     //void loadMapObjects();
@@ -92,8 +92,8 @@ private:
     void loadSkills();
     void loadItems();
 
-    void initIcon();
-    void initCam();
+    void addIcon();
+    void addCam();
 
     void addEntities();
     void addSystems();

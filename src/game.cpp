@@ -50,11 +50,11 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     initNazara();
 
     loadCharacters();
-    initTilesetCore();
+    loadTilesetCore();
     loadMaps();
 
-    initIcon();
-    initCam();
+    addIcon();
+    addCam();
 
     loadMetaData();
     loadSkills();
@@ -200,7 +200,7 @@ void Game::loadTextures()
     }
 }
 
-void Game::initTilesetCore()
+void Game::loadTilesetCore()
 {
     TealException(Nz::File::Exists(m_scriptPrefix + "tilesetcore.lua"), "tilesetcore.lua not found !");
 
@@ -770,7 +770,7 @@ void Game::initNazara()
     Ndk::InitializeSystem<FightSystem>();
 }
 
-void Game::initIcon()
+void Game::addIcon()
 {
     Nz::Image iconImage;
     iconImage.LoadFromFile(Nz::TextureLibrary::Get(":/game/money")->GetFilePath());
@@ -781,7 +781,7 @@ void Game::initIcon()
     m_window.SetIcon(m_winIcon);
 }
 
-void Game::initCam()
+void Game::addCam()
 {
     auto& camera = m_world->CreateEntity();
     camera->AddComponent<Ndk::NodeComponent>();

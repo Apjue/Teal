@@ -22,7 +22,7 @@ constexpr unsigned ARRAYMAPY      { MAPY + 1u };
 
 
 constexpr unsigned TILEARRAYSIZE  { ARRAYMAPX * ARRAYMAPY };
-extern     float   TILESETSIZE;      // Must only be modified in game.cpp:initTilesetCore()
+extern     float   TILESETSIZE;      // Must only be modified in game.cpp:loadTilesetCore()
 extern     float   FIGHTTILESETSIZE; // ^
 
 constexpr unsigned TILEXSIZE      { 64u }; // For logic
