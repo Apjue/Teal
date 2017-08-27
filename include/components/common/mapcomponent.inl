@@ -4,14 +4,14 @@
 
 MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
                          TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
-    : MapInstance(e, tcore, ftcore)
+    : MapInstance(tcore, ftcore, e)
 {
     m_map = data;
 
-    if (!m_mat->SetDiffuseMap(tileset))
+    if (!m_tileset->SetDiffuseMap(tileset))
         NazaraError("Error: Map Material SetDiffuseMap failed !");
 
-    if (!m_fightMat->SetDiffuseMap(fightTileset))
+    if (!m_fightTileset->SetDiffuseMap(fightTileset))
         NazaraError("Error: Map Fight Material SetDiffuseMap failed !");
 
     update();

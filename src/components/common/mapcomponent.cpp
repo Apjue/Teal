@@ -11,29 +11,29 @@
 #include "util/mapposutil.hpp"
 #include "components/common/mapcomponent.hpp"
 
-MapInstance::MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore)
+MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
     : m_entity(e), m_tilesetCore(tcore), m_fightTilesetCore(ftcore)
 {
-    m_mat = Nz::Material::New("Translucent2D");
+    m_tileset = Nz::Material::New("Translucent2D");
 
-    m_mat->EnableFaceCulling(true);
-    m_mat->SetFaceFilling(Nz::FaceFilling_Fill);
+    m_tileset->EnableFaceCulling(true);
+    m_tileset->SetFaceFilling(Nz::FaceFilling_Fill);
 
-    auto matSampler = m_mat->GetDiffuseSampler();
+    auto matSampler = m_tileset->GetDiffuseSampler();
     matSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
-    m_mat->SetDiffuseSampler(matSampler);
+    m_tileset->SetDiffuseSampler(matSampler);
 
 
-    m_fightMat = Nz::Material::New("Translucent2D");
+    m_fightTileset = Nz::Material::New("Translucent2D");
 
-    m_fightMat->EnableFaceCulling(true);
-    m_fightMat->SetFaceFilling(Nz::FaceFilling_Fill);
+    m_fightTileset->EnableFaceCulling(true);
+    m_fightTileset->SetFaceFilling(Nz::FaceFilling_Fill);
 
     m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MAPX + 1, Def::MAPY + 2 }, Nz::Vector2f { static_cast<float>(Def::TILEXSIZE), static_cast<float>(Def::TILEYSIZE) });
     m_tilemap->EnableIsometricMode(true);
-    auto fightMatSampler = m_fightMat->GetDiffuseSampler();
+    auto fightMatSampler = m_fightTileset->GetDiffuseSampler();
     fightMatSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
-    m_fightMat->SetDiffuseSampler(fightMatSampler);
+    m_fightTileset->SetDiffuseSampler(fightMatSampler);
 
 
     if (!m_entity->HasComponent<Ndk::NodeComponent>())
@@ -54,7 +54,7 @@ void MapInstance::update()
 
     TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
 
-    Nz::MaterialRef material = (m_fightMode ? m_fightMat : m_mat);
+    Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
     m_tilemap->SetMaterial(0, material);
 
     for (unsigned i {}; i < Def::TILEARRAYSIZE; ++i)

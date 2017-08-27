@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -15,7 +15,7 @@
 
 struct RenderablesStorageComponent : public Ndk::Component<RenderablesStorageComponent>
 {
-    std::vector<Nz::SpriteRef> sprites;
+    std::vector<Nz::SpriteRef> sprites; // Before adding another InstancedRenderable, see cloneRenderables in gfxutil
     std::vector<Nz::ModelRef> models;
     std::vector<Nz::TextSpriteRef> textSprites;
 

@@ -28,7 +28,7 @@
 class MapInstance : public micropather::Graph
 {
 public:
-    MapInstance(const Ndk::EntityHandle& e, TilesetCore* tcore, TilesetCore* ftcore);
+    MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e);
     inline MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
                        TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e);
 
@@ -52,8 +52,8 @@ private:
     Ndk::EntityHandle m_entity;
     MapDataRef m_map; // You have to reset the pather after changing map
 
-    Nz::MaterialRef m_mat; // Tileset texture
-    Nz::MaterialRef m_fightMat;
+    Nz::MaterialRef m_tileset;
+    Nz::MaterialRef m_fightTileset;
     Nz::TileMapRef m_tilemap;
 
     TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
