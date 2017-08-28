@@ -67,7 +67,7 @@ install:
   - cp ./micropather.h ${TRAVIS_BUILD_DIR}/extlibs/include/micropather/
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
-  - ./premake5-linux64 gmake
+  - sudo premake5-linux64 gmake
   - make config=${CONFIG}_x64
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
@@ -75,7 +75,7 @@ install:
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux64 ${ACTION}
+  - sudo premake5-linux64 ${ACTION}
   - echo Before Script Finished
 
 script:
