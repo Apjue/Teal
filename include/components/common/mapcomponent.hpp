@@ -30,7 +30,8 @@
 
 class MapInstance : public micropather::Graph
 {
-    static const unsigned s_borderTilesNumberX { Def::MapX + 1u };
+    static const unsigned s_borderTilesNumberX { Def::MapX };
+    static const unsigned s_downBorderTilesNumber { s_borderTilesNumberX % 2 == 0 ? s_borderTilesNumberX : s_borderTilesNumberX + 1 };
     static const unsigned s_borderTilesNumberY { Def::MapY / 2 + 2u };
 
 public:
@@ -73,7 +74,7 @@ private:
     std::array<Nz::SpriteRef, s_borderTilesNumberY> m_leftBorder;
     std::array<Nz::SpriteRef, s_borderTilesNumberY> m_rightBorder;
     std::array<Nz::SpriteRef, s_borderTilesNumberX> m_upBorder;
-    std::array<Nz::SpriteRef, s_borderTilesNumberX> m_downBorder;
+    std::array<Nz::SpriteRef, s_downBorderTilesNumber> m_downBorder;
 
     bool adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsigned eY);
 

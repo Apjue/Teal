@@ -84,7 +84,7 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         sprite = Nz::Sprite::New();
 
         sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX), 0.f, 0.f }), Def::MapLayer);
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX + Def::TileSizeX), 0.f, 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_downBorder.size(); ++i)
@@ -139,7 +139,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_leftBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];
-        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(m_map->tile(0, (i == m_leftBorder.size() - 1 ? i - 1 : i ) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -148,7 +148,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_rightBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_rightBorder[i];
-        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(m_map->tile(Def::MapX, (i == m_rightBorder.size() - 1 ? i - 1 : i) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -157,7 +157,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_upBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_upBorder[i];
-        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(m_map->tile(i + 1, 0).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -166,7 +166,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_downBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_downBorder[i];
-        Nz::Rectui tileRect { 3u * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(m_map->tile((i == m_downBorder.size() - 1 ? i - 1 : i), Def::MapY + 1).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
