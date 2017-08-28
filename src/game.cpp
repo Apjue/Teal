@@ -686,20 +686,19 @@ void Game::loadItems()
             Nz::String componentType = lua.CheckField<Nz::String>("component");
             componentType = componentType.ToLower();
 
-            LuaArguments arguments;
-            parseLua(lua, arguments);
-
             if (componentType == "attackmodifier")
-                item->AddComponent<AttackModifierComponent>(arguments);
+                item->AddComponent<AttackModifierComponent>(parseLua(lua));
 
             if (componentType == "resistancemodifier")
-                item->AddComponent<ResistanceModifierComponent>(arguments);
+                item->AddComponent<ResistanceModifierComponent>(parseLua(lua));
 
             if (componentType == "edible")
-                item->AddComponent<Items::EdibleComponent>(arguments);
+                item->AddComponent<Items::EdibleComponent>(parseLua(lua));
 
             if (componentType == "equippable")
             {
+                LuaArguments arguments = parseLua(lua);
+
                 if (arguments.vars.size() >= 3)
                     arguments.vars[2].set<double>(m_skills.getItemIndex(arguments.vars[2].get<Nz::String>()));
 
@@ -707,10 +706,10 @@ void Game::loadItems()
             }
 
             if (componentType == "hpgain")
-                item->AddComponent<Items::HPGainComponent>(arguments);
+                item->AddComponent<Items::HPGainComponent>(parseLua(lua));
 
             if (componentType == "resource")
-                item->AddComponent<Items::ResourceComponent>(arguments);
+                item->AddComponent<Items::ResourceComponent>(parseLua(lua));
 
             lua.Pop();
         }
@@ -874,6 +873,15 @@ void Game::initEventHandler()
 
             case Nz::Keyboard::C: // Caracteristics
                 showCharacteristics();
+                break;
+
+            case Nz::Keyboard::D: // Debug: Player pos
+                auto& pos = m_charac->GetComponent<PositionComponent>();
+                NazaraNotice("--- Debug ---");
+                NazaraNotice(Nz::String { "Player position: " }
+                             .Append(Nz::String::Number(pos.xy.x))
+                             .Append(" ; ")
+                             .Append(Nz::String::Number(pos.xy.y)));
                 break;
         }
     });

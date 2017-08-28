@@ -8,6 +8,12 @@ T distance(const T& x, const T& y)
     return (x > y) ? x - y : y - x;
 }
 
+inline bool isLineEven(unsigned y)
+{
+    TealAssert(y <= (Def::ArrayMapY + 1u), "Invalid y !");
+    return y % 2 == 0;
+}
+
 template<class T>
 float tofloat(T x)
 {

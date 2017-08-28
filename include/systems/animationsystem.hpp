@@ -10,7 +10,6 @@
 #include <NDK/System.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
 #include "components/common/animationcomponent.hpp"
-#include "util/util.hpp"
 
 ///
 /// \class AnimationSystem
@@ -31,9 +30,6 @@ public:
 
 private:
     void OnUpdate(float elapsed) override;
-
-    void OnMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef sprite,
-                         AnimationComponent& anim, bool moving);
 };
 
 #endif // ANIMATIONSYSTEM_HPP

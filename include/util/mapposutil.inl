@@ -11,14 +11,12 @@ void NodeToXY(void* node, unsigned& x, unsigned& y)
     x = xy.first;
     y = xy.second;
 
-    TealAssert(x <  Def::ArrayMapX, "Invalid x !");
-    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
+    TealAssert(isPositionValid({ x, y }), "Invalid position !");
 }
 
 void* XYToNode(unsigned x, unsigned y)
 {
-    TealAssert(x < Def::ArrayMapX, "Invalid x !");
-    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
+    TealAssert(isPositionValid({ x, y }), "Invalid position !");
 
     std::size_t result = static_cast<std::size_t>(XYToIndex(x, y));
     return reinterpret_cast<void*>(result);
@@ -59,8 +57,7 @@ std::pair<unsigned, unsigned> IndexToXY(unsigned index)
 
 unsigned XYToIndex(unsigned x, unsigned y)
 {
-    TealAssert(x < Def::ArrayMapX, "Invalid x !");
-    TealAssert(y <= Def::ArrayMapY, "Invalid y !");
+    TealAssert(isPositionValid({ x, y }), "Invalid position !");
 
     unsigned result { x };
     bool even { true };
@@ -81,12 +78,6 @@ unsigned XYToIndex(unsigned x, unsigned y)
     }
 
     return result;
-}
-
-bool isLineEven(unsigned y)
-{
-    TealAssert(y <= (Def::ArrayMapY + 1u), "Invalid y !");
-    return y % 2 == 0;
 }
 
 std::pair<unsigned, unsigned> countLines(unsigned y)

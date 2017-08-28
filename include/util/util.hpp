@@ -7,8 +7,13 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
+#include "def/gamedef.hpp"
+#include "util/assert.hpp"
+
 template<class T>
 inline T distance(const T& x, const T& y);
+
+inline bool isLineEven(unsigned y);
 
 
 template<class T>

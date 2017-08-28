@@ -13,6 +13,7 @@
 #include "util/assert.hpp"
 #include "util/util.hpp"
 #include "def/gamedef.hpp"
+#include "global.hpp"
 
 inline void  NodeToXY(void* node, unsigned& x, unsigned& y);
 inline void* XYToNode(unsigned x, unsigned y);
@@ -20,7 +21,6 @@ inline void* XYToNode(unsigned x, unsigned y);
 inline std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 inline unsigned XYToIndex(unsigned x, unsigned y);
 
-inline bool isLineEven(unsigned y);
 inline std::pair<unsigned, unsigned> countLines(unsigned y);
 
 #include "mapposutil.inl"

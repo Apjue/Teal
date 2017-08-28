@@ -25,14 +25,14 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
 {
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;
-    auto& pos = e->GetComponent<PositionComponent>();
 
     if (path.empty())
         return; // No path, no move.
 
+    auto& pos = e->GetComponent<PositionComponent>();
     bool even = isLineEven(pos.xy.y);
     auto& dir = path.front();
-    auto xy = DirToXY(dir, even);
+    auto   xy = DirToXY(dir, even);
 
     e->GetComponent<OrientationComponent>().dir = DirToOrient(dir);
     
@@ -69,14 +69,10 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
 
         if (e == getMainCharacter())
         {
-            if (hasComponentsToChangeMap(e))
-            {
-                if (e->HasComponent<InventoryComponent>())
-                    getItemsFromGround(e);
+            TealAssert(hasComponentsToChangeMap(e) && e->HasComponent<InventoryComponent>(), "Main character doesn't have required components ?");
 
-                if (allowMapChange)
-                    changeMap();
-            }
+            getItemsFromGround(e);
+            changeMap();
         }
 
         if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)

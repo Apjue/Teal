@@ -7,21 +7,20 @@
 #ifndef MAPUTIL_HPP
 #define MAPUTIL_HPP
 
-#include <NDK/Entity.hpp> //
-#include <Nazara/Core/String.hpp> //
-#include <utility> //
-#include <queue> //
-#include <vector> //
-#include "components/common/mapcomponent.hpp" //
-#include "components/common/pathcomponent.hpp" //
-#include "components/common/logicentityidcomponent.hpp" //
-#include "util/assert.hpp" //
+#include <NDK/Entity.hpp>
+#include <Nazara/Core/String.hpp>
+#include <utility>
+#include <queue>
+#include <vector>
+#include "components/common/mapcomponent.hpp"
+#include "components/common/pathcomponent.hpp"
+#include "components/common/logicentityidcomponent.hpp"
+#include "util/assert.hpp"
 #include "def/gamedef.hpp"
-#include "global.hpp" //
-#include "data/mapdata.hpp" //
+#include "global.hpp"
+#include "data/mapdata.hpp"
 #include "util/entityutil.hpp"
-#include "util/util.hpp" //
-#include "micropather.h" //
+#include "micropather.h"
 
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);

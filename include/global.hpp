@@ -10,8 +10,8 @@
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Core/Flags.hpp>
 #include <Nazara/Core/String.hpp>
-#include "util/mapposutil.hpp"
 #include "util/underlyingtype.hpp"
+#include "util/util.hpp"
 #include "def/gamedef.hpp"
 
 using AbsTile = Nz::Vector2ui; // Absolute Tile (0-15, 0-8)

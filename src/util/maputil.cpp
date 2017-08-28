@@ -7,7 +7,9 @@
 #include "components/common/mappositioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "cache/tilesetcore.hpp"
+#include "util/animutil.hpp"
 #include "util/maputil.hpp"
+#include "util/util.hpp"
 
 namespace
 {
@@ -26,10 +28,12 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     auto& mapPos = p->GetComponent<MapPositionComponent>();
     auto& pos = p->GetComponent<PositionComponent>();
 
+    TealAssert(isPositionValid(pos.xy), "Position isn't valid");
+
     // Where is the entity in the map ? Right, left, down, or up ?
     DirectionFlags entExt = 0; // Entity Extremity
 
-    if (pos.xy.x == 0u && MapDataLibrary::Has(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y))) // Left
+    if (pos.xy.x == 0u && isLineEven(pos.xy.y) && MapDataLibrary::Has(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y))) // Left
         entExt = Dir::Left;
 
     else if (pos.xy.x == Def::MapX && MapDataLibrary::Has(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y))) // Right
@@ -123,7 +127,6 @@ bool changeMap()
         mapY = mapPos.xy.y;
 
         newOrient = Orientation::Left;
-
     }
 
     else if (canChange.second & Dir::Right)
@@ -137,7 +140,6 @@ bool changeMap()
         mapY = mapPos.xy.y;
 
         newOrient = Orientation::Right;
-
     }
 
     else if (canChange.second & Dir::Up)
@@ -151,7 +153,6 @@ bool changeMap()
         mapY = mapPos.xy.y + 1;
 
         newOrient = Orientation::Up;
-
     }
 
     else if (canChange.second & Dir::Down)
@@ -172,18 +173,23 @@ bool changeMap()
 
     deactivateMapEntities(currentMapLock->getMap());
     currentMapLock->setMap(newMap);
+    
+    for (auto& entity : currentMapLock->getMap()->getEntities())
+        if (hasRightComponentsToAnimate(entity))
+            updateAnimation(entity);
+    
     activateMapEntities(currentMapLock->getMap());
 
     currentMapLock->update();
     clearPatherCache();
+
 
     pos.xy = { x, y };
 
     mapPos.xy.x = mapX;
     mapPos.xy.y = mapY;
 
-    if (m_mainChar->HasComponent<OrientationComponent>())
-        m_mainChar->GetComponent<OrientationComponent>().dir = newOrient;
+    m_mainChar->GetComponent<OrientationComponent>().dir = newOrient;
 
     return true;
 }
