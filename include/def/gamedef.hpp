@@ -22,9 +22,6 @@ constexpr unsigned ArrayMapY      { MapY + 1u };
 
 
 constexpr unsigned TileArraySize  { ArrayMapX * ArrayMapY };
-extern     float   TilesetSize;      // Must only be modified in game.cpp:loadTilesetCore()
-extern     float   FightTilesetSize; // ^
-
 constexpr unsigned TileSizeX      { 64u }; // For logic
 constexpr unsigned TileSizeY      { 32u };
 

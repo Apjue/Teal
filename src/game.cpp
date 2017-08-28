@@ -226,8 +226,6 @@ void Game::loadTilesetCore()
 
             lua.Pop();
         }
-
-        Def::TilesetSize = tofloat(tileNumber) * 64.f;
     }
 
     {
@@ -254,8 +252,6 @@ void Game::loadTilesetCore()
 
             lua.Pop();
         }
-
-        Def::FightTilesetSize = tofloat(tileNumber) * 64.f;
     }
 }
 
