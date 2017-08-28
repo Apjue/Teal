@@ -39,21 +39,16 @@ branches:
   - master
 
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install libc6-dev
-  - sudo apt-get install gcc-5-multilib g++-5-multilib
   - cd /usr
   - sudo mkdir lib64 && cd lib64
   - sudo mkdir local
+  - sudo apt-get update -qq
+  - sudo apt-get install libc6-dev gcc-5-multilib g++-5-multilib libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev
   - export CXX="g++-5"
   - export CC="gcc-5"
-  - sudo apt-get install libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev
+  - echo Before Install Finished
 
 install:
-  - cd ${TRAVIS_BUILD_DIR}/build
-#  - sudo chmod +x premake5-linux32
-  - sudo chmod u+x,g+x,o+x premake5-linux64
-  - sudo chmod u+x,g+x,o+x premake5-osx64
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && mkdir micropather
   - cd nazara
@@ -76,14 +71,17 @@ install:
   - make config=${CONFIG}_x64
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
+  - echo Install Finished
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
   - ./premake5-linux64 ${ACTION}
+  - echo Before Script Finished
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - make -j16 config=${CONFIG}_x64
+  - echo Script Finished
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
