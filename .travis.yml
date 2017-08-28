@@ -46,7 +46,6 @@ before_install:
   - sudo apt-get install libc6-dev gcc-5-multilib g++-5-multilib libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev
   - export CXX="g++-5"
   - export CC="gcc-5"
-  - echo Before Install Finished
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -67,21 +66,18 @@ install:
   - cp ./micropather.h ${TRAVIS_BUILD_DIR}/extlibs/include/micropather/
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
-  - sudo premake5-linux64 gmake
+  - sudo bash -c "premake5-linux64 gmake"
   - make config=${CONFIG}_x64
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
-  - echo Install Finished
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - sudo premake5-linux64 ${ACTION}
-  - echo Before Script Finished
+  - sudo bash -c "premake5-linux64 ${ACTION}"
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - make -j16 config=${CONFIG}_x64
-  - echo Script Finished
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
