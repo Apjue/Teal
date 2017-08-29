@@ -9,3 +9,11 @@ inline LuaArguments parseLua(Nz::LuaInstance& lua)
 
     return args;
 }
+
+inline bool hasField(Nz::LuaInstance& lua, const Nz::String& fieldName, int tableIndex)
+{
+    bool exists = (lua.GetField(fieldName, tableIndex) != Nz::LuaType_Nil);
+    lua.Pop();
+
+    return exists;
+}
