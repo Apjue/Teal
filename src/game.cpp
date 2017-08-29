@@ -202,6 +202,8 @@ void Game::loadTextures()
 
         lua.Pop();
     }
+
+    NazaraDebug(" --- ");
 }
 
 void Game::loadTilesetCore()
@@ -257,6 +259,8 @@ void Game::loadTilesetCore()
             lua.Pop();
         }
     }
+
+    NazaraDebug("Loaded Tileset Core");
 }
 
 void Game::loadCharacters()
@@ -499,6 +503,8 @@ void Game::loadCharacters()
         m_characters.Insert(character);
         NazaraDebug("Character " + name + " loaded ! (" + chars.GetResultName() + ")");
     }
+
+    NazaraDebug(" --- ");
 }
 
 void Game::loadMaps()
@@ -586,6 +592,8 @@ void Game::loadMaps()
         MapDataLibrary::Register(pos, deactivateMapEntities(map));
         NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + pos);
     }
+
+    NazaraDebug(" --- ");
 }
 
 void Game::loadMetaData()
@@ -621,6 +629,8 @@ void Game::loadSkills()
 
         NazaraDebug("Skill " + s.name + " loaded ! (" + s.codename + ")");
     }
+
+    NazaraDebug(" --- ");
 }
 
 void Game::loadItems()
@@ -698,6 +708,8 @@ void Game::loadItems()
 
         NazaraDebug("Item loaded - " + item->GetComponent<NameComponent>().name);
     }
+
+    NazaraDebug(" --- ");
 }
 
 void Game::loadNazara()
