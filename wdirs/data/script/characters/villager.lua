@@ -6,7 +6,6 @@ teal_character =
     maxanimframes = 15,
     defgfxpos = { -25, -66 },
     deflgcpos = { 1, 1 },
-    mappos = { 0, 0 },
     maxhealth = 100,
     random = { false },
     name = "Villager",
