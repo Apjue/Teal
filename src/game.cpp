@@ -597,16 +597,6 @@ void Game::loadMaps()
         MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
         NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + lua.CheckField<Nz::String>("pos"));
     }
-
-    auto npc = cloneCharacter("villager");
-    npc->GetComponent<MapPositionComponent>().xy.x = 1;
-    npc->GetComponent<PositionComponent>().xy = { 5, 5 };
-    npc->GetComponent<NameComponent>().name = "The Wandering NPC";
-    npc->AddComponent<RandomMovementComponent>(7.5f, 1);
-
-    refreshGraphicsPos(npc);
-    MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
-    deactivateMapEntities(MapDataLibrary::Get("1;0"));
 }
 
 void Game::loadMetaData()
@@ -792,7 +782,7 @@ void Game::addCam()
     rendersys.SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
 }
 
-void Game::addEntities()
+void Game::addEntities() /// \todo Use lua (map's entities table)
 {
     m_map = m_world->CreateEntity();
 
@@ -822,6 +812,17 @@ void Game::addEntities()
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
     refreshGraphicsPos(m_charac);
+
+
+    auto npc = cloneCharacter("villager");
+    npc->GetComponent<MapPositionComponent>().xy.x = 1;
+    npc->GetComponent<PositionComponent>().xy = { 5, 5 };
+    npc->GetComponent<NameComponent>().name = "The Wandering NPC";
+    npc->AddComponent<RandomMovementComponent>(7.5f, 1);
+
+    refreshGraphicsPos(npc);
+    MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
+    deactivateMapEntities(MapDataLibrary::Get("1;0"));
 }
 
 void Game::addSystems()
