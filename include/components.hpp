@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -15,7 +15,6 @@
 #include "components/common/levelcomponent.hpp"
 #include "components/common/lifecomponent.hpp"
 #include "components/common/mapcomponent.hpp"
-#include "components/common/mappositioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
 #include "components/common/namecomponent.hpp"
 #include "components/common/orientationcomponent.hpp"

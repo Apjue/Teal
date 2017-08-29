@@ -13,6 +13,7 @@
 #include <Nazara/Core/ObjectRef.hpp>
 #include <Nazara/Core/RefCounted.hpp>
 #include <Nazara/Core/Resource.hpp>
+#include <Nazara/Math/Vector2.hpp>
 #include <memory>
 #include "def/typedef.hpp"
 #include "data/tiledata.hpp"
@@ -38,6 +39,8 @@ public:
     template<class... Args>
     static inline MapDataRef New(Args&&... args);
 
+    inline const Nz::Vector2i& getPosition() const;
+    inline void setPosition(const Nz::Vector2i& pos);
 
     inline const TileArray& tiles() const;
     inline void setTiles(const TileArray& nTiles);
@@ -52,6 +55,7 @@ public:
     void updateOccupiedTiles();
 
 private:
+    Nz::Vector2i m_pos {};
     TileArray m_tiles;
     Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
 

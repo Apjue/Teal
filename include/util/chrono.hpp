@@ -13,7 +13,7 @@
 
 using Miliseconds = unsigned long long;
 using Seconds = unsigned long long;
-using Minutes = unsigned long;
+using Minutes = unsigned long long;
 
 #elif defined(TEAL_TINY_CHRONO)
 

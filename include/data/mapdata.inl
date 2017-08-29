@@ -12,6 +12,17 @@ MapDataRef MapData::New(Args&&... args)
 }
 
 
+inline const Nz::Vector2i& MapData::getPosition() const
+{
+    return m_pos;
+}
+
+inline void MapData::setPosition(const Nz::Vector2i& pos)
+{
+    m_pos = pos;
+}
+
+
 const TileArray& MapData::tiles() const
 {
     return m_tiles;

@@ -25,6 +25,7 @@
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
 #include "util/luaparser.hpp"
+#include "util/gameutil.hpp"
 #include "def/gamedef.hpp"
 #include "def/typedef.hpp"
 #include "def/uidef.hpp"
@@ -47,7 +48,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
 
     initSchemeUtility(scheme);
-    initNazara();
+    loadNazara();
 
     loadCharacters();
     loadTilesetCore();
@@ -68,7 +69,8 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addPauseMenu();
 
     auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(mapComp.map, m_pather, m_charac);
+    initMapUtility(mapComp.map, m_pather);
+    initializeGameUtility(m_charac);
 }
 
 Ndk::EntityHandle Game::cloneCharacter(const Nz::String& codename)
@@ -711,7 +713,7 @@ void Game::loadItems()
     }
 }
 
-void Game::initNazara()
+void Game::loadNazara()
 {
     // Components
     Ndk::InitializeComponent<RandomMovementComponent>("rdmov");
@@ -727,7 +729,6 @@ void Game::initNazara()
     Ndk::InitializeComponent<FightComponent>("fight");
     Ndk::InitializeComponent<LifeComponent>("life");
     Ndk::InitializeComponent<MapComponent>("map");
-    Ndk::InitializeComponent<MapPositionComponent>("mappos");
     Ndk::InitializeComponent<AttackModifierComponent>("atkmodif");
     Ndk::InitializeComponent<ResistanceModifierComponent>("resmodif");
     Ndk::InitializeComponent<DescriptionComponent>("desc");

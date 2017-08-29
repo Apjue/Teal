@@ -61,9 +61,7 @@ extern bool changeMap();
 ///        in this file to work
 ///
 
-extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
-                           const std::weak_ptr<micropather::MicroPather>& pather,
-                           const Ndk::EntityHandle& mainCharacter);
+extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap, const std::weak_ptr<micropather::MicroPather>& pather);
 
 ///
 /// \fn isMapUtilityInitialized
@@ -73,8 +71,6 @@ extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
 ///
 
 extern bool isMapUtilityInitialized();
-
-extern Ndk::EntityHandle getMainCharacter();
 
 extern std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 

@@ -8,6 +8,7 @@
 #include "components/common/orientationcomponent.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/animutil.hpp"
+#include "util/gameutil.hpp"
 #include "util/maputil.hpp"
 #include "util/util.hpp"
 
@@ -16,7 +17,6 @@ namespace
 
 std::weak_ptr<MapInstance> m_currentMap;
 std::weak_ptr<micropather::MicroPather> m_pather;
-Ndk::EntityHandle m_mainChar;
 
 }
 
@@ -103,13 +103,15 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 bool changeMap()
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    auto canChange = canChangeMap(m_mainChar);
+
+    Ndk::EntityHandle mainChar = getMainCharacter();
+    auto canChange = canChangeMap(mainChar);
 
     if (!canChange.first)
         return false;
 
-    auto& mapPos = m_mainChar->GetComponent<MapPositionComponent>();
-    auto& pos = m_mainChar->GetComponent<PositionComponent>();
+    auto& mapPos = mainChar->GetComponent<MapPositionComponent>();
+    auto& pos = mainChar->GetComponent<PositionComponent>();
 
     MapDataRef newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
@@ -189,29 +191,20 @@ bool changeMap()
     mapPos.xy.x = mapX;
     mapPos.xy.y = mapY;
 
-    m_mainChar->GetComponent<OrientationComponent>().dir = newOrient;
+    mainChar->GetComponent<OrientationComponent>().dir = newOrient;
 
     return true;
 }
 
-void initMapUtility(const std::weak_ptr<MapInstance>& currentMap,
-                    const std::weak_ptr<micropather::MicroPather>& pather,
-                    const Ndk::EntityHandle& mainCharacter)
+void initMapUtility(const std::weak_ptr<MapInstance>& currentMap, const std::weak_ptr<micropather::MicroPather>& pather)
 {
     m_currentMap = currentMap;
     m_pather = pather;
-    m_mainChar = mainCharacter;
 }
 
 bool isMapUtilityInitialized()
 {
-    return !m_currentMap.expired() && !m_pather.expired() && m_mainChar.IsValid();
-}
-
-Ndk::EntityHandle getMainCharacter()
-{
-    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    return m_mainChar;
+    return !m_currentMap.expired() && !m_pather.expired() && isGameUtilityInitialized();
 }
 
 std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)

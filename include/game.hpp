@@ -79,7 +79,7 @@ private:
     NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_invButtonEvent);
 
     // Init Functions
-    void initNazara();
+    void loadNazara();
 
     void loadTextures();
     void loadTilesetCore();

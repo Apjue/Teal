@@ -27,8 +27,6 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     e->AddComponent<LifeComponent>(infos.maxhp);
 
     e->AddComponent<PositionComponent>(infos.defL);
-    e->AddComponent<MapPositionComponent>(infos.mapPos);
-
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
     e->AddComponent<InventoryComponent>();
