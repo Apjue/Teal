@@ -14,11 +14,12 @@
 #include "components/common/graphicalentitiescomponent.hpp"
 #include "def/gamedef.hpp"
 #include "data/mapdata.hpp"
+#include "cache/tilesetcore.hpp"
 #include "util/gfxutil.hpp"
 #include "util/maputil.hpp"
 #include "util/entityutil.hpp"
 #include "util/assert.hpp"
-#include "cache/tilesetcore.hpp"
+#include "util/gameutil.hpp"
 #include "util/movementutil.hpp"
 
 void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
@@ -59,7 +60,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
         std::swap(*(path.begin()), path.back());
         path.pop_back(); // To get next tile
 
-        if (!path.empty() && e->HasComponent<MapPositionComponent>() && e->HasComponent<MoveComponent>())
+        if (!path.empty() && e->HasComponent<MoveComponent>())
             recomputeIfObstacle(e);
     }
 
@@ -92,11 +93,11 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
 
 void recomputeIfObstacle(const Ndk::EntityHandle& e)
 {
+    TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
+
     auto& path = e->GetComponent<PathComponent>().path;
     auto& pos = e->GetComponent<PositionComponent>();
-
-    auto& mapPos = e->GetComponent<MapPositionComponent>();
-    MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y));
+    MapDataRef currentMap = getCurrentMap()->getMap();
 
     for (unsigned i {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
     {
@@ -120,8 +121,8 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
 
 void getItemsFromGround(const Ndk::EntityHandle& e)
 {
-    auto& mapPos = e->GetComponent<MapPositionComponent>();
-    MapDataRef currentMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y));
+    TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
+    MapDataRef currentMap = getCurrentMap()->getMap();
 
     auto& inv = e->GetComponent<InventoryComponent>();
     auto& mapEntities = currentMap->getEntities();

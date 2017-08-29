@@ -4,7 +4,6 @@
 
 #include <memory>
 #include "components/common/positioncomponent.hpp"
-#include "components/common/mappositioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/animutil.hpp"
@@ -15,8 +14,8 @@
 namespace
 {
 
-std::weak_ptr<MapInstance> m_currentMap;
-std::weak_ptr<micropather::MicroPather> m_pather;
+MapInstance* m_currentMap {};
+micropather::MicroPather* m_pather {};
 
 }
 
@@ -25,7 +24,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
 
-    auto& mapPos = p->GetComponent<MapPositionComponent>();
+    Nz::Vector2i mapPos = m_currentMap->getMap()->getPosition();
     auto& pos = p->GetComponent<PositionComponent>();
 
     TealAssert(isPositionValid(pos.xy), "Position isn't valid");
@@ -33,16 +32,16 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     // Where is the entity in the map ? Right, left, down, or up ?
     DirectionFlags entExt = 0; // Entity Extremity
 
-    if (pos.xy.x == 0u && isLineEven(pos.xy.y) && MapDataLibrary::Has(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y))) // Left
+    if (pos.xy.x == 0u && isLineEven(pos.xy.y) && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
         entExt = Dir::Left;
 
-    else if (pos.xy.x == Def::MapX && MapDataLibrary::Has(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y))) // Right
+    else if (pos.xy.x == Def::MapX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
         entExt = Dir::Right;
 
-    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1))) // Up
+    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Up
         entExt = Dir::Up;
 
-    else if (pos.xy.y == Def::ArrayMapY && MapDataLibrary::Has(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1))) // Down
+    else if (pos.xy.y == Def::ArrayMapY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Down
         entExt = Dir::Down;
 
     if (!entExt)
@@ -56,7 +55,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     if (entExt & Dir::Left)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::MapX;
         y = pos.xy.y;
@@ -64,7 +63,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Right)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
         y = pos.xy.y;
@@ -72,7 +71,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Up)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.xy.x;
         y = Def::MapY;
@@ -80,7 +79,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Down)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.xy.x;
         y = 1u;
@@ -110,93 +109,74 @@ bool changeMap()
     if (!canChange.first)
         return false;
 
-    auto& mapPos = mainChar->GetComponent<MapPositionComponent>();
+    auto& mapPos = m_currentMap->getMap()->getPosition();
     auto& pos = mainChar->GetComponent<PositionComponent>();
 
     MapDataRef newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
-    unsigned mapX {}, mapY {}; // Position of the new map
     Orientation newOrient { Orientation::Down };
 
     if (canChange.second & Dir::Left)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x - 1, mapPos.xy.y));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x - 1, mapPos.y));
 
         x = Def::MapX;
         y = pos.xy.y;
-
-        mapX = mapPos.xy.x - 1;
-        mapY = mapPos.xy.y;
 
         newOrient = Orientation::Left;
     }
 
     else if (canChange.second & Dir::Right)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x + 1, mapPos.xy.y));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x + 1, mapPos.y));
 
         x = 0u;
         y = pos.xy.y;
-
-        mapX = mapPos.xy.x + 1;
-        mapY = mapPos.xy.y;
 
         newOrient = Orientation::Right;
     }
 
     else if (canChange.second & Dir::Up)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y + 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.xy.x;
         y = Def::MapY;
-
-        mapX = mapPos.xy.x;
-        mapY = mapPos.xy.y + 1;
 
         newOrient = Orientation::Up;
     }
 
     else if (canChange.second & Dir::Down)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.xy.x, mapPos.xy.y - 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.xy.x;
         y = 1u;
-
-        mapX = mapPos.xy.x;
-        mapY = mapPos.xy.y - 1;
 
         newOrient = Orientation::Down;
     }
 
     TealAssert(newMap, "new map null !");
-    auto currentMapLock = m_currentMap.lock();
 
-    deactivateMapEntities(currentMapLock->getMap());
-    currentMapLock->setMap(newMap);
+    deactivateMapEntities(m_currentMap->getMap());
+    m_currentMap->setMap(newMap);
     
-    for (auto& entity : currentMapLock->getMap()->getEntities())
+    for (auto& entity : m_currentMap->getMap()->getEntities())
         if (hasRightComponentsToAnimate(entity))
             updateAnimation(entity);
     
-    activateMapEntities(currentMapLock->getMap());
+    activateMapEntities(m_currentMap->getMap());
 
-    currentMapLock->update();
+    m_currentMap->update();
     clearPatherCache();
 
-
     pos.xy = { x, y };
-
-    mapPos.xy.x = mapX;
-    mapPos.xy.y = mapY;
-
     mainChar->GetComponent<OrientationComponent>().dir = newOrient;
 
     return true;
 }
 
-void initMapUtility(const std::weak_ptr<MapInstance>& currentMap, const std::weak_ptr<micropather::MicroPather>& pather)
+void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather)
 {
     m_currentMap = currentMap;
     m_pather = pather;
@@ -204,7 +184,29 @@ void initMapUtility(const std::weak_ptr<MapInstance>& currentMap, const std::wea
 
 bool isMapUtilityInitialized()
 {
-    return !m_currentMap.expired() && !m_pather.expired() && isGameUtilityInitialized();
+    return m_currentMap && m_currentMap->getMap() && m_pather && isGameUtilityInitialized();
+}
+
+void refreshOccupiedTiles()
+{
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    m_currentMap->getMap()->updateOccupiedTiles();
+}
+
+void clearPatherCache()
+{
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+    m_pather->Reset();
+}
+
+const MapInstance* getCurrentMap()
+{
+    return m_currentMap;
+}
+
+const micropather::MicroPather* getPather()
+{
+    return m_pather;
 }
 
 std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
@@ -226,16 +228,4 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
     }
 
     return positions;
-}
-
-void refreshOccupiedTiles()
-{
-    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    m_currentMap.lock()->getMap()->updateOccupiedTiles();
-}
-
-void clearPatherCache()
-{
-    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    m_pather.lock()->Reset();
 }

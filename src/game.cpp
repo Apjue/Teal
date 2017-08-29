@@ -68,9 +68,11 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
     addWidgets();
     addPauseMenu();
 
-    auto& mapComp = m_map->GetComponent<MapComponent>();
-    initMapUtility(mapComp.map, m_pather);
+
     initializeGameUtility(m_charac);
+
+    auto& mapComp = m_map->GetComponent<MapComponent>();
+    initializeMapUtility(mapComp.map.get(), m_pather.get());
 }
 
 Ndk::EntityHandle Game::cloneCharacter(const Nz::String& codename)
@@ -348,24 +350,6 @@ void Game::loadCharacters()
         lua.Pop();
 
 
-        TealException(lua.GetField("mappos") == Nz::LuaType_Table, "Lua: teal_character.mappos isn't a table !");
-
-        lua.PushInteger(1);
-        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.mappos.x isn't a number !");
-
-        int mapposx = toint(lua.CheckInteger(-1));
-        lua.Pop();
-
-
-        lua.PushInteger(2);
-        TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.mappos.y isn't a number !");
-
-        int mapposy = toint(lua.CheckInteger(-1));
-        lua.Pop();
-
-        Nz::Vector2i mappos = { mapposx, mapposy };
-        lua.Pop();
-
         CharacterData::RandomMovement random;
 
         if (lua.GetField("random") == Nz::LuaType_Table)
@@ -505,7 +489,7 @@ void Game::loadCharacters()
 
         CharacterData characterData
         {
-            codename, size, charSprite, maxFrames, defgfxpos, deflgcpos, mappos, maxHealth, animType,
+            codename, size, charSprite, maxFrames, defgfxpos, deflgcpos, maxHealth, animType,
             orientation, random, blockTile, name, description, attack, res, level, fight
         };
 
@@ -546,7 +530,7 @@ void Game::loadMaps()
             lua.PushInteger(i);
             lua.GetTable();
 
-            TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
+            TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } +i + " isn't a table !");
 
             tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
             tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
@@ -596,8 +580,11 @@ void Game::loadMaps()
 
         lua.Pop();
 
-        MapDataLibrary::Register(lua.CheckField<Nz::String>("pos"), deactivateMapEntities(map)); // x;y
-        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + lua.CheckField<Nz::String>("pos"));
+        Nz::String pos = lua.CheckField<Nz::String>("pos");
+        map->setPosition(toVector(stringToMapXY(pos)));
+
+        MapDataLibrary::Register(pos, deactivateMapEntities(map));
+        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + pos);
     }
 }
 
@@ -816,7 +803,6 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
 
 
     auto npc = cloneCharacter("villager");
-    npc->GetComponent<MapPositionComponent>().xy.x = 1;
     npc->GetComponent<PositionComponent>().xy = { 5, 5 };
     npc->GetComponent<NameComponent>().name = "The Wandering NPC";
     npc->AddComponent<RandomMovementComponent>(7.5f, 1);

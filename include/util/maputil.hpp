@@ -55,13 +55,13 @@ extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
 extern bool changeMap();
 
 ///
-/// \fn initMapUtility
+/// \fn initializeMapUtility
 ///
 /// \brief Inits MapCore and MapInstance for functions
 ///        in this file to work
 ///
 
-extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap, const std::weak_ptr<micropather::MicroPather>& pather);
+extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather);
 
 ///
 /// \fn isMapUtilityInitialized
@@ -72,10 +72,13 @@ extern void initMapUtility(const std::weak_ptr<MapInstance>& currentMap, const s
 
 extern bool isMapUtilityInitialized();
 
-extern std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
-
 extern void refreshOccupiedTiles();
 extern void clearPatherCache();
+
+extern const MapInstance* getCurrentMap();
+extern const micropather::MicroPather* getPather();
+
+extern std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 
 #include "maputil.inl"
 

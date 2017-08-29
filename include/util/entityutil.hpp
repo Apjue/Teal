@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -11,7 +11,6 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include "components/common/defaultgraphicsposcomponent.hpp"
-#include "components/common/mappositioncomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/items/itemcomponent.hpp"
 
