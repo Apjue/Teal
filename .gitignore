@@ -21,6 +21,7 @@
 
 # GMake
 **.make
+Makefile
 
 # QtCreator
 **.pro
