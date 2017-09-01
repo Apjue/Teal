@@ -49,8 +49,9 @@ std::pair<int, int> stringToMapXY(const Nz::String& str)
 {
     long long lx {}, ly {};
     std::vector<Nz::String> result;
+    unsigned splits = str.Split(result, ';');
 
-    TealAssert(str.Split(result, ';') == 2, "Not a map position");
+    TealAssert(splits == 2, "Not a map position");
 
     result[0].ToInteger(&lx);
     result[1].ToInteger(&ly);
