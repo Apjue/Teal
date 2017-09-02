@@ -19,6 +19,19 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-5
+      - libopenal-dev
+      - libc6-dev
+      - libsndfile1-dev
+      - libxcb-cursor-dev
+      - libxcb-ewmh-dev
+      - libxcb-randr0-dev
+      - libxcb-icccm4-dev
+      - libxcb-keysyms1-dev
+      - libx11-dev
+      - libfreetype6-dev
+      - mesa-common-dev
+      - libgl1-mesa-dev
+      - libassimp-dev
 
 env:
   global:
@@ -41,9 +54,7 @@ branches:
 before_install:
   - cd /usr
   - sudo mkdir lib64 && cd lib64
-  - sudo mkdir local
-#  - sudo apt-get update -qq
-  - sudo apt-get install libc6-dev gcc-5-multilib g++-5-multilib libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev
+  - sudo mkdir local  
   - export CXX="g++-5"
   - export CC="gcc-5"
   - sudo bash -c "find ${TRAVIS_BUILD_DIR} -type d -exec chmod 777 {} \;"
@@ -69,7 +80,7 @@ install:
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
   - sudo bash -c "./premake5-linux64 gmake"
-  - make config=${CONFIG}_x64
+  - sudo make config=${CONFIG}_x64
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
@@ -79,7 +90,7 @@ before_script:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - make -j16 config=${CONFIG}_x64
+  - sudo make -j4 config=${CONFIG}_x64
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
