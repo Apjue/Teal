@@ -49,16 +49,17 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, const Nz::Vector
     initSchemeUtility(scheme);
     loadNazara();
 
+    loadMetaData();
+    loadSkills();
     loadCharacters();
+    loadItems();
+
     loadTilesetCore();
     loadMaps();
 
     addIcon();
     addCam();
 
-    loadMetaData();
-    loadSkills();
-    loadItems();
 
     addEntities();
     addSystems();
@@ -84,6 +85,33 @@ Ndk::EntityHandle Game::cloneCharacter(const Nz::String& codename)
     {
         e = (*it)->Clone();
         cloneRenderables(e);
+    }
+
+    return e;
+}
+
+Ndk::EntityHandle Game::cloneItem(const Nz::String& codename)
+{
+    Ndk::EntityHandle e;
+    auto it = std::find_if(m_items.begin(), m_items.end(),
+                           [&codename] (const Ndk::EntityHandle& e) { return e->GetComponent<CloneComponent>().codename == codename; });
+
+    if (it != m_items.end())
+    {
+        e = (*it)->Clone();
+        auto& gfxEntities = e->GetComponent<GraphicalEntitiesComponent>();
+        Ndk::EntityList newEntities;
+
+        for (auto& gfxEntity : gfxEntities.entities)
+        {
+            Ndk::EntityHandle newEntity = gfxEntity->Clone();
+            cloneRenderables(newEntity);
+
+            newEntity->GetComponent<LogicEntityIdComponent>().logicEntity = newEntity;
+            newEntities.Insert(newEntity);
+        }
+
+        gfxEntities.entities = newEntities;
     }
 
     return e;
@@ -562,6 +590,7 @@ void Game::loadMaps()
         }
 
         map->setTiles(tiles);
+        Nz::String mapPos = lua.CheckField<Nz::String>("pos");
 
         lua.PushString("entities");
         lua.GetTable();
@@ -578,18 +607,56 @@ void Game::loadMaps()
                 break;
             }
 
-            // get entities (codename)
+            Nz::String codename = lua.CheckField<Nz::String>("codename");
+            Nz::String type = lua.CheckField<Nz::String>("type").ToLower();
+
+            TealException(lua.GetField("pos") == Nz::LuaType_Table, "Lua: teal_map.entities.pos isn't a table !");
+
+            lua.PushInteger(1);
+            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_map.entities.pos.x isn't a number !");
+
+            int posx = toint(lua.CheckInteger(-1));
+            TealException(posx > 0, "Invalid pos.y");
+            lua.Pop();
+
+
+            lua.PushInteger(2);
+            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_map.entities.pos.y isn't a number !");
+
+            int posy = toint(lua.CheckInteger(-1));
+            TealException(posy > 0, "Invalid pos.y");
+            lua.Pop();
+
+            Nz::Vector2ui pos = { tounsigned(posx), tounsigned(posy) };
+            lua.Pop();
+
+
+            if (type == "character" || type == "item")
+            {
+                Ndk::EntityHandle e =  (type == "character" ? cloneCharacter(codename) : cloneItem(codename));
+
+                if (e.IsValid() && e->IsValid())
+                {
+                    e->Enable(false);
+                    map->getEntities().Insert(e);
+                }
+            }
+
+            else
+            {
+                NazaraNotice(Nz::String { "Invalid type for entity " }.Append(codename).Append(" in map ")
+                             .Append(mapPos).Append(" [with type = \"").Append(type).Append("\"]"));
+            }
 
             lua.Pop();
         }
 
         lua.Pop();
 
-        Nz::String pos = lua.CheckField<Nz::String>("pos");
-        map->setPosition(toVector(stringToMapXY(pos)));
+        map->setPosition(toVector(stringToMapXY(mapPos)));
+        MapDataLibrary::Register(mapPos, deactivateMapEntities(map));
 
-        MapDataLibrary::Register(pos, deactivateMapEntities(map));
-        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + pos);
+        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + mapPos);
     }
 
     NazaraDebug(" --- ");
@@ -657,7 +724,8 @@ void Game::loadItems()
         unsigned  level = lua.CheckField<unsigned>("level");
         Nz::String icon = lua.CheckField<Nz::String>("icon");
 
-        Ndk::EntityHandle item = make_logicalItem(m_world, codename, name, desc, level, Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
+        Ndk::EntityHandle item = make_logicalItem(m_world, codename, name, desc, level,
+                                                  Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
         TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 

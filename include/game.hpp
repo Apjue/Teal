@@ -66,6 +66,7 @@ private:
 
     // Illegal functions
     Ndk::EntityHandle cloneCharacter(const Nz::String& codename);
+    Ndk::EntityHandle cloneItem(const Nz::String& codename);
 
     // Character functions
     void showInventory(bool detail = false);
