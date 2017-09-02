@@ -32,8 +32,7 @@
 #include "def/layerdef.hpp"
 #include "game.hpp"
 
-Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize,
-           const Nz::Vector2ui& viewport, const Nz::String& winName)
+Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, const Nz::Vector2ui& viewport, const Nz::String& winName)
     : m_app(app), m_window(app.AddWindow<Nz::RenderWindow>()), m_mapViewport(viewport)
 {
     loadTextures();
