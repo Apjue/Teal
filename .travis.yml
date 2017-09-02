@@ -46,6 +46,7 @@ before_install:
   - sudo apt-get install libc6-dev gcc-5-multilib g++-5-multilib libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev
   - export CXX="g++-5"
   - export CC="gcc-5"
+  - sudo bash -c "find ${TRAVIS_BUILD_DIR} -type f -exec chmod 777 {} \;"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
