@@ -6,6 +6,13 @@ notifications:
     on_success: never
     on_failure: never
 
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: ${GITHUB_TOKEN}
+  on:
+    branch: travis-binaries
+
 language: cpp
 compiler: g++
 os: linux
@@ -99,6 +106,3 @@ after_success:
   - cd result
   - cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
   - cp -r ${TRAVIS_BUILD_DIR}/wdirs ./
-
-#deploy:
-#  skip_cleanup: true
