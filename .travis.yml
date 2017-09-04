@@ -12,7 +12,7 @@ deploy:
   github_token: ${GITHUB_TOKEN}
   target_branch: travis-binaries
   repo: S6066/Teal-binaries
-  local_dir: ${TRAVIS_BUILD_DIR}/buildresults/
+  local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
   on:
     branch: master
@@ -120,11 +120,17 @@ after_success:
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
+  - sudo ls ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/
+  - sudo ls ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin
+  - sudo ls ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/
   - sudo cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir buildresults
   - cd buildresults
   - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
-  - tar -zcvf --remove-files tealdemo.tar.gz *
-  - mkdir build-${TRAVIS_JOB_NUMBER}
-  - mv tealdemo.tar.gz build-${TRAVIS_JOB_NUMBER}
+  - tar -zcvf tealdemo.tar.gz *
+  - mkdir result
+  - mv tealdemo.tar.gz
+  - cd result
+  - touch commit-info
+  - echo "Travis CI Build ${TRAVIS_JOB_NUMBER}\nCommit hash -- ${TRAVIS_COMMIT}\n\n${TRAVIS_COMMIT_MESSAGE}" > commit-info
