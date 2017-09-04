@@ -28,7 +28,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-5
+      - g++-5-multilib
       - libopenal-dev
       - libc6-dev
       - libsndfile1-dev
