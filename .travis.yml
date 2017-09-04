@@ -6,17 +6,6 @@ notifications:
     on_success: never
     on_failure: never
 
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: ${GITHUB_TOKEN}
-  target_branch: travis-binaries
-  repo: S6066/Teal-binaries
-  local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
-  name: Travis CI
-  on:
-    branch: master
-
 language: cpp
 compiler: g++
 os: linux
@@ -62,6 +51,17 @@ branches:
   only:
   - master
 
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: ${GITHUB_TOKEN}
+  target_branch: travis-binaries-${PLATFORM}
+  repo: S6066/Teal-binaries
+  local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
+  name: Travis CI
+  on:
+    branch: master
+
 before_install:
   - cd /usr
   - sudo mkdir lib64 && cd lib64
@@ -89,19 +89,19 @@ install:
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
   - cp ./micropather.h ${TRAVIS_BUILD_DIR}/extlibs/include/micropather/
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
-  - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux64 ./
-  - sudo bash -c "./premake5-linux64 gmake"
-  - sudo make config=${CONFIG}_x64
+  - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORM} ./
+  - sudo bash -c "./premake5-linux${PLATFORM} gmake"
+  - sudo make config=${CONFIG}_x${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - sudo bash -c "./premake5-linux64 ${ACTION}"
+  - sudo bash -c "./premake5-linux${PLATFORM} ${ACTION}"
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - sudo make -j4 config=${CONFIG}_x64
+  - sudo make -j4 config=${CONFIG}_${PLATFORM}
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
@@ -130,7 +130,7 @@ after_success:
   - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
   - tar -zcvf tealdemo.tar.gz *
   - mkdir result
-  - mv tealdemo.tar.gz
+  - mv tealdemo.tar.gz result
   - cd result
   - touch commit-info
-  - echo "Travis CI Build ${TRAVIS_JOB_NUMBER}\nCommit hash -- ${TRAVIS_COMMIT}\n\n${TRAVIS_COMMIT_MESSAGE}" > commit-info
+  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info
