@@ -38,6 +38,7 @@ env:
     - COMPILER=g++-5
     - ACTION=gmake
     - PLATFORM=x64
+    - PLATFORUMNUM=64
     
   matrix:
     - CONFIG=debug
@@ -89,15 +90,15 @@ install:
   - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
   - cp ./micropather.h ${TRAVIS_BUILD_DIR}/extlibs/include/micropather/
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
-  - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORM} ./
-  - sudo bash -c "./premake5-linux${PLATFORM} gmake"
-  - sudo make config=${CONFIG}_x${PLATFORM}
+  - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
+  - sudo bash -c "./premake5-linux${PLATFORMNUM} gmake"
+  - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - sudo bash -c "./premake5-linux${PLATFORM} ${ACTION}"
+  - sudo bash -c "./premake5-linux${PLATFORMNUM} ${ACTION}"
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
