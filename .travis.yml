@@ -11,6 +11,7 @@ deploy:
   skip_cleanup: true
   github_token: ${GITHUB_TOKEN}
   target_branch: travis-binaries
+  repo: Teal-binaries
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/
   name: Travis CI
   on:
@@ -42,6 +43,7 @@ addons:
       - mesa-common-dev
       - libgl1-mesa-dev
       - libassimp-dev
+      - p7zip-full
 
 env:
   global:
