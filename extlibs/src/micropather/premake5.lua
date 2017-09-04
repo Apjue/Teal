@@ -27,7 +27,7 @@ project "micropather"
     files { "micropather.h", "micropather.cpp" }
 
     filter "configurations:Debug"
-        flags { "symbols" }
+        symbols "On"
         targetsuffix "-d"
 
     filter "configurations:Release"
