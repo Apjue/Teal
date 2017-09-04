@@ -10,8 +10,11 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: ${GITHUB_TOKEN}
+  target_branch: travis-binaries
+  local_dir: ${TRAVIS_BUILD_DIR}/buildresults/
+  name: Travis CI
   on:
-    branch: travis-binaries
+    branch: master
 
 language: cpp
 compiler: g++
@@ -106,3 +109,10 @@ after_success:
   - cd result
   - cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
   - cp -r ${TRAVIS_BUILD_DIR}/wdirs ./
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir buildresults
+  - cd buildresults
+  - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result ./
+  - 7z a TealDemo.7z *
+  - mkdir "build ${TRAVIS_JOB_NUMBER} (${TRAVIS_COMMIT})"
+  - mv TealDemo.7z "build ${TRAVIS_JOB_NUMBER} (${TRAVIS_COMMIT})"
