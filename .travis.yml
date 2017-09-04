@@ -56,7 +56,7 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: ${GITHUB_TOKEN}
-  target_branch: travis-binaries-${PLATFORM}
+  target_branch: travis-binaries-${CONFIG}-${PLATFORM}
   repo: S6066/Teal-binaries
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
