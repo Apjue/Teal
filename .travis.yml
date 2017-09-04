@@ -106,11 +106,12 @@ script:
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - mkdir result
-  - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo result/
+  - sudo mkdir result
+  - sudo cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
   - cd result
-  - cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
-  - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
+  - sudo mkdir data
+  - sudo cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./data/
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir buildresults
   - cd buildresults
