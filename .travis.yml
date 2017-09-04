@@ -110,11 +110,12 @@ after_success:
   - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo result/
   - cd result
   - cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
-  - cp -r ${TRAVIS_BUILD_DIR}/wdirs ./
+  - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir buildresults
   - cd buildresults
-  - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result ./
+  - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
+  - tree
   - 7z a TealDemo.7z *
-  - mkdir "build ${TRAVIS_JOB_NUMBER} (${TRAVIS_COMMIT})"
-  - mv TealDemo.7z "build ${TRAVIS_JOB_NUMBER} (${TRAVIS_COMMIT})"
+  - mkdir build-${TRAVIS_JOB_NUMBER}
+  - mv TealDemo.7z build-${TRAVIS_JOB_NUMBER}
