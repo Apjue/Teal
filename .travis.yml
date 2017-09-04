@@ -38,7 +38,7 @@ env:
     - COMPILER=g++-5
     - ACTION=gmake
     - PLATFORM=x64
-    - PLATFORUMNUM=64
+    - PLATFORMNUM=64
     
   matrix:
     - CONFIG=debug
