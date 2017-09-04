@@ -43,7 +43,6 @@ addons:
       - mesa-common-dev
       - libgl1-mesa-dev
       - libassimp-dev
-      - p7zip-full
 
 env:
   global:
@@ -109,14 +108,23 @@ after_success:
   - sudo mkdir result
   - sudo cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
   - cd result
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/*.so ./
-  - sudo mkdir data
-  - sudo cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./data/
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
+  - sudo cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir buildresults
   - cd buildresults
   - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
-  - tree
-  - 7z a TealDemo.7z *
+  - tar -zcvf --remove-files tealdemo.tar.gz *
   - mkdir build-${TRAVIS_JOB_NUMBER}
-  - mv TealDemo.7z build-${TRAVIS_JOB_NUMBER}
+  - mv tealdemo.tar.gz build-${TRAVIS_JOB_NUMBER}
