@@ -1,3 +1,2 @@
 Put your libs in `YourIDE/YourPlatform/LibDir`  
-For example, `vs2015/x86/nazara`  
-(Look in `premake5.lua` for directories name)  
+For example, `vs2017/x86/nazara` or `gmake/x64/micropather`  
