@@ -91,3 +91,7 @@ callgrind.out.*
 # Working Directories
 wdirs/x64
 wdirs/x86
+
+# Result
+TealDemo.log
+TealDemo.exe
