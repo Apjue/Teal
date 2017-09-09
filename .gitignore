@@ -84,6 +84,10 @@ callgrind.out.*
 **.vspscc
 **.vssscc
 
+**.dll
+**.lib
+**.a
+
 # Working Directories
 wdirs/x64
 wdirs/x86
