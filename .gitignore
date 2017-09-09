@@ -60,13 +60,6 @@ Makefile
 .gdb_history
 callgrind.out.*
 
-# Build
-Debug
-Release
-
-x86
-x64
-
 # Compiled Object files
 **.slo
 **.lo
@@ -94,10 +87,3 @@ x64
 # Working Directories
 wdirs/x64
 wdirs/x86
-
-# ExtLibs
-extlibs/lib/**
-extlibs/include/**
-
-# Others
-todo.txt
