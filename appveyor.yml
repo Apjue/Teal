@@ -53,7 +53,7 @@ install:
   - mkdir %PLATFORM% && cd %PLATFORM%
   - mkdir nazara && cd nazara
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/lib/%PLATFORM%/*.lib ./
-  - cd ../micropather
+  - cd .. && mkdir micropather && cd micropather
   - cp -r %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/** ./
   - premake5.exe %TOOLSET%
   - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
