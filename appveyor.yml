@@ -52,13 +52,9 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
   - mkdir %TOOLSET% && cd %TOOLSET%
   - mkdir %PLATFORM% && cd %PLATFORM%
-  - mkdir nazara && mkdir micropather
-  - cd nazara
+  - mkdir nazara && cd nazara
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/lib/%PLATFORM%/*.lib ./
   - cd ../micropather
-  - curl http://teal.esy.es/micropather/micropather.h -o micropather.h
-  - curl http://teal.esy.es/micropather/micropather.cpp -o micropather.cpp
-  - cp micropather.h %APPVEYOR_BUILD_FOLDER%/extlibs/include/micropather/
   - cp -r %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/** ./
   - premake5.exe %TOOLSET%
   - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
@@ -70,7 +66,7 @@ before_build:
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%/build/%TOOLSET%
-  - msbuild "TealDemo.vcxproj" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild "TealDemo.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
