@@ -130,4 +130,4 @@ after_success:
   - mv tealdemo.tar.gz result
   - cd result
   - touch commit-info
-  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info
+  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM})\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info
