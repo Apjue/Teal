@@ -31,15 +31,15 @@ struct SkillData
     unsigned minRange { 1u };
     unsigned maxRange { 5u };
     bool modifiableRange { false };
-    
+
     enum class AreaType
     {
         Cross,
         Plus,
         Circle,
 
-        AlignedCenterRL, // Will switch to AlignedRight if number is uneven
-        AlignedCenterDU, // Will switch to AlignedUp if number is uneven
+        AlignedCenterRL,
+        AlignedCenterDU,
         AlignedRight,
         AlignedLeft,
         AlignedDown,
