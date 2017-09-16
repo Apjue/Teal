@@ -21,5 +21,10 @@ function Character:MoveAwayFrom(x, y)
 end
 
 function Character:Attack(characterIndex, skillCodename)
-    Teal_AttackCharacter(characterIndex, skillCodename)
+    Teal_AttackCharacter(characterIndex, skillCodename or Teal_ChooseAttack(characterIndex))
+end
+
+function Character:ChooseTarget()
+    local index = Teal_ChooseTarget()
+    return teal_fight_data.characters[index]
 end
