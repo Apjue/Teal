@@ -20,6 +20,6 @@ function Character:MoveAwayFrom(x, y)
     Teal_MoveCharacterAwayFrom(x, y)
 end
 
-function Character:Attack(characterIndex, skillIndex)
-    Teal_AttackCharacter(characterIndex, skillIndex)
+function Character:Attack(characterIndex, skillCodename)
+    Teal_AttackCharacter(characterIndex, skillCodename)
 end
