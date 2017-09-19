@@ -24,7 +24,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
 
-    Nz::Vector2i mapPos = m_currentMap->getMap()->getPosition();
+    Nz::Vector2i mapPos = m_currentMap->getCurrentMap()->getPosition();
     auto& pos = p->GetComponent<PositionComponent>();
 
     TealAssert(isPositionValid(pos.xy), "Position isn't valid");
@@ -109,7 +109,7 @@ bool changeMap()
     if (!canChange.first)
         return false;
 
-    auto& mapPos = m_currentMap->getMap()->getPosition();
+    auto& mapPos = m_currentMap->getCurrentMap()->getPosition();
     auto& pos = mainChar->GetComponent<PositionComponent>();
 
     MapDataRef newMap; // Map the entity will move to
@@ -158,14 +158,14 @@ bool changeMap()
 
     TealAssert(newMap, "new map null !");
 
-    deactivateMapEntities(m_currentMap->getMap());
-    m_currentMap->setMap(newMap);
+    deactivateMapEntities(m_currentMap->getCurrentMap());
+    m_currentMap->setMap(m_currentMap->getCurrentMapIndex(), newMap);
     
-    for (auto& entity : m_currentMap->getMap()->getEntities())
+    for (auto& entity : m_currentMap->getCurrentMap()->getEntities())
         if (hasRightComponentsToAnimate(entity))
             updateAnimation(entity);
     
-    activateMapEntities(m_currentMap->getMap());
+    activateMapEntities(m_currentMap->getCurrentMap());
 
     m_currentMap->update();
     clearPatherCache();
@@ -184,13 +184,13 @@ void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pat
 
 bool isMapUtilityInitialized()
 {
-    return m_currentMap && m_currentMap->getMap() && m_pather && isGameUtilityInitialized();
+    return m_currentMap && m_currentMap->getCurrentMap().IsValid() && m_pather && isGameUtilityInitialized();
 }
 
 void refreshOccupiedTiles()
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    m_currentMap->getMap()->updateOccupiedTiles();
+    m_currentMap->getCurrentMap()->updateOccupiedTiles();
 }
 
 void clearPatherCache()

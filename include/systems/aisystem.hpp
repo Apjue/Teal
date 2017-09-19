@@ -8,8 +8,26 @@
 #define AISYSTEM_HPP
 
 #include <NDK/System.hpp>
+#include <NDK/EntityList.hpp>
 #include <memory>
+#include <unordered_map>
 #include "micropather.h"
+
+namespace detail
+{
+
+struct FightData
+{
+    std::unordered_map<Ndk::EntityHandle,
+        std::pair
+            <bool, // Is Alive
+            bool> // Has Played
+    > timeline;
+
+    Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
+};
+
+}
 
 ///
 /// \class AISystem
@@ -36,6 +54,9 @@ private:
     void OnUpdate(float elapsed) override;
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
+
+    detail::FightData m_currentFight;
+    bool m_isFightActive {};
 };
 
 #endif // AISYSTEM_HPP

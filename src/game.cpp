@@ -563,7 +563,7 @@ void Game::loadMaps()
             lua.PushInteger(i);
             lua.GetTable();
 
-            TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } +i + " isn't a table !");
+            TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
 
             tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
             tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");

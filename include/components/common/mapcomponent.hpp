@@ -16,6 +16,7 @@
 #include <Nazara/Core/Error.hpp>
 #include <memory>
 #include <array>
+#include <unordered_map>
 #include "micropather.h"
 #include "cache/tilesetcore.hpp"
 #include "data/mapdata.hpp"
@@ -50,8 +51,12 @@ public:
     void update();
     void updateBorders();
 
-    inline MapDataRef getMap() const;
-    inline void setMap(MapDataRef newMap);
+    inline MapDataRef getMap(int index);
+    inline MapDataRef getCurrentMap() const;
+    inline void setMap(int index, MapDataRef newMap);
+
+    inline int getCurrentMapIndex() const;
+    inline void switchMap(int index);
 
     inline void setFightMode(bool f);
     inline bool getFightMode() const;
@@ -60,7 +65,9 @@ public:
 private:
     Ndk::WorldHandle m_world;
     Ndk::EntityHandle m_entity;
-    MapDataRef m_map; // You have to clear the pather's cache after changing map
+
+    std::unordered_map<int, MapDataRef> m_maps; // You have to clear the pather's cache after changing map
+    int m_mapIndex {};
 
     Nz::MaterialRef m_tileset;
     Nz::MaterialRef m_fightTileset;

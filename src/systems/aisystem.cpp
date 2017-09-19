@@ -2,6 +2,7 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <Nazara/Lua/LuaInstance.hpp>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"

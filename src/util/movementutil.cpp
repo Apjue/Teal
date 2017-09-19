@@ -97,7 +97,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
 
     auto& path = e->GetComponent<PathComponent>().path;
     auto& pos = e->GetComponent<PositionComponent>();
-    MapDataRef currentMap = getCurrentMap()->getMap();
+    MapDataRef currentMap = getCurrentMap()->getCurrentMap();
 
     for (unsigned i {}, posX { pos.xy.x }, posY { pos.xy.y }; i < path.size(); ++i)
     {
@@ -122,7 +122,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
 void getItemsFromGround(const Ndk::EntityHandle& e)
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
-    MapDataRef currentMap = getCurrentMap()->getMap();
+    MapDataRef currentMap = getCurrentMap()->getCurrentMap();
 
     auto& inv = e->GetComponent<InventoryComponent>();
     auto& mapEntities = currentMap->getEntities();

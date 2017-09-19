@@ -56,7 +56,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
         if (goSomewhere && !m_map.expired())
         {
             auto map = m_map.lock();
-            TealAssert(map->getMap().IsValid(), "Map isn't valid !");
+            TealAssert(map->getCurrentMap().IsValid(), "Map isn't valid !");
 
             for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
             { /// \todo Redo this. Does not work as intended
@@ -65,7 +65,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 x = wantedPos.x;
                 y = wantedPos.y;
                 
-                auto adjacentTiles = map->getMap()->adjacentTiles(x, y);
+                auto adjacentTiles = map->getCurrentMap()->adjacentTiles(x, y);
 
                 if (adjacentTiles.empty())
                     break;
@@ -91,7 +91,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 unsigned newXpos = newPos.x;
                 unsigned newYpos = newPos.y;
 
-                if (map->getMap()->tile(XYToIndex(newXpos, newYpos)).isWalkable())
+                if (map->getCurrentMap()->tile(XYToIndex(newXpos, newYpos)).isWalkable())
                 {
                     wantedPos.x += xy.x;
                     wantedPos.y += xy.y;

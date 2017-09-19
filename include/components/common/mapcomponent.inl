@@ -2,11 +2,12 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
+inline MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
                          TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
     : MapInstance(tcore, ftcore, e)
 {
-    m_map = data;
+    m_maps[0] = data;
+
 
     if (!m_tileset->SetDiffuseMap(tileset))
         NazaraError("Error: Map Material SetDiffuseMap failed !");
@@ -17,15 +18,31 @@ MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, cons
     update();
 }
 
-MapDataRef MapInstance::getMap() const
+inline MapDataRef MapInstance::getMap(int index)
 {
-    return m_map;
+    return m_maps[index];
 }
 
-void MapInstance::setMap(MapDataRef newMap)
+inline MapDataRef MapInstance::getCurrentMap() const
 {
-    m_map = newMap;
-    m_map->updateOccupiedTiles();
+    return m_maps.at(getCurrentMapIndex());
+}
+
+inline void MapInstance::setMap(int index, MapDataRef newMap)
+{
+    m_maps[index] = newMap;
+    m_maps[index]->updateOccupiedTiles();
+}
+
+inline int MapInstance::getCurrentMapIndex() const
+{
+    return m_mapIndex;
+}
+
+inline void MapInstance::switchMap(int index)
+{
+    m_mapIndex = index;
+    update();
 }
 
 

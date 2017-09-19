@@ -16,8 +16,8 @@ function Character:MoveTo(x, y)
     Teal_MoveCharacter(x, y)
 end
 
-function Character:MoveAwayFrom(x, y)
-    Teal_MoveCharacterAwayFrom(x, y)
+function Character:TakeCover()
+    Teal_TakeCover()
 end
 
 function Character:Attack(characterIndex, skillCodename)
