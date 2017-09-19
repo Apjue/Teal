@@ -115,7 +115,7 @@ void AISystem::OnUpdate(float elapsed)
             {
                 Nz::LuaInstance lua;
 
-                if (!prepareLuaAI(lua, e, m_currentFight))
+                if (!prepareLuaAI(lua, e))
                 {
                     NazaraError("Failed to prepare Lua AI");
 
@@ -133,7 +133,7 @@ void AISystem::OnUpdate(float elapsed)
     }
 }
 
-bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, const detail::FightData& fight)
+bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
     return false;
 }

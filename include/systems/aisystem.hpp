@@ -48,7 +48,7 @@ public:
 
 private:
     void OnUpdate(float elapsed) override;
-    bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, const detail::FightData& fight);
+    bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
 
