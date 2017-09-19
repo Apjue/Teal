@@ -11,6 +11,7 @@
 #include "util/aiutil.hpp"
 #include "util/nzstlcompatibility.hpp"
 #include "util/maputil.hpp"
+#include "util/gameutil.hpp"
 #include "def/gamedef.hpp"
 #include "def/systemdef.hpp"
 #include "systems/aisystem.hpp"
@@ -102,31 +103,37 @@ void AISystem::OnUpdate(float elapsed)
         use movementutil for move functions, no need to use move system
         */
 
-        // All swords/hammers/offensive item has an attack
+        // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>())
+        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter())
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
 
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
-                // Oh no, I haven't do this part yet
-                // I can't kill the monsters :(
+                Nz::LuaInstance lua;
+
+                if (!prepareLuaAI(lua, e, m_currentFight))
+                {
+                    NazaraError("Failed to prepare Lua AI");
+
+                    fight.myTurn = false;
+                    continue;
+                }
+
+                // Lua things here
+                // Do one AI per monster (type) and some "generals" AIs. AICore ?
+                // Do AIs in Lua
 
                 fight.myTurn = false;
-
-                // Generate automatically attacks and co here
-                // Unless it's the main player. To verify: getMainCharacter()
-
-                // Do 3 AIs (per type of monster + generals AIs): Neutral, Offensive, Defensive
-                // Neutral choose between offensive & defensive ? with a maxAP/maxMP argument to do both
-                // example: (health < maxHealth / 4) ? defensive(6, 3) : offensive(6, 3);
-
-                // Do "levels" of AI: Stupid, Average, Smart, etc.
-                // Do AIs in Lua
             }
         }
     }
+}
+
+bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, const detail::FightData& fight)
+{
+    return false;
 }

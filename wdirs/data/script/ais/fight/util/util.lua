@@ -28,3 +28,7 @@ function Character:ChooseTarget()
     local index = Teal_ChooseTarget()
     return teal_fight_data.characters[index]
 end
+
+function Character:AttacksThatCanBeUsed(characterIndex)
+    Teal_AttacksThatCanBeUsed(characterIndex)
+end

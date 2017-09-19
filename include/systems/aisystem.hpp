@@ -7,6 +7,7 @@
 #ifndef AISYSTEM_HPP
 #define AISYSTEM_HPP
 
+#include <Nazara/Lua/LuaInstance.hpp>
 #include <NDK/System.hpp>
 #include <NDK/EntityList.hpp>
 #include <memory>
@@ -18,12 +19,7 @@ namespace detail
 
 struct FightData
 {
-    std::unordered_map<Ndk::EntityHandle,
-        std::pair
-            <bool, // Is Alive
-            bool> // Has Played
-    > timeline;
-
+    Ndk::EntityList fighters;
     Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
 };
 
@@ -52,6 +48,7 @@ public:
 
 private:
     void OnUpdate(float elapsed) override;
+    bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, const detail::FightData& fight);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
 
