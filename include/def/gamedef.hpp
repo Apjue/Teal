@@ -43,6 +43,8 @@ constexpr std::array<int,   8> MapDistanceUnevenY { 2,    1,   0,  -1,  -2,   -1
 
 constexpr std::array<float, 8> MapDistanceCost    { 1.5f, 1.f, 2.f, 1.f, 1.5f, 1.f, 2.f, 1.f };
 
+constexpr unsigned DefaultFightTimeLimit { 60'000 }; // In Miliseconds
+
 }
 
 #endif // GAMEDEF_HPP

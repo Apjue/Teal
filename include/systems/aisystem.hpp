@@ -49,6 +49,8 @@ public:
 private:
     void OnUpdate(float elapsed) override;
     bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
+    bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
+    bool serializeMap(Nz::LuaInstance& lua);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
     Nz::String m_utilityLuaFile;

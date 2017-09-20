@@ -7,6 +7,9 @@
 #include "components/common/movecomponent.hpp"
 #include "components/common/fightcomponent.hpp"
 #include "components/common/lifecomponent.hpp"
+#include "components/common/levelcomponent.hpp"
+#include "components/common/attackmodifiercomponent.hpp"
+#include "components/common/resistancemodifiercomponent.hpp"
 #include "util/aiutil.hpp"
 #include "util/nzstlcompatibility.hpp"
 #include "util/maputil.hpp"
@@ -109,6 +112,7 @@ void AISystem::OnUpdate(float elapsed)
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
                 Nz::LuaInstance lua;
+                lua.SetTimeLimit(Def::DefaultFightTimeLimit); // todo: specific time limits ?
 
                 if (!prepareLuaAI(lua, e))
                 {
@@ -131,5 +135,68 @@ void AISystem::OnUpdate(float elapsed)
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
     lua.ExecuteFromFile(m_utilityLuaFile);
+
+    lua.PushTable();
+    lua.SetGlobal("teal_fight_data");
+    lua.GetGlobal("teal_fight_data");
+
+    lua.PushTable();
+    lua.SetField("map");
+    lua.GetField("map");
+
+    if (!serializeMap(lua))
+        return false;
+
+    // cd ..
+
+    lua.PushTable();
+    lua.SetField("character");
+    lua.GetField("character");
+
+    if (!serializeCharacter(lua, character))
+        return false;
+
+    // cd ..
+
+    return false;
+}
+
+bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
+{
+    // todo: timeline index
+
+    auto& pos = character->GetComponent<PositionComponent>().xy;
+
+    lua.PushInteger(pos.x);
+    lua.SetField("x");
+
+    lua.PushInteger(pos.y);
+    lua.SetField("y");
+
+
+    lua.PushInteger(character->GetComponent<LevelComponent>().level);
+    lua.SetField("level");
+
+
+    auto& fight = character->GetComponent<FightComponent>();
+
+    lua.PushInteger(fight.movementPoints);
+    lua.SetField("mp");
+
+    lua.PushInteger(fight.actionPoints);
+    lua.SetField("ap");
+
+
+    if (character->HasComponent<AttackModifierComponent>())
+    {
+        auto& atk = character->GetComponent<AttackModifierComponent>();
+        //...
+    }
+
+    return false;
+}
+
+bool AISystem::serializeMap(Nz::LuaInstance& lua)
+{
     return false;
 }

@@ -83,3 +83,38 @@ SkillData::AreaType SkillData::stringToAreaType(Nz::String string)
 
     return AreaType::Cross;
 }
+
+Nz::String SkillData::areaTypeToString(AreaType area)
+{
+    switch (area)
+    {
+        case AreaType::Cross:
+            return "cross";
+
+        case AreaType::Plus:
+            return "plus";
+
+        case AreaType::Circle:
+            return "circle";
+
+        case AreaType::AlignedCenterRL:
+            return "alignedcenterrl";
+
+        case AreaType::AlignedCenterDU:
+            return "alignedcenterdu";
+
+        case AreaType::AlignedRight:
+            return "alignedright";
+
+        case AreaType::AlignedLeft:
+            return "alignedleft";
+
+        case AreaType::AlignedDown:
+            return "aligneddown";
+
+        case AreaType::AlignedUp:
+            return "alignedup";
+    }
+
+    return "";
+}

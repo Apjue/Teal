@@ -47,6 +47,7 @@ struct SkillData
     };
 
     static AreaType stringToAreaType(Nz::String string);
+    static Nz::String areaTypeToString(AreaType area);
 
     AreaType areaType { AreaType::Cross };
     unsigned areaMinRange { 0u };

@@ -8,6 +8,7 @@
 #define FIGHTCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <vector>
 #include "components/common/pathcomponent.hpp"
 #include "cache/doublestore.hpp"
 #include "global.hpp"
@@ -26,6 +27,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
     bool automaticallyAttack { false }; // In the map
     unsigned movementPoints { 3 };
     unsigned actionPoints { 6 };
+    std::vector<SkillStore::LightId> attacks;
 
     SkillStore::LightId attack {};
     AbsTile wantedPos { toVector(Def::StandStillPos) };
