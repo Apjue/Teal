@@ -62,7 +62,7 @@ void AISystem::OnUpdate(float elapsed)
 
             if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
             {                                                                                  // Else, recompute path in case an object moved and blocks the path
-                move.tile = toVector(Def::StandStillPos);                                          // (See MovementSystem)
+                move.tile = toVector(Def::StandStillPos);                                      // (See MovementSystem)
                 continue;
             }
 
