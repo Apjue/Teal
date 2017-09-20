@@ -2,7 +2,6 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include <Nazara/Lua/LuaInstance.hpp>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
@@ -16,15 +15,11 @@
 #include "def/systemdef.hpp"
 #include "systems/aisystem.hpp"
 
-AISystem::AISystem()
+AISystem::AISystem(const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather)
+    : m_utilityLuaFile { utilFilepath }
 {
     Requires<PathComponent, PositionComponent, MoveComponent>();
     SetUpdateOrder(Def::AISystemUpdateOrder);
-}
-
-AISystem::AISystem(const std::shared_ptr<micropather::MicroPather>& pather)
-    : AISystem()
-{
     setPather(pather);
 }
 
@@ -135,5 +130,6 @@ void AISystem::OnUpdate(float elapsed)
 
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
+    lua.ExecuteFromFile(m_utilityLuaFile);
     return false;
 }

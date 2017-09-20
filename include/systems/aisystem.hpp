@@ -7,6 +7,7 @@
 #ifndef AISYSTEM_HPP
 #define AISYSTEM_HPP
 
+#include <Nazara/Core/String.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
 #include <NDK/System.hpp>
 #include <NDK/EntityList.hpp>
@@ -37,8 +38,7 @@ struct FightData
 class AISystem : public Ndk::System<AISystem>
 {
 public:
-    AISystem();
-    AISystem(const std::shared_ptr<micropather::MicroPather>& pather);
+    AISystem(const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather);
     ~AISystem() = default;
 
     void reset();
@@ -51,6 +51,7 @@ private:
     bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
+    Nz::String m_utilityLuaFile;
 
     detail::FightData m_currentFight;
     bool m_isFightActive {};

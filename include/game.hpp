@@ -56,6 +56,9 @@ private:
     const Nz::String m_addonsPrefix = m_rootPrefix + "addons/";
     const Nz::String m_addonsImgPrefix = m_addonsPrefix +    "img/";
     const Nz::String m_scriptPrefix = m_rootPrefix + "script/";
+    const Nz::String m_AIPrefix = m_scriptPrefix +           "ais/";
+    const Nz::String m_fightAIPrefix = m_AIPrefix +               "fight/";
+    const Nz::String m_fightAIUtilFile = m_fightAIPrefix +               "util/util.lua";
     
     StateMDStore m_states;
     EffectMDStore m_effects;

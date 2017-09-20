@@ -893,7 +893,7 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
 
 void Game::addSystems()
 {
-    m_world->AddSystem<AISystem>(m_pather);
+    m_world->AddSystem<AISystem>(m_fightAIUtilFile, m_pather);
     m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);
