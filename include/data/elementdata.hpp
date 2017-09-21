@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the  project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -45,6 +45,30 @@ inline Element stringToElement(Nz::String string)
         return Element::Earth;
 
     return Element::Neutral;
+}
+
+inline Nz::String elementToString(Element e)
+{
+    switch (e)
+    {
+        case Element::Neutral:
+            return "neutral";
+
+        case Element::Air:
+            return "air";
+
+        case Element::Fire:
+            return "fire";
+
+        case Element::Water:
+            return "water";
+
+        case Element::Earth:
+            return "earth";
+
+        default:
+            return "";
+    }
 }
 
 namespace std
