@@ -21,7 +21,11 @@ function Character:TakeCover()
 end
 
 function Character:Attack(characterIndex, skillCodename)
-    Teal_AttackCharacter(characterIndex, skillCodename or Teal_ChooseAttack(characterIndex))
+    Teal_AttackCharacter(characterIndex, skillCodename or self:ChooseAttack(characterIndex).codename)
+end
+
+function Character:MoveAndAttack(characterIndex, skillCodename)
+    Teal_MoveAndAttackCharacter(characterIndex, skillCodename)
 end
 
 function Character:ChooseTarget()
@@ -29,6 +33,11 @@ function Character:ChooseTarget()
     return teal_fight_data.characters[index]
 end
 
-function Character:AttacksThatCanBeUsed(characterIndex)
-    Teal_AttacksThatCanBeUsed(characterIndex)
+function Character:ChooseAttack(characterIndex)
+    local index = Teal_ChooseAttack(characterIndex)
+    return teal_fight_data.character.skills[index]
+end
+
+function Character:CanAttack(characterIndex)
+    Teal_CanAttack(characterIndex)
 end
