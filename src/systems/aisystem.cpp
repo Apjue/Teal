@@ -16,6 +16,7 @@
 #include "util/gameutil.hpp"
 #include "def/gamedef.hpp"
 #include "def/systemdef.hpp"
+#include "data/elementdata.hpp"
 #include "systems/aisystem.hpp"
 
 AISystem::AISystem(const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather)
@@ -147,7 +148,7 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& chara
     if (!serializeMap(lua))
         return false;
 
-    // cd ..
+    lua.Pop();
 
     lua.PushTable();
     lua.SetField("character");
@@ -156,7 +157,7 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& chara
     if (!serializeCharacter(lua, character))
         return false;
 
-    // cd ..
+    lua.Pop();
 
     return false;
 }
@@ -189,8 +190,26 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
 
     if (character->HasComponent<AttackModifierComponent>())
     {
-        auto& atk = character->GetComponent<AttackModifierComponent>();
-        //...
+        lua.PushTable(0u, 5u);
+        lua.SetField("attackmodifier");
+        lua.GetField("attackmodifier");
+
+        auto& atk = character->GetComponent<AttackModifierComponent>().data;
+
+        for (unsigned i {}; i < toUnderlyingType(Element::Max); ++i)
+        {
+            Element element = static_cast<Element>(i);
+
+            lua.PushTable(2u);
+            lua.SetField(Nz::String::Number(i));
+            lua.GetField(Nz::String::Number(i));
+
+            lua.PushString(elementToString(element));
+            lua.SetField("1");
+
+            lua.PushInteger(atk[element]);
+            lua.SetField("2");
+        }
     }
 
     return false;

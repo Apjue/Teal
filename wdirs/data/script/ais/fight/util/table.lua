@@ -30,18 +30,22 @@ teal_fight_data =
         mp = 3, -- Movement Points
         ap = 6, -- Action Points
 
-        attackmodifier =
+        attackmodifier = -- can be nil
         {
-            { "neutral", 10 },
-            { "fire", -5 },
-            { "air", 0 }
+            { "neutral", 150 },
+            { "fire", -75 },
+            { "air", 0 },
+            { "water", 999 },
+            { "earth", 0 }
         },
 
-        resistancemodifier =
+        resistancemodifier = -- can be nil too
         {
             { "neutral", 10 },
             { "fire", -5 },
-            { "air", 0 }
+            { "air", 0 },
+            { "water", 0 },
+            { "earth", 0 }
         },
 
         skills =
