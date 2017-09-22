@@ -187,28 +187,60 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
     lua.PushInteger(fight.actionPoints);
     lua.SetField("ap");
 
-
-    if (character->HasComponent<AttackModifierComponent>())
     {
-        lua.PushTable(0u, 5u);
-        lua.SetField("attackmodifier");
-        lua.GetField("attackmodifier");
-
-        auto& atk = character->GetComponent<AttackModifierComponent>().data;
-
-        for (unsigned i {}; i < toUnderlyingType(Element::Max); ++i)
+        if (character->HasComponent<AttackModifierComponent>())
         {
-            Element element = static_cast<Element>(i);
+            lua.PushTable(0u, 5u);
+            auto& atk = character->GetComponent<AttackModifierComponent>().data;
 
-            lua.PushTable(2u);
-            lua.SetField(Nz::String::Number(i));
-            lua.GetField(Nz::String::Number(i));
+            for (unsigned i {}; i < toUnderlyingType(Element::Max); ++i)
+            {
+                Element element = static_cast<Element>(i);
+                lua.PushTable(2u);
 
-            lua.PushString(elementToString(element));
-            lua.SetField("1");
+                {
+                    lua.PushInteger(1);
+                    lua.PushString(elementToString(element));
+                    lua.SetTable();
 
-            lua.PushInteger(atk[element]);
-            lua.SetField("2");
+                    lua.PushInteger(2);
+                    lua.PushInteger(atk[element]);
+                    lua.SetTable();
+                }
+
+                lua.PushInteger(i + 1);
+                lua.SetTable();
+            }
+
+            lua.SetField("attackmodifier");
+        }
+
+
+        if (character->HasComponent<ResistanceModifierComponent>())
+        {
+            lua.PushTable(0u, 5u);
+            auto& res = character->GetComponent<ResistanceModifierComponent>().data;
+
+            for (unsigned i {}; i < toUnderlyingType(Element::Max); ++i)
+            {
+                Element element = static_cast<Element>(i);
+                lua.PushTable(2u);
+
+                {
+                    lua.PushInteger(1);
+                    lua.PushString(elementToString(element));
+                    lua.SetTable();
+
+                    lua.PushInteger(2);
+                    lua.PushInteger(res[element]);
+                    lua.SetTable();
+                }
+
+                lua.PushInteger(i + 1);
+                lua.SetTable();
+            }
+
+            lua.SetField("resistancemodifier");
         }
     }
 
