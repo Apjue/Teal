@@ -15,19 +15,19 @@ SkillData::SkillData(const LuaArguments& args)
             if (table->vars.at(0).get<Nz::String>() == "damage")
             {
                 TealException(!table->vars.empty(), "Empty arguments !");
-                attackList.push_back(std::make_shared<DamageData>(*(table.get())));
+                attackList.emplace_back(std::make_pair(AttackType::Damage, std::make_shared<DamageData>(*(table.get()))));
             }
 
             else if (table->vars.at(0).get<Nz::String>() == "state")
             {
                 TealException(!table->vars.empty(), "Empty arguments !");
-                attackList.push_back(std::make_shared<StateData>(*(table.get())));
+                attackList.emplace_back(std::make_pair(AttackType::State, std::make_shared<StateData>(*(table.get()))));
             }
 
             else if (table->vars.at(0).get<Nz::String>() == "effect")
             {
                 TealException(!table->vars.empty(), "Empty arguments !");
-                attackList.push_back(std::make_shared<EffectData>(*(table.get())));
+                attackList.emplace_back(std::make_pair(AttackType::Effect, std::make_shared<EffectData>(*(table.get()))));
             }
         }
 

@@ -39,5 +39,5 @@ function Character:ChooseAttack(characterIndex)
 end
 
 function Character:CanAttack(characterIndex)
-    Teal_CanAttack(characterIndex)
+    return Teal_CanAttack(characterIndex)
 end

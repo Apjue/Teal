@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the  project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -20,8 +20,16 @@ auto DoubleStore<Value, LightID, HeavyID>::getItem(LightID id) -> Value&
 }
 
 template<class Value, class LightID, class HeavyID>
-auto DoubleStore<Value, LightID, HeavyID>::getItemIndex(const HeavyID& name) -> LightID
+auto DoubleStore<Value, LightID, HeavyID>::getItem(LightID id) const -> const Value&
 {
-    TealAssert(m_conversionTable.find(name) != m_conversionTable.end(), "Item with that name does not exist !");
-    return m_conversionTable[name];
+    return m_items[id];
+}
+
+template<class Value, class LightID, class HeavyID>
+auto DoubleStore<Value, LightID, HeavyID>::getItemIndex(const HeavyID& name) const -> LightID
+{
+    auto it = m_conversionTable.find(name);
+    TealAssert(it != m_conversionTable.end(), "Item with that name does not exist !");
+
+    return it->second;
 }

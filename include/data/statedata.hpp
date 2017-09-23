@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -21,9 +21,9 @@ struct StateData : public Attack
         TealException(args.vars.size() >= 4, "Wrong number of arguments. Need at least 4");
         TealAssert(args.vars[0].get<Nz::String>() == "state", "Wrong type of attack");
 
-        Nz::String stateType = args.vars[3].get<Nz::String>().ToLower();
-
-        if (stateType == PoisonnedState::getMetadataID())
+        stateType = args.vars[3].get<Nz::String>().ToLower(); // If some state changed
+                                                              // Don't forget to update this, but also
+        if (stateType == PoisonnedState::getMetadataID())     // AISystem::serializeSkills (aisystem.cpp)
             state = std::make_shared<PoisonnedState>(args);
 
         if (stateType == HealedState::getMetadataID())
@@ -45,6 +45,7 @@ struct StateData : public Attack
             state = std::make_shared<ConfusedState>(args);
     }
 
+    Nz::String stateType;
     std::shared_ptr<State> state;
 };
 

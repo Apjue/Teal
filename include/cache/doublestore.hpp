@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the  project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -41,7 +41,8 @@ public:
 
     inline LightID addItem(const HeavyID& name, const Value& skill);
     inline Value&  getItem(LightID id);
-    inline LightID getItemIndex(const HeavyID& name);
+    inline const Value& getItem(LightID id) const;
+    inline LightID getItemIndex(const HeavyID& name) const;
 
 private:
     LightID m_counter;

@@ -19,10 +19,10 @@
 #include "data/elementdata.hpp"
 #include "systems/aisystem.hpp"
 
-AISystem::AISystem(const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather)
-    : m_utilityLuaFile { utilFilepath }
+AISystem::AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather)
+    : m_utilityLuaFile { utilFilepath }, m_skills(skills)
 {
-    Requires<PathComponent, PositionComponent, MoveComponent>();
+    Requires<PositionComponent>();
     SetUpdateOrder(Def::AISystemUpdateOrder);
     setPather(pather);
 }
@@ -38,56 +38,57 @@ void AISystem::setPather(const std::shared_ptr<micropather::MicroPather>& pather
     m_pather = pather;
 }
 
-void AISystem::OnUpdate(float elapsed)
+void AISystem::OnUpdate(float)
 {
-    NazaraUnused(elapsed);
-
     for (auto& e : GetEntities())
     {
-        auto& move = e->GetComponent<MoveComponent>();
-
-        if (move.tile != toVector(Def::StandStillPos)) // This entity wants to move
+        if (e->HasComponent<MoveComponent>() && e->HasComponent<PathComponent>()) // Compute Path
         {
-            auto& pos = e->GetComponent<PositionComponent>();
-            auto& pathComp = e->GetComponent<PathComponent>();
-            auto& path = pathComp.path;
+            auto& move = e->GetComponent<MoveComponent>();
 
-            AbsTile startPos = pos.xy;
-
-            if (move.tile == startPos)
+            if (move.tile != toVector(Def::StandStillPos)) // This entity wants to move
             {
+                auto& pos = e->GetComponent<PositionComponent>();
+                auto& pathComp = e->GetComponent<PathComponent>();
+                auto& path = pathComp.path;
+
+                AbsTile startPos = pos.xy;
+
+                if (move.tile == startPos)
+                {
+                    move.tile = toVector(Def::StandStillPos);
+                    continue;
+                }
+
+                AbsTile lastPos { move.tile };
+
+                auto currentPath = directionsToPositions(path, startPos);
+
+                if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
+                {                                                                                  // Else, recompute path in case an object moved and blocks the path
+                    move.tile = toVector(Def::StandStillPos);                                      // (See MovementSystem)
+                    continue;
+                }
+
+                PathComponent::PathPool newPath;
+
+                if (pos.advancement == 0)
+                    newPath = computePath(e, m_pather.get());
+                else
+                    continue;
+
+                if (!newPath.empty())
+                {
+                    path = newPath;
+                    pos.advancement = 0;
+                }
+
+                /// \todo if !move.playerInitiated and no path found (something blocked and still blocking)
+                ///       - stand still if valid pos
+                ///       - or use a function to go to nearest valid tile
+
                 move.tile = toVector(Def::StandStillPos);
-                continue;
             }
-
-            AbsTile lastPos { move.tile };
-
-            auto currentPath = directionsToPositions(path, startPos);
-
-            if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
-            {                                                                                  // Else, recompute path in case an object moved and blocks the path
-                move.tile = toVector(Def::StandStillPos);                                      // (See MovementSystem)
-                continue;
-            }
-
-            PathComponent::PathPool newPath;
-
-            if (pos.advancement == 0)
-                newPath = computePath(e, m_pather.get());
-            else
-                continue;
-
-            if (!newPath.empty())
-            {
-                path = newPath;
-                pos.advancement = 0;
-            }
-
-            /// \todo if !move.playerInitiated and no path found (something blocked and still blocking)
-            ///       - stand still if valid pos
-            ///       - or use a function to go to nearest valid tile
-
-            move.tile = toVector(Def::StandStillPos);
         }
 
         /*
@@ -105,7 +106,7 @@ void AISystem::OnUpdate(float elapsed)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter())
+        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
@@ -136,56 +137,83 @@ void AISystem::OnUpdate(float elapsed)
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
     lua.ExecuteFromFile(m_utilityLuaFile);
+    lua.PushTable();
+
 
     lua.PushTable();
-    lua.SetGlobal("teal_fight_data");
-    lua.GetGlobal("teal_fight_data");
-
-    lua.PushTable();
-    lua.SetField("map");
-    lua.GetField("map");
-
-    if (!serializeMap(lua))
-        return false;
-
-    lua.Pop();
-
-    lua.PushTable();
-    lua.SetField("character");
-    lua.GetField("character");
 
     if (!serializeCharacter(lua, character))
         return false;
 
-    lua.Pop();
+    lua.SetField("character");
 
-    return false;
+    {
+        lua.PushTable();
+        auto it = m_currentFight.fighters.begin();
+
+        for (unsigned i {}; i < m_currentFight.fighters.size(); ++i)
+        {
+            auto& e = *it;
+
+            if (e == character)
+                continue;
+
+            lua.PushInteger(i + 1);
+            lua.PushTable();
+
+            if (!serializeCharacter(lua, e))
+                return false;
+
+            lua.SetTable();
+            ++it;
+        }
+
+        lua.SetField("characters");
+
+
+        lua.PushTable();
+
+        for (auto& e : m_currentFight.entities)
+        {
+            //...
+        }
+
+        lua.SetField("objects");
+    }
+
+
+    lua.SetGlobal("teal_fight_data");
+    lua.Execute("setmetatable(teal_fight_data.character, Character)");
+
+    return true;
 }
 
 bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
     // todo: timeline index
 
-    auto& pos = character->GetComponent<PositionComponent>().xy;
+    {
+        auto& pos = character->GetComponent<PositionComponent>().xy;
 
-    lua.PushInteger(pos.x);
-    lua.SetField("x");
+        lua.PushInteger(pos.x);
+        lua.SetField("x");
 
-    lua.PushInteger(pos.y);
-    lua.SetField("y");
-
+        lua.PushInteger(pos.y);
+        lua.SetField("y");
+    }
 
     lua.PushInteger(character->GetComponent<LevelComponent>().level);
     lua.SetField("level");
 
+    {
+        auto& fight = character->GetComponent<FightComponent>();
 
-    auto& fight = character->GetComponent<FightComponent>();
+        lua.PushInteger(fight.movementPoints);
+        lua.SetField("mp");
 
-    lua.PushInteger(fight.movementPoints);
-    lua.SetField("mp");
-
-    lua.PushInteger(fight.actionPoints);
-    lua.SetField("ap");
+        lua.PushInteger(fight.actionPoints);
+        lua.SetField("ap");
+    }
 
     {
         if (character->HasComponent<AttackModifierComponent>())
@@ -193,7 +221,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
             lua.PushTable(0u, 5u);
             auto& atk = character->GetComponent<AttackModifierComponent>().data;
 
-            for (unsigned i {}; i < toUnderlyingType(Element::Max); ++i)
+            for (EnumUnderlyingType<Element> i {}; i < toUnderlyingType(Element::Max); ++i)
             {
                 Element element = static_cast<Element>(i);
                 lua.PushTable(2u);
@@ -212,7 +240,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
                 lua.SetTable();
             }
 
-            lua.SetField("attackmodifier");
+            lua.SetField("attackModifier");
         }
 
 
@@ -221,7 +249,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
             lua.PushTable(0u, 5u);
             auto& res = character->GetComponent<ResistanceModifierComponent>().data;
 
-            for (unsigned i {}; i < toUnderlyingType(Element::Max); ++i)
+            for (EnumUnderlyingType<Element> i {}; i < toUnderlyingType(Element::Max); ++i)
             {
                 Element element = static_cast<Element>(i);
                 lua.PushTable(2u);
@@ -240,14 +268,123 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
                 lua.SetTable();
             }
 
-            lua.SetField("resistancemodifier");
+            lua.SetField("resistanceModifier");
         }
     }
 
-    return false;
+    lua.PushTable();
+
+    if (!serializeSkills(lua, character))
+        return false;
+
+    lua.SetField("skills");
+    return true;
 }
 
-bool AISystem::serializeMap(Nz::LuaInstance& lua)
+bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
-    return false;
+    auto& fight = character->GetComponent<FightComponent>();
+
+    for (auto& skillId : fight.attacks)
+    {
+        auto& skill = m_skills.getItem(skillId);
+
+        {
+            lua.PushInteger(skill.movementPoints);
+            lua.SetField("mp");
+
+            lua.PushInteger(skill.actionPoints);
+            lua.SetField("ap");
+        }
+
+        {
+            lua.PushInteger(skill.minRange);
+            lua.SetField("minRange");
+
+            lua.PushInteger(skill.maxRange);
+            lua.SetField("maxRange");
+
+            lua.PushBoolean(skill.modifiableRange);
+            lua.SetField("modifiableRange");
+        }
+
+        {
+            lua.PushString(SkillData::areaTypeToString(skill.areaType));
+            lua.SetField("areatype");
+
+            lua.PushInteger(skill.areaMinRange);
+            lua.SetField("areaMinRange");
+
+            lua.PushInteger(skill.areaMaxRange);
+            lua.SetField("areaMaxRange");
+        }
+
+        lua.PushString(skill.codename);
+        lua.SetField("codename");
+
+        lua.PushTable();
+
+        for (unsigned i {}; i < skill.attackList.size(); ++i)
+        {
+            auto& attackPair = skill.attackList[i];
+            auto& attack = attackPair.second;
+
+            TealAssert(attack.get(), "Attack nullptr");
+
+            lua.PushInteger(i + 1);
+            lua.PushTable();
+
+            {
+                lua.PushString(AttackData::targetToString(attack->data.target));
+                lua.SetField("target");
+
+                DamageData* dmg {};
+                StateData* state {};
+                EffectData* effect {};
+
+                switch (attackPair.first)
+                {
+                    case SkillData::AttackType::Damage:
+                        dmg = static_cast<DamageData*>(attack.get());
+
+                        lua.PushString(elementToString(dmg->damage.first));
+                        lua.SetField("element");
+
+                        lua.PushInteger(dmg->damage.second);
+                        lua.SetField("damage");
+
+                        lua.PushString("damage");
+                        break;
+
+                    case SkillData::AttackType::State:
+                        state = static_cast<StateData*>(attack.get());
+
+                        // TODO
+
+                        lua.PushString("state");
+                        break;
+
+                    case SkillData::AttackType::Effect:
+                        effect = static_cast<EffectData*>(attack.get());
+
+                        // TODO
+
+                        lua.PushString("effect");
+                        break;
+
+                    default:
+                        lua.PushString("");
+                        break;
+                }
+
+                lua.SetField("type");
+            }
+
+            lua.SetTable();
+        }
+
+        lua.SetField("attacks");
+    }
+
+    return true;
 }

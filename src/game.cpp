@@ -683,7 +683,7 @@ void Game::loadSkills()
 
         if (!lua.ExecuteFromFile(skills.GetResultPath()))
         {
-            NazaraNotice("Error loading item " + skills.GetResultName());
+            NazaraNotice("Error loading skill " + skills.GetResultName());
             NazaraNotice(lua.GetLastError());
             continue;
         }
@@ -893,7 +893,7 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
 
 void Game::addSystems()
 {
-    m_world->AddSystem<AISystem>(m_fightAIUtilFile, m_pather);
+    m_world->AddSystem<AISystem>(m_skills, m_fightAIUtilFile, m_pather);
     m_world->AddSystem<MovementSystem>();
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);

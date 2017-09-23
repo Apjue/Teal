@@ -4,21 +4,6 @@ require "util.lua"
 
 teal_fight_data =
 {
-	map =
-	{
-		{
-			obstacle = 0,
-			spawn = "none"
-		},
-
-		{
-			obstacle = 1,
-			spawn = "none"
-		},
-
-		-- ...
-	},
-
 	character = -- Character the AI need to compute something for
 	{
         index = 0, -- Timeline index
@@ -30,7 +15,7 @@ teal_fight_data =
         mp = 3, -- Movement Points
         ap = 6, -- Action Points
 
-        attackmodifier = -- can be nil
+        attackModifier = -- can be nil
         {
             { "neutral", 150 },
             { "fire", -75 },
@@ -39,7 +24,7 @@ teal_fight_data =
             { "earth", 0 }
         },
 
-        resistancemodifier = -- can be nil too
+        resistanceModifier = -- can be nil too
         {
             { "neutral", 10 },
             { "fire", -5 },
@@ -82,9 +67,9 @@ teal_fight_data =
                 mp = 0, -- Movement Points required
                 ap = 3, -- Action Points Required
 
-                minrange = 1,
-                maxrange = 5,
-                modifiablerange = true,
+                minRange = 1,
+                maxRange = 5,
+                modifiableRange = true,
 
                 areatype = "cross", -- possible values: cross, plus, circle, alignedcenterrl, alignedcenterdu, alignedright, alignedleft, aligneddown, alignedup
                 areaMinRange = 0,
@@ -99,11 +84,23 @@ teal_fight_data =
         }
 	},
 
-    characters =
+    characters = -- Does not contain character table
     {
         {
-            type = "enemy" -- or ally
+            ally = false,
             -- Same properties as character table
+        },
+
+        {
+            -- ...
+        }
+    },
+
+    objects = -- Traps, unanimated objects, ...
+    { -- NOTE: Do not use this table, it will always be empty. It is not implemented
+        {
+            ally = false,
+            owner = 1 -- Character index
         },
 
         {

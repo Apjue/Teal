@@ -10,6 +10,7 @@
 #include <Nazara/Core/String.hpp>
 #include <memory>
 #include <vector>
+#include <utility>
 #include "attack.hpp"
 #include "damagedata.hpp"
 #include "statedata.hpp"
@@ -21,7 +22,14 @@ struct SkillData
     SkillData() = default;
     SkillData(const LuaArguments& args);
 
-    std::vector<std::shared_ptr<Attack>> attackList;
+    enum class AttackType
+    {
+        Damage,
+        State,
+        Effect
+    };
+
+    std::vector<std::pair<AttackType, std::shared_ptr<Attack>>> attackList;
 
     unsigned movementPoints { 0 }; // MP/AP required
     unsigned actionPoints { 3 };

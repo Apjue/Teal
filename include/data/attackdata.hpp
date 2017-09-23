@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the  project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -34,6 +34,23 @@ struct AttackData
             return Target::Both;
 
         return Target::Enemies;
+    }
+
+    static Nz::String targetToString(Target target)
+    {
+        switch (target)
+        {
+            case AttackData::Target::Allies:
+                return "allies";
+
+            case AttackData::Target::Enemies:
+                return "enemies";
+
+            case AttackData::Target::Both:
+                return "both";
+        }
+
+        return Nz::String {};
     }
 };
 
