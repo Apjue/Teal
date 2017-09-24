@@ -11,6 +11,7 @@
 #include <Nazara/Lua/LuaInstance.hpp>
 #include <NDK/System.hpp>
 #include <NDK/EntityList.hpp>
+#include <vector>
 #include <memory>
 #include <unordered_map>
 #include "micropather.h"
@@ -21,7 +22,8 @@ namespace detail
 
 struct FightData
 {
-    Ndk::EntityList fighters;
+    Ndk::EntityHandle currentEntity;
+    std::vector<Ndk::EntityHandle> fighters;
     Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
 };
 
@@ -49,8 +51,8 @@ public:
 
 private:
     void OnUpdate(float) override;
-    bool prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
-    bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
+    bool prepareLuaAI(Nz::LuaInstance& lua);
+    bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
     bool serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
     void Teal_MoveCharacter(unsigned x, unsigned y);

@@ -113,10 +113,13 @@ void AISystem::OnUpdate(float)
 
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
+                TealAssert(m_isFightActive, "Not fighting");
+                m_currentFight.currentEntity = e;
+
                 Nz::LuaInstance lua;
                 lua.SetTimeLimit(Def::DefaultFightTimeLimit); // todo: specific time limits ?
 
-                if (!prepareLuaAI(lua, e))
+                if (!prepareLuaAI(lua))
                 {
                     NazaraError("Failed to prepare Lua AI");
 
@@ -134,7 +137,7 @@ void AISystem::OnUpdate(float)
     }
 }
 
-bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
+bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 {
     lua.ExecuteFromFile(m_utilityLuaFile);
     lua.PushTable();
@@ -142,20 +145,19 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& chara
 
     lua.PushTable();
 
-    if (!serializeCharacter(lua, character))
+    if (!serializeCharacter(lua, m_currentFight.currentEntity))
         return false;
 
     lua.SetField("character");
 
     {
         lua.PushTable();
-        auto it = m_currentFight.fighters.begin();
 
         for (unsigned i {}; i < m_currentFight.fighters.size(); ++i)
         {
-            auto& e = *it;
+            auto& e = m_currentFight.fighters[i];
 
-            if (e == character)
+            if (e == m_currentFight.currentEntity)
                 continue;
 
             lua.PushInteger(i + 1);
@@ -165,7 +167,6 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& chara
                 return false;
 
             lua.SetTable();
-            ++it;
         }
 
         lua.SetField("characters");
@@ -188,9 +189,23 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua, const Ndk::EntityHandle& chara
     return true;
 }
 
-bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
+bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
 {
-    // todo: timeline index
+    {
+        auto it = std::find_if(m_currentFight.fighters.begin(), m_currentFight.fighters.end(),
+                               [&character] (const Ndk::EntityHandle& e)
+        {
+            return e == character;
+        });
+
+        if (it == m_currentFight.fighters.end())
+            lua.PushInteger(-1); // well fuck
+
+        else
+            lua.PushInteger(std::distance(m_currentFight.fighters.begin(), it));
+
+        lua.SetField("index");
+    }
 
     {
         auto& pos = character->GetComponent<PositionComponent>().xy;
@@ -213,6 +228,14 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
 
         lua.PushInteger(fight.actionPoints);
         lua.SetField("ap");
+
+        auto& life = character->GetComponent<LifeComponent>();
+
+        lua.PushInteger(life.hp);
+        lua.SetField("hp");
+
+        lua.PushInteger(life.maxhp);
+        lua.SetField("maxhp");
     }
 
     {
@@ -272,12 +295,16 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
         }
     }
 
-    lua.PushTable();
+    if (skills)
+    {
+        lua.PushTable();
 
-    if (!serializeSkills(lua, character))
-        return false;
+        if (!serializeSkills(lua, character))
+            return false;
 
-    lua.SetField("skills");
+        lua.SetField("skills");
+    }
+
     return true;
 }
 
@@ -388,3 +415,47 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 
     return true;
 }
+
+
+void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+    // faire à la main + this_thread sleep for ?
+}
+
+void AISystem::Teal_TakeCover()
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+}
+
+void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCodename)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+}
+
+void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+}
+
+unsigned AISystem::Teal_ChooseTarget()
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+}
+
+unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+}
+
+bool AISystem::Teal_CanAttack(unsigned characterIndex)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+}
+

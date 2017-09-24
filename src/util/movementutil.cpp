@@ -22,7 +22,7 @@
 #include "util/gameutil.hpp"
 #include "util/movementutil.hpp"
 
-void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
+void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions)
 {
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;
@@ -60,7 +60,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
         std::swap(*(path.begin()), path.back());
         path.pop_back(); // To get next tile
 
-        if (!path.empty() && e->HasComponent<MoveComponent>())
+        if (!path.empty() && allowMapInteractions && e->HasComponent<MoveComponent>())
             recomputeIfObstacle(e);
     }
 
@@ -68,7 +68,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapChange)
     {
         pos.moving = false; // Not moving anymore
 
-        if (e == getMainCharacter())
+        if (e == getMainCharacter() && allowMapInteractions)
         {
             TealAssert(hasComponentsToChangeMap(e) && e->HasComponent<InventoryComponent>(), "Main character doesn't have required components ?");
 

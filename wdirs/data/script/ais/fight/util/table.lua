@@ -15,6 +15,9 @@ teal_fight_data =
         mp = 3, -- Movement Points
         ap = 6, -- Action Points
 
+        hp = 100,
+        maxhp = 100,
+
         attackModifier = -- can be nil
         {
             { "neutral", 150 },
