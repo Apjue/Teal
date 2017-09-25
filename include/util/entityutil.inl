@@ -17,3 +17,8 @@ bool isItemEntity(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<Items::ItemComponent>();
 }
+
+bool isEntityMoving(const Ndk::EntityHandle& e)
+{
+    return e->HasComponent<PathComponent>() && e->GetComponent<PathComponent>().path.empty();
+}

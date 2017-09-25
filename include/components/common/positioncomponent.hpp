@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -19,8 +19,6 @@ struct PositionComponent : public Ndk::Component<PositionComponent>
 
     DirectionFlags direction; // replaces inXY
     unsigned advancement {};
-
-    bool moving { false };
 
     static Ndk::ComponentIndex componentIndex;
 };

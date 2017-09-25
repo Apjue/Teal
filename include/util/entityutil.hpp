@@ -11,6 +11,7 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include "components/common/defaultgraphicsposcomponent.hpp"
+#include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/items/itemcomponent.hpp"
 
@@ -42,6 +43,8 @@ inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& e);
 ///
 
 inline bool isItemEntity(const Ndk::EntityHandle& e);
+
+inline bool isEntityMoving(const Ndk::EntityHandle& e);
 
 #include "entityutil.inl"
 

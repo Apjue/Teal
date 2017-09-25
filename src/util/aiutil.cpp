@@ -11,6 +11,7 @@
 #include "util/util.hpp"
 #include "util/assert.hpp"
 #include "util/nzstlcompatibility.hpp"
+#include "util/entityutil.hpp"
 #include "util/aiutil.hpp"
 
 PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather)
@@ -24,7 +25,7 @@ PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::Mic
     if (move.tile == toVector(Def::StandStillPos))
         return PathComponent::PathPool {}; // This entity doesn't want to move.
 
-    if (pos.moving && !isPositionValid(pos.xy))
+    if (isEntityMoving(e) && !isPositionValid(pos.xy))
         return PathComponent::PathPool {}; // Invalid position, can't stop it
 
     return computePath(pos.xy, move.tile, pather);

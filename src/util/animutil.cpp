@@ -10,6 +10,7 @@
 #include "def/systemdef.hpp"
 #include "util/gfxutil.hpp"
 #include "util/assert.hpp"
+#include "util/entityutil.hpp"
 #include "util/animutil.hpp"
 
 bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e)
@@ -32,7 +33,7 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
     auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
     auto& anim = e->GetComponent<AnimationComponent>();
-    bool  moving = e->GetComponent<PositionComponent>().moving;
+    bool  moving = isEntityMoving(e);
     auto  dir = e->GetComponent<OrientationComponent>().dir;
 
     int const intDir = toint(dir);

@@ -36,12 +36,6 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions)
     auto   xy = DirToXY(dir, even);
 
     e->GetComponent<OrientationComponent>().dir = DirToOrient(dir);
-    
-    if (!pos.moving)
-    {
-        pos.moving = true;
-        return; // Return so the animation system can animate.
-    }
 
     pos.direction = dir;
     ++pos.advancement;
@@ -66,8 +60,6 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions)
 
     if (path.empty()) // Finished path
     {
-        pos.moving = false; // Not moving anymore
-
         if (e == getMainCharacter() && allowMapInteractions)
         {
             TealAssert(hasComponentsToChangeMap(e) && e->HasComponent<InventoryComponent>(), "Main character doesn't have required components ?");
