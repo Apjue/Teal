@@ -29,11 +29,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
     unsigned actionPoints { 6 };
     std::vector<SkillStore::LightId> attacks;
 
-    SkillStore::LightId attack {};
-    AbsTile wantedPos { toVector(Def::StandStillPos) };
-
-    PathComponent::PathPool path;
-    unsigned totalSize {};
+    SkillStore::LightId wantedAttack {};
 
     static Ndk::ComponentIndex componentIndex;
 };
