@@ -114,17 +114,24 @@ void AISystem::OnUpdate(float)
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
                 TealAssert(m_isFightActive, "Not fighting");
-                m_currentFight.currentEntity = e;
+                Nz::LuaInstance& lua = m_currentFight.ai;
 
-                Nz::LuaInstance lua;
-                lua.SetTimeLimit(Def::DefaultFightTimeLimit); // todo: specific time limits ?
-
-                if (!prepareLuaAI(lua))
+                if (m_currentFight.clean)
                 {
-                    NazaraError("Failed to prepare Lua AI");
+                    m_currentFight.currentEntity = e;
+                    lua.SetTimeLimit(Def::DefaultFightTimeLimit); // todo: specific time limits ?
 
-                    fight.myTurn = false;
-                    continue;
+                    if (!prepareLuaAI(lua))
+                    {
+                        NazaraError("Failed to prepare Lua AI");
+
+                        fight.myTurn = false;
+                        // Reset lua instance
+                        m_currentFight.clean = true;
+                        continue;
+                    }
+
+                    // coroutine
                 }
 
                 // Lua things here
@@ -420,7 +427,7 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
     TealAssert(m_isFightActive, "Not fighting");
-    // faire à la main + this_thread sleep for ?
+    
 }
 
 void AISystem::Teal_TakeCover()

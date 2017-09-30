@@ -22,6 +22,10 @@ namespace detail
 
 struct FightData
 {
+    bool clean { true };
+    Nz::LuaInstance ai;
+    
+
     Ndk::EntityHandle currentEntity;
     std::vector<Ndk::EntityHandle> fighters;
     Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
