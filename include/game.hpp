@@ -13,9 +13,9 @@
 #include <NDK/Canvas.hpp>
 #include <NDK/Widgets/ButtonWidget.hpp>
 #include <Nazara/Renderer/RenderWindow.hpp>
-#include <Nazara/Utility/Icon.hpp>
+#include <Nazara/Platform/Icon.hpp>
 #include <Nazara/Math/Vector2.hpp>
-#include <Nazara/Utility/EventHandler.hpp>
+#include <Nazara/Platform/EventHandler.hpp>
 #include <Nazara/Core/Signal.hpp>
 #include <memory>
 #include "micropather.h"

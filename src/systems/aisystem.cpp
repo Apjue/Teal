@@ -27,6 +27,11 @@ AISystem::AISystem(const SkillStore& skills, const Nz::String& utilFilepath, con
     setPather(pather);
 }
 
+AISystem::AISystem(const AISystem& other) : m_skills (other.m_skills) // Invalid ctor. Shouldn't be used
+{
+    TealAssert(false, "AISystem's copy constructor cannot be used");
+}
+
 void AISystem::reset()
 {
     TealAssert(m_pather, "Pather is null, cannot reset it !");
@@ -106,7 +111,7 @@ void AISystem::OnUpdate(float)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
+        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
@@ -140,7 +145,7 @@ void AISystem::OnUpdate(float)
 
                 fight.myTurn = false;
             }
-        }
+        }*/
     }
 }
 
@@ -451,18 +456,18 @@ void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String s
 unsigned AISystem::Teal_ChooseTarget()
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    return 0; // temporary
 }
 
 unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex)
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    return 0; // temporary
 }
 
 bool AISystem::Teal_CanAttack(unsigned characterIndex)
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    return false; // temporary
 }
 

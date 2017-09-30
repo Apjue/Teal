@@ -82,9 +82,10 @@ after_build:
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./  
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPlatform%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/assimp.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/libsndfile-1.dll ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Newton.dll ./

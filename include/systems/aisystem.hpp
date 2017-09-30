@@ -46,6 +46,7 @@ class AISystem : public Ndk::System<AISystem>
 {
 public:
     AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather);
+    AISystem(const AISystem& other);
     ~AISystem() = default;
 
     void reset();

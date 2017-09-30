@@ -155,7 +155,12 @@ void getItemsFromGround(const Ndk::EntityHandle& e)
 
         if (itIndex > it)
             --itIndex;
-
-        mapEntities.Remove(*it);
     }
+
+    auto it = std::remove_if(mapEntities.begin(), mapEntities.end(), [] (const Ndk::EntityHandle& entity)
+    {
+        return !(entity.IsValid() && entity->IsValid());
+    });
+
+    mapEntities.erase(it, mapEntities.end());
 }

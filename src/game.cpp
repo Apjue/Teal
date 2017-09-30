@@ -638,7 +638,7 @@ void Game::loadMaps()
                 if (e.IsValid() && e->IsValid())
                 {
                     e->Enable(false);
-                    map->getEntities().Insert(e);
+                    map->getEntities().push_back(e);
                 }
             }
 
@@ -869,7 +869,7 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
         logicEntity->AddComponent<PositionComponent>().xy = { 1, 2 };
 
         auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MapItemsLayer);
-        MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
+        MapDataLibrary::Get("0;0")->getEntities().push_back(gfxEntity);
     }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
@@ -887,7 +887,7 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
     npc->AddComponent<RandomMovementComponent>(7.5f, 1);
 
     refreshGraphicsPos(npc);
-    MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
+    MapDataLibrary::Get("1;0")->getEntities().push_back(npc);
     deactivateMapEntities(MapDataLibrary::Get("1;0"));
 }
 

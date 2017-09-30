@@ -2,7 +2,7 @@
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include <Nazara/Utility/Mouse.hpp>
+#include <Nazara/Platform/Mouse.hpp>
 #include <array>
 #include <stdexcept>
 #include "util/assert.hpp"
