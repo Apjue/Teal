@@ -635,7 +635,7 @@ void Game::loadMaps()
             {
                 Ndk::EntityHandle e =  (type == "character" ? cloneCharacter(codename) : cloneItem(codename));
 
-                if (e.IsValid() && e->IsValid())
+                if (e.IsValid())
                 {
                     e->Enable(false);
                     map->getEntities().push_back(e);
