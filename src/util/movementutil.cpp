@@ -124,7 +124,7 @@ void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from
     auto& inv = e->GetComponent<InventoryComponent>();
     Ndk::EntityList killedEntities; // Ndk::Entity::Kill() is not immediate, need a world refresh
 
-    for (MapData::EntityList::iterator it = mapEntities.begin(); it != mapEntities.end();)
+    for (auto it = mapEntities.begin(); it != mapEntities.end();)
     {
         it = std::find_if(mapEntities.begin(), mapEntities.end(),
                           [&e, &killedEntities] (const Ndk::EntityHandle& item)
@@ -143,18 +143,8 @@ void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from
 
         (*it)->GetComponent<LogicEntityIdComponent>().logicEntity->RemoveComponent<PositionComponent>();
         inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
+
         killedEntities.Insert(*it);
+        (*it)->Kill(); // I'm sorry.
     }
-
-    mapEntities.erase(std::remove_if(mapEntities.begin(), mapEntities.end(),
-    [&killedEntities] (const Ndk::EntityHandle& entity)
-    {
-        if (killedEntities.Has(entity))
-        {
-            entity->Kill(); // I'm sorry.
-            return true;
-        }
-
-        return false;
-    }), mapEntities.end());
 }

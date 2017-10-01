@@ -44,12 +44,12 @@ void MapData::setTiles(const TileArray& tiles)
 }
 
 
-const MapData::EntityList& MapData::getEntities() const
+const Ndk::EntityList& MapData::getEntities() const
 {
     return m_entities;
 }
 
-MapData::EntityList& MapData::getEntities()
+Ndk::EntityList& MapData::getEntities()
 {
     return m_entities;
 }

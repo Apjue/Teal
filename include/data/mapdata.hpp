@@ -8,6 +8,7 @@
 #define MAPDATA_HPP
 
 #include <NDK/Entity.hpp>
+#include <NDK/EntityList.hpp>
 #include <Nazara/Core/ObjectLibrary.hpp>
 #include <Nazara/Core/ObjectRef.hpp>
 #include <Nazara/Core/RefCounted.hpp>
@@ -30,7 +31,6 @@ class MapData : public Nz::RefCounted, public Nz::Resource /// \todo Remove MapP
     friend MapDataLibrary;
 
 public:
-    using EntityList = std::vector<Ndk::EntityHandle>;
 
     MapData() = default;
     ~MapData() = default;
@@ -51,15 +51,15 @@ public:
     inline const TileData& tile(unsigned index) const;
     std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
 
-    inline const EntityList& getEntities() const;
-    inline EntityList& getEntities();
+    inline const Ndk::EntityList& getEntities() const;
+    inline Ndk::EntityList& getEntities();
 
     void updateOccupiedTiles();
 
 private:
     Nz::Vector2i m_pos {};
     TileArray m_tiles;
-    EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
+    Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
 
     static MapDataLibrary::LibraryMap s_library;
 };
