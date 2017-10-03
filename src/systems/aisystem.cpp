@@ -130,11 +130,7 @@ void AISystem::OnUpdate(float elapsed)
                     {
                         NazaraError("Failed to prepare Lua AI");
 
-                        cleanLuaInstance(lua);
-                        m_currentFight.coroutine = nullptr;
-
-                        fight.myTurn = false;
-                        m_currentFight.clean = true;
+                        cleanAndContinueFight();
                         continue;
                     }
 
@@ -143,16 +139,40 @@ void AISystem::OnUpdate(float elapsed)
                     m_currentFight.coroutine = &(lua.NewCoroutine());
                     m_currentFight.clean = false;
 
-                    m_currentFight.coroutine->Execute("execute()");
+                    Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
+                    Nz::String aiType = lua.CheckGlobal<Nz::String>("fight_ai_type");
+                    Nz::String aiMonsterType = lua.CheckGlobal<Nz::String>("fight_ai_monstertype");
+
+                    m_currentFight.coroutine->GetGlobal("execute");
+                    Nz::Ternary result = m_currentFight.coroutine->Resume();
+
+                    if (result != Nz::Ternary_Unknown) // yield() wasn't called
+                    {
+                        cleanAndContinueFight();
+
+                        if (result == Nz::Ternary_False)
+                            NazaraError("An error occurred in Fight AI " + aiName);
+                    }
                 }
 
                 else // yield() was called. Resume execution.
                 {
                     if (m_currentFight.coroutine->CanResume())
-                        m_currentFight.coroutine->Resume();
+                    {
+                        Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
+                        Nz::Ternary result = m_currentFight.coroutine->Resume();
+
+                        if (result != Nz::Ternary_Unknown) // PRANK: Kill a coroutine near cops [GONE WILD][-18]
+                        {
+                            cleanAndContinueFight();
+
+                            if (result == Nz::Ternary_False)
+                                NazaraError("An error occurred in Fight AI " + aiName);
+                        }
+                    }
 
                     else
-                        ; // todo: do something
+                        cleanAndContinueFight();
                 }
             }
         }
@@ -197,6 +217,14 @@ void AISystem::OnUpdate(float elapsed)
         //            "'           '"            
         //              '
     }
+}
+
+void AISystem::cleanAndContinueFight()
+{
+    cleanLuaInstance(m_currentFight.ai);
+    m_currentFight.coroutine = nullptr;
+    m_currentFight.clean = true;
+    m_currentFight.currentEntity->GetComponent<FightComponent>().myTurn = false;
 }
 
 void AISystem::cleanLuaInstance(Nz::LuaInstance& lua)

@@ -58,7 +58,9 @@ public:
 private:
     void OnUpdate(float elapsed) override;
 
+    void cleanAndContinueFight();
     void cleanLuaInstance(Nz::LuaInstance& lua);
+
     bool prepareLuaAI(Nz::LuaInstance& lua);
     bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
     bool serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
