@@ -43,7 +43,7 @@ void AISystem::setPather(const std::shared_ptr<micropather::MicroPather>& pather
     m_pather = pather;
 }
 
-void AISystem::OnUpdate(float)
+void AISystem::OnUpdate(float elapsed)
 {
     for (auto& e : GetEntities())
     {
@@ -111,7 +111,7 @@ void AISystem::OnUpdate(float)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
+        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
@@ -121,31 +121,43 @@ void AISystem::OnUpdate(float)
                 TealAssert(m_isFightActive, "Not fighting");
                 Nz::LuaInstance& lua = m_currentFight.ai;
 
-                if (m_currentFight.clean)
+                if (m_currentFight.clean || !m_currentFight.coroutine)
                 {
                     m_currentFight.currentEntity = e;
-                    lua.SetTimeLimit(Def::DefaultFightTimeLimit); // todo: specific time limits ?
+                    lua.SetTimeLimit(std::max(1, static_cast<int>(elapsed)) * 1000);
 
                     if (!prepareLuaAI(lua))
                     {
                         NazaraError("Failed to prepare Lua AI");
 
+                        cleanLuaInstance(lua);
+                        m_currentFight.coroutine = nullptr;
+
                         fight.myTurn = false;
-                        // Reset lua instance
                         m_currentFight.clean = true;
                         continue;
                     }
 
-                    // coroutine
+                    // Choose proper AI here. AICore ?
+
+                    m_currentFight.coroutine = &(lua.NewCoroutine());
+                    m_currentFight.clean = false;
+
+                    m_currentFight.coroutine->Execute("execute()");
                 }
 
-                // Lua things here
-                // Do one AI per monster (type) and some "generals" AIs. AICore ?
-                // Do AIs in Lua
+                else // yield() was called. Resume execution.
+                {
+                    if (m_currentFight.coroutine->CanResume())
+                        m_currentFight.coroutine->Resume();
 
-                fight.myTurn = false;
+                    else
+                        ; // todo: do something
+                }
             }
-        }*/
+        }
+
+
 
         // todo: do this^
         // and add lots of bugs
@@ -185,6 +197,11 @@ void AISystem::OnUpdate(float)
         //            "'           '"            
         //              '
     }
+}
+
+void AISystem::cleanLuaInstance(Nz::LuaInstance& lua)
+{
+    lua.Execute("teal_fight_data = nil; execute = nil;"); // todo: better clean thing
 }
 
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)

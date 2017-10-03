@@ -7,8 +7,9 @@
 #ifndef AISYSTEM_HPP
 #define AISYSTEM_HPP
 
-#include <Nazara/Core/String.hpp>
+#include <Nazara/Lua/LuaCoroutine.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
+#include <Nazara/Core/String.hpp>
 #include <NDK/System.hpp>
 #include <NDK/EntityList.hpp>
 #include <vector>
@@ -23,8 +24,8 @@ namespace detail
 struct FightData
 {
     bool clean { true };
+    Nz::LuaCoroutine* coroutine;
     Nz::LuaInstance ai;
-    
 
     Ndk::EntityHandle currentEntity;
     std::vector<Ndk::EntityHandle> fighters;
@@ -55,7 +56,9 @@ public:
     static Ndk::SystemIndex systemIndex;
 
 private:
-    void OnUpdate(float) override;
+    void OnUpdate(float elapsed) override;
+
+    void cleanLuaInstance(Nz::LuaInstance& lua);
     bool prepareLuaAI(Nz::LuaInstance& lua);
     bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
     bool serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
