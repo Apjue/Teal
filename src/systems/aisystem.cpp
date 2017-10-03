@@ -106,7 +106,7 @@ void AISystem::OnUpdate(float)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
+        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
@@ -140,7 +140,7 @@ void AISystem::OnUpdate(float)
 
                 fight.myTurn = false;
             }
-        }
+        }*/
     }
 }
 
@@ -427,7 +427,7 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
     TealAssert(m_isFightActive, "Not fighting");
-    
+
 }
 
 void AISystem::Teal_TakeCover()
@@ -451,18 +451,18 @@ void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String s
 unsigned AISystem::Teal_ChooseTarget()
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    return false;
 }
 
 unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex)
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    return false;
 }
 
 bool AISystem::Teal_CanAttack(unsigned characterIndex)
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    return false;
 }
 
