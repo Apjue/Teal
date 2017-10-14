@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -110,7 +110,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
     BodyPart bodypart {};
     Side side {};
 
-    SkillStore::LightId attackId {}; // For swords, bows, hammers...
+    SkillStore::LightId attackId { SkillStore::InvalidID }; // For swords, bows, hammers...
 
     static Ndk::ComponentIndex componentIndex;
 };

@@ -124,7 +124,7 @@ void AISystem::OnUpdate(float elapsed)
                 if (m_currentFight.clean || !m_currentFight.coroutine)
                 {
                     m_currentFight.currentEntity = e;
-                    lua.SetTimeLimit(std::max(1, static_cast<int>(elapsed)) * 1000);
+                    lua.SetTimeLimit(std::max(1, static_cast<int>(elapsed * 10.f)) * 1000);
 
                     if (!prepareLuaAI(lua))
                     {
@@ -162,7 +162,7 @@ void AISystem::OnUpdate(float elapsed)
                         Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
                         Nz::Ternary result = m_currentFight.coroutine->Resume();
 
-                        if (result != Nz::Ternary_Unknown) // PRANK: Kill a coroutine near cops [GONE WILD][-18]
+                        if (result != Nz::Ternary_Unknown)
                         {
                             cleanAndContinueFight();
 
@@ -230,6 +230,7 @@ void AISystem::cleanAndContinueFight()
 void AISystem::cleanLuaInstance(Nz::LuaInstance& lua)
 {
     lua.Execute("teal_fight_data = nil; execute = nil;"); // todo: better clean thing
+    lua.Execute("fight_ai_name = nil; fight_ai_type = nil; fight_ai_monstertype = nil;");
 }
 
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
@@ -515,25 +516,39 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
     TealAssert(m_isFightActive, "Not fighting");
-    
+    m_currentFight.currentEntity->GetComponent<MoveComponent>().tile = { x, y };
 }
 
 void AISystem::Teal_TakeCover()
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    // todo: do strange calculations with scores and things
 }
 
 void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCodename)
 {
     TealAssert(m_isFightActive, "Not fighting");
 
+    if (characterIndex >= m_currentFight.fighters.size())
+    {
+        NazaraError("AI: Character out of bounds !");
+        return;
+    }
+
+    auto& fight = m_currentFight.currentEntity->GetComponent<FightComponent>();
+    fight.target = m_currentFight.fighters[characterIndex];
 }
 
 void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename)
 {
     TealAssert(m_isFightActive, "Not fighting");
 
+    // Move near character...
+
+    bool canAttack {};
+
+    if (canAttack)
+        Teal_AttackCharacter(characterIndex, skillCodename);
 }
 
 unsigned AISystem::Teal_ChooseTarget()

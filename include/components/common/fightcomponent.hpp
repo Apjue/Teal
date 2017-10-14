@@ -29,7 +29,8 @@ struct FightComponent : public Ndk::Component<FightComponent>
     unsigned actionPoints { 6 };
     std::vector<SkillStore::LightId> attacks;
 
-    SkillStore::LightId wantedAttack {};
+    SkillStore::LightId wantedAttack { SkillStore::InvalidID };
+    Ndk::EntityHandle target;
 
     static Ndk::ComponentIndex componentIndex;
 };

@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -10,6 +10,11 @@
 #include <NDK/Component.hpp>
 #include <Nazara/Math/Rect.hpp>
 #include <Nazara/Core/String.hpp>
+
+///
+/// \todo Do not have a "maxframe" variable. Deduce maxframe from texture size / sprite size
+///       Have multiple animations (eg for attacks). AnimationStore ?
+///
 
 struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {

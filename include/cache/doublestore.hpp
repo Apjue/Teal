@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <limits>
 #include "util/assert.hpp"
 #include "data/skilldata.hpp"
 #include "data/metadata.hpp"
@@ -43,6 +44,8 @@ public:
     inline Value&  getItem(LightID id);
     inline const Value& getItem(LightID id) const;
     inline LightID getItemIndex(const HeavyID& name) const;
+
+    static constexpr LightID InvalidID { std::numeric_limits<LightID>().max() }; // Use this value for the "No Attack Chosen" thing
 
 private:
     LightID m_counter;
