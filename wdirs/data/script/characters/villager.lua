@@ -2,8 +2,7 @@ teal_character =
 {
     codename = "villager",
     size = { 113, 99 },
-    sprite = ":/game/char/villager",
-    maxanimframes = 15,
+    sprite = ":/game/char/villager", -- todo: load animations (lua?)
     defgfxpos = { -25, -66 },
     deflgcpos = { 1, 1 },
     maxhealth = 100,

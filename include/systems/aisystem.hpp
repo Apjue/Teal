@@ -18,7 +18,7 @@
 #include "micropather.h"
 #include "cache/doublestore.hpp"
 
-namespace detail
+namespace Detail
 {
 
 struct FightData
@@ -32,7 +32,7 @@ struct FightData
     Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
 };
 
-}
+} // namespace Detail
 
 ///
 /// \class AISystem
@@ -76,7 +76,7 @@ private:
     std::shared_ptr<micropather::MicroPather> m_pather {};
     Nz::String m_utilityLuaFile;
 
-    detail::FightData m_currentFight;
+    Detail::FightData m_currentFight;
     bool m_isFightActive {};
 
     const SkillStore& m_skills;

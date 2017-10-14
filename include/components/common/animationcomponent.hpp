@@ -8,8 +8,8 @@
 #define ANIMATIONCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include <Nazara/Math/Rect.hpp>
-#include <Nazara/Core/String.hpp>
+#include <vector>
+#include "cache/doublestore.hpp"
 
 ///
 /// \todo Do not have a "maxframe" variable. Deduce maxframe from texture size / sprite size
@@ -18,46 +18,17 @@
 
 struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {
-    enum AnimationState // When to animate ?
-    {
-        Deactivated = 0,
-        OnMove,
-        OnEmote,
-        OnFight
-    };
+    using AnimationList = std::vector<AnimationData>;
+    static constexpr std::size_t InvalidAnimationID = std::numeric_limits<std::size_t>().max();
 
-    static AnimationState stringToAnimState(Nz::String string)
-    {
-        string = string.ToLower();
+    AnimationComponent() = default;
+    ~AnimationComponent() = default;
 
-        if (string == "onmove")
-            return OnMove;
+    AnimationList anims;
+    std::size_t currentAnim {};
 
-        if (string == "onemote")
-            return OnMove;
-
-        if (string == "onfight")
-            return OnMove;
-
-        return Deactivated;
-    }
-
-    ///
-    /// \fn AnimationComponent
-    ///
-    /// \param s Size of the picture
-    /// \param mf Max Frames of the animation
-    /// \param df Default Frame of the animation
-    ///
-
-    AnimationComponent(const Nz::Vector2ui& s, unsigned mf = 0, AnimationState state = Deactivated, unsigned df = 0)
-        : frame { df }, size { s }, maxframe { mf }, animationState { state } {}
-
-    unsigned frame {}; // frame * size of the image = vertical coords of the image
-    Nz::Vector2ui size {};
-    unsigned maxframe {};
-    AnimationState animationState;
-    bool animated {};
+    AnimationData& getCurrentAnim() { return anims[currentAnim]; }
+    const AnimationData& getCurrentAnim() const { return anims[currentAnim]; }
 
     static Ndk::ComponentIndex componentIndex;
 };
