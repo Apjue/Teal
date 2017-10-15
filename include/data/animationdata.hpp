@@ -7,10 +7,11 @@
 #ifndef ANIMATIONDATA_HPP
 #define ANIMATIONDATA_HPP
 
+#include <Nazara/Core/String.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Renderer/Texture.hpp>
 
-struct AnimationData // todo: put that in doublestore
+struct AnimationData
 {
     enum AnimationType
     {
@@ -19,9 +20,27 @@ struct AnimationData // todo: put that in doublestore
         Emote
     };
 
-    unsigned frame {}; // frame * size of the image = vertical coords of the image
-    Nz::Vector2ui size {};
+    static AnimationType stringToAnimationType(Nz::String string)
+    {
+        string = string.ToLower();
+
+        if (string == "walk")
+            return Walk;
+
+        if (string == "fight")
+            return Fight;
+
+        if (string == "emote")
+            return Emote;
+
+        return {};
+    }
+
+    AnimationType type {};
+    Nz::Vector2f size {};
     Nz::TextureRef texture; // Texture to apply on the sprite
+    Nz::Vector2f offset {}; // offset to apply for the character to be on pos [1;1]
+    unsigned frame {}; // frame * y-size of the texture = vertical coords
 };
 
 #endif // ANIMATIONDATA_HPP

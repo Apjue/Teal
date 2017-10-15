@@ -26,6 +26,18 @@ auto DoubleStore<Value, LightID, HeavyID>::getItem(LightID id) const -> const Va
 }
 
 template<class Value, class LightID, class HeavyID>
+inline auto DoubleStore<Value, LightID, HeavyID>::getItem(HeavyID id) -> Value&
+{
+    return getItem(getItemIndex(id));
+}
+
+template<class Value, class LightID, class HeavyID>
+inline const auto DoubleStore<Value, LightID, HeavyID>::getItem(HeavyID id) const -> const Value&
+{
+    return getItem(getItemIndex(id));
+}
+
+template<class Value, class LightID, class HeavyID>
 auto DoubleStore<Value, LightID, HeavyID>::getItemIndex(const HeavyID& name) const -> LightID
 {
     auto it = m_conversionTable.find(name);

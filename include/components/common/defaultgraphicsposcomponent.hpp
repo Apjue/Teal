@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -13,8 +13,8 @@
 ///
 /// \struct DefaultGraphicsPosComponent
 ///
-/// \brief Used by the factory for the sprite to fit
-///        the default logic position
+/// \brief Offset used to fit correctly in the [1;1] tile
+/// \note Only used as a fallback when the AnimationComponent isn't available
 ///
 
 struct DefaultGraphicsPosComponent : public Ndk::Component<DefaultGraphicsPosComponent>

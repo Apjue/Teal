@@ -22,6 +22,7 @@
 #include "cache/tilesetcore.hpp"
 #include "cache/doublestore.hpp"
 #include "util/variant.hpp"
+#include "util/fileutil.hpp"
 
 class Game
 {
@@ -63,6 +64,7 @@ private:
     StateMDStore m_states;
     EffectMDStore m_effects;
     SkillStore m_skills;
+    AnimationStore m_animations;
 
     Ndk::EntityList m_items;
     Ndk::EntityList m_characters;
@@ -72,7 +74,7 @@ private:
     Ndk::EntityHandle cloneItem(const Nz::String& codename);
 
     // Character functions
-    void showInventory(bool detail = false);
+    void showInventory(bool detailled = false);
     void showCharacteristics();
 
     // Slots
@@ -87,6 +89,7 @@ private:
     void loadTextures();
     void loadTilesetCore();
 
+    void loadAnimations();
     void loadCharacters();
     //void loadMapObjects();
     void loadMaps();

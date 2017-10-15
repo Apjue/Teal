@@ -52,10 +52,8 @@ struct CharacterData
     /// \param name Codename of the character (for illegal purposes, i.e. cloning)
     /// \param size Size of the sprite's image
     /// \param pic Sprite of the character
-    /// \param mf Max Frame (used for animation)
     /// \param dg Default graphics position (for it to fit in tile 0,0)
     /// \param dl Default logic position
-    /// \param mhp Max HPs (used for fights)
     /// \param o_ Default orientation
     /// \param rdMov_ Used for Random Movement settings
     /// \param blockTile_ Blocks the tile
@@ -68,13 +66,10 @@ struct CharacterData
     ///
 
     CharacterData(const Nz::String& name,
-                  const Nz::Vector2ui& size = {},
                   const Nz::SpriteRef& pic = nullptr,
-                  unsigned mf = 0u,
                   const Nz::Vector2f& dg = {},
                   const Nz::Vector2ui& dl = {},
                   unsigned mhp = 100u,
-                  const AnimationComponent::AnimationState& animState_ = AnimationComponent::OnMove,
                   const Orientation& o_ = Orientation::Down,
                   const RandomMovement& rdMov_ = RandomMovement(),
                   bool blockTile_ = false,
@@ -85,22 +80,18 @@ struct CharacterData
                   unsigned level_ = { 1 },
                   const Fight& fight_ = {})
 
-        : codename { name }, imgsize { size }, sprite { pic }, maxframe { mf }, defG { dg }, defL { dl }, maxhp { mhp }, animState { animState_ },
-        o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ }, fight { fight_ } {}
+        : codename { name }, sprite { pic }, defG { dg }, defL { dl }, maxhp { mhp }, o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ }, fight { fight_ }
+    {}
 
     ~CharacterData() = default;
 
     Nz::String codename;
 
-    Nz::Vector2ui imgsize;
     Nz::SpriteRef sprite;
-    unsigned maxframe;
-
-    Nz::Vector2f defG;
+    Nz::Vector2f  defG;
     Nz::Vector2ui defL;
 
     unsigned maxhp;
-    AnimationComponent::AnimationState animState;
     Orientation o;
 
     RandomMovement rdMov;

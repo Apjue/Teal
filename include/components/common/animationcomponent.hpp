@@ -9,12 +9,7 @@
 
 #include <NDK/Component.hpp>
 #include <vector>
-#include "cache/doublestore.hpp"
-
-///
-/// \todo Do not have a "maxframe" variable. Deduce maxframe from texture size / sprite size
-///       Have multiple animations (eg for attacks). AnimationStore ?
-///
+#include "data/animationdata.hpp"
 
 struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {
@@ -24,11 +19,11 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
     AnimationComponent() = default;
     ~AnimationComponent() = default;
 
-    AnimationList anims;
-    std::size_t currentAnim {};
+    AnimationList animList;
+    std::size_t currentAnimation {};
 
-    AnimationData& getCurrentAnim() { return anims[currentAnim]; }
-    const AnimationData& getCurrentAnim() const { return anims[currentAnim]; }
+    AnimationData& getCurrentAnimation() { return animList[currentAnimation]; }
+    const AnimationData& getCurrentAnimation() const { return animList[currentAnimation]; }
 
     static Ndk::ComponentIndex componentIndex;
 };

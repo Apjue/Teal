@@ -13,6 +13,6 @@
 
 bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e);
 void updateAnimation(const Ndk::EntityHandle& e);
-void onMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving);
+void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving);
 
 #endif // ANIMUTIL_HPP
