@@ -33,7 +33,7 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
     auto& anim = e->GetComponent<AnimationComponent>();
 
-    if (anim.currentAnimation == anim.InvalidAnimationID || anim.animList.empty())
+    if (anim.currentAnimation == AnimationComponent::InvalidAnimationID || anim.animList.empty())
         return;
 
     AnimationData animData = anim.getCurrentAnimation();

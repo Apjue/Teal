@@ -134,11 +134,9 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     auto& pos = logicEntity->GetComponent<PositionComponent>();
     auto& gfxcomp = graphicalEntity->GetComponent<Ndk::GraphicsComponent>();
     auto& gfxpos = graphicalEntity->GetComponent<Ndk::NodeComponent>();
-    auto& dpos = graphicalEntity->GetComponent<DefaultGraphicsPosComponent>();
+    Nz::Vector2f defPos = getDefGfxPos(graphicalEntity);
 
-    Nz::Vector2f defPos { dpos.xy };
-
-    unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : 32u); // convert logic pos to graphics pos
+    unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : Def::TileSizeX / 2); // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TileSizeY / 2;
 
     DiffTile gInXY {};
@@ -146,8 +144,8 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     if (pos.direction)
     {
         gInXY = DirToGXY(pos.direction);
-        gInXY.x *= pos.advancement * Def::MaxGXPosInTile;
-        gInXY.y *= pos.advancement * Def::MaxGYPosInTile;
+        gInXY.x *= (pos.advancement * Def::MaxGXPosInTile);
+        gInXY.y *= (pos.advancement * Def::MaxGYPosInTile);
     }
 
     float const finalX = tofloat(gX) + tofloat(gInXY.x) + defPos.x; // We will move using this

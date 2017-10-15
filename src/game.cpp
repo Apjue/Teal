@@ -462,8 +462,10 @@ void Game::loadCharacters()
 
 
         TealException(lua.GetField("animations") == Nz::LuaType_Table, "Lua: teal_character.animations isn't a table !");
+
         LuaArguments animArgs = parseLua(lua);
         AnimationComponent::AnimationList animations;
+        std::size_t defaultAnim = AnimationComponent::InvalidAnimationID;
 
         for (auto& animVariant : animArgs.vars)
         {
@@ -477,6 +479,9 @@ void Game::loadCharacters()
             AnimationData anim = m_animations.getItem(animName); // Yup, copy ctor
             animations.emplace_back(anim);
         }
+
+        if (!animations.empty())
+            defaultAnim = 0; // Todo: change this
 
         CharacterData::RandomMovement random;
 
@@ -618,7 +623,7 @@ void Game::loadCharacters()
 
         CharacterData characterData
         {
-            codename, charSprite, defgfxpos, deflgcpos, maxHealth, orientation, random, blockTile, name, description, attack, res, level, fight
+            codename, charSprite, defgfxpos, animations, defaultAnim, maxHealth, orientation, random, blockTile, name, description, attack, res, level, fight
         };
 
         auto character = make_character(m_world, characterData);

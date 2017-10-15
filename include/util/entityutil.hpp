@@ -46,6 +46,8 @@ inline bool isItemEntity(const Ndk::EntityHandle& e);
 
 inline bool isEntityMoving(const Ndk::EntityHandle& e);
 
+inline Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e);
+
 #include "entityutil.inl"
 
 #endif // ENTITYUTIL_HPP

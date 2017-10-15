@@ -53,7 +53,8 @@ struct CharacterData
     /// \param size Size of the sprite's image
     /// \param pic Sprite of the character
     /// \param dg Default graphics position (for it to fit in tile 0,0)
-    /// \param dl Default logic position
+    /// \param anims List of animations
+    /// \param defAnim Default animation
     /// \param o_ Default orientation
     /// \param rdMov_ Used for Random Movement settings
     /// \param blockTile_ Blocks the tile
@@ -68,7 +69,8 @@ struct CharacterData
     CharacterData(const Nz::String& name,
                   const Nz::SpriteRef& pic = nullptr,
                   const Nz::Vector2f& dg = {},
-                  const Nz::Vector2ui& dl = {},
+                  const AnimationComponent::AnimationList& anims = {},
+                  std::size_t defAnim = AnimationComponent::InvalidAnimationID,
                   unsigned mhp = 100u,
                   const Orientation& o_ = Orientation::Down,
                   const RandomMovement& rdMov_ = RandomMovement(),
@@ -80,7 +82,8 @@ struct CharacterData
                   unsigned level_ = { 1 },
                   const Fight& fight_ = {})
 
-        : codename { name }, sprite { pic }, defG { dg }, defL { dl }, maxhp { mhp }, o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_), desc(desc_), atk(atk_), res(res_), level { level_ }, fight { fight_ }
+        : codename { name }, sprite { pic }, defG { dg }, animations { anims }, defaultAnimation { defAnim }, maxhp { mhp }, o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_),
+          desc(desc_), atk(atk_), res(res_), level { level_ }, fight { fight_ }
     {}
 
     ~CharacterData() = default;
@@ -89,7 +92,9 @@ struct CharacterData
 
     Nz::SpriteRef sprite;
     Nz::Vector2f  defG;
-    Nz::Vector2ui defL;
+
+    AnimationComponent::AnimationList animations;
+    std::size_t defaultAnimation;
 
     unsigned maxhp;
     Orientation o;
