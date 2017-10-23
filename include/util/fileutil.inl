@@ -4,10 +4,12 @@
 
 #include "fileutil.hpp"
 
-Nz::String& removeFileNameExtension(Nz::String& name)
+inline Nz::String& removeFileNameExtension(Nz::String& name)
 {
     std::size_t pos = name.FindLast('.');
 
     if (pos != Nz::String::npos)
         name.Resize(pos);
+
+    return name;
 }

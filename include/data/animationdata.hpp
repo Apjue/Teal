@@ -37,7 +37,7 @@ struct AnimationData
     }
 
     AnimationType type {};
-    Nz::Vector2f size {};
+    Nz::Vector2ui size {};
     Nz::TextureRef texture; // Texture to apply on the sprite
     Nz::Vector2f offset {}; // offset to apply for the character to be on pos [1;1]
     unsigned frame {}; // frame * y-size of the texture = vertical coords

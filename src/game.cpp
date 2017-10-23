@@ -26,6 +26,7 @@
 #include "util/gfxutil.hpp"
 #include "util/luaparser.hpp"
 #include "util/gameutil.hpp"
+#include "util/fileutil.hpp"
 #include "def/gamedef.hpp"
 #include "def/typedef.hpp"
 #include "def/uidef.hpp"
@@ -315,7 +316,7 @@ void Game::loadAnimations()
         Nz::TextureRef texture = Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture", ":/game/unknown"));
 
         TealException(lua.GetField("size") == Nz::LuaType_Table, "Lua: teal_animation.size isn't a table !");
-        Nz::Vector2f size;
+        Nz::Vector2ui size;
         {
             lua.PushInteger(1);
             TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_animation.size.x isn't a number !");
@@ -332,7 +333,7 @@ void Game::loadAnimations()
             TealException(sizey > 0, "Invalid size.y");
             lua.Pop();
 
-            size = { tofloat(sizex), tofloat(sizey) };
+            size = { tounsigned(sizex), tounsigned(sizey) };
         }
         lua.Pop();
 
@@ -394,14 +395,15 @@ void Game::loadCharacters()
 
 
         TealException(lua.GetField("size") == Nz::LuaType_Table, "Lua: teal_character.size isn't a table !");
-        Nz::Vector2f size;
+        Nz::Vector2ui size;
         {
             lua.PushInteger(1);
             {
                 TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.x isn't a number !");
 
-                size.x = tofloat(lua.CheckInteger(-1));
-                TealException(size.x > 0, "Invalid size.x");
+                auto sizex = lua.CheckInteger(-1);
+                TealException(sizex > 0, "Invalid size.x");
+                size.x = tounsigned(sizex);
             }
             lua.Pop();
 
@@ -410,8 +412,9 @@ void Game::loadCharacters()
             {
                 TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.y isn't a number !");
 
-                size.y = tofloat(lua.CheckInteger(-1));
-                TealException(size.y > 0, "Invalid size.y");
+                auto sizey = lua.CheckInteger(-1);
+                TealException(sizey > 0, "Invalid size.y");
+                size.y = tounsigned(sizey);
             }
             lua.Pop();
         }
@@ -475,9 +478,16 @@ void Game::loadCharacters()
                 continue;
             }
 
-            Nz::String animName = animVariant.get<Nz::String>();
+            Nz::String& animName = animVariant.get<Nz::String>();
+
+            if (!m_animations.hasItem(animName))
+            {
+                NazaraError("Animation codename not found: " + animName);
+                continue;
+            }
+
             AnimationData anim = m_animations.getItem(animName); // Yup, copy ctor
-            animations.emplace_back(anim);
+            animations.emplace_back(std::move(anim));
         }
 
         if (!animations.empty())
@@ -619,7 +629,7 @@ void Game::loadCharacters()
 
         Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
         charSprite->SetTextureRect({ 0u, 0u, size.x, size.y });
-        charSprite->SetSize(size);
+        charSprite->SetSize(tofloat(size.x), tofloat(size.y));
 
         CharacterData characterData
         {

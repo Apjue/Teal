@@ -22,7 +22,6 @@
 #include "cache/tilesetcore.hpp"
 #include "cache/doublestore.hpp"
 #include "util/variant.hpp"
-#include "util/fileutil.hpp"
 
 class Game
 {

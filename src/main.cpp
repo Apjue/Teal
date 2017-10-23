@@ -1,14 +1,13 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the Teal game.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Application.hpp>
-#include "game.hpp"
 #include "def/uidef.hpp"
+#include "game.hpp"
 
 int main()
 {
-    Nz::Initializer<Ndk::Sdk> sdk;
     Ndk::Application app;
 
     Game game { app, { Def::WindowSizeX, Def::WindowSizeY },
