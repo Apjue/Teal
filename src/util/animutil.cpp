@@ -31,50 +31,57 @@ void updateAnimation(const Ndk::EntityHandle& e)
     if (sprites.empty())
         return;
 
-    auto& gfx = e->GetComponent<Ndk::GraphicsComponent>();
     auto& anim = e->GetComponent<AnimationComponent>();
+
+    if (anim.currentAnimation == AnimationComponent::InvalidAnimationID || anim.animList.empty())
+        return;
+
+    AnimationData animData = anim.getCurrentAnimation();
     bool  moving = isEntityMoving(e);
     auto  dir = e->GetComponent<OrientationComponent>().dir;
 
     int const intDir = toint(dir);
 
-    unsigned const startX = intDir * anim.size.x; // Get the x and the y
-    unsigned const startY = anim.frame * anim.size.y;
+    unsigned const startX = intDir * animData.size.x; // Get the x and the y
+    unsigned const startY = animData.frame * animData.size.y;
 
-    switch (anim.animationState)
-    {
-        case AnimationComponent::OnMove:
-            for (auto sprite : sprites)
-                onMoveAnimation(startX, startY, sprite, anim, moving);
-            break;
-
-        case AnimationComponent::OnEmote: // EmoteStore ?
-            break;
-
-        case AnimationComponent::OnFight:
-            break;
-    }
+    for (auto sprite : sprites)
+        animate(startX, startY, sprite, animData, moving);
 }
 
-void onMoveAnimation(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationComponent& anim, bool moving)
+void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving)
 {
-    if (!moving || anim.maxframe == 0) // Reset animation, and change direction
+    sprite->SetTexture(animData.texture);
+    unsigned maxframe = sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y; // Sprites always use the y axis for animations
+
+    switch (animData.type)
     {
-        anim.frame = 0;
-        sprite->SetTextureRect({ startX, 0u, anim.size.x, anim.size.y });
-        anim.animated = false;
+        case AnimationData::Walk:
+            if (!moving || maxframe == 0) // Reset animation, and change direction
+            {
+                animData.frame = 0;
+                sprite->SetTextureRect({ startX, 0u, animData.size.x, animData.size.y });
 
-        return;
-    }
+                return;
+            }
 
-    else // Animation !
-    {
-        sprite->SetTextureRect({ startX, startY, anim.size.x, anim.size.y });
+            else // Animation !
+            {
+                sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
+                ++animData.frame;
 
-        ++anim.frame;
-        anim.animated = true;
+                if (animData.frame > maxframe)
+                    animData.frame = 0;
+            }
 
-        if (anim.frame > anim.maxframe)
-            anim.frame = 0;
+            break;
+
+        default:
+            sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
+            ++animData.frame;
+
+            if (animData.frame > maxframe)
+                animData.frame = 0;
+            break;
     }
 }

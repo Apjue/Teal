@@ -12,8 +12,6 @@
 Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos)
 {
     Ndk::EntityHandle e = w->CreateEntity();
-
-    infos.sprite->SetSize(tofloat(infos.imgsize.x), tofloat(infos.imgsize.y));
     infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Bug fix until new version
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
@@ -23,15 +21,18 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(infos.sprite);
 
+    auto& anims = e->AddComponent<AnimationComponent>();
+    anims.animList = infos.animations;
+    anims.currentAnimation = infos.defaultAnimation;
+
     e->AddComponent<CloneComponent>(infos.codename);
     e->AddComponent<LifeComponent>(infos.maxhp);
 
-    e->AddComponent<PositionComponent>(infos.defL);
+    e->AddComponent<PositionComponent>(Nz::Vector2ui { 1u, 1u });
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
     e->AddComponent<InventoryComponent>();
 
-    e->AddComponent<AnimationComponent>(infos.imgsize, infos.maxframe, infos.animState);
     e->AddComponent<OrientationComponent>(infos.o);
 
     if (infos.rdMov.randomMovement)

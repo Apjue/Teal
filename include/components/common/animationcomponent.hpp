@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2016 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -8,51 +8,22 @@
 #define ANIMATIONCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
-#include <Nazara/Math/Rect.hpp>
-#include <Nazara/Core/String.hpp>
+#include <vector>
+#include "data/animationdata.hpp"
 
 struct AnimationComponent : public Ndk::Component<AnimationComponent>
 {
-    enum AnimationState // When to animate ?
-    {
-        Deactivated = 0,
-        OnMove,
-        OnEmote,
-        OnFight
-    };
+    using AnimationList = std::vector<AnimationData>;
+    static constexpr std::size_t InvalidAnimationID = std::numeric_limits<std::size_t>().max();
 
-    static AnimationState stringToAnimState(Nz::String string)
-    {
-        string = string.ToLower();
+    AnimationComponent() = default;
+    ~AnimationComponent() = default;
 
-        if (string == "onmove")
-            return OnMove;
+    AnimationList animList;
+    std::size_t currentAnimation {};
 
-        if (string == "onemote")
-            return OnMove;
-
-        if (string == "onfight")
-            return OnMove;
-
-        return Deactivated;
-    }
-
-    ///
-    /// \fn AnimationComponent
-    ///
-    /// \param s Size of the picture
-    /// \param mf Max Frames of the animation
-    /// \param df Default Frame of the animation
-    ///
-
-    AnimationComponent(const Nz::Vector2ui& s, unsigned mf = 0, AnimationState state = Deactivated, unsigned df = 0)
-        : frame { df }, size { s }, maxframe { mf }, animationState { state } {}
-
-    unsigned frame {}; // frame * size of the image = vertical coords of the image
-    Nz::Vector2ui size {};
-    unsigned maxframe {};
-    AnimationState animationState;
-    bool animated {};
+    AnimationData& getCurrentAnimation() { return animList[currentAnimation]; }
+    const AnimationData& getCurrentAnimation() const { return animList[currentAnimation]; }
 
     static Ndk::ComponentIndex componentIndex;
 };

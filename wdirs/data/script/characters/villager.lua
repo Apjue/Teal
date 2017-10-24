@@ -1,10 +1,14 @@
 teal_character =
 {
-    codename = "villager",
+    texture = ":/game/char/villager",
     size = { 113, 99 },
-    sprite = ":/game/char/villager",
-    maxanimframes = 15,
     defgfxpos = { -25, -66 },
+
+    animations =
+    {
+        "villager_walking"
+    },
+
     deflgcpos = { 1, 1 },
     maxhealth = 100,
     random = { false },

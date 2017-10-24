@@ -11,9 +11,11 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <limits>
 #include "util/assert.hpp"
 #include "data/skilldata.hpp"
 #include "data/metadata.hpp"
+#include "data/animationdata.hpp"
 
 template<class Value, class LightID = std::size_t, class HeavyID = Nz::String>
 class DoubleStore;
@@ -21,6 +23,7 @@ class DoubleStore;
 using SkillStore = DoubleStore<SkillData>;
 using StateMDStore = DoubleStore<StateMetaData>;
 using EffectMDStore = DoubleStore<EffectMetaData>;
+using AnimationStore = DoubleStore<AnimationData>;
 
 ///
 /// \class DoubleStore
@@ -39,13 +42,22 @@ public:
     DoubleStore() = default;
     ~DoubleStore() = default;
 
+    inline bool hasItem(const HeavyID& name);
+    inline bool hasItem(LightID id);
     inline LightID addItem(const HeavyID& name, const Value& skill);
-    inline Value&  getItem(LightID id);
+
+    inline Value& getItem(LightID id);
     inline const Value& getItem(LightID id) const;
+
+    inline Value& getItem(const HeavyID& name);
+    inline const Value& getItem(const HeavyID& name) const;
+
     inline LightID getItemIndex(const HeavyID& name) const;
 
+    static constexpr LightID InvalidID { std::numeric_limits<LightID>().max() }; // Use this value for the "No Attack Chosen" thing
+
 private:
-    LightID m_counter;
+    LightID m_counter {};
     std::vector<Value> m_items;
     std::unordered_map<HeavyID, LightID> m_conversionTable;
 };

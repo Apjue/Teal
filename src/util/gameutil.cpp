@@ -25,5 +25,5 @@ void initializeGameUtility(Ndk::EntityHandle& mainCharacter)
 
 bool isGameUtilityInitialized()
 {
-    return m_mainCharacter.IsValid() && m_mainCharacter->IsValid();
+    return m_mainCharacter.IsValid();
 }

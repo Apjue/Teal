@@ -7,8 +7,9 @@
 #ifndef AISYSTEM_HPP
 #define AISYSTEM_HPP
 
-#include <Nazara/Core/String.hpp>
+#include <Nazara/Lua/LuaCoroutine.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
+#include <Nazara/Core/String.hpp>
 #include <NDK/System.hpp>
 #include <NDK/EntityList.hpp>
 #include <vector>
@@ -17,21 +18,21 @@
 #include "micropather.h"
 #include "cache/doublestore.hpp"
 
-namespace detail
+namespace Detail
 {
 
 struct FightData
 {
     bool clean { true };
+    Nz::LuaCoroutine* coroutine {};
     Nz::LuaInstance ai;
-    
 
     Ndk::EntityHandle currentEntity;
     std::vector<Ndk::EntityHandle> fighters;
     Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
 };
 
-}
+} // namespace Detail
 
 ///
 /// \class AISystem
@@ -46,6 +47,7 @@ class AISystem : public Ndk::System<AISystem>
 {
 public:
     AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather);
+    AISystem(const AISystem& other);
     ~AISystem() = default;
 
     void reset();
@@ -54,7 +56,11 @@ public:
     static Ndk::SystemIndex systemIndex;
 
 private:
-    void OnUpdate(float) override;
+    void OnUpdate(float elapsed) override;
+
+    void cleanAndContinueFight();
+    void cleanLuaInstance(Nz::LuaInstance& lua);
+
     bool prepareLuaAI(Nz::LuaInstance& lua);
     bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
     bool serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
@@ -70,7 +76,7 @@ private:
     std::shared_ptr<micropather::MicroPather> m_pather {};
     Nz::String m_utilityLuaFile;
 
-    detail::FightData m_currentFight;
+    Detail::FightData m_currentFight;
     bool m_isFightActive {};
 
     const SkillStore& m_skills;

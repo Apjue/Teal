@@ -14,18 +14,22 @@ end
 
 function Character:MoveTo(x, y)
     Teal_MoveCharacter(x, y)
+    coroutine.yield()
 end
 
 function Character:TakeCover()
     Teal_TakeCover()
+    coroutine.yield()
 end
 
 function Character:Attack(characterIndex, skillCodename)
     Teal_AttackCharacter(characterIndex, skillCodename or self:ChooseAttack(characterIndex).codename)
+    coroutine.yield()
 end
 
 function Character:MoveAndAttack(characterIndex, skillCodename)
-    Teal_MoveAndAttackCharacter(characterIndex, skillCodename)
+    Teal_MoveAndAttackCharacter(characterIndex or self:ChooseTarget().index, skillCodename or self:ChooseAttack(characterIndex).codename)
+    coroutine.yield()
 end
 
 function Character:ChooseTarget()

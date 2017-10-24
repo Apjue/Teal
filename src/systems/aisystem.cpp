@@ -27,6 +27,11 @@ AISystem::AISystem(const SkillStore& skills, const Nz::String& utilFilepath, con
     setPather(pather);
 }
 
+AISystem::AISystem(const AISystem& other) : m_skills (other.m_skills) // Invalid ctor. Shouldn't be used
+{
+    TealAssert(false, "AISystem's copy constructor cannot be used");
+}
+
 void AISystem::reset()
 {
     TealAssert(m_pather, "Pather is null, cannot reset it !");
@@ -38,7 +43,7 @@ void AISystem::setPather(const std::shared_ptr<micropather::MicroPather>& pather
     m_pather = pather;
 }
 
-void AISystem::OnUpdate(float)
+void AISystem::OnUpdate(float elapsed)
 {
     for (auto& e : GetEntities())
     {
@@ -116,32 +121,116 @@ void AISystem::OnUpdate(float)
                 TealAssert(m_isFightActive, "Not fighting");
                 Nz::LuaInstance& lua = m_currentFight.ai;
 
-                if (m_currentFight.clean)
+                if (m_currentFight.clean || !m_currentFight.coroutine)
                 {
                     m_currentFight.currentEntity = e;
-                    lua.SetTimeLimit(Def::DefaultFightTimeLimit); // todo: specific time limits ?
+                    lua.SetTimeLimit(std::max(1, static_cast<int>(elapsed * 10.f)) * 1000);
 
                     if (!prepareLuaAI(lua))
                     {
                         NazaraError("Failed to prepare Lua AI");
 
-                        fight.myTurn = false;
-                        // Reset lua instance
-                        m_currentFight.clean = true;
+                        cleanAndContinueFight();
                         continue;
                     }
 
-                    // coroutine
+                    // Choose proper AI here. AICore ?
+
+                    m_currentFight.coroutine = &(lua.NewCoroutine()); // crash
+                    m_currentFight.clean = false;
+
+                    Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
+                    Nz::String aiType = lua.CheckGlobal<Nz::String>("fight_ai_type");
+                    Nz::String aiMonsterType = lua.CheckGlobal<Nz::String>("fight_ai_monstertype");
+
+                    m_currentFight.coroutine->GetGlobal("execute");
+                    Nz::Ternary result = m_currentFight.coroutine->Resume();
+
+                    if (result != Nz::Ternary_Unknown) // yield() wasn't called
+                    {
+                        cleanAndContinueFight();
+
+                        if (result == Nz::Ternary_False)
+                            NazaraError("An error occurred in Fight AI " + aiName);
+                    }
                 }
 
-                // Lua things here
-                // Do one AI per monster (type) and some "generals" AIs. AICore ?
-                // Do AIs in Lua
+                else // yield() was called. Resume execution.
+                {
+                    if (m_currentFight.coroutine->CanResume())
+                    {
+                        Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
+                        Nz::Ternary result = m_currentFight.coroutine->Resume();
 
-                fight.myTurn = false;
+                        if (result != Nz::Ternary_Unknown)
+                        {
+                            cleanAndContinueFight();
+
+                            if (result == Nz::Ternary_False)
+                                NazaraError("An error occurred in Fight AI " + aiName);
+                        }
+                    }
+
+                    else
+                        cleanAndContinueFight();
+                }
             }
         }*/
+
+
+
+        // todo: do this^
+        // and add lots of bugs
+        // ...
+        // a wild bug appeared !
+
+        //          ;               ,           
+        //         ,;                 '.         
+        //        ;:                   :;        
+        //       ::                     ::       
+        //       ::                     ::       
+        //       ':                     :        
+        //        :.                    :        
+        //     ;' ::                   ::  '     
+        //    .'  ';                   ;'  '.    
+        //   ::    :;                 ;:    ::   
+        //   ;      :;.             ,;:     ::   
+        //   :;      :;:           ,;"      ::   
+        //   ::.      ':;  ..,.;  ;:'     ,.;:   
+        //    "'"...   '::,::::: ;:   .;.;""'    
+        //        '"""....;:::::;,;.;"""         
+        //    .:::.....'"':::::::'",...;::::;.   
+        //   ;:' '""'"";.,;:::::;.'""""""  ':;   
+        //  ::'         ;::;:::;::..         :;  
+        // ::         ,;:::::::::::;:..       :: 
+        // ;'     ,;;:;::::::::::::::;";..    ':.
+        //::     ;:"  ::::::"""'::::::  ":     ::
+        // :.    ::   ::::::;  :::::::   :     ; 
+        //  ;    ::   :::::::  :::::::   :    ;  
+        //  '   ::   ::::::....:::::'  ,:   '   
+        //    '  ::    :::::::::::::"   ::       
+        //       ::     ':::::::::"'    ::       
+        //       ':       """""""'      ::       
+        //        ::                   ;:        
+        //        ':;                 ;:"        
+        //-hrr-     ';              ,;'          
+        //            "'           '"            
+        //              '
     }
+}
+
+void AISystem::cleanAndContinueFight()
+{
+    cleanLuaInstance(m_currentFight.ai);
+    m_currentFight.coroutine = nullptr;
+    m_currentFight.clean = true;
+    m_currentFight.currentEntity->GetComponent<FightComponent>().myTurn = false;
+}
+
+void AISystem::cleanLuaInstance(Nz::LuaInstance& lua)
+{
+    lua.Execute("teal_fight_data = nil; execute = nil;"); // todo: better clean thing
+    lua.Execute("fight_ai_name = nil; fight_ai_type = nil; fight_ai_monstertype = nil;");
 }
 
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
@@ -427,37 +516,51 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    
 }
 
 void AISystem::Teal_TakeCover()
 {
     TealAssert(m_isFightActive, "Not fighting");
-
+    // todo: do strange calculations with scores and things
 }
 
 void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCodename)
 {
     TealAssert(m_isFightActive, "Not fighting");
 
+    if (characterIndex >= m_currentFight.fighters.size())
+    {
+        NazaraError("AI: Character out of bounds !");
+        return;
+    }
+
+    auto& fight = m_currentFight.currentEntity->GetComponent<FightComponent>();
+    fight.target = m_currentFight.fighters[characterIndex];
 }
 
 void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename)
 {
     TealAssert(m_isFightActive, "Not fighting");
 
+    // Move near character...
+
+    bool canAttack {};
+
+    if (canAttack)
+        Teal_AttackCharacter(characterIndex, skillCodename);
 }
 
 unsigned AISystem::Teal_ChooseTarget()
 {
     TealAssert(m_isFightActive, "Not fighting");
-    return false;
+    return 0;
 }
 
 unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex)
 {
     TealAssert(m_isFightActive, "Not fighting");
-    return false;
+    return 0;
 }
 
 bool AISystem::Teal_CanAttack(unsigned characterIndex)

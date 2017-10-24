@@ -22,7 +22,7 @@
 #include "util/gameutil.hpp"
 #include "util/movementutil.hpp"
 
-void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions)
+void moveEntity(const Ndk::EntityHandle& e, bool notFightMode)
 {
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;
@@ -39,7 +39,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions)
 
     pos.direction = dir;
     ++pos.advancement;
-    
+
     if (pos.advancement >= Def::MaxPosInTile)
         pos.advancement = 0;
 
@@ -54,13 +54,13 @@ void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions)
         std::swap(*(path.begin()), path.back());
         path.pop_back(); // To get next tile
 
-        if (!path.empty() && allowMapInteractions && e->HasComponent<MoveComponent>())
+        if (!path.empty() && notFightMode  && e->HasComponent<MoveComponent>())
             recomputeIfObstacle(e);
     }
 
     if (path.empty()) // Finished path
     {
-        if (e == getMainCharacter() && allowMapInteractions)
+        if (e == getMainCharacter() && notFightMode)
         {
             TealAssert(hasComponentsToChangeMap(e) && e->HasComponent<InventoryComponent>(), "Main character doesn't have required components ?");
 
@@ -111,24 +111,27 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
     }
 }
 
-void getItemsFromGround(const Ndk::EntityHandle& e)
+void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from ground or something. (fight)
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
     MapDataRef currentMap = getCurrentMap()->getCurrentMap();
 
-    auto& inv = e->GetComponent<InventoryComponent>();
     auto& mapEntities = currentMap->getEntities();
-    auto itIndex = mapEntities.begin();
 
-    for (;;)
+    if (mapEntities.empty())
+        return;
+
+    auto& inv = e->GetComponent<InventoryComponent>();
+    Ndk::EntityList killedEntities; // Ndk::Entity::Kill() is not immediate, need a world refresh
+
+    for (auto it = mapEntities.begin(); it != mapEntities.end();)
     {
-        if (mapEntities.empty())
-            break;
-
-        auto it = std::find_if(itIndex, mapEntities.end(),
-                               [&e] (const Ndk::EntityHandle& item)
+        it = std::find_if(mapEntities.begin(), mapEntities.end(),
+                          [&e, &killedEntities] (const Ndk::EntityHandle& item)
         {
-            return item->HasComponent<LogicEntityIdComponent>() && item->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid() && isMapEntity(item) &&
+            return !killedEntities.Has(item) && item.IsValid() && isMapEntity(item) &&
+                   item->HasComponent<LogicEntityIdComponent>() && item->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid() &&
+                   item->GetComponent<LogicEntityIdComponent>().logicEntity->HasComponent<Items::ItemComponent>() &&
                    item->GetComponent<LogicEntityIdComponent>().logicEntity->HasComponent<PositionComponent>() &&
                    item->GetComponent<LogicEntityIdComponent>().logicEntity->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy;
         });
@@ -136,26 +139,12 @@ void getItemsFromGround(const Ndk::EntityHandle& e)
         if (it == mapEntities.end())
             break;
 
-        TealAssert(it->IsValid() && (*it)->IsValid(), "Item isn't valid");
-        TealAssert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid() &&
-            (*it)->GetComponent<LogicEntityIdComponent>().logicEntity->IsValid(), "Pointed Item isn't valid");
-
-        if (!(*it)->GetComponent<LogicEntityIdComponent>().logicEntity->HasComponent<Items::ItemComponent>())
-        {
-            if (*it == *(mapEntities.end() - 1))
-                break;
-
-            itIndex = it + 1;
-            continue;
-        }
+        TealAssert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid(), "Logic Entity isn't valid");
 
         (*it)->GetComponent<LogicEntityIdComponent>().logicEntity->RemoveComponent<PositionComponent>();
         inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
+
+        killedEntities.Insert(*it);
         (*it)->Kill(); // I'm sorry.
-
-        if (itIndex > it)
-            --itIndex;
-
-        mapEntities.Remove(*it);
     }
 }

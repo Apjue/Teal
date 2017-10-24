@@ -13,9 +13,9 @@
 #include <NDK/Canvas.hpp>
 #include <NDK/Widgets/ButtonWidget.hpp>
 #include <Nazara/Renderer/RenderWindow.hpp>
-#include <Nazara/Utility/Icon.hpp>
+#include <Nazara/Platform/Icon.hpp>
 #include <Nazara/Math/Vector2.hpp>
-#include <Nazara/Utility/EventHandler.hpp>
+#include <Nazara/Platform/EventHandler.hpp>
 #include <Nazara/Core/Signal.hpp>
 #include <memory>
 #include "micropather.h"
@@ -63,6 +63,7 @@ private:
     StateMDStore m_states;
     EffectMDStore m_effects;
     SkillStore m_skills;
+    AnimationStore m_animations;
 
     Ndk::EntityList m_items;
     Ndk::EntityList m_characters;
@@ -72,7 +73,7 @@ private:
     Ndk::EntityHandle cloneItem(const Nz::String& codename);
 
     // Character functions
-    void showInventory(bool detail = false);
+    void showInventory(bool detailled = false);
     void showCharacteristics();
 
     // Slots
@@ -87,6 +88,7 @@ private:
     void loadTextures();
     void loadTilesetCore();
 
+    void loadAnimations();
     void loadCharacters();
     //void loadMapObjects();
     void loadMaps();

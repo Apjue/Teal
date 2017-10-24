@@ -15,6 +15,7 @@
 #include <Nazara/Core/Resource.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <memory>
+#include <vector>
 #include "def/typedef.hpp"
 #include "data/tiledata.hpp"
 #include "util/mapposutil.hpp"
@@ -30,6 +31,7 @@ class MapData : public Nz::RefCounted, public Nz::Resource /// \todo Remove MapP
     friend MapDataLibrary;
 
 public:
+
     MapData() = default;
     ~MapData() = default;
 

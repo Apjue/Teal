@@ -9,7 +9,7 @@
 
 #include <NDK/Entity.hpp>
 
-void moveEntity(const Ndk::EntityHandle& e, bool allowMapInteractions = true);
+void moveEntity(const Ndk::EntityHandle& e, bool notFightMode = true);
 void recomputeIfObstacle(const Ndk::EntityHandle& e);
 void getItemsFromGround(const Ndk::EntityHandle& e);
 
