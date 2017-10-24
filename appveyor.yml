@@ -47,12 +47,12 @@ install:
   - mkdir nazara && cd nazara
   - curl https://nazara.digitalpulsesoftware.net/files/NazaraEngine-0.4-msvc14-%PLATFORM%.7z -o nazara.7z
   - 7z x nazara.7z
-  - mv include/Nazara Nazara && mv include/NDK NDK
+  - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
   - mkdir %TOOLSET% && cd %TOOLSET%
   - mkdir %PLATFORM% && cd %PLATFORM%
   - mkdir nazara && cd nazara
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/lib/%PLATFORM%/*.lib ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/lib/%PLATFORM%/*.lib ./
   - cd .. && mkdir micropather && cd micropather
   - cp -r %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/** ./
   - premake5.exe %TOOLSET%
@@ -73,23 +73,23 @@ after_build:
   - mkdir TealDemo
   - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
   - cd TealDemo
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraLua%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraNetwork%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraNoise%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/NazaraPlatform%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/assimp.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/libsndfile-1.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/Newton.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/bin/%PLATFORM%/soft_oal.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraLua%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraNetwork%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraNoise%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraPlatform%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/assimp.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/libsndfile-1.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/Newton.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/soft_oal.dll ./
   - cd ..
   - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
   - 7z a TealDemo.7z * && cd ../..
