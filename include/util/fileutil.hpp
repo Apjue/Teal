@@ -9,7 +9,7 @@
 
 #include <Nazara/Core/String.hpp>
 
-inline Nz::String& removeFileNameExtension(Nz::String& name);
+inline Nz::String removeFileNameExtension(Nz::String name);
 
 #include "fileutil.inl"
 

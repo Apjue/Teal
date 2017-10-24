@@ -24,7 +24,7 @@ namespace Detail
 struct FightData
 {
     bool clean { true };
-    Nz::LuaCoroutine* coroutine;
+    Nz::LuaCoroutine* coroutine {};
     Nz::LuaInstance ai;
 
     Ndk::EntityHandle currentEntity;

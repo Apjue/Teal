@@ -4,12 +4,13 @@
 
 #include <NDK/Components.hpp>
 #include <NDK/Systems/RenderSystem.hpp>
-#include <Nazara/Core/Error.hpp>
 #include <Nazara/Graphics/ColorBackground.hpp>
 #include <Nazara/Graphics/Material.hpp>
-#include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
+#include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Core/File.hpp>
+#include <Nazara/Core/Error.hpp>
+#include <Nazara/Core/Directory.hpp>
 #include <Nazara/Lua.hpp>
 #include <exception>
 #include <algorithm>
@@ -47,8 +48,8 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, const Nz::Vector
     m_world = app.AddWorld().CreateHandle();
     m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
 
-    initSchemeUtility(scheme);
     loadNazara();
+    initSchemeUtility(scheme);
 
     loadMetaData();
     loadSkills();

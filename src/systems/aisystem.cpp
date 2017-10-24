@@ -111,7 +111,7 @@ void AISystem::OnUpdate(float elapsed)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
+        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
@@ -136,7 +136,7 @@ void AISystem::OnUpdate(float elapsed)
 
                     // Choose proper AI here. AICore ?
 
-                    m_currentFight.coroutine = &(lua.NewCoroutine());
+                    m_currentFight.coroutine = &(lua.NewCoroutine()); // crash
                     m_currentFight.clean = false;
 
                     Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
@@ -175,7 +175,7 @@ void AISystem::OnUpdate(float elapsed)
                         cleanAndContinueFight();
                 }
             }
-        }
+        }*/
 
 
 
