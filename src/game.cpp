@@ -897,6 +897,7 @@ void Game::loadNazara()
 {
     // Components
     Ndk::InitializeComponent<RandomMovementComponent>("rdmov");
+    Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dfgfxpos");
     Ndk::InitializeComponent<NameComponent>("name");
     Ndk::InitializeComponent<LevelComponent>("level");
     Ndk::InitializeComponent<InventoryComponent>("inv");
