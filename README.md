@@ -1,7 +1,7 @@
 # Teal [![Website](https://img.shields.io/website-Up-Down-brightgreen-red/http/shields.io.svg?style=plastic)](https://teal.shost.ca) [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://github.com/S6066/Teal/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/36b37f300ed84790ad6504794d974bf8)](https://www.codacy.com/app/samy6066/Teal?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=S6066/Teal&amp;utm_campaign=Badge_Grade)
 
 Teal is a RPG still in progress
-It uses [Nazara Engine](https://github.com/DigitalPulseSoftware/NazaraEngine), and an altered version of [micropather](https://github.com/leethomason/MicroPather).
+It uses [Nazara Engine](https://github.com/DigitalPulseSoftware/NazaraEngine) (0.4), and an altered version of [micropather](https://github.com/leethomason/MicroPather).
 
 # Build
 Platform       | Status          | Nightlies
