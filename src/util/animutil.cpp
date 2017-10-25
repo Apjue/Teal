@@ -21,7 +21,7 @@ bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e)
         e->HasComponent<OrientationComponent>() &&
         e->HasComponent<RenderablesStorageComponent>();
 }
-
+#include "components/common/namecomponent.hpp"
 void updateAnimation(const Ndk::EntityHandle& e)
 {
     TealAssert(hasRightComponentsToAnimate(e), "Entity doesn't have the right components to animate");
@@ -35,6 +35,10 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
     if (anim.currentAnimation == AnimationComponent::InvalidAnimationID || anim.animList.empty())
         return;
+
+    Nz::String name;
+    if (e->HasComponent<NameComponent>())
+        name = e->GetComponent<NameComponent>().name;
 
     AnimationData animData = anim.getCurrentAnimation();
     bool  moving = isEntityMoving(e);
@@ -51,7 +55,7 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
 void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving)
 {
-    sprite->SetTexture(animData.texture);
+    sprite->SetTexture(animData.texture, false);
     unsigned maxframe = sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y; // Sprites always use the y axis for animations
 
     switch (animData.type)

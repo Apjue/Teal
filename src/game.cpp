@@ -629,7 +629,7 @@ void Game::loadCharacters()
         charMat->SetDiffuseMap(Nz::TextureLibrary::Get(texture));
 
         Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
-        charSprite->SetMaterial(charMat);
+        charSprite->SetMaterial(charMat, false);
         charSprite->SetTextureRect({ 0u, 0u, size.x, size.y });
         charSprite->SetSize(tofloat(size.x), tofloat(size.y));
 
@@ -994,6 +994,7 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
     refreshGraphicsPos(m_charac);
 
+    auto& charSprites = m_charac->GetComponent<RenderablesStorageComponent>();
 
     auto npc = cloneCharacter("villager");
     npc->GetComponent<PositionComponent>().xy = { 5, 5 };
