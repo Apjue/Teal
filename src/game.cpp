@@ -629,6 +629,7 @@ void Game::loadCharacters()
         charMat->SetDiffuseMap(Nz::TextureLibrary::Get(texture));
 
         Nz::SpriteRef charSprite = Nz::Sprite::New(charMat);
+        charSprite->SetMaterial(charMat);
         charSprite->SetTextureRect({ 0u, 0u, size.x, size.y });
         charSprite->SetSize(tofloat(size.x), tofloat(size.y));
 
