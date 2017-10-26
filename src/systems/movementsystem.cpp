@@ -6,7 +6,7 @@
 #include "components/common/pathcomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "components/common/fightcomponent.hpp"
-#include "util/movementutil.hpp"
+#include "util/moveutil.hpp"
 #include "cache/tilesetcore.hpp"
 #include "def/systemdef.hpp"
 #include "systems/movementsystem.hpp"

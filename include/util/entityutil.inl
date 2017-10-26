@@ -23,7 +23,7 @@ bool isItemEntity(const Ndk::EntityHandle& e)
 
 bool isEntityMoving(const Ndk::EntityHandle& e)
 {
-    return e->HasComponent<PathComponent>() && (!e->GetComponent<PathComponent>().path.empty());
+    return e->HasComponent<PathComponent>() && !(e->GetComponent<PathComponent>().path.empty());
 }
 
 inline Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e)

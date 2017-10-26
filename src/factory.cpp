@@ -12,7 +12,7 @@
 Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos)
 {
     Ndk::EntityHandle e = w->CreateEntity();
-    infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Bug fix until new version
+    infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Nazara bug
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
     gfx.Attach(infos.sprite, Def::CharactersLayer);

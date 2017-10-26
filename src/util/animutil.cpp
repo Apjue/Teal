@@ -22,6 +22,7 @@ bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e)
         e->HasComponent<RenderablesStorageComponent>();
 }
 #include "components/common/namecomponent.hpp"
+#include "components/common/movecomponent.hpp"
 void updateAnimation(const Ndk::EntityHandle& e)
 {
     TealAssert(hasRightComponentsToAnimate(e), "Entity doesn't have the right components to animate");
@@ -44,6 +45,29 @@ void updateAnimation(const Ndk::EntityHandle& e)
     bool  moving = isEntityMoving(e);
     auto  dir = e->GetComponent<OrientationComponent>().dir;
 
+    if (e->HasComponent<PathComponent>())
+    {
+        auto& path = e->GetComponent<PathComponent>();
+        // dude stop here
+        auto& pathPath = path.path;
+
+        if (e->HasComponent<MoveComponent>())
+        {
+            auto& move = e->GetComponent<MoveComponent>();
+
+            if (move.playerInitiated)
+            {
+                move.playerInitiated;
+            }
+            else
+            {
+                move.playerInitiated;
+            }
+
+            auto& move2 = e->GetComponent<MoveComponent>();
+        }
+    }
+
     int const intDir = toint(dir);
 
     unsigned const startX = intDir * animData.size.x; // Get the x and the y
@@ -56,7 +80,8 @@ void updateAnimation(const Ndk::EntityHandle& e)
 void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving)
 {
     sprite->SetTexture(animData.texture, false);
-    unsigned maxframe = sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y; // Sprites always use the y axis for animations
+    sprite->SetSize({ tofloat(animData.size.x), tofloat(animData.size.y) }); // Nazara bug
+    unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
     switch (animData.type)
     {

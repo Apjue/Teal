@@ -20,7 +20,7 @@
 #include "util/entityutil.hpp"
 #include "util/assert.hpp"
 #include "util/gameutil.hpp"
-#include "util/movementutil.hpp"
+#include "util/moveutil.hpp"
 
 void moveEntity(const Ndk::EntityHandle& e, bool notFightMode)
 {
@@ -51,10 +51,9 @@ void moveEntity(const Ndk::EntityHandle& e, bool notFightMode)
         pos.xy.x += (*mapDistanceX)[toUnderlyingType(DirToOrient(dir))];
         pos.xy.y += (*mapDistanceY)[toUnderlyingType(DirToOrient(dir))];
 
-        std::swap(*(path.begin()), path.back());
-        path.pop_back(); // To get next tile
+        path.erase(path.begin()); // To get next tile
 
-        if (!path.empty() && notFightMode  && e->HasComponent<MoveComponent>())
+        if (!path.empty() && notFightMode && e->HasComponent<MoveComponent>())
             recomputeIfObstacle(e);
     }
 
