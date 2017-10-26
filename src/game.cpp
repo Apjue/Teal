@@ -100,6 +100,10 @@ Ndk::EntityHandle Game::cloneItem(const Nz::String& codename)
     if (it != m_items.end())
     {
         e = (*it)->Clone();
+
+        if (!e->HasComponent<GraphicalEntitiesComponent>())
+            return e;
+
         auto& gfxEntities = e->GetComponent<GraphicalEntitiesComponent>();
         Ndk::EntityList newEntities;
 
@@ -971,20 +975,13 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
     mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
                  Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
 
-    //mapComp.map->setFightMode(true);
-    //mapComp.map->update();
 
-    auto swordIt = std::find_if(m_items.begin(), m_items.end(), [] (const Ndk::EntityHandle& e)
-                                                                   { return e->GetComponent<CloneComponent>().codename == "excalibur"; });
+    Ndk::EntityHandle sword = cloneItem("excalibur");
+    sword->AddComponent<PositionComponent>().xy = { 1, 2 };
 
-    if (swordIt != m_items.end())
-    {
-        auto logicEntity = (*swordIt)->Clone();
-        logicEntity->AddComponent<PositionComponent>().xy = { 1, 2 };
+    auto gfxEntity = make_mapItem(m_world, sword, { 40, 40 }, { 12, -3 }, Def::MapItemsLayer);
+    MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
 
-        auto gfxEntity = make_mapItem(m_world, logicEntity, { 40, 40 }, { 12, -3 }, Def::MapItemsLayer);
-        MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
-    }
 
     activateMapEntities(MapDataLibrary::Get("0;0"));
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
