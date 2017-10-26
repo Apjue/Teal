@@ -3,12 +3,12 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Application.hpp>
+#include <iostream>
 #include "def/uidef.hpp"
 #include "game.hpp"
 
 #ifndef TEAL_DEBUG
 #include <exception>
-#include <iostream>
 #endif
 
 int main()
@@ -20,9 +20,7 @@ int main()
     {
     #endif
 
-        Game game { app, { Def::WindowSizeX, Def::WindowSizeY },
-                            { Def::MapSizeX, Def::MapSizeY }, "TealDemo - Prototype" };
-
+        Game game { app, { Def::WindowSizeX, Def::WindowSizeY }, { Def::MapSizeX, Def::MapSizeY }, "TealDemo - Prototype" };
         // app.EnableFPSCounter(true);
 
         while (app.Run())
@@ -40,5 +38,6 @@ int main()
     }
     #endif
 
+    std::cout << "Goodbye." << std::endl;
     return 0;
 }
