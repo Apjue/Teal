@@ -51,14 +51,12 @@ private:
     Ndk::EntityHandle m_background;
     Ndk::EntityHandle m_pauseText;
 
-    const Nz::String m_rootPrefix =         "../data/";
-    const Nz::String m_imgPrefix = m_rootPrefix +    "img/";
-    const Nz::String m_addonsPrefix = m_rootPrefix + "addons/";
-    const Nz::String m_addonsImgPrefix = m_addonsPrefix +    "img/";
-    const Nz::String m_scriptPrefix = m_rootPrefix + "script/";
-    const Nz::String m_AIPrefix = m_scriptPrefix +           "ais/";
-    const Nz::String m_fightAIPrefix = m_AIPrefix +               "fight/";
-    const Nz::String m_fightAIUtilFile = m_fightAIPrefix +               "util/util.lua";
+    const Nz::String m_dataFolder =         "../data/";
+    const Nz::String m_imgFolder = m_dataFolder +    "img/";
+    const Nz::String m_scriptFolder = m_dataFolder + "script/";
+    const Nz::String m_AIFolder = m_scriptFolder +           "ais/";
+    const Nz::String m_fightAIFolder = m_AIFolder +               "fight/";
+    const Nz::String m_fightAIUtilFile = m_fightAIFolder +               "util/util.lua";
     
     StateMDStore m_states;
     EffectMDStore m_effects;
