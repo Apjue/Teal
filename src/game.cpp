@@ -666,7 +666,6 @@ void Game::loadMaps()
         {
             NazaraNotice("Error loading map " + maps.GetResultName());
             NazaraNotice(lua.GetLastError());
-            TealException(maps.GetResultName() != "map0_0.lua", "Lua: starting map fails to load");
             continue;
         }
 
@@ -928,7 +927,7 @@ void Game::loadNazara()
 
     Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
     Ndk::InitializeComponent<Items::ItemComponent>("item");
-    Ndk::InitializeComponent<Items::EquippableComponent>("iequip");
+    Ndk::InitializeComponent<Items::EquippableComponent>("canequip");
     Ndk::InitializeComponent<Items::EdibleComponent>("edible");
     Ndk::InitializeComponent<Items::ResourceComponent>("resource");
 
@@ -958,11 +957,9 @@ void Game::addCam()
 
     auto& cam = camera->AddComponent<Ndk::CameraComponent>();
     cam.SetProjectionType(Nz::ProjectionType_Orthogonal);
-
     cam.SetTarget(&m_window);
 
     auto& rendersys = m_world->GetSystem<Ndk::RenderSystem>();
-
     rendersys.SetGlobalUp(Nz::Vector3f::Down());
     rendersys.SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
 }

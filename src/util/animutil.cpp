@@ -45,10 +45,9 @@ void updateAnimation(const Ndk::EntityHandle& e)
     bool  moving = isEntityMoving(e);
     auto  dir = e->GetComponent<OrientationComponent>().dir;
 
-    if (e->HasComponent<PathComponent>())
-    {
+    if (e->HasComponent<PathComponent>()) // just some debug code
+    {                                     // don't mind this
         auto& path = e->GetComponent<PathComponent>();
-        // dude stop here
         auto& pathPath = path.path;
 
         if (e->HasComponent<MoveComponent>())
@@ -66,7 +65,7 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
             auto& move2 = e->GetComponent<MoveComponent>();
         }
-    }
+    } // end of useless debug code
 
     int const intDir = toint(dir);
 
