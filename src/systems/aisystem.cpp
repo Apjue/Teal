@@ -65,13 +65,11 @@ void AISystem::OnUpdate(float elapsed)
                     continue;
                 }
 
-                AbsTile lastPos { move.tile };
-
                 auto currentPath = directionsToPositions(path, startPos);
 
-                if (!currentPath.empty() && lastPos == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
-                {                                                                                  // Else, recompute path in case an object moved and blocks the path
-                    move.tile = toVector(Def::StandStillPos);                                      // (See MovementSystem)
+                if (!currentPath.empty() && move.tile == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
+                {                                                                                    // Else, recompute path in case an object moved and blocks the path
+                    move.tile = toVector(Def::StandStillPos);                                        // (See MovementSystem)
                     continue;
                 }
 

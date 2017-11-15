@@ -17,30 +17,43 @@ void parseLua(Nz::LuaInstance& lua, LuaArguments& table)
             break;
         }
 
-        LuaBasicArgument arg;
-        LuaTableArgument tableArg;
-
         switch (lua.GetType(-1))
         {
             case Nz::LuaType_Boolean:
+            {
+                LuaBasicArgument arg;
                 arg.set<bool>(lua.CheckBoolean(-1));
+
                 table.vars.push_back(arg);
                 break;
+            }
 
             case Nz::LuaType_Number:
+            {
+                LuaBasicArgument arg;
                 arg.set<double>(lua.CheckNumber(-1));
+
                 table.vars.push_back(arg);
                 break;
+            }
 
             case Nz::LuaType_String:
+            {
+                LuaBasicArgument arg;
                 arg.set<Nz::String>(Nz::String { lua.CheckString(-1) });
+
                 table.vars.push_back(arg);
                 break;
+            }
 
             case Nz::LuaType_Table:
+            {
+                LuaTableArgument tableArg;
                 table.tables.push_back(std::make_shared<LuaTableArgument>(tableArg));
+
                 parseLua(lua, *(table.tables.back().get()));
                 break;
+            }
 
             default:
                 NazaraError("Lua parser: Type not supported");
