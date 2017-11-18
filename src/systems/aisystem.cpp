@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Samy Bensaid
+// Copyright (C) 2017 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -57,15 +57,13 @@ void AISystem::OnUpdate(float elapsed)
                 auto& pathComp = e->GetComponent<PathComponent>();
                 auto& path = pathComp.path;
 
-                AbsTile startPos = pos.xy;
-
-                if (move.tile == startPos)
+                if (move.tile == pos.xy) // Check if user clicked on the tile he is
                 {
                     move.tile = toVector(Def::StandStillPos);
                     continue;
                 }
 
-                auto currentPath = directionsToPositions(path, startPos);
+                auto currentPath = directionsToPositions(path, pos.xy);
 
                 if (!currentPath.empty() && move.tile == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
                 {                                                                                    // Else, recompute path in case an object moved and blocks the path
