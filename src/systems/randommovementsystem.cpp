@@ -17,7 +17,7 @@
 RandomMovementSystem::RandomMovementSystem() : m_uni(0, 7)
 {
     Requires<PositionComponent, MoveComponent, RandomMovementComponent>();
-    SetFixedUpdateRate(10.f); // Can be removed
+    SetMaximumUpdateRate(Def::MaxSystemUPS); // Can be removed
     SetUpdateOrder(Def::RandomMovementSystemUpdateOrder);
 }
 

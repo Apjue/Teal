@@ -20,7 +20,7 @@
 FightSystem::FightSystem()
 {
     Requires<FightComponent, LifeComponent, PositionComponent>();
-    SetFixedUpdateRate(Def::MaxSystemUPS);
+    SetMaximumUpdateRate(Def::MaxSystemUPS);
     SetUpdateOrder(Def::FightSystemUpdateOrder); // blocktile, animation
 }
 
