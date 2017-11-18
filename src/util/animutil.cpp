@@ -59,13 +59,13 @@ void updateAnimation(const Ndk::EntityHandle& e)
 void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving)
 {
     sprite->SetTexture(animData.texture, false);
-    sprite->SetSize({ float(animData.size.x), float(animData.size.y) }); // Nazara bug
+    sprite->SetSize({ float(animData.size.x), float(animData.size.y) }); // Nazara bug, ignore this line
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
     switch (animData.type)
     {
         case AnimationData::Walk:
-            if (!moving || maxframe == 0) // Reset animation, and change direction
+            if (!moving || maxframe == 0) // Reset animation, but change direction
             {
                 animData.frame = 0;
                 sprite->SetTextureRect({ startX, 0u, animData.size.x, animData.size.y });
