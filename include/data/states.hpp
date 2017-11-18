@@ -23,7 +23,7 @@ struct State
     State(const LuaArguments& args)
     {
         TealException(args.vars.size() >= 4, "Wrong number of arguments. Need at least 4");
-        turns = tounsigned(args.vars[2].get<double>());
+        turns = unsigned(args.vars[2].get<double>());
     }
 
     virtual ~State() = default;
@@ -41,7 +41,7 @@ struct PoisonnedState : public State
         TealAssert(args.vars[3].get<Nz::String>() == getMetadataID(), "Wrong type of state");
 
         damage.first = stringToElement(args.vars[4].get<Nz::String>());
-        damage.second = toint(args.vars[5].get<double>());
+        damage.second = int(args.vars[5].get<double>());
     }
 
     std::pair<Element, unsigned> damage;
@@ -62,7 +62,7 @@ struct HealedState : public State
         TealAssert(args.vars[3].get<Nz::String>() == getMetadataID(), "Wrong type of state");
 
         health.first = stringToElement(args.vars[4].get<Nz::String>());
-        health.second = toint(args.vars[5].get<double>());
+        health.second = int(args.vars[5].get<double>());
     }
 
     std::pair<Element, unsigned> health;

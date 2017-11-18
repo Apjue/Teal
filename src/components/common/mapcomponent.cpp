@@ -34,7 +34,7 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
     m_fightTileset->EnableFaceCulling(true);
     m_fightTileset->SetFaceFilling(Nz::FaceFilling_Fill);
 
-    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { tofloat(Def::TileSizeX), tofloat(Def::TileSizeY) });
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { float(Def::TileSizeX), float(Def::TileSizeY) });
     m_tilemap->EnableIsometricMode(true);
 
     auto fightMatSampler = m_fightTileset->GetDiffuseSampler();
@@ -56,7 +56,7 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
 
     auto& borderNode = m_borderEntity->AddComponent<Ndk::NodeComponent>();
     borderNode.SetParent(m_entity);
-    borderNode.Move(-tofloat(Def::TileSizeX / 2), -tofloat(Def::TileSizeY / 2));
+    borderNode.Move(-float(Def::TileSizeX / 2), -float(Def::TileSizeY / 2));
 
     auto& borderGfx = m_borderEntity->AddComponent<Ndk::GraphicsComponent>();
 
@@ -65,8 +65,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         Nz::SpriteRef& sprite = m_leftBorder[i];
         sprite = Nz::Sprite::New();
 
-        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, tofloat(i * Def::TileSizeY), 0.f }), Def::MapLayer);
+        sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, float(i * Def::TileSizeY), 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_rightBorder.size(); ++i)
@@ -74,8 +74,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         Nz::SpriteRef& sprite = m_rightBorder[i];
         sprite = Nz::Sprite::New();
 
-        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(Def::MapSizeX), tofloat(i * Def::TileSizeY), 0.f }), Def::MapLayer);
+        sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(Def::MapSizeX), float(i * Def::TileSizeY), 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_upBorder.size(); ++i)
@@ -83,8 +83,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         Nz::SpriteRef& sprite = m_upBorder[i];
         sprite = Nz::Sprite::New();
 
-        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY));
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX + Def::TileSizeX), 0.f, 0.f }), Def::MapLayer);
+        sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(i * Def::TileSizeX + Def::TileSizeX), 0.f, 0.f }), Def::MapLayer);
     }
 
     for (unsigned i {}; i < m_downBorder.size(); ++i)
@@ -92,8 +92,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         Nz::SpriteRef& sprite = m_downBorder[i];
         sprite = Nz::Sprite::New();
 
-        sprite->SetSize(tofloat(Def::TileSizeX), tofloat(Def::TileSizeY / 2));
-        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { tofloat(i * Def::TileSizeX + Def::TileSizeX / 2), tofloat(Def::MapSizeY), 0.f }), Def::MapLayer);
+        sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY / 2));
+        borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(i * Def::TileSizeX + Def::TileSizeX / 2), float(Def::MapSizeY), 0.f }), Def::MapLayer);
     }
 }
 
@@ -223,7 +223,7 @@ float MapInstance::LeastCostEstimate(void* nodeStart, void* nodeEnd)
              rY { distance(sY, eY) };
 
     unsigned const estimated { rX + rY };
-    return tofloat(estimated);
+    return float(estimated);
 }
 
 void MapInstance::AdjacentCost(void* node, std::vector<micropather::StateCost>* neighbors)

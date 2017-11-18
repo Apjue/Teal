@@ -24,7 +24,7 @@ struct PullEffect : public Effect
     PullEffect(const LuaArguments& args)
     {
         TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
-        tiles = tounsigned(args.vars[3].get<double>());
+        tiles = unsigned(args.vars[3].get<double>());
     }
 
     unsigned tiles {};
@@ -42,7 +42,7 @@ struct PushEffect : public Effect
     PushEffect(const LuaArguments& args)
     {
         TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
-        tiles = tounsigned(args.vars[3].get<double>());
+        tiles = unsigned(args.vars[3].get<double>());
     }
 
     unsigned tiles {};

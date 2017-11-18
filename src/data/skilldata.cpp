@@ -31,18 +31,18 @@ SkillData::SkillData(const LuaArguments& args)
             }
         }
 
-    movementPoints = tounsigned(args.vars[0].get<double>());
-    actionPoints = tounsigned(args.vars[1].get<double>());
+    movementPoints = unsigned(args.vars[0].get<double>());
+    actionPoints = unsigned(args.vars[1].get<double>());
 
     //effectId = static_cast<EffectStore::EffectId>(args.vars[2].get<double>());
 
-    minRange = tounsigned(args.vars[3].get<double>());
-    maxRange = tounsigned(args.vars[4].get<double>());
+    minRange = unsigned(args.vars[3].get<double>());
+    maxRange = unsigned(args.vars[4].get<double>());
     modifiableRange = args.vars[5].get<bool>();
 
     areaType = stringToAreaType(args.vars[6].get<Nz::String>());
-    areaMinRange = tounsigned(args.vars[7].get<double>());
-    areaMaxRange = tounsigned(args.vars[8].get<double>());
+    areaMinRange = unsigned(args.vars[7].get<double>());
+    areaMaxRange = unsigned(args.vars[8].get<double>());
 
     codename = args.vars[9].get<Nz::String>();
     name = args.vars[10].get<Nz::String>();

@@ -38,7 +38,7 @@ struct AttackModifierComponent : public Ndk::Component<AttackModifierComponent>
 
         for (auto& variant : args.vars)
         {
-            data[e] = toint(variant.get<double>());
+            data[e] = int(variant.get<double>());
             ++e;
 
             if (e > Element::Max)

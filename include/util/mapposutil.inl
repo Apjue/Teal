@@ -5,8 +5,8 @@
 void NodeToXY(void* node, unsigned& x, unsigned& y)
 {
     int index {};
-    index = toint(reinterpret_cast<std::intptr_t>(node));
-    auto xy = IndexToXY(tounsigned(index));
+    index = int(reinterpret_cast<std::intptr_t>(node));
+    auto xy = IndexToXY(unsigned(index));
 
     x = xy.first;
     y = xy.second;

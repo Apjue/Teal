@@ -44,7 +44,7 @@ template<class Generator>
 Generator RandomNumber<Generator>::generator
 (
     #ifdef TEAL_RANDOM_DEVICE_BROKEN
-        tounsigned(std::time(nullptr))
+        unsigned(std::time(nullptr))
     #else
         std::random_device {}()
     #endif

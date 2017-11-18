@@ -21,8 +21,7 @@ bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e)
         e->HasComponent<OrientationComponent>() &&
         e->HasComponent<RenderablesStorageComponent>();
 }
-#include "components/common/namecomponent.hpp"
-#include "components/common/movecomponent.hpp"
+
 void updateAnimation(const Ndk::EntityHandle& e)
 {
     TealAssert(hasRightComponentsToAnimate(e), "Entity doesn't have the right components to animate");
@@ -37,37 +36,18 @@ void updateAnimation(const Ndk::EntityHandle& e)
     if (anim.currentAnimation == AnimationComponent::InvalidAnimationID || anim.animList.empty())
         return;
 
-    Nz::String name;
-    if (e->HasComponent<NameComponent>())
-        name = e->GetComponent<NameComponent>().name;
-
     AnimationData animData = anim.getCurrentAnimation();
     bool  moving = isEntityMoving(e);
     auto  dir = e->GetComponent<OrientationComponent>().dir;
 
-    if (e->HasComponent<PathComponent>()) // just some debug code
-    {                                     // don't mind this
+    if (e->HasComponent<PathComponent>()) // debug code
+    {
         auto& path = e->GetComponent<PathComponent>();
-        auto& pathPath = path.path;
+        int i = 123;
+        i = 456;
+    }
 
-        if (e->HasComponent<MoveComponent>())
-        {
-            auto& move = e->GetComponent<MoveComponent>();
-
-            if (move.playerInitiated)
-            {
-                move.playerInitiated;
-            }
-            else
-            {
-                move.playerInitiated;
-            }
-
-            auto& move2 = e->GetComponent<MoveComponent>();
-        }
-    } // end of useless debug code
-
-    int const intDir = toint(dir);
+    int const intDir = int(dir);
 
     unsigned const startX = intDir * animData.size.x; // Get the x and the y
     unsigned const startY = animData.frame * animData.size.y;
@@ -79,7 +59,7 @@ void updateAnimation(const Ndk::EntityHandle& e)
 void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving)
 {
     sprite->SetTexture(animData.texture, false);
-    sprite->SetSize({ tofloat(animData.size.x), tofloat(animData.size.y) }); // Nazara bug
+    sprite->SetSize({ float(animData.size.x), float(animData.size.y) }); // Nazara bug
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
     switch (animData.type)

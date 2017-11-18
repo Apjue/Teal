@@ -38,7 +38,7 @@ struct ResistanceModifierComponent : public Ndk::Component<ResistanceModifierCom
 
         for (auto& variant : args.vars)
         {
-            data[e] = toint(variant.get<double>());
+            data[e] = int(variant.get<double>());
             ++e;
 
             if (e > Element::Max)

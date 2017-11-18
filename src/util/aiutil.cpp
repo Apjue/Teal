@@ -65,8 +65,8 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
         unsigned absX {}, absY {}; // Absolute position, not difference
         NodeToXY(node, absX, absY);
 
-        int startX { toint(startPos.x) };
-        int startY { toint(startPos.y) };
+        int startX { int(startPos.x) };
+        int startY { int(startPos.y) };
 
         if (i > 1) // If i == 1 we use the initial position
         {          // Else we use the position micropather generated before
@@ -74,16 +74,16 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
             startY = oldY;
         }
 
-        int diffX { startX - toint(absX) },
-            diffY { startY - toint(absY) }; // Difference now, but reversed
+        int diffX { startX - int(absX) },
+            diffY { startY - int(absY) }; // Difference now, but reversed
 
         diffX = -diffX; // Ok
         diffY = -diffY;
 
         newPath.push_back(XYToDir({ diffX, diffY }, isLineEven(startY)));
 
-        oldX = toint(absX);
-        oldY = toint(absY);
+        oldX = int(absX);
+        oldY = int(absY);
     }
 
     return newPath;

@@ -56,8 +56,8 @@ std::pair<int, int> stringToMapXY(const Nz::String& str)
     result[0].ToInteger(&lx);
     result[1].ToInteger(&ly);
 
-    int x = toint(lx);
-    int y = toint(ly);
+    int x = int(lx);
+    int y = int(ly);
 
     return std::make_pair(x, y);
 }

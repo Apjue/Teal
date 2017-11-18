@@ -15,19 +15,6 @@ inline T distance(const T& x, const T& y);
 
 inline bool isLineEven(unsigned y);
 
-
-template<class T>
-float tofloat(T x);
-
-template<class T>
-int toint(T x);
-
-template<class T>
-unsigned tounsigned(T x);
-
-template<class T>
-long long tolonglong(T x);
-
 #include "util.inl"
 
 #endif // UTIL_HPP

@@ -31,10 +31,10 @@ struct HPGainComponent : public Ndk::Component<HPGainComponent>
         TealException(args.vars.size() <= 2, "Too many arguments");
 
         if (args.vars.size() > 0)
-            diff = toint(args.vars[0].get<double>());
+            diff = int(args.vars[0].get<double>());
 
         if (args.vars.size() > 1)
-            abs = tounsigned(args.vars[1].get<double>());
+            abs = unsigned(args.vars[1].get<double>());
     }
 
     int diff {}; // can be negative, e.g. for poison

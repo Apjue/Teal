@@ -24,7 +24,7 @@ struct DamageData : public Attack
         TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
 
         damage.first = stringToElement(args.vars[2].get<Nz::String>());
-        damage.second = toint(args.vars[3].get<double>());
+        damage.second = int(args.vars[3].get<double>());
     }
 
 

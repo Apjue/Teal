@@ -41,8 +41,8 @@ DiffTile OrientToDiff(Orientation o, bool even)
 
 DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
 {
-    int diffX { toint(to.x) - toint(from.x) },
-        diffY { toint(to.y) - toint(from.y) };
+    int diffX { int(to.x) - int(from.x) },
+        diffY { int(to.y) - int(from.y) };
 
     return { diffX, diffY };
 }
