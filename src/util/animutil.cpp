@@ -36,27 +36,18 @@ void updateAnimation(const Ndk::EntityHandle& e)
     if (anim.currentAnimation == AnimationComponent::InvalidAnimationID || anim.animList.empty())
         return;
 
-    AnimationData animData = anim.getCurrentAnimation();
+    AnimationData& animData = anim.getCurrentAnimation();
     bool  moving = isEntityMoving(e);
     auto  dir = e->GetComponent<OrientationComponent>().dir;
 
-    if (e->HasComponent<PathComponent>()) // debug code
-    {
-        auto& path = e->GetComponent<PathComponent>();
-        int i = 123;
-        i = 456;
-    }
-
-    int const intDir = int(dir);
-
-    unsigned const startX = intDir * animData.size.x; // Get the x and the y
+    unsigned const startX = unsigned(dir) * animData.size.x; // Get the x and the y
     unsigned const startY = animData.frame * animData.size.y;
 
-    for (auto sprite : sprites)
+    for (auto& sprite : sprites)
         animate(startX, startY, sprite, animData, moving);
 }
 
-void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationData& animData, bool moving)
+void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, bool moving)
 {
     sprite->SetTexture(animData.texture, false);
     sprite->SetSize({ float(animData.size.x), float(animData.size.y) }); // Nazara bug, ignore this line
@@ -69,8 +60,6 @@ void animate(unsigned startX, unsigned startY, Nz::SpriteRef sprite, AnimationDa
             {
                 animData.frame = 0;
                 sprite->SetTextureRect({ startX, 0u, animData.size.x, animData.size.y });
-
-                return;
             }
 
             else // Animation !
