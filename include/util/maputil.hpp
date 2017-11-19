@@ -61,7 +61,7 @@ extern bool changeMap();
 ///        in this file to work
 ///
 
-extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather);
+extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather, const Ndk::EntityHandle& mainCharacter);
 
 ///
 /// \fn isMapUtilityInitialized

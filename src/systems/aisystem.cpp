@@ -13,14 +13,13 @@
 #include "util/aiutil.hpp"
 #include "util/nzstlcompatibility.hpp"
 #include "util/maputil.hpp"
-#include "util/gameutil.hpp"
 #include "def/gamedef.hpp"
 #include "def/systemdef.hpp"
 #include "data/elementdata.hpp"
 #include "systems/aisystem.hpp"
 
-AISystem::AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather)
-    : m_utilityLuaFile { utilFilepath }, m_skills(skills)
+AISystem::AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter)
+    : m_mainCharacter { mainCharacter }, m_utilityLuaFile { utilFilepath }, m_skills(skills)
 {
     Requires<PositionComponent>();
     SetUpdateOrder(Def::AISystemUpdateOrder);
@@ -107,7 +106,7 @@ void AISystem::OnUpdate(float elapsed)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != getMainCharacter()) // Compute fight
+        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != m_mainCharacter) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();

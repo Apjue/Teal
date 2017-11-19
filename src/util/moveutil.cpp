@@ -15,14 +15,13 @@
 #include "def/gamedef.hpp"
 #include "data/mapdata.hpp"
 #include "cache/tilesetcore.hpp"
-#include "util/gfxutil.hpp"
 #include "util/maputil.hpp"
+#include "util/gfxutil.hpp"
 #include "util/entityutil.hpp"
 #include "util/assert.hpp"
-#include "util/gameutil.hpp"
 #include "util/moveutil.hpp"
 
-void moveEntity(const Ndk::EntityHandle& e, bool notFightMode)
+void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
 {
     auto& pathComp = e->GetComponent<PathComponent>();
     auto& path = pathComp.path;
@@ -53,26 +52,16 @@ void moveEntity(const Ndk::EntityHandle& e, bool notFightMode)
 
         path.erase(path.begin()); // To get next tile
 
-        if (!path.empty() && notFightMode && e->HasComponent<MoveComponent>())
+        if (!path.empty() && !fightMode && e->HasComponent<MoveComponent>())
             recomputeIfObstacle(e);
     }
 
     if (path.empty()) // Finished path
-    {
-        if (e == getMainCharacter() && notFightMode)
-        {
-            TealAssert(hasComponentsToChangeMap(e) && e->HasComponent<InventoryComponent>(), "Main character doesn't have required components ?");
-
-            getItemsFromGround(e);
-            changeMap();
-        }
-
         if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)
         {
             refreshOccupiedTiles();
             clearPatherCache();
         }
-    }
 
     if (isMapEntity(e))
         refreshGraphicsPos(e);

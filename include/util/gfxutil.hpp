@@ -39,7 +39,7 @@ extern AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords);
 /// \todo Delete this function and find a better way
 ///
 
-extern void initSchemeUtility(Nz::ImageRef newScheme);
+extern void initializeSchemeUtility(const Nz::ImageRef& newScheme);
 
 ///
 /// \fn refreshGraphicsPos

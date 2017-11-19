@@ -8,6 +8,7 @@
 #define MOVEMENTSYSTEM_HPP
 
 #include <NDK/System.hpp>
+#include <NDK/Entity.hpp>
 
 ///
 /// \class MovementSystem
@@ -20,13 +21,16 @@
 class MovementSystem : public Ndk::System<MovementSystem>
 {
 public:
-    MovementSystem();
+    MovementSystem() = delete;
+    MovementSystem(const Ndk::EntityHandle& mainCharacter);
     ~MovementSystem() = default;
 
     static Ndk::SystemIndex systemIndex;
 
 private:
     void OnUpdate(float elapsed) override;
+
+    Ndk::EntityHandle m_mainCharacter;
 };
 
 

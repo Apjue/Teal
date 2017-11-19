@@ -26,7 +26,6 @@
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
 #include "util/luaparser.hpp"
-#include "util/gameutil.hpp"
 #include "util/fileutil.hpp"
 #include "def/gamedef.hpp"
 #include "def/typedef.hpp"
@@ -49,7 +48,7 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, const Nz::Vector
     m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
 
     loadNazara();
-    initSchemeUtility(scheme);
+    initializeSchemeUtility(scheme);
 
     loadMetaData();
     loadSkills();
@@ -63,17 +62,13 @@ Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, const Nz::Vector
     addIcon();
     addCam();
 
-
     addEntities();
     addSystems();
+    initializeMapUtility(m_map->GetComponent<MapComponent>().map.get(), m_pather.get(), m_charac);
 
     initEventHandler();
     addWidgets();
     addPauseMenu();
-
-
-    initializeGameUtility(m_charac); // Todo: delete this. GetMainCharacter function shouldn't exist.
-    initializeMapUtility(m_map->GetComponent<MapComponent>().map.get(), m_pather.get());
 }
 
 Ndk::EntityHandle Game::cloneCharacter(const Nz::String& codename)
@@ -1002,8 +997,8 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
 
 void Game::addSystems()
 {
-    m_world->AddSystem<AISystem>(m_skills, m_fightAIUtilFile, m_pather);
-    m_world->AddSystem<MovementSystem>();
+    m_world->AddSystem<AISystem>(m_skills, m_fightAIUtilFile, m_pather, m_charac);
+    m_world->AddSystem<MovementSystem>(m_charac);
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);
     m_world->AddSystem<AnimationSystem>();

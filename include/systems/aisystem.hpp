@@ -46,7 +46,7 @@ struct FightData
 class AISystem : public Ndk::System<AISystem>
 {
 public:
-    AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather);
+    AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter);
     AISystem(const AISystem& other);
     ~AISystem() = default;
 
@@ -74,6 +74,7 @@ private:
     bool Teal_CanAttack(unsigned characterIndex);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
+    Ndk::EntityHandle m_mainCharacter;
     Nz::String m_utilityLuaFile;
 
     Detail::FightData m_currentFight;

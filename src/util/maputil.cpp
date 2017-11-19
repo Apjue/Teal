@@ -7,15 +7,16 @@
 #include "components/common/orientationcomponent.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/animutil.hpp"
-#include "util/gameutil.hpp"
-#include "util/maputil.hpp"
+#include "util/gfxutil.hpp"
 #include "util/util.hpp"
+#include "util/maputil.hpp"
 
 namespace
 {
 
 MapInstance* m_currentMap {};
 micropather::MicroPather* m_pather {};
+Ndk::EntityHandle m_mainCharacter {};
 
 }
 
@@ -102,15 +103,13 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 bool changeMap()
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-
-    Ndk::EntityHandle mainChar = getMainCharacter();
-    auto canChange = canChangeMap(mainChar);
+    auto canChange = canChangeMap(m_mainCharacter);
 
     if (!canChange.first)
         return false;
 
     auto& mapPos = m_currentMap->getCurrentMap()->getPosition();
-    auto& pos = mainChar->GetComponent<PositionComponent>();
+    auto& pos = m_mainCharacter->GetComponent<PositionComponent>();
 
     MapDataRef newMap; // Map the entity will move to
     unsigned x {}, y {}; // New position of the entity after changing map
@@ -171,20 +170,22 @@ bool changeMap()
     clearPatherCache();
 
     pos.xy = { x, y };
-    mainChar->GetComponent<OrientationComponent>().dir = newOrient;
+    m_mainCharacter->GetComponent<OrientationComponent>().dir = newOrient;
+    refreshGraphicsPos(m_mainCharacter);
 
     return true;
 }
 
-void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather)
+extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather, const Ndk::EntityHandle& mainCharacter)
 {
     m_currentMap = currentMap;
     m_pather = pather;
+    m_mainCharacter = mainCharacter;
 }
 
 bool isMapUtilityInitialized()
 {
-    return m_currentMap && m_currentMap->getCurrentMap().IsValid() && m_pather && isGameUtilityInitialized();
+    return m_currentMap && m_currentMap->getCurrentMap().IsValid() && m_pather && m_mainCharacter.IsValid();
 }
 
 void refreshOccupiedTiles()

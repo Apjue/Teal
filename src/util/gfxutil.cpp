@@ -122,7 +122,7 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     return { fLosangeX, fLosangeY };
 }
 
-void initSchemeUtility(Nz::ImageRef newScheme)
+extern void initializeSchemeUtility(const Nz::ImageRef& newScheme)
 {
     m_scheme = newScheme;
 }

@@ -9,8 +9,8 @@
 
 #include <NDK/Entity.hpp>
 
-void moveEntity(const Ndk::EntityHandle& e, bool notFightMode = true);
-void recomputeIfObstacle(const Ndk::EntityHandle& e);
+void moveEntity(const Ndk::EntityHandle& e, bool fightMode = false);
+void recomputeIfObstacle(const Ndk::EntityHandle& e); // Recomputes path of entity if a NPC moved into it
 void getItemsFromGround(const Ndk::EntityHandle& e);
 
 #endif // MOVEMENTUTIL_HPP
