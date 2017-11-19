@@ -125,14 +125,17 @@ void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from
 
     for (auto it = mapEntities.begin(); it != mapEntities.end();)
     {
-        it = std::find_if(mapEntities.begin(), mapEntities.end(),
-                          [&e, &killedEntities] (const Ndk::EntityHandle& item)
+        it = std::find_if(mapEntities.begin(), mapEntities.end(), [&e, &killedEntities] (const Ndk::EntityHandle& item)
         {
-            return !killedEntities.Has(item) && item.IsValid() && isMapEntity(item) &&
-                   item->HasComponent<LogicEntityIdComponent>() && item->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid() &&
-                   item->GetComponent<LogicEntityIdComponent>().logicEntity->HasComponent<Items::ItemComponent>() &&
-                   item->GetComponent<LogicEntityIdComponent>().logicEntity->HasComponent<PositionComponent>() &&
-                   item->GetComponent<LogicEntityIdComponent>().logicEntity->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy;
+            if (!killedEntities.Has(item) && item.IsValid() && isValidGraphicalItemEntity(item))
+            {
+                auto& logicEntity = item->GetComponent<LogicEntityIdComponent>().logicEntity;
+
+                return isItemEntity(logicEntity) && logicEntity->HasComponent<PositionComponent>() &&
+                    logicEntity->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy;
+            }
+
+            return false;
         });
 
         if (it == mapEntities.end())

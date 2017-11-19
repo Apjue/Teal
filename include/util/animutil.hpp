@@ -11,7 +11,7 @@
 #include <Nazara/Graphics/Sprite.hpp>
 #include "components/common/animationcomponent.hpp"
 
-bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e);
+bool hasComponentsToAnimate(const Ndk::EntityHandle& e);
 void updateAnimation(const Ndk::EntityHandle& e);
 void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, bool moving);
 

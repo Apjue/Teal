@@ -133,7 +133,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
 
     auto& pos = logicEntity->GetComponent<PositionComponent>();
     auto& gfxcomp = graphicalEntity->GetComponent<Ndk::GraphicsComponent>();
-    auto& gfxpos = graphicalEntity->GetComponent<Ndk::NodeComponent>();
+    auto& node = graphicalEntity->GetComponent<Ndk::NodeComponent>();
     Nz::Vector2f defPos = getDefGfxPos(graphicalEntity);
 
     unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : Def::TileSizeX / 2); // convert logic pos to graphics pos
@@ -151,12 +151,12 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     float const finalX = float(gX) + float(gInXY.x) + defPos.x; // We will move using this
     float const finalY = float(gY) + float(gInXY.y) + defPos.y; // (so it's graphics pos)
 
-    if (finalX != gfxpos.GetPosition().x || // if the entity is already at that position
-        finalY != gfxpos.GetPosition().y) // no need to move it
+    if (finalX != node.GetPosition().x || // if the entity is already at that position
+        finalY != node.GetPosition().y) // no need to move it
     {
-        float const moveX = finalX - gfxpos.GetPosition().x;
-        float const moveY = finalY - gfxpos.GetPosition().y;
+        float const moveX = finalX - node.GetPosition().x;
+        float const moveY = finalY - node.GetPosition().y;
 
-        gfxpos.Move(moveX, moveY);
+        node.Move(moveX, moveY);
     }
 }

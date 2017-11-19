@@ -13,7 +13,7 @@
 #include "util/entityutil.hpp"
 #include "util/animutil.hpp"
 
-bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e)
+bool hasComponentsToAnimate(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<AnimationComponent>() &&
         e->HasComponent<Ndk::GraphicsComponent>() &&
@@ -24,7 +24,7 @@ bool hasRightComponentsToAnimate(const Ndk::EntityHandle& e)
 
 void updateAnimation(const Ndk::EntityHandle& e)
 {
-    TealAssert(hasRightComponentsToAnimate(e), "Entity doesn't have the right components to animate");
+    TealAssert(hasComponentsToAnimate(e), "Entity doesn't have the right components to animate");
 
     auto& sprites = e->GetComponent<RenderablesStorageComponent>().sprites;
 

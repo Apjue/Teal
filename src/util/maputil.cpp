@@ -162,7 +162,7 @@ bool changeMap()
     m_currentMap->setMap(m_currentMap->getCurrentMapIndex(), newMap);
     
     for (auto& entity : m_currentMap->getCurrentMap()->getEntities())
-        if (hasRightComponentsToAnimate(entity))
+        if (hasComponentsToAnimate(entity))
             updateAnimation(entity);
     
     activateMapEntities(m_currentMap->getCurrentMap());
