@@ -1083,12 +1083,14 @@ void Game::addWidgets()
     auto& eventHandler = m_window.GetEventHandler();
 
     Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
-    TealAssert(invButton, "Inventory button null");
 
-    invButton->SetParent(*m_canvas);
-    invButton->UpdateText(Nz::SimpleTextDrawer::Draw("Inventory", 15));
-    invButton->SetPadding(0.f, 0.f, 0.f, 0.f);
-    invButton->ResizeToContent();
+    invButton->SetTexture(Nz::TextureLibrary::Get(":/buttons/inv"));
+    invButton->SetHoverTexture(invButton->GetTexture());
+    invButton->SetPressTexture(Nz::TextureLibrary::Get(":/buttons/inv_pressed"));
+
+    invButton->SetColor(Nz::Color::White, Nz::Color::White);
+    invButton->SetHoverColor(invButton->GetColor(), invButton->GetCornerColor());
+    invButton->SetPressColor(invButton->GetColor(), invButton->GetCornerColor());
 
     m_invButtonEvent.Connect(invButton->OnButtonTrigger,
     [this] (const Ndk::ButtonWidget*)
