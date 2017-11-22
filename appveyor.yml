@@ -49,15 +49,9 @@ install:
   - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
-  - mkdir %TOOLSET% && cd %TOOLSET%
-  - mkdir %PLATFORM% && cd %PLATFORM%
+  - cd %TOOLSET% && cd %PLATFORM%
   - mkdir nazara && cd nazara
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/lib/%PLATFORM%/*.lib ./
-  - cd .. && mkdir micropather && cd micropather
-  - cp -r %APPVEYOR_BUILD_FOLDER%/extlibs/src/micropather/** ./
-  - premake5.exe %TOOLSET%
-  - msbuild "Micropather.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - mv bin/%PLATFORM%/%CONFIG%/micropather%SUFFIXLIB% ./
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build

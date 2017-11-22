@@ -1,2 +1,3 @@
-https://nazara.digitalpulsesoftware.net/files/
-http://teal.esy.es/nazara/
+https://github.com/DigitalPulseSoftware/NazaraEngine/releases
+https://nazara.digitalpulsesoftware.net/files/ (0.4 has not been uploaded yet)
+http://teal.esy.es/nazara/ (0.4 has not been uploaded yet)
