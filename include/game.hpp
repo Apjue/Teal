@@ -50,13 +50,6 @@ private:
     bool m_paused { false };
     Ndk::EntityHandle m_background;
     Ndk::EntityHandle m_pauseText;
-
-    const Nz::String m_dataFolder =         "../data/";
-    const Nz::String m_imgFolder = m_dataFolder +    "img/";
-    const Nz::String m_scriptFolder = m_dataFolder + "script/";
-    const Nz::String m_AIFolder = m_scriptFolder +           "ais/";
-    const Nz::String m_fightAIFolder = m_AIFolder +               "fight/";
-    const Nz::String m_fightAIUtilFile = m_fightAIFolder +               "util/util.lua";
     
     StateMDStore m_states;
     EffectMDStore m_effects;

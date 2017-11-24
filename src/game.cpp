@@ -31,6 +31,7 @@
 #include "def/typedef.hpp"
 #include "def/uidef.hpp"
 #include "def/layerdef.hpp"
+#include "def/folderdef.hpp"
 #include "game.hpp"
 
 Game::Game(Ndk::Application& app, const Nz::Vector2ui& winSize, const Nz::Vector2ui& viewport, const Nz::String& winName)
@@ -197,10 +198,10 @@ void Game::showCharacteristics() // [TEST]
 
 void Game::loadTextures()
 {
-    TealException(Nz::File::Exists(m_scriptFolder + "textures.lua"), "textures.lua not found !");
+    TealException(Nz::File::Exists(Def::ScriptFolder + "textures.lua"), "textures.lua not found !");
 
     Nz::LuaInstance lua;
-    TealException(lua.ExecuteFromFile(m_scriptFolder + "textures.lua"), "Lua: textures.lua loading failed !");
+    TealException(lua.ExecuteFromFile(Def::ScriptFolder + "textures.lua"), "Lua: textures.lua loading failed !");
     TealException(lua.GetGlobal("teal_textures") == Nz::LuaType_Table, "Lua: teal_textures isn't a table !");
 
     for (int i { 1 };; ++i)
@@ -226,7 +227,7 @@ void Game::loadTextures()
         Nz::String filepath = lua.CheckString(-1);
         lua.Pop();
 
-        Nz::TextureLibrary::Register(id, Nz::TextureManager::Get(m_imgFolder + filepath));
+        Nz::TextureLibrary::Register(id, Nz::TextureManager::Get(Def::ImageFolder + filepath));
         NazaraDebug("Texture " + id + " loaded !");
 
         lua.Pop();
@@ -237,11 +238,11 @@ void Game::loadTextures()
 
 void Game::loadTilesetCore()
 {
-    TealException(Nz::File::Exists(m_scriptFolder + "tilesetcore.lua"), "tilesetcore.lua not found !");
+    TealException(Nz::File::Exists(Def::ScriptFolder + "tilesetcore.lua"), "tilesetcore.lua not found !");
 
     {
         Nz::LuaInstance lua;
-        TealException(lua.ExecuteFromFile(m_scriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
+        TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
         TealException(lua.GetGlobal("teal_tilesetcore") == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
 
         unsigned tileNumber {};
@@ -265,7 +266,7 @@ void Game::loadTilesetCore()
 
     {
         Nz::LuaInstance lua;
-        TealException(lua.ExecuteFromFile(m_scriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
+        TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
 
         lua.GetGlobal("teal_fighttilesetcore");
         TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_fighttilesetcore isn't a table !");
@@ -294,7 +295,7 @@ void Game::loadTilesetCore()
 
 void Game::loadAnimations()
 {
-    Nz::Directory anims { m_scriptFolder + "animations/" };
+    Nz::Directory anims { Def::AnimationFolder };
     anims.SetPattern("*.lua");
     anims.Open();
 
@@ -367,7 +368,7 @@ void Game::loadAnimations()
 
 void Game::loadCharacters()
 {
-    Nz::Directory chars { m_scriptFolder + "characters/" };
+    Nz::Directory chars { Def::CharacterFolder + "characters/" };
     chars.SetPattern("*.lua");
     chars.Open();
 
@@ -649,7 +650,7 @@ void Game::loadCharacters()
 
 void Game::loadMaps()
 {
-    Nz::Directory maps { m_scriptFolder + "maps/" };
+    Nz::Directory maps { Def::MapFolder };
     maps.SetPattern("*.lua");
     maps.Open();
 
@@ -785,7 +786,7 @@ void Game::loadMetaData()
 
 void Game::loadSkills()
 {
-    Nz::Directory skills { m_scriptFolder + "skills/" };
+    Nz::Directory skills { Def::SkillFolder };
     skills.SetPattern("*.lua");
     skills.Open();
 
@@ -813,7 +814,7 @@ void Game::loadSkills()
 
 void Game::loadItems()
 {
-    Nz::Directory items { m_scriptFolder + "items/" };
+    Nz::Directory items { Def::ItemFolder };
     items.SetPattern("*.lua");
     items.Open();
 
@@ -997,7 +998,7 @@ void Game::addEntities() /// \todo Use lua (map's entities table)
 
 void Game::addSystems()
 {
-    m_world->AddSystem<AISystem>(m_skills, m_fightAIUtilFile, m_pather, m_charac);
+    m_world->AddSystem<AISystem>(m_skills, Def::FightAIUtilFile, m_pather, m_charac);
     m_world->AddSystem<MovementSystem>(m_charac);
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);
