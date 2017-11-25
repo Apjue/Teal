@@ -49,8 +49,9 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
 void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, bool moving)
 {
+    auto spriteSize = sprite->GetSize(); // Nazara bug, ignore this line
     sprite->SetTexture(animData.texture, false);
-    sprite->SetSize({ float(animData.size.x), float(animData.size.y) }); // Nazara bug, ignore this line
+    sprite->SetSize(spriteSize); // Nazara bug, ignore this line
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
     switch (animData.type)
