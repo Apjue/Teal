@@ -9,8 +9,9 @@
 
 #include <NDK/World.hpp>
 #include <Nazara/Renderer/RenderWindow.hpp>
+#include "data/gamedata.hpp"
 
-void initializeTeal(Ndk::World& world, Nz::RenderWindow& window);
+void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data);
 
 namespace Detail
 {
@@ -19,15 +20,15 @@ namespace Detail
 void loadTextures();
 void loadNazara();
 void initSchemeUtility();
-void loadTilesetCore();
+void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore);
 
-void loadMetaData();
-void loadSkills();
-void loadAnimations();
-void loadCharacters();
-void loadItems();
+void loadMetaData(StateMDStore& states, EffectMDStore& effects);
+void loadSkills(SkillStore& skills);
+void loadAnimations(AnimationStore& animations);
+void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationStore& animations);
+void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skills);
 //void loadMapObjects();
-void loadMaps();
+void loadMaps(const Ndk::EntityList& characters, const Ndk::EntityList& items);
 
 void addIcon(Nz::RenderWindow& window);
 void addCam(Ndk::World& world, Nz::RenderWindow& window);
