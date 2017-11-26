@@ -14,16 +14,16 @@
 
 struct GameData
 {
-    TilesetCore& tilesetCore;
-    TilesetCore& fightTilesetCore;
+    TilesetCore tilesetCore;
+    TilesetCore fightTilesetCore;
 
-    StateMDStore& states;
-    EffectMDStore& effects;
-    SkillStore& skills;
-    AnimationStore& animations;
+    StateMDStore states;
+    EffectMDStore effects;
+    SkillStore skills;
+    AnimationStore animations;
 
-    Ndk::EntityList& items;
-    Ndk::EntityList& characters;
+    Ndk::EntityList items;
+    Ndk::EntityList characters;
 };
 
 #endif // GAMEDATA_HPP

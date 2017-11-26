@@ -303,7 +303,7 @@ void loadAnimations(AnimationStore& animations)
 
 void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationStore& animations)
 {
-    Nz::Directory charactersDirectory { Def::CharacterFolder + "characters/" };
+    Nz::Directory charactersDirectory { Def::CharacterFolder };
     charactersDirectory.SetPattern("*.lua");
     charactersDirectory.Open();
 

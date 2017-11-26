@@ -36,7 +36,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
     addEntities();
     addSystems();
 
-    //initializeMapUtility();
+    initializeMapUtility(m_map->GetComponent<MapComponent>().map.get(), m_pather.get(), m_charac);
 
     initEventHandler();
     addWidgets();
@@ -61,6 +61,8 @@ bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
         m_paused = paused;
         handlePausedState();
     }
+
+    return true;
 }
 
 void GameState::handlePausedState()
@@ -154,7 +156,7 @@ void GameState::showCharacteristics() // [TEST]
 }
 
 
-void GameState::addEntities()
+void GameState::addEntities() /// \todo Use lua (map's entities table)
 {
     m_map = m_world->CreateEntity();
 
@@ -176,6 +178,7 @@ void GameState::addEntities()
     m_charac = cloneCharacter(m_characters, "villager");
     m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
+    m_charac->GetComponent<NameComponent>().name = "You";
     refreshGraphicsPos(m_charac);
 
     auto& charSprites = m_charac->GetComponent<RenderablesStorageComponent>();
