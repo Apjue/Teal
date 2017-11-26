@@ -79,7 +79,7 @@ struct CharacterData
                   const Nz::String& desc_ = "",
                   Elements atk_ = {},
                   Elements res_ = {},
-                  unsigned level_ = { 1 },
+                  unsigned level_ = 1,
                   const Fight& fight_ = {})
 
         : codename { name }, sprite { pic }, defG { dg }, animations { anims }, defaultAnimation { defAnim }, maxhp { mhp }, o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_),
