@@ -45,7 +45,7 @@ environment:
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && cd nazara
-  - curl https://teal.esy.es/nazara/NazaraEngine-0.4-msvc14-%PLATFORM%.7z -o nazara.7z
+  - curl http://teal.esy.es/nazara/NazaraEngine-0.4-msvc14-%PLATFORM%.7z -o nazara.7z
   - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
