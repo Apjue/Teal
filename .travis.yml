@@ -75,7 +75,7 @@ before_install:
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && cd nazara
-  - curl https://nazara.digitalpulsesoftware.net/files/NazaraEngine-0.4-linux-${PLATFORM}.tar.gz -o nazara.tar.gz
+  - curl https://teal.esy.es/nazara/NazaraEngine-0.4-linux-${PLATFORM}.tar.gz -o nazara.tar.gz
   - tar -xzf nazara.tar.gz
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
