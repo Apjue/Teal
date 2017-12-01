@@ -2,9 +2,11 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <NDK/Components/NodeComponent.hpp>
 #include <memory>
 #include "components/common/positioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
+#include "components/common/renderablesstoragecomponent.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/animutil.hpp"
 #include "util/gfxutil.hpp"
@@ -186,6 +188,31 @@ extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPath
 bool isMapUtilityInitialized()
 {
     return m_currentMap && m_currentMap->getCurrentMap().IsValid() && m_pather && m_mainCharacter.IsValid();
+}
+
+Ndk::EntityList mapEntitiesHoveredByCursor(const Nz::Vector2ui& cursor)
+{
+    TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
+
+    const MapDataRef& map = getCurrentMap()->getCurrentMap();
+    Ndk::EntityList entities;
+
+    for (const Ndk::EntityHandle& entity : map->getEntities())
+    {
+        auto& nodePos = entity->GetComponent<Ndk::NodeComponent>().GetPosition();
+        auto& renderables = entity->GetComponent<RenderablesStorageComponent>();
+
+        for (auto& sprite : renderables.sprites)
+        {
+            auto& spriteSize = sprite->GetSize();
+            Nz::Rectf box { nodePos.x, nodePos.y, spriteSize.x, spriteSize.y };
+
+            if (box.Contains(float(cursor.x), float(cursor.y)))
+                entities.Insert(entity);
+        }
+    }
+
+    return entities;
 }
 
 void refreshOccupiedTiles()

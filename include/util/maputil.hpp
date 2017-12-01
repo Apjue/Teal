@@ -73,6 +73,7 @@ inline void uninitializeMapUtility();
 
 extern bool isMapUtilityInitialized();
 
+extern Ndk::EntityList mapEntitiesHoveredByCursor(const Nz::Vector2ui& cursor);
 extern void refreshOccupiedTiles();
 extern void clearPatherCache();
 

@@ -186,7 +186,7 @@ void GameState::addEntities() /// \todo Use lua (map's entities table)
     auto npc = cloneCharacter(m_characters, "villager");
     npc->GetComponent<PositionComponent>().xy = { 5, 5 };
     npc->GetComponent<NameComponent>().name = "The Wandering NPC";
-    npc->AddComponent<RandomMovementComponent>(7.5f, 1);
+    //npc->AddComponent<RandomMovementComponent>(5.5f, 1);
 
     refreshGraphicsPos(npc);
     MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
@@ -210,11 +210,21 @@ void GameState::initEventHandler()
     { // Lambda to move the player if the user clicked in the map
         if (m_mapArea.Contains(event.x, event.y) && !m_paused)
         {
-            auto& move = m_charac->GetComponent<MoveComponent>();
-            auto  tile = getTileFromGlobalCoords({ event.x, event.y });
+            Ndk::EntityList hoveredEntities = mapEntitiesHoveredByCursor({ event.x, event.y });
 
-            move.tile = tile;
-            move.playerInitiated = true;
+            if (!hoveredEntities.empty() && false) // todo
+            {
+                //...
+            }
+
+            else
+            {
+                auto& move = m_charac->GetComponent<MoveComponent>();
+                auto  tile = getTileFromGlobalCoords({ event.x, event.y });
+
+                move.tile = tile;
+                move.playerInitiated = true;
+            }
         }
     });
 
@@ -230,7 +240,7 @@ void GameState::initEventHandler()
                 showCharacteristics();
                 break;
 
-            case Nz::Keyboard::D: // Debug
+            case Nz::Keyboard::D: // Useless debug things
                 auto& pos = m_charac->GetComponent<PositionComponent>();
                 NazaraNotice("--- Debug ---");
                 NazaraNotice(Nz::String { "Player position: " }
