@@ -62,6 +62,7 @@ extern bool changeMap();
 ///
 
 extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather, const Ndk::EntityHandle& mainCharacter);
+inline void uninitializeMapUtility();
 
 ///
 /// \fn isMapUtilityInitialized

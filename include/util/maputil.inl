@@ -61,3 +61,8 @@ std::pair<int, int> stringToMapXY(const Nz::String& str)
 
     return std::make_pair(x, y);
 }
+
+inline void uninitializeMapUtility()
+{
+    initializeMapUtility(nullptr, nullptr, {});
+}

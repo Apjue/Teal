@@ -26,8 +26,8 @@
 
 GameState::GameState(Ndk::WorldHandle world, Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData)
     : m_world(world), m_window(window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore),
-    m_states(gameData.states), m_effects(gameData.effects), m_skills(gameData.skills), m_animations(gameData.animations), m_items(gameData.items), m_characters(gameData.characters)
-{}
+    m_states(gameData.states), m_effects(gameData.effects), m_skills(gameData.skills), m_animations(gameData.animations), m_items(gameData.items),
+    m_characters(gameData.characters) {}
 
 void GameState::Enter(Ndk::StateMachine& fsm)
 {
@@ -45,7 +45,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 void GameState::Leave(Ndk::StateMachine& fsm)
 {
     removeSystems();
-    initializeMapUtility(nullptr, nullptr, {});
+    uninitializeMapUtility();
     uninitEventHandler();
     killEntities();
 
