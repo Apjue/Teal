@@ -11,7 +11,7 @@ teal_skill =
         {
             "state",
             "enemies",
-            3, -- number of turns
+            3, -- number of turns the state lasts
             "poison", -- type of state
 
             "fire",
