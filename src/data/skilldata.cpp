@@ -39,15 +39,16 @@ SkillData::SkillData(const LuaArguments& args)
     minRange = unsigned(args.vars[3].get<double>());
     maxRange = unsigned(args.vars[4].get<double>());
     modifiableRange = args.vars[5].get<bool>();
+    viewThroughWalls = args.vars[6].get<bool>();
 
-    areaType = stringToAreaType(args.vars[6].get<Nz::String>());
-    areaMinRange = unsigned(args.vars[7].get<double>());
-    areaMaxRange = unsigned(args.vars[8].get<double>());
+    areaType = stringToAreaType(args.vars[7].get<Nz::String>());
+    areaMinRange = unsigned(args.vars[8].get<double>());
+    areaMaxRange = unsigned(args.vars[9].get<double>());
 
-    codename = args.vars[9].get<Nz::String>();
-    name = args.vars[10].get<Nz::String>();
-    description = args.vars[11].get<Nz::String>();
-    icon = args.vars[12].get<Nz::String>();
+    codename = args.vars[10].get<Nz::String>();
+    name = args.vars[11].get<Nz::String>();
+    description = args.vars[12].get<Nz::String>();
+    icon = args.vars[13].get<Nz::String>();
 }
 
 SkillData::AreaType SkillData::stringToAreaType(Nz::String string)

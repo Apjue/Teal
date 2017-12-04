@@ -9,6 +9,9 @@
 #include "components/common/positioncomponent.hpp"
 #include "components/common/animationcomponent.hpp"
 #include "components/common/logicentityidcomponent.hpp"
+#include "components/common/monstercomponent.hpp"
+#include "components/common/fightcomponent.hpp"
+#include "components/common/lifecomponent.hpp"
 #include "components/items/itemcomponent.hpp"
 #include "entityutil.hpp"
 
@@ -20,6 +23,16 @@ bool isMapEntity(const Ndk::EntityHandle& e)
 bool isItemEntity(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<Items::ItemComponent>();
+}
+
+inline bool isMonsterEntity(const Ndk::EntityHandle& e)
+{
+    return e->HasComponent<MonsterComponent>();
+}
+
+inline bool isFightableEntity(const Ndk::EntityHandle& e)
+{
+    return e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>();
 }
 
 inline bool isGraphicalItemEntity(const Ndk::EntityHandle& e)

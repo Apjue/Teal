@@ -11,6 +11,8 @@
 
 inline bool isMapEntity(const Ndk::EntityHandle& e); // Check if the entity is a map object (e.g. a tree or a NPC) or an item laying on the ground
 inline bool isItemEntity(const Ndk::EntityHandle& e);
+inline bool isMonsterEntity(const Ndk::EntityHandle& e);
+inline bool isFightableEntity(const Ndk::EntityHandle& e);
 
 inline bool isGraphicalItemEntity(const Ndk::EntityHandle& e);
 inline bool isValidGraphicalItemEntity(const Ndk::EntityHandle& e);

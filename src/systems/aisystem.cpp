@@ -106,7 +106,7 @@ void AISystem::OnUpdate(float elapsed)
         // All swords/hammers/any offensive item have an attack
         // create an OffensiveComponent ?
 
-        /*if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != m_mainCharacter) // Compute fight
+        if (e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>() && e != m_mainCharacter) // Compute fight
         {
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
@@ -116,7 +116,7 @@ void AISystem::OnUpdate(float elapsed)
                 TealAssert(m_isFightActive, "Not fighting");
                 Nz::LuaInstance& lua = m_currentFight.ai;
 
-                if (m_currentFight.clean || !m_currentFight.coroutine)
+                if (!m_currentFight.coroutine)
                 {
                     m_currentFight.currentEntity = e;
                     lua.SetTimeLimit(std::max(1, static_cast<int>(elapsed * 10.f)) * 1000);
@@ -131,17 +131,15 @@ void AISystem::OnUpdate(float elapsed)
 
                     // Choose proper AI here. AICore ?
 
-                    m_currentFight.coroutine = &(lua.NewCoroutine()); // crash
-                    m_currentFight.clean = false;
-
                     Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
                     Nz::String aiType = lua.CheckGlobal<Nz::String>("fight_ai_type");
                     Nz::String aiMonsterType = lua.CheckGlobal<Nz::String>("fight_ai_monstertype");
 
+                    m_currentFight.coroutine = &(lua.NewCoroutine()); // crash ?
                     m_currentFight.coroutine->GetGlobal("execute");
                     Nz::Ternary result = m_currentFight.coroutine->Resume();
 
-                    if (result != Nz::Ternary_Unknown) // yield() wasn't called
+                    if (result != Nz::Ternary_Unknown) // yield() wasn't called. AI did nothing.
                     {
                         cleanAndContinueFight();
 
@@ -154,6 +152,10 @@ void AISystem::OnUpdate(float elapsed)
                 {
                     if (m_currentFight.coroutine->CanResume())
                     {
+                        if (!m_currentFight.canResume()) // Action isn't finished
+                            continue;
+
+                        m_currentFight.canResume = [] () { return true; };
                         Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
                         Nz::Ternary result = m_currentFight.coroutine->Resume();
 
@@ -167,65 +169,31 @@ void AISystem::OnUpdate(float elapsed)
                     }
 
                     else
+                    {
+                        NazaraError("Cannot resume Fight AI coroutine");
                         cleanAndContinueFight();
+                    }
                 }
             }
-        }*/
-
-
-
-        // todo: do this^
-        // and add lots of bugs
-        // ...
-        // a wild bug appeared !
-
-        //          ;               ,           
-        //         ,;                 '.         
-        //        ;:                   :;        
-        //       ::                     ::       
-        //       ::                     ::       
-        //       ':                     :        
-        //        :.                    :        
-        //     ;' ::                   ::  '     
-        //    .'  ';                   ;'  '.    
-        //   ::    :;                 ;:    ::   
-        //   ;      :;.             ,;:     ::   
-        //   :;      :;:           ,;"      ::   
-        //   ::.      ':;  ..,.;  ;:'     ,.;:   
-        //    "'"...   '::,::::: ;:   .;.;""'    
-        //        '"""....;:::::;,;.;"""         
-        //    .:::.....'"':::::::'",...;::::;.   
-        //   ;:' '""'"";.,;:::::;.'""""""  ':;   
-        //  ::'         ;::;:::;::..         :;  
-        // ::         ,;:::::::::::;:..       :: 
-        // ;'     ,;;:;::::::::::::::;";..    ':.
-        //::     ;:"  ::::::"""'::::::  ":     ::
-        // :.    ::   ::::::;  :::::::   :     ; 
-        //  ;    ::   :::::::  :::::::   :    ;  
-        //  '   ::   ::::::....:::::'  ,:   '   
-        //    '  ::    :::::::::::::"   ::       
-        //       ::     ':::::::::"'    ::       
-        //       ':       """""""'      ::       
-        //        ::                   ;:        
-        //        ':;                 ;:"        
-        //-hrr-     ';              ,;'          
-        //            "'           '"            
-        //              '
+        }
     }
 }
 
 void AISystem::cleanAndContinueFight()
 {
     cleanLuaInstance(m_currentFight.ai);
-    m_currentFight.coroutine = nullptr;
-    m_currentFight.clean = true;
     m_currentFight.currentEntity->GetComponent<FightComponent>().myTurn = false;
 }
 
 void AISystem::cleanLuaInstance(Nz::LuaInstance& lua)
 {
-    lua.Execute("teal_fight_data = nil; execute = nil;"); // todo: better clean thing
-    lua.Execute("fight_ai_name = nil; fight_ai_type = nil; fight_ai_monstertype = nil;");
+    lua.PushNil(); lua.SetGlobal("teal_fight_data");
+    lua.PushNil(); lua.SetGlobal("execute");
+    lua.PushNil(); lua.SetGlobal("fight_ai_name");
+    lua.PushNil(); lua.SetGlobal("fight_ai_type");
+    lua.PushNil(); lua.SetGlobal("fight_ai_monstertype");
+
+    m_currentFight.coroutine = nullptr;
 }
 
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
@@ -267,15 +235,14 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
         for (auto& e : m_currentFight.entities)
         {
-            //...
+            // serialize traps and things like that later...
         }
 
         lua.SetField("objects");
     }
 
-
     lua.SetGlobal("teal_fight_data");
-    lua.Execute("setmetatable(teal_fight_data.character, Character)");
+    lua.Execute("setmetatable(teal_fight_data.character, Character)"); // todo: use lua.SetMetatable();
 
     return true;
 }
@@ -511,7 +478,16 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
     TealAssert(m_isFightActive, "Not fighting");
-    
+    auto& move = m_currentFight.currentEntity->GetComponent<MoveComponent>();
+
+    move.tile = { x, y };
+    move.playerInitiated = true; // Actually it's not player initiated but it will makes sure the MovementSystem
+                                 // won't try to recompute the path. It's a fight...
+
+    m_currentFight.canResume = [this, x, y] ()
+    {
+        return m_currentFight.currentEntity->GetComponent<PositionComponent>().xy == AbsTile { x, y };
+    };
 }
 
 void AISystem::Teal_TakeCover()
@@ -532,6 +508,7 @@ void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCod
 
     auto& fight = m_currentFight.currentEntity->GetComponent<FightComponent>();
     fight.target = m_currentFight.fighters[characterIndex];
+    // todo: canResume function
 }
 
 void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename)
@@ -546,21 +523,85 @@ void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String s
         Teal_AttackCharacter(characterIndex, skillCodename);
 }
 
-unsigned AISystem::Teal_ChooseTarget()
+unsigned AISystem::Teal_ChooseTarget() // todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
     return 0;
 }
 
-unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex)
+unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex) // todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
+
+    if (!Teal_CanAttack(characterIndex))
+        return 0;
+
+    Ndk::EntityHandle opponent = m_currentFight.fighters[characterIndex];
+    Ndk::EntityHandle me = m_currentFight.currentEntity;
+
+    AbsTile opponentPos = opponent->GetComponent<PositionComponent>().xy;
+    AbsTile myPos = me->GetComponent<PositionComponent>().xy;
+
+    //...
+
     return 0;
 }
 
-bool AISystem::Teal_CanAttack(unsigned characterIndex)
+bool AISystem::Teal_CanAttack(unsigned characterIndex) // todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
+
+    if (characterIndex >= m_currentFight.fighters.size())
+    {
+        NazaraError("AI: Character out of bounds !");
+        return false;
+    }
+
+    Ndk::EntityHandle opponent = m_currentFight.fighters[characterIndex];
+    AbsTile opponentPos = opponent->GetComponent<PositionComponent>().xy;
+    auto& opponentFight = opponent->GetComponent<FightComponent>();
+
+    Ndk::EntityHandle me = m_currentFight.currentEntity;
+    AbsTile myPos = me->GetComponent<PositionComponent>().xy;
+    auto& myFight = me->GetComponent<FightComponent>();
+    
+    for (auto skillId : myFight.attacks)
+    {
+        const SkillData& skill = m_skills.getItem(skillId);
+
+        if (myFight.actionPoints < skill.actionPoints || myFight.movementPoints < skill.movementPoints)
+            continue;
+
+        bool allyOnly { true };
+        AttackData::Target attackTypeToAvoid { myFight.teamNumber == opponentFight.teamNumber ? AttackData::Target::Enemies : AttackData::Target::Allies };
+
+        for (auto& attack : skill.attackList)
+        {
+            if (attack.second->data.target != attackTypeToAvoid)
+            {
+                allyOnly = false;
+                break;
+            }
+        }
+
+        if (allyOnly)
+            continue;
+
+        Nz::Vector2ui posDistance = { distance(myPos.x, opponentPos.x), distance(myPos.y, opponentPos.y) };
+
+        if (posDistance.x < skill.minRange || posDistance.x > skill.maxRange ||
+            posDistance.y < skill.minRange || posDistance.y > skill.maxRange)
+            continue; // todo: check area min/max range & type, in case of "damage zone"
+
+        if (skill.maxRange > 1 && !skill.viewThroughWalls)
+        {
+            NazaraError("Raycasting has not been implemented (yet)");
+            continue; // todo: implement raycasting thing here
+        }
+
+        return true;
+    }
+
     return false;
 }
 

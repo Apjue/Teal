@@ -26,6 +26,7 @@ teal_skill =
     1, -- min range
     1, -- max range
     false, -- modifiable range
+    false, -- view through wall, does nothing if max range is 1
 
     "cross", -- area type
     0, -- area min range

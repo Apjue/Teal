@@ -39,6 +39,7 @@ struct SkillData
     unsigned minRange { 1u };
     unsigned maxRange { 5u };
     bool modifiableRange { false };
+    bool viewThroughWalls { false }; // don't wallhack pls
 
     enum class AreaType
     {

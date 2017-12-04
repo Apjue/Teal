@@ -22,6 +22,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
 
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
+    unsigned teamNumber {};
     std::vector<std::shared_ptr<State>> states;
 
     bool automaticallyAttack { false }; // In the map

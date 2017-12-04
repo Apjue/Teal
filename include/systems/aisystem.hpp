@@ -14,6 +14,7 @@
 #include <NDK/EntityList.hpp>
 #include <vector>
 #include <memory>
+#include <functional>
 #include <unordered_map>
 #include "micropather.h"
 #include "cache/doublestore.hpp"
@@ -23,9 +24,9 @@ namespace Detail
 
 struct FightData
 {
-    bool clean { true };
-    Nz::LuaCoroutine* coroutine {};
     Nz::LuaInstance ai;
+    Nz::LuaCoroutine* coroutine {};
+    std::function<bool()> canResume = [] () { return true; };
 
     Ndk::EntityHandle currentEntity;
     std::vector<Ndk::EntityHandle> fighters;

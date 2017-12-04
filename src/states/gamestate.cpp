@@ -208,23 +208,38 @@ void GameState::initEventHandler()
 
     m_mouseButtonEvent.Connect(eventHandler.OnMouseButtonPressed, [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseButtonEvent& event)
     { // Lambda to move the player if the user clicked in the map
-        if (m_mapArea.Contains(event.x, event.y) && !m_paused)
+        if (!m_mapArea.Contains(event.x, event.y) || m_paused)
+            return;
+
+        Ndk::EntityList hoveredEntities = mapEntitiesHoveredByCursor({ event.x, event.y });
+
+        if (!hoveredEntities.empty())
         {
-            Ndk::EntityList hoveredEntities = mapEntitiesHoveredByCursor({ event.x, event.y });
-
-            if (!hoveredEntities.empty() && false) // todo
+            for (auto& entity : hoveredEntities)
             {
-                //...
-            }
+                if (isMonsterEntity(entity) && isFightableEntity(entity))
+                {
+                    // FIGHT
+                }
 
-            else
-            {
-                auto& move = m_charac->GetComponent<MoveComponent>();
-                auto  tile = getTileFromGlobalCoords({ event.x, event.y });
+                else
+                {
+                    auto& move = m_charac->GetComponent<MoveComponent>();
+                    AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });
 
-                move.tile = tile;
-                move.playerInitiated = true;
+                    move.tile = tile;
+                    move.playerInitiated = true;
+                }
             }
+        }
+
+        else
+        {
+            auto& move = m_charac->GetComponent<MoveComponent>();
+            AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });
+
+            move.tile = tile;
+            move.playerInitiated = true;
         }
     });
 
