@@ -7,7 +7,7 @@
 
 SkillData::SkillData(const LuaArguments& args)
 {
-    TealException(args.vars.size() == 13, "Wrong number of arguments. Need 13");
+    TealException(args.vars.size() == 14, "Wrong number of arguments. Need 13");
 
     if (!args.tables.empty() && !args.tables[0]->tables.empty())
         for (auto table : args.tables[0]->tables)

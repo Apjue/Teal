@@ -11,6 +11,7 @@
 #include <NDK/EntityList.hpp>
 #include "cache/tilesetcore.hpp"
 #include "cache/doublestore.hpp"
+#include "cache/aicore.hpp"
 
 struct GameData
 {
@@ -20,6 +21,7 @@ struct GameData
     StateMDStore states;
     EffectMDStore effects;
     SkillStore skills;
+    AICore ais;
     AnimationStore animations;
 
     Ndk::EntityList items;

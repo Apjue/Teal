@@ -46,6 +46,7 @@ private:
     StateMDStore& m_states;
     EffectMDStore& m_effects;
     SkillStore& m_skills;
+    AICore& m_ais;
     AnimationStore& m_animations;
 
     Ndk::EntityList& m_items;

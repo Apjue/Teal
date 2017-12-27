@@ -228,6 +228,60 @@ void loadSkills(SkillStore& skills)
     NazaraDebug(" --- ");
 }
 
+void loadFightAIs(AICore& ais)
+{
+    static constexpr unsigned wildcardTagPower { 1 }; // * + *
+    static constexpr unsigned familyTagPower { wildcardTagPower + 1 }; // Family + *
+    static constexpr unsigned preciseTagPower { familyTagPower + 1 }; // Family + Monster Name
+
+
+    {   // Default AI
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(Def::FightAIUtilFile))
+        {
+            NazaraNotice("Error loading default AI");
+            NazaraNotice(lua.GetLastError());
+        }
+
+        else
+            ais.addTag(std::make_pair("*", "*"), std::make_pair(Def::FightAIUtilFile, wildcardTagPower));
+    }
+
+
+    Nz::Directory aisDirectory { Def::FightAIFolder };
+    aisDirectory.SetPattern("*.lua");
+    aisDirectory.Open();
+
+    while (aisDirectory.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(aisDirectory.GetResultPath()))
+        {
+            NazaraNotice("Error loading AI " + aisDirectory.GetResultName());
+            NazaraNotice(lua.GetLastError());
+            continue;
+        }
+
+        Nz::String aiName = lua.CheckGlobal<Nz::String>("fight_ai_name");
+        Nz::String monsterFamily = lua.CheckGlobal<Nz::String>("fight_ai_monster_family");
+        Nz::String monsterName = lua.CheckGlobal<Nz::String>("fight_ai_monster_name");
+
+        if (monsterFamily == "*") // I already have a default AI, thanks but no thanks
+            continue;
+
+        if (monsterName == "*")
+            ais.addTag(std::make_pair(monsterFamily, monsterName), std::make_pair(aisDirectory.GetResultPath(), familyTagPower));
+
+        ais.addTag(std::make_pair(monsterFamily, monsterName), std::make_pair(aisDirectory.GetResultPath(), preciseTagPower));
+
+        NazaraDebug("AI " + aiName + " loaded ! (" + aisDirectory.GetResultPath() + ")");
+    }
+
+    NazaraDebug(" --- ");
+}
+
 void loadAnimations(AnimationStore& animations)
 {
     Nz::Directory animationsDirectory { Def::AnimationFolder };

@@ -24,6 +24,7 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore);
 
 void loadMetaData(StateMDStore& states, EffectMDStore& effects);
 void loadSkills(SkillStore& skills);
+void loadFightAIs(AICore& ais);
 void loadAnimations(AnimationStore& animations);
 void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationStore& animations);
 void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skills);

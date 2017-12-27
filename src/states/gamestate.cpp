@@ -25,8 +25,8 @@
 #include "states/gamestate.hpp"
 
 GameState::GameState(Ndk::WorldHandle world, Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData)
-    : m_world(world), m_window(window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore),
-    m_states(gameData.states), m_effects(gameData.effects), m_skills(gameData.skills), m_animations(gameData.animations), m_items(gameData.items),
+    : m_world(world), m_window(window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore), m_states(gameData.states),
+    m_effects(gameData.effects), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations), m_items(gameData.items),
     m_characters(gameData.characters) {}
 
 void GameState::Enter(Ndk::StateMachine& fsm)
@@ -195,7 +195,7 @@ void GameState::addEntities() /// \todo Use lua (map's entities table)
 
 void GameState::addSystems()
 {
-    m_world->AddSystem<AISystem>(m_skills, Def::FightAIUtilFile, m_pather, m_charac);
+    m_world->AddSystem<AISystem>(m_skills, m_ais, Def::FightAIUtilFile, m_pather, m_charac);
     m_world->AddSystem<MovementSystem>(m_charac);
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);
@@ -219,7 +219,7 @@ void GameState::initEventHandler()
             {
                 if (isMonsterEntity(entity) && isFightableEntity(entity))
                 {
-                    // FIGHT
+                    std::cout << "todo: implement fight" << std::endl;
                 }
 
                 else

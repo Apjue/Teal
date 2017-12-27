@@ -17,7 +17,9 @@
 #include <functional>
 #include <unordered_map>
 #include "micropather.h"
+#include "global.hpp"
 #include "cache/doublestore.hpp"
+#include "cache/aicore.hpp"
 
 namespace Detail
 {
@@ -26,10 +28,14 @@ struct FightData
 {
     Nz::LuaInstance ai;
     Nz::LuaCoroutine* coroutine {};
+
+    std::function<bool()> forceContinueFight = [] () { return false; };
     std::function<bool()> canResume = [] () { return true; };
 
     Ndk::EntityHandle currentEntity;
-    std::vector<Ndk::EntityHandle> fighters;
+    Ndk::EntityHandle nextEntity;
+
+    std::vector<Ndk::EntityHandle> fighters; // Contains main character
     Ndk::EntityList entities; // Others entities: Traps, unanimated objects, ...
 };
 
@@ -47,7 +53,7 @@ struct FightData
 class AISystem : public Ndk::System<AISystem>
 {
 public:
-    AISystem(const SkillStore& skills, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter);
+    AISystem(const SkillStore& skills, const AICore& ais, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter);
     AISystem(const AISystem& other);
     ~AISystem() = default;
 
@@ -61,6 +67,7 @@ private:
 
     void cleanAndContinueFight();
     void cleanLuaInstance(Nz::LuaInstance& lua);
+    void removeFromFight(const Ndk::EntityHandle& e);
 
     bool prepareLuaAI(Nz::LuaInstance& lua);
     bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
@@ -72,7 +79,9 @@ private:
     void Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename);
     unsigned Teal_ChooseTarget();
     unsigned Teal_ChooseAttack(unsigned characterIndex);
+    unsigned ChooseAttack(unsigned characterIndex, const AbsTile& pos);
     bool Teal_CanAttack(unsigned characterIndex);
+    bool Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
     Ndk::EntityHandle m_mainCharacter;
@@ -82,6 +91,7 @@ private:
     bool m_isFightActive {};
 
     const SkillStore& m_skills;
+    const AICore& m_ais;
 };
 
 #endif // AISYSTEM_HPP

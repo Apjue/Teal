@@ -18,7 +18,7 @@
 struct FightComponent : public Ndk::Component<FightComponent>
 {
     FightComponent(bool autoAttack = false, unsigned mov = 3, unsigned action = 6)
-        : automaticallyAttack { autoAttack }, movementPoints { mov }, actionPoints { action } {}
+        : automaticallyAttack { autoAttack }, maxMovementPoints { mov }, maxActionPoints { action }, movementPoints { mov }, actionPoints { action } {}
 
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
@@ -26,8 +26,13 @@ struct FightComponent : public Ndk::Component<FightComponent>
     std::vector<std::shared_ptr<State>> states;
 
     bool automaticallyAttack { false }; // In the map
-    unsigned movementPoints { 3 };
-    unsigned actionPoints { 6 };
+
+    unsigned maxMovementPoints { 3 }; // todo: add max movement/action points
+    unsigned maxActionPoints { 6 };
+
+    unsigned movementPoints {};
+    unsigned actionPoints {};
+
     std::vector<SkillStore::LightId> attacks;
 
     SkillStore::LightId wantedAttack { SkillStore::InvalidID };
