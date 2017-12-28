@@ -55,11 +55,8 @@ PathComponent::PathPool computePath(const AbsTile& startPos, const AbsTile& last
 
     PathComponent::PathPool newPath;
 
-    for (std::size_t i {}; i < voidPath.size(); ++i)
+    for (std::size_t i { 1 }; i < voidPath.size(); ++i) // First tile is actually the start position
     {
-        if (i == 0) // First tile is actually the position (micropather's fault)
-            continue;
-
         auto node = voidPath[i];
 
         unsigned absX {}, absY {}; // Absolute position, not difference
