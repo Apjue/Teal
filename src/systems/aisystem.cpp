@@ -2,6 +2,9 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <NDK/LuaAPI.hpp>
+#include <NDK/Lua/LuaBinding_SDK.hpp>
+#include <Nazara/Lua/LuaClass.hpp>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
@@ -282,20 +285,41 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
     lua.SetGlobal("teal_fight_data");
     lua.Execute("setmetatable(teal_fight_data.character, Character)"); // todo: use lua.SetMetatable();
 
+    serializeFunctions(lua);
     return true;
+}
+
+void AISystem::serializeFunctions(Nz::LuaInstance& lua)
+{
+    Nz::LuaClass<AISystem> thisClass;
+
+    thisClass.BindMethod("MoveCharacter",          &AISystem::Teal_MoveCharacter);
+    thisClass.BindMethod("TakeCover",              &AISystem::Teal_TakeCover);
+    thisClass.BindMethod("AttackCharacter",        &AISystem::Teal_AttackCharacter);
+    thisClass.BindMethod("MoveAndAttackCharacter", &AISystem::Teal_MoveAndAttackCharacter);
+    thisClass.BindMethod("ChooseTarget",           &AISystem::Teal_ChooseTarget);
+    thisClass.BindMethod("ChooseAttack",           &AISystem::Teal_ChooseAttack);
+    thisClass.BindMethod("CanAttack",              &AISystem::Teal_CanAttack);
+    thisClass.BindMethod("CanAttackWith",          &AISystem::Teal_CanAttackWith);
+
+    thisClass.Register(lua);
 }
 
 bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
 {
+    bool somethingWentWrong = false;
+
     {
-        auto it = std::find_if(m_currentFight.fighters.begin(), m_currentFight.fighters.end(),
-                               [&character] (const Ndk::EntityHandle& e)
+        auto it = std::find_if(m_currentFight.fighters.begin(), m_currentFight.fighters.end(), [&character] (const Ndk::EntityHandle& e)
         {
             return e == character;
         });
 
         if (it == m_currentFight.fighters.end())
+        {
             lua.PushInteger(-1); // well fuck
+            somethingWentWrong = true;
+        }
 
         else
             lua.PushInteger(std::distance(m_currentFight.fighters.begin(), it));
@@ -401,7 +425,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
         lua.SetField("skills");
     }
 
-    return true;
+    return !somethingWentWrong;
 }
 
 bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
@@ -461,14 +485,11 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
                 lua.PushString(AttackData::targetToString(attack->data.target));
                 lua.SetField("target");
 
-                DamageData* dmg {};
-                StateData* state {};
-                EffectData* effect {};
-
                 switch (attackPair.first)
                 {
                     case SkillData::AttackType::Damage:
-                        dmg = static_cast<DamageData*>(attack.get());
+                    { //< A new scope is here needed to remove the error "initialization of 'dmg' is skipped by 'case' label"
+                        DamageData* dmg = static_cast<DamageData*>(attack.get());
 
                         lua.PushString(elementToString(dmg->damage.first));
                         lua.SetField("element");
@@ -478,22 +499,29 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 
                         lua.PushString("damage");
                         break;
+                    }
 
                     case SkillData::AttackType::State:
-                        state = static_cast<StateData*>(attack.get());
+                    {
+                        StateData* state = static_cast<StateData*>(attack.get());
 
                         // TODO
+                        NazaraError("State case has not been implemented yet. Have a good crash!");
 
                         lua.PushString("state");
                         break;
+                    }
 
                     case SkillData::AttackType::Effect:
-                        effect = static_cast<EffectData*>(attack.get());
+                    {
+                        EffectData* effect = static_cast<EffectData*>(attack.get());
 
                         // TODO
+                        NazaraError("Effect case has not been implemented yet. Wanna crash again?");
 
                         lua.PushString("effect");
                         break;
+                    }
 
                     default:
                         lua.PushString("");
@@ -519,8 +547,8 @@ void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
     auto& move = m_currentFight.currentEntity->GetComponent<MoveComponent>();
 
     move.tile = { x, y };
-    move.playerInitiated = true; // Actually it's not player initiated but it will makes sure the MovementSystem
-                                 // won't try to recompute the path. It's a fight...
+    move.playerInitiated = true; // Actually it's not player initiated but it will make sure the MovementSystem
+                                 // won't try to recompute the path. It's a fight... | todo: change variable name ?
 
     m_currentFight.canResume = [this, x, y] ()
     {
@@ -538,14 +566,18 @@ void AISystem::Teal_TakeCover()
 
     std::vector<AbsTile> possibleTiles; // Possible tiles to go to
 
-    for (unsigned i {}; i < getCurrentMap()->getCurrentMap()->tiles().size(); ++i)
+    for (unsigned i {}; i < getCurrentMap()->getCurrentMap()->tiles().size(); ++i) // todo: optimize this shit
     {
-        AbsTile difference = distance(toVector(IndexToXY(i)), pos.xy);
+        /*AbsTile difference = distance(toVector(IndexToXY(i)), pos.xy);
+        const TileData& tile = getCurrentMap()->getCurrentMap()->tiles()[i];*/
 
+        auto path = directionsToPositions(computePath(pos.xy, toVector(IndexToXY(i)), m_pather.get()), pos.xy);
 
-
-        const TileData& tile = getCurrentMap()->getCurrentMap()->tiles()[i];
+        if (path.size() <= fight.movementPoints)
+            possibleTiles.push_back(path.back());
     }
+
+
 }
 
 void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCodename)

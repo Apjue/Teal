@@ -70,6 +70,7 @@ private:
     void removeFromFight(const Ndk::EntityHandle& e);
 
     bool prepareLuaAI(Nz::LuaInstance& lua);
+    void serializeFunctions(Nz::LuaInstance& lua);
     bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
     bool serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
