@@ -237,9 +237,9 @@ const micropather::MicroPather* getPather()
     return m_pather;
 }
 
-std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
+extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
 {
-    std::queue<AbsTile> positions;
+    std::vector<AbsTile> positions;
 
     while (!directions.empty())
     {
@@ -252,7 +252,7 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
         start.x += xy.x;
         start.y += xy.y;
 
-        positions.push(start);
+        positions.push_back(start);
         directions.erase(directions.begin());
     }
 

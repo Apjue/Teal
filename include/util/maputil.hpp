@@ -31,15 +31,15 @@ inline std::pair<int, int> stringToMapXY(const Nz::String& str);
 ///
 /// \fn canChangeMap
 ///
-/// \brief Checks if the MapCore contains the map the entity will go
+/// \brief Checks if the MapLibrary contains the map the entity will go
 ///        And if there is no obstacle at the position where the entity
 ///        will be when changing map
 ///
 /// \note The map where the entity will go is determined by the position
 ///       of the entity
 ///
-/// \return A pair with - a bool      -> If the entity can change map
-///                     - a direction -> If the bool is set to true, where the entity can move to
+/// \return A pair with: - a bool      -> If the entity can go to next map
+///                      - a direction -> If the bool is set to true, where the entity can move to
 ///
 
 extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
@@ -49,7 +49,7 @@ extern std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p);
 ///
 /// \brief Change the game map and main character's map position
 ///
-/// \return If the entity changed map correctly
+/// \return true if the entity changed map correctly
 ///
 
 extern bool changeMap();
@@ -57,8 +57,7 @@ extern bool changeMap();
 ///
 /// \fn initializeMapUtility
 ///
-/// \brief Inits MapCore and MapInstance for functions
-///        in this file to work
+/// \brief Inits things for functions in this file to work
 ///
 
 extern void initializeMapUtility(MapInstance* currentMap, micropather::MicroPather* pather, const Ndk::EntityHandle& mainCharacter);
@@ -80,7 +79,7 @@ extern void clearPatherCache();
 extern const MapInstance* getCurrentMap();
 extern const micropather::MicroPather* getPather();
 
-extern std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
+extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 
 #include "maputil.inl"
 
