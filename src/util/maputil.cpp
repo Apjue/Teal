@@ -237,7 +237,7 @@ const micropather::MicroPather* getPather()
     return m_pather;
 }
 
-extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
+std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
 {
     std::vector<AbsTile> positions;
 
@@ -259,7 +259,7 @@ extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool direct
     return positions;
 }
 
-extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range)
+std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range)
 {
     throw std::runtime_error { "todo: remove this line" };
 }
