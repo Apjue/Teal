@@ -246,8 +246,8 @@ std::queue<AbsTile> directionsToPositions(PathComponent::PathPool directions, Ab
         auto& dir = directions.front();
         DiffTile xy = DirToXY(dir, isLineEven(start.y));
 
-        TealAssert(xy.x >= 0 || start.x >= -xy.x, "Imminent underflow");
-        TealAssert(xy.y >= 0 || start.y >= -xy.y, "Imminent underflow");
+        TealAssert(xy.x >= 0 || int(start.x) >= -xy.x, "Imminent underflow");
+        TealAssert(xy.y >= 0 || int(start.y) >= -xy.y, "Imminent underflow");
 
         start.x += xy.x;
         start.y += xy.y;
