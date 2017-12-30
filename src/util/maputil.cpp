@@ -258,3 +258,8 @@ extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool direct
 
     return positions;
 }
+
+extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range)
+{
+    throw std::runtime_error { "todo: remove this line" };
+}
