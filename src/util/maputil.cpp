@@ -199,7 +199,7 @@ Ndk::EntityList mapEntitiesHoveredByCursor(const Nz::Vector2ui& cursor)
 
     for (const Ndk::EntityHandle& entity : map->getEntities())
     {
-        auto& nodePos = entity->GetComponent<Ndk::NodeComponent>().GetPosition();
+        Nz::Vector3f nodePos = entity->GetComponent<Ndk::NodeComponent>().GetPosition();
         auto& renderables = entity->GetComponent<RenderablesStorageComponent>();
 
         for (auto& sprite : renderables.sprites)
