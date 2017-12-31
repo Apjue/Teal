@@ -79,11 +79,13 @@ install:
   - tar -xzf nazara.tar.gz
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
-  - mkdir gmake && cd gmake
-  - mkdir ${PLATFORM} && cd ${PLATFORM}
-  - mkdir nazara && mkdir micropather
+  - mkdir -p gmake && cd gmake
+  - mkdir -p ${PLATFORM} && cd ${PLATFORM}
+  - mkdir -p nazara && mkdir -p micropather
   - cd nazara
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64/local
   - cd ../micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
