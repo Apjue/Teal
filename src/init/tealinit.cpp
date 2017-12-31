@@ -347,7 +347,7 @@ void loadAnimations(AnimationStore& animations)
         }
         lua.Pop();
 
-        AnimationData animation { animType, size, texture, defgfxpos, 0 };
+        AnimationData animation { animType, size, texture, defgfxpos };
         animations.addItem(codename, animation);
         NazaraDebug("Animation " + codename + " loaded ! (" + animationsDirectory.GetResultName() + ")");
     }

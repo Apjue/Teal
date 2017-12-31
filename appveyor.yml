@@ -46,12 +46,10 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && cd nazara
   - curl https://github.com/DigitalPulseSoftware/NazaraEngine/releases/download/v0.4/NazaraEngine-0.4-msvc14-%PLATFORM%.7z -Lo nazara.7z
-  - ls
   - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
-  - mkdir -p %TOOLSET% && cd %TOOLSET%
-  - mkdir -p %PLATFORM% && cd %PLATFORM%
+  - cd %TOOLSET% && cd %PLATFORM%
   - mkdir nazara && cd nazara
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/lib/%PLATFORM%/*.lib ./
 
