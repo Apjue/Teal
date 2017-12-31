@@ -125,7 +125,7 @@ void AISystem::OnUpdate(float elapsed)
                 {
                     m_currentFight.forceContinueFight = [] () { return false; };
                     m_currentFight.currentEntity = e;
-                    lua.SetTimeLimit(std::max(1, static_cast<int>(elapsed * 10.f)) * 1000);
+                    lua.SetTimeLimit(Def::LuaAITimeLimit);
 
                     if (!prepareLuaAI(lua))
                     {
@@ -138,8 +138,9 @@ void AISystem::OnUpdate(float elapsed)
                     AICore::TagInfo aiInfo = m_ais.getTagInfoFromTagKeys(std::make_pair(monster.family, monster.name));
                     Nz::String& aiName = monster.name;
 
-                    m_currentFight.coroutine = &(lua.NewCoroutine()); // crash ?
+                    m_currentFight.coroutine.reset(new Nz::LuaCoroutine { std::move(lua.NewCoroutine()) });
                     m_currentFight.coroutine->GetGlobal("execute");
+
                     Nz::Ternary result = m_currentFight.coroutine->Resume();
 
                     if (result != Nz::Ternary_Unknown) // yield() wasn't called. AI did nothing.

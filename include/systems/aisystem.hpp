@@ -27,7 +27,7 @@ namespace Detail
 struct FightData
 {
     Nz::LuaInstance ai;
-    Nz::LuaCoroutine* coroutine {};
+    std::unique_ptr<Nz::LuaCoroutine> coroutine;
 
     std::function<bool()> forceContinueFight = [] () { return false; };
     std::function<bool()> canResume = [] () { return true; };
