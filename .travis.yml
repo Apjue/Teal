@@ -9,15 +9,18 @@ compiler: clang
 os: linux
 
 sudo: required
-dist: zesty
+dist: xenial
 
 addons:
   apt:
     sources:
-      - llvm-defaults
+      - llvm-toolchain-4.0
       - ubuntu-toolchain-r-test
     packages:
       - clang-4.0
+      - lldb-4.0
+      - lld-4.0
+      
       - libassimp-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
@@ -86,12 +89,10 @@ install:
   - mkdir -p ${PLATFORM} && cd ${PLATFORM}
   - mkdir -p nazara && mkdir -p micropather
 
-  - cd nazara
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64/local
 
-  - cd ../micropather
+  - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
   - sudo bash -c "./premake5-linux${PLATFORMNUM} ${PREMAKEARGS} ${ACTION}"
