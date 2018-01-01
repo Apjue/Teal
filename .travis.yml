@@ -40,6 +40,11 @@ env:
     - CFLAGS="-Wall -Wextra" 
     - CXXFLAGS="-Wall -Wextra"
 
+    - clang++=clang++4.0
+    - clang=clang-4.0
+    - lldb=lldb-4.0
+    - lld=lld-4.0
+
     - ACTION=gmake
     - PREMAKEARGS="--cc=clang"
 
