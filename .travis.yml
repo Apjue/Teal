@@ -9,18 +9,14 @@ compiler: clang
 os: linux
 
 sudo: required
-dist: xenial
+dist: trusty
 
 addons:
   apt:
     sources:
-      - llvm-toolchain-4.0
-      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
     packages:
-      - clang-4.0
-      - lldb-4.0
-      - lld-4.0
-      
+      - clang-5.0      
       - libassimp-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
@@ -36,14 +32,10 @@ addons:
 
 env:
   global:
-    - COMPILER=clang++-4.0
+    - COMPILER=clang++-5.0
     - CFLAGS="-Wall -Wextra" 
     - CXXFLAGS="-Wall -Wextra"
-
-    - clang++=clang++-4.0
-    - clang=clang-4.0
-    - lldb=lldb-4.0
-    - lld=lld-4.0
+    - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 
     - ACTION=gmake
     - PREMAKEARGS="--cc=clang"
@@ -75,6 +67,7 @@ deploy:
     branch: master
 
 before_install:
+  - eval "${MAXTRIX_EVAL}"
   - cd /usr
   - sudo mkdir -p lib64
 
