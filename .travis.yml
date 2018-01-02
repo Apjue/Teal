@@ -32,6 +32,9 @@ addons:
 
 env:
   global:
+    - CC=clang-5.0
+    - CXX=clang++-5.0
+
     - COMPILER=clang++-5.0
     - CFLAGS="-Wall -Wextra" 
     - CXXFLAGS="-Wall -Wextra"
@@ -64,9 +67,6 @@ deploy:
     branch: master
 
 before_install:
-  - export CC=clang-5.0
-  - export CXX=clang++-5.0
-
   - cd /usr
   - sudo mkdir -p lib64
 
