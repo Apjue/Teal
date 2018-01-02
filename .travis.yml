@@ -93,7 +93,7 @@ install:
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
   - sudo chmod 755 premake5-linux${PLATFORMNUM}
-  - ./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}
+  - ./premake5-linux${PLATFORMNUM} ${ACTION}
 
   - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
@@ -102,7 +102,7 @@ install:
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
   - sudo chmod 755 premake5-linux${PLATFORMNUM}
-  - ./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}
+  - ./premake5-linux${PLATFORMNUM} ${ACTION}
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
