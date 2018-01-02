@@ -67,7 +67,7 @@ deploy:
     branch: master
 
 before_install:
-  - eval "${MAXTRIX_EVAL}"
+  - eval "${MATRIX_EVAL}"
   - cd /usr
   - sudo mkdir -p lib64
 
