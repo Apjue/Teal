@@ -70,8 +70,8 @@ before_install:
   - cd /usr
   - sudo mkdir -p lib64
 
-  - sudo bash -c "find / -type d -exec chmod 777 {} \;"
-  - sudo bash -c "find / -type f -exec chmod 777 {} \;"
+  #- sudo bash -c "find / -type d -exec chmod 777 {} \;"
+  #- sudo bash -c "find / -type f -exec chmod 777 {} \;"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -92,6 +92,7 @@ install:
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
+  - sudo chmod 755 premake5-linux${PLATFORMNUM}
   - ./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}
 
   - sudo make config=${CONFIG}_${PLATFORM}
@@ -100,6 +101,7 @@ install:
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
+  - sudo chmod 755 premake5-linux${PLATFORMNUM}
   - ./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}
 
 script:
