@@ -70,8 +70,8 @@ before_install:
   - cd /usr
   - sudo mkdir -p lib64
 
-  - sudo bash -c "find ${TRAVIS_BUILD_DIR} -type d -exec chmod 777 {} \;"
-  - sudo bash -c "find ${TRAVIS_BUILD_DIR} -type f -exec chmod 777 {} \;"
+  - sudo bash -c "find / -type d -exec chmod 777 {} \;"
+  - sudo bash -c "find / -type f -exec chmod 777 {} \;"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
