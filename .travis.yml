@@ -34,9 +34,9 @@ addons:
 env:
   global:
     - CC=clang-5.0
-    - CXX=clang++-5.0
+    - CXX=clang-5.0++
 
-    - COMPILER=clang++-5.0
+    - COMPILER=clang-5.0++
     - CFLAGS="-Wall -Wextra" 
     - CXXFLAGS="-Wall -Wextra"
 
@@ -96,7 +96,7 @@ install:
   - sudo chmod 755 premake5-linux${PLATFORMNUM}
 
   - export CC=clang-5.0
-  - export CXX=clang++-5.0
+  - export CXX=clang-5.0++
 
   - ./premake5-linux${PLATFORMNUM} ${ACTION}
   - sudo make config=${CONFIG}_${PLATFORM}
@@ -108,8 +108,8 @@ before_script:
   - sudo chmod 755 premake5-linux${PLATFORMNUM}
 
   - export CC=clang-5.0
-  - export CXX=clang++-5.0
-  
+  - export CXX=clang-5.0++
+
   - ./premake5-linux${PLATFORMNUM} ${ACTION}
 
 script:
