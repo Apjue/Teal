@@ -35,7 +35,6 @@ env:
     - COMPILER=clang++-5.0
     - CFLAGS="-Wall -Wextra" 
     - CXXFLAGS="-Wall -Wextra"
-    - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 
     - ACTION=gmake
     - PLATFORM=x64
@@ -65,9 +64,9 @@ deploy:
     branch: master
 
 before_install:
-  - sudo printenv
-  - eval "${MATRIX_EVAL}"
-  - sudo printenv
+  - export CC=clang-5.0
+  - export CXX=clang++-5.0
+
   - cd /usr
   - sudo mkdir -p lib64
 
@@ -93,7 +92,7 @@ install:
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
-  - sudo bash -c "./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}"
+  - ./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}
 
   - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
@@ -101,7 +100,7 @@ install:
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - sudo bash -c "./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}"
+  - ./premake5-linux${PLATFORMNUM} --cc=clang ${ACTION}
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
