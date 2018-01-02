@@ -34,9 +34,9 @@ addons:
 env:
   global:
     - CC=clang-5.0
-    - CXX=clang-5.0++
+    - CXX=clang++-5.0
 
-    - COMPILER=clang-5.0++
+    - COMPILER=clang++-5.0
     - CFLAGS="-Wall -Wextra" 
     - CXXFLAGS="-Wall -Wextra"
 
@@ -71,9 +71,6 @@ before_install:
   - cd /usr
   - sudo mkdir -p lib64
 
-  #- sudo bash -c "find / -type d -exec chmod 777 {} \;"
-  #- sudo bash -c "find / -type f -exec chmod 777 {} \;"
-
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && cd nazara
@@ -82,21 +79,19 @@ install:
   - tar -xzf nazara.tar.gz
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
 
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
+  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64
+
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir -p ${ACTION} && cd ${ACTION}
   - mkdir -p ${PLATFORM} && cd ${PLATFORM}
   - mkdir -p nazara && mkdir -p micropather
 
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64
-
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
-  - cp ${TRAVIS_BUILD_DIR}/build/premake5-linux${PLATFORMNUM} ./
-  - sudo chmod 755 premake5-linux${PLATFORMNUM}
 
   - export CC=clang-5.0
-  - export CXX=clang-5.0++
+  - export CXX=clang++-5.0
 
   - ./premake5-linux${PLATFORMNUM} ${ACTION}
   - sudo make config=${CONFIG}_${PLATFORM}
@@ -104,12 +99,10 @@ install:
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
 before_script:
-  - cd ${TRAVIS_BUILD_DIR}/build
-  - sudo chmod 755 premake5-linux${PLATFORMNUM}
-
   - export CC=clang-5.0
-  - export CXX=clang-5.0++
+  - export CXX=clang++-5.0
 
+  - cd ${TRAVIS_BUILD_DIR}/build
   - ./premake5-linux${PLATFORMNUM} ${ACTION}
 
 script:
