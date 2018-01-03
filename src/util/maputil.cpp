@@ -259,7 +259,7 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
     return positions;
 }
 
-std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range)
+std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles)
 {
-    throw std::runtime_error { "todo: remove this line" };
+    throw std::runtime_error { "not implemented (yet)" };
 }
