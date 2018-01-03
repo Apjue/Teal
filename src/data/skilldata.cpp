@@ -148,4 +148,6 @@ std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const
             }
         }
     }
+
+    return damage;
 }
