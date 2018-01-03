@@ -80,7 +80,7 @@ extern const MapInstance* getCurrentMap();
 extern const micropather::MicroPather* getPather();
 
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
-extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range);
+extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false);
 
 #include "maputil.inl"
 
