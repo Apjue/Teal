@@ -627,7 +627,7 @@ void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationSto
             codename, charSprite, defgfxpos, characterAnimations, defaultAnimation, maxHealth, orientation, random, blockTile, name, description, attack, res, level, fight
         };
 
-        auto character = make_character(world.CreateHandle(), characterData);
+        auto character = makeCharacter(world.CreateHandle(), characterData);
         character->Enable(false);
 
         characters.Insert(character);
@@ -662,7 +662,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
         unsigned  level = lua.CheckField<unsigned>("level");
         Nz::String icon = lua.CheckField<Nz::String>("icon");
 
-        Ndk::EntityHandle item = make_logicalItem(world.CreateHandle(), codename, name, desc, level,
+        Ndk::EntityHandle item = makeLogicalItem(world.CreateHandle(), codename, name, desc, level,
                                                   Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
         TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");

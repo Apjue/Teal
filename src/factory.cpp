@@ -9,7 +9,7 @@
 #include "util/util.hpp"
 #include "factory.hpp"
 
-Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData& infos)
+Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& infos)
 {
     Ndk::EntityHandle e = w->CreateEntity();
     infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Nazara bug
@@ -59,7 +59,7 @@ Ndk::EntityHandle make_character(const Ndk::WorldHandle& w, const CharacterData&
     return e;
 }
 
-Ndk::EntityHandle make_logicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
+Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
                                    const Nz::String& desc, unsigned level, Nz::TextureRef icon)
 {
     Ndk::EntityHandle e = w->CreateEntity();
@@ -75,15 +75,7 @@ Ndk::EntityHandle make_logicalItem(const Ndk::WorldHandle& w, const Nz::String& 
     return e;
 }
 
-extern Ndk::EntityHandle make_mapItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
-{
-    auto e = make_graphicalItem(w, logicItem, size, defGfxPos, renderOrder);
-    logicItem->GetComponent<GraphicalEntitiesComponent>().entities.Insert(e);
-
-    return e;
-}
-
-Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
+Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
 {
     TealAssert(logicItem->HasComponent<Items::ItemComponent>(), "Item isn't an actual item !");
     TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
@@ -103,6 +95,10 @@ Ndk::EntityHandle make_graphicalItem(const Ndk::WorldHandle& w, const Ndk::Entit
     gfx.Attach(sprite, renderOrder);
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(sprite);
 
+    if (!logicItem->HasComponent<GraphicalEntitiesComponent>())
+        logicItem->AddComponent<GraphicalEntitiesComponent>();
+
+    logicItem->GetComponent<GraphicalEntitiesComponent>().entities.Insert(e);
     refreshGraphicsPos(logicItem, e);
 
     return e;
