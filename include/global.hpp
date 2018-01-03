@@ -73,6 +73,8 @@ constexpr DirectionFlags DownLeft = Down | Left;
 
 }
 
+inline AbsTile operator+(const AbsTile& tile, const DirectionFlags& dir);
+inline AbsTile operator+=(const AbsTile& tile, const DirectionFlags& dir);
 
 // Conversion functions
 extern DiffTile DirToXY(DirectionFlags d, bool even);

@@ -2,7 +2,25 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-Orientation stringToOrientation(Nz::String string)
+#include "util/assert.hpp"
+#include "global.hpp"
+
+inline AbsTile operator+(const AbsTile& tile, const DirectionFlags& dir)
+{
+    DiffTile diff = DirToXY(dir, isLineEven(tile.y));
+
+    if (!(diff.x >= 0 || int(tile.x) >= -diff.x) || !(diff.y >= 0 || int(tile.y) >= -diff.y))
+        return tile;
+
+    return AbsTile { tile.x + diff.x, tile.y + diff.y };
+}
+
+inline AbsTile operator+=(const AbsTile& tile, const DirectionFlags& dir)
+{
+    return AbsTile { tile + dir };
+}
+
+inline Orientation stringToOrientation(Nz::String string)
 {
     string = string.ToLower();
 
@@ -34,12 +52,12 @@ Orientation stringToOrientation(Nz::String string)
 }
 
 
-DiffTile OrientToDiff(Orientation o, bool even)
+inline DiffTile OrientToDiff(Orientation o, bool even)
 {
     return DirToXY(OrientToDir(o), even);
 }
 
-DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
+inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
 {
     int diffX { int(to.x) - int(from.x) },
         diffY { int(to.y) - int(from.y) };
@@ -47,7 +65,7 @@ DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
     return { diffX, diffY };
 }
 
-bool isPositionValid(AbsTile pos)
+inline bool isPositionValid(AbsTile pos)
 {
     if (pos.x > Def::ArrayMapX || pos.y > Def::ArrayMapY)
         return false;
