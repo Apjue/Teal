@@ -19,7 +19,6 @@ end
 
 function Character:TakeCover()
     Teal_TakeCover()
-    coroutine.yield()
 end
 
 function Character:Attack(characterIndex, skillCodename)
@@ -44,4 +43,8 @@ end
 
 function Character:CanAttack(characterIndex)
     return Teal_CanAttack(characterIndex)
+end
+
+function Character:CanAttackWith(characterIndex, skillIndex)
+    return Teal_CanAttackWith(characterIndex, skillIndex)
 end
