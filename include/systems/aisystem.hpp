@@ -83,6 +83,10 @@ private:
     unsigned ChooseAttack(unsigned characterIndex, const AbsTile& pos);
     bool Teal_CanAttack(unsigned characterIndex);
     bool Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex);
+    std::unordered_map<Element, unsigned> getMaximumDamage(const AbsTile& from, const AbsTile& target, const SkillData& skill);
+
+    Ndk::EntityList getEnemies(const Ndk::EntityHandle& e);
+    Ndk::EntityList getAllies(const Ndk::EntityHandle& e);
 
     std::shared_ptr<micropather::MicroPather> m_pather {};
     Ndk::EntityHandle m_mainCharacter;

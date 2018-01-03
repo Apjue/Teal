@@ -54,7 +54,7 @@ void AISystem::OnUpdate(float elapsed)
         {
             auto& move = e->GetComponent<MoveComponent>();
 
-            if (move.tile != toVector(Def::StandStillPos)) // This entity wants to move
+            if (move.tile != toVector2(Def::StandStillPos)) // This entity wants to move
             {
                 auto& pos = e->GetComponent<PositionComponent>();
                 auto& pathComp = e->GetComponent<PathComponent>();
@@ -62,7 +62,7 @@ void AISystem::OnUpdate(float elapsed)
 
                 if (move.tile == pos.xy) // Check if user clicked on the tile he is
                 {
-                    move.tile = toVector(Def::StandStillPos);
+                    move.tile = toVector2(Def::StandStillPos);
                     continue;
                 }
 
@@ -70,7 +70,7 @@ void AISystem::OnUpdate(float elapsed)
 
                 if (!currentPath.empty() && move.tile == currentPath.back() && move.playerInitiated) // If user clicked to go to the same location, stop.
                 {                                                                                    // Else, recompute path in case an object moved and blocks the path
-                    move.tile = toVector(Def::StandStillPos);                                        // (See MovementSystem)
+                    move.tile = toVector2(Def::StandStillPos);                                        // (See MovementSystem)
                     continue;
                 }
 
@@ -91,7 +91,7 @@ void AISystem::OnUpdate(float elapsed)
                 ///       - stand still if valid pos
                 ///       - or use a function to go to nearest valid tile
 
-                move.tile = toVector(Def::StandStillPos);
+                move.tile = toVector2(Def::StandStillPos);
             }
         }
 
@@ -360,8 +360,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
     }
 
     {
-        if (character->HasComponent<AttackModifierComponent>())
-        {
+        { // Attack Modifier
             lua.PushTable(0u, 5u);
             auto& atk = character->GetComponent<AttackModifierComponent>().data;
 
@@ -387,9 +386,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
             lua.SetField("attackModifier");
         }
 
-
-        if (character->HasComponent<ResistanceModifierComponent>())
-        {
+        { // Resistance modifier
             lua.PushTable(0u, 5u);
             auto& res = character->GetComponent<ResistanceModifierComponent>().data;
 
@@ -572,13 +569,68 @@ void AISystem::Teal_TakeCover()
         /*AbsTile difference = distance(toVector(IndexToXY(i)), pos.xy);
         const TileData& tile = getCurrentMap()->getCurrentMap()->tiles()[i];*/
 
-        auto path = directionsToPositions(computePath(pos.xy, toVector(IndexToXY(i)), m_pather.get()), pos.xy);
+        auto path = directionsToPositions(computePath(pos.xy, toVector2(IndexToXY(i)), m_pather.get()), pos.xy);
 
         if (path.size() <= fight.movementPoints)
             possibleTiles.push_back(path.back());
     }
 
+    auto& res = me->GetComponent<ResistanceModifierComponent>();
+    Ndk::EntityList enemies = getEnemies(me);
 
+    AbsTile recommendedTile { Def::StandStillPos };
+    unsigned minDamage { std::numeric_limits<unsigned>().max() };
+
+    for (const auto& tile : possibleTiles)
+    {
+        unsigned maxDamagePerTile {};
+
+        for (const auto& enemy : enemies)
+        {
+            auto& eAttack = enemy->GetComponent<AttackModifierComponent>();
+            auto& eFight = enemy->GetComponent<FightComponent>();
+            auto& ePos = enemy->GetComponent<PositionComponent>();
+
+            unsigned maxDamagePerEnemy {};
+
+            for (SkillStore::LightId attackId : eFight.attacks)
+            {
+                const SkillData& skill = m_skills.getItem(attackId);
+                auto& damage = getMaximumDamage(ePos.xy, tile, skill);
+                unsigned maxDamagePerSkill {};
+
+                for (Element i {}; i <= Element::Max; ++i)
+                {
+                    unsigned resistancePercent = res.data[i];
+
+                    if (resistancePercent >= 100)
+                        continue;
+
+                    unsigned rawDamage = damage[i];
+                    unsigned resistanceDamage = rawDamage / 100 * resistancePercent;
+
+                    if (resistanceDamage >= rawDamage)
+                        continue;
+
+                    unsigned calculatedDamage = rawDamage - resistanceDamage;
+                    maxDamagePerSkill = std::max(maxDamagePerSkill, calculatedDamage);
+                }
+
+                maxDamagePerEnemy = std::max(maxDamagePerEnemy, maxDamagePerSkill);
+            }
+
+            maxDamagePerTile = std::max(maxDamagePerTile, maxDamagePerEnemy);
+        }
+
+        if (maxDamagePerTile < minDamage)
+        {
+            minDamage = maxDamagePerTile;
+            recommendedTile = tile;
+        }
+    }
+
+    if (recommendedTile != toVector2(Def::StandStillPos))
+        Teal_MoveCharacter(recommendedTile.x, recommendedTile.y);
 }
 
 void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCodename)
@@ -716,11 +768,155 @@ bool AISystem::Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex) 
         posDistance.y < skill.minRange || posDistance.y > skill.maxRange)
         return false; // todo: check area min/max range & type, in case of "damage zone"
 
-    if (skill.maxRange > 1 && !skill.viewThroughWalls)
+    if (skill.maxRange > 1 && !skill.viewThroughObstacles)
     {
         NazaraError("Raycasting has not been implemented (yet)");
         return false; // todo: implement raycasting thing here
     }
 
     return true;
+}
+
+std::unordered_map<Element, unsigned> AISystem::getMaximumDamage(const AbsTile& from, const AbsTile& target, const SkillData& skill)
+{
+    std::vector<AbsTile> possibleTilesToAttack = getVisibleTiles(from, skill.maxRange, skill.viewThroughObstacles);
+    std::function<std::unordered_map<Element, unsigned>(const AbsTile& tile)> damageDone;
+    NazaraError("implement this better");
+
+    switch (skill.areaType) // Don't forget to do raycasting in case there's an obstacle
+    {
+        case SkillData::AreaType::Cross:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::Plus:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::Circle:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::AlignedCenterRL:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::AlignedCenterDU:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::AlignedRight:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::AlignedLeft:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::AlignedDown:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        case SkillData::AreaType::AlignedUp:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+
+        default:
+            damageDone = [&target, &skill] (const AbsTile& tile) -> std::unordered_map<Element, unsigned>
+            {
+                if (target != tile)
+                    return {};
+
+                return skill.getMaximumDamage();
+            };
+            break;
+    }
+
+    return damageDone(target);
+}
+
+Ndk::EntityList AISystem::getEnemies(const Ndk::EntityHandle& e)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+    Ndk::EntityList enemies;
+    auto& fight = e->GetComponent<FightComponent>();
+
+    for (auto& entity : m_currentFight.fighters)
+    {
+        if (entity->GetComponent<FightComponent>().teamNumber != fight.teamNumber)
+            enemies.Insert(entity);
+    }
+
+    return enemies;
+}
+
+Ndk::EntityList AISystem::getAllies(const Ndk::EntityHandle& e)
+{
+    TealAssert(m_isFightActive, "Not fighting");
+
+    Ndk::EntityList allies;
+    auto& fight = e->GetComponent<FightComponent>();
+
+    for (auto& entity : m_currentFight.fighters)
+    {
+        if (entity->GetComponent<FightComponent>().teamNumber == fight.teamNumber)
+            allies.Insert(entity);
+    }
+
+    return allies;
 }
