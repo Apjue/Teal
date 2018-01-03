@@ -39,7 +39,7 @@ SkillData::SkillData(const LuaArguments& args)
     minRange = unsigned(args.vars[3].get<double>());
     maxRange = unsigned(args.vars[4].get<double>());
     modifiableRange = args.vars[5].get<bool>();
-    viewThroughWalls = args.vars[6].get<bool>();
+    viewThroughObstacles = args.vars[6].get<bool>();
 
     areaType = stringToAreaType(args.vars[7].get<Nz::String>());
     areaMinRange = unsigned(args.vars[8].get<double>());
@@ -118,4 +118,34 @@ Nz::String SkillData::areaTypeToString(AreaType area)
     }
 
     return "";
+}
+
+std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const
+{
+    std::unordered_map<Element, unsigned> damage {};
+
+    for (const AttackInfo& attack : attackList)
+    {
+        if (attack.second->data.target == AttackData::Target::Allies)
+            continue;
+
+        switch (attack.first)
+        {
+            case AttackType::Damage:
+            {
+                DamageData* dmg = static_cast<DamageData*>(attack.second.get());
+                damage[dmg->damage.first] = dmg->damage.second;
+
+                break;
+            }
+
+            case AttackType::State:
+            {
+                StateData* state = static_cast<StateData*>(attack.second.get());
+                damage[state->state->getMaximumDamage().first] = state->state->getMaximumDamage().second;
+
+                break;
+            }
+        }
+    }
 }

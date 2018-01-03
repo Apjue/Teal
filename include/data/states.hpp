@@ -19,6 +19,7 @@
 struct State
 {
     State() = default;
+    virtual ~State() = default;
 
     State(const LuaArguments& args)
     {
@@ -26,7 +27,7 @@ struct State
         turns = unsigned(args.vars[2].get<double>());
     }
 
-    virtual ~State() = default;
+    virtual std::pair<Element, unsigned> getMaximumDamage() = 0;
 
     unsigned turns {};
 };
@@ -42,6 +43,11 @@ struct PoisonnedState : public State
 
         damage.first = stringToElement(args.vars[4].get<Nz::String>());
         damage.second = int(args.vars[5].get<double>());
+    }
+
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(damage.first, damage.second);
     }
 
     std::pair<Element, unsigned> damage;
@@ -65,6 +71,11 @@ struct HealedState : public State
         health.second = int(args.vars[5].get<double>());
     }
 
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(health.first, 0);
+    }
+
     std::pair<Element, unsigned> health;
 
     static Nz::String getMetadataID()
@@ -80,6 +91,11 @@ struct WeaknessState : public State
     WeaknessState(const LuaArguments& args) : State(args)
     {
         NazaraError("not implemented");
+    }
+
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(Element::Neutral, 0);
     }
 
     std::unordered_map<Element, unsigned> attack;
@@ -103,6 +119,11 @@ struct PowerState : public State
         NazaraError("not implemented");
     }
 
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(Element::Neutral, 0);
+    }
+
     std::unordered_map<Element, unsigned> attack;
     std::unordered_map<Element, unsigned> resistance;
 
@@ -121,6 +142,11 @@ struct ParalyzedState : public State
 
     ParalyzedState(const LuaArguments& args) : State(args) {}
 
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(Element::Neutral, 0);
+    }
+
     static Nz::String getMetadataID()
     {
         return "paralyzed";
@@ -133,6 +159,11 @@ struct SleepingState : public State // = paralyzed until attacked
 
     SleepingState(const LuaArguments& args) : State(args) {}
 
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(Element::Neutral, 0);
+    }
+
     static Nz::String getMetadataID()
     {
         return "sleeping";
@@ -144,6 +175,11 @@ struct ConfusedState : public State // aka drunk
     ConfusedState() = default;
 
     ConfusedState(const LuaArguments& args) : State(args) {}
+
+    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    {
+        return std::make_pair(Element::Neutral, 0);
+    }
 
     static Nz::String getMetadataID()
     {

@@ -11,10 +11,12 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include <unordered_map>
 #include "attack.hpp"
 #include "damagedata.hpp"
 #include "statedata.hpp"
 #include "effectdata.hpp"
+#include "elementdata.hpp"
 #include "def/typedef.hpp"
 
 struct SkillData
@@ -29,7 +31,8 @@ struct SkillData
         Effect
     };
 
-    std::vector<std::pair<AttackType, std::shared_ptr<Attack>>> attackList;
+    using AttackInfo = std::pair<AttackType, std::shared_ptr<Attack>>;
+    std::vector<AttackInfo> attackList;
 
     unsigned movementPoints { 0 }; // MP/AP required
     unsigned actionPoints { 3 };
@@ -39,7 +42,7 @@ struct SkillData
     unsigned minRange { 1u };
     unsigned maxRange { 5u };
     bool modifiableRange { false };
-    bool viewThroughWalls { false }; // don't wallhack pls
+    bool viewThroughObstacles { false }; // don't wallhack pls
 
     enum class AreaType
     {
@@ -69,6 +72,7 @@ struct SkillData
     Nz::String fightDescription;
     Nz::String icon;
 
+    std::unordered_map<Element, unsigned> getMaximumDamage() const;
     // void generateFightDescription();
 };
 
