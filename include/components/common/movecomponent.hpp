@@ -13,7 +13,7 @@
 
 struct MoveComponent : public Ndk::Component<MoveComponent>
 {
-    AbsTile tile { toVector(Def::StandStillPos) }; // The absolute position where we want to go
+    AbsTile tile { toVector2(Def::StandStillPos) }; // The absolute position where we want to go
                   // Def::StandStillPos == nowhere
 
     bool playerInitiated {}; // If player clicks to the same location and if this is set to true, AISystem ignore the request

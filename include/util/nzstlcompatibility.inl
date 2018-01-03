@@ -11,7 +11,7 @@ std::pair<T, T> toPair(const Nz::Vector2<T>& v)
 }
 
 template<class T>
-Nz::Vector2<T> toVector(const std::pair<T, T>& v)
+Nz::Vector2<T> toVector2(const std::pair<T, T>& v)
 {
     return { v.first, v.second };
 }

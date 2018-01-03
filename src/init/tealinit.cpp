@@ -840,7 +840,7 @@ void loadMaps(const Ndk::EntityList& characters, const Ndk::EntityList& items)
 
         lua.Pop();
 
-        map->setPosition(toVector(stringToMapXY(mapPos)));
+        map->setPosition(toVector2(stringToMapXY(mapPos)));
         MapDataLibrary::Register(mapPos, deactivateMapEntities(map));
 
         NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + mapPos);
