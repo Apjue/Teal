@@ -578,7 +578,7 @@ void AISystem::Teal_TakeCover()
     auto& res = me->GetComponent<ResistanceModifierComponent>();
     Ndk::EntityList enemies = getEnemies(me);
 
-    AbsTile recommendedTile { Def::StandStillPos };
+    AbsTile recommendedTile { toVector2(Def::StandStillPos) };
     unsigned minDamage { std::numeric_limits<unsigned>().max() };
 
     for (const auto& tile : possibleTiles)
@@ -596,7 +596,7 @@ void AISystem::Teal_TakeCover()
             for (SkillStore::LightId attackId : eFight.attacks)
             {
                 const SkillData& skill = m_skills.getItem(attackId);
-                auto& damage = getMaximumDamage(ePos.xy, tile, skill);
+                auto damage = getMaximumDamage(ePos.xy, tile, skill);
                 unsigned maxDamagePerSkill {};
 
                 for (Element i {}; i <= Element::Max; ++i)

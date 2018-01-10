@@ -4,20 +4,16 @@ git:
 notifications:
   email: false
 
-language: cpp
-compiler: clang
-os: linux
-
 sudo: required
 dist: trusty
 
 addons:
   apt:
     sources:
-      - llvm-toolchain-trusty-5.0
       - ubuntu-toolchain-r-test
     packages:
-      - clang-5.0      
+      - build-essential
+      - g++-5-multilib
       - libassimp-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
@@ -31,18 +27,14 @@ addons:
       - libxcb-randr0-dev
       - mesa-common-dev
 
+language: cpp
+compiler: g++
+
 env:
   global:
-    - CC=clang-5.0
-    - CXX=clang++-5.0
-
-    - COMPILER=clang++-5.0
-    - CFLAGS="-Wall -Wextra" 
-    - CXXFLAGS="-Wall -Wextra"
-
+    - COMPILER=g++-5
     - ACTION=gmake
     - PLATFORM=x64
-    - PLATFORMNUM=64
 
   matrix:
     - CONFIG=debug
@@ -69,18 +61,20 @@ deploy:
 
 before_install:
   - cd /usr
-  - sudo mkdir -p lib64
+  - sudo mkdir lib64 && cd lib64
+  - sudo mkdir local
+  
+  - export CC="gcc-5"
+  - export CXX="g++-5"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && cd nazara
 
-  - curl  https://github.com/DigitalPulseSoftware/NazaraEngine/releases/download/v0.4/NazaraEngine-0.4-linux-${PLATFORM}.tar.gz -Lo nazara.tar.gz
+  - curl https://github.com/DigitalPulseSoftware/NazaraEngine/releases/download/v0.4/NazaraEngine-0.4-linux-${PLATFORM}.tar.gz -Lo nazara.tar.gz
   - tar -xzf nazara.tar.gz
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
-
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib64
 
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir -p ${ACTION} && cd ${ACTION}
@@ -90,20 +84,14 @@ install:
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
 
-  - export CC=clang-5.0
-  - export CXX=clang++-5.0
-
-  - ./premake5-linux${PLATFORMNUM} ${ACTION}
+  - ./premake5-linux64 ${ACTION}
   - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
 before_script:
-  - export CC=clang-5.0
-  - export CXX=clang++-5.0
-
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux${PLATFORMNUM} ${ACTION}
+  - ./premake5-linux64 ${ACTION}
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
