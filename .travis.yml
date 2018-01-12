@@ -10,10 +10,10 @@ dist: trusty
 addons:
   apt:
     sources:
+      - llvm-toolchain-precise-3.7
       - ubuntu-toolchain-r-test
     packages:
-      - build-essential
-      - g++-5-multilib
+      - clang-3.7
       - libassimp-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
@@ -28,11 +28,12 @@ addons:
       - mesa-common-dev
 
 language: cpp
-compiler: g++
+compiler: 
+  - clang
 
 env:
   global:
-    - COMPILER=g++-5
+    - COMPILER=clang++-3.7
     - ACTION=gmake
     - PLATFORM=x64
 
@@ -59,13 +60,9 @@ deploy:
   on:
     branch: master
 
-before_install:
-  - cd /usr
-  - sudo mkdir lib64 && cd lib64
-  - sudo mkdir local
-  
-  - export CC="gcc-5"
-  - export CXX="g++-5"
+before_install:  
+  - export CC="clang-3.7"
+  - export CXX="clang++-3.7"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
