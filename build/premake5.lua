@@ -55,8 +55,8 @@ project "TealDemo"
     filter "action:vs*"
         defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
 
-    filter "action:gmake"
-        buildoptions "-std=c++14"
+    --filter "action:gmake"
+        --buildoptions "-nostdinc++ -I/usr/lib/libc++/include/c++/v1 -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc_s -lgcc"
 
     filter "configurations:Debug"
         defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
