@@ -96,7 +96,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     TealAssert(map, "new map null !");
     
-    if (!map->tile(XYToIndex(x, y)).isWalkable())
+    if (!map->getTile(XYToIndex(x, y)).isWalkable())
         return std::make_pair(false, entExt); // It's an obstacle.
 
     return std::make_pair(true, entExt);
@@ -261,5 +261,48 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
 
 std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles)
 {
-    throw std::runtime_error { "not implemented (yet)" };
+    throw std::runtime_error { "getVisibleTiles not implemented (yet)" };
+}
+
+
+Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsigned y)
+{
+    Nz::Rectui aabb = getTileAABB(x, y);
+
+    switch (corner)
+    {
+        case Orientation::Down:
+            return std::make_pair(Nz::Vector2ui { aabb.x, aabb.y + aabb.height },
+                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height });
+
+        case Orientation::DownRight:
+            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height },
+                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 });
+
+        case Orientation::Right:
+            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height },
+                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y});
+
+        case Orientation::UpRight:
+            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 },
+                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y });
+
+        case Orientation::Up:
+            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width, aabb.y },
+                                  Nz::Vector2ui { aabb.x, aabb.y });
+
+        case Orientation::UpLeft:
+            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y },
+                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 });
+
+        case Orientation::Left:
+            return std::make_pair(Nz::Vector2ui { aabb.x, aabb.y },
+                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height });
+
+        case Orientation::DownLeft:
+            return std::make_pair(Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 },
+                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height });
+    }
+
+    throw std::runtime_error { "Corner not initialized properly" };
 }

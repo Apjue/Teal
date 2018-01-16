@@ -62,7 +62,12 @@ std::pair<int, int> stringToMapXY(const Nz::String& str)
     return std::make_pair(x, y);
 }
 
-inline void uninitializeMapUtility()
+void uninitializeMapUtility()
 {
     initializeMapUtility(nullptr, nullptr, {});
+}
+
+Nz::Rectui getTileAABB(unsigned x, unsigned y)
+{
+    return Nz::Rectui { x * Def::TileSizeX + isLineEven(y) ? 0u : Def::TileSizeX / 2, y / 2 * Def::TileSizeY, Def::TileSizeX, Def::TileSizeY };
 }

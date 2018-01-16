@@ -9,6 +9,8 @@
 
 #include <NDK/Entity.hpp>
 #include <Nazara/Core/String.hpp>
+#include <Nazara/Math/Rect.hpp>
+#include <Nazara/Math/Vector2.hpp>
 #include <utility>
 #include <queue>
 #include <vector>
@@ -17,6 +19,7 @@
 #include "components/common/logicentityidcomponent.hpp"
 #include "util/assert.hpp"
 #include "def/gamedef.hpp"
+#include "def/typedef.hpp"
 #include "global.hpp"
 #include "data/mapdata.hpp"
 #include "util/entityutil.hpp"
@@ -81,6 +84,9 @@ extern const micropather::MicroPather* getPather();
 
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false);
+
+extern Nz::Rectui getTileAABB(unsigned x, unsigned y);
+inline Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsigned y)
 
 #include "maputil.inl"
 
