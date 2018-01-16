@@ -23,24 +23,30 @@ inline void MapData::setPosition(const Nz::Vector2i& pos)
 }
 
 
-const TileArray& MapData::tiles() const
+const TileArray& MapData::getTiles() const
 {
     return m_tiles;
-}
-
-const TileData& MapData::tile(unsigned x, unsigned y) const
-{
-    return m_tiles[XYToIndex(x, y)];
-}
-
-const TileData& MapData::tile(unsigned index) const
-{
-    return m_tiles[index];
 }
 
 void MapData::setTiles(const TileArray& tiles)
 {
     m_tiles = tiles;
+}
+
+const TileData& MapData::getTile(unsigned x, unsigned y) const
+{
+    return m_tiles[XYToIndex(x, y)];
+}
+
+const TileData& MapData::getTile(unsigned index) const
+{
+    return m_tiles[index];
+}
+
+std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned index)
+{
+    auto pos = IndexToXY(index);
+    return adjacentTiles(pos.first, pos.second);
 }
 
 

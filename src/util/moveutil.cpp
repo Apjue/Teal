@@ -86,7 +86,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
         posX += moveXY.x;
         posY += moveXY.y;
 
-        auto& tile = currentMap->tile(posX, posY);
+        auto& tile = currentMap->getTile(posX, posY);
 
         if (!tile.isWalkable())
         {

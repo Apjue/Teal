@@ -91,7 +91,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 unsigned newXpos = newPos.x;
                 unsigned newYpos = newPos.y;
 
-                if (map->getCurrentMap()->tile(XYToIndex(newXpos, newYpos)).isWalkable())
+                if (map->getCurrentMap()->getTile(XYToIndex(newXpos, newYpos)).isWalkable())
                 {
                     wantedPos.x += xy.x;
                     wantedPos.y += xy.y;

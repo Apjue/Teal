@@ -563,13 +563,14 @@ void AISystem::Teal_TakeCover()
     auto& pos = me->GetComponent<PositionComponent>();
 
     std::vector<AbsTile> possibleTiles; // Possible tiles to go to
+    std::vector<AbsTile> visibleTiles = getVisibleTiles(pos.xy, fight.movementPoints);
 
-    for (unsigned i {}; i < getCurrentMap()->getCurrentMap()->tiles().size(); ++i) // todo: optimize this shit
+    for (unsigned i {}; i < visibleTiles.size(); ++i)
     {
         /*AbsTile difference = distance(toVector(IndexToXY(i)), pos.xy);
         const TileData& tile = getCurrentMap()->getCurrentMap()->tiles()[i];*/
 
-        auto path = directionsToPositions(computePath(pos.xy, toVector2(IndexToXY(i)), m_pather.get()), pos.xy);
+        std::vector<AbsTile> path = directionsToPositions(computePath(pos.xy, toVector2(IndexToXY(i)), m_pather.get()), pos.xy);
 
         if (path.size() <= fight.movementPoints)
             possibleTiles.push_back(path.back());

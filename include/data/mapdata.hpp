@@ -19,6 +19,7 @@
 #include "def/typedef.hpp"
 #include "data/tiledata.hpp"
 #include "util/mapposutil.hpp"
+#include "global.hpp"
 
 class MapData;
 
@@ -44,12 +45,14 @@ public:
     inline const Nz::Vector2i& getPosition() const;
     inline void setPosition(const Nz::Vector2i& pos);
 
-    inline const TileArray& tiles() const;
+    inline const TileArray& getTiles() const;
     inline void setTiles(const TileArray& nTiles);
 
-    inline const TileData& tile(unsigned x, unsigned y) const;
-    inline const TileData& tile(unsigned index) const;
+    inline const TileData& getTile(unsigned x, unsigned y) const;
+    inline const TileData& getTile(unsigned index) const;
+
     std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
+    inline std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned index);
 
     inline const Ndk::EntityList& getEntities() const;
     inline Ndk::EntityList& getEntities();

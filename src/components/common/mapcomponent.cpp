@@ -109,7 +109,7 @@ void MapInstance::update()
 
     for (unsigned i {}; i < Def::TileArraySize; ++i)
     {
-        auto& tile = getCurrentMap()->tile(i);
+        auto& tile = getCurrentMap()->getTile(i);
         auto  pos = IndexToXY(i);
         Nz::Vector2ui tilePos { pos.first, pos.second };
 
@@ -137,7 +137,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_leftBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->tile(0, (i == m_leftBorder.size() - 1 ? i - 1 : i ) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile(0, (i == m_leftBorder.size() - 1 ? i - 1 : i ) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -146,7 +146,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_rightBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_rightBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->tile(Def::MapX, (i == m_rightBorder.size() - 1 ? i - 1 : i) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile(Def::MapX, (i == m_rightBorder.size() - 1 ? i - 1 : i) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -155,7 +155,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_upBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_upBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->tile(i + 1, 0).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile(i + 1, 0).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -164,7 +164,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_downBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_downBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->tile((i == m_downBorder.size() - 1 ? i - 1 : i), Def::MapY + 1).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY / 2 };
+        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile((i == m_downBorder.size() - 1 ? i - 1 : i), Def::MapY + 1).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY / 2 };
 
         sprite->SetMaterial(m_tileset, false);
         sprite->SetTextureRect(tileRect);
@@ -204,7 +204,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
     // Step 2.
     {
         unsigned const tileindex = XYToIndex(eX, eY);
-        auto& tile = getCurrentMap()->tile(tileindex);
+        auto& tile = getCurrentMap()->getTile(tileindex);
 
         return tile.isWalkable();
     }
