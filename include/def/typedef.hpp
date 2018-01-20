@@ -34,5 +34,6 @@ template<class T>
 using Vector2Pair = std::pair<Nz::Vector2<T>, Nz::Vector2<T>>;
 using Vector2uPair = Vector2Pair<unsigned>;
 using Vector2iPair = Vector2Pair<int>;
+using Vector2fPair = Vector2Pair<float>;
 
 #endif // TYPEDEF_HPP
