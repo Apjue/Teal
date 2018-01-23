@@ -19,6 +19,7 @@
 struct TileData;
 using TileArray = std::array<TileData, Def::TileArraySize>;
 
+
 using LuaBasicArgument = Variant<Nz::String, double, bool>;
 
 struct LuaTableArgument
@@ -30,10 +31,28 @@ struct LuaTableArgument
 using LuaArgument = LuaTableArgument;
 using LuaArguments = LuaTableArgument;
 
+
 template<class T>
-using Vector2Pair = std::pair<Nz::Vector2<T>, Nz::Vector2<T>>;
+struct Vector2Pair
+{
+    Nz::Vector2<T> first;
+    Nz::Vector2<T> second;
+};
+
 using Vector2uPair = Vector2Pair<unsigned>;
 using Vector2iPair = Vector2Pair<int>;
 using Vector2fPair = Vector2Pair<float>;
+
+template<class T>
+struct Vector2Triplet
+{
+    Nz::Vector2<T> first;
+    Nz::Vector2<T> second;
+    Nz::Vector2<T> third;
+};
+
+using Vector2uTriplet = Vector2Triplet<unsigned>;
+using Vector2iTriplet = Vector2Triplet<int>;
+using Vector2fTriplet = Vector2Triplet<float>;
 
 #endif // TYPEDEF_HPP

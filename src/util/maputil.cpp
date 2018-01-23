@@ -272,36 +272,36 @@ Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsi
     switch (corner)
     {
         case Orientation::Down:
-            return std::make_pair(Nz::Vector2ui { aabb.x, aabb.y + aabb.height },
-                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height });
+            return Vector2uPair { Nz::Vector2ui { aabb.x, aabb.y + aabb.height },
+                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height } };
 
         case Orientation::DownRight:
-            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height },
-                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 });
+            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height },
+                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 } };
 
         case Orientation::Right:
-            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height },
-                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y});
+            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height },
+                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y} };
 
         case Orientation::UpRight:
-            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 },
-                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y });
+            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 },
+                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y } };
 
         case Orientation::Up:
-            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width, aabb.y },
-                                  Nz::Vector2ui { aabb.x, aabb.y });
+            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width, aabb.y },
+                                  Nz::Vector2ui { aabb.x, aabb.y } };
 
         case Orientation::UpLeft:
-            return std::make_pair(Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y },
-                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 });
+            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y },
+                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 } };
 
         case Orientation::Left:
-            return std::make_pair(Nz::Vector2ui { aabb.x, aabb.y },
-                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height });
+            return Vector2uPair { Nz::Vector2ui { aabb.x, aabb.y },
+                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height } };
 
         case Orientation::DownLeft:
-            return std::make_pair(Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 },
-                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height });
+            return Vector2uPair { Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 },
+                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height } };
     }
 
     throw std::runtime_error { "Corner not initialized properly" };
