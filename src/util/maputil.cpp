@@ -265,7 +265,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
 }
 
 
-Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsigned y)
+Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
 {
     Nz::Rectui aabb = getTileAABB(x, y);
 

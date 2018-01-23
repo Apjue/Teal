@@ -86,7 +86,7 @@ extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool direct
 extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false);
 
 inline Nz::Rectui getTileAABB(unsigned x, unsigned y);
-inline Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsigned y);
+inline Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y);
 
 #include "maputil.inl"
 
