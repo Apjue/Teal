@@ -16,15 +16,12 @@
 template<class T, class ReturnType>
 inline T distance(const T& x, const T& y);
 
-template<class T>
-inline T root(T x);
-
 inline bool isLineEven(unsigned y);
 
 inline bool interactSegment(const Vector2fPair& ab, const Vector2fPair& ij, Nz::Vector2f* out);
 
 template<class T>
-inline float getAngleOf(const Vector2Triplet<T>& triangle, unsigned whichAngle);
+inline float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC);
 
 #include "util.inl"
 

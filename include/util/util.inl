@@ -13,28 +13,6 @@ ReturnType distance(const T& x, const T& y)
     return x > y ? x - y : y - x;
 }
 
-template<class T>
-T distance(const Nz::Vector2<T>& x, const Nz::Vector2<T>& y)
-{
-    static_assert(std::is_arithmetic<T>::value, "Return type is not arithmetic");
-
-    return T(x.Distancef(y));
-}
-
-template<class T>
-T distance(const Nz::Vector3<T>& x, const Nz::Vector3<T>& y)
-{
-    static_assert(std::is_arithmetic<T>::value, "Return type is not arithmetic");
-
-    return T(x.Distancef(y));
-}
-
-template<class T>
-T root(T x)
-{
-    return x * x;
-}
-
 bool isLineEven(unsigned y)
 {
     TealAssert(y <= (Def::ArrayMapY + 1u), "Invalid y !");
@@ -64,37 +42,11 @@ bool interactSegment(const Vector2fPair& ab, const Vector2fPair& ij, Nz::Vector2
 }
 
 template<class T>
-float getAngleOf(const Vector2Triplet<T>& triangle, unsigned whichAngle) // Al Kashi
+float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC) // Get the angle of pA, using the cosine law: cos Â = (b² + c² - a²) / 2bc
 {
-    T firstSecond = distance(triangle.first, triangle.second);
-    T firstThird = distance(triangle.first, triangle.third);
-    T secondThird = distance(triangle.second, triangle.third);
+    float a = pB.Distancef(pC);
+    float b = pA.Distancef(pC);
+    float c = pA.Distancef(pB);
 
-    T a {}, b {}, c {}; // cos Â = (b² + c² - a²) / 2bc
-
-    switch (whichAngle)
-    {
-        case 1:
-            a = secondThird;
-            b = firstSecond;
-            c = firstThird;
-            break;
-
-        case 2:
-            a = firstThird;
-            b = firstSecond;
-            c = secondThird;
-            break;
-
-        case 3:
-            a = firstSecond;
-            b = firstThird;
-            c = secondThird;
-            break;
-
-        default:
-            throw std::runtime_error { "Accepted values for whichAngle: 1;2;3" };
-    }
-
-    return std::acos(float((root(b) + root(c) - root(a)) / (2 * b * c)));
+    return std::acos((b * b + c * c - a * a) / (2.f * b * c));
 }
