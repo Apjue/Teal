@@ -42,11 +42,11 @@ bool interactSegment(const Vector2fPair& ab, const Vector2fPair& ij, Nz::Vector2
 }
 
 template<class T>
-float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC) // Get the angle of pA, using the cosine law: cos Â = (b² + c² - a²) / 2bc
+float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC) // Get the angle of pA
 {
     float a = pB.Distancef(pC);
     float b = pA.Distancef(pC);
     float c = pA.Distancef(pB);
 
-    return std::acos((b * b + c * c - a * a) / (2.f * b * c));
+    return std::acos((b * b + c * c - a * a) / (2.f * b * c)); // Cosine law (Al Kashi): cos Â = (b² + c² - a²) / 2bc
 }

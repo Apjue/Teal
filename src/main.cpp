@@ -39,7 +39,7 @@ int main()
             if (!fsm.Update(app.GetUpdateTime()))
             {
                 // Panic
-                std::cerr << "\nCannot update State Machine, closing program..." << std::endl;
+                std::cerr << "\nCannot update State Machine, closing Teal..." << std::endl;
 
                 return EXIT_FAILURE;
             }
