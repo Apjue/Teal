@@ -85,8 +85,8 @@ extern const micropather::MicroPather* getPather();
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false);
 
-extern Nz::Rectui getTileAABB(unsigned x, unsigned y);
-inline Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsigned y)
+inline Nz::Rectui getTileAABB(unsigned x, unsigned y);
+inline Vector2uPair getTileCornerGraphicalPosition(Orientation corner, unsigned x, unsigned y);
 
 #include "maputil.inl"
 
