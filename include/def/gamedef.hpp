@@ -21,17 +21,19 @@ constexpr unsigned ArrayMapX      { MapX + 1u };
 constexpr unsigned ArrayMapY      { MapY + 1u };
 
 
-constexpr unsigned TileArraySize  { ArrayMapX * ArrayMapY };
-constexpr unsigned TileSizeX      { 64u }; // For logic
-constexpr unsigned TileSizeY      { 32u };
+constexpr unsigned TileArraySize    { ArrayMapX * ArrayMapY };
+constexpr unsigned TileSizeX        { 64u }; // For logic
+constexpr unsigned TileSizeY        { 32u };
+constexpr unsigned TileVertexNumber { 4u };
 
 
-constexpr   int    MaxPosInTile   { 4 }; // Must be dividable by TileSizeX & TileSizeY
-constexpr unsigned MaxGXPosInTile { (TileSizeX / 2) / MaxPosInTile };
-constexpr unsigned MaxGYPosInTile { (TileSizeY / 2) / MaxPosInTile };
+constexpr   int    MaxPosInTile   { 4u }; // Must be dividable by TileSizeX & TileSizeY
+constexpr unsigned MaxGXPosInTile { (TileSizeX / 2u) / MaxPosInTile };
+constexpr unsigned MaxGYPosInTile { (TileSizeY / 2u) / MaxPosInTile };
 
-constexpr  float   MaxSystemUPS   { 10 }; // Updates per second
-constexpr   int    MaxDirs        { 4  }; // Max directions: Up, down, left, right
+
+constexpr  float   MaxSystemUPS   { 10u }; // Updates per second
+constexpr   int    MaxDirs        { 4u  }; // Max directions: Up, down, left, right
 constexpr std::pair<unsigned, unsigned> StandStillPos { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 
@@ -43,8 +45,9 @@ constexpr std::array<int,   8> MapDistanceUnevenY { 2,    1,   0,  -1,  -2,   -1
 
 constexpr std::array<float, 8> MapDistanceCost    { 1.5f, 1.f, 2.f, 1.f, 1.5f, 1.f, 2.f, 1.f };
 
-constexpr unsigned   DefaultFightTimeLimit { 60'000 }; // In Miliseconds
-constexpr Nz::UInt32 LuaAITimeLimit { 1000 };
+
+constexpr unsigned   DefaultFightTimeLimit { 60'000u }; // In Miliseconds
+constexpr Nz::UInt32 LuaAITimeLimit { 1000u };
 
 }
 
