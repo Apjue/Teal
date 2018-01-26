@@ -7,21 +7,13 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-#include <Nazara/Math/Vector2.hpp>
-#include <Nazara/Math/Vector3.hpp>
-#include "def/gamedef.hpp"
 #include "util/assert.hpp"
-#include "def/typedef.hpp"
+#include "def/gamedef.hpp"
 
 template<class T, class ReturnType>
 inline T distance(const T& x, const T& y);
 
 inline bool isLineEven(unsigned y);
-
-inline bool interactSegment(const Vector2fPair& ab, const Vector2fPair& ij, Nz::Vector2f* out);
-
-template<class T>
-inline float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC);
 
 #include "util.inl"
 
