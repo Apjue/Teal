@@ -18,7 +18,7 @@ float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::V
 template<class T>
 Nz::Vector2<T> makeOrthogonal(const Nz::Vector2<T>& v)
 {
-    static_assert(std::is_signed<T>::value, "operator- on an unsigned ?");
+    static_assert(std::is_signed<T>::value, "unary operator- on an unsigned ?");
 
     return Nz::Vector2<T> { v.y, -v.x };
 }
