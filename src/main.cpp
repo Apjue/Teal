@@ -21,7 +21,7 @@ int main()
     Ndk::World& world = app.AddWorld();
     Nz::RenderWindow& window = app.AddWindow<Nz::RenderWindow>();
 
-    window.Create(Nz::VideoMode(Def::WindowSizeX, Def::WindowSizeY, 32), "TealDemo - Prototype");
+    window.Create(Nz::VideoMode(Def::WindowSizeX, Def::WindowSizeY, 32), "Teal - Prototype");
     window.EnableVerticalSync(true);
 
     GameData gameData;

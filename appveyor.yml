@@ -7,13 +7,16 @@ skip_commits:
     - coding_style.md
   message: /.\[skip ci\]./
 
-version: '{branch} v0.0.1 (#{build})'
+version: '{branch} v0.x (#{build})'
 skip_tags: true
 image: Visual Studio 2017
 
 branches:
   only:
     - master
+
+build:
+  verbosity: minimal
 
 environment:
   TOOLSET: vs2017
