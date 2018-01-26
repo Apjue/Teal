@@ -67,13 +67,13 @@ void uninitializeMapUtility()
     initializeMapUtility(nullptr, nullptr, {});
 }
 
-Nz::Rectui getTileAABB(unsigned x, unsigned y)
+Nz::Rectf getTileAABB(unsigned x, unsigned y)
 {
-    return Nz::Rectui { x * Def::TileSizeX + isLineEven(y) ? 0u : Def::TileSizeX / 2, y / 2 * Def::TileSizeY, Def::TileSizeX, Def::TileSizeY };
+    return Nz::Rectf { float(x * Def::TileSizeX + isLineEven(y) ? 0u : Def::TileSizeX / 2), float(y / 2 * Def::TileSizeY), float(Def::TileSizeX), float(Def::TileSizeY) };
 }
 
-Nz::Vector2ui getTileCenter(unsigned x, unsigned y)
+inline Nz::Vector2f getTileCenter(unsigned x, unsigned y)
 {
-    Nz::Rectui aabb = getTileAABB(x, y);
+    Nz::Rectf aabb = getTileAABB(x, y);
     return { aabb.x + aabb.width / 2, aabb.y + aabb.height / 2 };
 }

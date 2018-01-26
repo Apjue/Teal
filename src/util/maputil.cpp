@@ -320,7 +320,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
 
     for (auto& obstacle : obstacles) // Todo optimize this ? Make some blocks of obstacles to compare with fewer rays
     {
-        Vector2uTriplet rays { getTileCenter(pos.x, pos.y) };
+        Vector2fTriplet rays { getTileCenter(pos.x, pos.y) };
         bool extremity1filled { false };
 
         for (unsigned i {}; i < Def::TileVertexNumber; ++i) // Detect correct extremities
@@ -362,7 +362,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
             }
         }
 
-        TealAssert(rays.second != Nz::Vector2ui {} && rays.third != Nz::Vector2ui  {}, "Triangle not completely filled");
+        TealAssert(rays.second != Nz::Vector2f {} && rays.third != Nz::Vector2f  {}, "Triangle not completely filled");
 
         // Swap triangle's vertex: rays.second must be at the left, rays.third must be at the right
         if (!isRight(rays.first, rays.second, rays.third))
@@ -397,51 +397,51 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
     }
 }
 
-Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
+Vector2fPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
 {
-    Nz::Rectui aabb = getTileAABB(x, y);
+    Nz::Rectf aabb = getTileAABB(x, y);
 
     switch (corner)
     {
         case Orientation::Down:
-            return Vector2uPair { Nz::Vector2ui { aabb.x, aabb.y + aabb.height },
-                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height } };
+            return { Nz::Vector2f { aabb.x, aabb.y + aabb.height },
+                     Nz::Vector2f { aabb.x + aabb.width, aabb.y + aabb.height } };
 
         case Orientation::DownRight:
-            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height },
-                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 } };
+            return  { Nz::Vector2f { aabb.x + aabb.width / 2, aabb.y + aabb.height },
+                      Nz::Vector2f { aabb.x + aabb.width, aabb.y + aabb.height / 2 } };
 
         case Orientation::Right:
-            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height },
-                                  Nz::Vector2ui { aabb.x + aabb.width, aabb.y} };
+            return  { Nz::Vector2f { aabb.x + aabb.width, aabb.y + aabb.height },
+                      Nz::Vector2f { aabb.x + aabb.width, aabb.y} };
 
         case Orientation::UpRight:
-            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width, aabb.y + aabb.height / 2 },
-                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y } };
+            return  { Nz::Vector2f { aabb.x + aabb.width, aabb.y + aabb.height / 2 },
+                      Nz::Vector2f { aabb.x + aabb.width / 2, aabb.y } };
 
         case Orientation::Up:
-            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width, aabb.y },
-                                  Nz::Vector2ui { aabb.x, aabb.y } };
+            return  { Nz::Vector2f { aabb.x + aabb.width, aabb.y },
+                      Nz::Vector2f { aabb.x, aabb.y } };
 
         case Orientation::UpLeft:
-            return Vector2uPair { Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y },
-                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 } };
+            return  { Nz::Vector2f { aabb.x + aabb.width / 2, aabb.y },
+                      Nz::Vector2f { aabb.x, aabb.y + aabb.height / 2 } };
 
         case Orientation::Left:
-            return Vector2uPair { Nz::Vector2ui { aabb.x, aabb.y },
-                                  Nz::Vector2ui { aabb.x, aabb.y + aabb.height } };
+            return  { Nz::Vector2f { aabb.x, aabb.y },
+                      Nz::Vector2f { aabb.x, aabb.y + aabb.height } };
 
         case Orientation::DownLeft:
-            return Vector2uPair { Nz::Vector2ui { aabb.x, aabb.y + aabb.height / 2 },
-                                  Nz::Vector2ui { aabb.x + aabb.width / 2, aabb.y + aabb.height } };
+            return  { Nz::Vector2f { aabb.x, aabb.y + aabb.height / 2 },
+                      Nz::Vector2f { aabb.x + aabb.width / 2, aabb.y + aabb.height } };
     }
 
     throw std::runtime_error { "Corner not initialized properly" };
 }
 
-Nz::Vector2ui getTileVertex(Direction vertex, unsigned x, unsigned y)
+Nz::Vector2f getTileVertex(Direction vertex, unsigned x, unsigned y)
 {
-    Nz::Rectui aabb = getTileAABB(x, y);
+    Nz::Rectf aabb = getTileAABB(x, y);
 
     switch (vertex)
     {
