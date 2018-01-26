@@ -11,6 +11,7 @@
 #include "util/animutil.hpp"
 #include "util/gfxutil.hpp"
 #include "util/util.hpp"
+#include "util/mathutil.hpp"
 #include "util/maputil.hpp"
 
 namespace
@@ -259,11 +260,142 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
     return positions;
 }
 
-std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles)
+std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles)
 {
-    throw std::runtime_error { "getVisibleTiles not implemented (yet)" };
-}
+    if (range == 0)
+        return {}; // but why
 
+    MapDataRef map = getCurrentMap()->getCurrentMap();
+    std::vector<AbsTile> tilesInRange;
+
+    // Detect tiles around, using range
+    for (unsigned i {}; i < Def::TileArraySize; ++i)
+    {
+        auto xy = IndexToXY(i);
+        unsigned distance = xy.first + (xy.second % 2 == 0 ? xy.second : xy.second + 1) / 2;
+        
+        if (distance <= range) // jackpot
+            tilesInRange.push_back(toVector2(xy));
+    }
+
+    std::vector<AbsTile> obstacles;
+    std::vector<AbsTile> passableTiles;
+
+    for (auto& xy : tilesInRange)
+    {
+        const TileData& tileData = map->getTile(xy.x, xy.y);
+
+        if (!tileData.isVisible())
+            continue;
+
+        if (!tileData.isObstacle())
+            passableTiles.push_back(xy);
+
+        else
+            obstacles.push_back(xy);
+    }
+
+    if (viewThroughObstacles)
+    {
+        if (!includeObstacles)
+            return passableTiles;
+
+        else
+        {
+            std::vector<AbsTile> obstaclesAndPassables;
+
+            for (auto& tile : obstacles)
+                obstaclesAndPassables.push_back(tile);
+
+            for (auto& tile : passableTiles)
+                obstaclesAndPassables.push_back(tile);
+
+            return obstaclesAndPassables;
+        }
+    }
+
+    // It's better to use this function than to search a tile in the passableTiles vector
+    auto isTilePassable = [&map] (unsigned x, unsigned y) { return !map->getTile(x, y).isObstacle(); };
+    std::vector<AbsTile> visibleTiles = passableTiles;
+
+    for (auto& obstacle : obstacles) // Todo optimize this ? Make some blocks of obstacles to compare with fewer rays
+    {
+        Vector2uTriplet rays { getTileCenter(pos.x, pos.y) };
+        bool extremity1filled { false };
+
+        for (unsigned i {}; i < Def::TileVertexNumber; ++i) // Detect correct extremities
+        {
+            bool isExtremity { true };
+            Nz::Ternary left = Nz::Ternary_Unknown;
+
+            for (unsigned j {}; j < Def::TileVertexNumber; ++j)
+            {
+                if (j == i)
+                    continue;
+
+                Direction dir = static_cast<Direction>(j);
+                bool atLeft = isLeft(rays.first, getTileVertex(static_cast<Direction>(i), obstacle.x, obstacle.y), getTileVertex(dir, obstacle.x, obstacle.y));
+
+                if (left == Nz::Ternary_Unknown)
+                    left = atLeft ? Nz::Ternary_True : Nz::Ternary_False;
+
+                if (left != (atLeft ? Nz::Ternary_True : Nz::Ternary_False))
+                {
+                    isExtremity = false;
+                    break;
+                }
+            }
+
+            if (isExtremity)
+            {
+                if (!extremity1filled)
+                {
+                    rays.second = getTileVertex(static_cast<Direction>(i), obstacle.x, obstacle.y);
+                    extremity1filled = true;
+                }
+
+                else
+                {
+                    rays.third = getTileVertex(static_cast<Direction>(i), obstacle.x, obstacle.y);
+                    break;
+                }
+            }
+        }
+
+        TealAssert(rays.second != Nz::Vector2ui {} && rays.third != Nz::Vector2ui  {}, "Triangle not completely filled");
+
+        // Swap triangle's vertex: rays.second must be at the left, rays.third must be at the right
+        if (!isRight(rays.first, rays.second, rays.third))
+            std::swap(rays.second, rays.third);
+
+        // Check shadowed tiles
+        for (unsigned i {}; i < passableTiles.size(); ++i)
+        {
+            auto xy = IndexToXY(i);
+            TealAssert(isTilePassable(xy.first, xy.second), "Unpassable tile in a passable tiles vector ?");
+
+            // Is tile contained in obstacle shadow ?
+            if (isRight(rays.first, rays.second, getTileCenter(xy.first, xy.second)) && isLeft(rays.first, rays.third, getTileCenter(xy.first, xy.second)))
+                visibleTiles.erase(std::find(visibleTiles.begin(), visibleTiles.end(), toVector2(xy)));
+        }
+    }
+
+    if (!includeObstacles)
+        return visibleTiles;
+
+    else
+    {
+        std::vector<AbsTile> obstaclesAndVisibles;
+
+        for (auto& tile : obstacles)
+            obstaclesAndVisibles.push_back(tile);
+
+        for (auto& tile : visibleTiles)
+            obstaclesAndVisibles.push_back(tile);
+
+        return obstaclesAndVisibles;
+    }
+}
 
 Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
 {
@@ -306,3 +438,146 @@ Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
 
     throw std::runtime_error { "Corner not initialized properly" };
 }
+
+Nz::Vector2ui getTileVertex(Direction vertex, unsigned x, unsigned y)
+{
+    Nz::Rectui aabb = getTileAABB(x, y);
+
+    switch (vertex)
+    {
+        case Direction::Up:
+            return { aabb.x + aabb.width / 2, aabb.y };
+
+        case Direction::Down:
+            return { aabb.x + aabb.width / 2, aabb.y + aabb.height };
+
+        case Direction::Left:
+            return { aabb.x, aabb.y + aabb.height / 2 };
+
+        case Direction::Right:
+            return { aabb.x + aabb.width, aabb.y + aabb.height / 2 };
+    }
+
+    throw std::runtime_error { "Initialize your arguments next time..." };
+}
+
+/*#include <cmath> //todo: understand all this
+
+typedef unsigned int uint;
+
+static int multipliers[4][8] = {
+    { 1, 0, 0, -1, -1, 0, 0, 1 },
+    { 0, 1, -1, 0, 0, -1, 1, 0 },
+    { 0, 1, 1, 0, 0, -1, -1, 0 },
+    { 1, 0, 0, 1, -1, 0, 0, -1 }
+};
+
+
+class Map
+{
+public:
+    Map() {};
+
+    void set_visible(uint x, uint y, bool visible)
+    {
+        // Set the visibility of the cell at the given position.
+    }
+
+    uint get_width() const
+    {
+        // Return the width of the map.
+        return 0;
+    }
+
+    uint get_height() const
+    {
+        // Return the height of the map.
+        return 0;
+    }
+
+    bool is_opaque(uint x, uint y) const
+    {
+        // Return whether the given position holds an opaque cell.
+        return false;
+    }
+};
+
+void cast_light(Map& map, uint x, uint y, uint radius, uint row,
+                float start_slope, float end_slope, uint xx, uint xy, uint yx,
+                uint yy)
+{
+    if (start_slope < end_slope)
+        return;
+
+    float next_start_slope = start_slope;
+
+    for (uint i = row; i <= radius; i++)
+    {
+        bool blocked = false;
+
+        for (int dx = -i, dy = -i; dx <= 0; dx++)
+        {
+            float l_slope = (dx - 0.5) / (dy + 0.5);
+            float r_slope = (dx + 0.5) / (dy - 0.5);
+
+            if (start_slope < r_slope)
+                continue;
+
+            else if (end_slope > l_slope)
+                break;
+
+            int sax = dx * xx + dy * xy;
+            int say = dx * yx + dy * yy;
+
+            if ((sax < 0 && (uint) std::abs(sax) > x) ||
+                (say < 0 && (uint) std::abs(say) > y))
+                continue;
+
+            uint ax = x + sax;
+            uint ay = y + say;
+
+            if (ax >= map.get_width() || ay >= map.get_height())
+                continue;
+
+            uint radius2 = radius * radius;
+
+            if ((uint) (dx * dx + dy * dy) < radius2)
+                map.set_visible(ax, ay, true);
+
+            if (blocked)
+            {
+                if (map.is_opaque(ax, ay))
+                {
+                    next_start_slope = r_slope;
+                    continue;
+                }
+
+                else
+                {
+                    blocked = false;
+                    start_slope = next_start_slope;
+                }
+            }
+
+            else if (map.is_opaque(ax, ay))
+            {
+                blocked = true;
+                next_start_slope = r_slope;
+                cast_light(map, x, y, radius, i + 1, start_slope, l_slope, xx,
+                           xy, yx, yy);
+            }
+        }
+
+        if (blocked)
+            break;
+    }
+}
+
+void do_fov(Map& map, uint x, uint y, uint radius)
+{
+    for (uint i = 0; i < 8; i++)
+    {
+        cast_light(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i],
+                   multipliers[1][i], multipliers[2][i], multipliers[3][i]);
+    }
+}*/

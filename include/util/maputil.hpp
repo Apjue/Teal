@@ -83,10 +83,12 @@ extern const MapInstance* getCurrentMap();
 extern const micropather::MicroPather* getPather();
 
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
-extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false);
+extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false, bool includeObstacles = false);
 
 inline Nz::Rectui getTileAABB(unsigned x, unsigned y);
-inline Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y);
+inline Nz::Vector2ui getTileCenter(unsigned x, unsigned y);
+extern Vector2uPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y);
+extern Nz::Vector2ui getTileVertex(Direction vertex, unsigned x, unsigned y);
 
 #include "maputil.inl"
 

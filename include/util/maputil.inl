@@ -71,3 +71,9 @@ Nz::Rectui getTileAABB(unsigned x, unsigned y)
 {
     return Nz::Rectui { x * Def::TileSizeX + isLineEven(y) ? 0u : Def::TileSizeX / 2, y / 2 * Def::TileSizeY, Def::TileSizeX, Def::TileSizeY };
 }
+
+Nz::Vector2ui getTileCenter(unsigned x, unsigned y)
+{
+    Nz::Rectui aabb = getTileAABB(x, y);
+    return { aabb.x + aabb.width / 2, aabb.y + aabb.height / 2 };
+}
