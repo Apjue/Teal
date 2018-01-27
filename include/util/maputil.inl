@@ -69,7 +69,7 @@ void uninitializeMapUtility()
 
 Nz::Rectf getTileAABB(unsigned x, unsigned y)
 {
-    return Nz::Rectf { float(x * Def::TileSizeX + isLineEven(y) ? 0u : Def::TileSizeX / 2), float(y / 2 * Def::TileSizeY), float(Def::TileSizeX), float(Def::TileSizeY) };
+    return Nz::Rectf { float(x * Def::TileSizeX + (isLineEven(y) ? 0u : Def::TileSizeX / 2)), float((y * Def::TileSizeY) / 2), float(Def::TileSizeX), float(Def::TileSizeY) };
 }
 
 inline Nz::Vector2f getTileCenter(unsigned x, unsigned y)
