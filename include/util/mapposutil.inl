@@ -107,3 +107,11 @@ std::pair<unsigned, unsigned> countLines(unsigned y)
 
     return std::make_pair(evenLines, unevenLines);
 }
+
+unsigned distanceBetweenTiles(const AbsTile& a, const AbsTile& b)
+{
+    unsigned aCode = a.x + (isLineEven(a.y) ? a.y : a.y + 1) / 2;
+    unsigned bCode = b.x + (isLineEven(b.y) ? b.y : b.y + 1) / 2;
+
+    return distance(aCode, bCode);
+}

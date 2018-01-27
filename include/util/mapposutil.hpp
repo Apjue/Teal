@@ -22,6 +22,7 @@ inline std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 inline unsigned XYToIndex(unsigned x, unsigned y);
 
 inline std::pair<unsigned, unsigned> countLines(unsigned y);
+inline unsigned distanceBetweenTiles(const AbsTile& a, const AbsTile& b);
 
 #include "mapposutil.inl"
 

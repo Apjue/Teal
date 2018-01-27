@@ -272,7 +272,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
     for (unsigned i {}; i < Def::TileArraySize; ++i)
     {
         auto xy = IndexToXY(i);
-        unsigned distance = xy.first + (xy.second % 2 == 0 ? xy.second : xy.second + 1) / 2;
+        unsigned distance = distanceBetweenTiles(pos, toVector2(xy));
         
         if (distance <= range) // jackpot
             tilesInRange.push_back(toVector2(xy));
@@ -315,7 +315,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
     }
 
     // It's better to use this function than to search a tile in the passableTiles vector
-    auto isTilePassable = [&map] (unsigned x, unsigned y) { return !map->getTile(x, y).isObstacle(); };
+    auto isTilePassable = [&map] (unsigned x, unsigned y) { return !(map->getTile(x, y).isObstacle()); };
     std::vector<AbsTile> visibleTiles = passableTiles;
 
     for (auto& obstacle : obstacles) // Todo optimize this ? Make some blocks of obstacles to compare with fewer rays
@@ -371,12 +371,12 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
         // Check shadowed tiles
         for (unsigned i {}; i < passableTiles.size(); ++i)
         {
-            auto xy = IndexToXY(i);
-            TealAssert(isTilePassable(xy.first, xy.second), "Unpassable tile in a passable tiles vector ?");
+            auto xy = passableTiles[i];
+            TealAssert(isTilePassable(xy.x, xy.y), "Unpassable tile in a passable tiles vector ?");
 
             // Is tile contained in obstacle shadow ?
-            if (isRight(rays.first, rays.second, getTileCenter(xy.first, xy.second)) && isLeft(rays.first, rays.third, getTileCenter(xy.first, xy.second)))
-                visibleTiles.erase(std::find(visibleTiles.begin(), visibleTiles.end(), toVector2(xy)));
+            if (isRight(rays.first, rays.second, getTileCenter(xy.x, xy.y)) && isLeft(rays.first, rays.third, getTileCenter(xy.x, xy.y)))
+                visibleTiles.erase(std::find(visibleTiles.begin(), visibleTiles.end(), xy));
         }
     }
 
