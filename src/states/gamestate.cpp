@@ -256,13 +256,26 @@ void GameState::initEventHandler()
                 break;
 
             case Nz::Keyboard::D: // Useless debug things
-                auto& pos = m_charac->GetComponent<PositionComponent>();
-                NazaraNotice("--- Debug ---");
-                NazaraNotice(Nz::String { "Player position: " }
-                             .Append(Nz::String::Number(pos.xy.x))
-                             .Append(" ; ")
-                             .Append(Nz::String::Number(pos.xy.y)));
-                NazaraNotice(Nz::String { "Player Entity ID: " }.Append(Nz::String::Number(m_charac->GetId())));
+                auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 3);
+
+                if (eeee.IsValid())
+                    eeee->Kill();
+
+                eeee = m_world->CreateEntity();
+                eeee->AddComponent<Ndk::NodeComponent>();
+                auto& gfx = eeee->AddComponent<Ndk::GraphicsComponent>();
+
+                for (auto& tilep : tiles)
+                {
+                    Nz::SpriteRef tile = Nz::Sprite::New(Nz::Material::New("Translucent2D"));
+                    tile->SetTexture(Nz::TextureLibrary::Get(":/game/fight_tileset"));
+                    tile->SetSize(64, 32);
+                    tile->SetTextureRect({ 0, 0, 64, 32 });
+                    auto aabb = getTileAABB(tilep.x, tilep.y);
+
+                    gfx.Attach(tile, Nz::Matrix4f::Translate({ aabb.x, aabb.y, 0 }), 0);
+                }
+
                 break;
         }
     });
