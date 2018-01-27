@@ -14,9 +14,11 @@ constexpr int MapLayer { 0 };
 constexpr int MapObjectsLayer { MapLayer + 1 }; // Map objects, e.g. box
 constexpr int MapItemsLayer { MapObjectsLayer + 1 }; // Items on the ground
 constexpr int CharactersLayer { MapItemsLayer + 1 }; // Player, NPCs
-constexpr int ItemsLayer { CharactersLayer + 1 }; // Items equipped by the character, in the map
-constexpr int PauseMenuBackgroundLayer { ItemsLayer + 1 };
+constexpr int EquippedItemsLayer { CharactersLayer + 1 }; // Items equipped by the character, in the map
+constexpr int PauseMenuBackgroundLayer { EquippedItemsLayer + 1 };
 constexpr int PauseMenuButtonsLayer { PauseMenuBackgroundLayer + 1 };
+
+constexpr int InventoryItemsLayer { PauseMenuButtonsLayer + 1 }; // delete this ?
 
 }
 
