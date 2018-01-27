@@ -4,9 +4,9 @@
 
 #include "gfxutil.hpp"
 
-void cloneRenderables(const Ndk::EntityHandle& e)
+void cloneRenderables(const Ndk::EntityHandle& e, unsigned renderOrder)
 {
-    cloneRenderables(e->GetComponent<Ndk::GraphicsComponent>(), e->GetComponent<RenderablesStorageComponent>());
+    cloneRenderables(e->GetComponent<Ndk::GraphicsComponent>(), e->GetComponent<RenderablesStorageComponent>(), renderOrder);
 }
 
 void refreshGraphicsPos(const Ndk::EntityHandle& entity)

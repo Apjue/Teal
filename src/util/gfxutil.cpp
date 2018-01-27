@@ -22,14 +22,14 @@ Nz::ImageRef m_scheme {};
 
 }
 
-void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables)
+void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables, unsigned renderOrder)
 {
     for (auto& sprite : renderables.sprites)
     {
         Nz::SpriteRef newSprite = Nz::Sprite::New(*(static_cast<Nz::Sprite*>(sprite.Get())));
 
         gfx.Detach(sprite);
-        gfx.Attach(newSprite);
+        gfx.Attach(newSprite, renderOrder);
 
         sprite.Swap(newSprite);
         break;
@@ -40,7 +40,7 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
         Nz::ModelRef newModel = Nz::Model::New(*(static_cast<Nz::Model*>(model.Get())));
 
         gfx.Detach(model);
-        gfx.Attach(newModel);
+        gfx.Attach(newModel, renderOrder);
 
         model.Swap(newModel);
 
@@ -52,7 +52,7 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
         Nz::TextSpriteRef newTextSprite = Nz::TextSprite::New(*(static_cast<Nz::TextSprite*>(textSprite.Get())));
 
         gfx.Detach(textSprite);
-        gfx.Attach(newTextSprite);
+        gfx.Attach(newTextSprite, renderOrder);
 
         textSprite.Swap(newTextSprite);
 

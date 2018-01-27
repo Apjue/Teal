@@ -12,8 +12,8 @@
 #include "components/common/renderablesstoragecomponent.hpp"
 #include "global.hpp"
 
-inline void cloneRenderables(const Ndk::EntityHandle& e);
-extern void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables);
+inline void cloneRenderables(const Ndk::EntityHandle& e, unsigned renderOrder = 0);
+extern void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& renderables, unsigned renderOrder = 0);
 
 ///
 /// \fn getTileFromGlobalCoords

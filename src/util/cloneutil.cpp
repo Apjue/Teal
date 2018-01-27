@@ -6,6 +6,7 @@
 #include "components/common/clonecomponent.hpp"
 #include "components/common/graphicalentitiescomponent.hpp"
 #include "components/common/logicentityidcomponent.hpp"
+#include "def/layerdef.hpp"
 #include "util/gfxutil.hpp"
 #include "util/cloneutil.hpp"
 
@@ -18,7 +19,7 @@ Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::St
     if (it != characters.end())
     {
         entity = (*it)->Clone();
-        cloneRenderables(entity);
+        cloneRenderables(entity, Def::CharactersLayer);
     }
 
     return entity;
@@ -43,9 +44,28 @@ Ndk::EntityHandle cloneItem(const Ndk::EntityList& items, const Nz::String& code
         for (auto& gfxEntity : gfxEntities.entities)
         {
             Ndk::EntityHandle newEntity = gfxEntity->Clone();
-            cloneRenderables(newEntity);
+            auto& logicComp = newEntity->GetComponent<LogicEntityIdComponent>();
 
-            newEntity->GetComponent<LogicEntityIdComponent>().logicEntity = newEntity;
+            switch (logicComp.itemType)
+            {
+                case LogicEntityIdComponent::GroundItem:
+                    cloneRenderables(newEntity, Def::MapItemsLayer);
+                    break;
+
+                case LogicEntityIdComponent::EquippedItem:
+                    cloneRenderables(newEntity, Def::EquippedItemsLayer);
+                    break;
+
+                case LogicEntityIdComponent::InventoryItem:
+                    cloneRenderables(newEntity, Def::InventoryItemsLayer);
+                    break;
+
+                default:
+                    throw std::runtime_error { "Undefined item type" };
+            }
+
+
+            logicComp.logicEntity = newEntity;
             newEntities.Insert(newEntity);
         }
 
