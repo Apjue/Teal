@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2018 Samy Bensaid
+// Copyright (C) 2018 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -15,12 +15,20 @@
 ///
 /// \brief Used by any function or class requiring to have a sprite using data from a logic entity
 ///
-/// \example Items on the ground, items in inventory GUI (todo)
+/// \example Items on the ground, items equipped by character (todo), items in inventory GUI (todo)
 ///
 
 struct LogicEntityIdComponent : public Ndk::Component<LogicEntityIdComponent>
 {
+    enum GraphicalItemType
+    {
+        GroundItem,
+        EquippedItem,
+        InventoryItem
+    };
+
     Ndk::EntityHandle logicEntity;
+    GraphicalItemType itemType;
 
     static Ndk::ComponentIndex componentIndex;
 };
