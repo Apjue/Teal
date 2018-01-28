@@ -75,7 +75,8 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& c
     return e;
 }
 
-Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos, int renderOrder)
+Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos,
+                                    LogicEntityIdComponent::GraphicalItemType itemType)
 {
     TealAssert(logicItem->HasComponent<Items::ItemComponent>(), "Item isn't an actual item !");
     TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
@@ -83,7 +84,11 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::Entity
     Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<Ndk::NodeComponent>();
-    e->AddComponent<LogicEntityIdComponent>().logicEntity = logicItem;
+
+    auto& logic = e->AddComponent<LogicEntityIdComponent>();
+    logic.logicEntity = logicItem;
+    logic.itemType = itemType;
+
     e->AddComponent<DefaultGraphicsPosComponent>(defGfxPos);
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
@@ -92,7 +97,7 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::Entity
     sprite->SetTexture(logicItem->GetComponent<IconComponent>().icon, false);
     sprite->SetSize(size);
 
-    gfx.Attach(sprite, renderOrder);
+    gfx.Attach(sprite, LogicEntityIdComponent::getRenderOrder(itemType)); // Using static function because the "logic" variable is maybe invalid
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(sprite);
 
     if (!logicItem->HasComponent<GraphicalEntitiesComponent>())

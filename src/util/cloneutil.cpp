@@ -46,24 +46,7 @@ Ndk::EntityHandle cloneItem(const Ndk::EntityList& items, const Nz::String& code
             Ndk::EntityHandle newEntity = gfxEntity->Clone();
             auto& logicComp = newEntity->GetComponent<LogicEntityIdComponent>();
 
-            switch (logicComp.itemType)
-            {
-                case LogicEntityIdComponent::GroundItem:
-                    cloneRenderables(newEntity, Def::MapItemsLayer);
-                    break;
-
-                case LogicEntityIdComponent::EquippedItem:
-                    cloneRenderables(newEntity, Def::EquippedItemsLayer);
-                    break;
-
-                case LogicEntityIdComponent::InventoryItem:
-                    cloneRenderables(newEntity, Def::InventoryItemsLayer);
-                    break;
-
-                default:
-                    throw std::runtime_error { "Undefined item type" };
-            }
-
+            cloneRenderables(newEntity, logicComp.getRenderOrder());
 
             logicComp.logicEntity = newEntity;
             newEntities.Insert(newEntity);

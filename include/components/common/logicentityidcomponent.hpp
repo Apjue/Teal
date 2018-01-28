@@ -9,6 +9,7 @@
 
 #include <NDK/Component.hpp>
 #include <NDK/Entity.hpp>
+#include "def/layerdef.hpp"
 
 ///
 /// \struct LogicEntityIdComponent
@@ -29,6 +30,29 @@ struct LogicEntityIdComponent : public Ndk::Component<LogicEntityIdComponent>
 
     Ndk::EntityHandle logicEntity;
     GraphicalItemType itemType;
+
+    int getRenderOrder() const
+    {
+        return getRenderOrder(itemType);
+    }
+
+    static int getRenderOrder(GraphicalItemType type)
+    {
+        switch (type)
+        {
+            case LogicEntityIdComponent::GroundItem:
+                return Def::MapItemsLayer;
+
+            case LogicEntityIdComponent::EquippedItem:
+                return Def::EquippedItemsLayer;
+
+            case LogicEntityIdComponent::InventoryItem:
+                return Def::InventoryItemsLayer;
+
+            default:
+                throw std::runtime_error { "Undefined item type" };
+        }
+    }
 
     static Ndk::ComponentIndex componentIndex;
 };
