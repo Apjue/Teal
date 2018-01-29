@@ -168,7 +168,7 @@ void GameState::addEntities() /// \todo Use lua (map's entities table)
     Ndk::EntityHandle sword = cloneItem(m_items, "excalibur");
     sword->AddComponent<PositionComponent>().xy = { 1, 2 };
 
-    auto gfxEntity = makeGraphicalItem(m_world, sword, { 40, 40 }, { 12, -3 }, LogicEntityIdComponent::GroundItem);
+    auto gfxEntity = makeGraphicalItem(m_world, { sword, { 40, 40 }, { 12, -3 }, LogicEntityIdComponent::GroundItem });
     MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
 
 
@@ -198,7 +198,7 @@ void GameState::addSystems()
     m_world->AddSystem<AISystem>(m_skills, m_ais, Def::FightAIUtilFile, m_pather, m_charac);
     m_world->AddSystem<MovementSystem>(m_charac);
     m_world->AddSystem<FightSystem>();
-    m_world->AddSystem<RandomMovementSystem>(m_map->GetComponent<MapComponent>().map);
+    m_world->AddSystem<RandomMovementSystem>(m_pather);
     m_world->AddSystem<AnimationSystem>();
 }
 

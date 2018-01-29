@@ -5,6 +5,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include "global.hpp"
+#include "util/maputil.hpp"
+#include "util/aiutil.hpp"
 #include "util/assert.hpp"
 #include "util/util.hpp"
 #include "components/common/positioncomponent.hpp"
@@ -14,22 +16,21 @@
 #include "systems/randommovementsystem.hpp"
 #include "def/systemdef.hpp"
 
-RandomMovementSystem::RandomMovementSystem() : m_uni(0, 7)
+RandomMovementSystem::RandomMovementSystem() : m_uni(0, Def::TileArraySize)
 {
     Requires<PositionComponent, MoveComponent, RandomMovementComponent>();
     SetMaximumUpdateRate(Def::MaxSystemUPS); // Can be removed
     SetUpdateOrder(Def::RandomMovementSystemUpdateOrder);
 }
 
-RandomMovementSystem::RandomMovementSystem(const std::weak_ptr<MapInstance>& map)
-    : RandomMovementSystem()
+RandomMovementSystem::RandomMovementSystem(const std::shared_ptr<micropather::MicroPather>& pather) : RandomMovementSystem()
 {
-    setMap(map);
+    setPather(pather);
 }
 
-void RandomMovementSystem::setMap(const std::weak_ptr<MapInstance>& map)
+void RandomMovementSystem::setPather(const std::shared_ptr<micropather::MicroPather>& pather)
 {
-    m_map = map;
+    m_pather = pather;
 }
 
 void RandomMovementSystem::OnUpdate(float elapsed)
@@ -53,55 +54,30 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
         goSomewhere = e->HasComponent<FightComponent>() && e->GetComponent<FightComponent>().isFighting ? false : goSomewhere;
 
-        if (goSomewhere && !m_map.expired())
+        const MapInstance* map = getCurrentMap();
+        TealAssert(map->getCurrentMap().IsValid(), "Map isn't valid !");
+        TealAssert(m_pather, "Pather isn't valid !");
+
+        if (goSomewhere && map)
         {
-            auto map = m_map.lock();
-            TealAssert(map->getCurrentMap().IsValid(), "Map isn't valid !");
+            std::vector<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, true);
+            std::vector<AbsTile> maxDistanceTiles; // some tiles of nearTiles may be at a >rd.range distance
 
-            for (unsigned counter {}, x {}, y {}; counter < rd.nbTiles; ++counter)
-            { /// \todo Redo this. Does not work as intended
-                AbsTile wantedPos = (mov.tile == toVector2(Def::StandStillPos) ? pos.xy : mov.tile);
+            for (const AbsTile& tile : nearTiles)
+            {
+                std::vector<DirectionFlags> path = computePath(pos.xy, tile, m_pather.get());
 
-                x = wantedPos.x;
-                y = wantedPos.y;
-                
-                auto adjacentTiles = map->getCurrentMap()->adjacentTiles(x, y);
-
-                if (adjacentTiles.empty())
-                    break;
-
-                DiffTile xy;
-
-                if (adjacentTiles.size() > 1)
-                {
-                    unsigned direction = m_uni(rng);
-
-                    if (adjacentTiles.size() != 8)
-                        direction %= adjacentTiles.size();
-
-                    Orientation orient = static_cast<Orientation>(direction);
-                    xy = OrientToDiff(orient, isLineEven(y));
-                }
-                
-                else
-                    xy = AbsPosToDiff(wantedPos, adjacentTiles.begin()->first);
-
-                AbsTile newPos { wantedPos.x + xy.x, wantedPos.y + xy.y };
-
-                unsigned newXpos = newPos.x;
-                unsigned newYpos = newPos.y;
-
-                if (map->getCurrentMap()->getTile(XYToIndex(newXpos, newYpos)).isWalkable())
-                {
-                    wantedPos.x += xy.x;
-                    wantedPos.y += xy.y;
-
-                    mov.tile = wantedPos;
-                    mov.playerInitiated = false;
-
-                    break;
-                }
+                if (path.size() <= rd.range)
+                    maxDistanceTiles.push_back(tile);
             }
+
+            if (maxDistanceTiles.empty())
+                return;
+
+            unsigned randomNumber = m_uni(rng);
+            randomNumber %= maxDistanceTiles.size();
+
+            mov.tile = maxDistanceTiles[randomNumber];
         }
     }
 }

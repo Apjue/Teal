@@ -16,16 +16,16 @@ class RandomMovementSystem : public Ndk::System<RandomMovementSystem>
 {
 public:
     RandomMovementSystem();
-    RandomMovementSystem(const std::weak_ptr<MapInstance>& map);
+    RandomMovementSystem(const std::shared_ptr<micropather::MicroPather>& pather);
     ~RandomMovementSystem() = default;
 
-    void setMap(const std::weak_ptr<MapInstance>& map);
+    void setPather(const std::shared_ptr<micropather::MicroPather>& pather);
 
     static Ndk::SystemIndex systemIndex;
 
 private:
     std::uniform_int_distribution<unsigned> m_uni;
-    std::weak_ptr<MapInstance> m_map;
+    std::shared_ptr<micropather::MicroPather> m_pather;
 
     void OnUpdate(float elapsed) override;
 };
