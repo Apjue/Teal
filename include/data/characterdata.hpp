@@ -28,11 +28,11 @@ struct CharacterData
     struct RandomMovement
     {
         RandomMovement(bool rd = false, float mov = 7.5f, unsigned nb = 1u)
-            : randomMovement { rd }, movInterval { mov }, nbTiles { nb } {}
+            : randomMovement { rd }, movInterval { mov }, range { nb } {}
 
         bool randomMovement;
         float movInterval;
-        unsigned nbTiles;
+        unsigned range;
     };
 
     struct Fight

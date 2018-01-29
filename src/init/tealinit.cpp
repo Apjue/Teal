@@ -508,10 +508,10 @@ void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationSto
 
                     if (lua.GetTable() == Nz::LuaType_Number)
                     {
-                        int nbTiles = int(lua.CheckNumber(-1));
-                        TealException(nbTiles > 0, "Invalid tiles number");
+                        int range = int(lua.CheckNumber(-1));
+                        TealException(range > 0, "Invalid tiles number");
 
-                        random.nbTiles = nbTiles;
+                        random.range = range;
                         lua.Pop();
                     }
 

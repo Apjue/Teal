@@ -9,51 +9,51 @@
 #include "util/util.hpp"
 #include "factory.hpp"
 
-Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& infos)
+Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data)
 {
     Ndk::EntityHandle e = w->CreateEntity();
-    infos.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Nazara bug
+    data.sprite->SetOrigin({ 0.f, 0.f, 0.f }); // Nazara bug
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
-    gfx.Attach(infos.sprite, Def::CharactersLayer);
+    gfx.Attach(data.sprite, Def::CharactersLayer);
 
-    e->AddComponent<Ndk::NodeComponent>().SetPosition(infos.defG.x, infos.defG.y);
-    e->AddComponent<DefaultGraphicsPosComponent>(infos.defG);
-    e->AddComponent<RenderablesStorageComponent>().sprites.push_back(infos.sprite);
+    e->AddComponent<Ndk::NodeComponent>().SetPosition(data.defG.x, data.defG.y);
+    e->AddComponent<DefaultGraphicsPosComponent>(data.defG);
+    e->AddComponent<RenderablesStorageComponent>().sprites.push_back(data.sprite);
 
     auto& anims = e->AddComponent<AnimationComponent>();
-    anims.animList = infos.animations;
-    anims.currentAnimation = infos.defaultAnimation;
+    anims.animList = data.animations;
+    anims.currentAnimation = data.defaultAnimation;
 
-    e->AddComponent<CloneComponent>(infos.codename);
-    e->AddComponent<LifeComponent>(infos.maxhp);
+    e->AddComponent<CloneComponent>(data.codename);
+    e->AddComponent<LifeComponent>(data.maxhp);
 
     e->AddComponent<PositionComponent>(Nz::Vector2ui { 1u, 1u });
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
     e->AddComponent<InventoryComponent>();
 
-    e->AddComponent<OrientationComponent>(infos.o);
+    e->AddComponent<OrientationComponent>(data.o);
 
-    if (infos.rdMov.randomMovement)
-        e->AddComponent<RandomMovementComponent>(infos.rdMov.movInterval, infos.rdMov.nbTiles);
+    if (data.rdMov.randomMovement)
+        e->AddComponent<RandomMovementComponent>(data.rdMov.movInterval, data.rdMov.range);
 
-    if (infos.fight.fight)
-        e->AddComponent<FightComponent>(infos.fight.autoAttack, infos.fight.movementPoints, infos.fight.actionPoints);
+    if (data.fight.fight)
+        e->AddComponent<FightComponent>(data.fight.autoAttack, data.fight.movementPoints, data.fight.actionPoints);
 
-    e->AddComponent<NameComponent>(infos.name);
-    e->AddComponent<DescriptionComponent>(infos.desc);
-    e->AddComponent<BlockTileComponent>().blockTile = infos.blockTile;
+    e->AddComponent<NameComponent>(data.name);
+    e->AddComponent<DescriptionComponent>(data.desc);
+    e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
 
     auto& atk = e->AddComponent<AttackModifierComponent>();
-    atk.data = infos.atk;
+    atk.data = data.atk;
 
     auto& res = e->AddComponent<ResistanceModifierComponent>();
-    res.data = infos.res;
+    res.data = data.res;
 
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<CombatBehaviorComponent>();
-    e->AddComponent<LevelComponent>(infos.level);
+    e->AddComponent<LevelComponent>(data.level);
 
     refreshGraphicsPos(e);
     return e;
@@ -75,9 +75,10 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& c
     return e;
 }
 
-Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::EntityHandle& logicItem, const Nz::Vector2f& size, const Nz::Vector2f& defGfxPos,
-                                    LogicEntityIdComponent::GraphicalItemType itemType)
+Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data)
 {
+    const Ndk::EntityHandle& logicItem = data.logicItem;
+
     TealAssert(logicItem->HasComponent<Items::ItemComponent>(), "Item isn't an actual item !");
     TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
 
@@ -87,17 +88,17 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const Ndk::Entity
 
     auto& logic = e->AddComponent<LogicEntityIdComponent>();
     logic.logicEntity = logicItem;
-    logic.itemType = itemType;
+    logic.itemType = data.itemType;
 
-    e->AddComponent<DefaultGraphicsPosComponent>(defGfxPos);
+    e->AddComponent<DefaultGraphicsPosComponent>(data.defGfxPos);
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
 
     Nz::SpriteRef sprite = Nz::Sprite::New();
     sprite->SetTexture(logicItem->GetComponent<IconComponent>().icon, false);
-    sprite->SetSize(size);
+    sprite->SetSize(data.size);
 
-    gfx.Attach(sprite, LogicEntityIdComponent::getRenderOrder(itemType)); // Using static function because the "logic" variable is maybe invalid
+    gfx.Attach(sprite, LogicEntityIdComponent::getRenderOrder(data.itemType)); // Using static function because the "logic" variable is maybe invalid
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(sprite);
 
     if (!logicItem->HasComponent<GraphicalEntitiesComponent>())
