@@ -318,55 +318,9 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
     auto isTilePassable = [&map] (unsigned x, unsigned y) { return !(map->getTile(x, y).isObstacle()); };
     std::vector<AbsTile> visibleTiles = passableTiles;
 
-    for (auto& obstacle : obstacles) // Todo optimize this ? Make some blocks of obstacles to compare with fewer rays
+    for (auto& obstacle : obstacles) // Todo optimize this ? Make some blocks of obstacles to compare with fewer rays ?
     {
-        Vector2fTriplet rays { getTileCenter(pos.x, pos.y) };
-        bool extremity1filled { false };
-
-        for (unsigned i {}; i < Def::TileVertexNumber; ++i) // Detect correct extremities
-        {
-            bool isExtremity { true };
-            Nz::Ternary left = Nz::Ternary_Unknown;
-
-            for (unsigned j {}; j < Def::TileVertexNumber; ++j)
-            {
-                if (j == i)
-                    continue;
-
-                Direction dir = static_cast<Direction>(j);
-                bool atLeft = isLeft(rays.first, getTileVertex(static_cast<Direction>(i), obstacle.x, obstacle.y), getTileVertex(dir, obstacle.x, obstacle.y));
-
-                if (left == Nz::Ternary_Unknown)
-                    left = atLeft ? Nz::Ternary_True : Nz::Ternary_False;
-
-                if (left != (atLeft ? Nz::Ternary_True : Nz::Ternary_False))
-                {
-                    isExtremity = false;
-                    break;
-                }
-            }
-
-            if (isExtremity)
-            {
-                if (!extremity1filled)
-                {
-                    rays.second = getTileVertex(static_cast<Direction>(i), obstacle.x, obstacle.y);
-                    extremity1filled = true;
-                }
-
-                else
-                {
-                    rays.third = getTileVertex(static_cast<Direction>(i), obstacle.x, obstacle.y);
-                    break;
-                }
-            }
-        }
-
-        TealAssert(rays.second != Nz::Vector2f {} && rays.third != Nz::Vector2f  {}, "Triangle not completely filled");
-
-        // Swap triangle's vertex: rays.second must be at the left, rays.third must be at the right
-        if (!isRight(rays.first, rays.second, rays.third))
-            std::swap(rays.second, rays.third);
+        Vector2fTriplet rays = getTileOutterCorners(pos, obstacle);
 
         // Check shadowed tiles
         for (unsigned i {}; i < passableTiles.size(); ++i)
@@ -375,7 +329,9 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
             TealAssert(isTilePassable(xy.x, xy.y), "Unpassable tile in a passable tiles vector ?");
 
             // Is tile contained in obstacle shadow ?
-            if (isRight(rays.first, rays.second, getTileCenter(xy.x, xy.y)) && isLeft(rays.first, rays.third, getTileCenter(xy.x, xy.y)))
+            Nz::Vector2f tileCenter = getTileCenter(xy.x, xy.y);
+
+            if (isRight(rays.first, rays.second, tileCenter) && isLeft(rays.first, rays.third, tileCenter))
                 visibleTiles.erase(std::find(visibleTiles.begin(), visibleTiles.end(), xy));
         }
     }
@@ -395,6 +351,59 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
 
         return obstaclesAndVisibles;
     }
+}
+
+extern Vector2fTriplet getTileOutterCorners(const AbsTile& from, const AbsTile& to)
+{
+    Vector2fTriplet rays { getTileCenter(from.x, from.y) };
+    bool extremity1filled { false };
+
+    for (unsigned i {}; i < Def::TileVertexNumber; ++i) // Detect correct extremities
+    {
+        bool isExtremity { true };
+        Nz::Ternary left = Nz::Ternary_Unknown; // is this ray at the left ?
+
+        for (unsigned j {}; j < Def::TileVertexNumber; ++j)
+        {
+            if (j == i)
+                continue;
+
+            Direction dir = static_cast<Direction>(j);
+            bool atLeft = isLeft(rays.first, getTileVertex(static_cast<Direction>(i), to.x, to.y), getTileVertex(dir, to.x, to.y));
+
+            if (left == Nz::Ternary_Unknown)
+                left = atLeft ? Nz::Ternary_True : Nz::Ternary_False;
+
+            if (left != (atLeft ? Nz::Ternary_True : Nz::Ternary_False))
+            {
+                isExtremity = false;
+                break;
+            }
+        }
+
+        if (isExtremity)
+        {
+            if (!extremity1filled)
+            {
+                rays.second = getTileVertex(static_cast<Direction>(i), to.x, to.y);
+                extremity1filled = true;
+            }
+
+            else
+            {
+                rays.third = getTileVertex(static_cast<Direction>(i), to.x, to.y);
+                break;
+            }
+        }
+    }
+
+    TealAssert(rays.second != Nz::Vector2f {} && rays.third != Nz::Vector2f {}, "Triangle not completely filled");
+
+    // Swap triangle's vertex: rays.second must be at the left, rays.third must be at the right
+    if (!isRight(rays.first, rays.second, rays.third))
+        std::swap(rays.second, rays.third);
+
+    return rays;
 }
 
 Vector2fPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)

@@ -84,6 +84,7 @@ extern const micropather::MicroPather* getPather();
 
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false, bool includeObstacles = false);
+extern Vector2fTriplet getTileOutterCorners(const AbsTile& from, const AbsTile& to);
 
 inline Nz::Rectf getTileAABB(unsigned x, unsigned y);
 inline Nz::Vector2f getTileCenter(unsigned x, unsigned y);
