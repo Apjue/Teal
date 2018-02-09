@@ -110,8 +110,26 @@ std::pair<unsigned, unsigned> countLines(unsigned y)
 
 unsigned distanceBetweenTiles(const AbsTile& a, const AbsTile& b)
 {
-    unsigned aCode = a.x + (isLineEven(a.y) ? a.y : a.y + 1) / 2;
-    unsigned bCode = b.x + (isLineEven(b.y) ? b.y : b.y + 1) / 2;
+    throw std::runtime_error { "Buggy function, to redo" };
 
-    return distance(aCode, bCode);
+    unsigned xDistance = distance(a.x, b.x);
+    unsigned yDistance = distance(a.y, b.y);
+
+    return xDistance + yDistance;
+}
+
+float graphicalDistanceBetweenTiles(const AbsTile& a, const AbsTile& b)
+{
+    return getTileCenter(a.x, a.y).Distancef(getTileCenter(b.x, b.y));
+}
+
+Nz::Rectf getTileAABB(unsigned x, unsigned y)
+{
+    return Nz::Rectf { float(x * Def::TileSizeX + (isLineEven(y) ? 0u : Def::TileSizeX / 2)), float((y * Def::TileSizeY) / 2), float(Def::TileSizeX), float(Def::TileSizeY) };
+}
+
+inline Nz::Vector2f getTileCenter(unsigned x, unsigned y)
+{
+    Nz::Rectf aabb = getTileAABB(x, y);
+    return { aabb.x + aabb.width / 2, aabb.y + aabb.height / 2 };
 }

@@ -9,21 +9,19 @@
 
 #include <NDK/Entity.hpp>
 #include <Nazara/Core/String.hpp>
-#include <Nazara/Math/Rect.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <utility>
 #include <queue>
 #include <vector>
+#include "micropather.h"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/pathcomponent.hpp"
 #include "components/common/logicentityidcomponent.hpp"
 #include "util/assert.hpp"
-#include "def/gamedef.hpp"
-#include "def/typedef.hpp"
-#include "global.hpp"
-#include "data/mapdata.hpp"
 #include "util/entityutil.hpp"
-#include "micropather.h"
+#include "def/gamedef.hpp"
+#include "data/mapdata.hpp"
+#include "global.hpp"
 
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);
@@ -84,12 +82,6 @@ extern const micropather::MicroPather* getPather();
 
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
 extern std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false, bool includeObstacles = false);
-extern Vector2fTriplet getTileOutterCorners(const AbsTile& from, const AbsTile& to);
-
-inline Nz::Rectf getTileAABB(unsigned x, unsigned y);
-inline Nz::Vector2f getTileCenter(unsigned x, unsigned y);
-extern Vector2fPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y);
-extern Nz::Vector2f getTileVertex(Direction vertex, unsigned x, unsigned y);
 
 #include "maputil.inl"
 
