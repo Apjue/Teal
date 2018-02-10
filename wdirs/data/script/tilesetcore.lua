@@ -1,9 +1,9 @@
-concrete = 0
-grass = concrete + 1
-sand = grass + 1
-water = sand + 1
+local concrete = 0
+local grass = concrete + 1
+local sand = grass + 1
+local water = sand + 1
 
-teal_tilesetcore =
+teal_tileset_core =
 {
 	{
 		name = "cncrt",
@@ -26,13 +26,13 @@ teal_tilesetcore =
 	},
 }
 
-walk = 0 -- 0 must be walkable/non-obstacle
-empty = walk + 1
--- block = empty + 1
-red =  empty + 1
-blue = red + 1
+local walk = 0 -- 0 must be walkable/non-obstacle
+local empty = walk + 1
+-- local block = empty + 1
+local red =  empty + 1
+local blue = red + 1
 
-teal_fighttilesetcore =
+teal_fight_tileset_core =
 {
 	{
 		name = "walk",

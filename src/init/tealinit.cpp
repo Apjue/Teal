@@ -148,7 +148,7 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
     {
         Nz::LuaInstance lua;
         TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
-        TealException(lua.GetGlobal("teal_tilesetcore") == Nz::LuaType_Table, "Lua: teal_tilesetcore isn't a table !");
+        TealException(lua.GetGlobal("teal_tileset_core") == Nz::LuaType_Table, "Lua: teal_tileset_core isn't a table !");
 
         for (int i { 1 };; ++i)
         {
@@ -168,9 +168,7 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
     {
         Nz::LuaInstance lua;
         TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
-
-        lua.GetGlobal("teal_fighttilesetcore");
-        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_fighttilesetcore isn't a table !");
+        TealException(lua.GetGlobal("teal_fight_tileset_core") == Nz::LuaType_Table, "Lua: teal_fight_tileset_core isn't a table !");
 
         for (int i { 1 };; ++i)
         {
