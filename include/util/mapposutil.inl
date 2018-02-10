@@ -110,17 +110,27 @@ std::pair<unsigned, unsigned> countLines(unsigned y)
 
 unsigned distanceBetweenTiles(const AbsTile& a, const AbsTile& b)
 {
-    throw std::runtime_error { "Buggy function, to redo" };
+    Nz::Vector2f aCenter = getTileCenter(a);
+    Nz::Vector2f bCenter = getTileCenter(b);
 
-    unsigned xDistance = distance(a.x, b.x);
-    unsigned yDistance = distance(a.y, b.y);
+    Nz::Vector2ui graphicalDistance { unsigned (std::abs(aCenter.x - bCenter.x)), unsigned (std::abs(aCenter.y - bCenter.y)) };
+    unsigned distance = unsigned(std::floor(graphicalDistance.x / Def::TileSizeX) + std::floor(graphicalDistance.y / Def::TileSizeY));
 
-    return xDistance + yDistance;
+    if (graphicalDistance.x % Def::TileSizeX == Def::TileSizeX / 2 && graphicalDistance.y % Def::TileSizeY == Def::TileSizeY / 2)
+        ++distance;
+
+    return distance;
 }
 
 float graphicalDistanceBetweenTiles(const AbsTile& a, const AbsTile& b)
 {
-    return getTileCenter(a.x, a.y).Distancef(getTileCenter(b.x, b.y));
+    return getTileCenter(a).Distancef(getTileCenter(b));
+}
+
+
+Nz::Rectf getTileAABB(const AbsTile& tile)
+{
+    return getTileAABB(tile.x, tile.y);
 }
 
 Nz::Rectf getTileAABB(unsigned x, unsigned y)
@@ -128,8 +138,24 @@ Nz::Rectf getTileAABB(unsigned x, unsigned y)
     return Nz::Rectf { float(x * Def::TileSizeX + (isLineEven(y) ? 0u : Def::TileSizeX / 2)), float((y * Def::TileSizeY) / 2), float(Def::TileSizeX), float(Def::TileSizeY) };
 }
 
-inline Nz::Vector2f getTileCenter(unsigned x, unsigned y)
+Nz::Vector2f getTileCenter(const AbsTile& tile)
+{
+    return getTileCenter(tile.x, tile.y);
+}
+
+Nz::Vector2f getTileCenter(unsigned x, unsigned y)
 {
     Nz::Rectf aabb = getTileAABB(x, y);
     return { aabb.x + aabb.width / 2, aabb.y + aabb.height / 2 };
+}
+
+
+Vector2fPair getTileCornerSegment(Orientation corner, const AbsTile& tile)
+{
+    return getTileCornerSegment(corner, tile.x, tile.y);
+}
+
+Nz::Vector2f getTileVertex(Direction vertex, const AbsTile& tile)
+{
+    return getTileVertex(vertex, tile.x, tile.y);
 }

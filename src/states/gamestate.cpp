@@ -256,7 +256,7 @@ void GameState::initEventHandler()
                 break;
 
             case Nz::Keyboard::D: // Useless debug things
-                auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 3);
+                auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
 
                 if (eeee.IsValid())
                     eeee->Kill();
@@ -271,7 +271,7 @@ void GameState::initEventHandler()
                     tile->SetTexture(Nz::TextureLibrary::Get(":/game/fight_tileset"));
                     tile->SetSize(64, 32);
                     tile->SetTextureRect({ 0, 0, 64, 32 });
-                    auto aabb = getTileAABB(tilep.x, tilep.y);
+                    auto aabb = getTileAABB(tilep);
 
                     gfx.Attach(tile, Nz::Matrix4f::Translate({ aabb.x, aabb.y, 0 }), 0);
                 }

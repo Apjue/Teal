@@ -49,7 +49,7 @@ Vector2fPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
 
 Vector2fTriplet getTileOutterCorners(const AbsTile& from, const AbsTile& to)
 {
-    Vector2fTriplet rays { getTileCenter(from.x, from.y) };
+    Vector2fTriplet rays { getTileCenter(from) };
     bool extremity1filled { false };
 
     for (unsigned i {}; i < Def::TileVertexNumber; ++i) // Detect correct extremities

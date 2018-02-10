@@ -333,7 +333,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
                 continue;
 
             // Is tile contained in obstacle shadow ?
-            Nz::Vector2f tileCenter = getTileCenter(xy.x, xy.y);
+            Nz::Vector2f tileCenter = getTileCenter(xy);
 
             if (isRight(rays.first, rays.second, tileCenter) && isLeft(rays.first, rays.third, tileCenter))
             {
