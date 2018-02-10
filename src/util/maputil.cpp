@@ -340,13 +340,10 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
                 auto tileToErase = std::find(visibleTiles.begin(), visibleTiles.end(), xy);
 
                 if (tileToErase != visibleTiles.end())
-                {
-                    NazaraDebug(Nz::String { "Deleted: " } + Nz::String::Number(xy.x) + " ; " + Nz::String::Number(xy.y));
                     visibleTiles.erase(tileToErase);
-                }
 
                 else
-                    NazaraDebug("getVisibleTiles: tile not found (bug to fix)");
+                    NazaraDebug(Nz::String { "getVisibleTiles: Tile [" } + Nz::String::Number(xy.x) + ";" + Nz::String::Number(xy.y) + "] not found (bug to fix)");
             }
         }
     }

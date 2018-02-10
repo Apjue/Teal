@@ -176,7 +176,6 @@ void GameState::addEntities() /// \todo Use lua (map's entities table)
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
 
     m_charac = cloneCharacter(m_characters, "villager");
-    m_charac->GetComponent<Ndk::NodeComponent>().Move(0, 0, -1);
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
     m_charac->GetComponent<NameComponent>().name = "You";
     refreshGraphicsPos(m_charac);
@@ -222,7 +221,7 @@ void GameState::initEventHandler()
                     std::cout << "todo: implement fight" << std::endl;
                 }
 
-                else
+                else // todo: if (isNPCEntity(...))
                 {
                     auto& move = m_charac->GetComponent<MoveComponent>();
                     AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });

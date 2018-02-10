@@ -151,12 +151,6 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     float const finalX = float(gX) + float(gInXY.x) + defPos.x; // We will move using this
     float const finalY = float(gY) + float(gInXY.y) + defPos.y; // (so it's graphics pos)
 
-    if (finalX != node.GetPosition().x || // if the entity is already at that position
-        finalY != node.GetPosition().y) // no need to move it
-    {
-        float const moveX = finalX - node.GetPosition().x;
-        float const moveY = finalY - node.GetPosition().y;
-
-        node.Move(moveX, moveY);
-    }
+    if (finalX != node.GetPosition().x || finalY != node.GetPosition().y) // if the entity is already at that position, no need to move it
+        node.SetPosition(finalX, finalY, -finalY);
 }
