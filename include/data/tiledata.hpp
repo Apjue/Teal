@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2018 Samy Bensaid
+// Copyright (C) 2018 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -37,7 +37,9 @@ struct TileData
     }
 
     inline bool isVisible()  const { return !flags.Contains("invisible"); }
-    inline bool isObstacle() const { return flags.Contains("obstacle");   }
+    inline bool isObstacle() const { return flags.Contains("obstacle"); }
+    inline bool isViewObstacle() const { return flags.Contains("viewobstacle"); }
+    inline bool isBlockObstacle() const { return flags.Contains("blockobstacle"); }
     inline bool isWalkable() const { return !isObstacle() && !occupied;   }
     inline bool isSpawn()    const { return flags.Contains("spawn");      }
 };
