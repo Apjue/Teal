@@ -20,7 +20,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
     NazaraAssert(m_entity->GetWorld(), "World is null");
     m_world = m_entity->GetWorld()->CreateHandle();
 
-    { // Initialize tileset
+    // Initialize tileset
+    {
         m_tileset = Nz::Material::New("Translucent2D");
 
         m_tileset->EnableFaceCulling(true);
@@ -31,8 +32,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         m_tileset->SetDiffuseSampler(matSampler);
     }
 
-
-    { // Initialize fight tileset
+    // Initialize fight tileset
+    {
         m_fightTileset = Nz::Material::New("Translucent2D");
 
         m_fightTileset->EnableFaceCulling(true);
@@ -46,8 +47,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
         m_fightTileset->SetDiffuseSampler(fightMatSampler);
     }
 
-
-    { // Add needed components
+    // Add needed components
+    {
         if (!m_entity->HasComponent<Ndk::NodeComponent>())
             m_entity->AddComponent<Ndk::NodeComponent>();
 
@@ -58,8 +59,8 @@ MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::Ent
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
     graphicsComponent.Attach(m_tilemap, Def::MapLayer);
 
-
-    { // Initialize borders
+    // Initialize borders
+    {
         m_borderEntity = m_world->CreateEntity();
 
         auto& borderNode = m_borderEntity->AddComponent<Ndk::NodeComponent>();
@@ -119,7 +120,7 @@ void MapInstance::update()
     for (unsigned i {}; i < Def::TileArraySize; ++i)
     {
         const TileData& tile = getCurrentMap()->getTile(i);
-        Nz::Vector2ui tilePos { toVector2(IndexToXY(i)) };
+        AbsTile tilePos { toVector2(IndexToXY(i)) };
 
         if (tile.isVisible())
         {
