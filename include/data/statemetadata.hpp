@@ -16,11 +16,4 @@ struct StateMetaData
     Nz::String icon;
 };
 
-struct EffectMetaData
-{
-    Nz::String name;
-    Nz::String description;
-    Nz::String icon;
-};
-
 #endif // STATEMETADATA_HPP
