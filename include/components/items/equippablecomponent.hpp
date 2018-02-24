@@ -8,34 +8,26 @@
 #define EQUIPPABLECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Lua/LuaState.hpp>
 #include "cache/doublestore.hpp"
 #include "def/typedef.hpp"
 
-namespace Items
+extern void initializeEquippableComponent(const SkillStore* skillstore_);
+struct EquippableComponent;
+
+namespace Nz
 {
+
+extern unsigned int LuaImplQueryArg(const LuaState& state, int index, EquippableComponent* component, TypeTag<EquippableComponent>);
+extern int LuaImplReplyVal(const LuaState& state, EquippableComponent&& component, TypeTag<EquippableComponent>);
+
+} // namespace Nz
 
 struct EquippableComponent : public Ndk::Component<EquippableComponent>
 {
-    EquippableComponent(const LuaArguments& args)
-    {
-        if (args.vars.empty())
-            return;
-
-        TealException(args.vars.size() <= 3, "Too much arguments");
-
-        if (args.vars.size() > 0)
-            bodypart = stringToBodypart(args.vars[0].get<Nz::String>());
-
-        if (args.vars.size() > 1)
-            side = stringToSide(args.vars[1].get<Nz::String>());
-
-        if (args.vars.size() > 2)
-            attackId = static_cast<SkillStore::LightId>(args.vars[2].get<double>());
-    }
-
     enum BodyPart
     {
-        Head = 1,  // Casque
+        Head,  // Casque
         Neck,  // Amulette
         Arms,  // Protections de bras
         Hands, // Armes / boucliers
@@ -45,76 +37,32 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
         Hip,   // Ceinture
         Legs,  // Jeans
         Feet   // Bottes
-    };
-
-    static BodyPart stringToBodypart(Nz::String string)
-    {
-        string = string.ToLower();
-
-        if (string == "head")
-            return Head;
-
-        if (string == "neck")
-            return Neck;
-
-        if (string == "arms")
-            return Arms;
-
-        if (string == "hands")
-            return Hands;
-
-        if (string == "wrists")
-            return Wrists;
-
-        if (string == "digits")
-            return Digits;
-
-        if (string == "chest")
-            return Chest;
-
-        if (string == "hip")
-            return Hip;
-
-        if (string == "legs")
-            return Legs;
-
-        if (string == "feet")
-            return Feet;
-
-        return {};
-    }
+    } bodypart {};
 
     enum Side // For digits, wrists, hands
     {
-        Both = 1, // A heavy hammer or a bow need both hands
+        Both, // A heavy hammer or a bow need both hands
         Right,
         Left
-    };
+    } side {};
 
-    static Side stringToSide(Nz::String string)
-    {
-        string = string.ToLower();
+    SkillStore::LightId attackId { SkillStore::InvalidID }; // For attack items (e.g. sword, bow)
 
-        if (string == "both")
-            return Both;
 
-        if (string == "right")
-            return Right;
+    static BodyPart stringToBodypart(Nz::String string);
+    static const char* bodypartToString(BodyPart bodypart);
+    static Side stringToSide(Nz::String string);
+    static const char* sideToString(Side side);
 
-        if (string == "left")
-            return Left;
-
-        return {};
-    }
-
-    BodyPart bodypart {};
-    Side side {};
-
-    SkillStore::LightId attackId { SkillStore::InvalidID }; // For swords, bows, hammers...
-
+    static inline const char* componentName() { return "equippable"; }
     static Ndk::ComponentIndex componentIndex;
-};
 
-} // namespace Items
+private:
+    static const SkillStore* skillstore;
+
+    friend void initializeEquippableComponent(const SkillStore* skillstore);
+    friend unsigned int Nz::LuaImplQueryArg(const Nz::LuaState& state, int index, EquippableComponent* component, Nz::TypeTag<EquippableComponent>);
+    friend int Nz::LuaImplReplyVal(const Nz::LuaState& state, EquippableComponent&& component, Nz::TypeTag<EquippableComponent>);
+};
 
 #endif // EQUIPPABLECOMPONENT_HPP

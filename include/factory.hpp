@@ -10,15 +10,18 @@
 #include <NDK/World.hpp>
 #include <NDK/Entity.hpp>
 #include <Nazara/Renderer/Texture.hpp>
+#include <Nazara/Lua/LuaInstance.hpp>
 #include "components/common/logicentityidcomponent.hpp"
 #include "data/characterdata.hpp"
 #include "data/graphicalitemdata.hpp"
 //#include "data/mapobjectdata.hpp"
 
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data);
+extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
 
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name = "Item",
                                           const Nz::String& desc = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
+extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
 
 // todo: GraphicalItemData ?
 extern Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data); // Insert in a map the graphical item, not the logical item !

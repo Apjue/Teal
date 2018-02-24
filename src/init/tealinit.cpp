@@ -45,6 +45,9 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
 
     Detail::addIcon(window);
     Detail::addCam(world, window);
+
+    // Misc
+    initializeEquippableComponent(&data.skills);
 }
 
 namespace Detail
@@ -106,8 +109,7 @@ void loadNazara()
     Ndk::InitializeComponent<FightComponent>("fight");
     Ndk::InitializeComponent<LifeComponent>("life");
     Ndk::InitializeComponent<MapComponent>("map");
-    Ndk::InitializeComponent<AttackModifierComponent>("atkmodif");
-    Ndk::InitializeComponent<ResistanceModifierComponent>("resmodif");
+    Ndk::InitializeComponent<DamageModifierComponent>("dmgmodif");
     Ndk::InitializeComponent<DescriptionComponent>("desc");
     Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");
     Ndk::InitializeComponent<BlockTileComponent>("blcktile");
@@ -119,11 +121,11 @@ void loadNazara()
     Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");
     Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");
 
-    Ndk::InitializeComponent<Items::HPGainComponent>("hpgain");
-    Ndk::InitializeComponent<Items::ItemComponent>("item");
-    Ndk::InitializeComponent<Items::EquippableComponent>("canequip");
-    Ndk::InitializeComponent<Items::EdibleComponent>("edible");
-    Ndk::InitializeComponent<Items::ResourceComponent>("resource");
+    Ndk::InitializeComponent<HPGainComponent>("hpgain");
+    Ndk::InitializeComponent<ItemComponent>("item");
+    Ndk::InitializeComponent<EquippableComponent>("canequip");
+    Ndk::InitializeComponent<EdibleComponent>("edible");
+    Ndk::InitializeComponent<ResourceComponent>("resource");
 
     // Systems
     Ndk::InitializeSystem<AISystem>();
@@ -220,7 +222,7 @@ void loadSkills(SkillStore& skills)
         SkillData s(parseLua(lua));
         skills.addItem(s.codename, s);
 
-        NazaraDebug("Skill " + s.name + " loaded ! (" + s.codename + ")");
+        NazaraDebug("Skill " + s.displayName + " loaded ! (" + s.codename + ")");
     }
 
     NazaraDebug(" --- ");
@@ -652,59 +654,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
             continue;
         }
 
-        TealException(lua.GetGlobal("teal_item") == Nz::LuaType_Table, "Lua: teal_item isn't a table !");
-
-        Nz::String codename = lua.CheckField<Nz::String>("codename");
-        Nz::String name = lua.CheckField<Nz::String>("name");
-        Nz::String desc = lua.CheckField<Nz::String>("desc", "No description");
-        unsigned  level = lua.CheckField<unsigned>("level");
-        Nz::String icon = lua.CheckField<Nz::String>("icon");
-
-        Ndk::EntityHandle item = makeLogicalItem(world.CreateHandle(), codename, name, desc, level,
-                                                  Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
-
-        TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
-
-        for (int i { 1 };; ++i)
-        {
-            lua.PushInteger(i);
-
-            if (lua.GetTable() == Nz::LuaType_Nil)
-            {
-                lua.Pop();
-                break;
-            }
-
-            Nz::String componentType = lua.CheckField<Nz::String>("component");
-            componentType = componentType.ToLower();
-
-            if (componentType == "attackmodifier")
-                item->AddComponent<AttackModifierComponent>(parseLua(lua));
-
-            if (componentType == "resistancemodifier")
-                item->AddComponent<ResistanceModifierComponent>(parseLua(lua));
-
-            if (componentType == "edible")
-                item->AddComponent<Items::EdibleComponent>(parseLua(lua));
-
-            if (componentType == "equippable")
-            {
-                LuaArguments arguments = parseLua(lua);
-
-                if (arguments.vars.size() >= 3)
-                    arguments.vars[2].set<double>(skills.getItemIndex(arguments.vars[2].get<Nz::String>()));
-
-                item->AddComponent<Items::EquippableComponent>(arguments);
-            }
-
-            if (componentType == "hpgain")
-                item->AddComponent<Items::HPGainComponent>(parseLua(lua));
-
-            if (componentType == "resource")
-                item->AddComponent<Items::ResourceComponent>(parseLua(lua));
-
-            lua.Pop();
-        }
+        Ndk::EntityHandle item = makeLogicalItem(world.CreateHandle(), lua);
 
         item->Enable(false);
         items.Insert(item);

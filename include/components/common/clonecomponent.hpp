@@ -12,8 +12,6 @@
 
 struct CloneComponent : public Ndk::Component<CloneComponent>
 {
-    CloneComponent(const Nz::String& cn = "") : codename { cn } {}
-
     Nz::String codename;
 
     static Ndk::ComponentIndex componentIndex;

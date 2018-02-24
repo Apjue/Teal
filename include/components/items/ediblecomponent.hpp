@@ -10,17 +10,29 @@
 #include <NDK/Component.hpp>
 #include "def/typedef.hpp"
 
-namespace Items
-{
-
 struct EdibleComponent : public Ndk::Component<EdibleComponent>
 {
-    EdibleComponent() = default;
-    EdibleComponent(const LuaArguments&) {}
-
+    static inline const char* componentName() { return "edible"; }
     static Ndk::ComponentIndex componentIndex;
 };
 
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, EdibleComponent* component, TypeTag<EdibleComponent>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+    return 1;
 }
+
+inline int LuaImplReplyVal(const LuaState& state, EdibleComponent&& component, TypeTag<EdibleComponent>)
+{
+    state.PushTable();
+    return 1;
+}
+
+} // namespace Nz
 
 #endif // EDIBLECOMPONENT_HPP

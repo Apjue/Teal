@@ -10,9 +10,6 @@
 #include <Nazara/Core/String.hpp>
 #include <NDK/Component.hpp>
 
-namespace Items
-{
-
 ///
 /// \struct ItemComponent
 ///
@@ -23,7 +20,5 @@ struct ItemComponent : public Ndk::Component<ItemComponent>
 {
     static Ndk::ComponentIndex componentIndex;
 };
-
-}
 
 #endif // ITEMCOMPONENT_HPP

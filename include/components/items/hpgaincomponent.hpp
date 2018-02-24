@@ -11,9 +11,6 @@
 #include "def/typedef.hpp"
 #include "util/util.hpp"
 
-namespace Items
-{
-
 ///
 /// \struct HPGainComponent
 ///
@@ -23,26 +20,39 @@ namespace Items
 
 struct HPGainComponent : public Ndk::Component<HPGainComponent>
 {
-    HPGainComponent(const LuaArguments& args)
-    {
-        if (args.vars.empty())
-            return;
-
-        TealException(args.vars.size() <= 2, "Too many arguments");
-
-        if (args.vars.size() > 0)
-            diff = int(args.vars[0].get<double>());
-
-        if (args.vars.size() > 1)
-            abs = unsigned(args.vars[1].get<double>());
-    }
-
-    int diff {}; // can be negative, e.g. for poison
+    int rel {}; // can be negative, e.g. for poison
     unsigned abs {};
 
+    static inline const char* componentName() { return "hpgain"; }
     static Ndk::ComponentIndex componentIndex;
 };
 
-} // namespace Items
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, HPGainComponent* component, TypeTag<HPGainComponent>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    component->rel = state.CheckField<int>("rel");
+    component->abs = state.CheckField<unsigned>("abs");
+
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, HPGainComponent&& component, TypeTag<HPGainComponent>)
+{
+    state.PushTable();
+    {
+        state.PushField("rel", component.rel);
+        state.PushField("abs", component.abs);
+    }
+
+    return 1;
+}
+
+} // namespace Nz
 
 #endif // HPGAINCOMPONENT_HPP

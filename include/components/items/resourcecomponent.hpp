@@ -10,16 +10,29 @@
 #include <NDK/Component.hpp>
 #include "def/typedef.hpp"
 
-namespace Items
-{
-
 struct ResourceComponent : public Ndk::Component<ResourceComponent>
 {
-    ResourceComponent(const LuaArguments&) {}
-
+    static inline const char* componentName() { return "resource"; }
     static Ndk::ComponentIndex componentIndex;
 };
 
-} // namespace Items
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, ResourceComponent* component, TypeTag<ResourceComponent>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, ResourceComponent&& component, TypeTag<ResourceComponent>)
+{
+    state.PushTable();
+    return 1;
+}
+
+} // namespace Nz
 
 #endif // RESOURCECOMPONENT_HPP

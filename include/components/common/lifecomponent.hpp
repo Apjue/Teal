@@ -11,9 +11,6 @@
 
 struct LifeComponent : public Ndk::Component<LifeComponent>
 {
-    LifeComponent(unsigned maxhp_) : hp { maxhp_ }, maxhp { maxhp_ } {}
-    ~LifeComponent() = default;
-
     unsigned hp { 100 };
     unsigned maxhp { 100 };
 
