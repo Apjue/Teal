@@ -15,20 +15,43 @@
 
 struct DamageData : public Attack
 {
-    DamageData() = default;
-    DamageData(Element e, int d) : damage { e, d } {}
+    std::pair<Element, int> damage;
 
-    DamageData(const LuaArguments& args) : Attack(args)
+    virtual AttackType getAttackType() override { return AttackType::Damage; }
+};
+
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, DamageData* data, TypeTag<DamageData>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+    TealAssert(Attack::stringToAttackType(state.CheckField<Nz::String>("type", index)) == Attack::AttackType::State, "Invalid attack type");
+
+    data->target = Attack::stringToTarget(state.CheckField<Nz::String>("target", -1));
+
+    data->damage.first = state.CheckField<Element>("element", -1);
+    data->damage.second = state.CheckField<int>("damage", -1);
+
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, DamageData&& data, TypeTag<DamageData>)
+{
+    state.PushTable();
     {
-        TealAssert(args.vars[0].get<Nz::String>() == "damage", "Wrong type");
-        TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
+        state.PushField<Nz::String>("type", Attack::attackTypeToString(data.getAttackType()));
+        state.PushField<Nz::String>("target", Attack::targetToString(data.target));
 
-        damage.first = stringToElement(args.vars[2].get<Nz::String>());
-        damage.second = int(args.vars[3].get<double>());
+        state.PushField("element", data.damage.first);
+        state.PushField("damage", data.damage.second);
     }
 
+    return 1;
+}
 
-    std::pair<Element, int> damage;
-};
+} // namespace Nz
 
 #endif // DAMAGEDATA_HPP

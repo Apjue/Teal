@@ -5,52 +5,6 @@
 #include "data/skilldata.hpp"
 #include "util/assert.hpp"
 
-SkillData::SkillData(const LuaArguments& args)
-{
-    TealException(args.vars.size() == 14, "Wrong number of arguments. Need 13");
-
-    if (!args.tables.empty() && !args.tables[0]->tables.empty())
-        for (auto table : args.tables[0]->tables)
-        {
-            if (table->vars.at(0).get<Nz::String>() == "damage")
-            {
-                TealException(!table->vars.empty(), "Empty arguments !");
-                attackList.emplace_back(std::make_pair(AttackType::Damage, std::make_shared<DamageData>(*(table.get()))));
-            }
-
-            else if (table->vars.at(0).get<Nz::String>() == "state")
-            {
-                TealException(!table->vars.empty(), "Empty arguments !");
-                attackList.emplace_back(std::make_pair(AttackType::State, std::make_shared<StateData>(*(table.get()))));
-            }
-
-            else if (table->vars.at(0).get<Nz::String>() == "effect")
-            {
-                TealException(!table->vars.empty(), "Empty arguments !");
-                attackList.emplace_back(std::make_pair(AttackType::Effect, std::make_shared<EffectData>(*(table.get()))));
-            }
-        }
-
-    movementPoints = unsigned(args.vars[0].get<double>());
-    actionPoints = unsigned(args.vars[1].get<double>());
-
-    //effectId = static_cast<EffectStore::EffectId>(args.vars[2].get<double>());
-
-    minRange = unsigned(args.vars[3].get<double>());
-    maxRange = unsigned(args.vars[4].get<double>());
-    modifiableRange = args.vars[5].get<bool>();
-    viewThroughObstacles = args.vars[6].get<bool>();
-
-    areaType = stringToAreaType(args.vars[7].get<Nz::String>());
-    areaMinRange = unsigned(args.vars[8].get<double>());
-    areaMaxRange = unsigned(args.vars[9].get<double>());
-
-    codename = args.vars[10].get<Nz::String>();
-    name = args.vars[11].get<Nz::String>();
-    description = args.vars[12].get<Nz::String>();
-    icon = args.vars[13].get<Nz::String>();
-}
-
 SkillData::AreaType SkillData::stringToAreaType(Nz::String string)
 {
     string = string.ToLower();
@@ -124,25 +78,29 @@ std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const
 {
     std::unordered_map<Element, unsigned> damage {};
 
-    for (const AttackInfo& attack : attackList)
+    for (const std::shared_ptr<Attack>& attack : attackList)
     {
-        if (attack.second->data.target == AttackData::Target::Allies)
+        if (attack->target == Attack::Target::Allies)
             continue;
 
-        switch (attack.first)
+        switch (attack->getAttackType())
         {
-            case AttackType::Damage:
+            case Attack::AttackType::Damage:
             {
-                DamageData* dmg = static_cast<DamageData*>(attack.second.get());
-                damage[dmg->damage.first] = dmg->damage.second;
+                DamageData* dmg = static_cast<DamageData*>(attack.get());
+                damage[dmg->damage.first] += dmg->damage.second;
 
                 break;
             }
 
-            case AttackType::State:
+            case Attack::AttackType::State:
             {
-                StateData* state = static_cast<StateData*>(attack.second.get());
-                damage[state->state->getMaximumDamage().first] = state->state->getMaximumDamage().second;
+                StateData* state = static_cast<StateData*>(attack.get());
+                auto& maxDamage = state->state->getFightInfo().maximumDamage;
+
+                for (Element e {}; e <= Element::Max; ++e)
+                    if (maxDamage[e] > 0)
+                        damage[e] += maxDamage[e];
 
                 break;
             }

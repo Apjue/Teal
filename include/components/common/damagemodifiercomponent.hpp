@@ -11,10 +11,6 @@
 #include <NDK/Component.hpp>
 #include <unordered_map>
 #include "data/elementdata.hpp"
-#include "def/typedef.hpp"
-#include "util/variant.hpp"
-#include "util/assert.hpp"
-#include "util/util.hpp"
 
 struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>
 {

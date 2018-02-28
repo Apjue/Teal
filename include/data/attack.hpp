@@ -7,21 +7,45 @@
 #ifndef ATTACK_HPP
 #define ATTACK_HPP
 
-#include "attackdata.hpp"
+#include <Nazara/Lua/LuaState.hpp>
 #include "def/typedef.hpp"
 
 struct Attack
 {
     Attack() = default;
-    Attack(const LuaArguments& args)
-    {
-        if (args.vars.size() >= 2)
-            data.target = AttackData::stringToTarget(args.vars[1].get<Nz::String>());
-    }
-
     virtual ~Attack() = default;
 
-    AttackData data;
+    enum class AttackType
+    {
+        Damage,
+        State,
+        Effect
+    };
+
+    static AttackType stringToAttackType(Nz::String string);
+    static const char* attackTypeToString(AttackType attackType);
+
+    virtual AttackType getAttackType() = 0;
+
+    enum class Target
+    {
+        Allies,
+        Enemies,
+        Both
+    } target { Target::Enemies };
+
+    static Target stringToTarget(Nz::String string);
+    static const char* targetToString(Target target);
 };
+
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<Attack>* attack, TypeTag<std::shared_ptr<Attack>>);
+inline int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>);
+
+} // namespace Nz
 
 #endif // ATTACK_HPP

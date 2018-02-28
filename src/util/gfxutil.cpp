@@ -132,7 +132,6 @@ void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityH
     TealAssert(isMapEntity(graphicalEntity), "Graphical Entity isn't a graphical entity !");
 
     auto& pos = logicEntity->GetComponent<PositionComponent>();
-    auto& gfxcomp = graphicalEntity->GetComponent<Ndk::GraphicsComponent>();
     auto& node = graphicalEntity->GetComponent<Ndk::NodeComponent>();
     Nz::Vector2f defPos = getDefGfxPos(graphicalEntity);
 

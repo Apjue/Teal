@@ -11,8 +11,7 @@
 #include "components/common/fightcomponent.hpp"
 #include "components/common/lifecomponent.hpp"
 #include "components/common/levelcomponent.hpp"
-#include "components/common/attackmodifiercomponent.hpp"
-#include "components/common/resistancemodifiercomponent.hpp"
+#include "components/common/damagemodifiercomponent.hpp"
 #include "util/aiutil.hpp"
 #include "util/nzstlcompatibility.hpp"
 #include "util/maputil.hpp"
@@ -435,37 +434,23 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
         auto& skill = m_skills.getItem(skillId);
 
         {
-            lua.PushInteger(skill.movementPoints);
-            lua.SetField("mp");
-
-            lua.PushInteger(skill.actionPoints);
-            lua.SetField("ap");
+            lua.PushField("mp", skill.movementPoints);
+            lua.PushField("ap", skill.actionPoints);
         }
 
         {
-            lua.PushInteger(skill.minRange);
-            lua.SetField("minRange");
-
-            lua.PushInteger(skill.maxRange);
-            lua.SetField("maxRange");
-
-            lua.PushBoolean(skill.modifiableRange);
-            lua.SetField("modifiableRange");
+            lua.PushField("minRange", skill.minRange);
+            lua.PushField("maxRange", skill.maxRange);
+            lua.PushField("modifiableRange", skill.modifiableRange);
         }
 
         {
-            lua.PushString(SkillData::areaTypeToString(skill.areaType));
-            lua.SetField("areatype");
-
-            lua.PushInteger(skill.areaMinRange);
-            lua.SetField("areaMinRange");
-
-            lua.PushInteger(skill.areaMaxRange);
-            lua.SetField("areaMaxRange");
+            lua.PushField("areatype", SkillData::areaTypeToString(skill.areaType));
+            lua.PushField("areaMinRange", skill.areaMinRange);
+            lua.PushField("areaMaxRange", skill.areaMaxRange);
         }
 
-        lua.PushString(skill.codename);
-        lua.SetField("codename");
+        lua.PushField("codename", skill.codename);
 
         lua.PushTable();
 

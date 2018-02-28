@@ -9,6 +9,7 @@
 
 #include <Nazara/Core/String.hpp>
 #include <Nazara/Renderer/Texture.hpp>
+#include <Nazara/Lua/LuaState.hpp>
 #include <utility>
 #include <unordered_map>
 #include "elementdata.hpp"
@@ -19,172 +20,107 @@
 struct State
 {
     State() = default;
+    inline State(const Nz::LuaState& state, int index = -1);
+
     virtual ~State() = default;
 
-    State(const LuaArguments& args)
-    {
-        TealException(args.vars.size() >= 4, "Wrong number of arguments. Need at least 4");
-        turns = unsigned(args.vars[2].get<double>());
-    }
-
-    virtual std::pair<Element, unsigned> getMaximumDamage() = 0;
-
     unsigned turns {};
+
+    virtual inline void serialize(const Nz::LuaState& state);
+
+    struct FightInfo
+    {
+        std::unordered_map<Element, int> maximumDamage;      // positive: damage, negative: heal
+        std::unordered_map<Element, int> attackModifier;     // positive: boost, negative: nerf
+        std::unordered_map<Element, int> resistanceModifier; //^
+
+        int movementPointsDifference {};
+        int actionPointsDifference {};
+
+        enum StateFlag
+        {
+            None,
+            Paralyzed,
+            Sleeping,
+            Confused
+        } flags { None };
+    };
+
+    virtual FightInfo getFightInfo() = 0;
 };
 
 struct PoisonnedState : public State
 {
-    PoisonnedState() = default;
-
-    PoisonnedState(const LuaArguments& args) : State(args)
-    {
-        TealException(args.vars.size() == 6, "Wrong number of arguments. Need 6");
-        TealAssert(args.vars[3].get<Nz::String>() == getMetadataID(), "Wrong type of state");
-
-        damage.first = stringToElement(args.vars[4].get<Nz::String>());
-        damage.second = int(args.vars[5].get<double>());
-    }
-
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
-    {
-        return std::make_pair(damage.first, damage.second);
-    }
+    inline PoisonnedState(const Nz::LuaState& state, int index = -1);
 
     std::pair<Element, unsigned> damage;
 
-    static Nz::String getMetadataID()
-    {
-        return "poison";
-    }
+    virtual inline void serialize(const Nz::LuaState& state);
+    virtual inline FightInfo getFightInfo() override;
+    static const char* getMetadataID() { return "poison"; }
 };
 
 struct HealedState : public State
 {
-    HealedState() = default;
+    inline HealedState(const Nz::LuaState& state, int index = -1);
 
-    HealedState(const LuaArguments& args) : State(args)
-    {
-        TealException(args.vars.size() == 6, "Wrong number of arguments. Need 6");
-        TealAssert(args.vars[3].get<Nz::String>() == getMetadataID(), "Wrong type of state");
+    unsigned health {};
 
-        health.first = stringToElement(args.vars[4].get<Nz::String>());
-        health.second = int(args.vars[5].get<double>());
-    }
-
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
-    {
-        return std::make_pair(health.first, 0);
-    }
-
-    std::pair<Element, unsigned> health;
-
-    static Nz::String getMetadataID()
-    {
-        return "heal";
-    }
+    virtual void serialize(const Nz::LuaState& state);
+    virtual inline FightInfo getFightInfo() override {}
+    static const char* getMetadataID() { return "heal"; }
 };
 
-struct WeaknessState : public State
+struct StatsModifierState : public State
 {
-    WeaknessState() = default;
+    inline StatsModifierState(const Nz::LuaState& state, int index = -1);
 
-    WeaknessState(const LuaArguments& args) : State(args)
-    {
-        NazaraError("not implemented");
-    }
+    std::unordered_map<Element, int> attack;
+    std::unordered_map<Element, int> resistance;
 
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
-    {
-        return std::make_pair(Element::Neutral, 0);
-    }
+    int movementPoints {};
+    int actionPoints {};
 
-    std::unordered_map<Element, unsigned> attack;
-    std::unordered_map<Element, unsigned> resistance;
-
-    unsigned movementsPoints {};
-    unsigned actionPoints {};
-
-    static Nz::String getMetadataID()
-    {
-        return "weakness";
-    }
+    virtual inline void serialize(const Nz::LuaState& state);
+    virtual inline FightInfo getFightInfo() override;
 };
 
-struct PowerState : public State
-{
-    PowerState() = default;
-
-    PowerState(const LuaArguments& args) : State(args)
+    struct WeaknessState : public StatsModifierState
     {
-        NazaraError("not implemented");
-    }
+        inline WeaknessState(const Nz::LuaState& state, int index = -1) : StatsModifierState(state, index) {}
+        static const char* getMetadataID() { return "weakness"; }
+    };
 
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
+    struct PowerState : public StatsModifierState
     {
-        return std::make_pair(Element::Neutral, 0);
-    }
-
-    std::unordered_map<Element, unsigned> attack;
-    std::unordered_map<Element, unsigned> resistance;
-
-    unsigned movementsPoints {};
-    unsigned actionPoints {};
-
-    static Nz::String getMetadataID()
-    {
-        return "power";
-    }
-};
+        inline PowerState(const Nz::LuaState& state, int index = -1) : StatsModifierState(state, index) {}
+        static const char* getMetadataID() { return "power"; }
+    };
 
 struct ParalyzedState : public State
 {
-    ParalyzedState() = default;
+    inline ParalyzedState(const Nz::LuaState& state, int index = -1) : State(state, index) {}
 
-    ParalyzedState(const LuaArguments& args) : State(args) {}
-
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
-    {
-        return std::make_pair(Element::Neutral, 0);
-    }
-
-    static Nz::String getMetadataID()
-    {
-        return "paralyzed";
-    }
+    virtual inline FightInfo getFightInfo() override;
+    static const char* getMetadataID() { return "paralyzed"; }
 };
 
 struct SleepingState : public State // = paralyzed until attacked
 {
-    SleepingState() = default;
+    inline SleepingState(const Nz::LuaState& state, int index = -1) : State(state, index) {}
 
-    SleepingState(const LuaArguments& args) : State(args) {}
-
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
-    {
-        return std::make_pair(Element::Neutral, 0);
-    }
-
-    static Nz::String getMetadataID()
-    {
-        return "sleeping";
-    }
+    virtual inline FightInfo getFightInfo() override;
+    static const char* getMetadataID() { return "sleeping"; }
 };
 
 struct ConfusedState : public State // aka drunk
 {
-    ConfusedState() = default;
+    inline ConfusedState(const Nz::LuaState& state, int index = -1) : State(state, index) {}
 
-    ConfusedState(const LuaArguments& args) : State(args) {}
-
-    virtual std::pair<Element, unsigned> getMaximumDamage() override
-    {
-        return std::make_pair(Element::Neutral, 0);
-    }
-
-    static Nz::String getMetadataID()
-    {
-        return "confused";
-    }
+    virtual inline FightInfo getFightInfo() override;
+    static const char* getMetadataID() { return "confused"; }
 };
+
+#include "states.inl"
 
 #endif // STATES_HPP

@@ -6,8 +6,7 @@
 #include <Nazara/Platform/EventHandler.hpp>
 #include "components/common/inventorycomponent.hpp"
 #include "components/common/namecomponent.hpp"
-#include "components/common/attackmodifiercomponent.hpp"
-#include "components/common/resistancemodifiercomponent.hpp"
+#include "components/common/damagemodifiercomponent.hpp"
 #include "components/common/inventorycomponent.hpp"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
@@ -94,28 +93,25 @@ void GameState::showInventory(bool detailled) // [TEST]
 
         if (detailled)
         {
-            if (item->HasComponent<AttackModifierComponent>())
+            if (item->HasComponent<DamageModifierComponent>())
             {
-                auto& atk = item->GetComponent<AttackModifierComponent>();
+                auto& atk = item->GetComponent<DamageModifierComponent>().attack;
                 std::cout << '\n';
                 std::cout << "  Attack Modifier:\n";
-                std::cout << "    Neutral: " << atk.data[Element::Neutral] << '\n';
-                std::cout << "    Air: " << atk.data[Element::Air] << '\n';
-                std::cout << "    Fire: " << atk.data[Element::Fire] << '\n';
-                std::cout << "    Water: " << atk.data[Element::Water] << '\n';
-                std::cout << "    Earth: " << atk.data[Element::Earth];
-            }
+                std::cout << "    Neutral: " << atk[Element::Neutral] << '\n';
+                std::cout << "    Air: " << atk[Element::Air] << '\n';
+                std::cout << "    Fire: " << atk[Element::Fire] << '\n';
+                std::cout << "    Water: " << atk[Element::Water] << '\n';
+                std::cout << "    Earth: " << atk[Element::Earth];
 
-            if (item->HasComponent<ResistanceModifierComponent>())
-            {
-                auto& res = item->GetComponent<ResistanceModifierComponent>();
+                auto& res = item->GetComponent<DamageModifierComponent>().resistance;
                 std::cout << '\n';
                 std::cout << "  Resistance Modifier:\n";
-                std::cout << "    Neutral: " << res.data[Element::Neutral] << '\n';
-                std::cout << "    Air: " << res.data[Element::Air] << '\n';
-                std::cout << "    Fire: " << res.data[Element::Fire] << '\n';
-                std::cout << "    Water: " << res.data[Element::Water] << '\n';
-                std::cout << "    Earth: " << res.data[Element::Earth];
+                std::cout << "    Neutral: " << res[Element::Neutral] << '\n';
+                std::cout << "    Air: " << res[Element::Air] << '\n';
+                std::cout << "    Fire: " << res[Element::Fire] << '\n';
+                std::cout << "    Water: " << res[Element::Water] << '\n';
+                std::cout << "    Earth: " << res[Element::Earth];
             }
         }
 
@@ -129,29 +125,27 @@ void GameState::showInventory(bool detailled) // [TEST]
 void GameState::showCharacteristics() // [TEST]
 {
     std::cout << "Main character characteristics";
-    if (m_charac->HasComponent<AttackModifierComponent>())
+    if (m_charac->HasComponent<DamageModifierComponent>())
     {
-        auto& atk = m_charac->GetComponent<AttackModifierComponent>();
+        auto& atk = m_charac->GetComponent<DamageModifierComponent>().attack;
+        std::cout << '\n';
+        std::cout << "  Attack Modifier:\n";
+        std::cout << "    Neutral: " << atk[Element::Neutral] << '\n';
+        std::cout << "    Air: " << atk[Element::Air] << '\n';
+        std::cout << "    Fire: " << atk[Element::Fire] << '\n';
+        std::cout << "    Water: " << atk[Element::Water] << '\n';
+        std::cout << "    Earth: " << atk[Element::Earth];
 
-        std::cout << "\n  Attack Modifier:\n";
-        std::cout << "    Neutral: " << atk.data[Element::Neutral] << '\n';
-        std::cout << "    Air: " << atk.data[Element::Air] << '\n';
-        std::cout << "    Fire: " << atk.data[Element::Fire] << '\n';
-        std::cout << "    Water: " << atk.data[Element::Water] << '\n';
-        std::cout << "    Earth: " << atk.data[Element::Earth];
+        auto& res = m_charac->GetComponent<DamageModifierComponent>().resistance;
+        std::cout << '\n';
+        std::cout << "  Resistance Modifier:\n";
+        std::cout << "    Neutral: " << res[Element::Neutral] << '\n';
+        std::cout << "    Air: " << res[Element::Air] << '\n';
+        std::cout << "    Fire: " << res[Element::Fire] << '\n';
+        std::cout << "    Water: " << res[Element::Water] << '\n';
+        std::cout << "    Earth: " << res[Element::Earth];
     }
 
-    if (m_charac->HasComponent<ResistanceModifierComponent>())
-    {
-        auto& res = m_charac->GetComponent<ResistanceModifierComponent>();
-
-        std::cout << "\n  Resistance Modifier:\n";
-        std::cout << "    Neutral: " << res.data[Element::Neutral] << '\n';
-        std::cout << "    Air: " << res.data[Element::Air] << '\n';
-        std::cout << "    Fire: " << res.data[Element::Fire] << '\n';
-        std::cout << "    Water: " << res.data[Element::Water] << '\n';
-        std::cout << "    Earth: " << res.data[Element::Earth];
-    }
     std::cout << std::endl;
 }
 

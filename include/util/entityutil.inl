@@ -22,7 +22,7 @@ bool isMapEntity(const Ndk::EntityHandle& e)
 
 bool isItemEntity(const Ndk::EntityHandle& e)
 {
-    return e->HasComponent<Items::ItemComponent>();
+    return e->HasComponent<ItemComponent>();
 }
 
 inline bool isMonsterEntity(const Ndk::EntityHandle& e)

@@ -44,10 +44,10 @@ inline Element stringToElement(Nz::String string)
     if (string == "earth")
         return Element::Earth;
 
-    return Element::Neutral;
+    throw std::runtime_error { "Invalid element !" };
 }
 
-inline Nz::String elementToString(Element e)
+inline const char* elementToString(Element e)
 {
     switch (e)
     {
@@ -67,9 +67,30 @@ inline Nz::String elementToString(Element e)
             return "earth";
 
         default:
-            return "";
+            throw std::runtime_error { "Invalid element !" };
     }
 }
+
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, Element* element, TypeTag<Element>)
+{
+    state.CheckType(index, Nz::LuaType_String);
+    *element = stringToElement(state.CheckString(index));
+
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, Element&& element, TypeTag<Element>)
+{
+    state.PushString(elementToString(element));
+    return 1;
+}
+
+} // namespace Nz
 
 namespace std
 {

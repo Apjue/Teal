@@ -13,44 +13,49 @@
 
 struct Effect
 {
-    Effect() = default;
     virtual ~Effect() = default;
+    virtual void serialize(const Nz::LuaState& state) = 0;
 };
 
-struct PullEffect : public Effect
+struct MovementEffect : public Effect
 {
-    PullEffect() = default;
+    MovementEffect() = default;
+    MovementEffect(const MovementEffect&) = default;
+    MovementEffect(MovementEffect&&) = default;
 
-    PullEffect(const LuaArguments& args)
+    inline MovementEffect(const Nz::LuaState& state, int index = -1)
     {
-        TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
-        tiles = unsigned(args.vars[3].get<double>());
+        tiles = state.CheckField<unsigned>("tiles", index);
     }
 
     unsigned tiles {};
 
-    static Nz::String getMetadataID()
+    virtual void serialize(const Nz::LuaState& state) override
     {
-        return "pull";
+        state.PushField("tiles", tiles);
     }
 };
 
-struct PushEffect : public Effect
-{
-    PushEffect() = default;
-
-    PushEffect(const LuaArguments& args)
+    struct PullEffect : public MovementEffect
     {
-        TealException(args.vars.size() == 4, "Wrong number of arguments. Need 4");
-        tiles = unsigned(args.vars[3].get<double>());
-    }
+        PullEffect() = default;
+        PullEffect(const PullEffect&) = default;
+        PullEffect(PullEffect&&) = default;
 
-    unsigned tiles {};
+        inline PullEffect(const Nz::LuaState& state, int index = -1) : MovementEffect(state, index) {}
 
-    static Nz::String getMetadataID()
+        static const char* getMetadataID() { return "pull"; }
+    };
+
+    struct PushEffect : public MovementEffect
     {
-        return "push";
-    }
-};
+        PushEffect() = default;
+        PushEffect(const PushEffect&) = default;
+        PushEffect(PushEffect&&) = default;
+
+        inline PushEffect(const Nz::LuaState& state, int index = -1) : MovementEffect(state, index) {}
+
+        static const char* getMetadataID() { return "push"; }
+    };
 
 #endif // EFFECTS_HPP

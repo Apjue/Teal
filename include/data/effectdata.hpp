@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2018 Samy Bensaid
+// Copyright (C) 2018 Samy Bensaid
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -15,22 +15,52 @@
 
 struct EffectData : public Attack
 {
-    EffectData() = default;
-    EffectData(const LuaArguments& args) : Attack(args)
+    Nz::String effectType;
+    std::shared_ptr<Effect> effect;
+
+    virtual AttackType getAttackType() override { return AttackType::Effect; }
+};
+
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, EffectData* data, TypeTag<EffectData>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+    TealAssert(Attack::stringToAttackType(state.CheckField<Nz::String>("type", index)) == Attack::AttackType::Effect, "Invalid attack type");
+
+    data->target = Attack::stringToTarget(state.CheckField<Nz::String>("target", index));
+    data->effectType = state.CheckField<Nz::String>("effect_type", index);
+
     {
-        TealException(args.vars.size() >= 3, "Wrong number of arguments. Need at least 3");
-        TealAssert(args.vars[0].get<Nz::String>() == "effect", "Wrong type of attack");
+        if (data->effectType == PullEffect::getMetadataID())
+            data->effect = std::make_shared<PullEffect>(state);
 
-        Nz::String effectType = args.vars[2].get<Nz::String>().ToLower();
+        else if (data->effectType == PushEffect::getMetadataID())
+            data->effect = std::make_shared<PushEffect>(state);
 
-        if (effectType == PullEffect::getMetadataID())
-            effect = std::make_shared<PullEffect>(args);
-
-        if (effectType == PushEffect::getMetadataID())
-            effect = std::make_shared<PushEffect>(args);
+        else
+            throw std::runtime_error { "Invalid effect type" };
     }
 
-    std::shared_ptr<Effect> effect;
-};
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, EffectData&& data, TypeTag<EffectData>)
+{
+    state.PushTable();
+    {
+        state.PushField<Nz::String>("type", Attack::attackTypeToString(data.getAttackType()));
+        state.PushField<Nz::String>("target", Attack::targetToString(data.target));
+
+        data.effect->serialize(state);
+    }
+
+    return 1;
+}
+
+} // namespace Nz
 
 #endif // EFFECTDATA_HPP

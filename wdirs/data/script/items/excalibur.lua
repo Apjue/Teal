@@ -8,19 +8,25 @@ teal_item =
 
     components =
     {
+        damagemodifier = 
         {
-            component = "AttackModifier",
-            0, 0, 150
+            attack =
+            {
+                fire = 150
+            }
+
+            resistance =
+            {
+                neutral = 6,
+                fire = 18
+            }
         },
 
+        equippable =
         {
-            component = "ResistanceModifier",
-            100, 100, 100, 0, 100
-        },
-
-        {
-            component = "Equippable",
-            "Hands", "Both" --, "item_excalibur"
+            bodypart = "Hands",
+            side = "Both",
+            skill_id = "item_excalibur"
         }
     }
 }

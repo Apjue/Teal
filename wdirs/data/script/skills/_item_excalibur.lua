@@ -1,39 +1,40 @@
 teal_skill =
 {
+    codename = "item_excalibur",
+    display_name = "Excalibur",
+    description = "Attack of the Excalibur's item",
+    icon = "",
+
+    attacks =
     {
         {
-            "damage", -- type of attack
-            "enemies", -- target
-            "fire", -- element
-            100 -- damage
+            type = "damage",
+            target = "enemies",
+
+            element = "fire",
+            damage = 100
         },
 
         {
-            "state",
-            "enemies",
-            3, -- number of turns the state lasts
-            "poison", -- type of state
+            type = "state",
+            target = "enemies",
+            state_type = "poison", -- type of state, also used for StateMetaDataStore
 
-            "fire",
-            10
+            turns = 3, -- number of turns the state lasts
+            element = "fire",
+            damage = 10
         }
     },
 
-    0, -- movement points
-    3, -- action points
-    "none", -- effect id
+    movement_points = 0,
+    action_points = 3,
 
-    1, -- min range
-    1, -- max range
-    false, -- modifiable range
-    false, -- view through wall, does nothing if max range is 1
+    min_range = 1,
+    max_range = 1,
+    modifiable_range = false,
+    view_through_walls = false, -- spoilers: does nothing if max range is 1
 
-    "cross", -- area type
-    0, -- area min range
-    0, -- area max range
-
-    "item_excalibur", -- codename
-    "Excalibur", -- real name
-    "Attack of the Excalibur's item", -- description
-    "" -- icon
+    area_type = "cross",
+    area_min_range = 0,
+    area_max_range = 0
 }
