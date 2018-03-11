@@ -18,4 +18,29 @@ struct LevelComponent : public Ndk::Component<LevelComponent>
     static Ndk::ComponentIndex componentIndex;
 };
 
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, LevelComponent* component, TypeTag<LevelComponent>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+    component->level = state.CheckField<unsigned>("level");
+
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, LevelComponent&& component, TypeTag<LevelComponent>)
+{
+    state.PushTable();
+    {
+        state.PushField("level", component.level);
+    }
+
+    return 1;
+}
+
+} // namespace Nz
+
 #endif // LEVELCOMPONENT_HPP

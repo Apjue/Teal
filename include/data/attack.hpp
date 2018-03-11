@@ -39,6 +39,7 @@ struct Attack
 };
 
 #include <Nazara/Lua/LuaState.hpp>
+#include <memory>
 
 namespace Nz
 {

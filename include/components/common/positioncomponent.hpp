@@ -23,4 +23,29 @@ struct PositionComponent : public Ndk::Component<PositionComponent>
     static Ndk::ComponentIndex componentIndex;
 };
 
+#include <Nazara/Lua/LuaState.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, PositionComponent* component, TypeTag<PositionComponent>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+    component->xy = state.CheckField<AbsTile>("xy");
+
+    return 1;
+}
+
+inline int LuaImplReplyVal(const LuaState& state, PositionComponent&& component, TypeTag<PositionComponent>)
+{
+    state.PushTable();
+    {
+        state.PushField("xy", component.xy);
+    }
+
+    return 1;
+}
+
+} // namespace Nz
+
 #endif // POSITIONCOMPONENT_HPP

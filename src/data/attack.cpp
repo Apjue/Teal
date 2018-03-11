@@ -84,29 +84,29 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<A
     const char* attackType = state.CheckField<const char*>("type", index);
 
     if (attackType == Attack::attackTypeToString(Attack::AttackType::Damage))
-        return LuaImplQueryArg(state, index, attack, TypeTag<DamageData>());
+        return LuaImplQueryArg(state, index, static_cast<DamageData*>(attack->get()), TypeTag<DamageData>());
 
     if (attackType == Attack::attackTypeToString(Attack::AttackType::State))
-        return LuaImplQueryArg(state, index, attack, TypeTag<StateData>());
+        return LuaImplQueryArg(state, index, static_cast<StateData*>(attack->get()), TypeTag<StateData>());
 
     if (attackType == Attack::attackTypeToString(Attack::AttackType::Effect))
-        return LuaImplQueryArg(state, index, attack, TypeTag<EffectData>());
+        return LuaImplQueryArg(state, index, static_cast<EffectData*>(attack->get()), TypeTag<EffectData>());
 
     throw std::runtime_error { "Invalid attack type" };
 }
 
-int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>)
+inline int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>)
 {
     switch (attack->getAttackType())
     {
         case Attack::AttackType::Damage:
-            return LuaImplReplyVal(state, std::move(attack), TypeTag<DamageData>());
+            return LuaImplReplyVal(state, std::move(*static_cast<DamageData*>(attack.get())), TypeTag<DamageData>());
 
         case Attack::AttackType::State:
-            return LuaImplReplyVal(state, std::move(attack), TypeTag<StateData>());
+            return LuaImplReplyVal(state, std::move(*static_cast<StateData*>(attack.get())), TypeTag<StateData>());
 
         case Attack::AttackType::Effect:
-            return LuaImplReplyVal(state, std::move(attack), TypeTag<EffectData>());
+            return LuaImplReplyVal(state, std::move(*static_cast<EffectData*>(attack.get())), TypeTag<EffectData>());
     }
 
     throw std::runtime_error { "Invalid attack type" };

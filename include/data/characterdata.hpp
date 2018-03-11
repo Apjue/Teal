@@ -82,7 +82,7 @@ struct CharacterData
                   unsigned level_ = 1,
                   const Fight& fight_ = {})
 
-        : codename { name }, sprite { pic }, defG { dg }, animations { anims }, defaultAnimation { defAnim }, maxhp { mhp }, o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_),
+        : codename { name }, sprite { pic }, defG { dg }, animations { anims }, defaultAnimation { defAnim }, maxHp { mhp }, o { o_ }, rdMov(rdMov_), blockTile(blockTile_), name(name_),
           desc(desc_), atk(atk_), res(res_), level { level_ }, fight { fight_ }
     {}
 
@@ -96,7 +96,7 @@ struct CharacterData
     AnimationComponent::AnimationList animations;
     std::size_t defaultAnimation;
 
-    unsigned maxhp;
+    unsigned maxHp;
     Orientation o;
 
     RandomMovement rdMov;

@@ -354,8 +354,8 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
         lua.PushInteger(life.hp);
         lua.SetField("hp");
 
-        lua.PushInteger(life.maxhp);
-        lua.SetField("maxhp");
+        lua.PushInteger(life.maxHp);
+        lua.SetField("maxHp");
     }
 
     {
@@ -454,9 +454,9 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
 
         lua.PushTable();
 
-        for (unsigned i {}; i < skill.attackList.size(); ++i)
+        for (unsigned i {}; i < skill.attackEffects.size(); ++i)
         {
-            auto& attackPair = skill.attackList[i];
+            auto& attackPair = skill.attackEffects[i];
             auto& attack = attackPair.second;
 
             TealAssert(attack.get(), "Attack nullptr");
@@ -736,7 +736,7 @@ bool AISystem::Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex) 
     bool allyOnly { true };
     AttackData::Target attackTypeToAvoid { myFight.teamNumber == opponentFight.teamNumber ? AttackData::Target::Enemies : AttackData::Target::Allies };
 
-    for (auto& attack : skill.attackList)
+    for (auto& attack : skill.attackEffects)
     {
         if (attack.second->data.target != attackTypeToAvoid)
         {

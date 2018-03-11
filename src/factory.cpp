@@ -27,7 +27,7 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     anims.currentAnimation = data.defaultAnimation;
 
     e->AddComponent<CloneComponent>().codename = data.codename;
-    e->AddComponent<LifeComponent>().maxhp = data.maxhp;
+    e->AddComponent<LifeComponent>().maxHp = data.maxHp;
 
     e->AddComponent<PositionComponent>(Nz::Vector2ui { 1u, 1u });
     e->AddComponent<MoveComponent>();

@@ -16,17 +16,14 @@
 #include "damagedata.hpp"
 #include "statedata.hpp"
 #include "effectdata.hpp"
-#include "elementdata.hpp"
 #include "def/typedef.hpp"
 
 struct SkillData
 {
-    std::vector<std::shared_ptr<Attack>> attackList;
+    std::vector<std::shared_ptr<Attack>> attackEffects;
 
-    unsigned movementPoints { 0 }; // MP/AP required
-    unsigned actionPoints { 3 };
-
-    // EffectStore::Id effectId {}; // push, pull, etc.
+    unsigned movementPoints { 0 }; // Movement Points required to use the skill
+    unsigned actionPoints { 3 };   // Action Points required to use the skill
 
     unsigned minRange { 1u };
     unsigned maxRange { 1u };
@@ -50,8 +47,8 @@ struct SkillData
     static AreaType stringToAreaType(Nz::String string);
     static Nz::String areaTypeToString(AreaType area);
 
-    AreaType areaType { AreaType::Cross };
-    unsigned areaMinRange { 0u };
+    AreaType areaType { AreaType::Cross }; // Example: https://i.imgur.com/ycE4Fc3.png with areaType = Cross,     areaMinRange = 1, areaMaxRange = 3
+    unsigned areaMinRange { 0u };  // Another Example: https://i.imgur.com/Vbo44YA.png with areaType = AlignedUp, areaMinRange = 2, areaMaxRange = 6
     unsigned areaMaxRange { 0u };
 
     Nz::String codename;
@@ -69,94 +66,8 @@ struct SkillData
 namespace Nz
 {
 
-inline unsigned int LuaImplQueryArg(const LuaState& state, int index, SkillData* skill, TypeTag<SkillData>)
-{
-    state.CheckType(index, Nz::LuaType_Table);
-
-    skill->codename = state.CheckField<Nz::String>("codename", index);
-    skill->displayName = state.CheckField<Nz::String>("displayName", index);
-    skill->description = state.CheckField<Nz::String>("description", index);
-    skill->icon = state.CheckField<Nz::String>("icon", index);
-
-    state.GetField("attacks", index);
-    {
-        for (long long i {};; ++i)
-        {
-            state.PushInteger(i);
-
-            if (state.GetTable(index) == Nz::LuaType_Table)
-            {
-                int index { -1 };
-
-                skill->attackList.push_back(state.Check<std::shared_ptr<Attack>>(&index));
-                state.Pop();
-            }
-
-            else
-            {
-                state.Pop();
-                break;
-            }
-        }
-    }
-
-    state.Pop();
-
-    skill->movementPoints = state.CheckField<unsigned>("movement_points", index);
-    skill->actionPoints = state.CheckField<unsigned>("action_points", index);
-
-    skill->minRange = state.CheckField<unsigned>("min_range", index);
-    skill->maxRange = state.CheckField<unsigned>("max_range", index);
-    skill->modifiableRange = state.CheckField<bool>("modifiable_range", index);
-    skill->viewThroughObstacles = state.CheckField<bool>("view_through_walls", index);
-
-    skill->areaType = SkillData::stringToAreaType(state.CheckField<Nz::String>("area_type", index));
-    skill->areaMinRange = state.CheckField<unsigned>("area_min_range", index);
-    skill->areaMaxRange = state.CheckField<unsigned>("area_max_range", index);
-
-    return 1;
-}
-
-inline int LuaImplReplyVal(const LuaState& state, SkillData&& skill, TypeTag<SkillData>)
-{
-    state.PushTable();
-    {
-        state.PushField("codename", skill.codename);
-        state.PushField("display_name", skill.displayName);
-        state.PushField("description", skill.description);
-        state.PushField("icon", skill.icon);
-
-        state.PushTable();
-        {
-            for (unsigned i {}; i < skill.attackList.size(); ++i)
-            {
-                state.PushInteger(i + 1);
-                state.PushTable();
-                {
-                    state.Push(skill.attackList[i]);
-                }
-
-                state.SetTable();
-            }
-        }
-
-        state.SetField("attacks");
-
-        state.PushField("movement_points", skill.movementPoints);
-        state.PushField("action_points", skill.actionPoints);
-
-        state.PushField("min_range", skill.minRange);
-        state.PushField("max_range", skill.maxRange);
-        state.PushField("modifiable_range", skill.modifiableRange);
-        state.PushField("view_through_walls", skill.viewThroughObstacles);
-
-        state.PushField("area_type", SkillData::areaTypeToString(skill.areaType));
-        state.PushField("area_min_range", skill.areaMinRange);
-        state.PushField("area_max_range", skill.areaMaxRange);
-    }
-
-    return 1;
-}
+extern unsigned int LuaImplQueryArg(const LuaState& state, int index, SkillData* skill, TypeTag<SkillData>);
+extern int LuaImplReplyVal(const LuaState& state, SkillData&& skill, TypeTag<SkillData>);
 
 } // namespace Nz
 

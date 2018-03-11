@@ -36,7 +36,7 @@ SkillData::AreaType SkillData::stringToAreaType(Nz::String string)
     if (string == "alignedup")
         return AreaType::AlignedUp;
 
-    return AreaType::Cross;
+    throw std::runtime_error { "Invalid area type !" };
 }
 
 Nz::String SkillData::areaTypeToString(AreaType area)
@@ -71,14 +71,14 @@ Nz::String SkillData::areaTypeToString(AreaType area)
             return "alignedup";
     }
 
-    return "";
+    throw std::runtime_error { "Invalid area type !" };
 }
 
 std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const
 {
     std::unordered_map<Element, unsigned> damage {};
 
-    for (const std::shared_ptr<Attack>& attack : attackList)
+    for (const std::unique_ptr<Attack>& attack : attackEffects)
     {
         if (attack->target == Attack::Target::Allies)
             continue;
@@ -109,3 +109,97 @@ std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const
 
     return damage;
 }
+
+namespace Nz
+{
+
+unsigned int LuaImplQueryArg(const LuaState& state, int index, SkillData* skill, TypeTag<SkillData>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    skill->codename = state.CheckField<Nz::String>("codename", index);
+    skill->displayName = state.CheckField<Nz::String>("displayName", index);
+    skill->description = state.CheckField<Nz::String>("description", index);
+    skill->icon = state.CheckField<Nz::String>("icon", index);
+
+    state.GetField("attacks", index);
+    {
+        for (long long i {};; ++i)
+        {
+            state.PushInteger(i);
+
+            if (state.GetTable(index) == Nz::LuaType_Table)
+            {
+                int index { -1 };
+
+                skill->attackEffects.push_back(state.Check<std::shared_ptr<Attack>>(&index));
+                state.Pop();
+            }
+
+            else
+            {
+                state.Pop();
+                break;
+            }
+        }
+    }
+
+    state.Pop();
+
+    skill->movementPoints = state.CheckField<unsigned>("movement_points", index);
+    skill->actionPoints = state.CheckField<unsigned>("action_points", index);
+
+    skill->minRange = state.CheckField<unsigned>("min_range", index);
+    skill->maxRange = state.CheckField<unsigned>("max_range", index);
+    skill->modifiableRange = state.CheckField<bool>("modifiable_range", index);
+    skill->viewThroughObstacles = state.CheckField<bool>("view_through_walls", index);
+
+    skill->areaType = SkillData::stringToAreaType(state.CheckField<Nz::String>("area_type", index));
+    skill->areaMinRange = state.CheckField<unsigned>("area_min_range", index);
+    skill->areaMaxRange = state.CheckField<unsigned>("area_max_range", index);
+
+    return 1;
+}
+
+int LuaImplReplyVal(const LuaState& state, SkillData&& skill, TypeTag<SkillData>)
+{
+    state.PushTable();
+    {
+        state.PushField("codename", skill.codename);
+        state.PushField("display_name", skill.displayName);
+        state.PushField("description", skill.description);
+        state.PushField("icon", skill.icon);
+
+        state.PushTable();
+        {
+            for (unsigned i {}; i < skill.attackEffects.size(); ++i)
+            {
+                state.PushInteger(i + 1);
+                state.PushTable();
+                {
+                    state.PushField(skill.attackEffects[i]);
+                }
+
+                state.SetTable();
+            }
+        }
+
+        state.SetField("attacks");
+
+        state.PushField("movement_points", skill.movementPoints);
+        state.PushField("action_points", skill.actionPoints);
+
+        state.PushField("min_range", skill.minRange);
+        state.PushField("max_range", skill.maxRange);
+        state.PushField("modifiable_range", skill.modifiableRange);
+        state.PushField("view_through_walls", skill.viewThroughObstacles);
+
+        state.PushField("area_type", SkillData::areaTypeToString(skill.areaType));
+        state.PushField("area_min_range", skill.areaMinRange);
+        state.PushField("area_max_range", skill.areaMaxRange);
+    }
+
+    return 1;
+}
+
+} // namespace Nz
