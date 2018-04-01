@@ -15,3 +15,33 @@ Nz::Vector2<T> toVector2(const std::pair<T, T>& v)
 {
     return { v.first, v.second };
 }
+
+template<typename T>
+unsigned int Nz::LuaImplQueryArg(const LuaState& instance, int index, std::vector<T>* container, TypeTag<std::vector<T>>)
+{
+    instance.CheckType(index, Nz::LuaType_Table);
+    std::size_t index = 1;
+
+    for (;;)
+    {
+        instance.PushInteger(index++);
+
+        if (instance.GetTable() == Nz::LuaType_Nil)
+        {
+            instance.Pop();
+            break;
+        }
+
+        T arg {};
+
+        if (LuaImplQueryArg(instance, -1, &arg, TypeTag<T>()) != 1)
+        {
+            instance.Error("Type needs more than one place to be initialized");
+            return 0;
+        }
+
+        container->push_back(arg);
+    }
+
+    return 1;
+}

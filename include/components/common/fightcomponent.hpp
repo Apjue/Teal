@@ -12,7 +12,7 @@
 #include "components/common/pathcomponent.hpp"
 #include "cache/doublestore.hpp"
 #include "global.hpp"
-#include "data/states.hpp"
+#include "data/statedata.hpp"
 #include "util/nzstlcompatibility.hpp"
 
 struct FightComponent : public Ndk::Component<FightComponent>
@@ -23,7 +23,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
     unsigned teamNumber {};
-    std::vector<std::shared_ptr<State>> states;
+    std::vector<StateData> states;
 
     bool automaticallyAttack { false }; // In the map
 
@@ -34,6 +34,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
     unsigned actionPoints { maxActionPoints };
 
     std::vector<SkillStore::LightId> attacks;
+
 
     SkillStore::LightId wantedAttack { SkillStore::InvalidID };
     Ndk::EntityHandle target;
@@ -50,19 +51,21 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, FightCompo
 {
     state.CheckType(index, Nz::LuaType_Table);
 
-    component->isFighting = state.CheckField<bool>("is_fighting", false);
-    component->myTurn = state.CheckField<bool>("my_turn", false);
-    component->teamNumber = state.CheckField<unsigned>("team_number");
+    component->isFighting = state.CheckField<bool>("is_fighting", false, index);
+    component->myTurn = state.CheckField<bool>("my_turn", false, index);
+    component->teamNumber = state.CheckField<unsigned>("team_number", index);
 
-    static_assert(false, "add states serialization");
+    component->states = state.CheckField<std::vector<StateData>>("states", index);
 
-    component->automaticallyAttack = state.CheckField<bool>("automatically_attack", false);
+    component->automaticallyAttack = state.CheckField<bool>("automatically_attack", false, index);
 
-    component->maxMovementPoints = state.CheckField<unsigned>("max_movement_points");
-    component->maxActionPoints = state.CheckField<unsigned>("max_action_points");
+    component->maxMovementPoints = state.CheckField<unsigned>("max_movement_points", index);
+    component->maxActionPoints = state.CheckField<unsigned>("max_action_points", index);
 
-    component->movementPoints = state.CheckField<unsigned>("movement_points");
-    component->actionPoints = state.CheckField<unsigned>("action_points");
+    component->movementPoints = state.CheckField<unsigned>("movement_points", index);
+    component->actionPoints = state.CheckField<unsigned>("action_points", index);
+
+    component->attacks = state.CheckField<std::vector<SkillStore::LightId>>("attacks", index);
 
     return 1;
 }
@@ -75,7 +78,7 @@ inline int LuaImplReplyVal(const LuaState& state, FightComponent&& component, Ty
         state.PushField("my_turn", component.myTurn);
         state.PushField("team_number", component.teamNumber);
 
-        static_assert(false, "add states serialization");
+        state.PushField("states", component.states);
 
         state.PushField("automatically_attack", component.automaticallyAttack);
 
@@ -84,6 +87,8 @@ inline int LuaImplReplyVal(const LuaState& state, FightComponent&& component, Ty
 
         state.PushField("movement_points", component.movementPoints);
         state.PushField("action_points", component.actionPoints);
+
+        state.PushField("attacks", component.attacks);
     }
 
     return 1;
