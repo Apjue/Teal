@@ -293,40 +293,8 @@ void AISystem::serializeFunctions(Nz::LuaInstance& lua)
 {
     Ndk::LuaAPI::RegisterClasses(lua);
 
-    lua.PushFunction([] (Nz::LuaState& state) -> int
-    {
-
-    }); lua.SetGlobal("Teal_MoveCharacter");
-
-    // DELETE EVERYTHING
-    // LuaClass... is for classes (wow!)
-    // // /! LuaAPI::RegisterClasses
-    // find another way to make free functions (PushFunction)
-
-    //example:
-    /*********************************** Ndk::Entity *********************************
-    entity.Reset("Entity");
-    {
-        entity.BindMethod("__tostring", &EntityHandle::ToString);
-
-        entity.BindMethod("HasComponent", [this] (Nz::LuaState& state, EntityHandle& handle, std::size_t /*argumentCount*) -> int
-        {
-            LuaBinding::ComponentBinding* bindingComponent = m_binding.QueryComponentIndex(state);
-
-            state.PushBoolean(handle->HasComponent(bindingComponent->index));
-            return 1;
-        });
-
-        entity.BindMethod("GetComponent", [this] (Nz::LuaState& state, EntityHandle& handle, std::size_t /*argumentCount*) -> int
-        {
-            LuaBinding::ComponentBinding* bindingComponent = m_binding.QueryComponentIndex(state);
-
-            return bindingComponent->getter(state, handle->GetComponent(bindingComponent->index));
-        });
-    }*/
-
-    /*Nz::LuaClass<AISystem> thisClass;
-    thisClass.Reset("name™");
+    Nz::LuaClass<AISystem*> thisClass;
+    thisClass.Reset("TealClass");
 
     thisClass.BindMethod("MoveCharacter",          &AISystem::Teal_MoveCharacter);
     thisClass.BindMethod("TakeCover",              &AISystem::Teal_TakeCover);
@@ -337,11 +305,16 @@ void AISystem::serializeFunctions(Nz::LuaInstance& lua)
     thisClass.BindMethod("CanAttack",              &AISystem::Teal_CanAttack);
     thisClass.BindMethod("CanAttackWith",          &AISystem::Teal_CanAttackWith);
 
-    thisClass.Register(lua);*/
+    thisClass.Register(lua);
+
+    lua.PushInstance("TealClass", this);
+    lua.SetGlobal("Teal");
 }
 
 bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
 {
+
+
     /*bool somethingWentWrong = false;
 
     {

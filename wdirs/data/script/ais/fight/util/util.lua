@@ -13,38 +13,38 @@ function CurrentCharacter:MoveToward(character)
 end
 
 function CurrentCharacter:MoveTo(x, y)
-    Teal_MoveCharacter(x, y)
+    Teal:MoveCharacter(x, y)
     coroutine.yield()
 end
 
 function CurrentCharacter:TakeCover()
-    Teal_TakeCover()
+    Teal:TakeCover()
 end
 
 function CurrentCharacter:Attack(characterIndex, skillCodename)
-    Teal_AttackCharacter(characterIndex, skillCodename or self:ChooseAttack(characterIndex).codename)
+    Teal:AttackCharacter(characterIndex, skillCodename or self:ChooseAttack(characterIndex).codename)
     coroutine.yield()
 end
 
 function CurrentCharacter:MoveAndAttack(characterIndex, skillCodename)
-    Teal_MoveAndAttackCharacter(characterIndex or self:ChooseTarget().index, skillCodename or self:ChooseAttack(characterIndex).codename)
+    Teal:MoveAndAttackCharacter(characterIndex or self:ChooseTarget().index, skillCodename or self:ChooseAttack(characterIndex).codename)
     coroutine.yield()
 end
 
 function CurrentCharacter:ChooseTarget()
-    local index = Teal_ChooseTarget()
+    local index = Teal:ChooseTarget()
     return teal_fight_data.characters[index]
 end
 
 function CurrentCharacter:ChooseAttack(characterIndex)
-    local index = Teal_ChooseAttack(characterIndex)
+    local index = Teal:ChooseAttack(characterIndex)
     return teal_fight_data.character.skills[index]
 end
 
 function CurrentCharacter:CanAttack(characterIndex)
-    return Teal_CanAttack(characterIndex)
+    return Teal:CanAttack(characterIndex)
 end
 
 function CurrentCharacter:CanAttackWith(characterIndex, skillIndex)
-    return Teal_CanAttackWith(characterIndex, skillIndex)
+    return Teal:CanAttackWith(characterIndex, skillIndex)
 end
