@@ -2,6 +2,8 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include <NDK/Lua/LuaBinding.hpp>
+#include <NDK/LuaAPI.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/CameraComponent.hpp>
 #include <NDK/Systems/RenderSystem.hpp>
@@ -96,36 +98,36 @@ void loadTextures()
 void loadNazara()
 {
     // Components
-    Ndk::InitializeComponent<RandomMovementComponent>("rdmov");
-    Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dfgfxpos");
-    Ndk::InitializeComponent<NameComponent>("name");
-    Ndk::InitializeComponent<LevelComponent>("level");
-    Ndk::InitializeComponent<InventoryComponent>("inv");
-    Ndk::InitializeComponent<OrientationComponent>("orient");
-    Ndk::InitializeComponent<AnimationComponent>("anim");
-    Ndk::InitializeComponent<PositionComponent>("pos");
-    Ndk::InitializeComponent<MoveComponent>("move");
-    Ndk::InitializeComponent<PathComponent>("path");
-    Ndk::InitializeComponent<FightComponent>("fight");
-    Ndk::InitializeComponent<LifeComponent>("life");
-    Ndk::InitializeComponent<MapComponent>("map");
-    Ndk::InitializeComponent<DamageModifierComponent>("dmgmodif");
-    Ndk::InitializeComponent<DescriptionComponent>("desc");
-    Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");
-    Ndk::InitializeComponent<BlockTileComponent>("blcktile");
-    Ndk::InitializeComponent<MonsterComponent>("monster");
-    Ndk::InitializeComponent<EquipmentComponent>("equip");
-    Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");
-    Ndk::InitializeComponent<IconComponent>("icon");
-    Ndk::InitializeComponent<CloneComponent>("clone");
-    Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");
-    Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");
+    Ndk::InitializeComponent<RandomMovementComponent>("rdmov");         Ndk::LuaAPI::GetBinding()->BindComponent<RandomMovementComponent>("RandomMovementComponent");
+    Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dfgfxpos");  Ndk::LuaAPI::GetBinding()->BindComponent<DefaultGraphicsPosComponent>("DefaultGraphicsPosComponent");
+    Ndk::InitializeComponent<NameComponent>("name");                    Ndk::LuaAPI::GetBinding()->BindComponent<NameComponent>("NameComponent");
+    Ndk::InitializeComponent<LevelComponent>("level");                  Ndk::LuaAPI::GetBinding()->BindComponent<LevelComponent>("LevelComponent");
+    Ndk::InitializeComponent<InventoryComponent>("inv");                Ndk::LuaAPI::GetBinding()->BindComponent<InventoryComponent>("InventoryComponent");
+    Ndk::InitializeComponent<OrientationComponent>("orient");           Ndk::LuaAPI::GetBinding()->BindComponent<OrientationComponent>("OrientationComponent");
+    Ndk::InitializeComponent<AnimationComponent>("anim");               Ndk::LuaAPI::GetBinding()->BindComponent<AnimationComponent>("AnimationComponent");
+    Ndk::InitializeComponent<PositionComponent>("pos");                 Ndk::LuaAPI::GetBinding()->BindComponent<PositionComponent>("PositionComponent");
+    Ndk::InitializeComponent<MoveComponent>("move");                    Ndk::LuaAPI::GetBinding()->BindComponent<MoveComponent>("MoveComponent");
+    Ndk::InitializeComponent<PathComponent>("path");                    Ndk::LuaAPI::GetBinding()->BindComponent<PathComponent>("PathComponent");
+    Ndk::InitializeComponent<FightComponent>("fight");                  Ndk::LuaAPI::GetBinding()->BindComponent<FightComponent>("FightComponent");
+    Ndk::InitializeComponent<LifeComponent>("life");                    Ndk::LuaAPI::GetBinding()->BindComponent<LifeComponent>("LifeComponent");
+    Ndk::InitializeComponent<MapComponent>("map");                      Ndk::LuaAPI::GetBinding()->BindComponent<MapComponent>("MapComponent");
+    Ndk::InitializeComponent<DamageModifierComponent>("dmgmodif");      Ndk::LuaAPI::GetBinding()->BindComponent<DamageModifierComponent>("DamageModifierComponent");
+    Ndk::InitializeComponent<DescriptionComponent>("desc");             Ndk::LuaAPI::GetBinding()->BindComponent<DescriptionComponent>("DescriptionComponent");
+    Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");        Ndk::LuaAPI::GetBinding()->BindComponent<CombatBehaviorComponent>("CombatBehaviorComponent");
+    Ndk::InitializeComponent<BlockTileComponent>("blcktile");           Ndk::LuaAPI::GetBinding()->BindComponent<BlockTileComponent>("BlockTileComponent");
+    Ndk::InitializeComponent<MonsterComponent>("monster");              Ndk::LuaAPI::GetBinding()->BindComponent<MonsterComponent>("MonsterComponent");
+    Ndk::InitializeComponent<EquipmentComponent>("equip");              Ndk::LuaAPI::GetBinding()->BindComponent<EquipmentComponent>("EquipmentComponent");
+    Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");        Ndk::LuaAPI::GetBinding()->BindComponent<LogicEntityIdComponent>("LogicEntityIdComponent");
+    Ndk::InitializeComponent<IconComponent>("icon");                    Ndk::LuaAPI::GetBinding()->BindComponent<IconComponent>("IconComponent");
+    Ndk::InitializeComponent<CloneComponent>("clone");                  Ndk::LuaAPI::GetBinding()->BindComponent<CloneComponent>("CloneComponent");
+    Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");     Ndk::LuaAPI::GetBinding()->BindComponent<GraphicalEntitiesComponent>("GraphicalEntitiesComponent");
+    Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");  Ndk::LuaAPI::GetBinding()->BindComponent<RenderablesStorageComponent>("RenderablesStorageComponent");
 
-    Ndk::InitializeComponent<HPGainComponent>("hpgain");
-    Ndk::InitializeComponent<ItemComponent>("item");
-    Ndk::InitializeComponent<EquippableComponent>("canequip");
-    Ndk::InitializeComponent<EdibleComponent>("edible");
-    Ndk::InitializeComponent<ResourceComponent>("resource");
+    Ndk::InitializeComponent<HPGainComponent>("hpgain");                Ndk::LuaAPI::GetBinding()->BindComponent<HPGainComponent>("HPGainComponent");
+    Ndk::InitializeComponent<ItemComponent>("item");                    Ndk::LuaAPI::GetBinding()->BindComponent<ItemComponent>("ItemComponent");
+    Ndk::InitializeComponent<EquippableComponent>("canequip");          Ndk::LuaAPI::GetBinding()->BindComponent<EquippableComponent>("EquippableComponent");
+    Ndk::InitializeComponent<EdibleComponent>("edible");                Ndk::LuaAPI::GetBinding()->BindComponent<EdibleComponent>("EdibleComponent");
+    Ndk::InitializeComponent<ResourceComponent>("resource");            Ndk::LuaAPI::GetBinding()->BindComponent<ResourceComponent>("ResourceComponent");
 
     // Systems
     Ndk::InitializeSystem<AISystem>();
