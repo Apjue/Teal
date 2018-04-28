@@ -241,49 +241,49 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 {
     lua.ExecuteFromFile(m_utilityLuaFile);
     lua.PushTable();
-
-
-    lua.PushTable();
-
-    if (!serializeCharacter(lua, m_currentFight.currentEntity))
-        return false;
-
-    lua.SetField("character");
-
     {
         lua.PushTable();
 
-        for (unsigned i {}; i < m_currentFight.fighters.size(); ++i)
+        if (!serializeCharacter(lua, m_currentFight.currentEntity))
+            return false;
+
+        lua.SetMetatable("CurrentCharacter");
+        lua.SetField("character");
+
         {
-            auto& e = m_currentFight.fighters[i];
-
-            if (e == m_currentFight.currentEntity)
-                continue;
-
-            lua.PushInteger(i + 1);
             lua.PushTable();
 
-            if (!serializeCharacter(lua, e))
-                return false;
+            for (unsigned i {}; i < m_currentFight.fighters.size(); ++i)
+            {
+                auto& e = m_currentFight.fighters[i];
 
-            lua.SetTable();
+                if (e == m_currentFight.currentEntity)
+                    continue;
+
+                lua.PushInteger(i + 1);
+                lua.PushTable();
+
+                if (!serializeCharacter(lua, e))
+                    return false;
+
+                lua.SetTable();
+            }
+
+            lua.SetField("characters");
+
+
+            lua.PushTable();
+
+            for (auto& e : m_currentFight.entities)
+            {
+                // serialize traps and things like that later...
+            }
+
+            lua.SetField("objects");
         }
-
-        lua.SetField("characters");
-
-
-        lua.PushTable();
-
-        for (auto& e : m_currentFight.entities)
-        {
-            // serialize traps and things like that later...
-        }
-
-        lua.SetField("objects");
     }
 
     lua.SetGlobal("teal_fight_data");
-    lua.Execute("setmetatable(teal_fight_data.character, Character)"); // todo: use lua.SetMetatable();
 
     serializeFunctions(lua);
     return true;
@@ -291,7 +291,42 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
 void AISystem::serializeFunctions(Nz::LuaInstance& lua)
 {
-    Nz::LuaClass<AISystem> thisClass;
+    Ndk::LuaAPI::RegisterClasses(lua);
+
+    lua.PushFunction([] (Nz::LuaState& state) -> int
+    {
+
+    }); lua.SetGlobal("Teal_MoveCharacter");
+
+    // DELETE EVERYTHING
+    // LuaClass... is for classes (wow!)
+    // // /! LuaAPI::RegisterClasses
+    // find another way to make free functions (PushFunction)
+
+    //example:
+    /*********************************** Ndk::Entity *********************************
+    entity.Reset("Entity");
+    {
+        entity.BindMethod("__tostring", &EntityHandle::ToString);
+
+        entity.BindMethod("HasComponent", [this] (Nz::LuaState& state, EntityHandle& handle, std::size_t /*argumentCount*) -> int
+        {
+            LuaBinding::ComponentBinding* bindingComponent = m_binding.QueryComponentIndex(state);
+
+            state.PushBoolean(handle->HasComponent(bindingComponent->index));
+            return 1;
+        });
+
+        entity.BindMethod("GetComponent", [this] (Nz::LuaState& state, EntityHandle& handle, std::size_t /*argumentCount*) -> int
+        {
+            LuaBinding::ComponentBinding* bindingComponent = m_binding.QueryComponentIndex(state);
+
+            return bindingComponent->getter(state, handle->GetComponent(bindingComponent->index));
+        });
+    }*/
+
+    /*Nz::LuaClass<AISystem> thisClass;
+    thisClass.Reset("name™");
 
     thisClass.BindMethod("MoveCharacter",          &AISystem::Teal_MoveCharacter);
     thisClass.BindMethod("TakeCover",              &AISystem::Teal_TakeCover);
@@ -302,12 +337,12 @@ void AISystem::serializeFunctions(Nz::LuaInstance& lua)
     thisClass.BindMethod("CanAttack",              &AISystem::Teal_CanAttack);
     thisClass.BindMethod("CanAttackWith",          &AISystem::Teal_CanAttackWith);
 
-    thisClass.Register(lua);
+    thisClass.Register(lua);*/
 }
 
 bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
 {
-    bool somethingWentWrong = false;
+    /*bool somethingWentWrong = false;
 
     {
         auto it = std::find_if(m_currentFight.fighters.begin(), m_currentFight.fighters.end(), [&character] (const Ndk::EntityHandle& e)
@@ -422,12 +457,12 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
         lua.SetField("skills");
     }
 
-    return !somethingWentWrong;
+    return !somethingWentWrong;*/
 }
 
 bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
-    auto& fight = character->GetComponent<FightComponent>();
+    /*auto& fight = character->GetComponent<FightComponent>();
 
     for (auto& skillId : fight.attacks)
     {
@@ -520,7 +555,7 @@ bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& ch
         lua.SetField("attacks");
     }
 
-    return true;
+    return true;*/
 }
 
 

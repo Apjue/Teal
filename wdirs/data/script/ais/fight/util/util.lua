@@ -6,45 +6,45 @@ function HasCharacterPlayed(character)
     return teal_fight_data.character.index > character.index
 end
 
-Character = Class()
+CurrentCharacter = Class()
 
-function Character:MoveToward(character)
+function CurrentCharacter:MoveToward(character)
     self:MoveTo(character.x, character.y)
 end
 
-function Character:MoveTo(x, y)
+function CurrentCharacter:MoveTo(x, y)
     Teal_MoveCharacter(x, y)
     coroutine.yield()
 end
 
-function Character:TakeCover()
+function CurrentCharacter:TakeCover()
     Teal_TakeCover()
 end
 
-function Character:Attack(characterIndex, skillCodename)
+function CurrentCharacter:Attack(characterIndex, skillCodename)
     Teal_AttackCharacter(characterIndex, skillCodename or self:ChooseAttack(characterIndex).codename)
     coroutine.yield()
 end
 
-function Character:MoveAndAttack(characterIndex, skillCodename)
+function CurrentCharacter:MoveAndAttack(characterIndex, skillCodename)
     Teal_MoveAndAttackCharacter(characterIndex or self:ChooseTarget().index, skillCodename or self:ChooseAttack(characterIndex).codename)
     coroutine.yield()
 end
 
-function Character:ChooseTarget()
+function CurrentCharacter:ChooseTarget()
     local index = Teal_ChooseTarget()
     return teal_fight_data.characters[index]
 end
 
-function Character:ChooseAttack(characterIndex)
+function CurrentCharacter:ChooseAttack(characterIndex)
     local index = Teal_ChooseAttack(characterIndex)
     return teal_fight_data.character.skills[index]
 end
 
-function Character:CanAttack(characterIndex)
+function CurrentCharacter:CanAttack(characterIndex)
     return Teal_CanAttack(characterIndex)
 end
 
-function Character:CanAttackWith(characterIndex, skillIndex)
+function CurrentCharacter:CanAttackWith(characterIndex, skillIndex)
     return Teal_CanAttackWith(characterIndex, skillIndex)
 end
