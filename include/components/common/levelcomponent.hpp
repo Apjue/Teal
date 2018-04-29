@@ -8,10 +8,14 @@
 #define LEVELCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 
-struct LevelComponent : public Ndk::Component<LevelComponent>
+struct LevelComponent;
+using LevelComponentHandle = Nz::ObjectHandle<LevelComponent>;
+
+struct LevelComponent : public Ndk::Component<LevelComponent>, public Nz::HandledObject<LevelComponent>
 {
-    LevelComponent(unsigned lvl = 1) : level { lvl } {}
+    LevelComponent(unsigned lvl = 0) : level { lvl } {}
 
     unsigned level {};
 
@@ -31,11 +35,11 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, LevelCompo
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, LevelComponent&& component, TypeTag<LevelComponent>)
+inline int LuaImplReplyVal(const LuaState& state, LevelComponentHandle&& component, TypeTag<LevelComponentHandle>)
 {
     state.PushTable();
     {
-        state.PushField("level", component.level);
+        state.PushField("level", component->level);
     }
 
     return 1;

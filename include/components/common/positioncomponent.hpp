@@ -8,9 +8,13 @@
 #define POSITIONCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 #include "global.hpp"
 
-struct PositionComponent : public Ndk::Component<PositionComponent>
+struct PositionComponent;
+using PositionComponentHandle = Nz::ObjectHandle<PositionComponent>;
+
+struct PositionComponent : public Ndk::Component<PositionComponent>, public Nz::HandledObject<PositionComponent>
 {
     PositionComponent() = default;
     PositionComponent(const AbsTile& pos) : xy { pos } {}
@@ -36,11 +40,11 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, PositionCo
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, PositionComponent&& component, TypeTag<PositionComponent>)
+inline int LuaImplReplyVal(const LuaState& state, PositionComponentHandle&& component, TypeTag<PositionComponentHandle>)
 {
     state.PushTable();
     {
-        state.PushField("xy", component.xy);
+        state.PushField("xy", component->xy);
     }
 
     return 1;

@@ -70,9 +70,9 @@ private:
     void removeFromFight(const Ndk::EntityHandle& e);
 
     bool prepareLuaAI(Nz::LuaInstance& lua);
-    void serializeFunctions(Nz::LuaInstance& lua);
-    bool serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
-    bool serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
+    void bindFunctions(Nz::LuaInstance& lua);
+    bool bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
+    bool bindSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
     void Teal_MoveCharacter(unsigned x, unsigned y);
     void Teal_TakeCover();

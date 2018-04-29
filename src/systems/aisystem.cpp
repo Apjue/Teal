@@ -244,7 +244,7 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
     {
         lua.PushTable();
 
-        if (!serializeCharacter(lua, m_currentFight.currentEntity))
+        if (!bindCharacter(lua, m_currentFight.currentEntity))
             return false;
 
         lua.SetMetatable("CurrentCharacter");
@@ -263,7 +263,7 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
                 lua.PushInteger(i + 1);
                 lua.PushTable();
 
-                if (!serializeCharacter(lua, e))
+                if (!bindCharacter(lua, e))
                     return false;
 
                 lua.SetTable();
@@ -276,7 +276,7 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
             for (auto& e : m_currentFight.entities)
             {
-                // serialize traps and things like that later...
+                // bind traps and things like that later...
             }
 
             lua.SetField("objects");
@@ -285,13 +285,13 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
     lua.SetGlobal("teal_fight_data");
 
-    serializeFunctions(lua);
+    bindFunctions(lua);
     return true;
 }
 
-void AISystem::serializeFunctions(Nz::LuaInstance& lua)
+void AISystem::bindFunctions(Nz::LuaInstance& lua)
 {
-    Ndk::LuaAPI::RegisterClasses(lua);
+    Ndk::LuaAPI::RegisterClasses(lua); // TODO: since all components are bound using Entity bind thing, delete componentName() in components
 
     Nz::LuaClass<AISystem*> thisClass;
     thisClass.Reset("TealClass");
@@ -311,7 +311,7 @@ void AISystem::serializeFunctions(Nz::LuaInstance& lua)
     lua.SetGlobal("Teal");
 }
 
-bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
+bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
 {
 
 
@@ -433,7 +433,7 @@ bool AISystem::serializeCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle&
     return !somethingWentWrong;*/
 }
 
-bool AISystem::serializeSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
+bool AISystem::bindSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
     /*auto& fight = character->GetComponent<FightComponent>();
 

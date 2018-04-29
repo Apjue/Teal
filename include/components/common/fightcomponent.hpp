@@ -8,6 +8,7 @@
 #define FIGHTCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 #include <vector>
 #include "components/common/pathcomponent.hpp"
 #include "cache/doublestore.hpp"
@@ -15,7 +16,10 @@
 #include "data/statedata.hpp"
 #include "util/nzstlcompatibility.hpp"
 
-struct FightComponent : public Ndk::Component<FightComponent>
+struct FightComponent;
+using FightComponentHandle = Nz::ObjectHandle<FightComponent>;
+
+struct FightComponent : public Ndk::Component<FightComponent>, public Nz::HandledObject<FightComponent>
 {
     FightComponent(bool autoAttack = false, unsigned mov = 3, unsigned action = 6)
         : automaticallyAttack { autoAttack }, maxMovementPoints { mov }, maxActionPoints { action }, movementPoints { mov }, actionPoints { action } {}
@@ -70,25 +74,25 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, FightCompo
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, FightComponent&& component, TypeTag<FightComponent>)
+inline int LuaImplReplyVal(const LuaState& state, FightComponentHandle&& component, TypeTag<FightComponentHandle>)
 {
     state.PushTable();
     {
-        state.PushField("is_fighting", component.isFighting);
-        state.PushField("my_turn", component.myTurn);
-        state.PushField("team_number", component.teamNumber);
+        state.PushField("is_fighting", component->isFighting);
+        state.PushField("my_turn", component->myTurn);
+        state.PushField("team_number", component->teamNumber);
 
-        state.PushField("states", component.states);
+        state.PushField("states", component->states);
 
-        state.PushField("automatically_attack", component.automaticallyAttack);
+        state.PushField("automatically_attack", component->automaticallyAttack);
 
-        state.PushField("max_movement_points", component.maxMovementPoints);
-        state.PushField("max_action_points", component.maxActionPoints);
+        state.PushField("max_movement_points", component->maxMovementPoints);
+        state.PushField("max_action_points", component->maxActionPoints);
 
-        state.PushField("movement_points", component.movementPoints);
-        state.PushField("action_points", component.actionPoints);
+        state.PushField("movement_points", component->movementPoints);
+        state.PushField("action_points", component->actionPoints);
 
-        state.PushField("attacks", component.attacks);
+        state.PushField("attacks", component->attacks);
     }
 
     return 1;

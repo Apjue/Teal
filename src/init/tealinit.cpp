@@ -98,33 +98,33 @@ void loadTextures()
 void loadNazara()
 {
     // Components
-    Ndk::InitializeComponent<RandomMovementComponent>("rdmov");         Ndk::LuaAPI::GetBinding()->BindComponent<RandomMovementComponent>("RandomMovementComponent");
-    Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dfgfxpos");  Ndk::LuaAPI::GetBinding()->BindComponent<DefaultGraphicsPosComponent>("DefaultGraphicsPosComponent");
-    Ndk::InitializeComponent<NameComponent>("name");                    Ndk::LuaAPI::GetBinding()->BindComponent<NameComponent>("NameComponent");
+    Ndk::InitializeComponent<RandomMovementComponent>("rdmov");         //Ndk::LuaAPI::GetBinding()->BindComponent<RandomMovementComponent>("RandomMovementComponent");
+    Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dfgfxpos");  //Ndk::LuaAPI::GetBinding()->BindComponent<DefaultGraphicsPosComponent>("DefaultGraphicsPosComponent");
+    Ndk::InitializeComponent<NameComponent>("name");                    //Ndk::LuaAPI::GetBinding()->BindComponent<NameComponent>("NameComponent");
     Ndk::InitializeComponent<LevelComponent>("level");                  Ndk::LuaAPI::GetBinding()->BindComponent<LevelComponent>("LevelComponent");
-    Ndk::InitializeComponent<InventoryComponent>("inv");                Ndk::LuaAPI::GetBinding()->BindComponent<InventoryComponent>("InventoryComponent");
-    Ndk::InitializeComponent<OrientationComponent>("orient");           Ndk::LuaAPI::GetBinding()->BindComponent<OrientationComponent>("OrientationComponent");
-    Ndk::InitializeComponent<AnimationComponent>("anim");               Ndk::LuaAPI::GetBinding()->BindComponent<AnimationComponent>("AnimationComponent");
+    Ndk::InitializeComponent<InventoryComponent>("inv");                //Ndk::LuaAPI::GetBinding()->BindComponent<InventoryComponent>("InventoryComponent");
+    Ndk::InitializeComponent<OrientationComponent>("orient");           //Ndk::LuaAPI::GetBinding()->BindComponent<OrientationComponent>("OrientationComponent");
+    Ndk::InitializeComponent<AnimationComponent>("anim");               //Ndk::LuaAPI::GetBinding()->BindComponent<AnimationComponent>("AnimationComponent");
     Ndk::InitializeComponent<PositionComponent>("pos");                 Ndk::LuaAPI::GetBinding()->BindComponent<PositionComponent>("PositionComponent");
-    Ndk::InitializeComponent<MoveComponent>("move");                    Ndk::LuaAPI::GetBinding()->BindComponent<MoveComponent>("MoveComponent");
-    Ndk::InitializeComponent<PathComponent>("path");                    Ndk::LuaAPI::GetBinding()->BindComponent<PathComponent>("PathComponent");
+    Ndk::InitializeComponent<MoveComponent>("move");                    //Ndk::LuaAPI::GetBinding()->BindComponent<MoveComponent>("MoveComponent");
+    Ndk::InitializeComponent<PathComponent>("path");                    //Ndk::LuaAPI::GetBinding()->BindComponent<PathComponent>("PathComponent");
     Ndk::InitializeComponent<FightComponent>("fight");                  Ndk::LuaAPI::GetBinding()->BindComponent<FightComponent>("FightComponent");
     Ndk::InitializeComponent<LifeComponent>("life");                    Ndk::LuaAPI::GetBinding()->BindComponent<LifeComponent>("LifeComponent");
-    Ndk::InitializeComponent<MapComponent>("map");                      Ndk::LuaAPI::GetBinding()->BindComponent<MapComponent>("MapComponent");
+    Ndk::InitializeComponent<MapComponent>("map");                      //Ndk::LuaAPI::GetBinding()->BindComponent<MapComponent>("MapComponent");
     Ndk::InitializeComponent<DamageModifierComponent>("dmgmodif");      Ndk::LuaAPI::GetBinding()->BindComponent<DamageModifierComponent>("DamageModifierComponent");
-    Ndk::InitializeComponent<DescriptionComponent>("desc");             Ndk::LuaAPI::GetBinding()->BindComponent<DescriptionComponent>("DescriptionComponent");
-    Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");        Ndk::LuaAPI::GetBinding()->BindComponent<CombatBehaviorComponent>("CombatBehaviorComponent");
-    Ndk::InitializeComponent<BlockTileComponent>("blcktile");           Ndk::LuaAPI::GetBinding()->BindComponent<BlockTileComponent>("BlockTileComponent");
-    Ndk::InitializeComponent<MonsterComponent>("monster");              Ndk::LuaAPI::GetBinding()->BindComponent<MonsterComponent>("MonsterComponent");
-    Ndk::InitializeComponent<EquipmentComponent>("equip");              Ndk::LuaAPI::GetBinding()->BindComponent<EquipmentComponent>("EquipmentComponent");
-    Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");        Ndk::LuaAPI::GetBinding()->BindComponent<LogicEntityIdComponent>("LogicEntityIdComponent");
-    Ndk::InitializeComponent<IconComponent>("icon");                    Ndk::LuaAPI::GetBinding()->BindComponent<IconComponent>("IconComponent");
-    Ndk::InitializeComponent<CloneComponent>("clone");                  Ndk::LuaAPI::GetBinding()->BindComponent<CloneComponent>("CloneComponent");
-    Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");     Ndk::LuaAPI::GetBinding()->BindComponent<GraphicalEntitiesComponent>("GraphicalEntitiesComponent");
-    Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");  Ndk::LuaAPI::GetBinding()->BindComponent<RenderablesStorageComponent>("RenderablesStorageComponent");
+    Ndk::InitializeComponent<DescriptionComponent>("desc");             //Ndk::LuaAPI::GetBinding()->BindComponent<DescriptionComponent>("DescriptionComponent");
+    Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");        //Ndk::LuaAPI::GetBinding()->BindComponent<CombatBehaviorComponent>("CombatBehaviorComponent");
+    Ndk::InitializeComponent<BlockTileComponent>("blcktile");           //Ndk::LuaAPI::GetBinding()->BindComponent<BlockTileComponent>("BlockTileComponent");
+    Ndk::InitializeComponent<MonsterComponent>("monster");              //Ndk::LuaAPI::GetBinding()->BindComponent<MonsterComponent>("MonsterComponent");
+    Ndk::InitializeComponent<EquipmentComponent>("equip");              //Ndk::LuaAPI::GetBinding()->BindComponent<EquipmentComponent>("EquipmentComponent");
+    Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");        //Ndk::LuaAPI::GetBinding()->BindComponent<LogicEntityIdComponent>("LogicEntityIdComponent");
+    Ndk::InitializeComponent<IconComponent>("icon");                    //Ndk::LuaAPI::GetBinding()->BindComponent<IconComponent>("IconComponent");
+    Ndk::InitializeComponent<CloneComponent>("clone");                  //Ndk::LuaAPI::GetBinding()->BindComponent<CloneComponent>("CloneComponent");
+    Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");     //Ndk::LuaAPI::GetBinding()->BindComponent<GraphicalEntitiesComponent>("GraphicalEntitiesComponent");
+    Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");  //Ndk::LuaAPI::GetBinding()->BindComponent<RenderablesStorageComponent>("RenderablesStorageComponent");
 
     Ndk::InitializeComponent<HPGainComponent>("hpgain");                Ndk::LuaAPI::GetBinding()->BindComponent<HPGainComponent>("HPGainComponent");
-    Ndk::InitializeComponent<ItemComponent>("item");                    Ndk::LuaAPI::GetBinding()->BindComponent<ItemComponent>("ItemComponent");
+    Ndk::InitializeComponent<ItemComponent>("item");                    //Ndk::LuaAPI::GetBinding()->BindComponent<ItemComponent>("ItemComponent");
     Ndk::InitializeComponent<EquippableComponent>("canequip");          Ndk::LuaAPI::GetBinding()->BindComponent<EquippableComponent>("EquippableComponent");
     Ndk::InitializeComponent<EdibleComponent>("edible");                Ndk::LuaAPI::GetBinding()->BindComponent<EdibleComponent>("EdibleComponent");
     Ndk::InitializeComponent<ResourceComponent>("resource");            Ndk::LuaAPI::GetBinding()->BindComponent<ResourceComponent>("ResourceComponent");
@@ -193,13 +193,10 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
 }
 
 
-void loadMetaData(StateMDStore& states, EffectMDStore& effects)
+void loadMetaData(StateMDStore& states)
 {
     states.addItem(PoisonnedState::getMetadataID(), { "Poisonned", "You are poisonned. Life sucks." });
     states.addItem(HealedState::getMetadataID(), { "Regeneration", "You are healed. Life is cool." });
-
-    effects.addItem(PullEffect::getMetadataID(), { "Pull" });
-    effects.addItem(PushEffect::getMetadataID(), { "Push" });
 }
 
 void loadSkills(SkillStore& skills)

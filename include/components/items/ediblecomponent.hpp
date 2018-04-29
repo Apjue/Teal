@@ -8,9 +8,13 @@
 #define EDIBLECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 #include "def/typedef.hpp"
 
-struct EdibleComponent : public Ndk::Component<EdibleComponent>
+struct EdibleComponent;
+using EdibleComponentHandle = Nz::ObjectHandle<EdibleComponent>;
+
+struct EdibleComponent : public Ndk::Component<EdibleComponent>, public Nz::HandledObject<EdibleComponent>
 {
     static inline const char* componentName() { return "edible"; }
     static Ndk::ComponentIndex componentIndex;
@@ -27,7 +31,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, EdibleComp
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, EdibleComponent&& component, TypeTag<EdibleComponent>)
+inline int LuaImplReplyVal(const LuaState& state, EdibleComponentHandle&& component, TypeTag<EdibleComponentHandle>)
 {
     state.PushTable();
     return 1;

@@ -35,17 +35,17 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, EquippableCompone
     return 1;
 }
 
-int LuaImplReplyVal(const LuaState& state, EquippableComponent&& component, TypeTag<EquippableComponent>)
+int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& component, TypeTag<EquippableComponentHandle>)
 {
     state.PushTable();
     {
-        state.PushField<Nz::String>("bodypart", EquippableComponent::bodypartToString(component.bodypart));
-        state.PushField<Nz::String>("side", EquippableComponent::sideToString(component.side));
+        state.PushField<Nz::String>("bodypart", EquippableComponent::bodypartToString(component->bodypart));
+        state.PushField<Nz::String>("side", EquippableComponent::sideToString(component->side));
 
-        if (component.attackId != SkillStore::InvalidID)
+        if (component->attackId != SkillStore::InvalidID)
         {
             TealAssert(EquippableComponent::skillstore, "Equippable component's skillstore is invalid");
-            state.PushField<std::string>("skill_id", EquippableComponent::skillstore->getItem(component.attackId).codename);
+            state.PushField<std::string>("skill_id", EquippableComponent::skillstore->getItem(component->attackId).codename);
         }
     }
 

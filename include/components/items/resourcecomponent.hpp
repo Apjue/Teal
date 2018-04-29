@@ -8,9 +8,13 @@
 #define RESOURCECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 #include "def/typedef.hpp"
 
-struct ResourceComponent : public Ndk::Component<ResourceComponent>
+struct ResourceComponent;
+using ResourceComponentHandle = Nz::ObjectHandle<ResourceComponent>;
+
+struct ResourceComponent : public Ndk::Component<ResourceComponent>, public Nz::HandledObject<ResourceComponent>
 {
     static inline const char* componentName() { return "resource"; }
     static Ndk::ComponentIndex componentIndex;
@@ -27,7 +31,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, ResourceCo
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, ResourceComponent&& component, TypeTag<ResourceComponent>)
+inline int LuaImplReplyVal(const LuaState& state, ResourceComponentHandle&& component, TypeTag<ResourceComponentHandle>)
 {
     state.PushTable();
     return 1;

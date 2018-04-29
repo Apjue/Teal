@@ -7,12 +7,16 @@
 #ifndef DAMAGEMODIFIERCOMPONENT_HPP
 #define DAMAGEMODIFIERCOMPONENT_HPP
 
+#include <Nazara/Core/ObjectHandle.hpp>
 #include <Nazara/Core/String.hpp>
 #include <NDK/Component.hpp>
 #include <unordered_map>
 #include "data/elementdata.hpp"
 
-struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>
+struct DamageModifierComponent;
+using DamageModifierComponentHandle = Nz::ObjectHandle<DamageModifierComponent>;
+
+struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>, public Nz::HandledObject<DamageModifierComponent>
 {
     std::unordered_map<Element, int> attack; // In percentage
     std::unordered_map<Element, int> resistance;
@@ -44,14 +48,14 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, DamageModi
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, DamageModifierComponent&& component, TypeTag<DamageModifierComponent>)
+inline int LuaImplReplyVal(const LuaState& state, DamageModifierComponentHandle&& component, TypeTag<DamageModifierComponentHandle>)
 {
     state.PushTable();
     {
         state.PushTable();
         {
             for (Element e {}; e <= Element::Max; ++e)
-                state.PushField(elementToString(e), component.attack[e]);
+                state.PushField(elementToString(e), component->attack[e]);
         }
 
         state.SetField("attack");
@@ -60,7 +64,7 @@ inline int LuaImplReplyVal(const LuaState& state, DamageModifierComponent&& comp
         state.PushTable();
         {
             for (Element e {}; e <= Element::Max; ++e)
-                state.PushField(elementToString(e), component.resistance[e]);
+                state.PushField(elementToString(e), component->resistance[e]);
         }
 
         state.SetField("resistance");

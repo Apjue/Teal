@@ -8,6 +8,7 @@
 #define EQUIPPABLECOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <Nazara/Core/ObjectHandle.hpp>
 #include <Nazara/Lua/LuaState.hpp>
 #include "cache/doublestore.hpp"
 #include "def/typedef.hpp"
@@ -19,11 +20,13 @@ namespace Nz
 {
 
 extern unsigned int LuaImplQueryArg(const LuaState& state, int index, EquippableComponent* component, TypeTag<EquippableComponent>);
-extern int LuaImplReplyVal(const LuaState& state, EquippableComponent&& component, TypeTag<EquippableComponent>);
+extern int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& component, TypeTag<EquippableComponentHandle>);
 
 } // namespace Nz
 
-struct EquippableComponent : public Ndk::Component<EquippableComponent>
+using EquippableComponentHandle = Nz::ObjectHandle<EquippableComponent>;
+
+struct EquippableComponent : public Ndk::Component<EquippableComponent>, public Nz::HandledObject<EquippableComponent>
 {
     enum BodyPart
     {
@@ -62,7 +65,7 @@ private:
 
     friend void initializeEquippableComponent(const SkillStore* skillstore);
     friend unsigned int Nz::LuaImplQueryArg(const Nz::LuaState& state, int index, EquippableComponent* component, Nz::TypeTag<EquippableComponent>);
-    friend int Nz::LuaImplReplyVal(const Nz::LuaState& state, EquippableComponent&& component, Nz::TypeTag<EquippableComponent>);
+    friend int Nz::LuaImplReplyVal(const Nz::LuaState& state, EquippableComponentHandle&& component, Nz::TypeTag<EquippableComponentHandle>);
 };
 
 #endif // EQUIPPABLECOMPONENT_HPP
