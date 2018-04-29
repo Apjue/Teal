@@ -24,12 +24,12 @@ struct CombatBehaviorComponent : public Ndk::Component<CombatBehaviorComponent>
     ///        - HitAndRun
     ///          Acts like Melee and retreat
     ///
-    ///        - DSummonner (Defensive Summonner)
+    ///        - Defensive Summonner
     ///          Summons others monsters and hide behind them
     ///          Also boost the summonned monsters, and others allies
     ///          Attack only if needed
     ///
-    ///        - OSummoner (Offensive Summoner)
+    ///        - Offensive Summoner
     ///          Summons others monsters and fight with them
     ///          Prefers to attack enemies rather than boost allies
     ///
@@ -47,8 +47,8 @@ struct CombatBehaviorComponent : public Ndk::Component<CombatBehaviorComponent>
         Melee,
         Stalker,
         HitAndRun,
-        DSummonner,
-        OSummoner,
+        DefensiveSummonner,
+        OffensiveSummoner,
         Summonner,
         LongDistance
     };
