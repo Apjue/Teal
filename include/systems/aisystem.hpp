@@ -71,8 +71,7 @@ private:
 
     bool prepareLuaAI(Nz::LuaInstance& lua);
     void bindFunctions(Nz::LuaInstance& lua);
-    bool bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills = true);
-    bool bindSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
+    bool bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
     void Teal_MoveCharacter(unsigned x, unsigned y);
     void Teal_TakeCover();

@@ -293,27 +293,41 @@ void AISystem::bindFunctions(Nz::LuaInstance& lua)
 {
     Ndk::LuaAPI::RegisterClasses(lua); // TODO: since all components are bound using Entity bind thing, delete componentName() in components
 
-    Nz::LuaClass<AISystem*> thisClass;
-    thisClass.Reset("TealClass");
+    // Remove potentially harmful functions
+    lua.GetGlobal("Entity");
+    {
+        lua.PushNil(); lua.SetField("Enable");
+        lua.PushNil(); lua.SetField("GetId");
+        lua.PushNil(); lua.SetField("GetWorld");
+        lua.PushNil(); lua.SetField("Kill");
+        lua.PushNil(); lua.SetField("RemoveAllComponents");
+        lua.PushNil(); lua.SetField("AddComponent");
+        lua.PushNil(); lua.SetField("RemoveComponent");
+    }
+    lua.Pop();
 
-    thisClass.BindMethod("MoveCharacter",          &AISystem::Teal_MoveCharacter);
-    thisClass.BindMethod("TakeCover",              &AISystem::Teal_TakeCover);
-    thisClass.BindMethod("AttackCharacter",        &AISystem::Teal_AttackCharacter);
+
+    Nz::LuaClass<AISystem*> thisClass;
+    thisClass.Reset("CurrentCharacterBinding");
+
+    thisClass.BindMethod("MoveCharacter", &AISystem::Teal_MoveCharacter);
+    thisClass.BindMethod("TakeCover", &AISystem::Teal_TakeCover);
+    thisClass.BindMethod("AttackCharacter", &AISystem::Teal_AttackCharacter);
     thisClass.BindMethod("MoveAndAttackCharacter", &AISystem::Teal_MoveAndAttackCharacter);
-    thisClass.BindMethod("ChooseTarget",           &AISystem::Teal_ChooseTarget);
-    thisClass.BindMethod("ChooseAttack",           &AISystem::Teal_ChooseAttack);
-    thisClass.BindMethod("CanAttack",              &AISystem::Teal_CanAttack);
-    thisClass.BindMethod("CanAttackWith",          &AISystem::Teal_CanAttackWith);
+    thisClass.BindMethod("ChooseTarget", &AISystem::Teal_ChooseTarget);
+    thisClass.BindMethod("ChooseAttack", &AISystem::Teal_ChooseAttack);
+    thisClass.BindMethod("CanAttack", &AISystem::Teal_CanAttack);
+    thisClass.BindMethod("CanAttackWith", &AISystem::Teal_CanAttackWith);
 
     thisClass.Register(lua);
 
-    lua.PushInstance("TealClass", this);
-    lua.SetGlobal("Teal");
+    lua.PushInstance("CurrentCharacterBinding", this);
+    lua.SetGlobal("CharacterBinding");
 }
 
-bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character, bool skills)
+bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
 {
-
+    lua.PushInstance("Entity", character);
 
     /*bool somethingWentWrong = false;
 
