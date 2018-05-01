@@ -30,7 +30,7 @@ AISystem::AISystem(const SkillStore& skills, const AICore& ais, const Nz::String
 
 AISystem::AISystem(const AISystem& other) : m_skills (other.m_skills), m_ais(other.m_ais) // Invalid ctor. Must not be used
 {
-    TealAssert(false, "AISystem's copy constructor cannot be used");
+    TealException(false, "AISystem's copy constructor cannot be used");
     // This constructor is only provided to remove an error
 }
 
