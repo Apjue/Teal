@@ -13,8 +13,8 @@
 #include "cache/doublestore.hpp"
 #include "def/typedef.hpp"
 
-extern void initializeEquippableComponent(const SkillStore* skillstore_);
 struct EquippableComponent;
+using EquippableComponentHandle = Nz::ObjectHandle<EquippableComponent>;
 
 namespace Nz
 {
@@ -23,8 +23,6 @@ extern unsigned int LuaImplQueryArg(const LuaState& state, int index, Equippable
 extern int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& component, TypeTag<EquippableComponentHandle>);
 
 } // namespace Nz
-
-using EquippableComponentHandle = Nz::ObjectHandle<EquippableComponent>;
 
 struct EquippableComponent : public Ndk::Component<EquippableComponent>, public Nz::HandledObject<EquippableComponent>
 {
@@ -61,8 +59,6 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>, public 
     static Ndk::ComponentIndex componentIndex;
 
 private:
-    static const SkillStore* skillstore;
-
     friend void initializeEquippableComponent(const SkillStore* skillstore);
     friend unsigned int Nz::LuaImplQueryArg(const Nz::LuaState& state, int index, EquippableComponent* component, Nz::TypeTag<EquippableComponent>);
     friend int Nz::LuaImplReplyVal(const Nz::LuaState& state, EquippableComponentHandle&& component, Nz::TypeTag<EquippableComponentHandle>);

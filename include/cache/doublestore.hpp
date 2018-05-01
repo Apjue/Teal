@@ -24,6 +24,30 @@ using SkillStore = DoubleStore<SkillData>;
 using StateMDStore = DoubleStore<StateMetaData>;
 using AnimationStore = DoubleStore<AnimationData>;
 
+
+namespace Ndk { class World; }
+namespace Nz  { class RenderWindow; }
+struct GameData;
+
+template<class T>
+class DoubleStores // Singleton
+{
+public:
+    ~DoubleStores() = default;
+
+    static const std::shared_ptr<DoubleStore<T>> getInstance()
+    {
+        return instance;
+    }
+
+private:
+    DoubleStores() = default;
+
+    static std::shared_ptr<DoubleStore<T>> instance;
+
+    friend void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data); // find a cleaner way?
+};
+
 ///
 /// \class DoubleStore
 ///

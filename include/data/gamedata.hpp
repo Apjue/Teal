@@ -9,6 +9,7 @@
 
 #include <NDK/Entity.hpp>
 #include <NDK/EntityList.hpp>
+#include <memory>
 #include "cache/tilesetcore.hpp"
 #include "cache/doublestore.hpp"
 #include "cache/aicore.hpp"
@@ -18,11 +19,10 @@ struct GameData
     TilesetCore tilesetCore;
     TilesetCore fightTilesetCore;
 
-    StateMDStore states;
-    EffectMDStore effects;
-    SkillStore skills;
+    std::shared_ptr<StateMDStore> states; // Wondering why shared_ptr are used?
+    std::shared_ptr<SkillStore> skills;   // Check doublestore.hpp
+    std::shared_ptr<AnimationStore> animations;
     AICore ais;
-    AnimationStore animations;
 
     Ndk::EntityList items;
     Ndk::EntityList characters;

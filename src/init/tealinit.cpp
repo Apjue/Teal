@@ -37,19 +37,25 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
     Detail::initSchemeUtility();
     Detail::loadTilesetCore(data.tilesetCore, data.fightTilesetCore);
 
-    Detail::loadMetaData(data.states, data.effects);
-    Detail::loadSkills(data.skills);
-    Detail::loadAnimations(data.animations);
-    Detail::loadCharacters(world, data.characters, data.animations);
-    Detail::loadItems(world, data.items, data.skills);
+    data.states = std::make_shared<StateMDStore>();
+    data.skills = std::make_shared<SkillStore>();
+    data.animations = std::make_shared<AnimationStore>();
+
+    Detail::loadMetaData(*data.states);
+    Detail::loadSkills(*data.skills);
+    Detail::loadAnimations(*data.animations);
+    Detail::loadCharacters(world, data.characters, *data.animations);
+    Detail::loadItems(world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
     Detail::loadMaps(data.characters, data.items);
 
     Detail::addIcon(window);
     Detail::addCam(world, window);
 
-    // Misc
-    initializeEquippableComponent(&data.skills);
+    // Singletons
+    DoubleStores<StateMetaData>::instance = data.states;
+    DoubleStores<SkillData>::instance = data.skills;
+    DoubleStores<AnimationData>::instance = data.animations;
 }
 
 namespace Detail

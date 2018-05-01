@@ -3,14 +3,8 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <string>
+#include "cache/doublestore.hpp"
 #include "components/items/equippablecomponent.hpp"
-
-const SkillStore* EquippableComponent::skillstore {};
-
-void initializeEquippableComponent(const SkillStore* skillstore_)
-{
-    EquippableComponent::skillstore = skillstore_;
-}
 
 namespace Nz
 {
@@ -24,10 +18,8 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, EquippableCompone
 
     if (state.GetField("skill_id", index) == Nz::LuaType_String)
     {
-        TealAssert(EquippableComponent::skillstore, "Equippable component's skillstore is invalid");
         const char* skillName = state.CheckString(-1);
-
-        component->attackId = EquippableComponent::skillstore->getItemIndex(skillName);
+        component->attackId = DoubleStores<SkillData>::getInstance()->getItemIndex(skillName);
     }
 
     state.Pop();
@@ -43,10 +35,7 @@ int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& component
         state.PushField<Nz::String>("side", EquippableComponent::sideToString(component->side));
 
         if (component->attackId != SkillStore::InvalidID)
-        {
-            TealAssert(EquippableComponent::skillstore, "Equippable component's skillstore is invalid");
-            state.PushField<std::string>("skill_id", EquippableComponent::skillstore->getItem(component->attackId).codename);
-        }
+            state.PushField<std::string>("skill_id", DoubleStores<SkillData>::getInstance()->getItem(component->attackId).codename);
     }
 
     return 1;
