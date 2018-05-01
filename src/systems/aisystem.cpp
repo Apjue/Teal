@@ -291,8 +291,8 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
 void AISystem::bindFunctions(Nz::LuaInstance& lua)
 {
-    Ndk::LuaAPI::RegisterClasses(lua); // TODO: since all components are bound using Entity bind thing, delete componentName() in components
-
+    Ndk::LuaAPI::RegisterClasses(lua); /// TODO: since all components are bound using Entity bind thing, delete componentName() in components
+                                       /// EDIT: maybe not, find another way later?
     // Remove potentially harmful functions
     lua.GetGlobal("Entity");
     {
@@ -305,6 +305,14 @@ void AISystem::bindFunctions(Nz::LuaInstance& lua)
         lua.PushNil(); lua.SetField("RemoveComponent");
     }
     lua.Pop();
+
+    lua.PushNil(); lua.SetGlobal("Application");
+    lua.PushNil(); lua.SetGlobal("Console");
+    lua.PushNil(); lua.SetGlobal("NodeComponent");
+    lua.PushNil(); lua.SetGlobal("VelocityComponent");
+    lua.PushNil(); lua.SetGlobal("World");
+    lua.PushNil(); lua.SetGlobal("CameraComponent");
+    lua.PushNil(); lua.SetGlobal("GraphicsComponent");
 
 
     Nz::LuaClass<AISystem*> thisClass;
@@ -329,6 +337,9 @@ bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& char
 {
     lua.PushInstance("Entity", character);
 
+    return false; // because fuck me
+    /// todo: do the index thing
+
     /*bool somethingWentWrong = false;
 
     {
@@ -347,7 +358,7 @@ bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& char
             lua.PushInteger(std::distance(m_currentFight.fighters.begin(), it));
 
         lua.SetField("index");
-    }
+    } // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ This part is the "index thing" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     {
         auto& pos = character->GetComponent<PositionComponent>().xy;
@@ -447,104 +458,6 @@ bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& char
     return !somethingWentWrong;*/
 }
 
-bool AISystem::bindSkills(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
-{
-    /*auto& fight = character->GetComponent<FightComponent>();
-
-    for (auto& skillId : fight.attacks)
-    {
-        auto& skill = m_skills.getItem(skillId);
-
-        {
-            lua.PushField("mp", skill.movementPoints);
-            lua.PushField("ap", skill.actionPoints);
-        }
-
-        {
-            lua.PushField("minRange", skill.minRange);
-            lua.PushField("maxRange", skill.maxRange);
-            lua.PushField("modifiableRange", skill.modifiableRange);
-        }
-
-        {
-            lua.PushField("areatype", SkillData::areaTypeToString(skill.areaType));
-            lua.PushField("areaMinRange", skill.areaMinRange);
-            lua.PushField("areaMaxRange", skill.areaMaxRange);
-        }
-
-        lua.PushField("codename", skill.codename);
-
-        lua.PushTable();
-
-        for (unsigned i {}; i < skill.attackEffects.size(); ++i)
-        {
-            auto& attackPair = skill.attackEffects[i];
-            auto& attack = attackPair.second;
-
-            TealAssert(attack.get(), "Attack nullptr");
-
-            lua.PushInteger(i + 1);
-            lua.PushTable();
-
-            {
-                lua.PushString(AttackData::targetToString(attack->data.target));
-                lua.SetField("target");
-
-                switch (attackPair.first)
-                {
-                    case SkillData::AttackType::Damage:
-                    { //< A new scope is here needed to remove the error "initialization of 'dmg' is skipped by 'case' label"
-                        DamageData* dmg = static_cast<DamageData*>(attack.get());
-
-                        lua.PushString(elementToString(dmg->damage.first));
-                        lua.SetField("element");
-
-                        lua.PushInteger(dmg->damage.second);
-                        lua.SetField("damage");
-
-                        lua.PushString("damage");
-                        break;
-                    }
-
-                    case SkillData::AttackType::State:
-                    {
-                        StateData* state = static_cast<StateData*>(attack.get());
-
-                        // TODO
-                        NazaraError("State case has not been implemented yet. Have a good crash!");
-
-                        lua.PushString("state");
-                        break;
-                    }
-
-                    case SkillData::AttackType::Effect:
-                    {
-                        EffectData* effect = static_cast<EffectData*>(attack.get());
-
-                        // TODO
-                        NazaraError("Effect case has not been implemented yet. Wanna crash again?");
-
-                        lua.PushString("effect");
-                        break;
-                    }
-
-                    default:
-                        lua.PushString("");
-                        break;
-                }
-
-                lua.SetField("type");
-            }
-
-            lua.SetTable();
-        }
-
-        lua.SetField("attacks");
-    }
-
-    return true;*/
-}
-
 
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
@@ -583,19 +496,19 @@ void AISystem::Teal_TakeCover()
             possibleTiles.push_back(path.back());
     }
 
-    auto& res = me->GetComponent<ResistanceModifierComponent>();
+    auto& myDamage = me->GetComponent<DamageModifierComponent>();
     Ndk::EntityList enemies = getEnemies(me);
 
     AbsTile recommendedTile { toVector2(Def::StandStillPos) };
     unsigned minDamage { std::numeric_limits<unsigned>().max() };
 
-    for (const auto& tile : possibleTiles)
+    for (const auto& tile : possibleTiles) /// TODO: redo all this, what if several enemies attack you?
     {
         unsigned maxDamagePerTile {};
 
         for (const auto& enemy : enemies)
         {
-            auto& eAttack = enemy->GetComponent<AttackModifierComponent>();
+            auto& eDamage = enemy->GetComponent<DamageModifierComponent>(); /// ??? Use this!
             auto& eFight = enemy->GetComponent<FightComponent>();
             auto& ePos = enemy->GetComponent<PositionComponent>();
 
@@ -609,7 +522,7 @@ void AISystem::Teal_TakeCover()
 
                 for (Element i {}; i <= Element::Max; ++i)
                 {
-                    unsigned resistancePercent = res.data[i];
+                    unsigned resistancePercent = myDamage.resistance[i];
 
                     if (resistancePercent >= 100)
                         continue;
@@ -756,11 +669,11 @@ bool AISystem::Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex) 
         return false;
 
     bool allyOnly { true };
-    AttackData::Target attackTypeToAvoid { myFight.teamNumber == opponentFight.teamNumber ? AttackData::Target::Enemies : AttackData::Target::Allies };
+    Attack::Target attackTypeToAvoid { myFight.teamNumber == opponentFight.teamNumber ? Attack::Target::Enemies : Attack::Target::Allies };
 
     for (auto& attack : skill.attackEffects)
     {
-        if (attack.second->data.target != attackTypeToAvoid)
+        if (attack->target != attackTypeToAvoid)
         {
             allyOnly = false;
             break;
