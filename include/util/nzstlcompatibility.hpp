@@ -12,15 +12,19 @@
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Lua/LuaState.hpp>
 #include <utility>
+#include <vector>
 
 template<class T>
-std::pair<T, T> toPair(const Nz::Vector2<T>& v);
+inline std::pair<T, T> toPair(const Nz::Vector2<T>& v);
 
 template<class T>
-Nz::Vector2<T> toVector2(const std::pair<T, T>& v);
+inline Nz::Vector2<T> toVector2(const std::pair<T, T>& v);
 
-template<typename T>
-unsigned int Nz::LuaImplQueryArg(const LuaState& instance, int index, std::vector<T>* container, TypeTag<std::vector<T>>);
+namespace Nz
+{
+    template<typename T>
+    unsigned int LuaImplQueryArg(const LuaState& instance, int index, std::vector<T>* container, TypeTag<std::vector<T>>);
+}
 
 #include "nzstlcompatibility.inl"
 
