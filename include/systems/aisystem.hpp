@@ -57,7 +57,7 @@ public:
     AISystem(const AISystem& other);
     ~AISystem() = default;
 
-    void reset();
+    void resetPather();
     void setPather(const std::shared_ptr<micropather::MicroPather>& pather);
 
     static Ndk::SystemIndex systemIndex;

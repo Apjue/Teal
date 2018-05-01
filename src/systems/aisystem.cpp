@@ -34,7 +34,7 @@ AISystem::AISystem(const AISystem& other) : m_skills (other.m_skills), m_ais(oth
     // This constructor is only provided to remove an error
 }
 
-void AISystem::reset()
+void AISystem::resetPather()
 {
     TealAssert(m_pather, "Pather is null, cannot reset it !");
     m_pather->Reset();
