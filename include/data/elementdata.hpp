@@ -7,6 +7,8 @@
 #ifndef ELEMENTDATA_HPP
 #define ELEMENTDATA_HPP
 
+#include <Nazara/Core/String.hpp>
+#include <stdexcept>
 #include "util/underlyingtype.hpp"
 
 enum class Element

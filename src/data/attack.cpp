@@ -81,7 +81,7 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<A
 {
     state.CheckType(index, Nz::LuaType_Table);
 
-    const char* attackType = state.CheckField<const char*>("type", index);
+    Nz::String attackType = state.CheckField<Nz::String>("type", index);
 
     if (attackType == Attack::attackTypeToString(Attack::AttackType::Damage))
         return LuaImplQueryArg(state, index, static_cast<DamageData*>(attack->get()), TypeTag<DamageData>());

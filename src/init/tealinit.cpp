@@ -222,9 +222,7 @@ void loadSkills(SkillStore& skills)
             continue;
         }
 
-        TealException(lua.GetGlobal("teal_skill") == Nz::LuaType_Table, "Lua: teal_skill isn't a table !");
-
-        SkillData s(parseLua(lua));
+        SkillData s = lua.CheckGlobal<SkillData>("teal_skill");
         skills.addItem(s.codename, s);
 
         NazaraDebug("Skill " + s.displayName + " loaded ! (" + s.codename + ")");

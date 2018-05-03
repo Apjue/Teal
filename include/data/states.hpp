@@ -55,7 +55,7 @@ struct PoisonnedState : public State
 
     std::pair<Element, unsigned> damage;
 
-    virtual inline void serialize(const Nz::LuaState& state);
+    virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
     static const char* getMetadataID() { return "poison"; }
 };
@@ -66,7 +66,7 @@ struct HealedState : public State
 
     unsigned health {};
 
-    virtual void serialize(const Nz::LuaState& state);
+    virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override {}
     static const char* getMetadataID() { return "heal"; }
 };
@@ -81,7 +81,7 @@ struct StatsModifierState : public State
     int movementPoints {};
     int actionPoints {};
 
-    virtual inline void serialize(const Nz::LuaState& state);
+    virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
 };
 

@@ -28,6 +28,7 @@ struct PositionComponent : public Ndk::Component<PositionComponent>, public Nz::
 };
 
 #include <Nazara/Lua/LuaState.hpp>
+#include <NDK/LuaAPI.hpp>
 
 namespace Nz
 {

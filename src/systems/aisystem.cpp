@@ -20,7 +20,8 @@
 #include "data/elementdata.hpp"
 #include "systems/aisystem.hpp"
 
-AISystem::AISystem(const SkillStore& skills, const AICore& ais, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter)
+AISystem::AISystem(const std::shared_ptr<SkillStore> skills, const AICore& ais, const Nz::String& utilFilepath,
+                   const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter)
     : m_mainCharacter { mainCharacter }, m_utilityLuaFile { utilFilepath }, m_skills(skills), m_ais(ais)
 {
     Requires<PositionComponent>();
@@ -239,15 +240,15 @@ void AISystem::removeFromFight(const Ndk::EntityHandle& e) // Always check force
 
 bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 {
+    bindFunctions(lua);
     lua.ExecuteFromFile(m_utilityLuaFile);
+
     lua.PushTable();
     {
         lua.PushTable();
-
-        if (!bindCharacter(lua, m_currentFight.currentEntity))
-            return false;
-
-        lua.SetMetatable("CurrentCharacter");
+        {
+            lua.PushInstance("Entity", m_currentFight.currentEntity->CreateHandle());
+        }
         lua.SetField("character");
 
         {
@@ -262,10 +263,9 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
                 lua.PushInteger(i + 1);
                 lua.PushTable();
-
-                if (!bindCharacter(lua, e))
-                    return false;
-
+                {
+                    lua.PushInstance("Entity", e->CreateHandle());
+                }
                 lua.SetTable();
             }
 
@@ -282,10 +282,8 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
             lua.SetField("objects");
         }
     }
-
     lua.SetGlobal("teal_fight_data");
 
-    bindFunctions(lua);
     return true;
 }
 
@@ -324,140 +322,15 @@ void AISystem::bindFunctions(Nz::LuaInstance& lua)
     thisClass.BindMethod("MoveAndAttackCharacter", &AISystem::Teal_MoveAndAttackCharacter);
     thisClass.BindMethod("ChooseTarget", &AISystem::Teal_ChooseTarget);
     thisClass.BindMethod("ChooseAttack", &AISystem::Teal_ChooseAttack);
-    thisClass.BindMethod("CanAttack", &AISystem::Teal_CanAttack);
-    thisClass.BindMethod("CanAttackWith", &AISystem::Teal_CanAttackWith);
+    thisClass.BindMethod("CanCastSpell", &AISystem::Teal_CanCastSpell);
+    thisClass.BindMethod("CanUseSkill", &AISystem::Teal_CanUseSkill);
 
     thisClass.Register(lua);
+
 
     lua.PushInstance("CurrentCharacterBinding", this);
     lua.SetGlobal("CharacterBinding");
 }
-
-bool AISystem::bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character)
-{
-    lua.PushInstance("Entity", character);
-
-    return false; // because fuck me
-    /// todo: do the index thing
-
-    /*bool somethingWentWrong = false;
-
-    {
-        auto it = std::find_if(m_currentFight.fighters.begin(), m_currentFight.fighters.end(), [&character] (const Ndk::EntityHandle& e)
-        {
-            return e == character;
-        });
-
-        if (it == m_currentFight.fighters.end())
-        {
-            lua.PushInteger(-1); // well fuck
-            somethingWentWrong = true;
-        }
-
-        else
-            lua.PushInteger(std::distance(m_currentFight.fighters.begin(), it));
-
-        lua.SetField("index");
-    } // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ This part is the "index thing" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    {
-        auto& pos = character->GetComponent<PositionComponent>().xy;
-
-        lua.PushInteger(pos.x);
-        lua.SetField("x");
-
-        lua.PushInteger(pos.y);
-        lua.SetField("y");
-    }
-
-    lua.PushInteger(character->GetComponent<LevelComponent>().level);
-    lua.SetField("level");
-
-    {
-        auto& fight = character->GetComponent<FightComponent>();
-
-        lua.PushInteger(fight.maxMovementPoints);
-        lua.SetField("mp");
-
-        lua.PushInteger(fight.maxActionPoints);
-        lua.SetField("ap");
-
-        auto& life = character->GetComponent<LifeComponent>();
-
-        lua.PushInteger(life.hp);
-        lua.SetField("hp");
-
-        lua.PushInteger(life.maxHp);
-        lua.SetField("maxHp");
-    }
-
-    {
-        { // Attack Modifier
-            lua.PushTable(0u, 5u);
-            auto& atk = character->GetComponent<AttackModifierComponent>().data;
-
-            for (EnumUnderlyingType<Element> i {}; i < toUnderlyingType(Element::Max); ++i)
-            {
-                Element element = static_cast<Element>(i);
-                lua.PushTable(2u);
-
-                {
-                    lua.PushInteger(1);
-                    lua.PushString(elementToString(element));
-                    lua.SetTable();
-
-                    lua.PushInteger(2);
-                    lua.PushInteger(atk[element]);
-                    lua.SetTable();
-                }
-
-                lua.PushInteger(i + 1);
-                lua.SetTable();
-            }
-
-            lua.SetField("attackModifier");
-        }
-
-        { // Resistance modifier
-            lua.PushTable(0u, 5u);
-            auto& res = character->GetComponent<ResistanceModifierComponent>().data;
-
-            for (EnumUnderlyingType<Element> i {}; i < toUnderlyingType(Element::Max); ++i)
-            {
-                Element element = static_cast<Element>(i);
-                lua.PushTable(2u);
-
-                {
-                    lua.PushInteger(1);
-                    lua.PushString(elementToString(element));
-                    lua.SetTable();
-
-                    lua.PushInteger(2);
-                    lua.PushInteger(res[element]);
-                    lua.SetTable();
-                }
-
-                lua.PushInteger(i + 1);
-                lua.SetTable();
-            }
-
-            lua.SetField("resistanceModifier");
-        }
-    }
-
-    if (skills)
-    {
-        lua.PushTable();
-
-        if (!serializeSkills(lua, character))
-            return false;
-
-        lua.SetField("skills");
-    }
-
-    return !somethingWentWrong;*/
-}
-
 
 void AISystem::Teal_MoveCharacter(unsigned x, unsigned y)
 {
@@ -516,7 +389,7 @@ void AISystem::Teal_TakeCover()
 
             for (SkillStore::LightId attackId : eFight.attacks)
             {
-                const SkillData& skill = m_skills.getItem(attackId);
+                const SkillData& skill = m_skills->getItem(attackId);
                 auto damage = getMaximumDamage(ePos.xy, tile, skill);
                 unsigned maxDamagePerSkill {};
 
@@ -596,7 +469,7 @@ unsigned AISystem::ChooseAttack(unsigned characterIndex, const AbsTile& pos) // 
 {
     TealAssert(m_isFightActive, "Not fighting");
 
-    if (!Teal_CanAttack(characterIndex))
+    if (!Teal_CanCastSpell(characterIndex))
         return 0;
 
     if (characterIndex > m_currentFight.fighters.size())
@@ -616,7 +489,7 @@ unsigned AISystem::ChooseAttack(unsigned characterIndex, const AbsTile& pos) // 
     return 0;
 }
 
-bool AISystem::Teal_CanAttack(unsigned characterIndex) // todo: raycasting ?
+bool AISystem::Teal_CanCastSpell(unsigned characterIndex) // todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
 
@@ -631,14 +504,14 @@ bool AISystem::Teal_CanAttack(unsigned characterIndex) // todo: raycasting ?
     
     for (unsigned skillIndex { 1 }; skillIndex < (myFight.attacks.size() + 1); ++skillIndex)
     {
-        if (Teal_CanAttackWith(characterIndex, skillIndex))
+        if (Teal_CanUseSkill(characterIndex, skillIndex))
             return true;
     }
 
     return false;
 }
 
-bool AISystem::Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex) // todo: raycasting ?
+bool AISystem::Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex) // todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
 
@@ -648,7 +521,7 @@ bool AISystem::Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex) 
         return false;
     }
 
-    Ndk::EntityHandle opponent = m_currentFight.fighters[characterIndex - 1];
+    Ndk::EntityHandle opponent = m_currentFight.fighters[characterIndex - 1]; // -1 because Lua starts arrays with 1, C++ with 0
     AbsTile opponentPos = opponent->GetComponent<PositionComponent>().xy;
     auto& opponentFight = opponent->GetComponent<FightComponent>();
 
@@ -662,26 +535,12 @@ bool AISystem::Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex) 
         return false;
     }
 
-    const SkillStore::LightId skillId = myFight.attacks[skillIndex - 1];
-    const SkillData& skill = m_skills.getItem(skillId);
+    const SkillStore::LightId skillId = myFight.attacks[skillIndex - 1]; // -1 because ^
+    const SkillData& skill = m_skills->getItem(skillId);
 
     if (myFight.maxActionPoints < skill.actionPoints || myFight.maxMovementPoints < skill.movementPoints)
         return false;
 
-    bool allyOnly { true };
-    Attack::Target attackTypeToAvoid { myFight.teamNumber == opponentFight.teamNumber ? Attack::Target::Enemies : Attack::Target::Allies };
-
-    for (auto& attack : skill.attackEffects)
-    {
-        if (attack->target != attackTypeToAvoid)
-        {
-            allyOnly = false;
-            break;
-        }
-    }
-
-    if (allyOnly)
-        return false;
 
     Nz::Vector2ui posDistance = { distance(myPos.x, opponentPos.x), distance(myPos.y, opponentPos.y) };
 

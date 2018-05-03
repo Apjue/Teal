@@ -43,11 +43,10 @@ private:
     TilesetCore& m_tilesetCore;
     TilesetCore& m_fightTilesetCore;
 
-    StateMDStore& m_states;
-    EffectMDStore& m_effects;
-    SkillStore& m_skills;
+    std::shared_ptr<StateMDStore> m_states;
+    std::shared_ptr<SkillStore> m_skills;
     AICore& m_ais;
-    AnimationStore& m_animations;
+    std::shared_ptr<AnimationStore> m_animations;
 
     Ndk::EntityList& m_items;
     Ndk::EntityList& m_characters;

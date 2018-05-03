@@ -35,7 +35,7 @@ class DoubleStores // Singleton
 public:
     ~DoubleStores() = default;
 
-    static const std::shared_ptr<DoubleStore<T>> getInstance()
+    static inline const std::shared_ptr<DoubleStore<T>> getInstance()
     {
         return instance;
     }

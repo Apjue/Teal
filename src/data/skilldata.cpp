@@ -2,8 +2,9 @@
 // This file is part of the TealDemo project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "data/skilldata.hpp"
+#include <util/nzstlcompatibility.hpp>
 #include "util/assert.hpp"
+#include "data/skilldata.hpp"
 
 SkillData::AreaType SkillData::stringToAreaType(Nz::String string)
 {
@@ -78,7 +79,7 @@ std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const
 {
     std::unordered_map<Element, unsigned> damage {};
 
-    for (const std::unique_ptr<Attack>& attack : attackEffects)
+    for (const std::shared_ptr<Attack>& attack : attackEffects)
     {
         if (attack->target == Attack::Target::Allies)
             continue;
@@ -118,33 +119,11 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, SkillData* skill,
     state.CheckType(index, Nz::LuaType_Table);
 
     skill->codename = state.CheckField<Nz::String>("codename", index);
-    skill->displayName = state.CheckField<Nz::String>("displayName", index);
+    skill->displayName = state.CheckField<Nz::String>("display_name", index);
     skill->description = state.CheckField<Nz::String>("description", index);
     skill->icon = state.CheckField<Nz::String>("icon", index);
 
-    state.GetField("attacks", index);
-    {
-        for (long long i {};; ++i)
-        {
-            state.PushInteger(i);
-
-            if (state.GetTable(index) == Nz::LuaType_Table)
-            {
-                int index { -1 };
-
-                skill->attackEffects.push_back(state.Check<std::shared_ptr<Attack>>(&index));
-                state.Pop();
-            }
-
-            else
-            {
-                state.Pop();
-                break;
-            }
-        }
-    }
-
-    state.Pop();
+    skill->attackEffects = state.CheckField<std::vector<std::shared_ptr<Attack>>>("attacks");
 
     skill->movementPoints = state.CheckField<unsigned>("movement_points", index);
     skill->actionPoints = state.CheckField<unsigned>("action_points", index);
@@ -170,21 +149,7 @@ int LuaImplReplyVal(const LuaState& state, SkillData&& skill, TypeTag<SkillData>
         state.PushField("description", skill.description);
         state.PushField("icon", skill.icon);
 
-        state.PushTable();
-        {
-            for (unsigned i {}; i < skill.attackEffects.size(); ++i)
-            {
-                state.PushInteger(i + 1);
-                state.PushTable();
-                {
-                    state.PushField(skill.attackEffects[i]);
-                }
-
-                state.SetTable();
-            }
-        }
-
-        state.SetField("attacks");
+        state.PushField("attacks", skill.attackEffects); // invalid vector afterwards ?!
 
         state.PushField("movement_points", skill.movementPoints);
         state.PushField("action_points", skill.actionPoints);

@@ -16,6 +16,7 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <limits>
 #include "micropather.h"
 #include "global.hpp"
 #include "cache/doublestore.hpp"
@@ -53,7 +54,8 @@ struct FightData
 class AISystem : public Ndk::System<AISystem>
 {
 public:
-    AISystem(const SkillStore& skills, const AICore& ais, const Nz::String& utilFilepath, const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter);
+    AISystem(const std::shared_ptr<SkillStore> skills, const AICore& ais, const Nz::String& utilFilepath,
+             const std::shared_ptr<micropather::MicroPather>& pather, const Ndk::EntityHandle& mainCharacter);
     AISystem(const AISystem& other);
     ~AISystem() = default;
 
@@ -71,7 +73,6 @@ private:
 
     bool prepareLuaAI(Nz::LuaInstance& lua);
     void bindFunctions(Nz::LuaInstance& lua);
-    bool bindCharacter(Nz::LuaInstance& lua, const Ndk::EntityHandle& character);
 
     void Teal_MoveCharacter(unsigned x, unsigned y);
     void Teal_TakeCover();
@@ -80,8 +81,8 @@ private:
     unsigned Teal_ChooseTarget();
     unsigned Teal_ChooseAttack(unsigned characterIndex);
     unsigned ChooseAttack(unsigned characterIndex, const AbsTile& pos);
-    bool Teal_CanAttack(unsigned characterIndex);
-    bool Teal_CanAttackWith(unsigned characterIndex, unsigned skillIndex);
+    bool Teal_CanCastSpell(unsigned characterIndex);
+    bool Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex);
     std::unordered_map<Element, unsigned> getMaximumDamage(const AbsTile& from, const AbsTile& target, const SkillData& skill);
 
     Ndk::EntityList getEnemies(const Ndk::EntityHandle& e);
@@ -94,7 +95,7 @@ private:
     Detail::FightData m_currentFight;
     bool m_isFightActive {};
 
-    const SkillStore& m_skills;
+    const std::shared_ptr<SkillStore> m_skills;
     const AICore& m_ais;
 };
 
