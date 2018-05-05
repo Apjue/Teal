@@ -28,7 +28,7 @@ namespace Nz
 inline unsigned int LuaImplQueryArg(const LuaState& state, int index, DamageData* data, TypeTag<DamageData>)
 {
     state.CheckType(index, Nz::LuaType_Table);
-    TealAssert(Attack::stringToAttackType(state.CheckField<Nz::String>("type", index)) == Attack::AttackType::State, "Invalid attack type");
+    TealAssert(Attack::stringToAttackType(state.CheckField<Nz::String>("type", index)) == Attack::AttackType::Damage, "Invalid attack type");
 
     data->target = Attack::stringToTarget(state.CheckField<Nz::String>("target", -1));
 
