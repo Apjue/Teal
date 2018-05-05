@@ -13,7 +13,7 @@ teal_item =
             attack =
             {
                 fire = 150
-            }
+            },
 
             resistance =
             {

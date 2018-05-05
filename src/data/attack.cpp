@@ -79,20 +79,34 @@ namespace Nz
 
 unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<Attack>* attack, TypeTag<std::shared_ptr<Attack>>)
 {
-    state.CheckType(index, Nz::LuaType_Table);
+    state.CheckType(index, Nz::LuaType_Table); // todo: fix crash: attack can be nullptr^
 
-    Nz::String attackType = state.CheckField<Nz::String>("type", index);
+    Attack::AttackType attackType = Attack::stringToAttackType(state.CheckField<Nz::String>("type", index));
+    bool initializePtr = (attack->get() == nullptr);
 
-    if (attackType == Attack::attackTypeToString(Attack::AttackType::Damage))
-        return LuaImplQueryArg(state, index, static_cast<DamageData*>(attack->get()), TypeTag<DamageData>());
+    switch (attackType)
+    {
+        case Attack::AttackType::Damage:
+            if (initializePtr)
+                attack->reset(std::make_unique<DamageData>().release());
 
-    if (attackType == Attack::attackTypeToString(Attack::AttackType::State))
-        return LuaImplQueryArg(state, index, static_cast<StateData*>(attack->get()), TypeTag<StateData>());
+            return LuaImplQueryArg(state, index, static_cast<DamageData*>(attack->get()), TypeTag<DamageData>());
 
-    if (attackType == Attack::attackTypeToString(Attack::AttackType::Effect))
-        return LuaImplQueryArg(state, index, static_cast<EffectData*>(attack->get()), TypeTag<EffectData>());
+        case Attack::AttackType::State:
+            if (initializePtr)
+                attack->reset(std::make_unique<StateData>().release());
 
-    throw std::runtime_error { "Invalid attack type" };
+            return LuaImplQueryArg(state, index, static_cast<StateData*>(attack->get()), TypeTag<StateData>());
+
+        case Attack::AttackType::Effect:
+            if (initializePtr)
+                attack->reset(std::make_unique<EffectData>().release());
+
+            return LuaImplQueryArg(state, index, static_cast<EffectData*>(attack->get()), TypeTag<EffectData>());
+
+        default:
+            throw std::runtime_error { "Invalid attack type" };
+    }
 }
 
 inline int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>)
