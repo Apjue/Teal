@@ -29,24 +29,26 @@ namespace Ndk { class World; }
 namespace Nz  { class RenderWindow; }
 struct GameData;
 
-template<class T>
+template<class Value, class LightID = std::size_t, class HeavyID = Nz::String>
 class DoubleStores // Singleton
 {
 public:
     ~DoubleStores() = default;
 
-    static inline const std::shared_ptr<DoubleStore<T>> getInstance()
+    static inline const std::shared_ptr<DoubleStore<Value, LightID, HeavyID>> getInstance()
     {
         return instance;
     }
 
 private:
+    static std::shared_ptr<DoubleStore<Value, LightID, HeavyID>> instance;
+
     DoubleStores() = default;
-
-    static std::shared_ptr<DoubleStore<T>> instance;
-
     friend void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data); // find a cleaner way?
 };
+
+template<class Value, class LightID, class HeavyID>
+std::shared_ptr<DoubleStore<Value, LightID, HeavyID>> DoubleStores<Value, LightID, HeavyID>::instance {};
 
 ///
 /// \class DoubleStore

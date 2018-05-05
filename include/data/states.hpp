@@ -4,8 +4,8 @@
 
 #pragma once
 
-#ifndef STATES_HPP
-#define STATES_HPP
+#ifndef TEAL_STATES_HPP
+#define TEAL_STATES_HPP
 
 #include <Nazara/Core/String.hpp>
 #include <Nazara/Renderer/Texture.hpp>
@@ -32,7 +32,7 @@ struct State
     {
         std::unordered_map<Element, int> maximumDamage;      // positive: damage, negative: heal
         std::unordered_map<Element, int> attackModifier;     // positive: boost, negative: nerf
-        std::unordered_map<Element, int> resistanceModifier; //^
+        std::unordered_map<Element, int> resistanceModifier; // positive: boost, negative: nerf
 
         int movementPointsDifference {};
         int actionPointsDifference {};
@@ -64,10 +64,10 @@ struct HealedState : public State
 {
     inline HealedState(const Nz::LuaState& state, int index = -1);
 
-    unsigned health {};
+    std::pair<Element, unsigned> health;
 
     virtual inline void serialize(const Nz::LuaState& state) override;
-    virtual inline FightInfo getFightInfo() override {}
+    virtual inline FightInfo getFightInfo() override;
     static const char* getMetadataID() { return "heal"; }
 };
 
@@ -123,4 +123,4 @@ struct ConfusedState : public State // aka drunk
 
 #include "states.inl"
 
-#endif // STATES_HPP
+#endif // TEAL_STATES_HPP

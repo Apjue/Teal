@@ -44,8 +44,8 @@ struct Attack
 namespace Nz
 {
 
-inline unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<Attack>* attack, TypeTag<std::shared_ptr<Attack>>);
-inline int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>);
+extern unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<Attack>* attack, TypeTag<std::shared_ptr<Attack>>);
+extern int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>);
 
 } // namespace Nz
 

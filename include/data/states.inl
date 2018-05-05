@@ -43,13 +43,24 @@ State::FightInfo PoisonnedState::getFightInfo()
 
 HealedState::HealedState(const Nz::LuaState& state, int index) : State(state, index)
 {
-    health = state.CheckField<unsigned>("health", index);
+    health.first = state.CheckField<Element>("element", index);
+    health.second = state.CheckField<unsigned>("health", index);
 }
 
 void HealedState::serialize(const Nz::LuaState& state)
 {
     State::serialize(state);
-    state.PushField("health", health);
+
+    state.PushField("element", health.first);
+    state.PushField("health", health.second);
+}
+
+State::FightInfo HealedState::getFightInfo()
+{
+    FightInfo info;
+    info.maximumDamage[health.first] = health.second;
+
+    return info;
 }
 
 StatsModifierState::StatsModifierState(const Nz::LuaState& state, int index) : State(state, index)
