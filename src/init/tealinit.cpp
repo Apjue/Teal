@@ -32,14 +32,20 @@
 
 void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
 {
+    data.states = std::make_shared<StateMDStore>();
+    data.skills = std::make_shared<SkillStore>();
+    data.animations = std::make_shared<AnimationStore>();
+
+    // Singletons
+    DoubleStores<StateMetaData>::instance = data.states;
+    DoubleStores<SkillData>::instance = data.skills;
+    DoubleStores<AnimationData>::instance = data.animations;
+
+
     Detail::loadTextures();
     Detail::loadNazara();
     Detail::initSchemeUtility();
     Detail::loadTilesetCore(data.tilesetCore, data.fightTilesetCore);
-
-    data.states = std::make_shared<StateMDStore>();
-    data.skills = std::make_shared<SkillStore>();
-    data.animations = std::make_shared<AnimationStore>();
 
     Detail::loadMetaData(*data.states);
     Detail::loadSkills(*data.skills);
@@ -51,11 +57,6 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
 
     Detail::addIcon(window);
     Detail::addCam(world, window);
-
-    // Singletons
-    DoubleStores<StateMetaData>::instance = data.states;
-    DoubleStores<SkillData>::instance = data.skills;
-    DoubleStores<AnimationData>::instance = data.animations;
 }
 
 namespace Detail
@@ -656,7 +657,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
             NazaraNotice(lua.GetLastError());
             continue;
         }
-
+        DoubleStores<SkillData>::getInstance()->hasItem(1);
         Ndk::EntityHandle item = makeLogicalItem(world.CreateHandle(), lua);
 
         item->Enable(false);
