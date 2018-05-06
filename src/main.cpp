@@ -41,6 +41,7 @@ int main()
                 // Panic
                 std::cerr << "\nCannot update State Machine, closing Teal..." << std::endl;
 
+                uninitializeTeal(gameData);
                 return EXIT_FAILURE;
             }
 
@@ -54,10 +55,12 @@ int main()
     {
         std::cerr << "\n ===============\n" << "A problem occurred!\nError message: ";
         std::cerr << e.what() << "\n ===============\n" << std::endl;
+
+        uninitializeTeal(gameData);
         return EXIT_FAILURE;
     }
     #endif
 
-    std::cout << "Goodbye." << std::endl;
+    uninitializeTeal(gameData);
     return EXIT_SUCCESS;
 }

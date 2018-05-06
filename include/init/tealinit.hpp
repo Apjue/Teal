@@ -12,6 +12,7 @@
 #include "data/gamedata.hpp"
 
 void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data);
+void uninitializeTeal(GameData& data);
 
 namespace Detail
 {

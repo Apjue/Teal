@@ -59,6 +59,21 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
     Detail::addCam(world, window);
 }
 
+void uninitializeTeal(GameData& data)
+{
+    DoubleStores<StateMetaData>::instance.reset();
+    DoubleStores<SkillData>::instance.reset();
+    DoubleStores<AnimationData>::instance.reset();
+
+    auto statemdptr = data.states;   // These pointers are on the stack will be destructed at the end of the function
+    auto skilldataptr = data.skills; // So objects managed by them (like ObjectRefs) won't be destroyed after the uninitialization of Nazara
+    auto animdataptr = data.animations;
+
+    data.states.reset();
+    data.skills.reset();
+    data.animations.reset();
+}
+
 namespace Detail
 {
 

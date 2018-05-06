@@ -45,6 +45,7 @@ private:
 
     DoubleStores() = default;
     friend void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data); // find a cleaner way?
+    friend void uninitializeTeal(GameData& data);
 };
 
 template<class Value, class LightID, class HeavyID>
