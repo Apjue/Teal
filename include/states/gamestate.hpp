@@ -51,7 +51,7 @@ private:
     Ndk::EntityList& m_items;
     Ndk::EntityList& m_characters;
 
-    void handlePausedState();
+    void handlePausedStateSwitch();
 
     // Character functions
     void showInventory(bool detailled = false);

@@ -57,13 +57,13 @@ bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
     if (m_paused != paused)
     {
         m_paused = paused;
-        handlePausedState();
+        handlePausedStateSwitch();
     }
 
     return true;
 }
 
-void GameState::handlePausedState()
+void GameState::handlePausedStateSwitch()
 {
     m_world->GetSystem<AISystem>().Enable(!m_paused);
     m_world->GetSystem<MovementSystem>().Enable(!m_paused);
