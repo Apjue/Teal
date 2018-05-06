@@ -5,6 +5,7 @@
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
 #include <Nazara/Math/Vector2.hpp>
+#include <Nazara/Core/CallOnExit.hpp>
 #include <iostream>
 #include <memory>
 #include "def/uidef.hpp"
@@ -17,6 +18,8 @@
 
 int main()
 {
+    Nz::CallOnExit guiltCallback { []() { std::cout << "why did you kill me :(" << std::endl; } };
+
     Ndk::Application app;
     Ndk::World& world = app.AddWorld();
     Nz::RenderWindow& window = app.AddWindow<Nz::RenderWindow>();
@@ -26,6 +29,7 @@ int main()
 
     GameData gameData;
     initializeTeal(world, window, gameData);
+    Nz::CallOnExit destroyerCallback { [&gameData]() { uninitializeTeal(gameData); } };
 
     Ndk::StateMachine fsm (std::make_shared<GameState>(world.CreateHandle(), window, Nz::Vector2ui { Def::MapSizeX, Def::MapSizeY }, gameData));
 
@@ -41,7 +45,6 @@ int main()
                 // Panic
                 std::cerr << "\nCannot update State Machine, closing Teal..." << std::endl;
 
-                uninitializeTeal(gameData);
                 return EXIT_FAILURE;
             }
 
@@ -56,11 +59,9 @@ int main()
         std::cerr << "\n ===============\n" << "A problem occurred!\nError message: ";
         std::cerr << e.what() << "\n ===============\n" << std::endl;
 
-        uninitializeTeal(gameData);
         return EXIT_FAILURE;
     }
     #endif
 
-    uninitializeTeal(gameData);
     return EXIT_SUCCESS;
 }
