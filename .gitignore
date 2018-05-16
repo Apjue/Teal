@@ -95,3 +95,8 @@ wdirs/x86
 # Result
 TealDemo.log
 TealDemo.exe
+
+# Premake
+build/vs*
+build/gmake
+build/codeblocks

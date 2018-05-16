@@ -1,3 +1,9 @@
+-- Premake script
+
+if (_ACTION == nil) then -- Check the arguments...
+    return
+end
+
 dofile("script/actions/codeblocks/_codeblocks.lua")
 dofile("script/actions/codeblocks/codeblocks.lua")
 
@@ -24,46 +30,55 @@ workspace "Teal"
 
     filter {}
 
-project "TealDemo"
-    kind "ConsoleApp"
-    language "C++"
-    targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
-    debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
+    if (os.ishost("windows")) then
+        local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
 
-    files
-    {
-        rootFolder .. "/include/**.hpp",
-        rootFolder .. "/include/**.inl",
-        rootFolder .. "/src/**.cpp"
-    }
+        project("Regenerate premake")
+            kind("Utility")
+            prebuildcommands("cd .. && " .. commandLine)
+    end
 
-    libdirs
-    {
-        rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/micropather/",
-        rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/nazara/"
-    }
+    project "TealDemo"
+        kind "ConsoleApp"
+        language "C++"
+        targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
+        debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
 
-    includedirs
-    {
-        rootFolder .. "/extlibs/include/micropather/",
-        rootFolder .. "/extlibs/include/nazara/",
-        rootFolder .. "/include/"
-    }
+        files
+        {
+            rootFolder .. "/include/**.hpp",
+            rootFolder .. "/include/**.inl",
+            rootFolder .. "/src/**.cpp"
+        }
 
-    flags { "C++14", "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers" }
+        libdirs
+        {
+            rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/micropather/",
+            rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/nazara/"
+        }
 
-    filter "action:vs*"
-        defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
+        includedirs
+        {
+            rootFolder .. "/extlibs/include/micropather/",
+            rootFolder .. "/extlibs/include/nazara/",
+            rootFolder .. "/include/"
+        }
 
-    --filter "action:gmake"
-        --buildoptions "-nostdinc++ -I/usr/lib/libc++/include/c++/v1 -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc_s -lgcc"
+        cppdialect "C++14"
+        flags { "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers" }
 
-    filter "configurations:Debug"
-        defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
-        links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
-        symbols "on"
+        filter "action:vs*"
+            defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
 
-    filter "configurations:Release"
-        defines { "NDEBUG" }
-        links { "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "NazaraPlatform", "micropather" }
-        optimize "On"
+        --filter "action:gmake"
+            --buildoptions "-nostdinc++ -I/usr/lib/libc++/include/c++/v1 -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc_s -lgcc"
+
+        filter "configurations:Debug"
+            defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
+            links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
+            symbols "on"
+
+        filter "configurations:Release"
+            defines { "NDEBUG" }
+            links { "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "NazaraPlatform", "micropather" }
+            optimize "On"
