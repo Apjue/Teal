@@ -17,7 +17,7 @@ notifications:
       secure: Chl4vnW7unY6EQvnjtGkll8IgVFCQEuy71L458sTgxJ/0EoT1aa0mizZg4zes6aTnBAxxS+OY/oc/dFaR/XBXCZ5PyLiJPaduINDN2rey/IlEgTSXHFuBEWGibjxZ1HU6mDxOSKcyG8ZQ/VqZH/CsR+1gWyvHn3Te/Xg4m1fi8U=
     on_build_success: true 
     on_build_failure: true 
-    on_build_status_changed: false
+    on_build_status_changed: true
 
 branches:
   only:
@@ -56,7 +56,7 @@ environment:
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && cd nazara
-  - curl https://github.com/DigitalPulseSoftware/NazaraEngine/releases/download/v0.4/NazaraEngine-0.4-msvc14-%PLATFORM%.7z -Lo nazara.7z
+  - git lfs pull && cp %APPVEYOR_BUILD_FOLDER%/extlibs/bin/NazaraEngine-msvc15-nightly.7z nazara.7z
   - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
