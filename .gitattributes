@@ -1,4 +1,4 @@
 build/* linguist-vendored
 extlibs/* linguist-vendored
 wdirs/* linguist-vendored
-extlibs/bin filter=lfs diff=lfs merge=lfs -text
+extlibs/bin/NazaraEngine-msvc15-nightly.7z filter=lfs diff=lfs merge=lfs -text
