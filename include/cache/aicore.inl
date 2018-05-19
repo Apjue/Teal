@@ -46,8 +46,8 @@ inline AICore::TagInfo AICore::getTagInfoFromTagKeys(const TagKey& tagKey, const
 
 inline AICore::TagInfo AICore::getTagInfoFromTagKeys(TagMap& tagMap) const
 {
-    if (tagMap.empty() && hasTag(std::make_pair("*", "*"))) // Default AI
-        return getTagInfo(std::make_pair("*", "*"));
+    if (tagMap.empty() && hasTag(DefaultAI)) // Default AI
+        return getTagInfo(DefaultAI);
 
     unsigned maxPower {};
     Nz::String filepath;
