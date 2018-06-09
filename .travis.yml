@@ -28,7 +28,6 @@ addons:
       - mesa-common-dev
 
 language: cpp
-compiler: gcc
 
 env:
   global:
@@ -55,10 +54,11 @@ deploy:
     branch: master
 
 before_install:
-  - sudo apt-get autoremove g++
+  - sudo apt-get autoremove g++ gcc libstdc++-6-dev
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt update
-  - sudo apt-get install -y g++-7 
+  - sudo apt-get update
+  - sudo apt-get upgrade
+  - sudo apt-get install -y g++-7
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -93,7 +93,7 @@ script:
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
-  - ./.travis_discord_webhook.sh success $WEBHOOK_URL
+#  - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - sudo mkdir result
@@ -130,4 +130,4 @@ after_success:
 after_failure:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
-  - ./.travis_discord_webhook.sh failure $WEBHOOK_URL
+#  - ./.travis_discord_webhook.sh failure $WEBHOOK_URL
