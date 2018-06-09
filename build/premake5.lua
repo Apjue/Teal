@@ -70,9 +70,6 @@ workspace "Teal"
         filter "action:vs*"
             defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
 
-        --filter "action:gmake"
-            --buildoptions "-nostdinc++ -I/usr/lib/libc++/include/c++/v1 -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc_s -lgcc"
-
         filter "configurations:Debug"
             defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
             links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
