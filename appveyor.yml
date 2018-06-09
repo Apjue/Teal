@@ -14,14 +14,6 @@ image: Visual Studio 2017
 build:
   verbosity: minimal
 
-notifications:
-  - provider: Webhook
-    url:
-      secure: Chl4vnW7unY6EQvnjtGkll8IgVFCQEuy71L458sTgxJ/0EoT1aa0mizZg4zes6aTnBAxxS+OY/oc/dFaR/XBXCZ5PyLiJPaduINDN2rey/IlEgTSXHFuBEWGibjxZ1HU6mDxOSKcyG8ZQ/VqZH/CsR+1gWyvHn3Te/Xg4m1fi8U=
-    on_build_success: true 
-    on_build_failure: true 
-    on_build_status_changed: false
-
 environment:
   TOOLSET: vs2017
   matrix:
