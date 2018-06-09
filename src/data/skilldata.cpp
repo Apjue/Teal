@@ -97,7 +97,7 @@ std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const // tod
             case Attack::AttackType::State:
             {
                 StateData* state = static_cast<StateData*>(attack.get());
-                auto& maxDamage = state->state->getFightInfo().maximumDamage;
+                auto maxDamage = state->state->getFightInfo().maximumDamage;
 
                 for (Element e {}; e <= Element::Max; ++e)
                     if (maxDamage[e] > 0)

@@ -72,7 +72,7 @@ Variant<Ts...>::Variant(Variant<Ts...>&& other) : m_index { other.m_index }
 
 
 template<class... Ts>
-Variant<Ts...>& Variant<Ts...>::operator= (const Variant<Ts...>& other)
+Variant<Ts...>& Variant<Ts...>::operator=(const Variant<Ts...>& other)
 {
     if (valid())
         Helper::destroy(m_index - 1u, &m_data);
@@ -86,7 +86,7 @@ Variant<Ts...>& Variant<Ts...>::operator= (const Variant<Ts...>& other)
 }
 
 template<class... Ts>
-Variant<Ts...>& Variant<Ts...>::operator= (Variant<Ts...>&& other)
+Variant<Ts...>& Variant<Ts...>::operator=(Variant<Ts...>&& other)
 {
     if (valid())
         Helper::destroy(m_index - 1u, &m_data);

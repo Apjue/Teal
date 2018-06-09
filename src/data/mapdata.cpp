@@ -21,8 +21,8 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned x, u
 
     for (std::size_t i {}; i < Def::MapDistanceCost.size(); ++i)
     {
-        unsigned newX = x + even ? Def::MapDistanceEvenX[i] : Def::MapDistanceUnevenX[i];
-        unsigned newY = y + even ? Def::MapDistanceEvenY[i] : Def::MapDistanceUnevenY[i];
+        unsigned newX = x + (even ? Def::MapDistanceEvenX[i] : Def::MapDistanceUnevenX[i]);
+        unsigned newY = y + (even ? Def::MapDistanceEvenY[i] : Def::MapDistanceUnevenY[i]);
 
         if (!isPositionValid({ newX, newY }))
             continue;

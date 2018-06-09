@@ -7,7 +7,7 @@
 #ifndef MAPPOSUTIL_HPP
 #define MAPPOSUTIL_HPP
 
-#include <Nazara/Prerequesites.hpp>
+#include <Nazara/Prerequisites.hpp>
 #include <Nazara/Math/Rect.hpp>
 #include <utility>
 #include <cstdint>

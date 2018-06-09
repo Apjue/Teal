@@ -35,7 +35,7 @@ int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& component
         state.PushField<Nz::String>("side", EquippableComponent::sideToString(component->side));
 
         if (component->attackId != SkillStore::InvalidID)
-            state.PushField<std::string>("skill_id", DoubleStores<SkillData>::getInstance()->getItem(component->attackId).codename);
+            state.PushField("skill_id", DoubleStores<SkillData>::getInstance()->getItem(component->attackId).codename);
     }
 
     return 1;

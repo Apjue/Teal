@@ -20,14 +20,6 @@ inline std::pair<T, T> toPair(const Nz::Vector2<T>& v);
 template<class T>
 inline Nz::Vector2<T> toVector2(const std::pair<T, T>& v);
 
-namespace Nz
-{
-
-template<typename T>
-unsigned int LuaImplQueryArg(const LuaState& instance, int index, std::vector<T>* container, TypeTag<std::vector<T>>);
-
-}
-
 #include "nzstlcompatibility.inl"
 
 #endif // NZSTLCOMPATIBILITY_HPP
