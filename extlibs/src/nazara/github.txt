@@ -1,2 +1,2 @@
 https://github.com/DigitalPulseSoftware/NazaraEngine
-Do not download binaries from here ! Check binaries.txt for further info
+Do not download binaries from here ! Check /build.md for further info

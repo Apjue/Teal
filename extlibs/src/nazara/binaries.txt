@@ -1,3 +1,0 @@
-Do not download binaries from Nazara Engine's github repository, Teal uses an altered version of Nazara Engine.
-You can download sources from https://github.com/S6066/NazaraEngine/tree/tealnightly
-Prebuilts for msvc15 (VS2017) are provided in /extlibs/bin/ (do not forget to run `git lfs pull` to see them)
