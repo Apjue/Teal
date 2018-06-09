@@ -1,5 +1,5 @@
 git:
-  depth: 3
+  depth: 1
 
 notifications:
   email: false
@@ -10,10 +10,10 @@ dist: trusty
 addons:
   apt:
     sources:
-      - llvm-toolchain-precise-3.7
       - ubuntu-toolchain-r-test
+
     packages:
-      - clang-3.7
+      - p7zip-full
       - libassimp-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
@@ -28,12 +28,10 @@ addons:
       - mesa-common-dev
 
 language: cpp
-compiler: 
-  - clang
+compiler: gcc
 
 env:
   global:
-    - COMPILER=clang++-3.7
     - ACTION=gmake
     - PLATFORM=x64
 
@@ -44,10 +42,6 @@ env:
 
     - CONFIG=release
       CONFIG_UPPER=Release
-
-branches:
-  only:
-  - master
 
 deploy:
   provider: pages
@@ -60,16 +54,18 @@ deploy:
   on:
     branch: master
 
-before_install:  
-  - export CC="clang-3.7"
-  - export CXX="clang++-3.7"
+before_install:
+  - sudo apt-get autoremove g++
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt update
+  - sudo apt-get install -y g++-7 
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
   - mkdir nazara && cd nazara
 
-  - curl https://github.com/DigitalPulseSoftware/NazaraEngine/releases/download/v0.4/NazaraEngine-0.4-linux-${PLATFORM}.tar.gz -Lo nazara.tar.gz
-  - tar -xzf nazara.tar.gz
+  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z
+  - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
 
@@ -80,9 +76,9 @@ install:
 
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
-
+  
   - ./premake5-linux64 ${ACTION}
-  - sudo make config=${CONFIG}_${PLATFORM}
+  - export CC=gcc-7 && export CXX=g++-7 && export AR=gcc-ar-7 && export NM=gcc-nm-7 && sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
@@ -92,9 +88,13 @@ before_script:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - sudo make -j4 config=${CONFIG}_${PLATFORM}
+  - export CC=gcc-7 && export CXX=g++-7 && export AR=gcc-ar-7 && export NM=gcc-nm-7 && sudo make config=${CONFIG}_${PLATFORM}
 
 after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - sudo chmod +x .travis_discord_webhook.sh
+  - ./.travis_discord_webhook.sh success $WEBHOOK_URL
+
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - sudo mkdir result
   - sudo cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
@@ -126,3 +126,8 @@ after_success:
 
   - cd result
   - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM})\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.txt
+
+after_failure:
+  - cd ${TRAVIS_BUILD_DIR}
+  - sudo chmod +x .travis_discord_webhook.sh
+  - ./.travis_discord_webhook.sh failure $WEBHOOK_URL

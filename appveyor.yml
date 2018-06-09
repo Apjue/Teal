@@ -11,20 +11,16 @@ version: '{branch} v0.x (#{build})'
 skip_tags: true
 image: Visual Studio 2017
 
+build:
+  verbosity: minimal
+
 notifications:
-  - provider: Slack
-    incoming_webhook:
+  - provider: Webhook
+    url:
       secure: Chl4vnW7unY6EQvnjtGkll8IgVFCQEuy71L458sTgxJ/0EoT1aa0mizZg4zes6aTnBAxxS+OY/oc/dFaR/XBXCZ5PyLiJPaduINDN2rey/IlEgTSXHFuBEWGibjxZ1HU6mDxOSKcyG8ZQ/VqZH/CsR+1gWyvHn3Te/Xg4m1fi8U=
     on_build_success: true 
     on_build_failure: true 
-    on_build_status_changed: true
-
-branches:
-  only:
-    - master
-
-build:
-  verbosity: minimal
+    on_build_status_changed: false
 
 environment:
   TOOLSET: vs2017
@@ -56,7 +52,7 @@ environment:
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && cd nazara
-  - git lfs pull && cp %APPVEYOR_BUILD_FOLDER%/extlibs/bin/NazaraEngine-msvc15-nightly.7z nazara.7z
+  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-msvc15-win-nightly.7z -Lo nazara.7z
   - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
@@ -98,6 +94,15 @@ after_build:
   - cd ..
   - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
   - 7z a TealDemo.7z * && cd ../..
+
+# Webhook
+on_success:
+  - cd %APPVEYOR_BUILD_FOLDER%/
+  - ps: ./.appveyor_discord_webhook.ps1 success $env:WEBHOOK_URL
+
+on_failure:
+  - cd %APPVEYOR_BUILD_FOLDER%/
+  - ps: ./.appveyor_discord_webhook.ps1 failure $env:WEBHOOK_URL
 
 artifacts:
   - path: build/result/TealDemo.7z
