@@ -90,7 +90,7 @@ script:
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
-#  - ./.travis_discord_webhook.sh success $WEBHOOK_URL
+  - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - sudo mkdir result
@@ -127,4 +127,4 @@ after_success:
 after_failure:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
-#  - ./.travis_discord_webhook.sh failure $WEBHOOK_URL
+  - ./.travis_discord_webhook.sh failure $WEBHOOK_URL
