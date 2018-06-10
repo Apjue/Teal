@@ -49,7 +49,7 @@ WEBHOOK_DATA='{
     },
     "title": "'"$COMMIT_SUBJECT"'",
     "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
-    "description": "Build [#'"$TRAVIS_BUILD_NUMBER"'.'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"'"
+    "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"'"
   } ]
 }'
 
