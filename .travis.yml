@@ -27,8 +27,6 @@ addons:
       - libxcb-randr0-dev
       - mesa-common-dev
 
-language: cpp
-
 env:
   global:
     - ACTION=gmake
