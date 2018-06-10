@@ -11,6 +11,14 @@ version: '{branch} v0.x (#{build})'
 skip_tags: true
 image: Visual Studio 2017
 
+notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: Chl4vnW7unY6EQvnjtGkll8IgVFCQEuy71L458sTgxJ/0EoT1aa0mizZg4zes6aTnBAxxS+OY/oc/dFaR/XBXCZ5PyLiJPaduINDN2rey/IlEgTSXHFuBEWGibjxZ1HU6mDxOSKcyG8ZQ/VqZH/CsVtIGOZBJya+IWZ2EmjmWhHxoWeunE0Tq7j6AXXZizmN
+    on_build_success: true 
+    on_build_failure: true 
+    on_build_status_changed: false
+
 build:
   verbosity: minimal
 
@@ -86,15 +94,6 @@ after_build:
   - cd ..
   - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
   - 7z a TealDemo.7z * && cd ../..
-
-# Webhook
-on_success:
-  - cd %APPVEYOR_BUILD_FOLDER%/
-  - ps: ./.appveyor_discord_webhook.ps1 success $env:WEBHOOK_URL
-
-on_failure:
-  - cd %APPVEYOR_BUILD_FOLDER%/
-  - ps: ./.appveyor_discord_webhook.ps1 failure $env:WEBHOOK_URL
 
 artifacts:
   - path: build/result/TealDemo.7z
