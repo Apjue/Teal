@@ -8,7 +8,7 @@ os: linux
 sudo: required
 dist: trusty
 
-language: cpp
+language: generic
 compiler: clang
 
 addons:
