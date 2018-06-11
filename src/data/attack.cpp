@@ -109,7 +109,7 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<A
     }
 }
 
-inline int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>)
+int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, TypeTag<std::shared_ptr<Attack>>)
 {
     switch (attack->getAttackType())
     {

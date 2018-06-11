@@ -27,11 +27,14 @@ public:
     template<class... Ts>
     inline TagInfo getTagInfoFromTagKeys(const TagKey& tagKey, const Ts&... tagKeys) const;
 
+    inline constexpr std::pair<const char*, const char*> DefaultAI() const
+    {
+        return std::make_pair("*", "*");
+    }
+
 private:
     using TagMap = std::map<TagKey, TagInfo>;
     TagMap m_tags;
-
-    static constexpr std::pair<const char*, const char*> DefaultAI = std::make_pair("*", "*");
     
     template<class... Ts>
     inline TagInfo getTagInfoFromTagKeys(const TagKey& tagKey, const Ts&... tagKeys, TagMap& tagMap) const;

@@ -3,7 +3,7 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include "util/assert.hpp"
-#include "aicore.hpp"
+//#include "aicore.hpp"
 
 inline void AICore::addTag(const TagKey& tagKey, const TagInfo& tagInfo)
 {
@@ -46,8 +46,8 @@ inline AICore::TagInfo AICore::getTagInfoFromTagKeys(const TagKey& tagKey, const
 
 inline AICore::TagInfo AICore::getTagInfoFromTagKeys(TagMap& tagMap) const
 {
-    if (tagMap.empty() && hasTag(DefaultAI)) // Default AI
-        return getTagInfo(DefaultAI);
+    if (tagMap.empty() && hasTag(DefaultAI())) // Default AI
+        return getTagInfo(DefaultAI());
 
     unsigned maxPower {};
     Nz::String filepath;
