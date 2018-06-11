@@ -4,15 +4,20 @@ git:
 notifications:
   email: false
 
+os: linux
 sudo: required
 dist: trusty
+
+language: cpp
+compiler: clang
 
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
 
     packages:
+      - clang++-5.0
       - p7zip-full
       - libassimp-dev
       - libfreetype6-dev
@@ -52,10 +57,10 @@ deploy:
     branch: master
 
 before_install:
-  - sudo apt-get autoremove g++ gcc libstdc++-6-dev
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update
-  - sudo apt-get install -y g++-7
+  - export CXX="/usr/local/clang-5.0.0/bin/clang++"
+  - export CC="/usr/local/clang-5.0.0/bin/clang"
+  - export CPATH="/usr/local/clang-5.0.0/include/c++/v1"
+  - export LD_LIBRARY_PATH="/usr/local/clang-5.0.0/lib"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -75,7 +80,7 @@ install:
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   
   - ./premake5-linux64 ${ACTION}
-  - export CC=gcc-7 && export CXX=g++-7 && export AR=gcc-ar-7 && export NM=gcc-nm-7 && sudo make config=${CONFIG}_${PLATFORM}
+  - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
@@ -85,7 +90,7 @@ before_script:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - export CC=gcc-7 && export CXX=g++-7 && export AR=gcc-ar-7 && export NM=gcc-nm-7 && sudo make config=${CONFIG}_${PLATFORM}
+  - sudo make config=${CONFIG}_${PLATFORM}
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
