@@ -72,10 +72,10 @@ workspace "Teal"
 
         filter "configurations:Debug"
             defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
-            links { "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
+            links { "NazaraAudio-d", "NazaraNetwork-d", "NazaraNoise-d", "NazaraPhysics2D-d", "NazaraPhysics3D-d", "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
             symbols "on"
 
         filter "configurations:Release"
             defines { "NDEBUG" }
-            links { "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "NazaraPlatform", "micropather" }
+            links { "NazaraAudio", "NazaraNetwork", "NazaraNoise", "NazaraPhysics2D", "NazaraPhysics3D", "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "NazaraPlatform", "micropather" }
             optimize "On"
