@@ -18,8 +18,6 @@ addons:
       - g++-7
       - libc6
       - libc6-dev
-      - libc6-bin
-      - libc6-dev-bin
       - p7zip-full
       - libassimp-dev
       - libfreetype6-dev
