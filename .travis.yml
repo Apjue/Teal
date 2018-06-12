@@ -69,8 +69,8 @@ install:
   - mkdir -p nazara && cd /tmp
 
   - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z
-  - 7z x nazara.7z
-  - cp package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK
+  - 7z x nazara.7z && ls
+  - cp -r /tmp/package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK
   - cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara
 
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
@@ -100,24 +100,24 @@ after_success:
   - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - sudo mkdir result
-  - sudo cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
+  - mkdir result
+  - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
 
   - cd result
-  - sudo cp /tmp/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
-  - sudo cp /tmp/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
-  - sudo cp /tmp/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
-  - sudo cp /tmp/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
-  - sudo cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
+  - cp /tmp/package/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
+  - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
 
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir buildresults
