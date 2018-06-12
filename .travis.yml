@@ -77,6 +77,7 @@ install:
   - mkdir -p ${ACTION} && cd ${ACTION}
   - mkdir -p ${PLATFORM} && cd ${PLATFORM}
   - mkdir -p nazara && mkdir -p micropather
+  - cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara
 
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
