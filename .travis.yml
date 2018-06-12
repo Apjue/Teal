@@ -61,10 +61,10 @@ deploy:
     branch: master
 
 before_install:
-  - export CXX="/usr/local/clang-6.0/bin/clang++"
-  - export CC="/usr/local/clang-6.0/bin/clang"
-  - export CPATH="/usr/local/clang-6.0/include/c++/v1"
-  - export LD_LIBRARY_PATH="/usr/local/clang-6.0/lib"
+  - export CC="/usr/bin/clang-6.0"
+  - export CXX="/usr/bin/clang++-6.0"
+  - export CPATH="/usr/include/clang/6.0"
+  - export LD_LIBRARY_PATH="/usr/lib/clang/6.0/lib"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
