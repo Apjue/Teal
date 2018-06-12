@@ -13,11 +13,10 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-glibc
 
     packages:
       - g++-7
-      - libc6
-      - libc6-dev
       - p7zip-full
       - libassimp-dev
       - libfreetype6-dev
@@ -65,7 +64,9 @@ before_install:
     --slave /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-7
     --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-7
   - sudo update-alternatives --auto gcc
-  - apt list --installed | grep libc
+  - cd /tmp
+  - curl http://launchpadlibrarian.net/365853472/libc6_2.27-3ubuntu1_s390x.deb -Lo libc6.deb
+  - sudo dpkg -i libc6.deb
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
