@@ -14,14 +14,10 @@ compiler: clang
 addons:
   apt:
     sources:
-      - llvm-toolchain-trusty-6.0
       - ubuntu-toolchain-r-test
 
     packages:
-      - clang++-6.0
-      - clang-6.0
-      - lldb-6.0
-      - lld-6.0
+      - g++-7
       - p7zip-full
       - libassimp-dev
       - libfreetype6-dev
@@ -61,10 +57,8 @@ deploy:
     branch: master
 
 before_install:
-  - export CC="/usr/bin/clang-6.0"
-  - export CXX="/usr/bin/clang++-6.0"
-  - export CPATH="/usr/include/clang/6.0"
-  - export LD_LIBRARY_PATH="/usr/lib/clang/6.0/lib"
+  - export CXX="g++-7"
+  - export CC="gcc-7"
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
@@ -83,14 +77,14 @@ install:
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   
-  - ./premake5-linux64 --cc=clang ${ACTION}
+  - ./premake5-linux64 ${ACTION}
   - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
   - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux64 --cc=clang ${ACTION}
+  - ./premake5-linux64 ${ACTION}
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
