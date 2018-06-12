@@ -7,9 +7,7 @@ notifications:
 os: linux
 sudo: required
 dist: trusty
-
 language: generic
-compiler: clang
 
 addons:
   apt:
@@ -36,6 +34,7 @@ env:
   global:
     - ACTION=gmake
     - PLATFORM=x64
+   #- PREMAKEARGS="--cc=clang"
 
   matrix:
     - CONFIG=debug
@@ -57,17 +56,22 @@ deploy:
     branch: master
 
 before_install:
-  - export CXX="g++-7"
-  - export CC="gcc-7"
+  - sudo update-alternatives \
+    --install /usr/bin/gcc gcc /usr/bin/gcc-7 100 \
+    --slave /usr/bin/g++ g++ /usr/bin/g++-7 \
+    --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-7 \
+    --slave /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-7 \
+    --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-7
+  - sudo update-alternatives --auto gcc
 
 install:
   - cd ${TRAVIS_BUILD_DIR}/extlibs/include
-  - mkdir nazara && cd nazara
+  - mkdir -p nazara && cd /tmp
 
   - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z
   - 7z x nazara.7z
-  - mv package/include/Nazara Nazara && mv package/include/NDK NDK
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/*.so /usr/lib
+  - cp package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK
+  - cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara
 
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir -p ${ACTION} && cd ${ACTION}
@@ -77,14 +81,14 @@ install:
   - cd micropather
   - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
   
-  - ./premake5-linux64 ${ACTION}
+  - ./premake5-linux64 ${PREMAKEARGS} ${ACTION}
   - sudo make config=${CONFIG}_${PLATFORM}
   - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
-  - sudo cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /usr/lib
+  - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/micropather
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux64 ${ACTION}
+  - ./premake5-linux64 ${PREMAKEARGS} ${ACTION}
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
@@ -100,19 +104,19 @@ after_success:
   - sudo cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
 
   - cd result
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
-  - sudo cp ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/package/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
+  - sudo cp /tmp/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
+  - sudo cp /tmp/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
+  - sudo cp /tmp/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
+  - sudo cp /tmp/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
   - sudo cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
 
   - cd ${TRAVIS_BUILD_DIR}
