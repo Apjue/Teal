@@ -34,8 +34,8 @@ public:
     using result_type = typename Generator::result_type;
 
     result_type operator()();
-    static result_type min();
-    static result_type max();
+    static constexpr result_type min();
+    static constexpr result_type max();
 
     static Generator generator;
 };

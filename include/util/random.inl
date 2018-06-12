@@ -9,13 +9,13 @@ typename RandomNumber<Generator>::result_type RandomNumber<Generator>::operator(
 }
 
 template<class Generator>
-typename RandomNumber<Generator>::result_type RandomNumber<Generator>::min()
+constexpr typename RandomNumber<Generator>::result_type RandomNumber<Generator>::min()
 {
     return generator.min();
 }
 
 template<class Generator>
-typename RandomNumber<Generator>::result_type RandomNumber<Generator>::max()
+constexpr typename RandomNumber<Generator>::result_type RandomNumber<Generator>::max()
 {
     return generator.max();
 }
