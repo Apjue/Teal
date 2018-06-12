@@ -41,7 +41,7 @@ workspace "Teal"
     project "TealDemo"
         kind "ConsoleApp"
         language "C++"
-        targetdir "%{cfg.buildcfg}/%{cfg.platform}/"
+        targetdir(_ACTION .. "/%{cfg.buildcfg}/%{cfg.platform}/")
         debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
 
         files
