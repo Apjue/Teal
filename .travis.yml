@@ -71,7 +71,6 @@ install:
   - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z
   - 7z x nazara.7z && ls
   - cp -r /tmp/package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK
-  - cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara
 
   - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
   - mkdir -p ${ACTION} && cd ${ACTION}
