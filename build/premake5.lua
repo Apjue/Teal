@@ -64,6 +64,7 @@ workspace "Teal"
             rootFolder .. "/include/"
         }
 
+        pic "On"
         cppdialect "C++14"
         flags { "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers" }
 

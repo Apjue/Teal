@@ -24,6 +24,7 @@ project "micropather"
     kind "StaticLib"
     language "C++"
     targetname "micropather"
+    pic "On"
     files { "micropather.h", "micropather.cpp" }
 
     filter "configurations:Debug"
