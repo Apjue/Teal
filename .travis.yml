@@ -15,9 +15,13 @@ addons:
   apt:
     sources:
       - llvm-toolchain-trusty-5.0
+      - ubuntu-toolchain-r-test
 
     packages:
       - clang++-5.0
+      - clang-5.0
+      - lldb-5.0
+      - lld-5.0
       - p7zip-full
       - libassimp-dev
       - libfreetype6-dev
