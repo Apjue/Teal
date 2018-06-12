@@ -56,11 +56,11 @@ deploy:
     branch: master
 
 before_install:
-  - sudo update-alternatives \
-    --install /usr/bin/gcc gcc /usr/bin/gcc-7 100 \
-    --slave /usr/bin/g++ g++ /usr/bin/g++-7 \
-    --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-7 \
-    --slave /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-7 \
+  - sudo update-alternatives
+    --install /usr/bin/gcc gcc /usr/bin/gcc-7 100
+    --slave /usr/bin/g++ g++ /usr/bin/g++-7
+    --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-7
+    --slave /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-7
     --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-7
   - sudo update-alternatives --auto gcc
 
