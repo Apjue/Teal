@@ -45,13 +45,13 @@ if [ "$STATUS_MESSAGE" == "passed" ]; then
     "embeds": [ {
       "color": '$EMBED_COLOR',
       "author": {
-        "name": "'"$TRAVIS_REPO_SLUG"':'"$TRAVIS_BRANCH"'",
+        "name": "'"$TRAVIS_REPO_SLUG"':'"$TRAVIS_BRANCH"' - ('"$CONFIG"' '"$PLATFORM"')",
         "url": "https://github.com/'"$TRAVIS_REPO_SLUG"'/tree/'"$TRAVIS_BRANCH"'",
         "icon_url": "'$AVATAR'"
       },
       "title": "'"$COMMIT_SUBJECT"'",
       "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
-      "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' ('"${CONFIG}"' '"${PLATFORM}"') - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"' - [Nightly](https://github.com/'"$DEPLOY_REPO_SLUG"'/tree/'"$DEPLOY_BRANCH"')"
+      "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"' - [Nightly](https://github.com/'"$DEPLOY_REPO_SLUG"'/tree/'"$DEPLOY_BRANCH"')"
     } ]
   }'
 else
