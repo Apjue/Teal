@@ -38,18 +38,19 @@ install: docker build -t teal .
 script:
   - docker run --name Teal -v ${TRAVIS_BUILD_DIR}:/Teal teal
       bash -c "
-        cd /Teal/extlibs/include &&
-        mkdir -p nazara && cd /tmp &&
+        cd /Teal && mkdir tmp
+        cd /Teal/extlibs/include && mkdir -p nazara &&
 
+        cd /Teal/tmp &&
         curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z &&
         7z x nazara.7z &&
-        cp -r /tmp/package/include/Nazara /Teal/extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK /Teal/extlibs/include/nazara/NDK &&
+        cp -r /Teal/tmp/package/include/Nazara /Teal/extlibs/include/nazara/Nazara && cp -r /Teal/tmp/package/include/NDK /Teal/extlibs/include/nazara/NDK &&
 
         cd /Teal/extlibs/lib/ &&
         mkdir -p ${ACTION} && cd ${ACTION} &&
         mkdir -p ${PLATFORM} && cd ${PLATFORM} &&
         mkdir -p nazara && mkdir -p micropather &&
-        cp /tmp/package/bin/${PLATFORM}/*.so /Teal/extlibs/lib/${ACTION}/${PLATFORM}/nazara &&
+        cp /Teal/tmp/package/bin/${PLATFORM}/*.so /Teal/extlibs/lib/${ACTION}/${PLATFORM}/nazara &&
 
         cd micropather &&
         cp -r /Teal/extlibs/src/micropather/** ./ &&
@@ -68,6 +69,7 @@ script:
 
 #" # Fix weird colorations
 after_success:
+  - sudo su
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
   - ./.travis_discord_webhook.sh success $WEBHOOK_URL
@@ -77,19 +79,19 @@ after_success:
   - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
 
   - cd result
-  - cp /tmp/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
-  - cp /tmp/package/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
   - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
 
   - cd ${TRAVIS_BUILD_DIR}
