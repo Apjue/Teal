@@ -13,6 +13,8 @@ env:
   global:
     - ACTION=gmake
     - PLATFORM=x64
+    - DEPLOY_REPO_SLUG=S6066/Teal-binaries
+    - DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
    #- PREMAKEARGS="--cc=clang"
 
   matrix:
@@ -27,8 +29,8 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: ${GITHUB_TOKEN}
-  target_branch: travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
-  repo: S6066/Teal-binaries
+  target_branch: ${DEPLOY_BRANCH}
+  repo: ${DEPLOY_REPO_SLUG}
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
   on: all_branches: true

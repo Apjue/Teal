@@ -36,22 +36,41 @@ else
   CREDITS="$AUTHOR_NAME authored & $COMMITTER_NAME committed"
 fi
 
-TIMESTAMP=$(date --utc +%FT%TZ) # "${COMMIT_MESSAGE//$'\n'/ }" 
-WEBHOOK_DATA='{
-  "username": "Travis",
-  "avatar_url": "https://travis-ci.org/images/logos/TravisCI-Mascot-1.png",
-  "embeds": [ {
-    "color": '$EMBED_COLOR',
-    "author": {
-      "name": "'"$TRAVIS_REPO_SLUG"':'"$TRAVIS_BRANCH"'",
-      "url": "https://github.com/'"$TRAVIS_REPO_SLUG"'/tree/'"$TRAVIS_BRANCH"'",
-      "icon_url": "'$AVATAR'"
-    },
-    "title": "'"$COMMIT_SUBJECT"'",
-    "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
-    "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"'"
-  } ]
-}'
+TIMESTAMP=$(date --utc +%FT%TZ) # "${COMMIT_MESSAGE//$'\n'/ }"
+
+if [ "$STATUS_MESSAGE" == "passed" ]; then
+  WEBHOOK_DATA='{
+    "username": "Travis",
+    "avatar_url": "https://travis-ci.org/images/logos/TravisCI-Mascot-1.png",
+    "embeds": [ {
+      "color": '$EMBED_COLOR',
+      "author": {
+        "name": "'"$TRAVIS_REPO_SLUG"':'"$TRAVIS_BRANCH"'",
+        "url": "https://github.com/'"$TRAVIS_REPO_SLUG"'/tree/'"$TRAVIS_BRANCH"'",
+        "icon_url": "'$AVATAR'"
+      },
+      "title": "'"$COMMIT_SUBJECT"'",
+      "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
+      "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"' - [Artefact](https://github.com/'"$DEPLOY_REPO_SLUG"'/tree/'"$DEPLOY_BRANCH"')"
+    } ]
+  }'
+else
+  WEBHOOK_DATA='{
+    "username": "Travis",
+    "avatar_url": "https://travis-ci.org/images/logos/TravisCI-Mascot-1.png",
+    "embeds": [ {
+      "color": '$EMBED_COLOR',
+      "author": {
+        "name": "'"$TRAVIS_REPO_SLUG"':'"$TRAVIS_BRANCH"'",
+        "url": "https://github.com/'"$TRAVIS_REPO_SLUG"'/tree/'"$TRAVIS_BRANCH"'",
+        "icon_url": "'$AVATAR'"
+      },
+      "title": "'"$COMMIT_SUBJECT"'",
+      "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
+      "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"'"
+    } ]
+  }'
+fi
 
 (curl --fail --progress-bar -A "TravisCI-Webhook" -H Content-Type:application/json -H X-Author:k3rn31p4nic#8383 -d "$WEBHOOK_DATA" "$2" \
   && echo -e "\\n[Webhook]: Successfully sent the webhook.") || echo -e "\\n[Webhook]: Unable to send webhook."
