@@ -2,6 +2,7 @@ skip_commits:
   files:
     - .travis.yml
     - .travis_discord_webhook.sh
+    - Dockerfile
     - LICENSE
     - README.md
     - build.md
