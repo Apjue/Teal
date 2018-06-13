@@ -31,6 +31,7 @@ deploy:
   repo: S6066/Teal-binaries
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
+  on: all_branches: true
 
 install: docker build -t teal .
 script:
