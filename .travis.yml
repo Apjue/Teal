@@ -55,7 +55,7 @@ script:
         cp -r /Teal/extlibs/src/micropather/** ./ &&
         
         ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
-        sudo make config=${CONFIG}_${PLATFORM} &&
+        make config=${CONFIG}_${PLATFORM} &&
         cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./ &&
         cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /Teal/extlibs/lib/${ACTION}/${PLATFORM}/micropather &&
 
@@ -63,7 +63,7 @@ script:
         cd /Teal/build &&
         ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
         cd ${ACTION} &&
-        sudo make -j4 config=${CONFIG}_${PLATFORM}
+        make -j4 config=${CONFIG}_${PLATFORM}
       "
 
 #" # Fix weird colorations
