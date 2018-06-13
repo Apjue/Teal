@@ -73,9 +73,9 @@ build_script:
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
   - mkdir result && cd result
-  - mkdir TealDemo
-  - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/TealDemo.exe TealDemo/TealDemo-%CONFIG%-%PLATFORM%.exe
-  - cd TealDemo
+  - mkdir Teal
+  - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/Teal.exe Teal/Teal-%CONFIG%-%PLATFORM%.exe
+  - cd Teal
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
@@ -95,8 +95,8 @@ after_build:
   - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/soft_oal.dll ./
   - cd ..
   - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
-  - 7z a TealDemo.7z * && cd ../..
+  - 7z a Teal.7z * && cd ../..
 
 artifacts:
-  - path: build/result/TealDemo.7z
-    name: 'TealDemo-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'
+  - path: build/result/Teal.7z
+    name: 'Teal-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'

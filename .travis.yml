@@ -75,11 +75,11 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
   - cd result
-  - mkdir TealDemo
+  - mkdir Teal
   - cd ..
-  - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo/
+  - cp ${CONFIG_UPPER}/${PLATFORM}/Teal ./result/Teal/
 
-  - cd result/TealDemo
+  - cd result/Teal
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraAudio${SUFFIX}.so ./
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraCore${SUFFIX}.so ./
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraGraphics${SUFFIX}.so ./
@@ -102,9 +102,9 @@ after_success:
   - cd buildresults
   - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
 
-  - tar -zcvf tealdemo.tar.gz *
+  - tar -zcvf teal.tar.gz *
   - mkdir result
-  - mv tealdemo.tar.gz result
+  - mv teal.tar.gz result
 
   - cd result
   - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.txt

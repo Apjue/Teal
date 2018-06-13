@@ -38,7 +38,7 @@ workspace "Teal"
             prebuildcommands("cd .. && " .. commandLine)
     end
 
-    project "TealDemo"
+    project "Teal"
         kind "ConsoleApp"
         language "C++"
         targetdir(_ACTION .. "/%{cfg.buildcfg}/%{cfg.platform}/")
