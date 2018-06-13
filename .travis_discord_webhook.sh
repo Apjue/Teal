@@ -51,7 +51,7 @@ if [ "$STATUS_MESSAGE" == "passed" ]; then
       },
       "title": "'"$COMMIT_SUBJECT"'",
       "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
-      "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"' - [Artefact](https://github.com/'"$DEPLOY_REPO_SLUG"'/tree/'"$DEPLOY_BRANCH"')"
+      "description": "Build [#'"$TRAVIS_JOB_NUMBER"'](https://travis-ci.org/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"') '"$STATUS_MESSAGE"' - '"$CREDITS"' '"[\`${TRAVIS_COMMIT:0:7}\`](https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT)"' - [Artefact link](https://github.com/'"$DEPLOY_REPO_SLUG"'/tree/'"$DEPLOY_BRANCH"')"
     } ]
   }'
 else

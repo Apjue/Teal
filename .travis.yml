@@ -10,13 +10,6 @@ language: generic
 services: docker
 
 env:
-  global:
-    - ACTION=gmake
-    - PLATFORM=x64
-    - DEPLOY_REPO_SLUG=S6066/Teal-binaries
-    - DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
-   #- PREMAKEARGS="--cc=clang"
-
   matrix:
     - CONFIG=debug
       CONFIG_UPPER=Debug
@@ -24,6 +17,13 @@ env:
 
     - CONFIG=release
       CONFIG_UPPER=Release
+      
+  global:
+    - ACTION=gmake
+    - PLATFORM=x64
+    - DEPLOY_REPO_SLUG=S6066/Teal-binaries
+    - DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
+   #- PREMAKEARGS="--cc=clang"
 
 deploy:
   provider: pages
