@@ -36,31 +36,31 @@ deploy:
 
 install: docker build -t teal .
 script:
-  - docker run --name Teal -v /:/Teal teal
-      bash -c "
-        cd ${TRAVIS_BUILD_DIR}/extlibs/include &&
+  - docker run --name Teal -v ${TRAVIS_BUILD_DIR}:/Teal teal
+      bash -c "cd / && ls &&
+        cd /extlibs/include &&
         mkdir -p nazara && cd /tmp &&
 
         curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z &&
         7z x nazara.7z &&
-        cp -r /tmp/package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK &&
+        cp -r /tmp/package/include/Nazara /extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK /extlibs/include/nazara/NDK &&
 
-        cd ${TRAVIS_BUILD_DIR}/extlibs/lib/ &&
+        cd /extlibs/lib/ &&
         mkdir -p ${ACTION} && cd ${ACTION} &&
         mkdir -p ${PLATFORM} && cd ${PLATFORM} &&
         mkdir -p nazara && mkdir -p micropather &&
-        cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara &&
+        cp /tmp/package/bin/${PLATFORM}/*.so /extlibs/lib/${ACTION}/${PLATFORM}/nazara &&
 
         cd micropather &&
-        cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./ &&
+        cp -r /extlibs/src/micropather/** ./ &&
         
         ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
         sudo make config=${CONFIG}_${PLATFORM} &&
         cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./ &&
-        cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/micropather &&
+        cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /extlibs/lib/${ACTION}/${PLATFORM}/micropather &&
 
 
-        cd ${TRAVIS_BUILD_DIR}/build &&
+        cd /build &&
         ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
         cd ${ACTION} &&
         sudo make -j4 config=${CONFIG}_${PLATFORM}
