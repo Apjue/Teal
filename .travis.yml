@@ -70,10 +70,10 @@ script:
 #" # Fix weird colorations
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
-  - sudo chmod +x .travis_discord_webhook.sh
+  - sudo chmod -R 777 .
+  #- sudo chmod +x .travis_discord_webhook.sh
   - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
-  - sudo su
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
   - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
