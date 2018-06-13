@@ -74,9 +74,12 @@ script:
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
-  - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
-
   - cd result
+  - mkdir TealDemo
+  - cd ..
+  - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo/
+
+  - cd result/TealDemo
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraAudio${SUFFIX}.so ./
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraCore${SUFFIX}.so ./
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraGraphics${SUFFIX}.so ./
@@ -90,6 +93,8 @@ after_success:
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraSDKServer${SUFFIX}.so ./
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraUtility${SUFFIX}.so ./
   - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraPlatform${SUFFIX}.so ./
+  
+  - cd ..
   - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
 
   - cd ${TRAVIS_BUILD_DIR}
