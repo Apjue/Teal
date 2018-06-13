@@ -36,7 +36,7 @@ deploy:
 
 install: docker build -t teal .
 script:
-  - docker run --name Teal -v /:/ teal
+  - docker run --name Teal -v /:/Teal teal
       bash -c "
         cd ${TRAVIS_BUILD_DIR}/extlibs/include &&
         mkdir -p nazara && cd /tmp &&
