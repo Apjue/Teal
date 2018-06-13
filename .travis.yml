@@ -10,6 +10,12 @@ language: generic
 services: docker
 
 env:
+  global:
+    - ACTION=gmake
+    - PLATFORM=x64
+    - DEPLOY_REPO_SLUG=S6066/Teal-binaries
+   #- PREMAKEARGS="--cc=clang"
+
   matrix:
     - CONFIG=debug
       CONFIG_UPPER=Debug
@@ -17,25 +23,19 @@ env:
 
     - CONFIG=release
       CONFIG_UPPER=Release
-      
-  global:
-    - ACTION=gmake
-    - PLATFORM=x64
-    - DEPLOY_REPO_SLUG=S6066/Teal-binaries
-    - DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
-   #- PREMAKEARGS="--cc=clang"
 
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: ${GITHUB_TOKEN}
-  target_branch: ${DEPLOY_BRANCH}
+  target_branch: travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
   repo: ${DEPLOY_REPO_SLUG}
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
   on:
     all_branches: true
 
+before_install: export DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
 install: docker build -t teal .
 script:
   - docker run --name Teal -v ${TRAVIS_BUILD_DIR}:/Teal teal
