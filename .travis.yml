@@ -6,30 +6,8 @@ notifications:
 
 os: linux
 sudo: required
-dist: trusty
 language: generic
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - ubuntu-toolchain-r-glibc
-
-    packages:
-      - g++-7
-      - p7zip-full
-      - libassimp-dev
-      - libfreetype6-dev
-      - libgl1-mesa-dev
-      - libopenal-dev
-      - libsndfile1-dev
-      - libx11-dev
-      - libxcb-cursor-dev
-      - libxcb-ewmh-dev
-      - libxcb-icccm4-dev
-      - libxcb-keysyms1-dev
-      - libxcb-randr0-dev
-      - mesa-common-dev
+services: docker
 
 env:
   global:
@@ -56,48 +34,39 @@ deploy:
   on:
     branch: master
 
-before_install:
-  - sudo update-alternatives
-    --install /usr/bin/gcc gcc /usr/bin/gcc-7 100
-    --slave /usr/bin/g++ g++ /usr/bin/g++-7
-    --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-7
-    --slave /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-7
-    --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-7
-  - sudo update-alternatives --auto gcc
-  - cd /tmp
-  - curl http://launchpadlibrarian.net/365853472/libc6_2.27-3ubuntu1_s390x.deb -Lo libc6.deb
-  - sudo dpkg -i libc6.deb
-
-install:
-  - cd ${TRAVIS_BUILD_DIR}/extlibs/include
-  - mkdir -p nazara && cd /tmp
-
-  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z
-  - 7z x nazara.7z
-  - cp -r /tmp/package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK
-
-  - cd ${TRAVIS_BUILD_DIR}/extlibs/lib/
-  - mkdir -p ${ACTION} && cd ${ACTION}
-  - mkdir -p ${PLATFORM} && cd ${PLATFORM}
-  - mkdir -p nazara && mkdir -p micropather
-  - cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara
-
-  - cd micropather
-  - cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./
-  
-  - ./premake5-linux64 ${PREMAKEARGS} ${ACTION}
-  - sudo make config=${CONFIG}_${PLATFORM}
-  - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./
-  - cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/micropather
-
-before_script:
-  - cd ${TRAVIS_BUILD_DIR}/build
-  - ./premake5-linux64 ${PREMAKEARGS} ${ACTION}
-
+install: docker build -t teal .
 script:
-  - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - sudo make -j4 config=${CONFIG}_${PLATFORM}
+  - docker run --name Teal teal
+      bash -c "
+        cd ${TRAVIS_BUILD_DIR}/extlibs/include &&
+        mkdir -p nazara && cd /tmp &&
 
+        curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z &&
+        7z x nazara.7z &&
+        cp -r /tmp/package/include/Nazara ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/Nazara && cp -r /tmp/package/include/NDK ${TRAVIS_BUILD_DIR}/extlibs/include/nazara/NDK &&
+
+        cd ${TRAVIS_BUILD_DIR}/extlibs/lib/ &&
+        mkdir -p ${ACTION} && cd ${ACTION} &&
+        mkdir -p ${PLATFORM} && cd ${PLATFORM} &&
+        mkdir -p nazara && mkdir -p micropather &&
+        cp /tmp/package/bin/${PLATFORM}/*.so ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/nazara &&
+
+        cd micropather &&
+        cp -r ${TRAVIS_BUILD_DIR}/extlibs/src/micropather/** ./ &&
+        
+        ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
+        sudo make config=${CONFIG}_${PLATFORM} &&
+        cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./ &&
+        cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ${TRAVIS_BUILD_DIR}/extlibs/lib/${ACTION}/${PLATFORM}/micropather &&
+
+
+        cd ${TRAVIS_BUILD_DIR}/build &&
+        ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
+        cd ${ACTION} &&
+        sudo make -j4 config=${CONFIG}_${PLATFORM}
+      "
+
+#" # Fix weird colorations
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
