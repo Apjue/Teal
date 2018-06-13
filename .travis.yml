@@ -27,12 +27,10 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: ${GITHUB_TOKEN}
-  target_branch: travis-${CONFIG}-${PLATFORM}
+  target_branch: travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
   repo: S6066/Teal-binaries
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
-  on:
-    branch: master
 
 install: docker build -t teal .
 script:
@@ -43,7 +41,7 @@ script:
 
         cd /Teal/tmp &&
         curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z &&
-        7z x nazara.7z && ls -R &&
+        7z x nazara.7z &&
         cp -r /Teal/tmp/package/include/Nazara /Teal/extlibs/include/nazara/Nazara && cp -r /Teal/tmp/package/include/NDK /Teal/extlibs/include/nazara/NDK &&
 
         cd /Teal/extlibs/lib/ &&
@@ -71,7 +69,6 @@ script:
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod -R 777 .
-  #- sudo chmod +x .travis_discord_webhook.sh
   - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
@@ -79,20 +76,19 @@ after_success:
   - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
 
   - cd result
-  - ls -R ${TRAVIS_BUILD_DIR}/tmp
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraAudio${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraCore${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraGraphics${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraLua${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraNetwork${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraNoise${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraPhysics2D${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraPhysics3D${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraRenderer${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraSDK${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraSDKServer${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraUtility${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/NazaraPlatform${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraAudio${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraCore${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraGraphics${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraLua${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraNetwork${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraNoise${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraPhysics2D${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraPhysics3D${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraRenderer${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraSDK${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraSDKServer${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraUtility${SUFFIX}.so ./
+  - cp ${TRAVIS_BUILD_DIR}/tmp/package/bin/${PLATFORM}/libNazaraPlatform${SUFFIX}.so ./
   - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
 
   - cd ${TRAVIS_BUILD_DIR}
@@ -105,7 +101,7 @@ after_success:
   - mv tealdemo.tar.gz result
 
   - cd result
-  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM})\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.txt
+  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.txt
 
 after_failure:
   - cd ${TRAVIS_BUILD_DIR}
