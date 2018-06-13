@@ -93,8 +93,8 @@ wdirs/x64
 wdirs/x86
 
 # Result
-TealDemo.log
-TealDemo.exe
+Teal.log
+Teal.exe
 
 # Premake
 build/vs*

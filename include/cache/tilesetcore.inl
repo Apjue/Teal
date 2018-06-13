@@ -1,5 +1,5 @@
 // Copyright (C) 2018 Samy Bensaid
-// This file is part of the TealDemo project.
+// This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 void TilesetCore::add(unsigned key, const Nz::String& correspondance)

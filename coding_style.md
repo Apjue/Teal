@@ -4,7 +4,7 @@ Class Header:
 
 ```cpp
 // Copyright (C) YEAR AUTHOR
-// This file is part of the TealDemo project.
+// This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
@@ -44,7 +44,7 @@ private:
 Class Source:
 ```cpp
 // Copyright (C) YEAR AUTHOR
-// This file is part of the TealDemo project.
+// This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include "myclass.hpp"
@@ -88,7 +88,10 @@ enum a
 enum b
 {
     Hello = 0,
-    SomeFlag = 1 << 0,
-    AnotherOne = 1 << 1
+    SomeFlag = 1,
+    AnotherOne = 2
+    HelloIAmAFlag = 4,
+
+    Max = 7 // Not required
 };
 ```
