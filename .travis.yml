@@ -33,7 +33,8 @@ deploy:
   repo: ${DEPLOY_REPO_SLUG}
   local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
   name: Travis CI
-  on: all_branches: true
+  on:
+    all_branches: true
 
 install: docker build -t teal .
 script:
