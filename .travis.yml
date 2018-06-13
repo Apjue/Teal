@@ -38,7 +38,7 @@ install: docker build -t teal .
 script:
   - docker run --name Teal -v ${TRAVIS_BUILD_DIR}:/Teal teal
       bash -c "
-        cd /Teal && mkdir tmp
+        cd /Teal && mkdir tmp &&
         cd /Teal/extlibs/include && mkdir -p nazara &&
 
         cd /Teal/tmp &&
@@ -69,11 +69,11 @@ script:
 
 #" # Fix weird colorations
 after_success:
-  - sudo su
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod +x .travis_discord_webhook.sh
   - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
+  - sudo su
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
   - cp ${CONFIG_UPPER}/${PLATFORM}/TealDemo ./result/TealDemo
