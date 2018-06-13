@@ -30,10 +30,11 @@ deploy:
   github_token: ${GITHUB_TOKEN}
   target_branch: travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
   repo: ${DEPLOY_REPO_SLUG}
-  local_dir: ${TRAVIS_BUILD_DIR}/buildresults/result/
+  local_dir: /buildresults/result/
   name: Travis CI
   on:
     all_branches: true
+  script: 
 
 before_install: export DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
 install: docker build -t teal .
