@@ -36,7 +36,7 @@ namespace Nz
 inline unsigned int LuaImplQueryArg(const LuaState& state, int index, PositionComponent* component, TypeTag<PositionComponent>)
 {
     state.CheckType(index, Nz::LuaType_Table);
-    component->xy = state.CheckField<AbsTile>("xy");
+    component->xy = state.CheckField<AbsTile>("xy", index);
 
     return 1;
 }
