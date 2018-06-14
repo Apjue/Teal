@@ -37,7 +37,7 @@ deploy:
   script: 
 
 before_install: export DEPLOY_BRANCH=travis-${TRAVIS_BRANCH}-${CONFIG}-${PLATFORM}
-install: docker build -t teal .
+install: docker build -t teal -f Dockerfile_UbuntuBionic .
 script:
   - docker run --name Teal -v ${TRAVIS_BUILD_DIR}:/Teal teal
       bash -c "
