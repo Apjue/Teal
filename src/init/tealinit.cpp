@@ -53,7 +53,7 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
     Detail::loadCharacters(world, data.characters, *data.animations);
     Detail::loadItems(world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
-    Detail::loadMaps(data.characters, data.items);
+    Detail::loadMaps(world, data.characters, data.items);
 
     Detail::addIcon(window);
     Detail::addCam(world, window);
@@ -558,7 +558,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
             NazaraNotice(lua.GetLastError());
             continue;
         }
-        DoubleStores<SkillData>::getInstance()->hasItem(1);
+        
         Ndk::EntityHandle item = makeLogicalItem(world.CreateHandle(), lua);
 
         item->Enable(false);
@@ -575,7 +575,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
 // 
 // }
 
-void loadMaps(const Ndk::EntityList& characters, const Ndk::EntityList& items)
+void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::EntityList& items)
 {
     Nz::Directory maps { Def::MapFolder };
     maps.SetPattern("*.lua");
@@ -632,10 +632,8 @@ void loadMaps(const Ndk::EntityList& characters, const Ndk::EntityList& items)
         map->setTiles(tiles);
         Nz::String mapPos = lua.CheckField<Nz::String>("pos");
 
-        lua.PushString("entities");
-        lua.GetTable();
 
-        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
+        TealException(lua.GetField("entities") == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
 
         for (int i { 1 };; ++i)
         {
@@ -649,36 +647,39 @@ void loadMaps(const Ndk::EntityList& characters, const Ndk::EntityList& items)
 
             Nz::String codename = lua.CheckField<Nz::String>("codename");
             Nz::String type = lua.CheckField<Nz::String>("type").ToLower();
+            Nz::Vector2ui pos = lua.CheckField<Nz::Vector2ui>("pos");
 
-            TealException(lua.GetField("pos") == Nz::LuaType_Table, "Lua: teal_map.entities.pos isn't a table !");
-
-            lua.PushInteger(1);
-            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_map.entities.pos.x isn't a number !");
-
-            int posx = int(lua.CheckInteger(-1));
-            TealException(posx > 0, "Invalid pos.y");
-            lua.Pop();
-
-
-            lua.PushInteger(2);
-            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_map.entities.pos.y isn't a number !");
-
-            int posy = int(lua.CheckInteger(-1));
-            TealException(posy > 0, "Invalid pos.y");
-            lua.Pop();
-
-            Nz::Vector2ui pos = { unsigned(posx), unsigned(posy) };
-            lua.Pop();
-
-
-            if (type == "character" || type == "item")
+            if (type == "character")
             {
-                Ndk::EntityHandle e = (type == "character" ? cloneCharacter(characters, codename) : cloneItem(items, codename));
+                Ndk::EntityHandle e = cloneCharacter(characters, codename);
 
                 if (e.IsValid())
                 {
                     e->Enable(false);
+
+                    e->GetComponent<PositionComponent>().xy = pos;
+                    refreshGraphicsPos(e);
+
                     map->getEntities().Insert(e);
+                }
+            }
+
+            else if (type == "item")
+            {
+                Ndk::EntityHandle e = cloneItem(items, codename);
+
+                if (e.IsValid())
+                {
+                    e->AddComponent<PositionComponent>().xy = pos;
+
+                    Nz::Vector2f size = lua.CheckField<Nz::Vector2f>("size");
+                    Nz::Vector2f offset = lua.CheckField<Nz::Vector2f>("offset");
+
+                    auto gfxEntity = makeGraphicalItem(world.CreateHandle(), { e, size, offset, LogicEntityIdComponent::GroundItem });
+                    gfxEntity->Enable(false);
+
+                    refreshGraphicsPos(e, gfxEntity);
+                    map->getEntities().Insert(gfxEntity);
                 }
             }
 

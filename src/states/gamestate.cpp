@@ -157,14 +157,6 @@ void GameState::addEntities() /// \todo Use lua (map's entities table)
     mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
                  Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
 
-
-    Ndk::EntityHandle sword = cloneItem(m_items, "excalibur");
-    sword->AddComponent<PositionComponent>().xy = { 1, 2 };
-
-    auto gfxEntity = makeGraphicalItem(m_world, { sword, { 40, 40 }, { 12, -3 }, LogicEntityIdComponent::GroundItem });
-    MapDataLibrary::Get("0;0")->getEntities().Insert(gfxEntity);
-
-
     activateMapEntities(MapDataLibrary::Get("0;0"));
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
 
@@ -172,17 +164,6 @@ void GameState::addEntities() /// \todo Use lua (map's entities table)
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
     m_charac->GetComponent<NameComponent>().name = "You";
     refreshGraphicsPos(m_charac);
-
-    auto& charSprites = m_charac->GetComponent<RenderablesStorageComponent>();
-
-    auto npc = cloneCharacter(m_characters, "villager");
-    npc->GetComponent<PositionComponent>().xy = { 5, 5 };
-    npc->GetComponent<NameComponent>().name = "The Wandering NPC";
-    //npc->AddComponent<RandomMovementComponent>(5.5f, 1);
-
-    refreshGraphicsPos(npc);
-    MapDataLibrary::Get("1;0")->getEntities().Insert(npc);
-    deactivateMapEntities(MapDataLibrary::Get("1;0"));
 }
 
 void GameState::addSystems()

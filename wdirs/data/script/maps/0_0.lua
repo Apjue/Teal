@@ -1,7 +1,16 @@
 teal_map =
 {
     pos = "0;0",
-    entities = {},
+    entities =
+    {
+        {
+            codename = "excalibur",
+            type = "item",
+            pos = { x = 1, y = 2 },
+            size = { x = 40, y = 40 },
+            offset = { x = 12, y = -3 }
+        }
+    },
 
     {
         textureId = "sandy",

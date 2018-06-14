@@ -1,7 +1,14 @@
 teal_map =
 {
     pos = "1;0",
-    entities = {},
+    entities =
+    {
+        {
+            codename = "villager",
+            type = "character",
+            pos = { x = 5, y = 5 }
+        }
+    },
 
     {
         textureId = "water",
