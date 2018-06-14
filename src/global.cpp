@@ -92,9 +92,9 @@ Orientation DirToOrient(DirectionFlags d)
     return {};
 }
 
-DirectionFlags OrientToDir(Orientation o)
+DirectionFlags OrientToDir(Orientation orientation)
 {
-    switch (o)
+    switch (orientation)
     {
     case Orientation::Down:
         return Dir::Down;

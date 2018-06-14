@@ -33,6 +33,9 @@ inline Element& operator++(Element& e)
 inline Element stringToElement(Nz::String string)
 {
     string = string.ToLower();
+
+    if (string == "neutral")
+        return Element::Neutral;
         
     if (string == "air")
         return Element::Air;

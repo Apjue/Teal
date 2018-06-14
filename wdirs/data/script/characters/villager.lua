@@ -6,11 +6,11 @@ teal_character =
 
     animations =
     {
+        default = 0,
         "villager_walking"
     },
 
     maxhealth = 100,
-    random = { false },
     name = "Villager",
 
     attack =

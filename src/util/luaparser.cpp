@@ -5,7 +5,7 @@
 #include "util/assert.hpp"
 #include "util/luaparser.hpp"
 
-void parseLua(Nz::LuaInstance& lua, LuaArguments& table)
+void parseLua(const Nz::LuaState& lua, LuaArguments& table)
 {
     for (unsigned i { 1 };; ++i)
     {

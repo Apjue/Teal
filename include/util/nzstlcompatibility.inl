@@ -16,3 +16,92 @@ Nz::Vector2<T> toVector2(const std::pair<T, T>& v)
     return { v.first, v.second };
 }
 
+namespace Nz
+{
+
+template<class T1, class T2>
+unsigned LuaImplQueryArg(const LuaState& state, int index, std::pair<T1, T2>* pair, TypeTag<std::pair<T1, T2>>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    {
+        state.PushInteger(1);
+        state.GetTable();
+
+        int index { -1 };
+        pair->first = state.Check<T1>(&index);
+
+        state.Pop();
+    }
+
+    {
+        state.PushInteger(2);
+        state.GetTable();
+
+        int index { -1 };
+        pair->second = state.Check<T2>(&index);
+
+        state.Pop();
+    }
+
+    return 1;
+}
+
+
+template<class T1, class T2>
+unsigned LuaImplQueryArg(const LuaState& state, int index, std::unordered_map<T1, T2>* map, TypeTag<std::unordered_map<T1, T2>>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    for (int i { 1 };; ++i)
+    {
+        state.PushInteger(i);
+
+        if (state.GetTable() == Nz::LuaType_Table)
+        {
+            std::pair<T1, T2> pair;
+            LuaImplQueryArg(state, -1, &pair, TypeTag<std::pair<T1, T2>>());
+
+            map->insert(pair);
+            state.Pop();
+        }
+
+        else
+        {
+            state.Pop();
+            break;
+        }
+    }
+
+    return 1;
+}
+
+template<class T1, class T2>
+unsigned LuaImplQueryArg(const LuaState& state, int index, std::map<T1, T2>* map, TypeTag<std::map<T1, T2>>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    for (int i { 1 };; ++i)
+    {
+        state.PushInteger(i);
+
+        if (state.GetTable() == Nz::LuaType_Table)
+        {
+            std::pair<T1, T2> pair;
+            LuaImplQueryArg(state, -1, &pair, TypeTag<std::pair<T1, T2>>());
+
+            map->insert(pair);
+            state.Pop();
+        }
+
+        else
+        {
+            state.Pop();
+            break;
+        }
+    }
+
+    return 1;
+}
+
+} // namespace Nz

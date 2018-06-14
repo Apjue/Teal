@@ -82,9 +82,9 @@ extern DiffTile DirToGXY(DirectionFlags d);
 extern DirectionFlags XYToDir(DiffTile d, bool even);
 
 extern Orientation DirToOrient(DirectionFlags d);
-extern DirectionFlags OrientToDir(Orientation o);
+extern DirectionFlags OrientToDir(Orientation orientation);
 
-inline DiffTile OrientToDiff(Orientation o, bool even);
+inline DiffTile OrientToDiff(Orientation orientation, bool even);
 inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
 
 ///

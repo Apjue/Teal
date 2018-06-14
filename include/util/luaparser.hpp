@@ -7,14 +7,15 @@
 #ifndef LUAPARSER_HPP
 #define LUAPARSER_HPP
 
-#include <Nazara/Lua.hpp>
+#include <NDK/LuaAPI.hpp>
+#include <Nazara/Lua/LuaState.hpp>
 #include <Nazara/Core/String.hpp>
 #include "def/typedef.hpp"
 
-inline LuaArguments parseLua(Nz::LuaInstance& lua);
-extern void parseLua(Nz::LuaInstance& lua, LuaArguments& table);
+inline LuaArguments parseLua(const Nz::LuaState& lua);
+extern void parseLua(const Nz::LuaState& lua, LuaArguments& table);
 
-inline bool hasField(Nz::LuaInstance& lua, const Nz::String& fieldName, int tableIndex = -1);
+inline bool hasField(const Nz::LuaState& lua, const Nz::String& fieldName, int tableIndex = -1);
 
 #include "luaparser.inl"
 

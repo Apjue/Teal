@@ -52,9 +52,9 @@ inline Orientation stringToOrientation(Nz::String string)
 }
 
 
-inline DiffTile OrientToDiff(Orientation o, bool even)
+inline DiffTile OrientToDiff(Orientation orientation, bool even)
 {
-    return DirToXY(OrientToDir(o), even);
+    return DirToXY(OrientToDir(orientation), even);
 }
 
 inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)

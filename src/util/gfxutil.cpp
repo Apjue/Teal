@@ -79,32 +79,32 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     int losangeY { int(rectY) };
 
     bool even = isLineEven(rectY);
-    Orientation o = Orientation::Down;
+    Orientation orientation = Orientation::Down;
 
 
     if (color == Nz::Color::Blue)
-        o = Orientation::UpLeft;
+        orientation = Orientation::UpLeft;
 
     if (color == Nz::Color::Red)
-        o = Orientation::UpRight;
+        orientation = Orientation::UpRight;
 
     if (color == Nz::Color::Yellow)
-        o = Orientation::DownLeft;
+        orientation = Orientation::DownLeft;
 
     if (color == Nz::Color::Green)
-        o = Orientation::DownRight;
+        orientation = Orientation::DownRight;
 
     if (color == Nz::Color::White)
-        o = Orientation::Up;
+        orientation = Orientation::Up;
 
 
-    if (o == Orientation::Down)
+    if (orientation == Orientation::Down)
         NazaraError("Error in scheme !");
 
-    if (o != Orientation::Up)
+    if (orientation != Orientation::Up)
     {
-        losangeX += even ? Def::MapDistanceEvenX[toUnderlyingType(o)] : Def::MapDistanceEvenX[toUnderlyingType(o)];
-        losangeY += even ? Def::MapDistanceEvenY[toUnderlyingType(o)] : Def::MapDistanceEvenY[toUnderlyingType(o)];
+        losangeX += even ? Def::MapDistanceEvenX[toUnderlyingType(orientation)] : Def::MapDistanceEvenX[toUnderlyingType(orientation)];
+        losangeY += even ? Def::MapDistanceEvenY[toUnderlyingType(orientation)] : Def::MapDistanceEvenY[toUnderlyingType(orientation)];
     }
 
 

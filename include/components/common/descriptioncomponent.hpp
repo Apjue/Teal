@@ -12,7 +12,7 @@
 
 struct DescriptionComponent : public Ndk::Component<DescriptionComponent>
 {
-    DescriptionComponent(const Nz::String& desc = "") : description(desc) {}
+    DescriptionComponent(const Nz::String& description = "") : description(description) {}
 
     Nz::String description {};
 

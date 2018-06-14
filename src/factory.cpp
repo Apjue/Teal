@@ -18,8 +18,8 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
     gfx.Attach(data.sprite, Def::CharactersLayer);
 
-    e->AddComponent<Ndk::NodeComponent>().SetPosition(data.defG.x, data.defG.y);
-    e->AddComponent<DefaultGraphicsPosComponent>(data.defG);
+    e->AddComponent<Ndk::NodeComponent>().SetPosition(data.offset.x, data.offset.y);
+    e->AddComponent<DefaultGraphicsPosComponent>(data.offset);
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(data.sprite);
 
     auto& anims = e->AddComponent<AnimationComponent>();
@@ -34,21 +34,21 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     e->AddComponent<PathComponent>();
     e->AddComponent<InventoryComponent>();
 
-    e->AddComponent<OrientationComponent>(data.o);
+    e->AddComponent<OrientationComponent>(data.orientation);
 
-    if (data.rdMov.randomMovement)
-        e->AddComponent<RandomMovementComponent>(data.rdMov.movInterval, data.rdMov.range);
+    if (data.randomMovement.randomMovement)
+        e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
 
     if (data.fight.fight)
         e->AddComponent<FightComponent>(data.fight.autoAttack, data.fight.movementPoints, data.fight.actionPoints);
 
     e->AddComponent<NameComponent>(data.name);
-    e->AddComponent<DescriptionComponent>(data.desc);
+    e->AddComponent<DescriptionComponent>(data.description);
     e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
 
     auto& dmg = e->AddComponent<DamageModifierComponent>();
-    dmg.attack = data.atk;
-    dmg.resistance = data.res;
+    dmg.attack = data.attack;
+    dmg.resistance = data.resistance;
 
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<CombatBehaviorComponent>();
@@ -59,14 +59,14 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
 }
 
 Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
-                                   const Nz::String& desc, unsigned level, Nz::TextureRef icon)
+                                   const Nz::String& description, unsigned level, Nz::TextureRef icon)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<ItemComponent>();
     e->AddComponent<CloneComponent>().codename = codename;
     e->AddComponent<NameComponent>().name = name;
-    e->AddComponent<DescriptionComponent>().description = desc;
+    e->AddComponent<DescriptionComponent>().description = description;
     e->AddComponent<LevelComponent>(level);
     e->AddComponent<IconComponent>().icon = icon;
     e->AddComponent<GraphicalEntitiesComponent>();
@@ -82,7 +82,7 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lu
     e->AddComponent<ItemComponent>();
     e->AddComponent<CloneComponent>().codename = lua.CheckField<Nz::String>("codename");
     e->AddComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
-    e->AddComponent<DescriptionComponent>().description = lua.CheckField<Nz::String>("desc", "No description");
+    e->AddComponent<DescriptionComponent>().description = lua.CheckField<Nz::String>("description", "No description");
     e->AddComponent<LevelComponent>().level = lua.CheckField<unsigned>("level");
     e->AddComponent<GraphicalEntitiesComponent>();
 

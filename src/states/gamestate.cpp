@@ -94,23 +94,23 @@ void GameState::showInventory(bool detailled) // [TEST]
         {
             if (item->HasComponent<DamageModifierComponent>())
             {
-                auto& atk = item->GetComponent<DamageModifierComponent>().attack;
+                auto& attack = item->GetComponent<DamageModifierComponent>().attack;
                 std::cout << '\n';
                 std::cout << "  Attack Modifier:\n";
-                std::cout << "    Neutral: " << atk[Element::Neutral] << '\n';
-                std::cout << "    Air: " << atk[Element::Air] << '\n';
-                std::cout << "    Fire: " << atk[Element::Fire] << '\n';
-                std::cout << "    Water: " << atk[Element::Water] << '\n';
-                std::cout << "    Earth: " << atk[Element::Earth];
+                std::cout << "    Neutral: " << attack[Element::Neutral] << '\n';
+                std::cout << "    Air: " << attack[Element::Air] << '\n';
+                std::cout << "    Fire: " << attack[Element::Fire] << '\n';
+                std::cout << "    Water: " << attack[Element::Water] << '\n';
+                std::cout << "    Earth: " << attack[Element::Earth];
 
-                auto& res = item->GetComponent<DamageModifierComponent>().resistance;
+                auto& resistance = item->GetComponent<DamageModifierComponent>().resistance;
                 std::cout << '\n';
                 std::cout << "  Resistance Modifier:\n";
-                std::cout << "    Neutral: " << res[Element::Neutral] << '\n';
-                std::cout << "    Air: " << res[Element::Air] << '\n';
-                std::cout << "    Fire: " << res[Element::Fire] << '\n';
-                std::cout << "    Water: " << res[Element::Water] << '\n';
-                std::cout << "    Earth: " << res[Element::Earth];
+                std::cout << "    Neutral: " << resistance[Element::Neutral] << '\n';
+                std::cout << "    Air: " << resistance[Element::Air] << '\n';
+                std::cout << "    Fire: " << resistance[Element::Fire] << '\n';
+                std::cout << "    Water: " << resistance[Element::Water] << '\n';
+                std::cout << "    Earth: " << resistance[Element::Earth];
             }
         }
 
@@ -126,23 +126,23 @@ void GameState::showCharacteristics() // [TEST]
     std::cout << "Main character characteristics";
     if (m_charac->HasComponent<DamageModifierComponent>())
     {
-        auto& atk = m_charac->GetComponent<DamageModifierComponent>().attack;
+        auto& attack = m_charac->GetComponent<DamageModifierComponent>().attack;
         std::cout << '\n';
         std::cout << "  Attack Modifier:\n";
-        std::cout << "    Neutral: " << atk[Element::Neutral] << '\n';
-        std::cout << "    Air: " << atk[Element::Air] << '\n';
-        std::cout << "    Fire: " << atk[Element::Fire] << '\n';
-        std::cout << "    Water: " << atk[Element::Water] << '\n';
-        std::cout << "    Earth: " << atk[Element::Earth];
+        std::cout << "    Neutral: " << attack[Element::Neutral] << '\n';
+        std::cout << "    Air: " << attack[Element::Air] << '\n';
+        std::cout << "    Fire: " << attack[Element::Fire] << '\n';
+        std::cout << "    Water: " << attack[Element::Water] << '\n';
+        std::cout << "    Earth: " << attack[Element::Earth];
 
-        auto& res = m_charac->GetComponent<DamageModifierComponent>().resistance;
+        auto& resistance = m_charac->GetComponent<DamageModifierComponent>().resistance;
         std::cout << '\n';
         std::cout << "  Resistance Modifier:\n";
-        std::cout << "    Neutral: " << res[Element::Neutral] << '\n';
-        std::cout << "    Air: " << res[Element::Air] << '\n';
-        std::cout << "    Fire: " << res[Element::Fire] << '\n';
-        std::cout << "    Water: " << res[Element::Water] << '\n';
-        std::cout << "    Earth: " << res[Element::Earth];
+        std::cout << "    Neutral: " << resistance[Element::Neutral] << '\n';
+        std::cout << "    Air: " << resistance[Element::Air] << '\n';
+        std::cout << "    Fire: " << resistance[Element::Fire] << '\n';
+        std::cout << "    Water: " << resistance[Element::Water] << '\n';
+        std::cout << "    Earth: " << resistance[Element::Earth];
     }
 
     std::cout << std::endl;
