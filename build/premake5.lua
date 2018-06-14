@@ -29,6 +29,7 @@ workspace "Teal"
         architecture "x86_64"
 
     filter {}
+    startproject "Teal"
 
     if (os.ishost("windows")) then
         local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
