@@ -1,5 +1,6 @@
 skip_commits:
   files:
+    - .gitignore
     - .travis.yml
     - .travis_discord_webhook.sh
     - Dockerfile_*
