@@ -318,55 +318,9 @@ void loadAnimations(AnimationStore& animations)
             continue;
         }
 
-        TealException(lua.GetGlobal("teal_animation") == Nz::LuaType_Table, "Lua: teal_animation isn't a table !");
+        AnimationData animation = lua.CheckGlobal<AnimationData>("teal_animation");
         Nz::String codename = removeFileNameExtension(animationsDirectory.GetResultName());
 
-        auto animType = AnimationData::stringToAnimationType(lua.CheckField<Nz::String>("type"));
-        Nz::TextureRef texture = Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture", ":/game/unknown"));
-
-        TealException(lua.GetField("size") == Nz::LuaType_Table, "Lua: teal_animation.size isn't a table !");
-        Nz::Vector2ui size;
-        {
-            lua.PushInteger(1);
-            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_animation.size.x isn't a number !");
-
-            int sizex = int(lua.CheckInteger(-1));
-            TealException(sizex > 0, "Invalid size.x");
-            lua.Pop();
-
-
-            lua.PushInteger(2);
-            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_animation.size.y isn't a number !");
-
-            int sizey = int(lua.CheckInteger(-1));
-            TealException(sizey > 0, "Invalid size.y");
-            lua.Pop();
-
-            size = { unsigned(sizex), unsigned(sizey) };
-        }
-        lua.Pop();
-
-
-        TealException(lua.GetField("defgfxpos") == Nz::LuaType_Table, "Lua: teal_animation.defgfxpos isn't a table !");
-        Nz::Vector2f defgfxpos;
-        {
-            lua.PushInteger(1);
-            {
-                TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_animation.defgfxpos.x isn't a number !");
-                defgfxpos.x = float(lua.CheckInteger(-1));
-            }
-            lua.Pop();
-
-            lua.PushInteger(2);
-            {
-                TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_animation.defgfxpos.y isn't a number !");
-                defgfxpos.y = float(lua.CheckInteger(-1));
-            }
-            lua.Pop();
-        }
-        lua.Pop();
-
-        AnimationData animation { animType, size, texture, defgfxpos };
         animations.addItem(codename, animation);
         NazaraDebug("Animation " + codename + " loaded ! (" + animationsDirectory.GetResultName() + ")");
     }
@@ -402,76 +356,8 @@ void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationSto
         auto description = lua.CheckField<Nz::String>("description", "Empty");
         auto level = lua.CheckField<unsigned>("level", 1u, -1);
 
-
-        TealException(lua.GetField("size") == Nz::LuaType_Table, "Lua: teal_character.size isn't a table !");
-        Nz::Vector2ui size;
-        {
-            lua.PushInteger(1);
-            {
-                TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.x isn't a number !");
-
-                auto sizex = lua.CheckInteger(-1);
-                TealException(sizex > 0, "Invalid size.x");
-                size.x = unsigned(sizex);
-            }
-            lua.Pop();
-
-
-            lua.PushInteger(2);
-            {
-                TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.size.y isn't a number !");
-
-                auto sizey = lua.CheckInteger(-1);
-                TealException(sizey > 0, "Invalid size.y");
-                size.y = unsigned(sizey);
-            }
-            lua.Pop();
-        }
-        lua.Pop();
-
-
-        TealException(lua.GetField("deflgcpos") == Nz::LuaType_Table, "Lua: teal_character.deflgcpos isn't a table !");
-        Nz::Vector2ui deflgcpos;
-        {
-            lua.PushInteger(1);
-            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.deflgcpos.x isn't a number !");
-
-            int deflgcposx = int(lua.CheckInteger(-1));
-            TealException(deflgcposx > 0, "Invalid deflgcpos.y");
-            lua.Pop();
-
-
-            lua.PushInteger(2);
-            TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.deflgcpos.y isn't a number !");
-
-            int deflgcposy = int(lua.CheckInteger(-1));
-            TealException(deflgcposy > 0, "Invalid deflgcpos.y");
-            lua.Pop();
-
-            deflgcpos = { unsigned(deflgcposx), unsigned(deflgcposy) };
-        }
-        lua.Pop();
-
-        TealException(lua.GetField("defgfxpos") == Nz::LuaType_Table, "Lua: teal_character.defgfxpos isn't a table !");
-        Nz::Vector2f defgfxpos;
-        {
-            lua.PushInteger(1);
-            {
-                TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.x isn't a number !");
-                defgfxpos.x = float(lua.CheckInteger(-1));
-            }
-            lua.Pop();
-
-
-            lua.PushInteger(2);
-            {
-                TealException(lua.GetTable() == Nz::LuaType_Number, "Lua: teal_character.defgfxpos.y isn't a number !");
-                defgfxpos.y = float(lua.CheckInteger(-1));
-            }
-            lua.Pop();
-        }
-        lua.Pop();
-
+        auto size = lua.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui {});
+        auto offset = lua.CheckField<Nz::Vector2f>("offset", Nz::Vector2f {});
 
         TealException(lua.GetField("animations") == Nz::LuaType_Table, "Lua: teal_character.animations isn't a table !");
 
@@ -643,7 +529,7 @@ void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationSto
 
         CharacterData characterData
         {
-            codename, charSprite, defgfxpos, characterAnimations, defaultAnimation, maxHealth, orientation, random, blockTile, name, description, attack, res, level, fight
+            codename, charSprite, offset, characterAnimations, defaultAnimation, maxHealth, orientation, random, blockTile, name, description, attack, res, level, fight
         };
 
         auto character = makeCharacter(world.CreateHandle(), characterData);

@@ -1,7 +1,7 @@
 teal_animation =
 {
     type = "walk",
+    size = { x = 113, y = 99 },
     texture = ":/game/char/villager",
-    size = { 113, 99 },
-    defgfxpos = { -25, -66 }
+    offset = { x = -25, y = -66 }
 }
