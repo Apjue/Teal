@@ -138,7 +138,7 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
     logic.logicEntity = logicItem;
     logic.itemType = data.itemType;
 
-    e->AddComponent<DefaultGraphicsPosComponent>(data.defGfxPos);
+    e->AddComponent<DefaultGraphicsPosComponent>(data.offset);
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
 
