@@ -72,6 +72,9 @@ script:
 
 #" # Fix weird colorations
 after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - sudo chmod -R 777 .
+  
   - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
   - mkdir result
   - cd result
@@ -111,7 +114,6 @@ after_success:
   - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.log
 
   - cd ${TRAVIS_BUILD_DIR}
-  - sudo chmod -R 777 .
   - ./.travis_discord_webhook.sh success $WEBHOOK_URL
 
 after_failure:
