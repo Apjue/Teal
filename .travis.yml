@@ -101,13 +101,14 @@ after_success:
   - mkdir buildresults
   - cd buildresults
   - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
+  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.log
 
   - tar -zcvf teal.tar.gz *
   - mkdir result
   - mv teal.tar.gz result
 
   - cd result
-  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.txt
+  - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.log
 
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod -R 777 .
