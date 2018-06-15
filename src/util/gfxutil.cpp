@@ -26,36 +26,38 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
 {
     for (auto& sprite : renderables.sprites)
     {
-        Nz::SpriteRef newSprite = Nz::Sprite::New(*(static_cast<Nz::Sprite*>(sprite.Get())));
+        Nz::SpriteRef newSprite = Nz::Sprite::New(Nz::Material::New("Translucent2D"));
+                                //Nz::Sprite::New(*(sprite.Get())););
+        newSprite->SetTexture(sprite->GetMaterial()->GetDiffuseMap(), false);
+        newSprite->SetTextureCoords(sprite->GetTextureCoords());
+        newSprite->SetSize(sprite->GetSize());
 
         gfx.Detach(sprite);
         gfx.Attach(newSprite, renderOrder);
 
-        sprite.Swap(newSprite);
+        sprite = newSprite;
         break;
     }
 
     for (auto& model : renderables.models)
     {
-        Nz::ModelRef newModel = Nz::Model::New(*(static_cast<Nz::Model*>(model.Get())));
+        Nz::ModelRef newModel = Nz::Model::New(*(model.Get()));
 
         gfx.Detach(model);
         gfx.Attach(newModel, renderOrder);
 
-        model.Swap(newModel);
-
+        model = newModel;
         break;
     }
 
     for (auto& textSprite : renderables.textSprites)
     {
-        Nz::TextSpriteRef newTextSprite = Nz::TextSprite::New(*(static_cast<Nz::TextSprite*>(textSprite.Get())));
+        Nz::TextSpriteRef newTextSprite = Nz::TextSprite::New(*(textSprite.Get()));
 
         gfx.Detach(textSprite);
         gfx.Attach(newTextSprite, renderOrder);
 
-        textSprite.Swap(newTextSprite);
-
+        textSprite = newTextSprite;
         break;
     }
 }

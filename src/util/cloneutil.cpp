@@ -14,7 +14,7 @@ Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::St
 {
     Ndk::EntityHandle entity;
     auto it = std::find_if(characters.begin(), characters.end(),
-                           [&codename] (const Ndk::EntityHandle& e) { return e->HasComponent<CloneComponent>() && e->GetComponent<CloneComponent>().codename == codename; });
+                           [&codename] (const Ndk::EntityHandle& e) { return e->HasComponent<CloneComponent>() && (e->GetComponent<CloneComponent>().codename == codename); });
 
     if (it != characters.end())
     {

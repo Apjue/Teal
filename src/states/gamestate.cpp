@@ -148,6 +148,7 @@ void GameState::showCharacteristics() // [TEST]
     std::cout << std::endl;
 }
 
+#include "components/common/clonecomponent.hpp"
 
 void GameState::addEntities()
 {
@@ -157,8 +158,10 @@ void GameState::addEntities()
     mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
                  Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
 
+
     activateMapEntities(MapDataLibrary::Get("0;0"));
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
+
 
     m_charac = cloneCharacter(m_characters, "villager");
     m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
