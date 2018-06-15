@@ -149,7 +149,7 @@ void GameState::showCharacteristics() // [TEST]
 }
 
 
-void GameState::addEntities() /// \todo Use lua (map's entities table)
+void GameState::addEntities()
 {
     m_map = m_world->CreateEntity();
 
