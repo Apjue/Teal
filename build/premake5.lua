@@ -21,6 +21,7 @@ workspace "Teal"
     configurations { "Debug", "Release" }
     platforms(platformData)
     location(_ACTION)
+    startproject "Teal"
 
     filter "platforms:x86"
         architecture "x32"
@@ -29,15 +30,18 @@ workspace "Teal"
         architecture "x86_64"
 
     filter {}
-    startproject "Teal"
 
     if (os.ishost("windows")) then
-        local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
+        filter "action:vs*"
+            local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
 
-        project("Regenerate premake")
-            kind("Utility")
-            prebuildcommands("cd .. && " .. commandLine)
+            project("Regenerate premake")
+                kind("Utility")
+                prebuildcommands("cd .. && " .. commandLine)
+
+        filter {}
     end
+
 
     project "Teal"
         kind "ConsoleApp"
