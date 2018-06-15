@@ -35,9 +35,10 @@ public:
 
     MapData() = default;
     ~MapData() = default;
-
     MapData(const TileArray& tiles_);
+
     MapData(MapData&&) = default;
+    MapData& operator=(MapData&&) = default;
 
     template<class... Args>
     static inline MapDataRef New(Args&&... args);
@@ -66,6 +67,17 @@ private:
 
     static MapDataLibrary::LibraryMap s_library;
 };
+
+#include <Nazara/Lua/LuaState.hpp>
+#include <NDK/LuaAPI.hpp>
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, MapDataRef* mapRef, TypeTag<MapDataRef>);
+//inline int LuaImplReplyVal(const LuaState& state, MapDataRef&& mapRef, TypeTag<MapDataRef>);
+
+} // namespace Nz
 
 #include "mapdata.inl"
 

@@ -401,43 +401,9 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
         // Fun starts
         TealException(lua.GetGlobal("teal_map") == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
 
-        MapDataRef map = MapData::New();
-        TileArray tiles;
-
-        for (int i { 1 }; i <= Def::TileArraySize; ++i)
-        {
-            lua.PushInteger(i);
-            lua.GetTable();
-
-            TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map." } + i + " isn't a table !");
-
-            tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
-            tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
-
-            unsigned obstacle = lua.CheckField<unsigned>("obstacle");
-
-            switch (obstacle)
-            {
-                case 1:
-                    tiles[i - 1].addFlag("viewobstacle");
-                    break;
-
-                case 2:
-                    tiles[i - 1].addFlag("blockobstacle");
-                    break;
-            }
-
-            bool visible = lua.CheckField<bool>("visible");
-
-            if (!visible)
-                tiles[i - 1].addFlag("invisible");
-
-            lua.Pop();
-        }
-
-        map->setTiles(tiles);
-        Nz::String mapPos = lua.CheckField<Nz::String>("pos");
-
+        int mapIndex { -1 };
+        MapDataRef map = lua.Check<MapDataRef>(&mapIndex);
+        const Nz::Vector2i& mapPos = map->getPosition();
 
         TealException(lua.GetField("entities") == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
 
@@ -492,7 +458,7 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
             else
             {
                 NazaraNotice(Nz::String { "Invalid type for entity " }.Append(codename).Append(" in map ")
-                             .Append(mapPos).Append(" [with type = \"").Append(type).Append("\"]"));
+                             .Append(mapXYToString(mapPos.x, mapPos.y)).Append(" [with type = \"").Append(type).Append("\"]"));
             }
 
             lua.Pop();
@@ -500,10 +466,8 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
 
         lua.Pop();
 
-        map->setPosition(toVector2(stringToMapXY(mapPos)));
-        MapDataLibrary::Register(mapPos, deactivateMapEntities(map));
-
-        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + mapPos);
+        MapDataLibrary::Register(mapXYToString(mapPos.x, mapPos.y), deactivateMapEntities(map));
+        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + mapXYToString(mapPos.x, mapPos.y));
     }
 
     NazaraDebug(" --- ");

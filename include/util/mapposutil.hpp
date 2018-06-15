@@ -9,6 +9,7 @@
 
 #include <Nazara/Prerequisites.hpp>
 #include <Nazara/Math/Rect.hpp>
+#include <Nazara/Core/String.hpp>
 #include <utility>
 #include <cstdint>
 #include "util/assert.hpp"
@@ -22,6 +23,9 @@ inline void* XYToNode(unsigned x, unsigned y);
 
 inline std::pair<unsigned, unsigned> IndexToXY(unsigned index);
 inline unsigned XYToIndex(unsigned x, unsigned y);
+
+inline Nz::String mapXYToString(int x, int y);
+inline std::pair<int, int> stringToMapXY(const Nz::String& str);
 
 inline std::pair<unsigned, unsigned> countLines(unsigned y);
 inline unsigned distanceBetweenTiles(const AbsTile& a, const AbsTile& b);

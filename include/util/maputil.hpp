@@ -26,9 +26,6 @@
 inline MapDataRef activateMapEntities(const MapDataRef& map);
 inline MapDataRef deactivateMapEntities(const MapDataRef& map);
 
-inline Nz::String mapXYToString(int x, int y);
-inline std::pair<int, int> stringToMapXY(const Nz::String& str);
-
 ///
 /// \fn canChangeMap
 ///
