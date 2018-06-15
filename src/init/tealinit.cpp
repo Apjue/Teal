@@ -95,21 +95,11 @@ void loadTextures()
             break;
         }
 
-        lua.PushInteger(1);
-        lua.GetTable();
+        int index { -1 };
+        std::pair<Nz::String, Nz::String> textureInfos = lua.Check<std::pair<Nz::String, Nz::String>>(&index);
 
-        Nz::String id = lua.CheckString(-1);
-        lua.Pop();
-
-
-        lua.PushInteger(2);
-        lua.GetTable();
-
-        Nz::String filepath = lua.CheckString(-1);
-        lua.Pop();
-
-        Nz::TextureLibrary::Register(id, Nz::TextureManager::Get(Def::ImageFolder + filepath));
-        NazaraDebug("Texture " + id + " loaded !");
+        Nz::TextureLibrary::Register(textureInfos.first, Nz::TextureManager::Get(Def::ImageFolder + textureInfos.second));
+        NazaraDebug("Texture " + textureInfos.first + " loaded !");
 
         lua.Pop();
     }
