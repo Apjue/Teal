@@ -26,7 +26,7 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
 {
     for (auto& sprite : renderables.sprites)
     {
-        Nz::SpriteRef newSprite = Nz::Sprite::New(*(sprite.Get()));
+        Nz::SpriteRef newSprite = Nz::Sprite::New(*sprite.Get());
 
         newSprite->SetCornerColor(Nz::RectCorner_LeftBottom, sprite->GetCornerColor(Nz::RectCorner_LeftBottom));   // Nazara bug, remove when
         newSprite->SetCornerColor(Nz::RectCorner_LeftTop, sprite->GetCornerColor(Nz::RectCorner_LeftTop));         // https://github.com/DigitalPulseSoftware/NazaraEngine/pull/166
@@ -42,7 +42,7 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
 
     for (auto& model : renderables.models)
     {
-        Nz::ModelRef newModel = Nz::Model::New(*(model.Get()));
+        Nz::ModelRef newModel = Nz::Model::New(*model.Get());
 
         gfx.Detach(model);
         gfx.Attach(newModel, renderOrder);
@@ -53,7 +53,7 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
 
     for (auto& textSprite : renderables.textSprites)
     {
-        Nz::TextSpriteRef newTextSprite = Nz::TextSprite::New(*(textSprite.Get()));
+        Nz::TextSpriteRef newTextSprite = Nz::TextSprite::New(*textSprite.Get());
 
         gfx.Detach(textSprite);
         gfx.Attach(newTextSprite, renderOrder);
