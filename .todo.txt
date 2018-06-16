@@ -1,4 +1,5 @@
 - Use LuaImpl* in tealinit.cpp (& others places, i.e. everywhere)
+- Bug: Fix "Error in scheme (gfxutil.cpp:105)" happening when clicking in the vertex between 2 tiles
 - Fix raycasting
 - https://github.com/S6066/Teal/blob/75cac31f91ad1f3bb198417bdc24c81c27d568d7/src/init/tealinit.cpp#L673
   Logic items shouldn't have PositionComponents
