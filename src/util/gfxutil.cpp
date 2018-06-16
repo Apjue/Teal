@@ -37,7 +37,6 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
         gfx.Attach(newSprite, renderOrder);
 
         sprite = newSprite;
-        break;
     }
 
     for (auto& model : renderables.models)
@@ -48,7 +47,6 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
         gfx.Attach(newModel, renderOrder);
 
         model = newModel;
-        break;
     }
 
     for (auto& textSprite : renderables.textSprites)
@@ -59,7 +57,6 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
         gfx.Attach(newTextSprite, renderOrder);
 
         textSprite = newTextSprite;
-        break;
     }
 }
 
