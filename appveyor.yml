@@ -56,7 +56,7 @@ environment:
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && cd nazara
-  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.x/NazaraEngine-msvc15-win-nightly.7z -Lo nazara.7z
+  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-msvc15-win-nightly.7z -Lo nazara.7z
   - 7z x nazara.7z
   - mv package/include/Nazara Nazara && mv package/include/NDK NDK
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
