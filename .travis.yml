@@ -45,7 +45,7 @@ script:
         cd /Teal/extlibs/include && mkdir -p nazara &&
 
         cd /Teal/tmp &&
-        curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-gcc-7.3.0-linux64-nightly.7z -Lo nazara.7z &&
+        curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-gcc-8.0.1-linux64-libc6-2.27-3-nightly.7z -Lo nazara.7z &&
         7z x nazara.7z &&
         cp -r /Teal/tmp/package/include/Nazara /Teal/extlibs/include/nazara/Nazara && cp -r /Teal/tmp/package/include/NDK /Teal/extlibs/include/nazara/NDK &&
 
