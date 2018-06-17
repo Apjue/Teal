@@ -1,7 +1,7 @@
 # Teal [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://github.com/S6066/Teal/blob/master/LICENSE)
 
 Teal is a C++14 RPG, scriptable in Lua.   
-It uses an altered version of [Nazara Engine](https://github.com/DigitalPulseSoftware/NazaraEngine) ([altered source link](https://github.com/S6066/NazaraEngine/tree/tealnightly)), and an altered version of [micropather](https://github.com/leethomason/MicroPather) ([altered source link](https://github.com/S6066/Teal/tree/master/extlibs/src/micropather))
+It uses a nightly of [Nazara Engine](https://github.com/DigitalPulseSoftware/NazaraEngine), and an altered version of [micropather](https://github.com/leethomason/MicroPather) ([altered source link](https://github.com/S6066/Teal/tree/master/extlibs/src/micropather))
 
 # Build
 Platform       | Status          | Nightlies
