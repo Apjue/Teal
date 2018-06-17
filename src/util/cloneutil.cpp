@@ -10,7 +10,6 @@
 #include "util/gfxutil.hpp"
 #include "util/cloneutil.hpp"
 
-#include <NDK/Components/GraphicsComponent.hpp> // Nazara bug, remove when https://github.com/DigitalPulseSoftware/NazaraEngine/pull/166 will be merged
 Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::String& codename)
 {
     Ndk::EntityHandle entity;
@@ -20,8 +19,6 @@ Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::St
     if (it != characters.end())
     {
         entity = (*it)->Clone();
-        entity->GetComponent<Ndk::GraphicsComponent>().SetScissorRect({ 0, 0, -1, -1 });
-        // ^ Nazara bug, remove when https://github.com/DigitalPulseSoftware/NazaraEngine/pull/166 will be merged
         cloneRenderables(entity, Def::CharactersLayer);
     }
 

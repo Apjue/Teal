@@ -28,11 +28,6 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
     {
         Nz::SpriteRef newSprite = Nz::Sprite::New(*sprite.Get());
 
-        newSprite->SetCornerColor(Nz::RectCorner_LeftBottom, sprite->GetCornerColor(Nz::RectCorner_LeftBottom));   // Nazara bug, remove when
-        newSprite->SetCornerColor(Nz::RectCorner_LeftTop, sprite->GetCornerColor(Nz::RectCorner_LeftTop));         // https://github.com/DigitalPulseSoftware/NazaraEngine/pull/166
-        newSprite->SetCornerColor(Nz::RectCorner_RightBottom, sprite->GetCornerColor(Nz::RectCorner_RightBottom)); // will be merged
-        newSprite->SetCornerColor(Nz::RectCorner_RightTop, sprite->GetCornerColor(Nz::RectCorner_RightTop));
-
         gfx.Detach(sprite);
         gfx.Attach(newSprite, renderOrder);
 
