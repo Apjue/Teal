@@ -1,6 +1,5 @@
 *
 !.gitignore
-!note.md
 !vs2015/x86/micropather
 !vs2015/x64/micropather
 !vs2017/x86/micropather
