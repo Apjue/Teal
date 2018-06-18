@@ -16,7 +16,7 @@ Teal doesn't use Nazara v0.4, it uses a nightly. You can use any Nazara nightly 
 - Copy the .lib/.a/.pdb files into `/extlibs/lib/<YourIDE>/<YourPlatform>/<LibFolder>/` e.g. `/extlibs/lib/gmake/x86/micropather/`
 
 ## Nazara
-- Download [the prebuilts](https://github.com/S6066/NazaraEngine/releases/tag/v0.4.x) if you use one of the corresponding compilers, else, download the sources and build it.  
+- Download [the prebuilts](https://github.com/S6066/NazaraEngine/releases/tag/v0.4.y) if you use one of the corresponding compilers, else, download the sources and build it.  
 - Copy the .lib/.pdb/.a/.so files into `/extlibs/lib/<YourIDE>/<YourPlatform>/nazara/` e.g. `/extlibs/lib/gmake/x86/nazara/`, then copy the .dll files into `/wdirs/<YourPlatform>/`
 
 # Build
