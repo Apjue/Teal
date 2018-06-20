@@ -86,7 +86,7 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lu
     e->AddComponent<GraphicalEntitiesComponent>();
 
     Nz::String icon = lua.CheckField<Nz::String>("icon");
-    e->AddComponent<IconComponent>().icon = Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown");
+    e->AddComponent<IconComponent>().icon = (Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
 
     TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
