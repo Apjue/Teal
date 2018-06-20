@@ -33,14 +33,16 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
     auto& anim = e->GetComponent<AnimationComponent>();
 
-    if (anim.currentAnimation == AnimationComponent::InvalidAnimationID || anim.animList.empty())
+    if (anim.currentAnimation == AnimationComponent::InvalidAnimationID)
         return;
 
-    AnimationData& animData = anim.getCurrentAnimation();
-    bool  moving = isEntityMoving(e);
-    auto  dir = e->GetComponent<OrientationComponent>().dir;
+    TealAssert(!anim.animList.empty(), "Animation list must not be empty, as currentAnimation isn't set to InvalidAnimationID");
 
-    unsigned const startX = unsigned(dir) * animData.size.x; // Get the x and the y
+    AnimationData& animData = anim.getCurrentAnimation();
+    bool moving = isEntityMoving(e);
+    auto orientation = e->GetComponent<OrientationComponent>().orientation;
+
+    unsigned const startX = unsigned(orientation) * animData.size.x; // Get the x and the y
     unsigned const startY = animData.frame * animData.size.y;
 
     for (auto& sprite : sprites)

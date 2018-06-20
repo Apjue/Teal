@@ -174,7 +174,7 @@ bool changeMap()
     clearPatherCache();
 
     pos.xy = { x, y };
-    m_mainCharacter->GetComponent<OrientationComponent>().dir = newOrient;
+    m_mainCharacter->GetComponent<OrientationComponent>().orientation = newOrient;
     refreshGraphicsPos(m_mainCharacter);
 
     return true;

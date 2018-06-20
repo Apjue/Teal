@@ -34,7 +34,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
     auto& dir = path.front();
     auto   xy = DirToXY(dir, even);
 
-    e->GetComponent<OrientationComponent>().dir = DirToOrient(dir);
+    e->GetComponent<OrientationComponent>().orientation = DirToOrient(dir);
 
     pos.direction = dir;
     ++pos.advancement;

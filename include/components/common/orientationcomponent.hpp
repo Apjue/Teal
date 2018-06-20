@@ -20,9 +20,9 @@
 
 struct OrientationComponent : public Ndk::Component<OrientationComponent>
 {
-    OrientationComponent(const Orientation& orientation = Orientation::Down) : dir { orientation } {}
+    OrientationComponent(const Orientation& orientation = Orientation::Down) : orientation { orientation } {}
     OrientationComponent(const OrientationComponent&) = default;
-    Orientation dir;
+    Orientation orientation;
 
     static Ndk::ComponentIndex componentIndex;
 };
