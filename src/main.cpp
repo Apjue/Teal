@@ -56,8 +56,11 @@ int main()
 
     catch (const std::exception& e)
     {
-        std::cerr << "\n ===============\n" << "A problem occurred!\nError message: ";
-        std::cerr << e.what() << "\n ===============\n" << std::endl;
+        std::cerr << "\n =============== \n"
+                  << "A problem occurred!"
+                  << "\nError message: " << e.what()
+                  << "\n =============== \n"
+                  << std::flush;
 
         return EXIT_FAILURE;
     }
