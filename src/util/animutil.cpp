@@ -39,14 +39,13 @@ void updateAnimation(const Ndk::EntityHandle& e)
     TealAssert(!anim.animList.empty(), "Animation list must not be empty, as currentAnimation isn't set to InvalidAnimationID");
 
     AnimationData& animData = anim.getCurrentAnimation();
-    bool moving = isEntityMoving(e);
     auto orientation = e->GetComponent<OrientationComponent>().orientation;
 
     unsigned const startX = unsigned(orientation) * animData.size.x; // Get the x and the y
     unsigned const startY = animData.frame * animData.size.y;
 
     for (auto& sprite : sprites)
-        animate(startX, startY, sprite, animData, moving);
+        animate(startX, startY, sprite, animData, isEntityMoving(e));
 }
 
 void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, bool moving)
