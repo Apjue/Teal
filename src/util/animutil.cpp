@@ -56,29 +56,13 @@ void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, Anim
     switch (animData.type)
     {
         case AnimationData::Walk:
-            if (!moving || maxframe == 0) // Reset animation, but change direction
-            {
-                animData.frame = 0;
-                sprite->SetTextureRect({ startX, 0u, animData.size.x, animData.size.y });
-            }
-
-            else // Animation !
-            {
-                sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
-                ++animData.frame;
-
-                if (animData.frame > maxframe)
-                    animData.frame = 0;
-            }
-
+            sprite->SetTextureRect({ startX, (!moving || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
+            animData.frame = (!moving || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
         default:
             sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
-            ++animData.frame;
-
-            if (animData.frame > maxframe)
-                animData.frame = 0;
+            animData.frame = (animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
     }
 }
