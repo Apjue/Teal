@@ -141,7 +141,7 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
 
-    Nz::SpriteRef sprite = Nz::Sprite::New();
+    Nz::SpriteRef sprite = Nz::Sprite::New(Nz::Material::New("Translucent2D"));
     sprite->SetTexture(logicItem->GetComponent<IconComponent>().icon, false);
     sprite->SetSize(data.size);
 
