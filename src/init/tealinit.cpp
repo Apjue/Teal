@@ -401,8 +401,8 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
         // Fun starts
         TealException(lua.GetGlobal("teal_map") == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
 
-        int mapIndex { -1 };
-        MapDataRef map = lua.Check<MapDataRef>(&mapIndex);
+        MapDataRef map;
+        LuaImplQueryArg(lua, -1, &map, Nz::TypeTag<MapDataRef>());
         const Nz::Vector2i& mapPos = map->getPosition();
 
         TealException(lua.GetField("entities") == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");

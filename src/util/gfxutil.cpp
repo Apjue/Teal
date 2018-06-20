@@ -92,8 +92,8 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
         orientation = Orientation::Up;
 
     else
-        NazaraError(Nz::String { "Error in scheme ! [with color = " }.Append(color.ToString()).Append(" & pixel pos = { ")
-                    .Append(Nz::Vector2ui { rectClickX, rectClickY }.ToString()).Append(" }"));
+        NazaraError(Nz::String { "Error in scheme ! [with color = " }.Append(color.ToString()).Append(" & pixel pos = ")
+                    .Append(Nz::Vector2ui { rectClickX, rectClickY }.ToString()).Append("]"));
 
     if (orientation != Orientation::Up)
     {
