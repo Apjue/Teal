@@ -76,25 +76,24 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
     bool even = isLineEven(rectY);
     Orientation orientation = Orientation::Down;
 
-
     if (color == Nz::Color::Blue)
         orientation = Orientation::UpLeft;
 
-    if (color == Nz::Color::Red)
+    else if (color == Nz::Color::Red)
         orientation = Orientation::UpRight;
 
-    if (color == Nz::Color::Yellow)
+    else if (color == Nz::Color::Yellow)
         orientation = Orientation::DownLeft;
 
-    if (color == Nz::Color::Green)
+    else if (color == Nz::Color::Green)
         orientation = Orientation::DownRight;
 
-    if (color == Nz::Color::White)
+    else if (color == Nz::Color::White)
         orientation = Orientation::Up;
 
-
-    if (orientation == Orientation::Down)
-        NazaraError("Error in scheme !");
+    else
+        NazaraError(Nz::String { "Error in scheme ! [with color = " }.Append(color.ToString()).Append(" & pixel pos = { ")
+                    .Append(Nz::Vector2ui { rectClickX, rectClickY }.ToString()).Append(" }"));
 
     if (orientation != Orientation::Up)
     {
