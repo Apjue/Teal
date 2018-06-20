@@ -4,7 +4,7 @@ teal_item =
     name = "Excalibur",
     description = "Legendary Sword",
     level = 1,
-    icon = "",
+    icon = ":/game/items/swords/broadsword_fire",
 
     components =
     {
