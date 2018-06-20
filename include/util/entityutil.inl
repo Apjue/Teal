@@ -50,6 +50,11 @@ bool isEntityMoving(const Ndk::EntityHandle& e)
     return e->HasComponent<PathComponent>() && !(e->GetComponent<PathComponent>().path.empty());
 }
 
+bool isEntityRunning(const Ndk::EntityHandle& e)
+{
+    return e->HasComponent<PathComponent>() && (e->GetComponent<PathComponent>().path.size() > 1);
+}
+
 bool hasComponentsToChangeMap(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<PositionComponent>();

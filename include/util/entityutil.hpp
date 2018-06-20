@@ -18,6 +18,7 @@ inline bool isGraphicalItemEntity(const Ndk::EntityHandle& e);
 inline bool isValidGraphicalItemEntity(const Ndk::EntityHandle& e);
 
 inline bool isEntityMoving(const Ndk::EntityHandle& e);
+inline bool isEntityRunning(const Ndk::EntityHandle& e);
 inline bool hasComponentsToChangeMap(const Ndk::EntityHandle& e);
 inline Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e); // Animations may have different offset than default character offset
 
