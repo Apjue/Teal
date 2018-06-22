@@ -53,7 +53,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
         path.erase(path.begin()); // To get next tile
 
         if (!path.empty() && !fightMode && e->HasComponent<MoveComponent>())
-            recomputeIfObstacle(e);
+            recomputePathIfObstacle(e);
     }
 
     if (path.empty()) // Finished path
@@ -71,7 +71,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
             refreshGraphicsPos(e, gfxCharacter);
 }
 
-void recomputeIfObstacle(const Ndk::EntityHandle& e)
+void recomputePathIfObstacle(const Ndk::EntityHandle& e)
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
 
@@ -99,7 +99,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
     }
 }
 
-void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from ground or something. (fight)
+void getItemsFromGround(const Ndk::EntityHandle& e) /// todo: activate traps from ground or something. (fight) | todo 2: what is this function doing in this file ?
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
     MapDataRef currentMap = getCurrentMap()->getCurrentMap();
