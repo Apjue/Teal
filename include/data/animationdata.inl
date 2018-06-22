@@ -16,6 +16,9 @@ inline AnimationData::AnimationType AnimationData::stringToAnimationType(Nz::Str
     if (string == "walk")
         return Walk;
 
+    if (string == "run")
+        return Run;
+
     if (string == "fight")
         return Fight;
 
@@ -31,6 +34,9 @@ inline Nz::String AnimationData::animationTypeToString(AnimationType animType)
     {
         case AnimationData::Walk:
             return "walk";
+
+        case AnimationData::Run:
+            return "run";
 
         case AnimationData::Fight:
             return "fight";

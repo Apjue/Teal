@@ -15,9 +15,10 @@ struct AnimationData
 {
     enum AnimationType
     {
-        Walk, // In map, normal animation
+        Walk, // In map, normal animation ; Also used when Idle
+        Run,  // ^ Same as walk, but... when running. (no shit)
         Fight,
-        Emote
+        Emote /// todo: implement emotes thing
     };
 
     static inline AnimationType stringToAnimationType(Nz::String string);
