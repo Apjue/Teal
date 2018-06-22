@@ -25,22 +25,22 @@ bool isItemEntity(const Ndk::EntityHandle& e)
     return e->HasComponent<ItemComponent>();
 }
 
-inline bool isMonsterEntity(const Ndk::EntityHandle& e)
+bool isMonsterEntity(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<MonsterComponent>();
 }
 
-inline bool isFightableEntity(const Ndk::EntityHandle& e)
+bool isFightableEntity(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<FightComponent>() && e->HasComponent<LifeComponent>();
 }
 
-inline bool isGraphicalItemEntity(const Ndk::EntityHandle& e)
+bool isGraphicalItemEntity(const Ndk::EntityHandle& e)
 {
     return isMapEntity(e) && e->HasComponent<LogicEntityIdComponent>();
 }
 
-inline bool isValidGraphicalItemEntity(const Ndk::EntityHandle& e)
+bool isValidGraphicalItemEntity(const Ndk::EntityHandle& e)
 {
     return isGraphicalItemEntity(e) && e->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid();
 }
@@ -60,15 +60,28 @@ bool hasComponentsToChangeMap(const Ndk::EntityHandle& e)
     return e->HasComponent<PositionComponent>();
 }
 
-inline Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e)
+Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e)
 {
     if (e->HasComponent<AnimationComponent>())
     {
         auto& anim = e->GetComponent<AnimationComponent>();
+        auto  animType = determineAnimationToBeUsed(e);
 
-        if (anim.currentAnimation != AnimationComponent::InvalidAnimationID)
-            return anim.getCurrentAnimation().offset;
+        if (anim.canAnimationBeUsed(animType))
+            return anim.animList[animType].offset;
     }
 
-    return e->GetComponent<DefaultGraphicsPosComponent>().xy;
+    return e->GetComponent<DefaultGraphicsPosComponent>().offset; /// todo: remove this useless component, only use animations
+}
+
+AnimationComponent::AnimationType determineAnimationToBeUsed(const Ndk::EntityHandle& e)
+{
+    if (isEntityRunning(e))
+        return AnimationComponent::Run;
+
+    if (isEntityMoving(e))
+        return AnimationComponent::Walk;
+
+    // Other cases
+    return AnimationComponent::Walk;
 }

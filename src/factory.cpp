@@ -20,10 +20,7 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     e->AddComponent<Ndk::NodeComponent>().SetPosition(data.offset.x, data.offset.y);
     e->AddComponent<DefaultGraphicsPosComponent>(data.offset);
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(data.sprite);
-
-    auto& anims = e->AddComponent<AnimationComponent>();
-    anims.animList = data.animations;
-    anims.currentAnimation = data.defaultAnimation;
+    e->AddComponent<AnimationComponent>().animList = data.animations;
 
     e->AddComponent<CloneComponent>().codename = data.codename;
     e->AddComponent<LifeComponent>().maxHp = data.maxHp;

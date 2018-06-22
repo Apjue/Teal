@@ -19,9 +19,9 @@
 
 struct DefaultGraphicsPosComponent : public Ndk::Component<DefaultGraphicsPosComponent>
 {
-    DefaultGraphicsPosComponent(const Nz::Vector2f& pos = {}) : xy { pos } {}
+    DefaultGraphicsPosComponent(const Nz::Vector2f& xy = {}) : offset { xy } {}
 
-    Nz::Vector2f xy;
+    Nz::Vector2f offset;
 
     static Ndk::ComponentIndex componentIndex;
 };
