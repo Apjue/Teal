@@ -48,7 +48,7 @@ Ndk::EntityHandle cloneItem(const Ndk::EntityList& items, const Nz::String& code
 
             cloneRenderables(newEntity, logicComp.getRenderOrder());
 
-            logicComp.logicEntity = newEntity;
+            logicComp.logicEntity = entity;
             newEntities.Insert(newEntity);
         }
 
