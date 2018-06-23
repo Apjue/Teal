@@ -1,7 +1,5 @@
 - Use LuaImpl* in tealinit.cpp (& others places, i.e. everywhere)
 - Fix raycasting
-- https://github.com/S6066/Teal/blob/75cac31f91ad1f3bb198417bdc24c81c27d568d7/src/init/tealinit.cpp#L673
-  Logic items shouldn't have PositionComponents
   
 - Maybe implement LuaImplReplyVal in nzstlcompatibility, for std::(unordered_)map
 - Maybe also (not sure):

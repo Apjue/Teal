@@ -49,8 +49,7 @@ extern void initializeSchemeUtility(const Nz::ImageRef& newScheme);
 ///        Position component of a logical entity
 ///
 
-extern void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity);
-inline void refreshGraphicsPos(const Ndk::EntityHandle& entity);
+extern void refreshGraphicsPos(const Ndk::EntityHandle& entity);
 
 #include "gfxutil.inl"
 

@@ -419,7 +419,7 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
 
             Nz::String codename = lua.CheckField<Nz::String>("codename");
             Nz::String type = lua.CheckField<Nz::String>("type").ToLower();
-            Nz::Vector2ui pos = lua.CheckField<Nz::Vector2ui>("pos");
+            AbsTile pos = lua.CheckField<AbsTile>("pos");
 
             if (type == "character")
             {
@@ -442,15 +442,13 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
 
                 if (e.IsValid())
                 {
-                    e->AddComponent<PositionComponent>().xy = pos;
-
                     Nz::Vector2f size = lua.CheckField<Nz::Vector2f>("size");
                     Nz::Vector2f offset = lua.CheckField<Nz::Vector2f>("offset");
 
-                    auto gfxEntity = makeGraphicalItem(world.CreateHandle(), { e, size, offset, LogicEntityIdComponent::GroundItem });
+                    auto gfxEntity = makeGraphicalItem(world.CreateHandle(), { e, pos, size, offset, LogicEntityIdComponent::GroundItem });
                     gfxEntity->Enable(false);
 
-                    refreshGraphicsPos(e, gfxEntity);
+                    refreshGraphicsPos(gfxEntity);
                     map->getEntities().Insert(gfxEntity);
                 }
             }
