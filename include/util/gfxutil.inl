@@ -9,8 +9,3 @@ void cloneRenderables(const Ndk::EntityHandle& e, unsigned renderOrder)
     cloneRenderables(e->GetComponent<Ndk::GraphicsComponent>(), e->GetComponent<RenderablesStorageComponent>(), renderOrder);
 }
 
-void refreshGraphicsPos(const Ndk::EntityHandle& entity)
-{
-    refreshGraphicsPos(entity, entity);
-}
-

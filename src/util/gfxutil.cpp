@@ -121,13 +121,13 @@ extern void initializeSchemeUtility(const Nz::ImageRef& newScheme)
     m_scheme = newScheme;
 }
 
-void refreshGraphicsPos(const Ndk::EntityHandle& logicEntity, const Ndk::EntityHandle& graphicalEntity)
+void refreshGraphicsPos(const Ndk::EntityHandle& entity)
 {
-    TealAssert(isMapEntity(graphicalEntity), "Graphical Entity isn't a graphical entity !");
+    TealAssert(isMapEntity(entity), "Graphical Entity isn't a graphical entity !");
 
-    auto& pos = logicEntity->GetComponent<PositionComponent>();
-    auto& node = graphicalEntity->GetComponent<Ndk::NodeComponent>();
-    Nz::Vector2f defPos = getDefGfxPos(graphicalEntity);
+    auto& pos = entity->GetComponent<PositionComponent>();
+    auto& node = entity->GetComponent<Ndk::NodeComponent>();
+    Nz::Vector2f defPos = getDefGfxPos(entity);
 
     unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : Def::TileSizeX / 2); // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TileSizeY / 2;

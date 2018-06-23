@@ -68,7 +68,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
 
     if (e->HasComponent<GraphicalEntitiesComponent>())
         for (auto& gfxCharacter : e->GetComponent<GraphicalEntitiesComponent>().entities)
-            refreshGraphicsPos(e, gfxCharacter);
+            refreshGraphicsPos(gfxCharacter);
 }
 
 void recomputeIfObstacle(const Ndk::EntityHandle& e)
@@ -99,7 +99,7 @@ void recomputeIfObstacle(const Ndk::EntityHandle& e)
     }
 }
 
-void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from ground or something. (fight)
+void getItemsFromGround(const Ndk::EntityHandle& e) /// todo: activate traps from ground or something. (fight)
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
     MapDataRef currentMap = getCurrentMap()->getCurrentMap();
@@ -110,19 +110,14 @@ void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from
         return;
 
     auto& inv = e->GetComponent<InventoryComponent>();
-    Ndk::EntityList killedEntities; // Ndk::Entity::Kill() is not immediate, need a world refresh
+    Ndk::EntityList killedEntities; // Ndk::Entity::Kill() is not immediate, needs a world refresh
 
     for (auto it = mapEntities.begin(); it != mapEntities.end();)
     {
         it = std::find_if(mapEntities.begin(), mapEntities.end(), [&e, &killedEntities] (const Ndk::EntityHandle& item)
         {
             if (!killedEntities.Has(item) && item.IsValid() && isValidGraphicalItemEntity(item))
-            {
-                auto& logicEntity = item->GetComponent<LogicEntityIdComponent>().logicEntity;
-
-                return isItemEntity(logicEntity) && logicEntity->HasComponent<PositionComponent>() &&
-                    logicEntity->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy;
-            }
+                return item->GetComponent<PositionComponent>().xy == e->GetComponent<PositionComponent>().xy;
 
             return false;
         });
@@ -131,8 +126,6 @@ void getItemsFromGround(const Ndk::EntityHandle& e) // todo: activate traps from
             break;
 
         TealAssert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid(), "Logic Entity isn't valid");
-
-        (*it)->GetComponent<LogicEntityIdComponent>().logicEntity->RemoveComponent<PositionComponent>();
         inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
 
         killedEntities.Insert(*it);
