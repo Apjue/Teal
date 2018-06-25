@@ -4,6 +4,7 @@
 
 #include <NDK/Components/GraphicsComponent.hpp>
 #include "components/common/orientationcomponent.hpp"
+#include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/renderablesstoragecomponent.hpp"
 #include "def/gamedef.hpp"
@@ -32,56 +33,53 @@ void updateAnimation(const Ndk::EntityHandle& e)
         return;
 
     auto& anim = e->GetComponent<AnimationComponent>();
+    auto  animType = determineAnimationToBeUsed(e);
 
-    if (anim.currentAnimation == AnimationComponent::InvalidAnimationID)
+    if (!anim.canAnimationBeUsed(animType))
+    {
+        if (!anim.canAnimationBeUsed(AnimationComponent::Walk))
+            return;
+
+        else
+            animType = AnimationComponent::Walk;
+    }
+
+    if (anim.animList.empty())
         return;
 
-    TealAssert(!anim.animList.empty(), "Animation list must not be empty, as currentAnimation isn't set to InvalidAnimationID");
-
-    AnimationData& animData = anim.getCurrentAnimation();
-    bool moving = isEntityMoving(e);
+    AnimationData& animData = anim.animList[animType];
     auto orientation = e->GetComponent<OrientationComponent>().orientation;
 
     unsigned const startX = unsigned(orientation) * animData.size.x; // Get the x and the y
     unsigned const startY = animData.frame * animData.size.y;
 
     for (auto& sprite : sprites)
-        animate(startX, startY, sprite, animData, moving);
+        animate(startX, startY, sprite, animData, animType, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
 }
 
-void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, bool moving)
+void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize)
 {
-    auto spriteSize = sprite->GetSize(); // Nazara bug, ignore this line
     sprite->SetTexture(animData.texture, false);
-    sprite->SetSize(spriteSize); // Nazara bug, ignore this line
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
-    switch (animData.type)
+    bool moving = (pathSize != 0);
+    bool running = (pathSize > Def::PathRunningAfter);
+
+    switch (animType)
     {
-        case AnimationData::Walk:
-            if (!moving || maxframe == 0) // Reset animation, but change direction
-            {
-                animData.frame = 0;
-                sprite->SetTextureRect({ startX, 0u, animData.size.x, animData.size.y });
-            }
+        case AnimationComponent::Walk:
+            sprite->SetTextureRect({ startX, (!pathSize || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
+            animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
+            break;
 
-            else // Animation !
-            {
-                sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
-                ++animData.frame;
-
-                if (animData.frame > maxframe)
-                    animData.frame = 0;
-            }
-
+        case AnimationComponent::Run:
+            sprite->SetTextureRect({ startX, (!pathSize || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
+            animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
         default:
             sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
-            ++animData.frame;
-
-            if (animData.frame > maxframe)
-                animData.frame = 0;
+            animData.frame = (animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
     }
 }

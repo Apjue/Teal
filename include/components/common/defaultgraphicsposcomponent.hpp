@@ -13,15 +13,15 @@
 ///
 /// \struct DefaultGraphicsPosComponent
 ///
-/// \brief Offset used to fit correctly in the [1;1] tile
+/// \brief Offset used to fit correctly in the [0;0] tile
 /// \note Only used as a fallback when the AnimationComponent isn't available
 ///
 
 struct DefaultGraphicsPosComponent : public Ndk::Component<DefaultGraphicsPosComponent>
 {
-    DefaultGraphicsPosComponent(const Nz::Vector2f& pos = {}) : xy { pos } {}
+    DefaultGraphicsPosComponent(const Nz::Vector2f& xy = {}) : offset { xy } {}
 
-    Nz::Vector2f xy;
+    Nz::Vector2f offset;
 
     static Ndk::ComponentIndex componentIndex;
 };

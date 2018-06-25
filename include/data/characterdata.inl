@@ -57,31 +57,36 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
     if (state.GetField("animations") == Nz::LuaType_Table)
         parseLua(state, animArgs);
 
+    for (auto& animTable : animArgs.tables)
     {
-        data->defaultAnimation = AnimationComponent::InvalidAnimationID;
+        auto& animPair = animTable->vars;
 
-        for (auto& animVariant : animArgs.vars)
+        // Check everything is ok
         {
-            if (!animVariant.is<Nz::String>())
+            if (animPair.size() != 2)
             {
-                NazaraError("Animation codename: String expected");
+                NazaraError("Animation: Pair expected (i.e. { \"type\", \"animation_codename\" }");
                 continue;
             }
 
-            Nz::String& animName = animVariant.get<Nz::String>();
-
-            if (!DoubleStores<AnimationData>::getInstance()->hasItem(animName))
+            if (!animPair[0].is<Nz::String>() || !animPair[1].is<Nz::String>())
             {
-                NazaraError("Animation codename not found: " + animName);
+                NazaraError("Animation: Pair with strings expected  (i.e. { \"type\", \"animation_codename\" }");
                 continue;
             }
-
-            AnimationData anim = DoubleStores<AnimationData>::getInstance()->getItem(animName); // Yup, copy ctor
-            data->animations.emplace_back(std::move(anim));
         }
 
-        if (!data->animations.empty())
-            data->defaultAnimation = state.CheckField<std::size_t>("default", 0, -1);
+        Nz::String& animType = animPair[0].get<Nz::String>();
+        Nz::String& animName = animPair[1].get<Nz::String>();
+
+        if (!DoubleStores<AnimationData>::getInstance()->hasItem(animName))
+        {
+            NazaraError("Animation codename not found: " + animName);
+            continue;
+        }
+
+        AnimationData anim = DoubleStores<AnimationData>::getInstance()->getItem(animName); // Important: use copy ctor
+        data->animations[AnimationComponent::stringToAnimationType(animType)] = std::move(anim);
     }
 
     state.Pop();
