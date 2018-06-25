@@ -13,7 +13,7 @@
 ///
 /// \struct DefaultGraphicsPosComponent
 ///
-/// \brief Offset used to fit correctly in the [1;1] tile
+/// \brief Offset used to fit correctly in the [0;0] tile
 /// \note Only used as a fallback when the AnimationComponent isn't available
 ///
 

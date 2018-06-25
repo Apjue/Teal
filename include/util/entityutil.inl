@@ -7,7 +7,6 @@
 #include "components/common/defaultgraphicsposcomponent.hpp"
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
-#include "components/common/animationcomponent.hpp"
 #include "components/common/logicentityidcomponent.hpp"
 #include "components/common/monstercomponent.hpp"
 #include "components/common/fightcomponent.hpp"
@@ -71,7 +70,7 @@ Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e)
             return anim.animList[animType].offset;
     }
 
-    return e->GetComponent<DefaultGraphicsPosComponent>().offset; /// todo: remove this useless component, only use animations
+    return e->GetComponent<DefaultGraphicsPosComponent>().offset;
 }
 
 AnimationComponent::AnimationType determineAnimationToBeUsed(const Ndk::EntityHandle& e)

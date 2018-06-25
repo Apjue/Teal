@@ -33,36 +33,46 @@ void updateAnimation(const Ndk::EntityHandle& e)
         return;
 
     auto& anim = e->GetComponent<AnimationComponent>();
+    auto  animType = determineAnimationToBeUsed(e);
+
+    if (!anim.canAnimationBeUsed(animType))
+    {
+        if (!anim.canAnimationBeUsed(AnimationComponent::Walk))
+            return;
+
+        else
+            animType = AnimationComponent::Walk;
+    }
 
     if (anim.animList.empty())
         return;
 
-    AnimationData& animData = anim.getBestSuitableAnimation(determineAnimationToBeUsed(e));
+    AnimationData& animData = anim.animList[animType];
     auto orientation = e->GetComponent<OrientationComponent>().orientation;
 
     unsigned const startX = unsigned(orientation) * animData.size.x; // Get the x and the y
     unsigned const startY = animData.frame * animData.size.y;
 
     for (auto& sprite : sprites)
-        animate(startX, startY, sprite, animData, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
+        animate(startX, startY, sprite, animData, animType, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
 }
 
-void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, std::size_t pathSize)
+void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize)
 {
     sprite->SetTexture(animData.texture, false);
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
-    bool moving = pathSize > 1; /// todo: do a def variable in gamedefs
-    bool running = pathSize > 2;
+    bool moving = (pathSize != 0);
+    bool running = (pathSize > Def::PathRunningAfter);
 
-    switch (animData.type)
+    switch (animType)
     {
-        case AnimationData::Walk:
+        case AnimationComponent::Walk:
             sprite->SetTextureRect({ startX, (!pathSize || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
             animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
-        case AnimationData::Run:
+        case AnimationComponent::Run:
             sprite->SetTextureRect({ startX, (!pathSize || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
             animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;

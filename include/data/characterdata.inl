@@ -63,7 +63,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
 
         // Check everything is ok
         {
-            if (!animPair.size() != 2)
+            if (animPair.size() != 2)
             {
                 NazaraError("Animation: Pair expected (i.e. { \"type\", \"animation_codename\" }");
                 continue;

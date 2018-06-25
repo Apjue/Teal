@@ -8,7 +8,8 @@ teal_character =
     {
      -- Only one animation per type, syntax:
      -- { "type", "animation_codename" }
-        { "walk", "villager_walking" }
+        { "walk", "villager_walking" },
+     -- { "run", "villager_running" }
     },
 
     maxhealth = 100,

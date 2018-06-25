@@ -32,8 +32,8 @@ constexpr unsigned MaxGXPosInTile { (TileSizeX / 2u) / MaxPosInTile };
 constexpr unsigned MaxGYPosInTile { (TileSizeY / 2u) / MaxPosInTile };
 
 
-constexpr  float   MaxSystemUPS   { 10u }; // Updates per second
-constexpr   int    MaxDirs        { 4u  }; // Max directions: Up, down, left, right
+constexpr  float   MaxSystemUPS   { 10.f }; // Updates per second
+constexpr   int    MaxDirs        { 4u   }; // Max directions: Up, down, left, right
 constexpr std::pair<unsigned, unsigned> StandStillPos { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 
@@ -48,6 +48,8 @@ constexpr std::array<float, 8> MapDistanceCost    { 1.5f, 1.f, 2.f, 1.f, 1.5f, 1
 
 constexpr unsigned   DefaultFightTimeLimit { 60'000u }; // In Miliseconds
 constexpr Nz::UInt32 LuaAITimeLimit { 1000u };
+
+constexpr std::size_t PathRunningAfter { 2 };
 
 }
 

@@ -8,6 +8,7 @@
 #define ENTITYUTIL_HPP
 
 #include <NDK/Entity.hpp>
+#include "components/common/animationcomponent.hpp"
 
 inline bool isMapEntity(const Ndk::EntityHandle& e); // Check if the entity is a map object (e.g. a tree or a NPC) or an item laying on the ground
 inline bool isItemEntity(const Ndk::EntityHandle& e);
