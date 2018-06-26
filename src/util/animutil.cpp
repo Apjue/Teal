@@ -63,7 +63,6 @@ void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, Anim
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
 
     bool moving = (pathSize != 0);
-    bool running = (pathSize > Def::PathRunningAfter);
 
     switch (animType)
     {
