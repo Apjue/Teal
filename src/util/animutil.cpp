@@ -54,10 +54,10 @@ void updateAnimation(const Ndk::EntityHandle& e)
     unsigned const startY = animData.frame * animData.size.y;
 
     for (auto& sprite : sprites)
-        animate(startX, startY, sprite, animData, animType, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
+        animate({ startX, startY }, sprite, animData, animType, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
 }
 
-void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize)
+void animate(Nz::Vector2ui startCoords, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize)
 {
     sprite->SetTexture(animData.texture, false);
     unsigned maxframe = (sprite->GetMaterial()->GetDiffuseMap()->GetSize().y / animData.size.y) - 1u; // Sprites always use the y axis for animations
@@ -67,17 +67,17 @@ void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, Anim
     switch (animType)
     {
         case AnimationComponent::Walk:
-            sprite->SetTextureRect({ startX, (!pathSize || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
+            sprite->SetTextureRect({ startCoords.x, (!pathSize || maxframe == 0 ? 0 : startCoords.y), animData.size.x, animData.size.y });
             animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
         case AnimationComponent::Run:
-            sprite->SetTextureRect({ startX, (!pathSize || maxframe == 0 ? 0 : startY), animData.size.x, animData.size.y });
+            sprite->SetTextureRect({ startCoords.x, (!pathSize || maxframe == 0 ? 0 : startCoords.y), animData.size.x, animData.size.y });
             animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
         default:
-            sprite->SetTextureRect({ startX, startY, animData.size.x, animData.size.y });
+            sprite->SetTextureRect({ startCoords.x, startCoords.y, animData.size.x, animData.size.y });
             animData.frame = (animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
     }

@@ -9,10 +9,11 @@
 
 #include <NDK/Entity.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
+#include <Nazara/Math/Vector2.hpp>
 #include "components/common/animationcomponent.hpp"
 
 bool hasComponentsToAnimate(const Ndk::EntityHandle& e);
 void updateAnimation(const Ndk::EntityHandle& e);
-void animate(unsigned startX, unsigned startY, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize);
+void animate(Nz::Vector2ui startCoords, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize);
 
 #endif // ANIMUTIL_HPP
