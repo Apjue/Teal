@@ -235,12 +235,12 @@ void GameState::initEventHandler()
             case Nz::Keyboard::R: // Raycasting test
                 auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
 
-                if (eeee.IsValid())
-                    eeee->Kill();
+                if (raycastTiles.IsValid())
+                    raycastTiles->Kill();
 
-                eeee = m_world->CreateEntity();
-                eeee->AddComponent<Ndk::NodeComponent>();
-                auto& gfx = eeee->AddComponent<Ndk::GraphicsComponent>();
+                raycastTiles = m_world->CreateEntity();
+                raycastTiles->AddComponent<Ndk::NodeComponent>();
+                auto& gfx = raycastTiles->AddComponent<Ndk::GraphicsComponent>();
 
                 for (auto& tilep : tiles)
                 {
