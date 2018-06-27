@@ -232,7 +232,7 @@ void GameState::initEventHandler()
                 showCharacteristics();
                 break;
 
-            case Nz::Keyboard::D: // Useless debug things
+            case Nz::Keyboard::R: // Raycasting test
                 auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
 
                 if (eeee.IsValid())
