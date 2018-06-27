@@ -279,8 +279,8 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
             tilesInRange.push_back(toVector2(xy));
     }
 
-    std::vector<AbsTile> blockObstacles; // obstacles that block view
-    std::vector<AbsTile> viewObstacles;  // obstacles that doesn't block view
+    std::vector<AbsTile> viewObstacles;  // obstacles which doesn't block view
+    std::vector<AbsTile> blockObstacles; // obstacles which block view
     std::vector<AbsTile> passableTiles;
 
     for (auto& xy : tilesInRange)
@@ -321,7 +321,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
     auto isTilePassable = [&map] (unsigned x, unsigned y) -> bool { return !(map->getTile(x, y).isObstacle()); };
     std::vector<AbsTile> visibleTiles = passableTiles;
 
-    for (AbsTile& obstacle : blockObstacles) // Todo optimize this ? Make some blocks of obstacles to compare with fewer rays ?
+    for (AbsTile& obstacle : blockObstacles) /// todo: optimize this ? Make some blocks of obstacles to compare with fewer rays ?
     {
         Vector2fTriplet rays = getTileOutterCorners(pos, obstacle);
 

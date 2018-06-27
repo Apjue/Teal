@@ -236,32 +236,32 @@ void GameState::initEventHandler()
 
                 if (event.shift) // Shift pressed? Remove tiles
                 {
-                    if (raycastTiles.IsValid())
-                        raycastTiles->Kill();
+                    if (m_raycastTiles.IsValid())
+                        m_raycastTiles->Kill();
 
                     NazaraNotice("Deleted raycasting tiles");
                     break;
                 }
 
                 NazaraNotice("Raycasting");
-                auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
+                std::vector<AbsTile> tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
 
-                if (raycastTiles.IsValid())
-                    raycastTiles->Kill();
+                if (m_raycastTiles.IsValid())
+                    m_raycastTiles->Kill();
 
-                raycastTiles = m_world->CreateEntity();
-                raycastTiles->AddComponent<Ndk::NodeComponent>();
-                auto& gfx = raycastTiles->AddComponent<Ndk::GraphicsComponent>();
+                m_raycastTiles = m_world->CreateEntity();
+                m_raycastTiles->AddComponent<Ndk::NodeComponent>();
+                auto& gfx = m_raycastTiles->AddComponent<Ndk::GraphicsComponent>();
 
-                for (auto& tilep : tiles)
+                for (auto& tilePos : tiles)
                 {
-                    Nz::SpriteRef tile = Nz::Sprite::New(Nz::Material::New("Translucent2D"));
-                    tile->SetTexture(Nz::TextureLibrary::Get(":/game/fight_tileset"));
-                    tile->SetSize(64, 32);
-                    tile->SetTextureRect({ 0, 0, 64, 32 });
-                    auto aabb = getTileAABB(tilep);
+                    Nz::SpriteRef tileSprite = Nz::Sprite::New(Nz::Material::New("Translucent2D"));
+                    tileSprite->SetTexture(Nz::TextureLibrary::Get(":/game/fight_tileset"));
+                    tileSprite->SetSize(64, 32);
+                    tileSprite->SetTextureRect({ 0, 0, 64, 32 });
+                    auto aabb = getTileAABB(tilePos);
 
-                    gfx.Attach(tile, Nz::Matrix4f::Translate({ aabb.x, aabb.y, 0 }), 0);
+                    gfx.Attach(tileSprite, Nz::Matrix4f::Translate({ aabb.x, aabb.y, 0 }), Def::MapLayer + 1);
                 }
 
                 break;

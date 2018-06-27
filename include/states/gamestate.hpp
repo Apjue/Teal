@@ -30,7 +30,7 @@ public:
     bool Update(Ndk::StateMachine& fsm, float elapsedTime) override;
 
 private:
-    Ndk::WorldHandle m_world; Ndk::EntityHandle raycastTiles;
+    Ndk::WorldHandle m_world; Ndk::EntityHandle m_raycastTiles;
     Nz::RenderWindow& m_window;
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; // Main character
