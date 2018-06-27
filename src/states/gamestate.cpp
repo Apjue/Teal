@@ -233,6 +233,17 @@ void GameState::initEventHandler()
                 break;
 
             case Nz::Keyboard::R: // Raycasting test
+
+                if (event.shift) // Shift pressed? Remove tiles
+                {
+                    if (raycastTiles.IsValid())
+                        raycastTiles->Kill();
+
+                    NazaraNotice("Deleted raycasting tiles");
+                    break;
+                }
+
+                NazaraNotice("Raycasting");
                 auto tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
 
                 if (raycastTiles.IsValid())
