@@ -75,7 +75,7 @@ void GameState::handlePausedStateSwitch()
 }
 
 #include <iostream>
-void GameState::showInventory(bool detailled) // [TEST]
+void GameState::showInventory(bool detailled) /// Used for testing | todo: have a really UI for this
 {
     auto& inv = m_charac->GetComponent<InventoryComponent>();
     unsigned counter {};
@@ -118,10 +118,13 @@ void GameState::showInventory(bool detailled) // [TEST]
         ++counter;
     }
 
+    if (counter == 0)
+        std::cout << "Inventory empty\n";
+
     std::cout << std::flush;
 }
 
-void GameState::showCharacteristics() // [TEST]
+void GameState::showCharacteristics() /// Used for testing | todo: have a really UI for this
 {
     std::cout << "Main character characteristics";
     if (m_charac->HasComponent<DamageModifierComponent>())
@@ -147,8 +150,6 @@ void GameState::showCharacteristics() // [TEST]
 
     std::cout << std::endl;
 }
-
-#include "components/common/clonecomponent.hpp"
 
 void GameState::addEntities()
 {
