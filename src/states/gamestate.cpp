@@ -185,7 +185,7 @@ void GameState::initEventHandler()
 
     m_mouseButtonEvent.Connect(eventHandler.OnMouseButtonPressed, [this] (const Nz::EventHandler*, const Nz::WindowEvent::MouseButtonEvent& event)
     { // Lambda to move the player if the user clicked in the map
-        if (!m_mapArea.Contains(event.x, event.y) || m_paused)
+        if (!m_mapArea.Contains(event.x, event.y) || m_paused || event.button != Nz::Mouse::Left)
             return;
 
         Ndk::EntityList hoveredEntities = mapEntitiesHoveredByCursor({ event.x, event.y });
