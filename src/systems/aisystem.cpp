@@ -142,7 +142,7 @@ void AISystem::OnUpdate(float elapsed)
                     AICore::TagInfo aiInfo = m_ais.getTagInfoFromTagKeys(std::make_pair(monster.family, monster.name));
                     Nz::String& aiName = monster.name;
 
-                    m_currentFight.coroutine.reset(new Nz::LuaCoroutine { std::move(lua.NewCoroutine()) });
+                    m_currentFight.coroutine = std::make_unique<Nz::LuaCoroutine>(std::move(lua.NewCoroutine()));
                     m_currentFight.coroutine->GetGlobal("execute");
 
                     Nz::Ternary result = m_currentFight.coroutine->Resume();
