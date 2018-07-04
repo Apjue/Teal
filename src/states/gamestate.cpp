@@ -282,21 +282,23 @@ void GameState::addWidgets()
 
     auto& eventHandler = m_window.GetEventHandler();
 
-    Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
-
-    invButton->SetTexture(Nz::TextureLibrary::Get(":/buttons/inv"));
-    invButton->SetHoverTexture(invButton->GetTexture());
-    invButton->SetPressTexture(Nz::TextureLibrary::Get(":/buttons/inv_pressed"));
-
-    invButton->SetColor(Nz::Color::White, Nz::Color::White);
-    invButton->SetHoverColor(invButton->GetColor(), invButton->GetCornerColor());
-    invButton->SetPressColor(invButton->GetColor(), invButton->GetCornerColor());
-
-    m_invButtonEvent.Connect(invButton->OnButtonTrigger, [this] (const Ndk::ButtonWidget*)
     {
-        if (!m_paused)
-            printInventory();
-    });
+        Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
+
+        invButton->SetTexture(Nz::TextureLibrary::Get(":/buttons/inv"));
+        invButton->SetHoverTexture(invButton->GetTexture());
+        invButton->SetPressTexture(Nz::TextureLibrary::Get(":/buttons/inv_pressed"));
+
+        invButton->SetColor(Nz::Color::White, Nz::Color::White);
+        invButton->SetHoverColor(invButton->GetColor(), invButton->GetCornerColor());
+        invButton->SetPressColor(invButton->GetColor(), invButton->GetCornerColor());
+
+        m_invButtonEvent.Connect(invButton->OnButtonTrigger, [this] (const Ndk::ButtonWidget*)
+        {
+            if (!m_paused)
+                printInventory();
+        });
+    }
 }
 
 
