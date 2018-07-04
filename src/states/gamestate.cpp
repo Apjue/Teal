@@ -222,7 +222,7 @@ void GameState::initEventHandler()
 
     m_keyPressEvent.Connect(eventHandler.OnKeyPressed, [this] (const Nz::EventHandler*, const Nz::WindowEvent::KeyEvent& event)
     {
-        switch (event.code)
+        switch (event.code) // Debug things
         {
             case Nz::Keyboard::I: // Inventory
                 printInventory(event.shift);
@@ -233,21 +233,17 @@ void GameState::initEventHandler()
                 break;
 
             case Nz::Keyboard::R: // Raycasting test
+                if (m_raycastTiles.IsValid())
+                    m_raycastTiles->Kill();
 
-                if (event.shift) // Shift pressed? Remove tiles
+                if (event.shift) // Shift pressed? Tiles have been removed, stop
                 {
-                    if (m_raycastTiles.IsValid())
-                        m_raycastTiles->Kill();
-
                     NazaraNotice("Deleted raycasting tiles");
                     break;
                 }
 
                 NazaraNotice("Raycasting");
                 std::vector<AbsTile> tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
-
-                if (m_raycastTiles.IsValid())
-                    m_raycastTiles->Kill();
 
                 m_raycastTiles = m_world->CreateEntity();
                 m_raycastTiles->AddComponent<Ndk::NodeComponent>();
