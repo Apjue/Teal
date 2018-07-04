@@ -119,12 +119,16 @@ void AISystem::OnUpdate(float elapsed)
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
                 TealAssert(m_isFightActive, "Not fighting");
-                Nz::LuaInstance& lua = m_currentFight.ai;
 
-                if (!m_currentFight.coroutine)
+                if (!m_currentFight.coroutine || !m_currentFight.lua)
                 {
+                    if (!m_currentFight.lua)
+                        m_currentFight.lua = std::make_unique<Nz::LuaInstance>();
+
                     m_currentFight.forceContinueFight = [] () { return false; };
                     m_currentFight.currentEntity = e;
+
+                    Nz::LuaInstance& lua = *m_currentFight.lua;
                     lua.SetTimeLimit(Def::LuaAITimeLimit);
 
                     if (!prepareLuaAI(lua))
@@ -143,7 +147,7 @@ void AISystem::OnUpdate(float elapsed)
 
                     Nz::Ternary result = m_currentFight.coroutine->Resume();
 
-                    if (result != Nz::Ternary_Unknown) // yield() wasn't called. AI did nothing.
+                    if (result != Nz::Ternary_Unknown) // coroutine.yield wasn't used. AI did nothing.
                     {
                         cleanAndContinueFight();
 
@@ -152,8 +156,10 @@ void AISystem::OnUpdate(float elapsed)
                     }
                 }
 
-                else // yield() was called. Resume execution.
+                else // coroutine.yield was used. Resume execution.
                 {
+                    Nz::LuaInstance& lua = *m_currentFight.lua;
+
                     if (m_currentFight.coroutine->CanResume() && !m_currentFight.forceContinueFight())
                     {
                         if (!m_currentFight.canResume()) // Action isn't finished
@@ -185,7 +191,7 @@ void AISystem::OnUpdate(float elapsed)
 
 void AISystem::cleanAndContinueFight()
 {
-    cleanLuaInstance(m_currentFight.ai);
+    cleanLuaInstance();
     m_currentFight.currentEntity->GetComponent<FightComponent>().myTurn = false;
 
     auto it = std::find(m_currentFight.fighters.begin(), m_currentFight.fighters.end(), m_currentFight.nextEntity);
@@ -200,15 +206,10 @@ void AISystem::cleanAndContinueFight()
         m_currentFight.nextEntity = *(it + 1);
 }
 
-void AISystem::cleanLuaInstance(Nz::LuaInstance& lua)
+void AISystem::cleanLuaInstance()
 {
-    lua.PushNil(); lua.SetGlobal("teal_fight_data");
-    lua.PushNil(); lua.SetGlobal("execute");
-    lua.PushNil(); lua.SetGlobal("fight_ai_name");
-    lua.PushNil(); lua.SetGlobal("fight_ai_monster_family");
-    lua.PushNil(); lua.SetGlobal("fight_ai_monster_name");
-
-    m_currentFight.coroutine = nullptr;
+    m_currentFight.coroutine.reset();
+    m_currentFight.lua.reset();
 }
 
 void AISystem::removeFromFight(const Ndk::EntityHandle& e) // Always check forceContinueFight after using this function

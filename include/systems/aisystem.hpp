@@ -27,7 +27,7 @@ namespace AISystemDetail
 
 struct FightData
 {
-    Nz::LuaInstance ai;
+    std::unique_ptr<Nz::LuaInstance> lua;
     std::unique_ptr<Nz::LuaCoroutine> coroutine;
 
     std::function<bool()> forceContinueFight = [] () { return false; };
@@ -68,7 +68,7 @@ private:
     void OnUpdate(float elapsed) override;
 
     void cleanAndContinueFight();
-    void cleanLuaInstance(Nz::LuaInstance& lua);
+    void cleanLuaInstance();
     void removeFromFight(const Ndk::EntityHandle& e);
 
     bool prepareLuaAI(Nz::LuaInstance& lua);
