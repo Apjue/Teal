@@ -75,7 +75,7 @@ void GameState::handlePausedStateSwitch()
 }
 
 #include <iostream>
-void GameState::showInventory(bool detailled) /// Used for testing | todo: have a really UI for this
+void GameState::printInventory(bool detailled) /// Used for testing | todo: have a really UI for this
 {
     auto& inv = m_charac->GetComponent<InventoryComponent>();
     unsigned counter {};
@@ -124,7 +124,7 @@ void GameState::showInventory(bool detailled) /// Used for testing | todo: have 
     std::cout << std::flush;
 }
 
-void GameState::showCharacteristics() /// Used for testing | todo: have a really UI for this
+void GameState::printCharacteristics() /// Used for testing | todo: have a really UI for this
 {
     std::cout << "Main character characteristics";
     if (m_charac->HasComponent<DamageModifierComponent>())
@@ -225,11 +225,11 @@ void GameState::initEventHandler()
         switch (event.code)
         {
             case Nz::Keyboard::I: // Inventory
-                showInventory(event.shift);
+                printInventory(event.shift);
                 break;
 
-            case Nz::Keyboard::C: // Caracteristics
-                showCharacteristics();
+            case Nz::Keyboard::C: // Characteristics
+                printCharacteristics();
                 break;
 
             case Nz::Keyboard::R: // Raycasting test
@@ -299,7 +299,7 @@ void GameState::addWidgets()
     m_invButtonEvent.Connect(invButton->OnButtonTrigger, [this] (const Ndk::ButtonWidget*)
     {
         if (!m_paused)
-            showInventory();
+            printInventory();
     });
 }
 

@@ -54,8 +54,8 @@ private:
     void handlePausedStateSwitch();
 
     // Character functions
-    void showInventory(bool detailled = false);
-    void showCharacteristics();
+    void printInventory(bool detailled = false);
+    void printCharacteristics();
 
     // Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
