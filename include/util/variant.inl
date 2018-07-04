@@ -2,7 +2,7 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-namespace Detail
+namespace VariantDetail
 {
 
 template<class Union, class T, class... Ts>

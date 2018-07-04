@@ -22,7 +22,7 @@
 #include "cache/doublestore.hpp"
 #include "cache/aicore.hpp"
 
-namespace Detail
+namespace AISystemDetail
 {
 
 struct FightData
@@ -92,7 +92,7 @@ private:
     Ndk::EntityHandle m_mainCharacter;
     Nz::String m_utilityLuaFile;
 
-    Detail::FightData m_currentFight;
+    AISystemDetail::FightData m_currentFight;
     bool m_isFightActive {};
 
     const std::shared_ptr<SkillStore> m_skills;

@@ -42,21 +42,21 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
     DoubleStores<AnimationData>::instance = data.animations;
 
 
-    Detail::loadTextures();
-    Detail::loadNazara();
-    Detail::initSchemeUtility();
-    Detail::loadTilesetCore(data.tilesetCore, data.fightTilesetCore);
+    TealInitDetail::loadTextures();
+    TealInitDetail::loadNazara();
+    TealInitDetail::initSchemeUtility();
+    TealInitDetail::loadTilesetCore(data.tilesetCore, data.fightTilesetCore);
 
-    Detail::loadMetaData(*data.states);
-    Detail::loadSkills(*data.skills);
-    Detail::loadAnimations(*data.animations);
-    Detail::loadCharacters(world, data.characters, *data.animations);
-    Detail::loadItems(world, data.items, *data.skills);
+    TealInitDetail::loadMetaData(*data.states);
+    TealInitDetail::loadSkills(*data.skills);
+    TealInitDetail::loadAnimations(*data.animations);
+    TealInitDetail::loadCharacters(world, data.characters, *data.animations);
+    TealInitDetail::loadItems(world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
-    Detail::loadMaps(world, data.characters, data.items);
+    TealInitDetail::loadMaps(world, data.characters, data.items);
 
-    Detail::addIcon(window);
-    Detail::addCam(world, window);
+    TealInitDetail::addIcon(window);
+    TealInitDetail::addCam(world, window);
 }
 
 void uninitializeTeal(GameData& data)
@@ -74,7 +74,7 @@ void uninitializeTeal(GameData& data)
     data.animations.reset();
 }
 
-namespace Detail
+namespace TealInitDetail
 {
 
 void loadTextures()

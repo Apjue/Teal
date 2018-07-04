@@ -14,7 +14,7 @@
 void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data);
 void uninitializeTeal(GameData& data);
 
-namespace Detail
+namespace TealInitDetail
 {
 
 // Init Functions

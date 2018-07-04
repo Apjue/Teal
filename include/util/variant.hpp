@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2018 Samy Bensaid
+// Copyright (C) 2018 Samy Bensaid
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
@@ -13,7 +13,7 @@
 #include "isoneof.hpp"
 #include "indexof.hpp"
 
-namespace Detail
+namespace VariantDetail
 {
 
 template<class... Ts>
@@ -73,7 +73,7 @@ public:
 
 private:
     using Data = typename std::aligned_union<0, Ts...>::type;
-    using Helper = Detail::VariantHelper<Data, Ts...>;
+    using Helper = VariantDetail::VariantHelper<Data, Ts...>;
 
     std::size_t m_index {};
     Data m_data;
