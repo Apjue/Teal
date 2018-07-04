@@ -32,13 +32,13 @@
 
 void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
 {
-    data.states = std::make_shared<StateMDStore>();
-    data.skills = std::make_shared<SkillStore>();
+    data.states     = std::make_shared<StateMDStore>();
+    data.skills     = std::make_shared<SkillStore>();
     data.animations = std::make_shared<AnimationStore>();
 
     // Singletons
     DoubleStores<StateMetaData>::instance = data.states;
-    DoubleStores<SkillData>::instance = data.skills;
+    DoubleStores<SkillData>    ::instance = data.skills;
     DoubleStores<AnimationData>::instance = data.animations;
 
 
