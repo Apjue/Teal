@@ -26,6 +26,7 @@ struct GameData
 
     Ndk::EntityList items;
     Ndk::EntityList characters;
+    Ndk::EntityHandle defaultCharacter;
 };
 
 #endif // GAMEDATA_HPP

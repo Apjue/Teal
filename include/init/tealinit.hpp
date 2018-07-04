@@ -32,6 +32,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
 //void loadMapObjects();
 void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::EntityList& items);
 
+void configDefaultCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters);
 void addIcon(Nz::RenderWindow& window);
 void addCam(Ndk::World& world, Nz::RenderWindow& window);
 

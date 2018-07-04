@@ -24,8 +24,8 @@
 #include "states/gamestate.hpp"
 
 GameState::GameState(Ndk::WorldHandle world, Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData)
-    : m_world(world), m_window(window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore), m_states(gameData.states)
-    , m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations), m_items(gameData.items), m_characters(gameData.characters) {}
+    : m_world(world), m_window(window), m_charac(gameData.defaultCharacter), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore),
+    m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations), m_items(gameData.items), m_characters(gameData.characters) {}
 
 void GameState::Enter(Ndk::StateMachine& fsm)
 {
@@ -163,10 +163,7 @@ void GameState::addEntities()
     activateMapEntities(MapDataLibrary::Get("0;0"));
     m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
 
-
-    m_charac = cloneCharacter(m_characters, "villager");
-    m_charac->GetComponent<PositionComponent>().xy = { 0, 1 };
-    m_charac->GetComponent<NameComponent>().name = "You";
+    m_charac->Enable();
     refreshGraphicsPos(m_charac);
 }
 

@@ -55,6 +55,7 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
     //Detail::loadMapObjects(data.mapObjects);
     TealInitDetail::loadMaps(world, data.characters, data.items);
 
+    TealInitDetail::configDefaultCharacter(data.defaultCharacter, data.characters);
     TealInitDetail::addIcon(window);
     TealInitDetail::addCam(world, window);
 }
@@ -469,6 +470,20 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
     }
 
     NazaraDebug(" --- ");
+}
+
+void configDefaultCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters)
+{
+    defaultCharacter = cloneCharacter(characters, "villager");
+    defaultCharacter->Enable(false);
+
+
+    Nz::LuaInstance lua;
+    TealException(lua.ExecuteFromFile(Def::ScriptFolder + "character.lua"), "Lua: couldn't find character.lua file");
+    TealException(lua.GetGlobal("teal_character") == Nz::LuaType_Table, "Lua: teal_character isn't a table !");
+
+    defaultCharacter->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
+    defaultCharacter->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
 }
 
 void addIcon(Nz::RenderWindow& window)
