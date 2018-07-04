@@ -1,5 +1,5 @@
+- Fix raycasting [Not a Teal/raycasting bug: graphics bug, update nazara when patch will be released]
 - Use LuaImpl* in tealinit.cpp (& others places, i.e. everywhere)
-- Fix raycasting
   
 - Maybe implement LuaImplReplyVal in nzstlcompatibility, for std::(unordered_)map
 - Maybe also (not sure):
