@@ -4,7 +4,7 @@
 
 #include "util/mathutil.hpp"
 
-bool interactSegment(const Vector2fPair& ab, const Vector2fPair& ij, Nz::Vector2f* interactPoint) // todo: understand this function later.
+bool interactSegment(const Vector2fPair& ab, const Vector2fPair& ij, Nz::Vector2f* interactPoint) /// todo: understand this function later.
 {
     Nz::Vector2f abVec(ab.second - ab.first), ijVec(ij.second - ij.first);
     float denom(abVec.x * ijVec.y - abVec.y * ijVec.x);

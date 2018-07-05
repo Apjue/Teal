@@ -277,7 +277,7 @@ bool AISystem::prepareLuaAI(Nz::LuaInstance& lua)
 
             for (auto& e : m_currentFight.entities)
             {
-                // bind traps and things like that later...
+                /// todo: bind traps and things like that later...
             }
 
             lua.SetField("objects");
@@ -376,7 +376,7 @@ void AISystem::Teal_TakeCover()
     AbsTile recommendedTile { toVector2(Def::StandStillPos) };
     unsigned minDamage { std::numeric_limits<unsigned>().max() };
 
-    for (const auto& tile : possibleTiles) /// TODO: redo all this, what if several enemies attack you?
+    for (const auto& tile : possibleTiles) /// todo: redo all this, what if several enemies attack you?
     {
         unsigned maxDamagePerTile {};
 
@@ -440,10 +440,10 @@ void AISystem::Teal_AttackCharacter(unsigned characterIndex, Nz::String skillCod
 
     auto& fight = m_currentFight.currentEntity->GetComponent<FightComponent>();
     fight.target = m_currentFight.fighters[characterIndex - 1];
-    // todo: canResume function
+    TealException(false, "todo: canResume function");
 }
 
-void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename)
+void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String skillCodename) /// todo: remove this function ?
 {
     TealAssert(m_isFightActive, "Not fighting");
 
@@ -455,7 +455,7 @@ void AISystem::Teal_MoveAndAttackCharacter(unsigned characterIndex, Nz::String s
         Teal_AttackCharacter(characterIndex, skillCodename);
 }
 
-unsigned AISystem::Teal_ChooseTarget() // todo: raycasting ?
+unsigned AISystem::Teal_ChooseTarget() /// todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
     return 0;
@@ -466,7 +466,7 @@ unsigned AISystem::Teal_ChooseAttack(unsigned characterIndex)
     return ChooseAttack(characterIndex, m_currentFight.currentEntity->GetComponent<PositionComponent>().xy);
 }
 
-unsigned AISystem::ChooseAttack(unsigned characterIndex, const AbsTile& pos) // todo: raycasting ?
+unsigned AISystem::ChooseAttack(unsigned characterIndex, const AbsTile& pos) /// todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
 
@@ -490,7 +490,7 @@ unsigned AISystem::ChooseAttack(unsigned characterIndex, const AbsTile& pos) // 
     return 0;
 }
 
-bool AISystem::Teal_CanCastSpell(unsigned characterIndex) // todo: raycasting ?
+bool AISystem::Teal_CanCastSpell(unsigned characterIndex) /// todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
 
@@ -512,7 +512,7 @@ bool AISystem::Teal_CanCastSpell(unsigned characterIndex) // todo: raycasting ?
     return false;
 }
 
-bool AISystem::Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex) // todo: raycasting ?
+bool AISystem::Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex) /// todo: raycasting ?
 {
     TealAssert(m_isFightActive, "Not fighting");
 
@@ -547,12 +547,12 @@ bool AISystem::Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex) //
 
     if (posDistance.x < skill.minRange || posDistance.x > skill.maxRange ||
         posDistance.y < skill.minRange || posDistance.y > skill.maxRange)
-        return false; // todo: check area min/max range & type, in case of "damage zone"
+        return false; /// todo: check area min/max range & type, in case of "damage zone"
 
     if (skill.maxRange > 1 && !skill.viewThroughObstacles)
     {
         NazaraError("Raycasting has not been implemented (yet)");
-        return false; // todo: implement raycasting thing here
+        return false; /// todo: implement raycasting thing here
     }
 
     return true;

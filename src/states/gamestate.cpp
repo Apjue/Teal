@@ -196,7 +196,7 @@ void GameState::initEventHandler()
                     std::cout << "todo: implement fight" << std::endl;
                 }
 
-                else // todo: if (isNPCEntity(...))
+                else /// todo: if (isNPCEntity(...))
                 {
                     auto& move = m_charac->GetComponent<MoveComponent>();
                     AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });

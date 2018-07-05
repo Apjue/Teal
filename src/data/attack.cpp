@@ -79,7 +79,7 @@ namespace Nz
 
 unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<Attack>* attack, TypeTag<std::shared_ptr<Attack>>)
 {
-    state.CheckType(index, Nz::LuaType_Table); // todo: fix crash: attack can be nullptr^
+    state.CheckType(index, Nz::LuaType_Table); /// todo: fix crash: attack can be nullptr^
 
     Attack::AttackType attackType = Attack::stringToAttackType(state.CheckField<Nz::String>("type", index));
     bool initializePtr = (attack->get() == nullptr);

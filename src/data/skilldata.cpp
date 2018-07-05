@@ -75,7 +75,7 @@ Nz::String SkillData::areaTypeToString(AreaType area)
     throw std::runtime_error { "Invalid area type !" };
 }
 
-std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const // todo: redo this
+std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const /// todo: redo this
 {
     std::unordered_map<Element, unsigned> damage {};
 
