@@ -120,24 +120,23 @@ void AISystem::OnUpdate(float elapsed)
             {
                 TealAssert(m_isFightActive, "Not fighting");
 
-                if (!m_currentFight.coroutine || !m_currentFight.lua)
+                if (!m_currentFight.lua)
                 {
-                    if (!m_currentFight.lua)
-                        m_currentFight.lua = std::make_unique<Nz::LuaInstance>();
+                    TealAssert(!m_currentFight.coroutine, "Coroutine shouldn't exist since Lua Instance doesn't");
+
+                    m_currentFight.lua = std::make_unique<Nz::LuaInstance>();
+                    m_currentFight.lua->SetTimeLimit(Def::LuaAITimeLimit);
+                    m_currentFight.currentEntity = e;
+                }
+
+                Nz::LuaInstance& lua = *m_currentFight.lua;
+
+                if (!m_currentFight.coroutine)
+                {
+                    TealException(prepareLuaAI(lua), "Failed to prepare Lua AI");
 
                     m_currentFight.forceContinueFight = [] () { return false; };
-                    m_currentFight.currentEntity = e;
-
-                    Nz::LuaInstance& lua = *m_currentFight.lua;
-                    lua.SetTimeLimit(Def::LuaAITimeLimit);
-
-                    if (!prepareLuaAI(lua))
-                    {
-                        NazaraError("Failed to prepare Lua AI");
-
-                        cleanAndContinueFight();
-                        continue;
-                    }
+                    m_currentFight.canResume = [] () { return true; };
 
                     AICore::TagInfo aiInfo = m_ais.getTagInfoFromTagKeys(std::make_pair(monster.family, monster.name));
                     Nz::String& aiName = monster.name;
