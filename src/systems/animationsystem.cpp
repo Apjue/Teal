@@ -16,12 +16,11 @@
 AnimationSystem::AnimationSystem()
 {
     Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent, RenderablesStorageComponent>();
-    SetMaximumUpdateRate(Def::MaxSystemUPS);
     SetUpdateOrder(Def::AnimationSystemUpdateOrder);
 }
 
 void AnimationSystem::OnUpdate(float elapsed)
 {
     for (auto& e : GetEntities())
-        updateAnimation(e);
+        updateAnimation(e, elapsed);
 }

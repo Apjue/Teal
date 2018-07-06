@@ -33,6 +33,7 @@ struct AnimationComponent : public Ndk::Component<AnimationComponent>
 
     using AnimationList = std::unordered_map<AnimationType, AnimationData>;
     AnimationList animList;
+    AnimationType lastUsedAnimation { Walk };
     
     inline bool canAnimationBeUsed(AnimationType type);
 

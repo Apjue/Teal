@@ -23,7 +23,7 @@ bool hasComponentsToAnimate(const Ndk::EntityHandle& e)
         e->HasComponent<RenderablesStorageComponent>();
 }
 
-void updateAnimation(const Ndk::EntityHandle& e)
+void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
 {
     TealAssert(hasComponentsToAnimate(e), "Entity doesn't have the right components to animate");
 
@@ -48,6 +48,17 @@ void updateAnimation(const Ndk::EntityHandle& e)
         return;
 
     AnimationData& animData = anim.animList[animType];
+    animData.currentInterval += elapsedTime;
+
+    if (animData.currentInterval > animData.interval)
+    {
+        while (animData.currentInterval > animData.interval)
+            animData.currentInterval -= animData.interval;
+    }
+
+    else
+        return;
+
     auto orientation = e->GetComponent<OrientationComponent>().orientation;
 
     unsigned const startX = unsigned(orientation) * animData.size.x; // Get the x and the y
@@ -55,6 +66,15 @@ void updateAnimation(const Ndk::EntityHandle& e)
 
     for (auto& sprite : sprites)
         animate({ startX, startY }, sprite, animData, animType, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
+
+
+    if (animType != anim.lastUsedAnimation)
+    {
+        anim.animList[anim.lastUsedAnimation].currentInterval = 0.f;
+        anim.animList[anim.lastUsedAnimation].frame = 0;
+    }
+
+    anim.lastUsedAnimation = animType;
 }
 
 void animate(Nz::Vector2ui startCoords, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize)

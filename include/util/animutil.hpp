@@ -13,7 +13,7 @@
 #include "components/common/animationcomponent.hpp"
 
 bool hasComponentsToAnimate(const Ndk::EntityHandle& e);
-void updateAnimation(const Ndk::EntityHandle& e);
+void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime);
 void animate(Nz::Vector2ui startCoords, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize);
 
 #endif // ANIMUTIL_HPP
