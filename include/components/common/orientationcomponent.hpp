@@ -15,13 +15,13 @@
 ///
 /// \brief Contains the Orientation enum
 ///
-/// \todo Change name to Orientation ?
-///
 
 struct OrientationComponent : public Ndk::Component<OrientationComponent>
 {
-    OrientationComponent(const Orientation& orientation = Orientation::Down) : orientation { orientation } {}
+    OrientationComponent(const Orientation& orientation_ = Orientation::Down) : orientation { orientation_ } {}
     OrientationComponent(const OrientationComponent&) = default;
+    OrientationComponent(OrientationComponent&&) = default;
+
     Orientation orientation;
 
     static Ndk::ComponentIndex componentIndex;

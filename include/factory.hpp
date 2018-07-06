@@ -20,11 +20,9 @@ extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const Characte
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
 
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name = "Item",
-                                          const Nz::String& description = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
+                                         const Nz::String& description = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
-
-/// todo: GraphicalItemData ?
-extern Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data); // Insert in a map the graphical item, not the logical item !
+extern Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data); // Insert in a map the graphical item, not the logic item !
 
 //extern Ndk::EntityHandle make_mapObject(const Ndk::WorldHandle& w, const MapObjectData& infos);
 

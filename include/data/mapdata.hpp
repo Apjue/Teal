@@ -27,7 +27,7 @@ using MapDataConstRef = Nz::ObjectRef<const MapData>;
 using MapDataLibrary = Nz::ObjectLibrary<MapData>;
 using MapDataRef = Nz::ObjectRef<MapData>;
 
-class MapData : public Nz::RefCounted, public Nz::Resource /// \todo Remove MapPositionComponent and add position in mapdata ?
+class MapData : public Nz::RefCounted, public Nz::Resource
 {
     friend MapDataLibrary;
 
