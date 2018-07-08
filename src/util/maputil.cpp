@@ -34,7 +34,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     TealAssert(isPositionValid(pos.xy), "Position isn't valid");
 
-    // Where is the entity in the map ? Right, left, down, or up ?
+    // Where is the entity in the map ? At the right, left, top, or bottom ?
     DirectionFlags entExt = 0; // Entity Extremity
 
     if (pos.xy.x == 0u && isLineEven(pos.xy.y) && MapDataLibrary::Has(mapXYToString(mapPos.x - 1, mapPos.y))) // Left
@@ -43,10 +43,10 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
     else if (pos.xy.x == Def::MapX && MapDataLibrary::Has(mapXYToString(mapPos.x + 1, mapPos.y))) // Right
         entExt = Dir::Right;
 
-    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Up
+    else if (pos.xy.y == 0u && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Top
         entExt = Dir::Up;
 
-    else if (pos.xy.y == Def::ArrayMapY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y - 1))) // Down
+    else if (pos.xy.y == Def::ArrayMapY && MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y + 1))) // Bottom
         entExt = Dir::Down;
 
     if (!entExt)
@@ -76,7 +76,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Up)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.xy.x;
         y = Def::MapY;
@@ -84,7 +84,7 @@ std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 
     else if (entExt & Dir::Down)
     {
-        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
+        map = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.xy.x;
         y = 1u;
@@ -141,7 +141,7 @@ bool changeMap()
 
     else if (canChange.second & Dir::Up)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
 
         x = pos.xy.x;
         y = Def::MapY;
@@ -151,7 +151,7 @@ bool changeMap()
 
     else if (canChange.second & Dir::Down)
     {
-        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y - 1));
+        newMap = MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y + 1));
 
         x = pos.xy.x;
         y = 1u;
