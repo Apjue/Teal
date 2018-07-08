@@ -223,12 +223,16 @@ void GameState::initEventHandler()
     {
         switch (event.code) // Debug things
         {
+            case Nz::Keyboard::C: // Characteristics
+                printCharacteristics();
+                break;
+
             case Nz::Keyboard::I: // Inventory
                 printInventory(event.shift);
                 break;
 
-            case Nz::Keyboard::C: // Characteristics
-                printCharacteristics();
+            case Nz::Keyboard::P: // Position
+                NazaraNotice(Nz::String { "Character's current position: " }.Append(m_charac->GetComponent<PositionComponent>().xy.ToString()));
                 break;
 
             case Nz::Keyboard::R: // Raycasting test
