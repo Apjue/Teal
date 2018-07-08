@@ -30,7 +30,7 @@
 #include "data/characterdata.hpp"
 #include "init/tealinit.hpp"
 
-void initializeTeal(Nz::RenderWindow& window, GameData& data)
+void initializeTeal(GameData& data)
 {
     data.states     = std::make_shared<StateMDStore>();
     data.skills     = std::make_shared<SkillStore>();
@@ -56,8 +56,8 @@ void initializeTeal(Nz::RenderWindow& window, GameData& data)
     TealInitDetail::loadMaps(data.world, data.characters, data.items);
 
     TealInitDetail::configDefaultMapAndCharacter(data.defaultCharacter, data.characters, data.defaultMap, data);
-    TealInitDetail::addIcon(window);
-    TealInitDetail::addCam(data.world, window);
+    TealInitDetail::addIcon(*data.window);
+    TealInitDetail::addCam(data.world, *data.window);
 }
 
 void uninitializeTeal(GameData& data)

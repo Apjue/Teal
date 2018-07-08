@@ -44,7 +44,7 @@ private:
     static std::shared_ptr<DoubleStore<Value, LightID, HeavyID>> instance;
 
     DoubleStores() = default;
-    friend void initializeTeal(Nz::RenderWindow& window, GameData& data); // find a cleaner way?
+    friend void initializeTeal(GameData& data); // find a cleaner way?
     friend void uninitializeTeal(GameData& data);
 };
 

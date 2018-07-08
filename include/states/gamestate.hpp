@@ -22,7 +22,7 @@
 class GameState final : public Ndk::State
 {
 public:
-    GameState(Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData);
+    GameState(GameData& gameData, const Nz::Vector2ui& mapArea);
     ~GameState() override;
 
     void Enter(Ndk::StateMachine& fsm) override;

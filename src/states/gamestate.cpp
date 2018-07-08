@@ -23,8 +23,8 @@
 #include "systems.hpp"
 #include "states/gamestate.hpp"
 
-GameState::GameState(Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData)
-    : m_world(gameData.world), m_window(window), m_map(gameData.defaultMap), m_charac(gameData.defaultCharacter), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore),
+GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
+    : m_world(gameData.world), m_window(*gameData.window), m_map(gameData.defaultMap), m_charac(gameData.defaultCharacter), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore),
     m_fightTilesetCore(gameData.fightTilesetCore), m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations),
     m_items(gameData.items), m_characters(gameData.characters)
 {

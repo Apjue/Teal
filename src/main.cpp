@@ -18,7 +18,7 @@
 
 int main()
 {
-    Nz::CallOnExit guiltCallback { []() { std::cout << "why did you kill me :(" << std::endl; } };
+    Nz::CallOnExit guiltCallback { []() { std::cout << "Why did you kill me :(" << std::endl; } };
 
     Ndk::Application app;
     Ndk::World& world = app.AddWorld();
@@ -29,11 +29,12 @@ int main()
 
     GameData gameData;
     gameData.world = world.CreateHandle();
+    gameData.window = &window;
 
-    initializeTeal(window, gameData);
+    initializeTeal(gameData);
     Nz::CallOnExit destroyerCallback { [&gameData]() { uninitializeTeal(gameData); } };
 
-    Ndk::StateMachine fsm (std::make_shared<GameState>(window, Nz::Vector2ui { Def::MapSizeX, Def::MapSizeY }, gameData));
+    Ndk::StateMachine fsm (std::make_shared<GameState>(gameData, Nz::Vector2ui { Def::MapSizeX, Def::MapSizeY }));
 
     #ifndef TEAL_DEBUG
     try

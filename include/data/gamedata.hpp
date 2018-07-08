@@ -7,8 +7,10 @@
 #ifndef GAMEDATA_HPP
 #define GAMEDATA_HPP
 
+#include <NDK/World.hpp>
 #include <NDK/Entity.hpp>
 #include <NDK/EntityList.hpp>
+#include <Nazara/Renderer/RenderWindow.hpp>
 #include <memory>
 #include "cache/tilesetcore.hpp"
 #include "cache/doublestore.hpp"
@@ -17,6 +19,7 @@
 struct GameData
 {
     Ndk::WorldHandle world;
+    Nz::RenderWindow* window;
 
     TilesetCore tilesetCore;
     TilesetCore fightTilesetCore;

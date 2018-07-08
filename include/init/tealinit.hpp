@@ -11,7 +11,7 @@
 #include <Nazara/Renderer/RenderWindow.hpp>
 #include "data/gamedata.hpp"
 
-void initializeTeal(Nz::RenderWindow& window, GameData& data);
+void initializeTeal(GameData& data);
 void uninitializeTeal(GameData& data);
 
 namespace TealInitDetail
