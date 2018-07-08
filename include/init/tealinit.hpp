@@ -11,7 +11,7 @@
 #include <Nazara/Renderer/RenderWindow.hpp>
 #include "data/gamedata.hpp"
 
-void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data);
+void initializeTeal(Nz::RenderWindow& window, GameData& data);
 void uninitializeTeal(GameData& data);
 
 namespace TealInitDetail
@@ -27,14 +27,15 @@ void loadMetaData(StateMDStore& states);
 void loadSkills(SkillStore& skills);
 void loadFightAIs(AICore& ais);
 void loadAnimations(AnimationStore& animations);
-void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationStore& animations);
-void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skills);
+void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, AnimationStore& animations);
+void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills);
 //void loadMapObjects();
-void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::EntityList& items);
+void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items);
 
-void configDefaultCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters);
+/// todo: better name would be nice
+void configDefaultMapAndCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters, Ndk::EntityHandle& defaultMap, const GameData& data);
 void addIcon(Nz::RenderWindow& window);
-void addCam(Ndk::World& world, Nz::RenderWindow& window);
+void addCam(Ndk::WorldHandle world, Nz::RenderWindow& window);
 
 }
 

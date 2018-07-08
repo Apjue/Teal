@@ -23,19 +23,29 @@
 #include "systems.hpp"
 #include "states/gamestate.hpp"
 
-GameState::GameState(Ndk::WorldHandle world, Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData)
-    : m_world(world), m_window(window), m_charac(gameData.defaultCharacter), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore),
-    m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations), m_items(gameData.items), m_characters(gameData.characters) {}
+GameState::GameState(Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData)
+    : m_world(gameData.world), m_window(window), m_map(gameData.defaultMap), m_charac(gameData.defaultCharacter), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore),
+    m_fightTilesetCore(gameData.fightTilesetCore), m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations),
+    m_items(gameData.items), m_characters(gameData.characters)
+{
+    auto& mapComponent = m_map->GetComponent<MapComponent>();
+
+    m_pather = std::make_shared<micropather::MicroPather>(mapComponent.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
+    initializeMapUtility(mapComponent.map.get(), m_pather.get(), m_charac);
+}
+
+GameState::~GameState()
+{
+    uninitializeMapUtility();
+    m_pather.reset();
+}
 
 void GameState::Enter(Ndk::StateMachine& fsm)
 {
-    m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
-
-    addEntities();
+    enableEntities();
     addSystems();
 
-    initializeMapUtility(m_map->GetComponent<MapComponent>().map.get(), m_pather.get(), m_charac);
-
+    m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
     initEventHandler();
     addWidgets();
 }
@@ -43,9 +53,8 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 void GameState::Leave(Ndk::StateMachine& fsm)
 {
     removeSystems();
-    uninitializeMapUtility();
     uninitEventHandler();
-    killEntities();
+    disableEntities();
 
     m_canvas.reset();
 }
@@ -151,17 +160,10 @@ void GameState::printCharacteristics() /// Used for testing | todo: have a reall
     std::cout << std::endl;
 }
 
-void GameState::addEntities()
+void GameState::enableEntities()
 {
-    m_map = m_world->CreateEntity();
-
-    auto& mapComp = m_map->AddComponent<MapComponent>();
-    mapComp.init(MapDataLibrary::Get("0;0"), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
-                 Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
-
-
-    activateMapEntities(MapDataLibrary::Get("0;0"));
-    m_pather = std::make_shared<micropather::MicroPather>(mapComp.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
+    m_map->Enable();
+    activateMapEntities(m_map->GetComponent<MapComponent>().map->getCurrentMap());
 
     m_charac->Enable();
     refreshGraphicsPos(m_charac);
@@ -308,12 +310,12 @@ void GameState::removeSystems()
     m_world->RemoveSystem<AnimationSystem>();
 }
 
-void GameState::killEntities()
+void GameState::disableEntities()
 {
-    m_pather.reset();
+    m_map->Enable(false);
+    deactivateMapEntities(m_map->GetComponent<MapComponent>().map->getCurrentMap());
 
-    m_map->Kill();
-    m_charac->Kill();
+    m_charac->Enable(false);
 }
 
 

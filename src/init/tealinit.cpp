@@ -30,7 +30,7 @@
 #include "data/characterdata.hpp"
 #include "init/tealinit.hpp"
 
-void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
+void initializeTeal(Nz::RenderWindow& window, GameData& data)
 {
     data.states     = std::make_shared<StateMDStore>();
     data.skills     = std::make_shared<SkillStore>();
@@ -50,14 +50,14 @@ void initializeTeal(Ndk::World& world, Nz::RenderWindow& window, GameData& data)
     TealInitDetail::loadMetaData(*data.states);
     TealInitDetail::loadSkills(*data.skills);
     TealInitDetail::loadAnimations(*data.animations);
-    TealInitDetail::loadCharacters(world, data.characters, *data.animations);
-    TealInitDetail::loadItems(world, data.items, *data.skills);
+    TealInitDetail::loadCharacters(data.world, data.characters, *data.animations);
+    TealInitDetail::loadItems(data.world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
-    TealInitDetail::loadMaps(world, data.characters, data.items);
+    TealInitDetail::loadMaps(data.world, data.characters, data.items);
 
-    TealInitDetail::configDefaultCharacter(data.defaultCharacter, data.characters);
+    TealInitDetail::configDefaultMapAndCharacter(data.defaultCharacter, data.characters, data.defaultMap, data);
     TealInitDetail::addIcon(window);
-    TealInitDetail::addCam(world, window);
+    TealInitDetail::addCam(data.world, window);
 }
 
 void uninitializeTeal(GameData& data)
@@ -319,7 +319,7 @@ void loadAnimations(AnimationStore& animations)
     NazaraDebug(" --- ");
 }
 
-void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationStore& animations)
+void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, AnimationStore& animations)
 {
     Nz::Directory charactersDirectory { Def::CharacterFolder };
     charactersDirectory.SetPattern("*.lua");
@@ -339,7 +339,7 @@ void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationSto
         CharacterData characterData = lua.CheckGlobal<CharacterData>("teal_character");
         characterData.codename = removeFileNameExtension(charactersDirectory.GetResultName());
 
-        auto character = makeCharacter(world.CreateHandle(), characterData);
+        auto character = makeCharacter(world, characterData);
         character->Enable(false);
 
         characters.Insert(character);
@@ -349,7 +349,7 @@ void loadCharacters(Ndk::World& world, Ndk::EntityList& characters, AnimationSto
     NazaraDebug(" --- ");
 }
 
-void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skills)
+void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills)
 {
     Nz::Directory itemsDirectory { Def::ItemFolder };
     itemsDirectory.SetPattern("*.lua");
@@ -366,7 +366,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
             continue;
         }
         
-        Ndk::EntityHandle item = makeLogicalItem(world.CreateHandle(), lua);
+        Ndk::EntityHandle item = makeLogicalItem(world, lua);
 
         item->Enable(false);
         items.Insert(item);
@@ -382,7 +382,7 @@ void loadItems(Ndk::World& world, Ndk::EntityList& items, const SkillStore& skil
 // 
 // }
 
-void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::EntityList& items)
+void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items)
 {
     Nz::Directory maps { Def::MapFolder };
     maps.SetPattern("*.lua");
@@ -446,7 +446,7 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
                     Nz::Vector2f size = lua.CheckField<Nz::Vector2f>("size");
                     Nz::Vector2f offset = lua.CheckField<Nz::Vector2f>("offset");
 
-                    auto gfxEntity = makeGraphicalItem(world.CreateHandle(), { e, pos, size, offset, LogicEntityIdComponent::GroundItem });
+                    auto gfxEntity = makeGraphicalItem(world, { e, pos, size, offset, LogicEntityIdComponent::GroundItem });
                     gfxEntity->Enable(false);
 
                     refreshGraphicsPos(gfxEntity);
@@ -472,18 +472,34 @@ void loadMaps(Ndk::World& world, const Ndk::EntityList& characters, const Ndk::E
     NazaraDebug(" --- ");
 }
 
-void configDefaultCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters)
+void configDefaultMapAndCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters, Ndk::EntityHandle& defaultMap, const GameData& data)
 {
-    defaultCharacter = cloneCharacter(characters, "villager");
-    defaultCharacter->Enable(false);
-
-
     Nz::LuaInstance lua;
     TealException(lua.ExecuteFromFile(Def::ScriptFolder + "character.lua"), "Lua: couldn't find character.lua file");
     TealException(lua.GetGlobal("teal_character") == Nz::LuaType_Table, "Lua: teal_character isn't a table !");
 
-    defaultCharacter->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
-    defaultCharacter->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
+    {
+        defaultCharacter = cloneCharacter(characters, "villager");
+        defaultCharacter->Enable(false);
+
+        defaultCharacter->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
+        defaultCharacter->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
+    }
+
+
+    {
+        Nz::Vector2i mapPos = lua.CheckField<Nz::Vector2i>("map", { 0, 0 }, -1);
+        TealException(MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y)), "Map doesn't exist!");
+
+        defaultMap = data.world->CreateEntity();
+
+        auto& mapComp = defaultMap->AddComponent<MapComponent>();
+        mapComp.init(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
+                     Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &data.tilesetCore, &data.fightTilesetCore);
+
+        defaultMap->Enable(false);
+        deactivateMapEntities(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)));
+    }
 }
 
 void addIcon(Nz::RenderWindow& window)
@@ -497,16 +513,16 @@ void addIcon(Nz::RenderWindow& window)
     window.SetIcon(winIcon);
 }
 
-void addCam(Ndk::World& world, Nz::RenderWindow& window)
+void addCam(Ndk::WorldHandle world, Nz::RenderWindow& window)
 {
-    auto& camera = world.CreateEntity();
+    auto& camera = world->CreateEntity();
     camera->AddComponent<Ndk::NodeComponent>();
 
     auto& cam = camera->AddComponent<Ndk::CameraComponent>();
     cam.SetProjectionType(Nz::ProjectionType_Orthogonal);
     cam.SetTarget(&window);
 
-    auto& rendersys = world.GetSystem<Ndk::RenderSystem>();
+    auto& rendersys = world->GetSystem<Ndk::RenderSystem>();
     rendersys.SetGlobalUp(Nz::Vector3f::Down());
     rendersys.SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
 }

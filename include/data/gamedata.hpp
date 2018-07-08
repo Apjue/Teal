@@ -16,6 +16,8 @@
 
 struct GameData
 {
+    Ndk::WorldHandle world;
+
     TilesetCore tilesetCore;
     TilesetCore fightTilesetCore;
 
@@ -26,7 +28,9 @@ struct GameData
 
     Ndk::EntityList items;
     Ndk::EntityList characters;
+
     Ndk::EntityHandle defaultCharacter;
+    Ndk::EntityHandle defaultMap;
 };
 
 #endif // GAMEDATA_HPP

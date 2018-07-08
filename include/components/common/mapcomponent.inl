@@ -3,7 +3,7 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 inline MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
-                         TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
+                                const TilesetCore* tcore, const TilesetCore* ftcore, const Ndk::EntityHandle& e)
     : MapInstance(tcore, ftcore, e)
 {
     m_maps[0] = data;

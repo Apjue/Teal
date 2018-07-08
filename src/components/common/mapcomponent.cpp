@@ -14,7 +14,7 @@
 #include "util/nzstlcompatibility.hpp"
 #include "components/common/mapcomponent.hpp"
 
-MapInstance::MapInstance(TilesetCore* tcore, TilesetCore* ftcore, const Ndk::EntityHandle& e)
+MapInstance::MapInstance(const TilesetCore* tcore, const TilesetCore* ftcore, const Ndk::EntityHandle& e)
     : m_entity(e), m_tilesetCore(tcore), m_fightTilesetCore(ftcore)
 {
     NazaraAssert(m_entity->GetWorld(), "World is null");
@@ -112,7 +112,7 @@ void MapInstance::update()
     TealAssert(m_tilesetCore, "TilesetCore nullptr !");
     TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
 
-    TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
+    const TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
     Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
 
     m_tilemap->SetMaterial(0, material);
@@ -140,7 +140,7 @@ void MapInstance::updateBorders()
     TealAssert(m_tilesetCore, "TilesetCore nullptr !");
     TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
 
-    TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
+    const TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
     Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
 
     for (unsigned i {}; i < m_leftBorder.size(); ++i)

@@ -28,10 +28,12 @@ int main()
     window.EnableVerticalSync(true);
 
     GameData gameData;
-    initializeTeal(world, window, gameData);
+    gameData.world = world.CreateHandle();
+
+    initializeTeal(window, gameData);
     Nz::CallOnExit destroyerCallback { [&gameData]() { uninitializeTeal(gameData); } };
 
-    Ndk::StateMachine fsm (std::make_shared<GameState>(world.CreateHandle(), window, Nz::Vector2ui { Def::MapSizeX, Def::MapSizeY }, gameData));
+    Ndk::StateMachine fsm (std::make_shared<GameState>(window, Nz::Vector2ui { Def::MapSizeX, Def::MapSizeY }, gameData));
 
     #ifndef TEAL_DEBUG
     try

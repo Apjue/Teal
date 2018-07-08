@@ -39,6 +39,15 @@ inline unsigned LuaImplQueryArg(const LuaState& state, int index, std::map<T1, T
 
 } // namespace Nz
 
+// Nz::Vector2<int> LuaImplQueryArg
+
+namespace Nz
+{
+
+inline unsigned LuaImplQueryArg(const LuaState& state, int index, Vector2i* vec, TypeTag<Vector2i>);
+
+}
+
 #include "nzstlcompatibility.inl"
 
 #endif // NZSTLCOMPATIBILITY_HPP

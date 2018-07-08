@@ -22,18 +22,21 @@
 class GameState final : public Ndk::State
 {
 public:
-    GameState(Ndk::WorldHandle world, Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData);
-    ~GameState() override = default;
+    GameState(Nz::RenderWindow& window, const Nz::Vector2ui& mapArea, GameData& gameData);
+    ~GameState() override;
 
     void Enter(Ndk::StateMachine& fsm) override;
     void Leave(Ndk::StateMachine& fsm) override;
     bool Update(Ndk::StateMachine& fsm, float elapsedTime) override;
 
 private:
-    Ndk::WorldHandle m_world; Ndk::EntityHandle m_raycastTiles;
+    Ndk::WorldHandle m_world;
     Nz::RenderWindow& m_window;
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; // Main character
+
+    // Raycasting test
+    Ndk::EntityHandle m_raycastTiles;
 
     Nz::Rectui m_mapArea;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
@@ -63,7 +66,7 @@ private:
     NazaraSlot(Nz::EventHandler, OnMouseMoved, m_mouseMovedEvent);
     NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_invButtonEvent);
 
-    void addEntities();
+    void enableEntities();
     void addSystems();
 
     void initEventHandler();
@@ -71,7 +74,7 @@ private:
 
     // And now, delete...
     void removeSystems();
-    void killEntities();
+    void disableEntities();
     void uninitEventHandler(); // change this name
 };
 
