@@ -4,7 +4,7 @@ Micropather's files are already provided in `/extlibs/src/micropather/` and `mic
 
 ## Nazara
 Teal doesn't use Nazara v0.4, it uses a nightly. You can use any Nazara nightly as long as it is more recent than [`4491bc9`](https://github.com/DigitalPulseSoftware/NazaraEngine/commit/4491bc9c24ba8a33f59fa479c58e02468e811338)  
-[Link to NazaraEngine's GitHub repository](https://github.com/DigitalPulseSoftware/NazaraEngine) ; Some prebuilts are available [here](https://github.com/S6066/NazaraEngine/releases/tag/v0.4.x)  
+[Link to NazaraEngine's GitHub repository](https://github.com/DigitalPulseSoftware/NazaraEngine) ; Some prebuilts are available [here](https://github.com/S6066/NazaraEngine/releases/tag/v0.4.y)  
 - Place `Nazara`/`NDK` into `/extlibs/include/nazara/`
 
 # Binaries
