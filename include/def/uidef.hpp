@@ -15,14 +15,14 @@ namespace Def
 constexpr unsigned MapSizeX { (Def::ArrayMapX) * Def::TileSizeX };
 constexpr unsigned MapSizeY { (Def::ArrayMapY + 1u) / 2 * Def::TileSizeY + TileSizeY / 2 };
 
-constexpr unsigned ButtonsMarginX { 10u };
+constexpr unsigned ButtonsPaddingX { 10u };
 constexpr unsigned ButtonsMarginY { 5u };
 
 constexpr unsigned ButtonsSizeX { MapSizeX };
-constexpr unsigned ButtonsSizeY { 90u };
+constexpr unsigned ButtonsSizeY { 60u };
 
 constexpr unsigned WindowSizeX { MapSizeX };
-constexpr unsigned WindowSizeY { MapSizeY + ButtonsMarginY + ButtonsSizeY };
+constexpr unsigned WindowSizeY { MapSizeY + ButtonsMarginY * 2u + ButtonsSizeY };
 
 }
 

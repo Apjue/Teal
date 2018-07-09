@@ -280,7 +280,7 @@ void GameState::initEventHandler()
 void GameState::addWidgets()
 {
     TealAssert(m_canvas, "Canvas null");
-    m_canvas->SetPosition(float(Def::ButtonsMarginX), float(Def::MapSizeY + Def::ButtonsMarginY));
+    m_canvas->SetPosition(float(Def::ButtonsPaddingX), float(Def::MapSizeY + Def::ButtonsMarginY));
     m_canvas->SetSize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
 
     auto& eventHandler = m_window.GetEventHandler();
