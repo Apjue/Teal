@@ -1,3 +1,8 @@
+Main todo:
 - Finish fight feature!
-- Fix raycasting [Not a Teal/raycasting bug: graphics bug, update nazara when patch will be released]
+- Implement tile layers (adds possibility to make bridges)
 - Maybe implement LuaImplReplyVal in nzstlcompatibility, for std::(unordered_)map
+
+Todo after updating Nazara:
+- Fix raycasting [Not a Teal/raycasting bug: graphics bug, update nazara when patch will be released]
+- Remove LuaImplQueryArg for Nz::Vector2i in nzstlcompatibility.hpp when PR #170 will be merged
