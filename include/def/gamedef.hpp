@@ -14,8 +14,9 @@
 namespace Def
 {
 
-constexpr unsigned MapX           { 7u };
+constexpr unsigned MapX           { 7u  }; // Map size
 constexpr unsigned MapY           { 14u };
+static_assert((MapX % 2) == 1 && (MapY % 2) == 0, "Invalid map size");
 
 constexpr unsigned ArrayMapX      { MapX + 1u };
 constexpr unsigned ArrayMapY      { MapY + 1u };
@@ -27,7 +28,9 @@ constexpr unsigned TileSizeY        { 32u };
 constexpr unsigned TileVertexNumber { 4u };
 
 
-constexpr   int    MaxPosInTile   { 4u }; // Must be dividable by TileSizeX & TileSizeY
+constexpr   int    MaxPosInTile { 4u }; // Must be dividable by TileSizeX & TileSizeY
+static_assert((TileSizeX % MaxPosInTile) == 0 && (TileSizeY % MaxPosInTile) == 0, "MaxPosInTile must be dividable by TileSizeX & Y");
+
 constexpr unsigned MaxGraphicsXPosInTile { (TileSizeX / 2u) / MaxPosInTile };
 constexpr unsigned MaxGraphicsYPosInTile { (TileSizeY / 2u) / MaxPosInTile };
 
