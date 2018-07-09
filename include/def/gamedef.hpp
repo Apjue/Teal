@@ -28,8 +28,8 @@ constexpr unsigned TileVertexNumber { 4u };
 
 
 constexpr   int    MaxPosInTile   { 4u }; // Must be dividable by TileSizeX & TileSizeY
-constexpr unsigned MaxGXPosInTile { (TileSizeX / 2u) / MaxPosInTile };
-constexpr unsigned MaxGYPosInTile { (TileSizeY / 2u) / MaxPosInTile };
+constexpr unsigned MaxGraphicsXPosInTile { (TileSizeX / 2u) / MaxPosInTile };
+constexpr unsigned MaxGraphicsYPosInTile { (TileSizeY / 2u) / MaxPosInTile };
 
 
 constexpr  float   MaxSystemUPS   { 10.f }; // Updates per second

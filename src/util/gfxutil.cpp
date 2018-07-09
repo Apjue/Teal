@@ -137,8 +137,8 @@ void refreshGraphicsPos(const Ndk::EntityHandle& entity)
     if (pos.direction)
     {
         gInXY = DirToGXY(pos.direction);
-        gInXY.x *= (pos.advancement * Def::MaxGXPosInTile);
-        gInXY.y *= (pos.advancement * Def::MaxGYPosInTile);
+        gInXY.x *= (pos.advancement * Def::MaxGraphicsXPosInTile);
+        gInXY.y *= (pos.advancement * Def::MaxGraphicsYPosInTile);
     }
 
     float const finalX = float(gX) + float(gInXY.x) + defPos.x; // We will move using this
