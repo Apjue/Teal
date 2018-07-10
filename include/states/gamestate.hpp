@@ -35,13 +35,12 @@ private:
     Ndk::EntityHandle m_map;
     Ndk::EntityHandle m_charac; // Main character
 
-    // Raycasting test
-    Ndk::EntityHandle m_raycastTiles;
 
     Nz::Rectui m_mapArea;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
     std::unique_ptr<Ndk::Canvas> m_canvas;
     bool m_paused { false };
+
 
     TilesetCore& m_tilesetCore;
     TilesetCore& m_fightTilesetCore;
@@ -53,6 +52,11 @@ private:
 
     Ndk::EntityList& m_items;
     Ndk::EntityList& m_characters;
+
+
+    // Raycasting test
+    Ndk::EntityHandle m_raycastTiles;
+
 
     void handlePausedStateSwitch();
 
@@ -66,16 +70,16 @@ private:
     NazaraSlot(Nz::EventHandler, OnMouseMoved, m_mouseMovedEvent);
     NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_invButtonEvent);
 
+    // Enter
     void enableEntities();
     void addSystems();
-
     void initEventHandler();
     void addWidgets();
 
-    // And now, delete...
+    // Leave
     void removeSystems();
     void disableEntities();
-    void uninitEventHandler(); // change this name
+    void uninitializeEventHandler();
 };
 
 #endif // GAMESTATE_HPP

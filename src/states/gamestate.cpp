@@ -53,7 +53,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 void GameState::Leave(Ndk::StateMachine& fsm)
 {
     removeSystems();
-    uninitEventHandler();
+    uninitializeEventHandler();
     disableEntities();
 
     m_canvas.reset();
@@ -280,9 +280,14 @@ void GameState::initEventHandler()
 void GameState::addWidgets()
 {
     TealAssert(m_canvas, "Canvas null");
+
     m_canvas->SetPosition(float(Def::ButtonsPaddingX), float(Def::MapSizeY + Def::ButtonsMarginY));
     m_canvas->SetSize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
 
+    // Canvas background
+
+
+    // Canvas widgets
     auto& eventHandler = m_window.GetEventHandler();
 
     {
@@ -320,10 +325,11 @@ void GameState::disableEntities()
     deactivateMapEntities(m_map->GetComponent<MapComponent>().map->getCurrentMap());
 
     m_charac->Enable(false);
+
 }
 
 
-void GameState::uninitEventHandler()
+void GameState::uninitializeEventHandler()
 {
     auto& eventHandler = m_window.GetEventHandler();
 
