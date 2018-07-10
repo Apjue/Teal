@@ -184,7 +184,9 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
 
             if (lua.GetTable() != Nz::LuaType_Table)
             {
+                NazaraNotice(Nz::String { "Lua: teal_tilesetcore[" }.Append(Nz::String::Number(i)).Append("] isn't a table!"));
                 lua.Pop();
+
                 break;
             }
 
@@ -204,7 +206,9 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
 
             if (lua.GetTable() != Nz::LuaType_Table)
             {
+                NazaraNotice(Nz::String { "Lua: teal_fight_tileset_core[" }.Append(Nz::String::Number(i)).Append("] isn't a table!"));
                 lua.Pop();
+
                 break;
             }
 
