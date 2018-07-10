@@ -16,7 +16,6 @@
 #include "micropather.h"
 #include "components/common/mapcomponent.hpp"
 #include "components/common/pathcomponent.hpp"
-#include "components/common/logicentityidcomponent.hpp"
 #include "util/assert.hpp"
 #include "util/entityutil.hpp"
 #include "def/gamedef.hpp"

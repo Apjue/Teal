@@ -2,6 +2,9 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+#include "components/common/logicentityidcomponent.hpp"
+#include "maputil.hpp"
+
 MapDataRef activateMapEntities(const MapDataRef& map)
 {
     TealAssert(map, "map not valid !");

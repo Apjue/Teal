@@ -17,10 +17,8 @@
 bool hasComponentsToAnimate(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<AnimationComponent>() &&
-        e->HasComponent<Ndk::GraphicsComponent>() &&
-        e->HasComponent<PositionComponent>() &&
-        e->HasComponent<OrientationComponent>() &&
-        e->HasComponent<RenderablesStorageComponent>();
+           e->HasComponent<OrientationComponent>() &&
+           e->HasComponent<RenderablesStorageComponent>();
 }
 
 void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
