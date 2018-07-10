@@ -116,6 +116,13 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lu
     }
     lua.Pop();
 
+    if (lua.GetField(DamageModifierComponent::componentName()) == Nz::LuaType_Table)
+    {
+        int index = -1;
+        e->AddComponent<DamageModifierComponent>(lua.Check<DamageModifierComponent>(&index));
+    }
+    lua.Pop();
+
     return e;
 }
 
