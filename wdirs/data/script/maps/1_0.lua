@@ -6,7 +6,7 @@ teal_map =
         {
             codename = "villager",
             type = "character",
-            pos = { x = 5, y = 5 }
+            pos = { x = 4, y = 9 }
         }
     },
 
@@ -27,54 +27,6 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
         textureId = "water",
         fightTextureId = "empty",
         obstacle = 1,
@@ -115,17 +67,9 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -187,9 +131,73 @@ teal_map =
     },
 
     {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
         textureId = "sandy",
         fightTextureId = "walk",
         obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -243,9 +251,113 @@ teal_map =
     },
 
     {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
         textureId = "sandy",
         fightTextureId = "walk",
         obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -300,18 +412,10 @@ teal_map =
 
     {
         textureId = "sandy",
-        fightTextureId = "walk",
+        fightTextureId = "red",
         obstacle = 0,
         visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
+        spawn = "redspawn"
     },
 
     {
@@ -326,46 +430,6 @@ teal_map =
         textureId = "water",
         fightTextureId = "empty",
         obstacle = 1,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
         visible = true,
         spawn = "none"
     },
@@ -388,38 +452,6 @@ teal_map =
 
     {
         textureId = "sandy",
-        fightTextureId = "blue",
-        obstacle = 0,
-        visible = true,
-        spawn = "bluespawn"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "blue",
-        obstacle = 0,
-        visible = true,
-        spawn = "bluespawn"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
         fightTextureId = "walk",
         obstacle = 0,
         visible = true,
@@ -444,50 +476,10 @@ teal_map =
 
     {
         textureId = "sandy",
-        fightTextureId = "walk",
+        fightTextureId = "red",
         obstacle = 0,
         visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
+        spawn = "redspawn"
     },
 
     {
@@ -499,9 +491,9 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -531,241 +523,9 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "red",
-        obstacle = 0,
-        visible = true,
-        spawn = "redspawn"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "red",
-        obstacle = 0,
-        visible = true,
-        spawn = "redspawn"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "red",
-        obstacle = 0,
-        visible = true,
-        spawn = "redspawn"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "red",
-        obstacle = 0,
-        visible = true,
-        spawn = "redspawn"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
-        visible = true,
-        spawn = "none"
-    },
-
-    {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -787,9 +547,185 @@ teal_map =
     },
 
     {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "blue",
+        obstacle = 0,
+        visible = true,
+        spawn = "bluespawn"
+    },
+
+    {
         textureId = "sandy",
         fightTextureId = "walk",
         obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "red",
+        obstacle = 0,
+        visible = true,
+        spawn = "redspawn"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "sandy",
+        fightTextureId = "walk",
+        obstacle = 0,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -851,9 +787,9 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -907,9 +843,9 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
@@ -923,49 +859,113 @@ teal_map =
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
 
     {
-        textureId = "sandy",
-        fightTextureId = "walk",
-        obstacle = 0,
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
+        visible = true,
+        spawn = "none"
+    },
+
+    {
+        textureId = "water",
+        fightTextureId = "empty",
+        obstacle = 1,
         visible = true,
         spawn = "none"
     },
