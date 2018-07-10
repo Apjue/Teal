@@ -114,7 +114,7 @@ void loadTextures()
     };
 
     for (auto& textureName : requiredTextures)
-        TealException(Nz::TextureLibrary::Has(textureName));
+        TealException(Nz::TextureLibrary::Has(textureName), Nz::String { "Required texture " }.Append(textureName).Append(" isn't here"));
 
     NazaraNotice(" --- ");
 }
