@@ -55,7 +55,6 @@ void initializeTeal(GameData& data)
     //Detail::loadMapObjects(data.mapObjects);
     TealInitDetail::loadMaps(data.world, data.characters, data.items);
 
-    TealInitDetail::configDefaultMapAndCharacter(data.defaultCharacter, data.characters, data.defaultMap, data);
     TealInitDetail::addIcon(*data.window);
     TealInitDetail::addCam(data.world, *data.window);
 }
@@ -470,36 +469,6 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
     }
 
     NazaraDebug(" --- ");
-}
-
-void configDefaultMapAndCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters, Ndk::EntityHandle& defaultMap, const GameData& data)
-{
-    Nz::LuaInstance lua;
-    TealException(lua.ExecuteFromFile(Def::ScriptFolder + "character.lua"), "Lua: couldn't find character.lua file");
-    TealException(lua.GetGlobal("teal_character") == Nz::LuaType_Table, "Lua: teal_character isn't a table !");
-
-    {
-        defaultCharacter = cloneCharacter(characters, "villager");
-        defaultCharacter->Enable(false);
-
-        defaultCharacter->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
-        defaultCharacter->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
-    }
-
-
-    {
-        Nz::Vector2i mapPos = lua.CheckField<Nz::Vector2i>("map", { 0, 0 }, -1);
-        TealException(MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y)), "Map doesn't exist!");
-
-        defaultMap = data.world->CreateEntity();
-
-        auto& mapComp = defaultMap->AddComponent<MapComponent>();
-        mapComp.init(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
-                     Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &data.tilesetCore, &data.fightTilesetCore);
-
-        defaultMap->Enable(false);
-        deactivateMapEntities(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)));
-    }
 }
 
 void addIcon(Nz::RenderWindow& window)

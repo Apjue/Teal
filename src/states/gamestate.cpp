@@ -4,7 +4,9 @@
 
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/LuaAPI.hpp>
 #include <Nazara/Platform/EventHandler.hpp>
+#include <Nazara/Lua/LuaInstance.hpp>
 #include "components/common/inventorycomponent.hpp"
 #include "components/common/namecomponent.hpp"
 #include "components/common/damagemodifiercomponent.hpp"
@@ -25,10 +27,41 @@
 #include "states/gamestate.hpp"
 
 GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
-    : m_world(gameData.world), m_window(*gameData.window), m_map(gameData.defaultMap), m_charac(gameData.defaultCharacter), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore),
+    : m_world(gameData.world), m_window(*gameData.window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore),
     m_fightTilesetCore(gameData.fightTilesetCore), m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations),
     m_items(gameData.items), m_characters(gameData.characters)
 {
+    // Initialize scene (map & character)
+    {
+        Nz::LuaInstance lua;
+        TealException(lua.ExecuteFromFile(Def::ScriptFolder + "character.lua"), "Lua: couldn't find character.lua file");
+        TealException(lua.GetGlobal("teal_character") == Nz::LuaType_Table, "Lua: teal_character isn't a table !");
+
+        // Character
+        {
+            m_charac = cloneCharacter(m_characters, "villager");
+            m_charac->Enable(false);
+
+            m_charac->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
+            m_charac->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
+        }
+
+        // Map
+        {
+            Nz::Vector2i mapPos = lua.CheckField<Nz::Vector2i>("map", { 0, 0 }, -1);
+            TealException(MapDataLibrary::Has(mapXYToString(mapPos.x, mapPos.y)), "Map doesn't exist!");
+
+            m_map = m_world->CreateEntity();
+
+            auto& mapComponent = m_map->AddComponent<MapComponent>();
+            mapComponent.init(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
+                              Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
+
+            m_map->Enable(false);
+            deactivateMapEntities(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)));
+        }
+    }
+
     auto& mapComponent = m_map->GetComponent<MapComponent>();
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComponent.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);

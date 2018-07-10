@@ -24,16 +24,13 @@ struct GameData
     TilesetCore tilesetCore;
     TilesetCore fightTilesetCore;
 
-    std::shared_ptr<StateMDStore> states; // Wondering why shared_ptr are used?
-    std::shared_ptr<SkillStore> skills;   // Check doublestore.hpp
+    std::shared_ptr<StateMDStore>   states; // Wondering why shared_ptr are used?
+    std::shared_ptr<SkillStore>     skills; // Check doublestore.hpp
     std::shared_ptr<AnimationStore> animations;
     AICore ais;
 
     Ndk::EntityList items;
     Ndk::EntityList characters;
-
-    Ndk::EntityHandle defaultCharacter;
-    Ndk::EntityHandle defaultMap;
 };
 
 #endif // GAMEDATA_HPP

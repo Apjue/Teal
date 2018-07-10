@@ -32,8 +32,6 @@ void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore&
 //void loadMapObjects();
 void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items);
 
-/// todo: better name would be nice
-void configDefaultMapAndCharacter(Ndk::EntityHandle& defaultCharacter, Ndk::EntityList& characters, Ndk::EntityHandle& defaultMap, const GameData& data);
 void addIcon(Nz::RenderWindow& window);
 void addCam(Ndk::WorldHandle world, Nz::RenderWindow& window);
 
