@@ -38,6 +38,8 @@ teal_textures =
         { ":/buttons/equip_pressed", "buttons/bar/equip_pressed.png" },
         { ":/buttons/inv",           "buttons/bar/inv.png" },
         { ":/buttons/inv_pressed",   "buttons/bar/inv_pressed.png" },
+
+        { ":/buttons/spellbar",      "buttons/bar/spellbar.png" },
     
         -- UI
         { ":/buttons/close", "buttons/ui/close.png" },
