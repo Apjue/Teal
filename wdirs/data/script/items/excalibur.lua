@@ -8,7 +8,7 @@ teal_item =
 
     components =
     {
-        damagemodifier = 
+        damage_modifier = 
         {
             attack =
             {

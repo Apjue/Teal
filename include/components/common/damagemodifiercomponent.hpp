@@ -21,7 +21,7 @@ struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>,
     std::unordered_map<Element, int> attack; // In percentage
     std::unordered_map<Element, int> resistance;
 
-    static inline const char* componentName() { return "damagemodifier"; }
+    static inline const char* componentName() { return "damage_modifier"; }
 
     static Ndk::ComponentIndex componentIndex;
 };
