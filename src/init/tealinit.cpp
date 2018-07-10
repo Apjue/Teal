@@ -13,6 +13,7 @@
 #include <Nazara/Graphics/ColorBackground.hpp>
 #include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
+#include <array>
 #include "components.hpp"
 #include "systems.hpp"
 #include "factory.hpp"
@@ -91,7 +92,9 @@ void loadTextures()
 
         if (lua.GetTable() != Nz::LuaType_Table)
         {
+            NazaraNotice(Nz::String { "Lua: teal_textures[" }.Append(Nz::String::Number(i)).Append("] isn't a table!"));
             lua.Pop();
+
             break;
         }
 
@@ -103,6 +106,15 @@ void loadTextures()
 
         lua.Pop();
     }
+
+    // Ensure required textures are here
+    static std::array<Nz::String, 3> requiredTextures
+    {
+        ":/game/unknown", ":/game/tileset", ":/game/fight_tileset"
+    };
+
+    for (auto& textureName : requiredTextures)
+        TealException(Nz::TextureLibrary::Has(textureName));
 
     NazaraDebug(" --- ");
 }
