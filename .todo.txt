@@ -1,7 +1,12 @@
 Main todo:
 - Finish fight feature!
+- Fix animation "reset" bug
+
 - Implement tile layers (adds possibility to make bridges)
 - Maybe implement LuaImplReplyVal in nzstlcompatibility, for std::(unordered_)map
+
+UI Todo:
+- Make correct menu bar ("spell bar")
 
 Todo after updating Nazara:
 - Fix raycasting [Not a Teal/raycasting bug: graphics bug, update nazara when patch will be released]
