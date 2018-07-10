@@ -39,6 +39,7 @@ private:
     Nz::Rectui m_mapArea;
     std::shared_ptr<micropather::MicroPather> m_pather {}; // Used by the AI System
     std::unique_ptr<Ndk::Canvas> m_canvas;
+    Ndk::EntityOwner m_canvasBackgroundEntity;
     bool m_paused { false };
 
 
@@ -79,7 +80,7 @@ private:
     // Leave
     void removeSystems();
     void disableEntities();
-    void uninitializeEventHandler();
+    void removeWidgets();
 };
 
 #endif // GAMESTATE_HPP

@@ -3,6 +3,7 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Components/NodeComponent.hpp>
+#include <NDK/Components/GraphicsComponent.hpp>
 #include <Nazara/Platform/EventHandler.hpp>
 #include "components/common/inventorycomponent.hpp"
 #include "components/common/namecomponent.hpp"
@@ -32,6 +33,15 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
 
     m_pather = std::make_shared<micropather::MicroPather>(mapComponent.map.get(), Def::ArrayMapX * Def::ArrayMapY, 8);
     initializeMapUtility(mapComponent.map.get(), m_pather.get(), m_charac);
+
+    // Canvas Background
+    Nz::SpriteRef canvasBackground = Nz::Sprite::New();
+    canvasBackground->SetSize(Def::ButtonsSizeX, Def::ButtonsSizeY + Def::ButtonsMarginY * 2);
+    canvasBackground->SetColor(Nz::Color { 101, 67, 33 });
+
+    m_canvasBackgroundEntity = m_world->CreateEntity();
+    m_canvasBackgroundEntity->AddComponent<Ndk::NodeComponent>().SetPosition(0.f, Def::MapSizeY);
+    m_canvasBackgroundEntity->AddComponent<Ndk::GraphicsComponent>().Attach(canvasBackground);
 }
 
 GameState::~GameState()
@@ -53,7 +63,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 void GameState::Leave(Ndk::StateMachine& fsm)
 {
     removeSystems();
-    uninitializeEventHandler();
+    removeWidgets();
     disableEntities();
 
     m_canvas.reset();
@@ -283,9 +293,7 @@ void GameState::addWidgets()
 
     m_canvas->SetPosition(float(Def::ButtonsPaddingX), float(Def::MapSizeY + Def::ButtonsMarginY));
     m_canvas->SetSize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
-
-    // Canvas background
-
+    m_canvasBackgroundEntity->Enable();
 
     // Canvas widgets
     auto& eventHandler = m_window.GetEventHandler();
@@ -329,7 +337,7 @@ void GameState::disableEntities()
 }
 
 
-void GameState::uninitializeEventHandler()
+void GameState::removeWidgets()
 {
     auto& eventHandler = m_window.GetEventHandler();
 
@@ -337,4 +345,6 @@ void GameState::uninitializeEventHandler()
     m_keyPressEvent.Disconnect();
     m_mouseMovedEvent.Disconnect();
     m_invButtonEvent.Disconnect();
+
+    m_canvasBackgroundEntity->Enable(false);
 }
