@@ -102,7 +102,7 @@ void loadTextures()
         std::pair<Nz::String, Nz::String> textureInfos = lua.Check<std::pair<Nz::String, Nz::String>>(&index);
 
         Nz::TextureLibrary::Register(textureInfos.first, Nz::TextureManager::Get(Def::ImageFolder + textureInfos.second));
-        NazaraDebug("Texture " + textureInfos.first + " loaded !");
+        NazaraNotice("Texture " + textureInfos.first + " loaded !");
 
         lua.Pop();
     }
@@ -116,7 +116,7 @@ void loadTextures()
     for (auto& textureName : requiredTextures)
         TealException(Nz::TextureLibrary::Has(textureName));
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 void loadNazara()
@@ -217,7 +217,7 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
         }
     }
 
-    NazaraDebug("Loaded Tileset Core");
+    NazaraNotice("Loaded Tileset Core");
 }
 
 
@@ -247,10 +247,10 @@ void loadSkills(SkillStore& skills)
         SkillData s = lua.CheckGlobal<SkillData>("teal_skill");
         skills.addItem(s.codename, s);
 
-        NazaraDebug("Skill " + s.displayName + " loaded ! (" + s.codename + ")");
+        NazaraNotice("Skill " + s.displayName + " loaded ! (" + s.codename + ")");
     }
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 void loadFightAIs(AICore& ais)
@@ -301,10 +301,10 @@ void loadFightAIs(AICore& ais)
 
         ais.addTag(std::make_pair(monsterFamily, monsterName), std::make_pair(aisDirectory.GetResultPath(), preciseTagPower));
 
-        NazaraDebug("AI " + aiName + " loaded ! (" + aisDirectory.GetResultPath() + ")");
+        NazaraNotice("AI " + aiName + " loaded ! (" + aisDirectory.GetResultPath() + ")");
     }
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 void loadAnimations(AnimationStore& animations)
@@ -328,10 +328,10 @@ void loadAnimations(AnimationStore& animations)
         Nz::String codename = removeFileNameExtension(animationsDirectory.GetResultName());
 
         animations.addItem(codename, animation);
-        NazaraDebug("Animation " + codename + " loaded ! (" + animationsDirectory.GetResultName() + ")");
+        NazaraNotice("Animation " + codename + " loaded ! (" + animationsDirectory.GetResultName() + ")");
     }
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, AnimationStore& animations)
@@ -358,10 +358,10 @@ void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, Animati
         character->Enable(false);
 
         characters.Insert(character);
-        NazaraDebug("Character " + characterData.name + " loaded ! (" + characterData.codename + ")");
+        NazaraNotice("Character " + characterData.name + " loaded ! (" + characterData.codename + ")");
     }
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills)
@@ -386,10 +386,10 @@ void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore&
         item->Enable(false);
         items.Insert(item);
 
-        NazaraDebug("Item loaded - " + item->GetComponent<NameComponent>().name);
+        NazaraNotice("Item loaded - " + item->GetComponent<NameComponent>().name);
     }
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 // void loadMapObjects()
@@ -481,10 +481,10 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
         lua.Pop();
 
         MapDataLibrary::Register(mapXYToString(mapPos.x, mapPos.y), deactivateMapEntities(map));
-        NazaraDebug("Map " + maps.GetResultName() + " loaded at pos " + mapXYToString(mapPos.x, mapPos.y));
+        NazaraNotice("Map " + maps.GetResultName() + " loaded at pos " + mapXYToString(mapPos.x, mapPos.y));
     }
 
-    NazaraDebug(" --- ");
+    NazaraNotice(" --- ");
 }
 
 void addIcon(Nz::RenderWindow& window)
