@@ -92,7 +92,6 @@ void loadTextures()
 
         if (lua.GetTable() != Nz::LuaType_Table)
         {
-            NazaraNotice(Nz::String { "Lua: teal_textures[" }.Append(Nz::String::Number(i)).Append("] isn't a table!"));
             lua.Pop();
 
             break;
