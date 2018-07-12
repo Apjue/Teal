@@ -16,6 +16,7 @@
 #include "components/common/renderablesstoragecomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"
 #include "components/common/movecomponent.hpp"
+#include "widgets/spellbarwidget.hpp"
 #include "util/cloneutil.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
@@ -70,11 +71,12 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
     // Canvas Background
     Nz::SpriteRef canvasBackground = Nz::Sprite::New();
     canvasBackground->SetSize(Def::ButtonsSizeX, Def::ButtonsSizeY + Def::ButtonsMarginY * 2);
-    canvasBackground->SetColor(Nz::Color { 101, 67, 33 });
+    canvasBackground->SetColor(Nz::Color { 40, 40, 40 });
 
     m_canvasBackgroundEntity = m_world->CreateEntity();
     m_canvasBackgroundEntity->AddComponent<Ndk::NodeComponent>().SetPosition(0.f, Def::MapSizeY);
     m_canvasBackgroundEntity->AddComponent<Ndk::GraphicsComponent>().Attach(canvasBackground);
+    m_canvasBackgroundEntity->Enable(false);
 }
 
 GameState::~GameState()
@@ -87,8 +89,6 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 {
     enableEntities();
     addSystems();
-
-    m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
     initEventHandler();
     addWidgets();
 }
@@ -97,9 +97,8 @@ void GameState::Leave(Ndk::StateMachine& fsm)
 {
     removeSystems();
     removeWidgets();
+    uninitEventHandler();
     disableEntities();
-
-    m_canvas.reset();
 }
 
 bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
@@ -279,6 +278,7 @@ void GameState::initEventHandler()
                 break;
 
             case Nz::Keyboard::R: // Raycasting test
+            {
                 if (m_raycastTiles.IsValid())
                     m_raycastTiles->Kill();
 
@@ -307,6 +307,14 @@ void GameState::initEventHandler()
                 }
 
                 break;
+            }
+
+            case Nz::Keyboard::F5: // Refresh UI
+                removeWidgets();
+                addWidgets();
+
+                NazaraNotice("UI refreshed");
+                break;
         }
     });
 
@@ -322,25 +330,49 @@ void GameState::initEventHandler()
 
 void GameState::addWidgets()
 {
-    TealAssert(m_canvas, "Canvas null");
-
+    m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
     m_canvas->SetPosition(float(Def::ButtonsPaddingX), float(Def::MapSizeY + Def::ButtonsMarginY));
     m_canvas->SetSize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
+
     m_canvasBackgroundEntity->Enable();
 
     // Canvas widgets
     auto& eventHandler = m_window.GetEventHandler();
 
+    // Load config
+    TealException(Nz::File::Exists(Def::ScriptFolder + "uiconfig.lua"), "uiconfig.lua not found !");
+
+    Nz::LuaInstance lua;
+    TealException(lua.ExecuteFromFile(Def::ScriptFolder + "uiconfig.lua"), "Lua: uiconfig.lua loading failed!");
+
+    TealException(lua.GetGlobal("teal_ui_config") == Nz::LuaType_Table, "Lua: teal_ui_config isn't a table!");
+    TealException(lua.GetField("buttons") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons isn't a table!");
+
+
+    TealException(lua.GetField("inventory") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
     {
+
         Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
 
-        invButton->SetTexture(Nz::TextureLibrary::Get(":/buttons/inv"));
-        invButton->SetHoverTexture(invButton->GetTexture());
-        invButton->SetPressTexture(Nz::TextureLibrary::Get(":/buttons/inv_pressed"));
+        invButton->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
+        invButton->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
+        invButton->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
 
-        invButton->SetColor(Nz::Color::White, Nz::Color::White);
-        invButton->SetHoverColor(invButton->GetColor(), invButton->GetCornerColor());
-        invButton->SetPressColor(invButton->GetColor(), invButton->GetCornerColor());
+        invButton->SetPosition(lua.CheckField<Nz::Vector2f>("pos", {}, -1));
+        invButton->SetSize(lua.CheckField<Nz::Vector2f>("size", invButton->GetSize()));
+
+        lua.GetField("colors");
+        {
+            auto colorPair = lua.CheckField<std::pair<Nz::Color, Nz::Color>>("default");
+            auto hoverColorPair = lua.CheckField<std::pair<Nz::Color, Nz::Color>>("hover_color");
+            auto pressColorPair = lua.CheckField<std::pair<Nz::Color, Nz::Color>>("press_color");
+
+            invButton->SetColor(colorPair.first, colorPair.second);
+            invButton->SetHoverColor(hoverColorPair.first, hoverColorPair.second);
+            invButton->SetPressColor(pressColorPair.first, pressColorPair.second);
+        }
+
+        lua.Pop();
 
         m_invButtonEvent.Connect(invButton->OnButtonTrigger, [this] (const Ndk::ButtonWidget*)
         {
@@ -348,6 +380,29 @@ void GameState::addWidgets()
                 printInventory();
         });
     }
+
+    lua.Pop();
+
+
+    TealException(lua.GetField("spell_bar") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
+    {
+
+        SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
+
+        spellBar->SetPosition(lua.CheckField<Nz::Vector3f>("pos"));
+        spellBar->setBarTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
+        spellBar->setBarSize(lua.CheckField<Nz::Vector2f>("size", Nz::Vector2f(Nz::Vector2ui(spellBar->getBarTexture()->GetSize()))));
+
+        spellBar->setBorderSize(lua.CheckField<Nz::Vector2ui>("border_size"));
+        spellBar->setPadding(lua.CheckField<Nz::Vector2ui>("padding"));
+        spellBar->setBoxSize(lua.CheckField<Nz::Vector2ui>("box_size"));
+        spellBar->setBoxNumber(lua.CheckField<Nz::Vector2ui>("box_number"));
+
+        spellBar->ResizeToContent();
+        spellBar->Show(false); // Just because it's buggy
+    }
+
+    lua.Pop();
 }
 
 
@@ -366,18 +421,19 @@ void GameState::disableEntities()
     deactivateMapEntities(m_map->GetComponent<MapComponent>().map->getCurrentMap());
 
     m_charac->Enable(false);
-
 }
 
-
-void GameState::removeWidgets()
+void GameState::uninitEventHandler()
 {
-    auto& eventHandler = m_window.GetEventHandler();
-
     m_mouseButtonEvent.Disconnect();
     m_keyPressEvent.Disconnect();
     m_mouseMovedEvent.Disconnect();
+}
+
+void GameState::removeWidgets()
+{
     m_invButtonEvent.Disconnect();
 
+    m_canvas.reset();
     m_canvasBackgroundEntity->Enable(false);
 }

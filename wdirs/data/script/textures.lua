@@ -17,7 +17,7 @@ teal_textures =
 
     -- Items
         -- Swords
-        { ":/game/items/swords/broadsword_cold",    "game/items/swords/broadsword_cold.png" },
+        { ":/game/items/swords/broadsword_cold",    "game/items/swords/broadsword_cold.png" }, -- Note: lots of these items are not used
         { ":/game/items/swords/broadsword_fire",    "game/items/swords/broadsword_fire.png" },
         { ":/game/items/swords/broadsword_holy",    "game/items/swords/broadsword_holy.png" },
         { ":/game/items/swords/broadsword_mithril", "game/items/swords/broadsword_mithril.png" },
@@ -32,7 +32,7 @@ teal_textures =
         { ":/game/items/shields/shield_copper", "game/items/shields/shield_copper.png" },
         { ":/game/items/shields/shield_gold",   "game/items/shields/shield_gold.png" },
 
-    -- Buttons
+    -- Buttons (required)
         -- Menu bar
         { ":/buttons/equip",         "buttons/bar/equip.png" },
         { ":/buttons/equip_pressed", "buttons/bar/equip_pressed.png" },

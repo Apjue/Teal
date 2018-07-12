@@ -80,6 +80,7 @@ private:
     // Leave
     void removeSystems();
     void disableEntities();
+    void uninitEventHandler();
     void removeWidgets();
 };
 
