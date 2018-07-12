@@ -28,8 +28,8 @@ unsigned LuaImplQueryArg(const LuaState& state, int index, std::pair<T1, T2>* pa
         state.PushInteger(1);
         state.GetTable();
 
-        int index { -1 };
-        pair->first = state.Check<T1>(&index);
+        int index_ { -1 };
+        pair->first = state.Check<T1>(&index_);
 
         state.Pop();
     }
@@ -38,8 +38,8 @@ unsigned LuaImplQueryArg(const LuaState& state, int index, std::pair<T1, T2>* pa
         state.PushInteger(2);
         state.GetTable();
 
-        int index { -1 };
-        pair->second = state.Check<T2>(&index);
+        int index_ { -1 };
+        pair->second = state.Check<T2>(&index_);
 
         state.Pop();
     }
