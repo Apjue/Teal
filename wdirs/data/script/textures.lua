@@ -35,11 +35,14 @@ teal_textures =
     -- Buttons (required)
         -- Menu bar
         { ":/buttons/equip",         "buttons/bar/equip.png" },
-        { ":/buttons/equip_pressed", "buttons/bar/equip_pressed.png" },
+            { ":/buttons/equip_pressed", "buttons/bar/equip_pressed.png" },
+
         { ":/buttons/inv",           "buttons/bar/inv.png" },
-        { ":/buttons/inv_pressed",   "buttons/bar/inv_pressed.png" },
+            { ":/buttons/inv_pressed",   "buttons/bar/inv_pressed.png" },
 
         { ":/buttons/spellbar",      "buttons/bar/spellbar.png" },
+            { ":/buttons/spellbar/down_arrow",      "buttons/bar/spellbar_down_arrow.png" },
+            { ":/buttons/spellbar/up_arrow",        "buttons/bar/spellbar_up_arrow.png" },
     
         -- UI
         { ":/buttons/close", "buttons/ui/close.png" },

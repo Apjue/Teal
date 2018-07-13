@@ -398,6 +398,37 @@ void GameState::addWidgets()
         spellBar->setBoxSize(lua.CheckField<Nz::Vector2ui>("box_size"));
         spellBar->setBoxNumber(lua.CheckField<Nz::Vector2ui>("box_number"));
 
+        TealException(lua.GetField("arrows") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows isn't a table!");
+        {
+            TealException(lua.GetField("down") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.down isn't a table!");
+            {
+                Ndk::ButtonWidget* downArrow = spellBar->getDownArrow();
+
+                downArrow->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
+                downArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
+                downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
+
+                downArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
+            }
+
+            lua.Pop();
+
+            TealException(lua.GetField("up") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.up isn't a table!");
+            {
+                Ndk::ButtonWidget* downArrow = spellBar->getDownArrow();
+
+                downArrow->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
+                downArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
+                downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
+
+                downArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
+            }
+
+            lua.Pop();
+        }
+
+        lua.Pop();
+
         spellBar->ResizeToContent();
         spellBar->Show(false); // Just because it's buggy
     }
