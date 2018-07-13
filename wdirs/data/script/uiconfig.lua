@@ -35,7 +35,7 @@ teal_ui_config =
 
         spell_bar =
         {
-            pos = { x = 256.0, y = 0.0, z = 0.0 }, -- Relative to the buttons bar
+            pos = { x = 256.0, y = 0.0 },   -- Relative to the buttons bar
             texture = ":/buttons/spellbar",
             size = { x = 245.0, y = 60.0 }, -- Can be deleted to use texture's size
 

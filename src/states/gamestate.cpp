@@ -349,7 +349,7 @@ void GameState::addWidgets()
     TealException(lua.GetField("buttons") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons isn't a table!");
 
 
-    TealException(lua.GetField("inventory") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
+    TealException(lua.GetField("inventory") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.inventory isn't a table!");
     {
 
         Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
@@ -361,7 +361,7 @@ void GameState::addWidgets()
         invButton->SetPosition(lua.CheckField<Nz::Vector2f>("pos", {}, -1));
         invButton->SetSize(lua.CheckField<Nz::Vector2f>("size", invButton->GetSize()));
 
-        lua.GetField("colors");
+        TealException(lua.GetField("colors") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.inventory.colors isn't a table!");
         {
             auto colorPair = lua.CheckField<std::pair<Nz::Color, Nz::Color>>("default");
             auto hoverColorPair = lua.CheckField<std::pair<Nz::Color, Nz::Color>>("hover_color");
@@ -389,7 +389,7 @@ void GameState::addWidgets()
 
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
 
-        spellBar->SetPosition(lua.CheckField<Nz::Vector3f>("pos"));
+        spellBar->SetPosition(lua.CheckField<Nz::Vector2f>("pos"));
         spellBar->setBarTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
         spellBar->setBarSize(lua.CheckField<Nz::Vector2f>("size", Nz::Vector2f(Nz::Vector2ui(spellBar->getBarTexture()->GetSize()))));
 

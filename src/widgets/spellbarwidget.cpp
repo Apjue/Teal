@@ -28,8 +28,8 @@ void SpellBarWidget::Layout()
 
     m_spellBar->GetComponent<Ndk::NodeComponent>().SetPosition(origin);
     
-    m_upArrow->SetPosition(origin.x, origin.y);
-    m_downArrow->SetPosition(origin.x, origin.y);
+    m_upArrow->SetPosition(arrowsPosition.x, arrowsPosition.y);
+    m_downArrow->SetPosition(arrowsPosition.x, arrowsPosition.y);
 }
 
 
