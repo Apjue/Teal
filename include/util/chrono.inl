@@ -2,6 +2,40 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
+Miliseconds toMiliseconds(Seconds duration)
+{
+    return static_cast<Miliseconds>(duration * 1000);
+}
+
+Miliseconds toMiliseconds(Minutes duration)
+{
+    return toMiliseconds(toSeconds(duration));
+}
+
+
+Seconds toSeconds(Miliseconds duration)
+{
+    return static_cast<Seconds>(duration / 1000);
+}
+
+Seconds toSeconds(Minutes duration)
+{
+    return static_cast<Seconds>(duration * 60);
+}
+
+
+Minutes toMinutes(Miliseconds duration)
+{
+    return toMinutes(toSeconds(duration));
+}
+
+Minutes toMinutes(Seconds duration)
+{
+    return static_cast<Minutes>(duration / 60);
+}
+
+
+
 Duration::Duration(ChronoTimePoint start, ChronoTimePoint end)
     : m_start { start }, m_end { end } {}
 

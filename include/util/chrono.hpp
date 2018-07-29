@@ -29,8 +29,19 @@ using Minutes = unsigned;
 
 #endif
 
+inline Miliseconds toMiliseconds(Seconds duration);
+inline Miliseconds toMiliseconds(Minutes duration);
+
+inline Seconds toSeconds(Miliseconds duration);
+inline Seconds toSeconds(Minutes duration);
+
+inline Minutes toMinutes(Miliseconds duration);
+inline Minutes toMinutes(Seconds duration);
+
+
 using ChronoNowClock = std::chrono::high_resolution_clock;
 using ChronoTimePoint = decltype(ChronoNowClock::now());
+
 
 class Duration
 {
