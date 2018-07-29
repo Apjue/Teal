@@ -12,8 +12,8 @@
 #include <Nazara/Core/String.hpp>
 #include "def/typedef.hpp"
 
-inline LuaArguments parseLua(const Nz::LuaState& lua);
-extern void parseLua(const Nz::LuaState& lua, LuaArguments& table);
+inline LuaArguments parseLua(const Nz::LuaState& lua); // Uses recursion. To understand recursion, read the next comment
+extern void parseLua(const Nz::LuaState& lua, LuaArguments& table);    // To understand recursion, read the previous comment
 
 inline bool hasField(const Nz::LuaState& lua, const Nz::String& fieldName, int tableIndex = -1);
 
