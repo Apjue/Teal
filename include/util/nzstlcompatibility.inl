@@ -105,31 +105,3 @@ unsigned LuaImplQueryArg(const LuaState& state, int index, std::map<T1, T2>* map
 }
 
 } // namespace Nz
-
-// Nz::Vector2<int> LuaImplQueryArg
-
-namespace Nz
-{
-
-inline unsigned LuaImplQueryArg(const LuaState& state, int index, Vector2i* vec, TypeTag<Vector2i>)
-{
-    switch (state.GetType(index))
-    {
-        case Nz::LuaType_Number:
-            if (index < 0 && index > -2)
-                state.Error("Vector2 expected, two numbers are required to convert it");
-
-            vec->Set(static_cast<int>(state.CheckNumber(index)), static_cast<int>(state.CheckNumber(index + 1)));
-            return 2;
-
-        case Nz::LuaType_Table:
-            vec->Set(state.CheckField<int>("x", index), state.CheckField<int>("y", index));
-            return 1;
-
-        default:
-            vec->Set(*static_cast<Vector2i*>(state.CheckUserdata(index, "Vector2")));
-            return 1;
-    }
-}
-
-}

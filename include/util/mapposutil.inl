@@ -152,7 +152,7 @@ unsigned distanceBetweenTiles(const AbsTile& a, const AbsTile& b)
 
 float graphicalDistanceBetweenTiles(const AbsTile& a, const AbsTile& b)
 {
-    return getTileCenter(a).Distancef(getTileCenter(b));
+    return getTileCenter(a).Distance(getTileCenter(b));
 }
 
 
