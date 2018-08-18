@@ -24,7 +24,7 @@ workspace "Teal"
     startproject "Teal"
 
     filter "platforms:x86"
-        architecture "x32"
+        architecture "x86"
 
     filter "platforms:x64"
         architecture "x86_64"
