@@ -20,5 +20,5 @@ Teal doesn't use Nazara v0.4, it uses a nightly. You can use any Nazara nightly 
 - Copy the .lib/.pdb/.a/.so files into `/extlibs/lib/<YourIDE>/<YourPlatform>/nazara/` e.g. `/extlibs/lib/gmake/x86/nazara/`, then copy the .dll files into `/wdirs/<YourPlatform>/`
 
 # Build
-Finally, get into `/build/` and launch `premake5` to generate project files for your IDE (try `premake5 --help` to have the list of available actions)  
+Finally, get into `/build/` and use one of the available Build_* scripts in `utility` or launch `premake5` to generate project files for your IDE (try `premake5 --help` to have the list of available actions)  
 Then, just build it.

@@ -1,0 +1,1 @@
+cd .. && premake5 codelite
