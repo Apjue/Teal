@@ -1,1 +1,1 @@
-cd .. && premake5 gmake2
+cd .. && premake5 --os=windows gmake2
