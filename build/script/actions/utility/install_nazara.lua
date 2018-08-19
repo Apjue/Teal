@@ -8,7 +8,7 @@ newoption
 
 newoption
 {
-    trigger     = "archive_location",
+    trigger     = "archive-location",
     description = "[install_nazara] Specifies the directory name where Nazara Engine's files will be copied (/extlibs/lib/<location>/(arch)/nazara)",
 }
 
@@ -57,7 +57,7 @@ ACTION.execute = function(self, root)
         print("Copied include files into /extlibs/include/nazara/")
 
         -- /build/package/lib/(arch)/ => /extlibs/lib/<location>/(arch)/nazara/
-        local location = _OPTIONS["archive_location"]
+        local location = _OPTIONS["archive-location"]
 
         if (not location or #location == 0) then
             -- No location provided, try to determine it automatically
@@ -85,6 +85,18 @@ ACTION.execute = function(self, root)
 
         if (#matches > 0) then
             print("Copied libraries into /extlibs/lib/" .. location .. "/(x86|x64)/nazara/")
+        else
+            matches = os.matchfiles(folder .. "/package/bin/x86/*")
+            for k, v in pairs(matches) do
+                os.copyfile(v, root .. "/extlibs/lib/" .. location .. "/x86/nazara/" .. path.getname(v))
+            end
+
+            matches = os.matchfiles(folder .. "/package/bin/x64/*")
+            for k, v in pairs(matches) do
+                os.copyfile(v, root .. "/extlibs/lib/" .. location .. "/x64/nazara/" .. path.getname(v))
+            end
+
+            print("Copied binaries into /extlibs/lib/" .. location .. "/(x86|x64)/nazara/")
         end
     end
 

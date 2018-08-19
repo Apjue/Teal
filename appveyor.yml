@@ -59,14 +59,15 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%/build
   - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-msvc15-win-nightly.7z -Lo NazaraEngine.7z
   - 7z x NazaraEngine.7z
-  - mkdir NazaraEngine && mv package NazaraEngine/package
+  - mkdir NazaraEngine
+  - mv package NazaraEngine/package
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
   - cd %TOOLSET% && cd %PLATFORM%
   - mkdir nazara && cd nazara
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build
-  - premake5.exe install_nazara
+  - premake5.exe --archive-location=%TOOLSET% install_nazara
   - premake5.exe %TOOLSET%
 
 build_script:

@@ -3,7 +3,7 @@
 newoption
 {
     trigger     = "toolset",
-    description = "[clean_nazara] Specifies the toolset used, to remove files in /extlibs/lib/<toolset>/"
+    description = "[clean_nazara] Specifies the toolset used, to remove files in /extlibs/lib/<toolset>/(arch)/nazara/"
 }
 
 ACTION.name = "clean_nazara"
