@@ -56,16 +56,17 @@ environment:
 install:
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
   - mkdir nazara && cd nazara
-  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-msvc15-win-nightly.7z -Lo nazara.7z
-  - 7z x nazara.7z
-  - mv package/include/Nazara Nazara && mv package/include/NDK NDK
+  - cd %APPVEYOR_BUILD_FOLDER%/build
+  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-msvc15-win-nightly.7z -Lo NazaraEngine.7z
+  - 7z x NazaraEngine.7z
+  - mkdir NazaraEngine && mv package NazaraEngine/package
   - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
   - cd %TOOLSET% && cd %PLATFORM%
   - mkdir nazara && cd nazara
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/lib/%PLATFORM%/*.lib ./
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build
+  - premake5.exe install_nazara
   - premake5.exe %TOOLSET%
 
 build_script:
@@ -78,23 +79,23 @@ after_build:
   - mkdir Teal
   - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/Teal.exe Teal/Teal-%CONFIG%-%PLATFORM%.exe
   - cd Teal
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraLua%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraNetwork%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraNoise%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/NazaraPlatform%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/assimp.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/libsndfile-1.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/Newton.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/extlibs/include/nazara/package/bin/%PLATFORM%/soft_oal.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraLua%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraNetwork%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraNoise%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraPlatform%SUFFIXDLL% ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/assimp.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/libsndfile-1.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/Newton.dll ./
+  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/soft_oal.dll ./
   - cd ..
   - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
   - echo Appveyor Build %APPVEYOR_BUILD_NUMBER% (%CONFIG% %PLATFORM%) [ID %APPVEYOR_BUILD_ID%] on branch %APPVEYOR_REPO_BRANCH%\nCommit hash - %APPVEYOR_REPO_COMMIT%\n\nCommit message:\n"%APPVEYOR_REPO_COMMIT_MESSAGE%" > commit-info.log

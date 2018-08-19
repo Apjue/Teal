@@ -1,16 +1,15 @@
 -- Clean External Libraries
 
-newoption({
+newoption
+{
     trigger     = "toolset",
-    description = "Specifies the toolset used, to remove files in /extlibs/lib/toolset"
-})
+    description = "[clean_nazara] Specifies the toolset used, to remove files in /extlibs/lib/<toolset>/"
+}
 
 ACTION.name = "clean_nazara"
 ACTION.description = "Remove Nazara Engine's files in /wdirs/ and /extlibs/"
 
-ACTION.execute = function()
-    local root = ".."
-
+ACTION.execute = function(self, root)
     -- Remove /wdirs/ files
     os.rmdir(root .. "/wdirs/x86")
     os.rmdir(root .. "/wdirs/x64")

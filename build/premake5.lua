@@ -2,6 +2,8 @@
 dofile("script/actions/codeblocks/codeblocks.lua")
 dofile("script/actions/codeblocks/_codeblocks.lua")
 
+local rootFolder = ".."
+
 -- Load my custom actions
 local Actions = {}
 local actions = os.matchfiles("script/actions/utility/*.lua")
@@ -20,7 +22,7 @@ for k, v in pairs(actions) do
             {
                 trigger     = lowerCaseName,
                 description = actionTable.description,
-                execute     = function () actionTable:execute() end
+                execute     = function () actionTable:execute(rootFolder) end
             }
         else
             print("Unable to load action file: " .. err)
@@ -40,8 +42,6 @@ if (os.is64bit()) then
 else
     platformData = {"x86", "x64"}
 end
-
-local rootFolder = ".."
 
 workspace "Teal"
     configurations { "Debug", "Release" }
