@@ -63,5 +63,4 @@
 
 	include("codeblocks_workspace.lua")
 	include("codeblocks_project.lua")
-
-
+	include("_codeblocks.lua")

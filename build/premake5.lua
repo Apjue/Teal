@@ -1,12 +1,38 @@
--- Premake script
+-- Add custom actions to support more IDEs
+dofile("script/actions/codeblocks/codeblocks.lua")
+dofile("script/actions/codeblocks/_codeblocks.lua")
 
-if (_ACTION == nil) then -- Check the arguments...
+-- Load my custom actions
+local Actions = {}
+local actions = os.matchfiles("script/actions/utility/*.lua")
+
+for k, v in pairs(actions) do
+    local f, err = loadfile(v)
+        if (f) then
+            ACTION = {}
+            f()
+            local actionTable = ACTION
+            
+            local lowerCaseName = string.lower(actionTable.name)
+            Actions[lowerCaseName] = actionTable
+
+            newaction
+            {
+                trigger     = lowerCaseName,
+                description = actionTable.description,
+                execute     = function () actionTable:execute() end
+            }
+        else
+            print("Unable to load action file: " .. err)
+        end
+end
+ACTION = nil
+
+if (_ACTION == nil or Actions[_ACTION]) then
     return
 end
 
-dofile("script/actions/codeblocks/_codeblocks.lua")
-dofile("script/actions/codeblocks/codeblocks.lua")
-
+-- Generate project
 local platformData
 
 if (os.is64bit()) then
@@ -31,15 +57,12 @@ workspace "Teal"
 
     filter {}
 
-    if (os.ishost("windows")) then
-        filter "action:vs*"
-            local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
+    if (os.ishost("windows") and string.sub(_ACTION, 0, 2) == "vs") then
+        local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
 
-            project("Regenerate premake")
-                kind("Utility")
-                prebuildcommands("cd .. && " .. commandLine)
-
-        filter {}
+        project("Regenerate premake")
+            kind("Utility")
+            prebuildcommands("cd .. && " .. commandLine)
     end
 
 

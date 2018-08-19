@@ -4,10 +4,6 @@
 -- Copyright (c) 2002-2011 Jason Perkins and the Premake project
 --
 	local p = premake
-
-	p.modules.codeblocks = {}
-	p.modules.codeblocks._VERSION = p._VERSION
-
 	local codeblocks = p.modules.codeblocks
 
 	newaction {
