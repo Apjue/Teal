@@ -193,10 +193,21 @@ ACTION.execute = function(self, root)
     end
 
     -- Windows libraries
-    os.copyfile(root .. "/wdirs/" .. platform .. "/assimp.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/assimp.dll")
-    os.copyfile(root .. "/wdirs/" .. platform .. "/libsndfile-1.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/libsndfile-1.dll")
-    os.copyfile(root .. "/wdirs/" .. platform .. "/Newton.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/Newton.dll")
-    os.copyfile(root .. "/wdirs/" .. platform .. "/soft_oal.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/soft_oal.dll")
+    if (#os.matchfiles(root .. "/wdirs/" .. platform .. "/assimp.dll") == 1) then
+        os.copyfile(root .. "/wdirs/" .. platform .. "/assimp.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/assimp.dll")
+    end
+
+    if (#os.matchfiles(root .. "/wdirs/" .. platform .. "/libsndfile-1.dll") == 1) then
+        os.copyfile(root .. "/wdirs/" .. platform .. "/libsndfile-1.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/libsndfile-1.dll")
+    end
+    
+    if (#os.matchfiles(root .. "/wdirs/" .. platform .. "/Newton.dll") == 1) then
+        os.copyfile(root .. "/wdirs/" .. platform .. "/Newton.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/Newton.dll")
+    end
+    
+    if (#os.matchfiles(root .. "/wdirs/" .. platform .. "/soft_oal.dll") == 1) then
+        os.copyfile(root .. "/wdirs/" .. platform .. "/soft_oal.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/soft_oal.dll")
+    end
 
     print("Copying executable...")
     os.copyfile(executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Teal-" .. config .. "-" .. platform .. path.getextension(executable))
