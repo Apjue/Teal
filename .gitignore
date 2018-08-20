@@ -100,3 +100,6 @@ Teal.exe
 build/vs*
 build/gmake
 build/codeblocks
+
+# Packages
+package_*

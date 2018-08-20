@@ -40,6 +40,9 @@ ACTION.execute = function(self, root)
         -- /build/package/bin/ => /wdirs/(arch)/
         print("Copying binaries into /wdirs/(x86|x64)/...")
 
+        os.mkdir(root .. "/wdirs/x86/")
+        os.mkdir(root .. "/wdirs/x64/")
+
         matches = os.matchfiles(folder .. "/package/bin/x86/*")
         for k, v in pairs(matches) do
             os.copyfile(v, root .. "/wdirs/x86/" .. path.getname(v))
@@ -52,6 +55,8 @@ ACTION.execute = function(self, root)
 
         -- /build/package/include/ => /extlibs/include/nazara/
         print("Copying include files into /extlibs/include/nazara/...")
+
+        os.mkdir(root .. "/extlibs/include/nazara")
 
         copy_folder(folder .. "/package/include/Nazara", root .. "/extlibs/include/nazara/Nazara")
         copy_folder(folder .. "/package/include/NDK",    root .. "/extlibs/include/nazara/NDK")
@@ -72,6 +77,13 @@ ACTION.execute = function(self, root)
                 error("No archive location provided, couldn't determine it using the archive's name")
             end
         end
+
+
+        os.mkdir(root .. "/extlibs/lib/" .. location)
+        os.mkdir(root .. "/extlibs/lib/" .. location.. "/x86")
+        os.mkdir(root .. "/extlibs/lib/" .. location.. "/x86/nazara")
+        os.mkdir(root .. "/extlibs/lib/" .. location.. "/x64")
+        os.mkdir(root .. "/extlibs/lib/" .. location.. "/x64/nazara")
 
         matches = os.matchfiles(folder .. "/package/lib/x86/*")
         for k, v in pairs(matches) do

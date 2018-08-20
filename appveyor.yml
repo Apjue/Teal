@@ -74,29 +74,9 @@ build_script:
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
-  - mkdir result && cd result
-  - mkdir Teal
-  - mv ../%TOOLSET%/%CONFIG%/%PLATFORM%/Teal.exe Teal/Teal-%CONFIG%-%PLATFORM%.exe
-  - cd Teal
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraAudio%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraCore%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraGraphics%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraLua%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraNetwork%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraNoise%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraPhysics2D%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraPhysics3D%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraRenderer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraSDK%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraSDKServer%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraUtility%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/NazaraPlatform%SUFFIXDLL% ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/assimp.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/libsndfile-1.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/Newton.dll ./
-  - mv %APPVEYOR_BUILD_FOLDER%/build/NazaraEngine/package/bin/%PLATFORM%/soft_oal.dll ./
-  - cd ..
-  - mv %APPVEYOR_BUILD_FOLDER%/wdirs/data ./
+  - premake5.exe --package-config=%CONFIG%_%PLATFORM%
+  - cp -r %APPVEYOR_BUILD_FOLDER%/package_%CONFIG%_%PLATFORM% result
+  - cd result
   - echo Appveyor Build %APPVEYOR_BUILD_NUMBER% (%CONFIG% %PLATFORM%) [ID %APPVEYOR_BUILD_ID%] on branch %APPVEYOR_REPO_BRANCH%\nCommit hash - %APPVEYOR_REPO_COMMIT%\n\nCommit message:\n"%APPVEYOR_REPO_COMMIT_MESSAGE%" > commit-info.log
   - 7z a Teal.7z * && cd ../..
 

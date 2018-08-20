@@ -49,7 +49,7 @@ script:
         cd /Teal/extlibs/lib/ &&
         mkdir -p ${ACTION} && cd ${ACTION} &&
         mkdir -p ${PLATFORM} && cd ${PLATFORM} &&
-        mkdir -p nazara && mkdir -p micropather &&
+        mkdir -p micropather &&
 
         cd micropather &&
         cp -r /Teal/extlibs/src/micropather/** ./ &&
@@ -58,9 +58,6 @@ script:
         make config=${CONFIG}_${PLATFORM} &&
         cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a ./ &&
         cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /Teal/extlibs/lib/${ACTION}/${PLATFORM}/micropather &&
-
-        cd /Teal/wdirs/ &&
-        mkdir -p x86 && mkdir -p x64 &&
 
         cd /Teal/build &&
         ./premake5-linux64 --archive-location=${ACTION} install_nazara &&
@@ -74,35 +71,12 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo chmod -R 777 .
   
-  - cd ${TRAVIS_BUILD_DIR}/build/${ACTION}
-  - mkdir result
-  - cd result
-  - mkdir Teal
-  - cd ..
-  - cp ${CONFIG_UPPER}/${PLATFORM}/Teal ./result/Teal/
-
-  - cd result/Teal
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraAudio${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraCore${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraGraphics${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraLua${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraNetwork${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraNoise${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraPhysics2D${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraPhysics3D${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraRenderer${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraSDK${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraSDKServer${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraUtility${SUFFIX}.so ./
-  - cp ${TRAVIS_BUILD_DIR}/build/NazaraEngine/bin/${PLATFORM}/libNazaraPlatform${SUFFIX}.so ./
-  
-  - cd ..
-  - cp -r ${TRAVIS_BUILD_DIR}/wdirs/data ./
+  - cd ${TRAVIS_BUILD_DIR}/build/
+  - ./premake5-linux64 --package-config=${CONFIG}_${PLATFORM} package
 
   - cd ${TRAVIS_BUILD_DIR}
-  - mkdir buildresults
+  - cp -r ${TRAVIS_BUILD_DIR}/package_${CONFIG}_${PLATFORM} buildresults
   - cd buildresults
-  - cp -r ${TRAVIS_BUILD_DIR}/build/${ACTION}/result/* ./
   - printf "Travis CI Build ${TRAVIS_JOB_NUMBER} (${CONFIG} ${PLATFORM}) on branch ${TRAVIS_BRANCH}\nCommit hash - ${TRAVIS_COMMIT}\n\nCommit message:\n${TRAVIS_COMMIT_MESSAGE}" > commit-info.log
 
   - tar -zcvf teal.tar.gz *

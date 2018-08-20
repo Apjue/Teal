@@ -4,7 +4,7 @@ dofile("script/actions/codeblocks/_codeblocks.lua")
 
 local rootFolder = ".."
 
--- Load my custom actions
+-- Load Teal's custom actions
 local Actions = {}
 local actions = os.matchfiles("script/actions/utility/*.lua")
 
