@@ -44,9 +44,7 @@ script:
 
         cd /Teal/build &&
         curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-gcc-8.0.1-linux64-libc6-2.27-3-nightly.7z -Lo NazaraEngine.7z &&
-        7z x NazaraEngine.7z &&
-        mkdir NazaraEngine &&
-        mv package NazaraEngine/package &&
+        7z x NazaraEngine.7z -oNazaraEngine &&
 
         cd /Teal/extlibs/lib/ &&
         mkdir -p ${ACTION} && cd ${ACTION} &&
