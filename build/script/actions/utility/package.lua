@@ -59,7 +59,7 @@ ACTION.execute = function(self, root)
         local counter = 1
 
         for k, v in pairs(all_folders) do
-            if (v ~= "script" and v ~= "utility") then
+            if (v ~= "script" and v ~= "utility" and not string.find(v, "NazaraEngine")) then
                 real_folders[counter] = v
                 counter = counter + 1
             end
