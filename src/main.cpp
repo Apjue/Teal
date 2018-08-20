@@ -62,8 +62,8 @@ int main()
         std::cerr << "\n =============== \n"
                   << "A problem occurred!"
                   << "\nError message: " << e.what()
-                  << "\n =============== \n"
-                  << std::flush;
+                  << "\n =============== \n\n"
+                  << std::endl;
 
         return EXIT_FAILURE;
     }
