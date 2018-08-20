@@ -47,6 +47,9 @@ ACTION.execute = function(self, root)
         -- /build/package/bin/ => /wdirs/(arch)/
         print("Copying binaries into /wdirs/(x86|x64)/...")
 
+        os.rmdir(root .. "/wdirs/x86/")
+        os.rmdir(root .. "/wdirs/x64/")
+
         os.mkdir(root .. "/wdirs/x86/")
         os.mkdir(root .. "/wdirs/x64/")
 
@@ -63,6 +66,7 @@ ACTION.execute = function(self, root)
         -- /build/package/include/ => /extlibs/include/nazara/
         print("Copying include files into /extlibs/include/nazara/...")
 
+        os.rmdir(root .. "/extlibs/include/nazara")
         os.mkdir(root .. "/extlibs/include/nazara")
 
         copy_folder(folder .. "/" .. package .. "include/Nazara", root .. "/extlibs/include/nazara/Nazara")
@@ -87,9 +91,13 @@ ACTION.execute = function(self, root)
 
 
         os.mkdir(root .. "/extlibs/lib/" .. location)
+
         os.mkdir(root .. "/extlibs/lib/" .. location.. "/x86")
+        os.rmdir(root .. "/extlibs/lib/" .. location.. "/x86/nazara")
         os.mkdir(root .. "/extlibs/lib/" .. location.. "/x86/nazara")
+
         os.mkdir(root .. "/extlibs/lib/" .. location.. "/x64")
+        os.rmdir(root .. "/extlibs/lib/" .. location.. "/x64/nazara")
         os.mkdir(root .. "/extlibs/lib/" .. location.. "/x64/nazara")
 
         matches = os.matchfiles(folder .. "/" .. package .. "lib/x86/*")
