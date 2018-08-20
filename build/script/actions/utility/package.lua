@@ -33,10 +33,6 @@ ACTION.execute = function(self, root)
         end
     end
 
-    local firstToUpper = function(str)
-        return (str:gsub("^%l", string.upper))
-    end
-
     local package_config = _OPTIONS["package-config"]
 
     if (not package_config or #package_config == 0) then
@@ -99,7 +95,7 @@ ACTION.execute = function(self, root)
     end
 
 
-    local executableFolder = action .. "/" .. firstToUpper(config) .. "/" .. platform
+    local executableFolder = root .. "/wdirs/" .. platform
     local executable
 
     local executableMatches = os.matchfiles(executableFolder .. "/Teal")
@@ -112,6 +108,7 @@ ACTION.execute = function(self, root)
         for k, v in pairs(executableMatches) do
             if (path.getextension(v) == ".exe") then
                 executable = v
+                break
             end
         end
 

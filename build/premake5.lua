@@ -69,8 +69,9 @@ workspace "Teal"
     project "Teal"
         kind "ConsoleApp"
         language "C++"
-        targetdir(_ACTION .. "/%{cfg.buildcfg}/%{cfg.platform}/")
+        targetdir(rootFolder .. "/wdirs/%{cfg.platform}/")
         debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
+        runpathdirs { rootFolder .. "/wdirs/%{cfg.platform}/" }
 
         files
         {
@@ -95,7 +96,6 @@ workspace "Teal"
         pic "On"
         cppdialect "C++14"
         flags { "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers" }
-        runpathdirs { rootFolder .. "/wdirs/%{cfg.platform}/" }
 
         filter "action:vs*"
             defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
