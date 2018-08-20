@@ -11,16 +11,18 @@ ACTION.description = "Remove Nazara Engine's files in /wdirs/ and /extlibs/"
 
 ACTION.execute = function(self, root)
     -- Remove /wdirs/ files
+    print("Cleaning /wdirs/x86/ and /wdirs/x64/...")
+
     os.rmdir(root .. "/wdirs/x86")
     os.rmdir(root .. "/wdirs/x64")
     os.mkdir(root .. "/wdirs/x86")
     os.mkdir(root .. "/wdirs/x64")
-    print("Cleaned /wdirs/x86/ and /wdirs/x64/")
 
     -- Remove /extlibs/include/nazara/ files
+    print("Cleaning /extlibs/include/nazara/...")
+
     os.rmdir(root .. "/extlibs/include/nazara")
     os.mkdir(root .. "/extlibs/include/nazara")
-    print("Cleaned /extlibs/include/nazara/")
 
     -- Remove /extlibs/lib/ files
     local toolset = _OPTIONS["toolset"]
@@ -47,9 +49,10 @@ ACTION.execute = function(self, root)
         end
     end
 
+    print("Cleaning /extlibs/lib/" .. toolset .. "/x86/nazara/ and /extlibs/lib/" .. toolset .. "/x64/nazara/...")
+
     os.rmdir(root .. "/extlibs/lib/" .. toolset .. "/x86/nazara")
     os.rmdir(root .. "/extlibs/lib/" .. toolset .. "/x64/nazara")
     os.mkdir(root .. "/extlibs/lib/" .. toolset .. "/x86/nazara")
     os.mkdir(root .. "/extlibs/lib/" .. toolset .. "/x64/nazara")
-    print("Cleaned /extlibs/lib/" .. toolset .. "/x86/nazara/ and /extlibs/lib/" .. toolset .. "/x64/nazara/")
 end

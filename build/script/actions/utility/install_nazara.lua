@@ -38,6 +38,8 @@ ACTION.execute = function(self, root)
         local matches
 
         -- /build/package/bin/ => /wdirs/(arch)/
+        print("Copying binaries into /wdirs/(x86|x64)/...")
+
         matches = os.matchfiles(folder .. "/package/bin/x86/*")
         for k, v in pairs(matches) do
             os.copyfile(v, root .. "/wdirs/x86/" .. path.getname(v))
@@ -48,13 +50,11 @@ ACTION.execute = function(self, root)
             os.copyfile(v, root .. "/wdirs/x64/" .. path.getname(v))
         end
 
-        print("Copied binaries into /wdirs/(x86|x64)/")
-
         -- /build/package/include/ => /extlibs/include/nazara/
+        print("Copying include files into /extlibs/include/nazara/...")
+
         copy_folder(folder .. "/package/include/Nazara", root .. "/extlibs/include/nazara/Nazara")
         copy_folder(folder .. "/package/include/NDK",    root .. "/extlibs/include/nazara/NDK")
-        
-        print("Copied include files into /extlibs/include/nazara/")
 
         -- /build/package/lib/(arch)/ => /extlibs/lib/<location>/(arch)/nazara/
         local location = _OPTIONS["archive-location"]
@@ -86,6 +86,8 @@ ACTION.execute = function(self, root)
         if (#matches > 0) then
             print("Copied libraries into /extlibs/lib/" .. location .. "/(x86|x64)/nazara/")
         else
+            print("Copying binaries into /extlibs/lib/" .. location .. "/(x86|x64)/nazara/...")
+
             matches = os.matchfiles(folder .. "/package/bin/x86/*")
             for k, v in pairs(matches) do
                 os.copyfile(v, root .. "/extlibs/lib/" .. location .. "/x86/nazara/" .. path.getname(v))
@@ -95,8 +97,6 @@ ACTION.execute = function(self, root)
             for k, v in pairs(matches) do
                 os.copyfile(v, root .. "/extlibs/lib/" .. location .. "/x64/nazara/" .. path.getname(v))
             end
-
-            print("Copied binaries into /extlibs/lib/" .. location .. "/(x86|x64)/nazara/")
         end
     end
 
