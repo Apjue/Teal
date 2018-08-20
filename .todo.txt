@@ -2,15 +2,7 @@ Main todo:
 - Finish fight feature!
 - Fix animation "reset" bug
 - Fix render order bug with characters
-
 - Implement tile layers (adds possibility to make bridges, stairs)
-- Maybe implement LuaImplReplyVal in nzstlcompatibility, for std::(unordered_)map
 
 UI Todo:
-- Make correct menu bar ("spell bar")
-
-Todo after updating Nazara:
-- Update build.md (include files > nazara)
-- Fix raycasting [Not a Teal/raycasting bug: graphics bug, update nazara when patch will be released]
-- invalid texture in Sprite::SetTexture after move will be fixed
-- Remove LuaImplQueryArg for Nz::Vector2i in nzstlcompatibility.hpp when PR #170 will be merged
+- Fix menu bar ("spell bar") not appearing
