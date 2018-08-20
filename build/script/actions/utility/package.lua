@@ -98,12 +98,14 @@ ACTION.execute = function(self, root)
     local executableFolder = root .. "/wdirs/" .. platform
     local executable
 
-    local executableMatches = os.matchfiles(executableFolder .. "/Teal")
+    if (#os.matchfiles(executableFolder .. "/Teal-debug") == 1) then
+        executable = os.matchfiles(executableFolder .. "/Teal-debug")
 
-    if (#executableMatches == 1) then
-        executable = executableMatches[1]
+    elseif (#os.matchfiles(executableFolder .. "/Teal-release") == 1) then
+        executable = os.matchfiles(executableFolder .. "/Teal-release")
+
     else
-        executableMatches = os.matchfiles(executableFolder .. "/Teal.*")
+        local executableMatches = os.matchfiles(executableFolder .. "/Teal-*.*")
 
         for k, v in pairs(executableMatches) do
             if (path.getextension(v) == ".exe") then
@@ -174,6 +176,7 @@ ACTION.execute = function(self, root)
         for k, v in pairs(libs) do
             os.copyfile(v, root .. "/package_" .. config .. "_" .. platform .. "/Teal/" .. path.getname(v))
         end
+        
     else
         print("Didn't understand the config (\"" .. config .. "\"); Copying all libraries...")
         
