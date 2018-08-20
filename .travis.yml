@@ -72,7 +72,7 @@ after_success:
   - sudo chmod -R 777 .
   
   - cd ${TRAVIS_BUILD_DIR}/build/
-  - ./premake5-linux64 --package-config=${CONFIG}_${PLATFORM} package
+  - ./premake5-linux64 --package-config=${CONFIG}_${PLATFORM} --package-action=gmake package
 
   - cd ${TRAVIS_BUILD_DIR}
   - cp -r ${TRAVIS_BUILD_DIR}/package_${CONFIG}_${PLATFORM} buildresults

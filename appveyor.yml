@@ -74,7 +74,7 @@ build_script:
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build/
-  - premake5.exe --package-config=%CONFIG%_%PLATFORM%
+  - premake5.exe --package-config=%CONFIG%_%PLATFORM% --package-action=vs2017 package
   - cp -r %APPVEYOR_BUILD_FOLDER%/package_%CONFIG%_%PLATFORM% result
   - cd result
   - echo Appveyor Build %APPVEYOR_BUILD_NUMBER% (%CONFIG% %PLATFORM%) [ID %APPVEYOR_BUILD_ID%] on branch %APPVEYOR_REPO_BRANCH%\nCommit hash - %APPVEYOR_REPO_COMMIT%\n\nCommit message:\n"%APPVEYOR_REPO_COMMIT_MESSAGE%" > commit-info.log
