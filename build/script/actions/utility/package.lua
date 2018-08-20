@@ -123,7 +123,7 @@ ACTION.execute = function(self, root)
     -- package_<config>_<platform>
     -- -- data (from /wdirs/data/)
     -- -- Teal
-    -- -- -- Teal-release-x64[.exe] (from /build/<action>/<config>/<platform>/Teal[.exe])
+    -- -- -- Teal-release-x64[.exe] (from /wdirs/<platform>/Teal[.exe])
     -- -- -- libraries (from /wdirs/<platform>/)
 
     if (#os.matchdirs(root .. "/package_" .. config .. "_" .. platform) == 1) then
