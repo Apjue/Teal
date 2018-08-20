@@ -197,6 +197,4 @@ ACTION.execute = function(self, root)
             end
         end
     end
-
-    --local answer = io.read(1)
 end
