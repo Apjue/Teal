@@ -5,7 +5,7 @@ Micropather's files are already provided in `/extlibs/src/micropather/` and `mic
 ## Nazara
 Teal doesn't use Nazara v0.4, it uses a nightly. You can use any Nazara nightly as long as it is more recent than [`commit 981c5b7`](https://github.com/DigitalPulseSoftware/NazaraEngine/commit/981c5b7e2719091fceb68d62664aff36b81c6838)  
 [Link to NazaraEngine's GitHub repository](https://github.com/DigitalPulseSoftware/NazaraEngine) ; Some prebuilts are available [here](https://github.com/S6066/NazaraEngine/releases/tag/v0.4.y)  
-- Unzip the archive into `/build/`  
+- Unzip the archive into `/build/` (or make a symbolic link if you already have prebuilts somewhere else)  
 - Use `premake5 --lib-toolset=<vs2017|gmake2|...> install_nazara` (if you need to update Nazara Engine, you can easily wipe the files with `premake5 --toolset=<...> clean_nazara`)  
 or (manual way):  
 - Place \[`package/include/`\](`Nazara`|`NDK`) into `/extlibs/include/nazara/`
