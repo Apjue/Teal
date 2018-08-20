@@ -65,7 +65,7 @@ install:
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%/build
-  - premake5.exe --archive-location=%TOOLSET% install_nazara
+  - premake5.exe --lib-toolset=%TOOLSET% install_nazara
   - premake5.exe %TOOLSET%
 
 build_script:

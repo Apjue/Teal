@@ -60,7 +60,7 @@ script:
         cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather${SUFFIX}.a /Teal/extlibs/lib/${ACTION}/${PLATFORM}/micropather &&
 
         cd /Teal/build &&
-        ./premake5-linux64 --archive-location=${ACTION} install_nazara &&
+        ./premake5-linux64 --lib-toolset=${ACTION} install_nazara &&
         ./premake5-linux64 ${PREMAKEARGS} ${ACTION} &&
         cd ${ACTION} &&
         make -j4 config=${CONFIG}_${PLATFORM}

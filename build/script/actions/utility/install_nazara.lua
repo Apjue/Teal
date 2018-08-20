@@ -8,7 +8,7 @@ newoption
 
 newoption
 {
-    trigger     = "archive-location",
+    trigger     = "lib-toolset",
     description = "[install_nazara] Specifies the directory name where Nazara Engine's files will be copied (/extlibs/lib/<location>/(arch)/nazara)",
 }
 
@@ -62,7 +62,7 @@ ACTION.execute = function(self, root)
         copy_folder(folder .. "/package/include/NDK",    root .. "/extlibs/include/nazara/NDK")
 
         -- /build/package/lib/(arch)/ => /extlibs/lib/<location>/(arch)/nazara/
-        local location = _OPTIONS["archive-location"]
+        local location = _OPTIONS["lib-toolset"]
 
         if (not location or #location == 0) then
             -- No location provided, try to determine it automatically
