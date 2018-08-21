@@ -1,13 +1,11 @@
 Main todo:
-- Finish fight feature!
-- Fix render order bug with characters
-- Implement tile layers (adds possibility to make bridges, stairs)
+- Fix weird animation with entities using RandomMovementSystem (animutil?)
 - TileData: for performance, make "flags" string *really* flags, like, an enum or Nz::Flags
+- Finish fight feature!
+
+- Fix render order bug with characters
 - AISystem "!move.playerInitiated and no path found (something blocked and still blocking)"
-- Add RandomMovementComponent to entities
-	Bugs:
-	- Weird animation walk (animutil?)
-	- todo: prefer tiles with the exact range
+- Implement tile layers (adds possibility to make bridges, stairs)
 
 UI Todo:
 - Fix menu bar ("spell bar") not appearing

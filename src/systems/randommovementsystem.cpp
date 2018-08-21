@@ -62,23 +62,37 @@ void RandomMovementSystem::OnUpdate(float elapsed)
         if (goSomewhere && map)
         {
             std::vector<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, true);
-            std::vector<AbsTile> maxDistanceTiles; // some tiles of nearTiles may be at a >rd.range distance (e.g. if there's an obstacle during the path)
+            std::vector<std::pair<AbsTile /* tile pos */, std::size_t /* path size to reach tile */>> maxDistanceTiles;
+            std::vector<AbsTile> priorityTiles; // Tiles with exact path size
 
-            for (const AbsTile& tile : nearTiles)
+            for (const AbsTile& tile : nearTiles) // some tiles of nearTiles may be at a >rd.range distance (e.g. if there's an obstacle during the path)
             {
                 std::vector<DirectionFlags> path = computePath(pos.xy, tile, m_pather.get());
 
                 if (path.size() <= rd.range && !path.empty())
-                    maxDistanceTiles.push_back(tile);
+                {
+                    maxDistanceTiles.push_back({ tile, path.size() });
+
+                    if (path.size() == rd.range)
+                        priorityTiles.push_back(tile);
+                }
             }
 
             if (maxDistanceTiles.empty())
                 return;
 
             unsigned randomNumber = m_uni(rng);
-            randomNumber %= maxDistanceTiles.size();
 
-            mov.tile = maxDistanceTiles[randomNumber];
+            if (priorityTiles.size() > 2)
+            {
+                randomNumber %= priorityTiles.size();
+                mov.tile = priorityTiles[randomNumber];
+            }
+            else
+            {
+                randomNumber %= maxDistanceTiles.size();
+                mov.tile = maxDistanceTiles[randomNumber].first;
+            }
         }
     }
 }
