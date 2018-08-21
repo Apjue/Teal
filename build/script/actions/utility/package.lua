@@ -119,13 +119,6 @@ ACTION.execute = function(self, root)
         end
     end
 
-    -- structure:
-    -- package_<config>_<platform>
-    -- -- data (from /wdirs/data/)
-    -- -- Teal
-    -- -- -- Teal-release-x64[.exe] (from /wdirs/<platform>/Teal[.exe])
-    -- -- -- libraries (from /wdirs/<platform>/)
-
     if (#os.matchdirs(root .. "/package_" .. config .. "_" .. platform) == 1) then
         os.rmdir(root .. "/package_" .. config .. "_" .. platform)
         print("Warning: Existing folder \"/package_" .. config .. "_" .. platform .. "/\" has been deleted")
