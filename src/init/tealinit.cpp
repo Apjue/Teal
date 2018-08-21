@@ -454,6 +454,10 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
                         e->AddComponent<RandomMovementComponent>(randomMovement.movementInterval, randomMovement.range);
                     }
 
+                    auto& orientComp = e->GetComponent<OrientationComponent>();
+                    Orientation orientation = stringToOrientation(lua.CheckField<Nz::String>("orientation", orientationToString(orientComp.orientation)));
+                    orientComp.orientation = orientation;
+
                     map->getEntities().Insert(e);
                 }
             }
