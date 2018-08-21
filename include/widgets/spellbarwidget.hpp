@@ -94,9 +94,17 @@ private:
     Ndk::EntityOwner m_spellBar;
     Nz::SpriteRef m_spellBarSprite;
 
+    Ndk::EntityOwner m_spellBarFocus;
+    Nz::SpriteRef m_spellBarFocusSprite;
+
+    Ndk::EntityOwner m_spellBarSemiFocus;
+    Nz::SpriteRef m_spellBarSemiFocusSprite;
+
+    bool m_drawSemiFocusSprite { false };
+
     // Arrows buttons
     Ndk::ButtonWidget* m_upArrow {};
-    Ndk::ButtonWidget* m_downArrow {};
+    Ndk::ButtonWidget* m_downArrow {}; // render order ?
 };
 
 #include "spellbarwidget.inl"
