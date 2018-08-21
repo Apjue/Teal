@@ -98,3 +98,24 @@ Nz::Rectui SpellBarWidget::getBoxAABB(Nz::Vector2ui boxNumber) const
     TealAssert(boxNumber <= m_boxNumber, "Box number out of range");
     return { boxNumber * m_boxSize + boxNumber * m_padding, m_boxSize + m_borderSize * 2u };
 }
+
+Nz::Vector2ui SpellBarWidget::getBoxIndex(Nz::Vector2i mouseCoords) const
+{
+    for (unsigned x {}; x < m_boxNumber.x; ++x)
+        for (unsigned y {}; y < m_boxNumber.y; ++y)
+            if (getBoxAABB({ x, y }).Contains(Nz::Vector2ui { mouseCoords }))
+                return { x, y };
+
+    return s_invalidBox;
+}
+
+void SpellBarWidget::OnMouseEnter()
+{
+    m_drawSemiFocusSprite = true;
+}
+
+void SpellBarWidget::OnMouseExit()
+{
+    m_drawSemiFocusSprite = false;
+    m_spellBarSemiFocus->Enable(false);
+}
