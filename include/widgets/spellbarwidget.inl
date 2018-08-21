@@ -3,16 +3,26 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/Components/DebugComponent.hpp>
+#include <NDK/Components/NodeComponent.hpp>
 #include <limits>
 #include "def/layerdef.hpp"
 #include "util/assert.hpp"
 #include "spellbarwidget.hpp"
 
 SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
-    : Ndk::BaseWidget(parent), m_spellBar(CreateEntity(true)), m_spellBarSprite(Nz::Sprite::New()), m_upArrow(Add<Ndk::ButtonWidget>()), m_downArrow(Add<Ndk::ButtonWidget>())
+    : Ndk::BaseWidget(parent), m_spellBar(CreateEntity(true)), m_spellBarSprite(Nz::Sprite::New()), m_spellBarFocus(CreateEntity(true)), m_spellBarFocusSprite(Nz::Sprite::New()),
+    m_spellBarSemiFocus(CreateEntity(true)), m_spellBarSemiFocusSprite(Nz::Sprite::New()), m_upArrow(Add<Ndk::ButtonWidget>()), m_downArrow(Add<Ndk::ButtonWidget>())
 {
     m_spellBar->AddComponent<Ndk::NodeComponent>();
-    m_spellBar->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarSprite, Def::ButtonsLayer);
+    m_spellBar->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarSprite, Def::ButtonsLayer + 1);
+    m_spellBar->AddComponent<Ndk::DebugComponent>().Enable(Ndk::DebugDraw::GraphicsAABB | Ndk::DebugDraw::GraphicsOBB);
+
+    m_spellBarFocus->AddComponent<Ndk::NodeComponent>();
+    m_spellBarFocus->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarFocusSprite, Def::ButtonsLayer + 1);
+
+    m_spellBarSemiFocus->AddComponent<Ndk::NodeComponent>();
+    m_spellBarSemiFocus->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarSemiFocusSprite, Def::ButtonsLayer + 1);
 }
 
 
@@ -38,6 +48,16 @@ void SpellBarWidget::setBoxNumber(Nz::Vector2ui boxNumber)
 {
     m_boxNumber = boxNumber;
     ResizeToContent();
+}
+
+void SpellBarWidget::setDoubleClickInterval(Miliseconds interval)
+{
+    m_doubleClickMaxInterval = interval;
+}
+
+Miliseconds SpellBarWidget::getDoubleClickInterval() const
+{
+    return m_doubleClickMaxInterval;
 }
 
 

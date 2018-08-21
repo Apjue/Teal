@@ -44,6 +44,8 @@ teal_ui_config =
             box_size = { x = 37, y = 37 },
             box_number = { x = 8, y = 2 },
 
+            double_click_interval = 1000, -- miliseconds
+
             arrows =
             {
                 down =

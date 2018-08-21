@@ -390,17 +390,19 @@ void GameState::addWidgets()
 
     TealException(lua.GetField("spell_bar") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
     {
-
+        //m_world->GetSystem<Ndk::RenderSystem>().EnableCulling(false); // BREAKS SPRITES & ANIMATIONS!
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
 
         spellBar->SetPosition(lua.CheckField<Nz::Vector2f>("pos"));
         spellBar->setBarTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
-        spellBar->setBarSize(lua.CheckField<Nz::Vector2f>("size", Nz::Vector2f(Nz::Vector2ui(spellBar->getBarTexture()->GetSize()))));
+        spellBar->setBarSize(lua.CheckField<Nz::Vector2f>("size", Nz::Vector2f(Nz::Vector2ui(spellBar->getBarTexture()->GetSize())), -1));
 
         spellBar->setBorderSize(lua.CheckField<Nz::Vector2ui>("border_size"));
         spellBar->setPadding(lua.CheckField<Nz::Vector2ui>("padding"));
         spellBar->setBoxSize(lua.CheckField<Nz::Vector2ui>("box_size"));
         spellBar->setBoxNumber(lua.CheckField<Nz::Vector2ui>("box_number"));
+
+        spellBar->setDoubleClickInterval(lua.CheckField<Miliseconds>("double_click_interval", spellBar->getDoubleClickInterval(), -1));
 
         TealException(lua.GetField("arrows") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows isn't a table!");
         {
@@ -413,19 +415,21 @@ void GameState::addWidgets()
                 downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
 
                 downArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
+                downArrow->SetColor(Nz::Color::White, Nz::Color::White);
             }
 
             lua.Pop();
 
             TealException(lua.GetField("up") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.up isn't a table!");
             {
-                Ndk::ButtonWidget* downArrow = spellBar->getDownArrow();
+                Ndk::ButtonWidget* upArrow = spellBar->getUpArrow();
 
-                downArrow->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
-                downArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
-                downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
+                upArrow->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
+                upArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
+                upArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
 
-                downArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
+                upArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", upArrow->GetSize()));
+                upArrow->SetColor(Nz::Color::White, Nz::Color::White);
             }
 
             lua.Pop();
