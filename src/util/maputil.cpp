@@ -260,7 +260,7 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
 std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles)
 {
     if (range == 0)
-        return {}; // but why
+        return { pos }; // but why
 
     MapDataRef map = getCurrentMap()->getCurrentMap();
     std::vector<AbsTile> tilesInRange;
