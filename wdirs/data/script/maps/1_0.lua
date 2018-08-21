@@ -6,13 +6,34 @@ teal_map =
         {
             codename = "villager",
             type = "character",
-            pos = { x = 4, y = 9 },
+            pos = { x = 6, y = 10 },
 
             random_movement =
             {
                 movement_interval = 5,
                 range = 2
             }
+        },
+        
+        {
+            codename = "villager",
+            type = "character",
+            pos = { x = 2, y = 5 },
+            orientation = "right"
+        },
+        
+        {
+            codename = "villager",
+            type = "character",
+            pos = { x = 4, y = 5 },
+            orientation = "left"
+        },
+        
+        {
+            codename = "villager",
+            type = "character",
+            pos = { x = 3, y = 7 },
+            orientation = "up"
         }
     },
 
