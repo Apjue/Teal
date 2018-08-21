@@ -30,6 +30,7 @@ enum class Orientation
 };
 
 inline Orientation stringToOrientation(Nz::String string);
+inline Nz::String orientationToString(Orientation orientation);
 
 enum class Direction
 {

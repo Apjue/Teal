@@ -48,7 +48,39 @@ inline Orientation stringToOrientation(Nz::String string)
     if (string == "upright")
         return Orientation::UpRight;
 
-    return {};
+    throw std::runtime_error { "Invalid orientation" };
+}
+
+inline Nz::String orientationToString(Orientation orientation)
+{
+    switch (orientation)
+    {
+        case Orientation::Down:
+            return "down";
+
+        case Orientation::DownRight:
+            return "downright";
+
+        case Orientation::Right:
+            return "right";
+
+        case Orientation::UpRight:
+            return "upright";
+
+        case Orientation::Up:
+            return "up";
+
+        case Orientation::UpLeft:
+            return "upleft";
+
+        case Orientation::Left:
+            return "left";
+
+        case Orientation::DownLeft:
+            return "downleft";
+    }
+
+    throw std::runtime_error { "Invalid orientation" };
 }
 
 
