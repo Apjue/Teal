@@ -263,7 +263,7 @@ void GameState::initEventHandler()
 
     m_keyPressEvent.Connect(eventHandler.OnKeyPressed, [this] (const Nz::EventHandler*, const Nz::WindowEvent::KeyEvent& event)
     {
-        switch (event.code) // Debug things
+        switch (event.code)
         {
             case Nz::Keyboard::C: // Characteristics
                 printCharacteristics();
@@ -271,6 +271,10 @@ void GameState::initEventHandler()
 
             case Nz::Keyboard::I: // Inventory
                 printInventory(event.shift);
+                break;
+
+            case Nz::Keyboard::O: // ID
+                NazaraNotice(Nz::String { "Character's Entity ID: " }.Append(Nz::String::Number(m_charac->GetId())));
                 break;
 
             case Nz::Keyboard::P: // Position
