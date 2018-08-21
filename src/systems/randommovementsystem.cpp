@@ -68,7 +68,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             {
                 std::vector<DirectionFlags> path = computePath(pos.xy, tile, m_pather.get());
 
-                if (path.size() <= rd.range)
+                if (path.size() <= rd.range && !path.empty())
                     maxDistanceTiles.push_back(tile);
             }
 
