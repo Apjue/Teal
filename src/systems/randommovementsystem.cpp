@@ -39,6 +39,9 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
     for (auto& e : GetEntities())
     {
+        if (e->HasComponent<FightComponent>() && e->GetComponent<FightComponent>().isFighting)
+            continue;
+
         auto& rd = e->GetComponent<RandomMovementComponent>();
         auto& mov = e->GetComponent<MoveComponent>();
         auto& pos = e->GetComponent<PositionComponent>();
@@ -52,8 +55,6 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             goSomewhere = true;
         }
 
-        goSomewhere = e->HasComponent<FightComponent>() && e->GetComponent<FightComponent>().isFighting ? false : goSomewhere;
-
         const MapInstance* map = getCurrentMap();
         TealAssert(map->getCurrentMap().IsValid(), "Map isn't valid !");
         TealAssert(m_pather, "Pather isn't valid !");
@@ -61,7 +62,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
         if (goSomewhere && map)
         {
             std::vector<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, true);
-            std::vector<AbsTile> maxDistanceTiles; // some tiles of nearTiles may be at a >rd.range distance
+            std::vector<AbsTile> maxDistanceTiles; // some tiles of nearTiles may be at a >rd.range distance (e.g. if there's an obstacle during the path)
 
             for (const AbsTile& tile : nearTiles)
             {

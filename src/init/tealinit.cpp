@@ -443,6 +443,17 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
                     e->GetComponent<PositionComponent>().xy = pos;
                     refreshGraphicsPos(e);
 
+
+                    auto randomMovement = lua.CheckField<CharacterData::RandomMovement>("random_movement");
+
+                    if (randomMovement.randomMovement)
+                    {
+                        if (e->HasComponent<RandomMovementComponent>())
+                            e->RemoveComponent<RandomMovementComponent>();
+
+                        e->AddComponent<RandomMovementComponent>(randomMovement.movementInterval, randomMovement.range);
+                    }
+
                     map->getEntities().Insert(e);
                 }
             }

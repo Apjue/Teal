@@ -91,7 +91,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
 
     state.Pop();
 
-    data->randomMovement = state.CheckField<CharacterData::RandomMovement>("random_movement", index);
+    data->randomMovement = state.CheckField<CharacterData::RandomMovement>("random_movement", index); // Not sure about this
     data->attack = state.CheckField<CharacterData::Elements>("attack", index);
     data->resistance = state.CheckField<CharacterData::Elements>("resistance", index);
     data->fight = state.CheckField<CharacterData::Fight>("fight", index);

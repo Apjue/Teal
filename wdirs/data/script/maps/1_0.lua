@@ -6,7 +6,13 @@ teal_map =
         {
             codename = "villager",
             type = "character",
-            pos = { x = 4, y = 9 }
+            pos = { x = 4, y = 9 },
+
+            random_movement =
+            {
+                movement_interval = 5,
+                range = 2
+            }
         }
     },
 
