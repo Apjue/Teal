@@ -1,6 +1,5 @@
 Main todo:
 - Finish fight feature!
-- Fix animation "reset" bug
 - Fix render order bug with characters
 - Implement tile layers (adds possibility to make bridges, stairs)
 

@@ -85,13 +85,13 @@ void animate(Nz::Vector2ui startCoords, const Nz::SpriteRef& sprite, AnimationDa
     switch (animType)
     {
         case AnimationComponent::Walk:
-            sprite->SetTextureRect({ startCoords.x, (!pathSize || maxframe == 0 ? 0 : startCoords.y), animData.size.x, animData.size.y });
-            animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
+            sprite->SetTextureRect({ startCoords.x, (!moving || maxframe == 0 ? 0 : startCoords.y), animData.size.x, animData.size.y });
+            animData.frame = (!moving || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
         case AnimationComponent::Run:
-            sprite->SetTextureRect({ startCoords.x, (!pathSize || maxframe == 0 ? 0 : startCoords.y), animData.size.x, animData.size.y });
-            animData.frame = (!pathSize || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
+            sprite->SetTextureRect({ startCoords.x, (!moving || maxframe == 0 ? 0 : startCoords.y), animData.size.x, animData.size.y });
+            animData.frame = (!moving || maxframe == 0 || animData.frame >= maxframe ? 0 : animData.frame + 1);
             break;
 
         default:
