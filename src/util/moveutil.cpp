@@ -52,16 +52,15 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
 
         path.erase(path.begin()); // To get next tile
 
-        if (!path.empty() && !fightMode && e->HasComponent<MoveComponent>())
-            recomputePathIfObstacle(e);
-    }
-
-    if (path.empty()) // Finished path
         if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)
         {
             refreshOccupiedTiles();
             clearPatherCache();
         }
+
+        if (!path.empty() && !fightMode && e->HasComponent<MoveComponent>())
+            recomputePathIfObstacle(e);
+    }
 
     if (isMapEntity(e))
         refreshGraphicsPos(e);
