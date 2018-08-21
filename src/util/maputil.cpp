@@ -257,7 +257,7 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
     return positions;
 }
 
-std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles)
+std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles, bool removeOccupiedTiles)
 {
     if (range == 0)
         return { pos }; // but why
@@ -286,7 +286,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
         if (!tileData.isVisible())
             continue;
 
-        if (!tileData.isObstacle())
+        if (!tileData.isObstacle() && (!removeOccupiedTiles || !tileData.occupied))
             passableTiles.push_back(xy);
 
         if (tileData.isViewObstacle())
