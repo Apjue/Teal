@@ -38,15 +38,6 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
         TealException(lua.ExecuteFromFile(Def::ScriptFolder + "character.lua"), "Lua: couldn't find character.lua file");
         TealException(lua.GetGlobal("teal_character") == Nz::LuaType_Table, "Lua: teal_character isn't a table !");
 
-        // Character
-        {
-            m_charac = cloneCharacter(m_characters, "villager");
-            m_charac->Enable(false);
-
-            m_charac->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
-            m_charac->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
-        }
-
         // Map
         {
             Nz::Vector2i mapPos = lua.CheckField<Nz::Vector2i>("map", { 0, 0 }, -1);
@@ -60,6 +51,17 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
 
             m_map->Enable(false);
             deactivateMapEntities(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)));
+        }
+
+        // Character
+        {
+            m_charac = cloneCharacter(m_characters, "villager");
+            m_charac->Enable(false);
+
+            m_charac->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
+            m_charac->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
+
+            m_map->GetComponent<MapComponent>().map->getCurrentMap()->getEntities().Insert(m_charac); // that was one long line to type
         }
     }
 

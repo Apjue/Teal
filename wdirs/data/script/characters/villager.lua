@@ -14,6 +14,7 @@ teal_character =
 
     maxhealth = 100,
     name = "Villager",
+    blocktile = true,
 
     attack =
     {
