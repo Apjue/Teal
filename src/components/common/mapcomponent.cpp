@@ -146,37 +146,69 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_leftBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile(0, (i == m_leftBorder.size() - 1 ? i - 1 : i ) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        const TileData& tileData = getCurrentMap()->getTile(0, (i == m_leftBorder.size() - 1 ? i - 1 : i) * 2);
 
-        sprite->SetMaterial(m_tileset, false);
-        sprite->SetTextureRect(tileRect);
+        if (!tileData.isVisible())
+            sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
+
+        else
+        {
+            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+            sprite->SetMaterial(m_tileset, false);
+            sprite->SetTextureRect(tileRect);
+        }
     }
 
     for (unsigned i {}; i < m_rightBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_rightBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile(Def::MapX, (i == m_rightBorder.size() - 1 ? i - 1 : i) * 2).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        const TileData& tileData = getCurrentMap()->getTile(Def::MapX, (i == m_rightBorder.size() - 1 ? i - 1 : i) * 2);
 
-        sprite->SetMaterial(m_tileset, false);
-        sprite->SetTextureRect(tileRect);
+        if (!tileData.isVisible())
+            sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
+
+        else
+        {
+            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+            sprite->SetMaterial(m_tileset, false);
+            sprite->SetTextureRect(tileRect);
+        }
     }
 
     for (unsigned i {}; i < m_upBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_upBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile(i + 1, 0).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+        const TileData& tileData = getCurrentMap()->getTile(i + 1, 0);
 
-        sprite->SetMaterial(m_tileset, false);
-        sprite->SetTextureRect(tileRect);
+        if (!tileData.isVisible())
+            sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
+
+        else
+        {
+            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+
+            sprite->SetMaterial(m_tileset, false);
+            sprite->SetTextureRect(tileRect);
+        }
     }
 
     for (unsigned i {}; i < m_downBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_downBorder[i];
-        Nz::Rectui tileRect { tcore->get(getCurrentMap()->getTile((i == m_downBorder.size() - 1 ? i - 1 : i), Def::MapY + 1).textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY / 2 };
+        const TileData& tileData = getCurrentMap()->getTile((i == m_downBorder.size() - 1 ? i - 1 : i), Def::MapY + 1);
 
-        sprite->SetMaterial(m_tileset, false);
-        sprite->SetTextureRect(tileRect);
+        if (!tileData.isVisible())
+            sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
+
+        else
+        {
+            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY / 2 };
+
+            sprite->SetMaterial(m_tileset, false);
+            sprite->SetTextureRect(tileRect);
+        }
     }
 }
 
