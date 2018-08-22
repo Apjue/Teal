@@ -1,10 +1,9 @@
 Main todo:
 - Fix weird animation with entities using RandomMovementSystem (animutil?)
+- Fix render order bug with characters
+- Handle character overall speed, not only animation speed
+- Fix menu bar ("spell bar") not appearing
 - Finish fight feature!
 
-- Fix render order bug with characters
 - AISystem "!move.playerInitiated and no path found (something blocked and still blocking)"
 - Implement tile layers (adds possibility to make bridges, stairs)
-
-UI Todo:
-- Fix menu bar ("spell bar") not appearing
