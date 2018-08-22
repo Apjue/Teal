@@ -92,18 +92,18 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, MapDataRef* mapRe
         switch (obstacle)
         {
             case 1:
-                tiles[i - 1].addFlag("viewobstacle");
+                tiles[i - 1].flags |= TileFlag::ViewObstacle;
                 break;
 
             case 2:
-                tiles[i - 1].addFlag("blockobstacle");
+                tiles[i - 1].flags |= TileFlag::BlockObstacle;
                 break;
         }
 
         bool visible = state.CheckField<bool>("visible");
 
         if (!visible)
-            tiles[i - 1].addFlag("invisible");
+            tiles[i - 1].flags |= TileFlag::Invisible;
 
         state.Pop();
     }

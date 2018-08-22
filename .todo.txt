@@ -1,6 +1,5 @@
 Main todo:
 - Fix weird animation with entities using RandomMovementSystem (animutil?)
-- TileData: for performance, make "flags" string *really* flags, like, an enum or Nz::Flags
 - Finish fight feature!
 
 - Fix render order bug with characters
