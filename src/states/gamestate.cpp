@@ -411,10 +411,11 @@ void GameState::addWidgets()
             TealException(lua.GetField("down") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.down isn't a table!");
             {
                 Ndk::ButtonWidget* downArrow = spellBar->getDownArrow();
+                Nz::String texture = lua.CheckField<Nz::String>("texture");
 
-                downArrow->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
-                downArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
-                downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
+                downArrow->SetTexture(Nz::TextureLibrary::Get(texture));
+                downArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture", texture, -1)));
+                downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture", texture, -1)));
 
                 downArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
                 downArrow->SetColor(Nz::Color::White, Nz::Color::White);
@@ -425,10 +426,11 @@ void GameState::addWidgets()
             TealException(lua.GetField("up") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.up isn't a table!");
             {
                 Ndk::ButtonWidget* upArrow = spellBar->getUpArrow();
+                Nz::String texture = lua.CheckField<Nz::String>("texture");
 
-                upArrow->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
-                upArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture")));
-                upArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
+                upArrow->SetTexture(Nz::TextureLibrary::Get(texture));
+                upArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture", texture, -1)));
+                upArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture", texture, -1)));
 
                 upArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", upArrow->GetSize()));
                 upArrow->SetColor(Nz::Color::White, Nz::Color::White);

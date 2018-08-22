@@ -51,16 +51,16 @@ teal_ui_config =
                 down =
                 {
                     texture = ":/buttons/spellbar/down_arrow",
-                    hover_texture = ":/buttons/spellbar/down_arrow",
-                    press_texture = ":/buttons/spellbar/down_arrow",
+                    --hover_texture = ":/buttons/spellbar/down_arrow",
+                    --press_texture = ":/buttons/spellbar/down_arrow",
                     --size = { x = 20.0, y = 10.0 }
                 },
 
                 up =
                 {
                     texture = ":/buttons/spellbar/up_arrow",
-                    hover_texture = ":/buttons/spellbar/up_arrow",
-                    press_texture = ":/buttons/spellbar/up_arrow",
+                    --hover_texture = ":/buttons/spellbar/up_arrow",
+                    --press_texture = ":/buttons/spellbar/up_arrow",
                     --size = { x = 20.0, y = 10.0 }
                 }
             }
