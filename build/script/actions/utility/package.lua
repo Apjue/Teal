@@ -46,6 +46,8 @@ ACTION.execute = function(self, root)
     end
 
     local config, platform = string.match(package_config, "([^_]+)_([^_]+)")
+    config = string.lower(config)
+    platform = string.lower(platform)
 
     local action = _OPTIONS["package-action"]
 
@@ -96,25 +98,19 @@ ACTION.execute = function(self, root)
 
 
     local executableFolder = root .. "/wdirs/" .. platform
+    local executableMatches = os.matchfiles(executableFolder .. "/Teal-" .. config)
     local executable
 
-    if (#os.matchfiles(executableFolder .. "/Teal-debug") == 1) then
-        executable = os.matchfiles(executableFolder .. "/Teal-debug")
-
-    elseif (#os.matchfiles(executableFolder .. "/Teal-release") == 1) then
-        executable = os.matchfiles(executableFolder .. "/Teal-release")
+    if (#executableMatches == 1) then
+        executable = executableMatches[1]
 
     else
-        local executableMatches = os.matchfiles(executableFolder .. "/Teal-*.*")
+        executableMatches = os.matchfiles(executableFolder .. "/Teal-" .. config .. ".exe")
 
-        for k, v in pairs(executableMatches) do
-            if (path.getextension(v) == ".exe") then
-                executable = v
-                break
-            end
-        end
+        if (#executableMatches == 1) then
+            executable = executableMatches[1]
 
-        if (not executable or #executable == 0) then
+        else
             error("No executable found in " .. executableFolder)
         end
     end
