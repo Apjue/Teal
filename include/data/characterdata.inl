@@ -99,6 +99,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
 
     Nz::MaterialRef charMat = Nz::Material::New();
     charMat->Configure("Translucent2D");
+    charMat->EnableDepthSorting(true);
     charMat->SetDiffuseMap(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("texture", ":/game/unknown", index)));
 
     auto size = state.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui(charMat->GetDiffuseMap()->GetSize()), index);
