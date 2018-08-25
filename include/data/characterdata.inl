@@ -101,7 +101,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
     charMat->Configure("Translucent2D");
     charMat->SetDiffuseMap(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("texture", ":/game/unknown", index)));
 
-    auto size = state.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui {}, index);
+    auto size = state.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui(charMat->GetDiffuseMap()->GetSize()), index);
 
     data->sprite = Nz::Sprite::New(charMat);
     data->sprite->SetMaterial(charMat, false);
