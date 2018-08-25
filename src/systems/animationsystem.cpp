@@ -16,7 +16,6 @@
 AnimationSystem::AnimationSystem()
 {
     Requires<AnimationComponent, Ndk::GraphicsComponent, PositionComponent, OrientationComponent, RenderablesStorageComponent>();
-    SetUpdateOrder(Def::AnimationSystemUpdateOrder);
 }
 
 void AnimationSystem::OnUpdate(float elapsed)

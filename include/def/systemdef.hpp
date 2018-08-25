@@ -14,7 +14,6 @@ constexpr int AISystemUpdateOrder { 1 };
 constexpr int MovementSystemUpdateOrder { AISystemUpdateOrder + 1 };
 constexpr int FightSystemUpdateOrder { MovementSystemUpdateOrder + 1 };
 constexpr int RandomMovementSystemUpdateOrder { FightSystemUpdateOrder + 1 };
-constexpr int AnimationSystemUpdateOrder { RandomMovementSystemUpdateOrder + 1 };
 
 }
 
