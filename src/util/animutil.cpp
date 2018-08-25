@@ -50,10 +50,7 @@ void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
     animData.currentInterval += elapsedTime;
 
     if (animData.currentInterval > animData.interval)
-    {
-        while (animData.currentInterval > animData.interval)
-            animData.currentInterval -= animData.interval;
-    }
+        animData.currentInterval = 0.f;
 
     else
         return;
