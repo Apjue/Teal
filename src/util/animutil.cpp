@@ -31,7 +31,11 @@ void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
         return;
 
     auto& anim = e->GetComponent<AnimationComponent>();
-    auto  animType = determineAnimationToBeUsed(e);
+
+    if (anim.animList.empty())
+        return;
+
+    auto animType = determineAnimationToBeUsed(e);
 
     if (!anim.canAnimationBeUsed(animType))
     {
@@ -41,9 +45,6 @@ void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
         else
             animType = AnimationComponent::Walk;
     }
-
-    if (anim.animList.empty())
-        return;
 
     AnimationData& animData = anim.animList[animType];
     animData.currentInterval += elapsedTime;

@@ -1,5 +1,6 @@
 Main todo:
 - Fix weird animation with entities using RandomMovementSystem (animutil?)
+- NPCs's orientations must be refreshed before changing map
 - Fix render order bug with characters
 - Handle character overall speed, not only animation speed
 - Fix menu bar ("spell bar") not appearing
