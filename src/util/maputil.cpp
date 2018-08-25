@@ -160,11 +160,17 @@ bool changeMap()
     }
 
     TealAssert(newMap, "new map null !");
-    m_currentMap->getCurrentMap()->getEntities().Remove(m_mainCharacter);
 
+    m_currentMap->getCurrentMap()->getEntities().Remove(m_mainCharacter);
     deactivateMapEntities(m_currentMap->getCurrentMap());
+
+    m_currentMap->getCurrentMap()->updateOccupiedTiles();
+    clearPatherCache();
+
+
     m_currentMap->setMap(m_currentMap->getCurrentMapIndex(), newMap);
-    
+
+
     activateMapEntities(m_currentMap->getCurrentMap());
     m_currentMap->getCurrentMap()->getEntities().Insert(m_mainCharacter);
 
