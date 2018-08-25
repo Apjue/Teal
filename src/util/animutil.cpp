@@ -23,7 +23,7 @@ bool hasComponentsToAnimate(const Ndk::EntityHandle& e)
 
 void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
 {
-    TealAssert(hasComponentsToAnimate(e), "Entity doesn't have the right components to animate");
+    TealAssert(hasComponentsToAnimate(e), "Entity doesn't have the required components to animate");
 
     auto& sprites = e->GetComponent<RenderablesStorageComponent>().sprites;
 

@@ -27,7 +27,7 @@ Ndk::EntityHandle m_mainCharacter {};
 std::pair<bool, DirectionFlags> canChangeMap(const Ndk::EntityHandle& p)
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
-    TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the right components to change map !");
+    TealAssert(hasComponentsToChangeMap(p), "Entity doesn't have the required components to change map !");
 
     Nz::Vector2i mapPos = m_currentMap->getCurrentMap()->getPosition();
     auto& pos = p->GetComponent<PositionComponent>();
