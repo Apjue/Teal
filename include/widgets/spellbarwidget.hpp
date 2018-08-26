@@ -78,10 +78,10 @@ private:
 
 
     // Settings
-    Nz::Vector2ui m_borderSize;
-    Nz::Vector2ui m_padding;
-    Nz::Vector2ui m_boxSize;
-    Nz::Vector2ui m_boxNumber; // starts at 1 (0 = no box)
+    Nz::Vector2ui m_borderSize {};
+    Nz::Vector2ui m_padding {};
+    Nz::Vector2ui m_boxSize {};
+    Nz::Vector2ui m_boxNumber {}; // starts at 1 (0 = no box)
 
     Chrono m_lastClick; // for double clicks
     Miliseconds m_doubleClickMaxInterval { 1000 };
