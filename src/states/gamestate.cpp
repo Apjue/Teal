@@ -275,6 +275,17 @@ void GameState::initEventHandler()
                 printInventory(event.shift);
                 break;
 
+            case Nz::Keyboard::U:
+            {
+                auto& renderSystem = m_world->GetSystem<Ndk::RenderSystem>();
+                bool enable = !renderSystem.IsCullingEnabled();
+
+                renderSystem.EnableCulling(enable);
+                NazaraNotice(Nz::String { "Render System: Culling has been " } + (enable ? "enabled" : "disabled"));
+
+                break;
+            }
+
             case Nz::Keyboard::O: // ID
                 NazaraNotice(Nz::String { "Character's Entity ID: " }.Append(Nz::String::Number(m_charac->GetId())));
                 break;
@@ -392,7 +403,6 @@ void GameState::addWidgets()
 
     TealException(lua.GetField("spell_bar") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
     {
-        //m_world->GetSystem<Ndk::RenderSystem>().EnableCulling(false); // BREAKS SPRITES & ANIMATIONS!
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
 
         spellBar->SetPosition(lua.CheckField<Nz::Vector2f>("pos"));
