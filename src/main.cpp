@@ -27,6 +27,11 @@ int main()
     window.Create(Nz::VideoMode(Def::WindowSizeX, Def::WindowSizeY, 32), "Teal - Prototype");
     window.EnableVerticalSync(true);
 
+    // Set a fixed size
+    window.SetMinimumSize(Def::WindowSizeX, Def::WindowSizeY);
+    window.SetMaximumSize(Def::WindowSizeX, Def::WindowSizeY);
+
+
     GameData gameData;
     gameData.world = world.CreateHandle();
     gameData.window = &window;
