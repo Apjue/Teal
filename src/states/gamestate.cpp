@@ -355,12 +355,13 @@ void GameState::addWidgets()
     m_canvas->SetPosition(float(Def::ButtonsPaddingX), float(Def::MapSizeY + Def::ButtonsMarginY));
     m_canvas->SetSize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
 
+    // Enable the bottom bar background
     m_canvasBackgroundEntity->Enable();
 
     // Canvas widgets
     auto& eventHandler = m_window.GetEventHandler();
 
-    // Load config
+
     TealException(Nz::File::Exists(Def::ScriptFolder + "uiconfig.lua"), "uiconfig.lua not found !");
 
     Nz::LuaInstance lua;
@@ -370,9 +371,9 @@ void GameState::addWidgets()
     TealException(lua.GetField("buttons") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons isn't a table!");
 
 
+    // Inventory button
     TealException(lua.GetField("inventory") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.inventory isn't a table!");
     {
-
         Ndk::ButtonWidget* invButton = m_canvas->Add<Ndk::ButtonWidget>();
 
         invButton->SetTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
@@ -405,6 +406,7 @@ void GameState::addWidgets()
     lua.Pop();
 
 
+    // Spell Bar (also used as inventory)
     TealException(lua.GetField("spell_bar") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
     {
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
