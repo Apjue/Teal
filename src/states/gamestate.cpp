@@ -452,7 +452,6 @@ void GameState::addWidgets()
         lua.Pop();
 
         spellBar->ResizeToContent();
-        spellBar->Show(false); // Just because it's buggy
     }
 
     lua.Pop();

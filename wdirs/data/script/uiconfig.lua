@@ -35,9 +35,9 @@ teal_ui_config =
 
         spell_bar =
         {
-            pos = { x = 256.0, y = 0.0 },   -- Relative to the buttons bar
+            pos = { x = 200.0, y = -7.0 },   -- Relative to the buttons bar
             texture = ":/buttons/spellbar",
-            size = { x = 245.0, y = 60.0 }, -- Can be deleted to use texture's size
+            size = { x = 260.0, y = 65.0 }, -- Can be deleted to use texture's size
 
             border_size = { x = 2, y = 2 }, -- Size of box border
             padding = { x = 3, y = 2 },     -- Padding between boxes
@@ -53,7 +53,7 @@ teal_ui_config =
                     texture = ":/buttons/spellbar/down_arrow",
                     --hover_texture = ":/buttons/spellbar/down_arrow",
                     --press_texture = ":/buttons/spellbar/down_arrow",
-                    --size = { x = 20.0, y = 10.0 }
+                    size = { x = 30.0, y = 17.0 }
                 },
 
                 up =
@@ -61,7 +61,7 @@ teal_ui_config =
                     texture = ":/buttons/spellbar/up_arrow",
                     --hover_texture = ":/buttons/spellbar/up_arrow",
                     --press_texture = ":/buttons/spellbar/up_arrow",
-                    --size = { x = 20.0, y = 10.0 }
+                    size = { x = 30.0, y = 17.0 }
                 }
             }
         }

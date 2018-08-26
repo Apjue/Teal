@@ -105,6 +105,8 @@ private:
     // Arrows buttons
     Ndk::ButtonWidget* m_upArrow {};
     Ndk::ButtonWidget* m_downArrow {}; // render order ?
+
+    static const float s_buttonsPadding;
 };
 
 #include "spellbarwidget.inl"

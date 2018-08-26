@@ -5,12 +5,13 @@
 #include "widgets/spellbarwidget.hpp"
 
 const Nz::Vector2ui SpellBarWidget::s_invalidBox { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() };
+const float SpellBarWidget::s_buttonsPadding { 3.f };
 
 void SpellBarWidget::ResizeToContent()
 {
     Nz::Vector2f size;
     size.Set(Nz::Vector2ui { m_boxNumber * m_boxSize + m_boxNumber * m_padding + m_borderSize * 2u });
-    size.x += std::max(m_upArrow->GetSize().x, m_downArrow->GetSize().x);
+    size.x += std::max(m_upArrow->GetSize().x, m_downArrow->GetSize().x) + s_buttonsPadding;
 
     SetContentSize(size);
 }
@@ -21,15 +22,16 @@ void SpellBarWidget::Layout()
     BaseWidget::Layout();
 
     Nz::Vector2f origin = GetContentOrigin();
-    Nz::Vector2f contentSize = GetContentSize(); // todo: deduct distance, error if content size too low, SetSize on sprites
-
-    Nz::Vector2f arrowsPosition = origin;
-    arrowsPosition.x += m_spellBarSprite->GetSize().x;
+    Nz::Vector2f contentSize = GetContentSize();
 
     m_spellBar->GetComponent<Ndk::NodeComponent>().SetPosition(origin);
-    
+
+
+    Nz::Vector2f arrowsPosition = origin + Nz::Vector2f { m_spellBarSprite->GetSize().x + s_buttonsPadding, 0.f };
     m_upArrow->SetPosition(arrowsPosition.x, arrowsPosition.y);
-    m_downArrow->SetPosition(arrowsPosition.x, arrowsPosition.y);
+
+    Nz::Vector2f downArrowPos { arrowsPosition.x, downArrowPos.y = origin.y + m_spellBarSprite->GetSize().y - m_downArrow->GetSize().y };
+    m_downArrow->SetPosition(downArrowPos.x, downArrowPos.y);
 }
 
 

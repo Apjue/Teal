@@ -11,17 +11,17 @@
 #include "spellbarwidget.hpp"
 
 SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
-    : Ndk::BaseWidget(parent), m_spellBar(CreateEntity(true)), m_spellBarSprite(Nz::Sprite::New()), m_spellBarFocus(CreateEntity(true)), m_spellBarFocusSprite(Nz::Sprite::New()),
-    m_spellBarSemiFocus(CreateEntity(true)), m_spellBarSemiFocusSprite(Nz::Sprite::New()), m_upArrow(Add<Ndk::ButtonWidget>()), m_downArrow(Add<Ndk::ButtonWidget>())
+    : Ndk::BaseWidget(parent), m_spellBar(CreateEntity(true)), m_spellBarSprite(Nz::Sprite::New(Nz::Material::New("Basic2D"))), m_spellBarFocus(CreateEntity(true)),
+    m_spellBarFocusSprite(Nz::Sprite::New()), m_spellBarSemiFocus(CreateEntity(true)), m_spellBarSemiFocusSprite(Nz::Sprite::New()), m_upArrow(Add<Ndk::ButtonWidget>()),
+    m_downArrow(Add<Ndk::ButtonWidget>())
 {
-    m_spellBar->AddComponent<Ndk::NodeComponent>();
+    m_spellBar->AddComponent<Ndk::NodeComponent>().SetParent(this);
     m_spellBar->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarSprite, Def::ButtonsLayer + 1);
-    m_spellBar->AddComponent<Ndk::DebugComponent>().Enable(Ndk::DebugDraw::GraphicsAABB | Ndk::DebugDraw::GraphicsOBB);
 
-    m_spellBarFocus->AddComponent<Ndk::NodeComponent>();
+    m_spellBarFocus->AddComponent<Ndk::NodeComponent>().SetParent(this);
     m_spellBarFocus->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarFocusSprite, Def::ButtonsLayer + 1);
 
-    m_spellBarSemiFocus->AddComponent<Ndk::NodeComponent>();
+    m_spellBarSemiFocus->AddComponent<Ndk::NodeComponent>().SetParent(this);
     m_spellBarSemiFocus->AddComponent<Ndk::GraphicsComponent>().Attach(m_spellBarSemiFocusSprite, Def::ButtonsLayer + 1);
 }
 
