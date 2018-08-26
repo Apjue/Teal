@@ -79,6 +79,10 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
     m_canvasBackgroundEntity->AddComponent<Ndk::NodeComponent>().SetPosition(0.f, Def::MapSizeY);
     m_canvasBackgroundEntity->AddComponent<Ndk::GraphicsComponent>().Attach(canvasBackground);
     m_canvasBackgroundEntity->Enable(false);
+
+    // Temporary
+    m_world->GetSystem<Ndk::RenderSystem>().EnableCulling(false);
+    NazaraNotice("Note: Due to (temporary) graphics bugs, Culling optimization is disabled by default. To enable it back, press U");
 }
 
 GameState::~GameState()
