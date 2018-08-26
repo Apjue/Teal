@@ -141,7 +141,7 @@ ACTION.execute = function(self, root)
         if (_OPTIONS["archive"]) then
             if (not string.find(archive, _OPTIONS["archive"])) then
                 print("Warning: " .. archive .. " is the only archive found but does not match with provided keyword \"" .. _OPTIONS["archive"] .. "\"")
-                io.write("Do you want it install it nonetheless? [Y/n] ")
+                io.write("Do you want it install it anyway? [Y/n] ")
 
                 local answer = string.lower(io.read(1))
 
