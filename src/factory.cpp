@@ -126,14 +126,12 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lu
     return e;
 }
 
-Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data)
+Ndk::EntityHandle makeGraphicalItem(Ndk::EntityHandle e, const GraphicalItemData& data)
 {
     const Ndk::EntityHandle& logicItem = data.logicItem;
 
     TealAssert(logicItem->HasComponent<ItemComponent>(), "Item isn't an actual item !");
     TealAssert(logicItem->GetComponent<IconComponent>().icon.IsValid() && logicItem->GetComponent<IconComponent>().icon->IsValid(), "Icon not valid");
-
-    Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<Ndk::NodeComponent>();
 
@@ -156,9 +154,14 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
         logicItem->AddComponent<GraphicalEntitiesComponent>();
 
     logicItem->GetComponent<GraphicalEntitiesComponent>().entities.Insert(e);
-    refreshGraphicsPos(e);
 
     return e;
+}
+
+Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data)
+{
+    Ndk::EntityHandle e = w->CreateEntity();
+    return makeGraphicalItem(e, data);
 }
 
 Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data, AbsTile pos)
@@ -166,5 +169,6 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
     auto& e = makeGraphicalItem(w, data);
     e->AddComponent<PositionComponent>().xy = pos;
 
+    refreshGraphicsPos(e);
     return e;
 }

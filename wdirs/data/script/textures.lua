@@ -41,8 +41,9 @@ teal_textures =
             { ":/buttons/inv_pressed",   "buttons/bar/inv_pressed.png" },
 
         { ":/buttons/spellbar",      "buttons/bar/spellbar.png" },
-            { ":/buttons/spellbar/down_arrow",      "buttons/bar/spellbar_down_arrow.png" },
-            { ":/buttons/spellbar/up_arrow",        "buttons/bar/spellbar_up_arrow.png" },
+            { ":/buttons/spellbar/focus",      "buttons/bar/spellbar_focus.png" },
+            { ":/buttons/spellbar/down_arrow", "buttons/bar/spellbar_down_arrow.png" },
+            { ":/buttons/spellbar/up_arrow",   "buttons/bar/spellbar_up_arrow.png" },
     
         -- UI
         { ":/buttons/close", "buttons/ui/close.png" },

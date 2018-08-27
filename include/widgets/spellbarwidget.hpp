@@ -11,30 +11,22 @@
 #include <NDK/BaseWidget.hpp>
 #include <NDK/EntityOwner.hpp>
 #include <NDK/Entity.hpp>
+#include <NDK/EntityList.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Widgets/ButtonWidget.hpp>
 #include <Nazara/Renderer/Texture.hpp>
+#include <Nazara/Utility/SimpleTextDrawer.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
+#include <Nazara/Graphics/TextSprite.hpp>
 #include <Nazara/Math/Vector2.hpp>
 #include <Nazara/Math/Rect.hpp>
 #include <Nazara/Core/Signal.hpp>
+#include <Nazara/Core/Color.hpp>
+#include <vector>
+#include <limits>
 #include "util/chrono.hpp"
 
-/*
-
-spellbar:
-hover case (vide ou pas): focus semi transparent
-clic case (vide ou pas): focus full opacity (enter: action)
-hover case pleine: infos + focus semi
-double clic case pleine: action
-
-action = équip/use/etc
-
-
-
-*/
-
-class SpellBarWidget : public Ndk::BaseWidget // todo: ce widget devra gérer les items hein | flèches à droite/gauche sinon, comme dans dofus
+class SpellBarWidget : public Ndk::BaseWidget
 {
 public:
     inline SpellBarWidget(Ndk::BaseWidget* parent);
@@ -43,31 +35,52 @@ public:
     ~SpellBarWidget() = default;
 
 
+    // Spell Bar config
     inline void setBorderSize(Nz::Vector2ui borderSize);
     inline void setPadding(Nz::Vector2ui padding); // Padding between boxes
     inline void setBoxSize(Nz::Vector2ui boxSize); // starts at 0
     inline void setBoxNumber(Nz::Vector2ui boxNumber);
 
-    inline void setDoubleClickInterval(Miliseconds interval);
-    inline Miliseconds getDoubleClickInterval() const;
+    // Config, again
+    inline void setPageCount(unsigned count);
+    inline unsigned getPageCount() const;
+    inline void setPageCounterSize(unsigned size);
+    inline unsigned getPageCounterSize() const;
 
+    inline void setDoubleClickThresold(Miliseconds thresold);
+    inline Miliseconds getDoubleClickThresold() const;
+
+    // Spell Bar appearance
     inline void setBarTexture(const Nz::TextureRef& texture, bool resizeSprite = true);
     inline void setBarSize(Nz::Vector2f size);
 
     inline const Nz::TextureRef& getBarTexture() const;
     inline Nz::Vector2f getBarSize() const;
 
+    // Focus appearance
+    inline void setFocusTexture(const Nz::TextureRef& texture);
+    inline void setFocusColor(Nz::Color color);
+    inline void setSemiFocusColor(Nz::Color color);
 
+    // Arrows
     inline Ndk::ButtonWidget* getUpArrow();
     inline Ndk::ButtonWidget* getDownArrow();
 
+    // Utility functions
     inline Nz::Rectui getBoxAABB(Nz::Vector2ui boxNumber) const;
     inline Nz::Vector2ui getBoxIndex(Nz::Vector2i mouseCoords) const;
+
+    // Items
+    inline bool addEntity(Ndk::EntityHandle e);
+    inline void removeEntity(Ndk::EntityHandle e);
+    inline void emptyCell(Nz::Vector2ui boxIndex, unsigned page = std::numeric_limits<unsigned>::max());
+    inline bool isCellEmpty(Nz::Vector2ui boxIndex, unsigned page = std::numeric_limits<unsigned>::max());
 
 
     void ResizeToContent() override;
 
     NazaraSignal(onItemUsed, Ndk::EntityHandle /*item*/);
+    //NazaraSignal(onSpellSelected, Ndk::EntityHandle /*spell*/); // todo: will spell be entities? or maybe something like SpellData, or an id (using DoubleStores)
 
 private:
     void Layout() override;
@@ -76,6 +89,14 @@ private:
     inline void OnMouseEnter() override;
     inline void OnMouseExit() override;
 
+    // Refresh
+    inline void updateSpellBar();
+    inline void resizeEntities();
+    inline void resizeGraphicalEntities();
+
+    // Utility
+    inline unsigned CellToIndex(Nz::Vector2ui cell, unsigned page);
+    inline std::pair<Nz::Vector2ui /* cell */, unsigned /* page */> IndexToCell(unsigned index);
 
     // Settings
     Nz::Vector2ui m_borderSize {};
@@ -84,11 +105,17 @@ private:
     Nz::Vector2ui m_boxNumber {}; // starts at 1 (0 = no box)
 
     Chrono m_lastClick; // for double clicks
-    Miliseconds m_doubleClickMaxInterval { 1000 };
+    Miliseconds m_doubleClickThresold { 1000 };
 
     static const Nz::Vector2ui s_invalidBox;
     Nz::Vector2ui m_selectedBox { s_invalidBox }; // Coordinates of the selected box (if equal to invalid, nothing selected)
-    unsigned m_currentPage {};
+
+    unsigned m_currentPage { 1 };
+    unsigned m_pageCount { 5 };
+    unsigned m_pageCounterSize { 20 };
+
+    std::vector<Ndk::EntityHandle> m_entities;
+    Ndk::EntityList m_graphicalEntities; //todo todooooo
 
     // Graphics
     Ndk::EntityOwner m_spellBar;
@@ -100,11 +127,17 @@ private:
     Ndk::EntityOwner m_spellBarSemiFocus;
     Nz::SpriteRef m_spellBarSemiFocusSprite;
 
+    Ndk::EntityOwner m_pageCounter;
+    Nz::TextSpriteRef m_pageCounterSprite;
+
     bool m_drawSemiFocusSprite { false };
 
     // Arrows buttons
     Ndk::ButtonWidget* m_upArrow {};
     Ndk::ButtonWidget* m_downArrow {}; // render order ?
+
+    NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_pageUpSlot);
+    NazaraSlot(Ndk::ButtonWidget, OnButtonTrigger, m_pageDownSlot);
 
     static const float s_buttonsPadding;
 };

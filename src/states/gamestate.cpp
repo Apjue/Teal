@@ -413,12 +413,18 @@ void GameState::addWidgets()
         spellBar->setBarTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("texture")));
         spellBar->setBarSize(lua.CheckField<Nz::Vector2f>("size", Nz::Vector2f(Nz::Vector2ui(spellBar->getBarTexture()->GetSize())), -1));
 
+        spellBar->setFocusTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("focus_texture")));
+        spellBar->setFocusColor(lua.CheckField<Nz::Color>("focus_color"));
+        spellBar->setSemiFocusColor(lua.CheckField<Nz::Color>("semifocus_color"));
+
         spellBar->setBorderSize(lua.CheckField<Nz::Vector2ui>("border_size"));
         spellBar->setPadding(lua.CheckField<Nz::Vector2ui>("padding"));
         spellBar->setBoxSize(lua.CheckField<Nz::Vector2ui>("box_size"));
         spellBar->setBoxNumber(lua.CheckField<Nz::Vector2ui>("box_number"));
 
-        spellBar->setDoubleClickInterval(lua.CheckField<Miliseconds>("double_click_interval", spellBar->getDoubleClickInterval(), -1));
+        spellBar->setPageCount(lua.CheckField<unsigned>("page_count", spellBar->getPageCount(), -1));
+        spellBar->setPageCounterSize(lua.CheckField<unsigned>("page_counter_size", spellBar->getPageCounterSize(), -1));
+        spellBar->setDoubleClickThresold(lua.CheckField<Miliseconds>("double_click_thresold", spellBar->getDoubleClickThresold(), -1));
 
         TealException(lua.GetField("arrows") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows isn't a table!");
         {

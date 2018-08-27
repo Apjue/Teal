@@ -23,6 +23,7 @@ extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::St
                                          const Nz::String& description = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
 
+extern Ndk::EntityHandle makeGraphicalItem(Ndk::EntityHandle e, const GraphicalItemData& data);
 extern Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data);
 extern Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data, AbsTile pos); // Insert in a map the graphical item, not the logic item !
 

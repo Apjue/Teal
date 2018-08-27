@@ -9,6 +9,7 @@
 
 #include <NDK/LuaAPI.hpp>
 #include "util/luaparser.hpp"
+#include "util/nzstlcompatibility.hpp"
 #include "characterdata.hpp"
 
 namespace Nz
