@@ -21,7 +21,9 @@ constexpr int InventoryItemsLayer { GUILayer + 1 };
 
 constexpr int TooltipsLayer { InventoryItemsLayer + 1 };
 
-constexpr int ButtonsLayer { 1 };
+
+constexpr int CanvasBackgroundLayer { -1 };
+constexpr int ButtonsLayer { CanvasBackgroundLayer + 1 };
 
 }
 

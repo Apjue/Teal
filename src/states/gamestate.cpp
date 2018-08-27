@@ -77,7 +77,7 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
 
     m_canvasBackgroundEntity = m_world->CreateEntity();
     m_canvasBackgroundEntity->AddComponent<Ndk::NodeComponent>().SetPosition(0.f, Def::MapSizeY);
-    m_canvasBackgroundEntity->AddComponent<Ndk::GraphicsComponent>().Attach(canvasBackground);
+    m_canvasBackgroundEntity->AddComponent<Ndk::GraphicsComponent>().Attach(canvasBackground, Def::CanvasBackgroundLayer);
     m_canvasBackgroundEntity->Enable(false);
 
     // Temporary
