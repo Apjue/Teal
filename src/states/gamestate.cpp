@@ -136,7 +136,7 @@ void GameState::printInventory(bool detailled) /// Used for testing | todo: have
     auto& inv = m_charac->GetComponent<InventoryComponent>();
     unsigned counter {};
 
-    for (auto& item : inv.items)
+    for (auto const& item : inv.getItems())
     {
         std::cout << "Item #" << counter;
 
@@ -404,7 +404,7 @@ void GameState::addWidgets()
     lua.Pop();
 
 
-    // Spell Bar (also used as inventory, temporarily)
+    // Spell Bar
     TealException(lua.GetField("spell_bar") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
     {
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
@@ -460,8 +460,13 @@ void GameState::addWidgets()
         }
 
         lua.Pop();
-
         spellBar->ResizeToContent();
+
+        // Temporarily use spellbar as Inventory
+        m_charac->GetComponent<InventoryComponent>().onItemAdded.Connect([spellBar] (Ndk::EntityHandle e) { spellBar->addEntity(e); });
+        m_charac->GetComponent<InventoryComponent>().onItemRemoved.Connect(spellBar, &SpellBarWidget::removeEntity);
+
+        spellBar->onItemUsed.Connect([] (Ndk::EntityHandle item) { NazaraNotice("I have been used"); });
     }
 
     lua.Pop();
@@ -497,4 +502,5 @@ void GameState::removeWidgets()
 
     m_canvas.reset();
     m_canvasBackgroundEntity->Enable(false);
+    m_charac->GetComponent<InventoryComponent>().onItemAdded.Clear();
 }

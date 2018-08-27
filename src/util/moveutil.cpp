@@ -130,7 +130,7 @@ void getItemsFromGround(const Ndk::EntityHandle& e) /// todo: activate traps fro
             break;
 
         TealAssert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity.IsValid(), "Logic Entity isn't valid");
-        inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
+        inv.insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
 
         killedEntities.Insert(*it);
         (*it)->Kill(); // Nothing personal.
