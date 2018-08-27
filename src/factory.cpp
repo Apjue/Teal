@@ -136,7 +136,6 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
     Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<Ndk::NodeComponent>();
-    e->AddComponent<PositionComponent>().xy = data.pos;
 
     auto& logic = e->AddComponent<LogicEntityIdComponent>();
     logic.logicEntity = logicItem;
@@ -158,6 +157,14 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
 
     logicItem->GetComponent<GraphicalEntitiesComponent>().entities.Insert(e);
     refreshGraphicsPos(e);
+
+    return e;
+}
+
+Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data, AbsTile pos)
+{
+    auto& e = makeGraphicalItem(w, data);
+    e->AddComponent<PositionComponent>().xy = pos;
 
     return e;
 }

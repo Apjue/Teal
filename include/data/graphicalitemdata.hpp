@@ -14,11 +14,10 @@
 
 struct GraphicalItemData
 {
-    GraphicalItemData(const Ndk::EntityHandle& logicItem_, AbsTile pos_, const Nz::Vector2f& size_, const Nz::Vector2f& offset_, LogicEntityIdComponent::GraphicalItemType itemType_)
-        : logicItem { logicItem_ }, pos { pos_ }, size { size_ }, offset { offset_ }, itemType { itemType_ } {}
+    GraphicalItemData(const Ndk::EntityHandle& logicItem_, const Nz::Vector2f& size_, const Nz::Vector2f& offset_, LogicEntityIdComponent::GraphicalItemType itemType_)
+        : logicItem { logicItem_ }, size { size_ }, offset { offset_ }, itemType { itemType_ } {}
 
     Ndk::EntityHandle logicItem;
-    AbsTile pos;
     Nz::Vector2f size;
     Nz::Vector2f offset;
     LogicEntityIdComponent::GraphicalItemType itemType;
