@@ -8,7 +8,6 @@
 #define SYSTEMS_HPP
 
 #include "systems/aisystem.hpp"
-#include "systems/animationsystem.hpp"
 #include "systems/movementsystem.hpp"
 #include "systems/randommovementsystem.hpp"
 #include "systems/fightsystem.hpp"

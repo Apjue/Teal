@@ -6,7 +6,6 @@
 
 // Static things
 Ndk::SystemIndex AISystem::systemIndex;
-Ndk::SystemIndex AnimationSystem::systemIndex;
 Ndk::SystemIndex MovementSystem::systemIndex;
 Ndk::SystemIndex RandomMovementSystem::systemIndex;
 Ndk::SystemIndex FightSystem::systemIndex;

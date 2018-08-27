@@ -156,7 +156,6 @@ void loadNazara()
     Ndk::InitializeSystem<AISystem>();
     Ndk::InitializeSystem<MovementSystem>();
     Ndk::InitializeSystem<RandomMovementSystem>();
-    Ndk::InitializeSystem<AnimationSystem>();
     Ndk::InitializeSystem<FightSystem>();
 }
 

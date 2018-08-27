@@ -124,7 +124,6 @@ void GameState::handlePausedStateSwitch()
 {
     m_world->GetSystem<AISystem>().Enable(!m_paused);
     m_world->GetSystem<MovementSystem>().Enable(!m_paused);
-    m_world->GetSystem<AnimationSystem>().Enable(!m_paused);
     m_world->GetSystem<RandomMovementSystem>().Enable(!m_paused);
     m_world->GetSystem<FightSystem>().Enable(!m_paused);
 
@@ -223,7 +222,6 @@ void GameState::addSystems()
     m_world->AddSystem<MovementSystem>(m_charac);
     m_world->AddSystem<FightSystem>();
     m_world->AddSystem<RandomMovementSystem>(m_pather);
-    m_world->AddSystem<AnimationSystem>();
 }
 
 void GameState::initEventHandler()
@@ -470,7 +468,6 @@ void GameState::removeSystems()
     m_world->RemoveSystem<MovementSystem>();
     m_world->RemoveSystem<FightSystem>();
     m_world->RemoveSystem<RandomMovementSystem>();
-    m_world->RemoveSystem<AnimationSystem>();
 }
 
 void GameState::disableEntities()

@@ -20,6 +20,7 @@
 #include "util/entityutil.hpp"
 #include "util/assert.hpp"
 #include "util/moveutil.hpp"
+#include "util/animutil.hpp"
 
 void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
 {
@@ -62,6 +63,10 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
             recomputePathIfObstacle(e);
     }
 
+    // Update animation
+    updateAnimation(e);
+
+    // Update position
     if (isMapEntity(e))
         refreshGraphicsPos(e);
 
