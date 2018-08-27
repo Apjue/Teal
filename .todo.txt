@@ -1,8 +1,10 @@
 Main todo:
+- Put inventory items in spellbar
 - Fix weird animation with entities using RandomMovementSystem (related to "Width must be at least 1 (0)" Nz::Texture error?)
 - NPCs's orientations must be refreshed before changing map
 - Handle character overall speed, not only animation speed
 - Finish fight feature!
 
 - AISystem "!move.playerInitiated and no path found (something blocked and still blocking)"
+- Handle blocktiles in TilesetCore
 - Implement tile layers (adds possibility to make bridges, stairs)
