@@ -16,9 +16,6 @@ struct AnimationData
     Nz::Vector2ui size {};
     Nz::TextureRef texture; // Texture to apply on the sprite
     Nz::Vector2f offset {}; // offset to apply for the character to be on pos [1;1]
-    float interval {};
-
-    float currentInterval {};
     unsigned frame {}; // frame * y-size of the texture = vertical coords
 };
 
@@ -36,7 +33,6 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, AnimationD
     animData->size = state.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui {}, index);
     animData->texture = Nz::TextureLibrary::Get(state.CheckField<Nz::String>("texture", ":/game/unknown", index));
     animData->offset = state.CheckField<Nz::Vector2f>("offset", Nz::Vector2f {}, index);
-    animData->interval = state.CheckField<float>("interval", 100, index);
     animData->frame = 0;
 
     return 1;
@@ -49,7 +45,6 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, AnimationD
         state.PushField("size", animData.size);
         state.PushField("texture", animData.texture); <-- For this function to work, I'll need to retrieve texture ID (like ":/game/xxx") from texture
         state.PushField("offset", animData.offset);
-        state.PushField("interval", animData.interval);
     }
 
     return 1;

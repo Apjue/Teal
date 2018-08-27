@@ -17,11 +17,13 @@
 bool hasComponentsToAnimate(const Ndk::EntityHandle& e)
 {
     return e->HasComponent<AnimationComponent>() &&
-           e->HasComponent<OrientationComponent>() &&
-           e->HasComponent<RenderablesStorageComponent>();
+        e->HasComponent<Ndk::GraphicsComponent>() &&
+        e->HasComponent<PositionComponent>() &&
+        e->HasComponent<OrientationComponent>() &&
+        e->HasComponent<RenderablesStorageComponent>();
 }
 
-void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
+void updateAnimation(const Ndk::EntityHandle& e)
 {
     TealAssert(hasComponentsToAnimate(e), "Entity doesn't have the required components to animate");
 
@@ -47,13 +49,6 @@ void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
     }
 
     AnimationData& animData = anim.animList[animType];
-    animData.currentInterval += elapsedTime;
-
-    if (animData.currentInterval > animData.interval)
-        animData.currentInterval = 0.f;
-
-    else
-        return;
 
     auto orientation = e->GetComponent<OrientationComponent>().orientation;
 
@@ -62,15 +57,6 @@ void updateAnimation(const Ndk::EntityHandle& e, float elapsedTime)
 
     for (auto& sprite : sprites)
         animate({ startX, startY }, sprite, animData, animType, e->HasComponent<PathComponent>() ? e->GetComponent<PathComponent>().path.size() : 0);
-
-
-    if (animType != anim.lastUsedAnimation)
-    {
-        anim.animList[anim.lastUsedAnimation].currentInterval = 0.f;
-        anim.animList[anim.lastUsedAnimation].frame = 0;
-    }
-
-    anim.lastUsedAnimation = animType;
 }
 
 void animate(Nz::Vector2ui startCoords, const Nz::SpriteRef& sprite, AnimationData& animData, AnimationComponent::AnimationType animType, std::size_t pathSize)

@@ -159,25 +159,31 @@ bool changeMap()
         newOrient = Orientation::Down;
     }
 
-    TealAssert(newMap, "new map null !");
 
+    TealAssert(newMap, "New map null !");
+
+    // Disable old map's entities and remove our character from it
     m_currentMap->getCurrentMap()->getEntities().Remove(m_mainCharacter);
     deactivateMapEntities(m_currentMap->getCurrentMap());
 
-    m_currentMap->getCurrentMap()->updateOccupiedTiles();
-    clearPatherCache();
-
-
+    // Set new map
+    m_currentMap->getCurrentMap()->updateOccupiedTiles(); // Do not forget to refresh former map's occupied tiles
     m_currentMap->setMap(m_currentMap->getCurrentMapIndex(), newMap);
 
+    // Update Animation before enabling entities
+    for (auto& entity : m_currentMap->getCurrentMap()->getEntities())
+        if (hasComponentsToAnimate(entity))
+            updateAnimation(entity);
 
+    // Enable entities & put main character
     activateMapEntities(m_currentMap->getCurrentMap());
     m_currentMap->getCurrentMap()->getEntities().Insert(m_mainCharacter);
 
+    // Update map & pather
     m_currentMap->update();
-    m_currentMap->getCurrentMap()->updateOccupiedTiles();
-    clearPatherCache();
+    refreshOccupiedTiles();
 
+    // Update main character
     pos.xy = { x, y };
     m_mainCharacter->GetComponent<OrientationComponent>().orientation = newOrient;
     refreshGraphicsPos(m_mainCharacter);
@@ -226,6 +232,7 @@ void refreshOccupiedTiles()
 {
     TealAssert(isMapUtilityInitialized(), "Map Utility hasn't been initialized !");
     m_currentMap->getCurrentMap()->updateOccupiedTiles();
+    clearPatherCache();
 }
 
 void clearPatherCache()
