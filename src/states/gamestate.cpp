@@ -180,7 +180,7 @@ void GameState::printInventory(bool detailled) /// Used for testing | todo: have
     std::cout << std::flush;
 }
 
-void GameState::printCharacteristics() /// Used for testing | todo: have a really UI for this
+void GameState::printCharacteristics() /// Used for testing | todo: have a real UI for this
 {
     std::cout << "Main character characteristics";
     if (m_charac->HasComponent<DamageModifierComponent>())
@@ -404,7 +404,7 @@ void GameState::addWidgets()
     lua.Pop();
 
 
-    // Spell Bar (also used as inventory)
+    // Spell Bar (also used as inventory, temporarily)
     TealException(lua.GetField("spell_bar") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar isn't a table!");
     {
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();

@@ -133,6 +133,6 @@ void getItemsFromGround(const Ndk::EntityHandle& e) /// todo: activate traps fro
         inv.items.Insert((*it)->GetComponent<LogicEntityIdComponent>().logicEntity);
 
         killedEntities.Insert(*it);
-        (*it)->Kill(); // I'm sorry.
+        (*it)->Kill(); // Nothing personal.
     }
 }
