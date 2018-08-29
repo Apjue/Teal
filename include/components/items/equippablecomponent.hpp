@@ -59,7 +59,6 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>, public 
     static Ndk::ComponentIndex componentIndex;
 
 private:
-    friend void initializeEquippableComponent(const SkillStore* skillstore);
     friend unsigned int Nz::LuaImplQueryArg(const Nz::LuaState& state, int index, EquippableComponent* component, Nz::TypeTag<EquippableComponent>);
     friend int Nz::LuaImplReplyVal(const Nz::LuaState& state, EquippableComponentHandle&& component, Nz::TypeTag<EquippableComponentHandle>);
 };
