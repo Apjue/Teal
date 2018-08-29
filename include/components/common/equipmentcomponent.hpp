@@ -9,12 +9,23 @@
 
 #include <NDK/Component.hpp>
 #include <NDK/EntityList.hpp>
+#include "components/items/equippablecomponent.hpp"
+#include "data/equipmentdata.hpp"
 
 struct EquipmentComponent : public Ndk::Component<EquipmentComponent>
 {
-    Ndk::EntityList equipped;
+    inline Ndk::EntityHandle get(BodyPart part, Side side = Side::Both);
+    inline void set(Ndk::EntityHandle equipment);
+
+    inline bool has(BodyPart part, Side side = Side::Both);
+
 
     static Ndk::ComponentIndex componentIndex;
+
+private:
+    Ndk::EntityList equipped;
 };
+
+#include "equipmentcomponent.inl"
 
 #endif // EQUIPMENTCOMPONENT_HPP
