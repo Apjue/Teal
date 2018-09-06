@@ -203,7 +203,7 @@ bool SpellBarWidget::addEntity(Ndk::EntityHandle e)
         {
             entity = e;
 
-            auto& graphicalEntity = makeGraphicalItem(CreateEntity(true), { e, Nz::Vector2f(m_boxSize), Nz::Vector2f {}, LogicEntityIdComponent::InventoryItem });
+            auto graphicalEntity = makeGraphicalItem(CreateEntity(true), { e, Nz::Vector2f(m_boxSize), Nz::Vector2f {}, LogicEntityIdComponent::InventoryItem });
             graphicalEntity->GetComponent<Ndk::NodeComponent>().SetParent(this);
             m_graphicalEntities.Insert(graphicalEntity);
 
