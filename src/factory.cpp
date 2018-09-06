@@ -166,7 +166,7 @@ Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalIt
 
 Ndk::EntityHandle makeGraphicalItem(const Ndk::WorldHandle& w, const GraphicalItemData& data, AbsTile pos)
 {
-    auto& e = makeGraphicalItem(w, data);
+    auto e = makeGraphicalItem(w, data);
     e->AddComponent<PositionComponent>().xy = pos;
 
     refreshGraphicsPos(e);
