@@ -14,7 +14,7 @@
 struct EdibleComponent;
 using EdibleComponentHandle = Nz::ObjectHandle<EdibleComponent>;
 
-struct EdibleComponent : public Ndk::Component<EdibleComponent>, public Nz::HandledObject<EdibleComponent>
+struct EdibleComponent : public Ndk::Component<EdibleComponent>
 {
     static inline const char* componentName() { return "edible"; }
     static Ndk::ComponentIndex componentIndex;

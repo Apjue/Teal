@@ -79,10 +79,6 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
     m_canvasBackgroundEntity->AddComponent<Ndk::NodeComponent>().SetPosition(0.f, Def::MapSizeY);
     m_canvasBackgroundEntity->AddComponent<Ndk::GraphicsComponent>().Attach(canvasBackground, Def::CanvasBackgroundLayer);
     m_canvasBackgroundEntity->Enable(false);
-
-    // Temporary
-    m_world->GetSystem<Ndk::RenderSystem>().EnableCulling(false);
-    NazaraNotice("Note: Due to (temporary) graphics bugs, Culling optimization is disabled by default. To enable it back, press U");
 }
 
 GameState::~GameState()
@@ -351,7 +347,7 @@ void GameState::addWidgets()
 {
     m_canvas = std::make_unique<Ndk::Canvas>(m_world->CreateHandle(), m_window.GetEventHandler(), m_window.GetCursorController().CreateHandle());
     m_canvas->SetPosition(float(Def::ButtonsPaddingX), float(Def::MapSizeY + Def::ButtonsMarginY));
-    m_canvas->SetSize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
+    m_canvas->Resize({ float(Def::ButtonsSizeX), float(Def::ButtonsSizeY) });
 
     // Enable the bottom bar background
     m_canvasBackgroundEntity->Enable();
@@ -379,7 +375,7 @@ void GameState::addWidgets()
         invButton->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture")));
 
         invButton->SetPosition(lua.CheckField<Nz::Vector2f>("pos", {}, -1));
-        invButton->SetSize(lua.CheckField<Nz::Vector2f>("size", invButton->GetSize()));
+        invButton->Resize(lua.CheckField<Nz::Vector2f>("size", invButton->GetSize()));
 
         TealException(lua.GetField("colors") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.inventory.colors isn't a table!");
         {
@@ -437,7 +433,7 @@ void GameState::addWidgets()
                 downArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture", texture, -1)));
                 downArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture", texture, -1)));
 
-                downArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
+                downArrow->Resize(lua.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
                 downArrow->SetColor(Nz::Color::White, Nz::Color::White);
             }
 
@@ -452,7 +448,7 @@ void GameState::addWidgets()
                 upArrow->SetHoverTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("hover_texture", texture, -1)));
                 upArrow->SetPressTexture(Nz::TextureLibrary::Get(lua.CheckField<Nz::String>("press_texture", texture, -1)));
 
-                upArrow->SetSize(lua.CheckField<Nz::Vector2f>("size", upArrow->GetSize()));
+                upArrow->Resize(lua.CheckField<Nz::Vector2f>("size", upArrow->GetSize()));
                 upArrow->SetColor(Nz::Color::White, Nz::Color::White);
             }
 
@@ -460,7 +456,7 @@ void GameState::addWidgets()
         }
 
         lua.Pop();
-        spellBar->ResizeToContent();
+        spellBar->updateSize();
 
         // Temporarily use spellbar as Inventory
         m_charac->GetComponent<InventoryComponent>().onItemAdded.Connect([spellBar] (Ndk::EntityHandle e) { spellBar->addEntity(e); });

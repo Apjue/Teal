@@ -19,7 +19,7 @@
 struct FightComponent;
 using FightComponentHandle = Nz::ObjectHandle<FightComponent>;
 
-struct FightComponent : public Ndk::Component<FightComponent>, public Nz::HandledObject<FightComponent>
+struct FightComponent : public Ndk::Component<FightComponent>
 {
     FightComponent(bool autoAttack = false, unsigned mov = 3, unsigned action = 6)
         : automaticallyAttack { autoAttack }, maxMovementPoints { mov }, maxActionPoints { action }, movementPoints { mov }, actionPoints { action } {}

@@ -14,7 +14,7 @@
 struct PositionComponent;
 using PositionComponentHandle = Nz::ObjectHandle<PositionComponent>;
 
-struct PositionComponent : public Ndk::Component<PositionComponent>, public Nz::HandledObject<PositionComponent>
+struct PositionComponent : public Ndk::Component<PositionComponent>
 {
     PositionComponent() = default;
     PositionComponent(const AbsTile& pos) : xy { pos } {}

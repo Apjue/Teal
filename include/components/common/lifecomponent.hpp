@@ -14,7 +14,7 @@ struct LifeComponent;
 using LifeComponentHandle = Nz::ObjectHandle<LifeComponent>;
 
 
-struct LifeComponent : public Ndk::Component<LifeComponent>, public Nz::HandledObject<LifeComponent>
+struct LifeComponent : public Ndk::Component<LifeComponent>
 {
     unsigned hp { 100 };
     unsigned maxHp { 100 };

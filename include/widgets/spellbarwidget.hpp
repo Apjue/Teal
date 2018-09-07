@@ -57,6 +57,8 @@ public:
     inline const Nz::TextureRef& getBarTexture() const;
     inline Nz::Vector2f getBarSize() const;
 
+    inline void updateSize();
+
     // Focus appearance
     inline void setFocusTexture(const Nz::TextureRef& texture);
     inline void setFocusColor(Nz::Color color);
@@ -75,9 +77,6 @@ public:
     inline void removeEntity(Ndk::EntityHandle e);
     inline void emptyCell(Nz::Vector2ui boxIndex, unsigned page = std::numeric_limits<unsigned>::max());
     inline bool isCellEmpty(Nz::Vector2ui boxIndex, unsigned page = std::numeric_limits<unsigned>::max());
-
-
-    void ResizeToContent() override;
 
     NazaraSignal(onItemUsed, Ndk::EntityHandle /*item*/);
     //NazaraSignal(onSpellSelected, Ndk::EntityHandle /*spell*/); // todo: will spell be entities? or maybe something like SpellData, or an id (using DoubleStores)

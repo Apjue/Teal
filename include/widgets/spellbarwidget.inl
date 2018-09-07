@@ -13,9 +13,9 @@
 #include "spellbarwidget.hpp"
 
 SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
-    : Ndk::BaseWidget(parent), m_spellBar(CreateEntity(true)), m_spellBarSprite(Nz::Sprite::New(Nz::Material::New("Basic2D"))), m_spellBarFocus(CreateEntity(true)),
-    m_spellBarFocusSprite(Nz::Sprite::New(Nz::Material::New("Translucent2D"))), m_spellBarSemiFocus(CreateEntity(true)),
-    m_spellBarSemiFocusSprite(Nz::Sprite::New(Nz::Material::New("Translucent2D"))), m_pageCounter(CreateEntity(true)), m_pageCounterSprite(Nz::TextSprite::New()),
+    : Ndk::BaseWidget(parent), m_spellBar(CreateEntity()), m_spellBarSprite(Nz::Sprite::New(Nz::Material::New("Basic2D"))), m_spellBarFocus(CreateEntity()),
+    m_spellBarFocusSprite(Nz::Sprite::New(Nz::Material::New("Translucent2D"))), m_spellBarSemiFocus(CreateEntity()),
+    m_spellBarSemiFocusSprite(Nz::Sprite::New(Nz::Material::New("Translucent2D"))), m_pageCounter(CreateEntity()), m_pageCounterSprite(Nz::TextSprite::New()),
     m_upArrow(Add<Ndk::ButtonWidget>()), m_downArrow(Add<Ndk::ButtonWidget>())
 {
     m_spellBar->AddComponent<Ndk::NodeComponent>().SetParent(this);
@@ -34,7 +34,7 @@ SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
 
     updateSpellBar();
     resizeEntities();
-    ResizeToContent();
+    updateSize();
 
     m_pageUpSlot.Connect(m_upArrow->OnButtonTrigger, [this] (const Ndk::ButtonWidget*)
     {
@@ -59,26 +59,26 @@ SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
 void SpellBarWidget::setBorderSize(Nz::Vector2ui borderSize)
 {
     m_borderSize = borderSize;
-    ResizeToContent();
+    updateSize();
 }
 
 void SpellBarWidget::setPadding(Nz::Vector2ui padding)
 {
     m_padding = padding;
-    ResizeToContent();
+    updateSize();
 }
 
 void SpellBarWidget::setBoxSize(Nz::Vector2ui boxSize)
 {
     m_boxSize = boxSize;
-    ResizeToContent();
+    updateSize();
 }
 
 void SpellBarWidget::setBoxNumber(Nz::Vector2ui boxNumber)
 {
     m_boxNumber = boxNumber;
     resizeEntities();
-    ResizeToContent();
+    updateSize();
 }
 
 
@@ -138,6 +138,17 @@ Nz::Vector2f SpellBarWidget::getBarSize() const
     return m_spellBarSprite->GetSize();
 }
 
+void SpellBarWidget::updateSize()
+{
+    Nz::Vector2f size;
+    size.Set(Nz::Vector2ui { m_boxNumber * m_boxSize + m_boxNumber * m_padding + m_boxNumber * m_borderSize * 2u });
+    size.x += std::max(m_upArrow->GetSize().x, m_downArrow->GetSize().x) + s_buttonsPadding;
+
+    resizeGraphicalEntities();
+
+    SetMinimumSize(size);
+    SetPreferredSize(size);
+}
 
 void SpellBarWidget::setFocusTexture(const Nz::TextureRef& texture)
 {
@@ -186,7 +197,7 @@ Nz::Vector2ui SpellBarWidget::getBoxIndex(Nz::Vector2i mouseCoords) const
 {
     for (unsigned x {}; x < m_boxNumber.x; ++x)
         for (unsigned y {}; y < m_boxNumber.y; ++y)
-            if (getBoxAABB({ x, y }).Contains(Nz::Vector2ui (mouseCoords - Nz::Vector2i (GetContentOrigin()))))
+            if (getBoxAABB({ x, y }).Contains(Nz::Vector2ui(mouseCoords)))
                 return { x, y };
 
     return s_invalidBox;
@@ -203,7 +214,7 @@ bool SpellBarWidget::addEntity(Ndk::EntityHandle e)
         {
             entity = e;
 
-            auto graphicalEntity = makeGraphicalItem(CreateEntity(true), { e, Nz::Vector2f(m_boxSize), Nz::Vector2f {}, LogicEntityIdComponent::InventoryItem });
+            auto graphicalEntity = makeGraphicalItem(CreateEntity(), { e, Nz::Vector2f(m_boxSize), Nz::Vector2f {}, LogicEntityIdComponent::InventoryItem });
             graphicalEntity->GetComponent<Ndk::NodeComponent>().SetParent(this);
             m_graphicalEntities.Insert(graphicalEntity);
 

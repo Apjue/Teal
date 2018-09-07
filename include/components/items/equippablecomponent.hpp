@@ -25,7 +25,7 @@ extern int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& co
 
 } // namespace Nz
 
-struct EquippableComponent : public Ndk::Component<EquippableComponent>, public Nz::HandledObject<EquippableComponent>
+struct EquippableComponent : public Ndk::Component<EquippableComponent>
 {
     BodyPart bodypart {};
     Side side { Side::Both };

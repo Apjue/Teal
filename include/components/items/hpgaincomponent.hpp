@@ -22,7 +22,7 @@ using HPGainComponentHandle = Nz::ObjectHandle<HPGainComponent>;
 ///        If diff == 0, the HP of the player becomes abs.
 ///
 
-struct HPGainComponent : public Ndk::Component<HPGainComponent>, public Nz::HandledObject<HPGainComponent>
+struct HPGainComponent : public Ndk::Component<HPGainComponent>
 {
     int rel {}; // can be negative, e.g. for poison
     unsigned abs {};

@@ -141,9 +141,10 @@ void refreshGraphicsPos(const Ndk::EntityHandle& entity)
         gInXY.y *= (pos.advancement * Def::MaxGraphicsYPosInTile);
     }
 
-    float const finalX = float(gX) + float(gInXY.x) + defPos.x; // We will move using this
-    float const finalY = float(gY) + float(gInXY.y) + defPos.y; // (so it's graphics pos)
+    // We will move using this (so it's graphics pos)
+    Nz::Vector3f finalPos { float(gX) + float(gInXY.x) + defPos.x, float(gY) + float(gInXY.y) + defPos.y, 0.f };
+    finalPos.z = finalPos.y / 10.f;
 
-    if (finalX != node.GetPosition().x || finalY != node.GetPosition().y) // if the entity is already at that position, no need to move it
-        node.SetPosition(finalX, finalY, finalY / 10.f);
+    if (finalPos.x != node.GetPosition().x || finalPos.y != node.GetPosition().y) // if the entity is already at that position, no need to move it
+        node.SetPosition(finalPos);
 }

@@ -13,7 +13,7 @@
 struct LevelComponent;
 using LevelComponentHandle = Nz::ObjectHandle<LevelComponent>;
 
-struct LevelComponent : public Ndk::Component<LevelComponent>, public Nz::HandledObject<LevelComponent>
+struct LevelComponent : public Ndk::Component<LevelComponent>
 {
     LevelComponent(unsigned lvl = 0) : level { lvl } {}
 

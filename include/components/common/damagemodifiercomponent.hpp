@@ -16,7 +16,7 @@
 struct DamageModifierComponent;
 using DamageModifierComponentHandle = Nz::ObjectHandle<DamageModifierComponent>;
 
-struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>, public Nz::HandledObject<DamageModifierComponent>
+struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>
 {
     std::unordered_map<Element, int> attack; // In percentage
     std::unordered_map<Element, int> resistance;

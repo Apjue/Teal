@@ -14,7 +14,7 @@
 struct ResourceComponent;
 using ResourceComponentHandle = Nz::ObjectHandle<ResourceComponent>;
 
-struct ResourceComponent : public Ndk::Component<ResourceComponent>, public Nz::HandledObject<ResourceComponent>
+struct ResourceComponent : public Ndk::Component<ResourceComponent>
 {
     static inline const char* componentName() { return "resource"; }
     static Ndk::ComponentIndex componentIndex;
