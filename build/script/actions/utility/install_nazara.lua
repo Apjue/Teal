@@ -85,7 +85,7 @@ ACTION.execute = function(self, root)
             end
 
             if (not location) then
-                error("No archive location provided, couldn't determine it using the archive's name")
+                error("No archive location provided (--lib-toolset argument), couldn't determine it using the archive's name")
             end
         end
 

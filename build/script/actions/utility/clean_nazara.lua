@@ -49,7 +49,7 @@ ACTION.execute = function(self, root)
         end
     end
 
-    print("Cleaning /extlibs/lib/" .. toolset .. "/x86/nazara/ and /extlibs/lib/" .. toolset .. "/x64/nazara/...")
+    print("Cleaning /extlibs/lib/" .. toolset .. "/(x86|x64)/nazara/...")
 
     os.rmdir(root .. "/extlibs/lib/" .. toolset .. "/x86/nazara")
     os.rmdir(root .. "/extlibs/lib/" .. toolset .. "/x64/nazara")
