@@ -14,7 +14,7 @@
 struct ResourceComponent;
 using ResourceComponentHandle = Nz::ObjectHandle<ResourceComponent>;
 
-struct ResourceComponent : public Ndk::Component<ResourceComponent>
+struct ResourceComponent : public Ndk::Component<ResourceComponent> // Todo: Add a 'stackable' unsigned ?
 {
     static inline const char* componentName() { return "resource"; }
     static Ndk::ComponentIndex componentIndex;
