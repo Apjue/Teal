@@ -1,7 +1,7 @@
 Main todo:
-- Put inventory items in spellbar
 - Finish fight feature!
 
+- Make a real inventory GUI (handle items with one side with alphabetical order)
 - AISystem "!move.playerInitiated and no path found (something blocked and still blocking)"
 - Handle blocktiles in TilesetCore
 - Implement tile layers (adds possibility to make bridges, stairs)
