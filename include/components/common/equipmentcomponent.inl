@@ -4,34 +4,89 @@
 
 #include "equipmentcomponent.hpp"
 
-
-Ndk::EntityHandle EquipmentComponent::get(BodyPart part, Side side)
+Ndk::EntityHandle EquipmentComponent::get(BodyPart part, unsigned skip)
 {
     for (auto& e : equipped)
     {
         auto& equip = e->GetComponent<EquippableComponent>();
 
-        if (equip.bodypart == part && (side == Side::Both || equip.side == side))
-            return e;
+        if (equip.bodypart == part)
+        {
+            if (skip == 0)
+                return e;
+
+            else
+                --skip;
+        }
     }
 
     return Ndk::EntityHandle {};
 }
 
-void EquipmentComponent::set(Ndk::EntityHandle equipment)
+void EquipmentComponent::set(Ndk::EntityHandle item)
 {
-    auto& equipEquip = equipment->GetComponent<EquippableComponent>();
-    Ndk::EntityHandle alreadySetEquipment = get(equipEquip.bodypart, equipEquip.side); // todo: what if same side but different could word?
+    auto& equip = item->GetComponent<EquippableComponent>();
 
-    if (alreadySetEquipment)
-        equipped.Remove(alreadySetEquipment);
+    if (equip.useBothHands)
+    {
+        while (get(equip.bodypart))
+            equipped.Remove(get(equip.bodypart));
+    }
 
-    equipped.Insert(equipment);
+    else
+    {
+        switch (has(equip.bodypart)) // Number of equipped items
+        {
+            case 1:
+            {
+                Ndk::EntityHandle alreadyEquipped = get(equip.bodypart);
+
+                if (alreadyEquipped->GetComponent<EquippableComponent>().useBothHands)
+                    equipped.Remove(alreadyEquipped);
+
+                break;
+            }
+
+            case 2:
+            {
+                Ndk::EntityHandle alreadyEquipped = get(equip.bodypart);
+                bool clearSlot = false;
+
+                if (alreadyEquipped->GetComponent<EquippableComponent>().useBothHands)
+                {
+                    clearSlot = true;
+                    equipped.Remove(alreadyEquipped);
+                }
+
+                Ndk::EntityHandle alreadyEquipped2 = get(equip.bodypart, 1);
+
+                if (alreadyEquipped2->GetComponent<EquippableComponent>().useBothHands || !clearSlot)
+                    equipped.Remove(alreadyEquipped2);
+
+                break;
+            }
+
+            default:
+                throw std::runtime_error { "A third side ?!" };
+        }
+    }
+
+    equipped.Insert(item);
 }
 
 
-bool EquipmentComponent::has(BodyPart part, Side side)
+unsigned EquipmentComponent::has(BodyPart part)
 {
-    return get(part, side);
+    unsigned counter {};
+
+    for (auto& e : equipped)
+    {
+        auto& equip = e->GetComponent<EquippableComponent>();
+
+        if (equip.bodypart == part)
+            ++counter;
+    }
+
+    return counter;
 }
 

@@ -14,16 +14,18 @@
 
 struct EquipmentComponent : public Ndk::Component<EquipmentComponent>
 {
-    inline Ndk::EntityHandle get(BodyPart part, Side side = Side::Both);
-    inline void set(Ndk::EntityHandle equipment);
+    inline Ndk::EntityHandle get(BodyPart part, unsigned skip = 0); // 'skip' is the number of items to... skip
+    inline void set(Ndk::EntityHandle item);
 
-    inline bool has(BodyPart part, Side side = Side::Both);
+    inline unsigned has(BodyPart part);
 
 
     static Ndk::ComponentIndex componentIndex;
 
 private:
     Ndk::EntityList equipped;
+    // std::unordered_map<Bodypart, std::array<std::optional<bool>, 2u>> ?
+    // tsl::hopscotch_map<X, chobo::static_vector<Y, 3>> ?
 };
 
 #include "equipmentcomponent.inl"
