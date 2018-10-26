@@ -28,7 +28,7 @@ constexpr unsigned TileSizeY        { 32u };
 constexpr unsigned TileVertexNumber { 4u };
 
 
-constexpr   int    MaxPosInTile { 4u }; // Must be dividable by TileSizeX & TileSizeY
+constexpr   int    MaxPosInTile { 4u };
 static_assert((TileSizeX % MaxPosInTile) == 0 && (TileSizeY % MaxPosInTile) == 0, "MaxPosInTile must be dividable by TileSizeX & Y");
 
 constexpr unsigned MaxGraphicsXPosInTile { (TileSizeX / 2u) / MaxPosInTile };
@@ -52,7 +52,7 @@ constexpr std::array<float, 8> MapDistanceCost    { 1.5f, 1.f, 2.f, 1.f, 1.5f, 1
 constexpr unsigned   DefaultFightTimeLimit { 60'000u }; // In Miliseconds
 constexpr Nz::UInt32 LuaAITimeLimit { 1000u };
 
-constexpr std::size_t PathRunningAfter { 2 };
+constexpr std::size_t PathRunningAfter { 2 }; // How many tiles must path's size be to be in running state
 
 }
 
