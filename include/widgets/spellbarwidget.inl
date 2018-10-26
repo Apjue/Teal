@@ -218,8 +218,8 @@ bool SpellBarWidget::addEntity(Ndk::EntityHandle e)
             graphicalEntity->GetComponent<Ndk::NodeComponent>().SetParent(this);
             m_graphicalEntities.Insert(graphicalEntity);
 
-            Layout();
             updateSpellBar();
+            Layout();
 
             return true;
         }
@@ -289,8 +289,7 @@ void SpellBarWidget::updateSpellBar()
         for (std::size_t i {}; i < m_entities.size(); ++i)
             if (m_entities[i] == logicEntity)
             {
-                unsigned page = i / m_pageCount + 1;
-                graphicalEntity->Enable(page == m_currentPage);
+                graphicalEntity->Enable(m_currentPage == (IndexToCell(i).second + 1));
                 found = true;
 
                 break;
@@ -325,10 +324,10 @@ unsigned SpellBarWidget::CellToIndex(Nz::Vector2ui cell, unsigned page)
 std::pair<Nz::Vector2ui /* cell */, unsigned /* page */> SpellBarWidget::IndexToCell(unsigned index)
 {
     std::pair<Nz::Vector2ui, unsigned> returnValue;
-    returnValue.second = index % m_pageCount;
+    returnValue.second = index / (m_boxNumber.x * m_boxNumber.y);
 
-    returnValue.first.x = returnValue.second % m_boxNumber.x;
-    returnValue.first.y = (returnValue.second - returnValue.first.x) / m_boxNumber.x;
+    returnValue.first.x = index % m_boxNumber.x;
+    returnValue.first.y = (index - returnValue.second * m_boxNumber.x * m_boxNumber.y) / m_boxNumber.x;
 
     return returnValue;
 }
