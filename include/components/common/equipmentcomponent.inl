@@ -25,6 +25,14 @@ Ndk::EntityHandle EquipmentComponent::get(BodyPart part, unsigned skip)
 
 void EquipmentComponent::set(Ndk::EntityHandle item)
 {
+    // Already equipped that item, remove it
+    if (equipped.Has(item))
+    {
+        equipped.Remove(item);
+        return;
+    }
+
+    // Else, equip it
     auto& equip = item->GetComponent<EquippableComponent>();
 
     if (equip.useBothHands)
