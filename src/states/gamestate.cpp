@@ -20,6 +20,7 @@
 #include "util/cloneutil.hpp"
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
+#include "util/itemutil.hpp"
 #include "def/layerdef.hpp"
 #include "def/folderdef.hpp"
 #include "def/uidef.hpp"
@@ -462,7 +463,12 @@ void GameState::addWidgets()
         m_charac->GetComponent<InventoryComponent>().onItemAdded.Connect([spellBar] (Ndk::EntityHandle e) { spellBar->addEntity(e); });
         m_charac->GetComponent<InventoryComponent>().onItemRemoved.Connect(spellBar, &SpellBarWidget::removeEntity);
 
-        spellBar->onItemUsed.Connect([] (Ndk::EntityHandle item) { NazaraNotice("I have been used"); });
+        // Make shortcuts on spellbar usable
+        spellBar->onItemUsed.Connect([&] (Ndk::EntityHandle item)
+        {
+            if (isItemUsable(item))
+                useItem(m_charac, item);
+        });
     }
 
     lua.Pop();
