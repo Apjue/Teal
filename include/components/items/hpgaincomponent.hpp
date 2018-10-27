@@ -18,8 +18,8 @@ using HPGainComponentHandle = Nz::ObjectHandle<HPGainComponent>;
 ///
 /// \struct HPGainComponent
 ///
-/// \brief Adds diff HPs to the player
-///        If diff == 0, the HP of the player becomes abs.
+/// \brief Adds 'rel' HPs to the player
+///        If rel == 0, the HP of the player becomes 'abs'.
 ///
 
 struct HPGainComponent : public Ndk::Component<HPGainComponent>
