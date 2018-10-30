@@ -9,17 +9,6 @@
 
 #include "states.hpp"
 
-/*enum class StateType
-{
-    PoisonnedState,
-    HealedState,
-    WeaknessState,
-    PowerState,
-    ParalyzedState,
-    SleepingState,
-    ConfusedState
-};*/
-
 Nz::String stateTypeToString(StateType stateType)
 {
     switch (stateType)
