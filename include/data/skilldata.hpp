@@ -37,8 +37,8 @@ struct SkillData
         Plus,
         Circle,
 
-        AlignedCenterRL,
-        AlignedCenterDU,
+        AlignedCenterRL, // right & left
+        AlignedCenterDU, // down & up
         AlignedRight,
         AlignedLeft,
         AlignedDown,
