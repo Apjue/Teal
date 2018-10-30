@@ -230,15 +230,16 @@ bool SpellBarWidget::addEntity(Ndk::EntityHandle e)
 
 void SpellBarWidget::removeEntity(Ndk::EntityHandle e)
 {
-    for (unsigned i {}; i < m_entities.size(); ++i)
+    for (Ndk::EntityHandle& entity : m_entities)
     {
-        Ndk::EntityHandle& entity = m_entities[i];
-
         if (entity.IsValid() && entity == e)
         {
             for (auto& graphicalEntity : m_graphicalEntities)
                 if (graphicalEntity->GetComponent<LogicEntityIdComponent>().logicEntity == e)
+                {
                     m_graphicalEntities.Remove(graphicalEntity);
+                    graphicalEntity->Kill();
+                }
 
             entity = nullptr;
         }
