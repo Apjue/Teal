@@ -53,6 +53,13 @@ SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
             updateSpellBar();
         }
     });
+
+    m_spellBar->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBar destroyed"); });
+    m_spellBarFocus->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBarF destroyed"); });
+    m_spellBarSemiFocus->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBarSF destroyed"); });
+    m_pageCounter->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("page destroyed"); });
+    //m_upArrow->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBar destroyed"); });
+    //m_downArrow->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBar destroyed"); });
 }
 
 
@@ -238,7 +245,7 @@ void SpellBarWidget::removeEntity(Ndk::EntityHandle e)
                 if (graphicalEntity->GetComponent<LogicEntityIdComponent>().logicEntity == e)
                 {
                     m_graphicalEntities.Remove(graphicalEntity);
-                    graphicalEntity->Kill();
+                    DestroyEntity(graphicalEntity);
                 }
 
             entity = nullptr;

@@ -114,7 +114,7 @@ private:
     unsigned m_pageCounterSize { 20 };
 
     std::vector<Ndk::EntityHandle> m_entities;
-    Ndk::EntityList m_graphicalEntities; //todo todooooo
+    Ndk::EntityList m_graphicalEntities;
 
     // Graphics
     Ndk::EntityOwner m_spellBar;
