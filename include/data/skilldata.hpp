@@ -8,6 +8,7 @@
 #define SKILLDATA_HPP
 
 #include <Nazara/Core/String.hpp>
+#include <Nazara/Renderer/Texture.hpp>
 #include <memory>
 #include <vector>
 #include <utility>
@@ -55,7 +56,7 @@ struct SkillData
     Nz::String displayName;
 
     Nz::String description;
-    Nz::String icon;
+    Nz::TextureRef icon;
 
     std::unordered_map<Element, unsigned> getMaximumDamage() const;
     // FightStats generateFightStats();

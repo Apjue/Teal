@@ -32,9 +32,10 @@
 #include "components/common/clonecomponent.hpp"
 #include "components/common/graphicalentitiescomponent.hpp"
 #include "components/common/renderablesstoragecomponent.hpp"
+#include "components/common/statecomponent.hpp"
 
 // Items
-#include "components/items/ediblecomponent.hpp"
+#include "components/items/consumablecomponent.hpp"
 #include "components/items/equippablecomponent.hpp"
 #include "components/items/hpgaincomponent.hpp"
 #include "components/items/itemcomponent.hpp"

@@ -9,17 +9,77 @@
 
 #include "states.hpp"
 
-State::State(const Nz::LuaState& state, int index)
+/*enum class StateType
 {
-    turns = state.CheckField<unsigned>("turns", index);
+    PoisonnedState,
+    HealedState,
+    WeaknessState,
+    PowerState,
+    ParalyzedState,
+    SleepingState,
+    ConfusedState
+};*/
+
+Nz::String stateTypeToString(StateType stateType)
+{
+    switch (stateType)
+    {
+        case StateType::PoisonnedState:
+            return "poisonned";
+
+        case StateType::HealedState:
+            return "healed";
+
+        case StateType::WeaknessState:
+            return "weakness";
+
+        case StateType::PowerState:
+            return "power";
+
+        case StateType::ParalyzedState:
+            return "paralyzed";
+
+        case StateType::SleepingState:
+            return "sleeping";
+
+        case StateType::ConfusedState:
+            return "confused";
+
+        default:
+            throw std::runtime_error { "Invalid State" };
+    }
 }
 
-void State::serialize(const Nz::LuaState& state)
+StateType stringToStateType(Nz::String string)
 {
-    state.PushField("turns", turns);
+    string = string.ToLower();
+
+    if (string == "poisonned")
+        return StateType::PoisonnedState;
+
+    if (string == "healed")
+        return StateType::HealedState;
+
+    if (string == "weakness")
+        return StateType::WeaknessState;
+
+    if (string == "power")
+        return StateType::PowerState;
+
+    if (string == "paralyzed")
+        return StateType::ParalyzedState;
+
+    if (string == "sleeping")
+        return StateType::SleepingState;
+
+    if (string == "confused")
+        return StateType::ConfusedState;
+
+    throw std::runtime_error { "Invalid State" };
 }
 
-PoisonnedState::PoisonnedState(const Nz::LuaState& state, int index) : State(state, index)
+
+PoisonnedState::PoisonnedState(const Nz::LuaState& state, int index)
 {
     damage.first = state.CheckField<Element>("element", index);
     damage.second = state.CheckField<unsigned>("damage", index);
@@ -27,7 +87,7 @@ PoisonnedState::PoisonnedState(const Nz::LuaState& state, int index) : State(sta
 
 void PoisonnedState::serialize(const Nz::LuaState& state)
 {
-    State::serialize(state);
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
 
     state.PushField("element", damage.first);
     state.PushField("damage", damage.second);
@@ -41,7 +101,7 @@ State::FightInfo PoisonnedState::getFightInfo()
     return info;
 }
 
-HealedState::HealedState(const Nz::LuaState& state, int index) : State(state, index)
+HealedState::HealedState(const Nz::LuaState& state, int index)
 {
     health.first = state.CheckField<Element>("element", index);
     health.second = state.CheckField<unsigned>("health", index);
@@ -49,7 +109,7 @@ HealedState::HealedState(const Nz::LuaState& state, int index) : State(state, in
 
 void HealedState::serialize(const Nz::LuaState& state)
 {
-    State::serialize(state);
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
 
     state.PushField("element", health.first);
     state.PushField("health", health.second);
@@ -63,7 +123,7 @@ State::FightInfo HealedState::getFightInfo()
     return info;
 }
 
-StatsModifierState::StatsModifierState(const Nz::LuaState& state, int index) : State(state, index)
+StatsModifierState::StatsModifierState(const Nz::LuaState& state, int index)
 {
     if (state.GetField("attack", index) == Nz::LuaType_Table)
         for (Element e {}; e <= Element::Max; ++e)
@@ -83,8 +143,6 @@ StatsModifierState::StatsModifierState(const Nz::LuaState& state, int index) : S
 
 void StatsModifierState::serialize(const Nz::LuaState& state)
 {
-    State::serialize(state);
-
     state.PushTable();
     {
         for (Element e {}; e <= Element::Max; ++e)
@@ -116,6 +174,23 @@ State::FightInfo StatsModifierState::getFightInfo()
     return info;
 }
 
+void WeaknessState::serialize(const Nz::LuaState& state)
+{
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
+    StatsModifierState::serialize(state);
+}
+
+void PowerState::serialize(const Nz::LuaState& state)
+{
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
+    StatsModifierState::serialize(state);
+}
+
+
+void ParalyzedState::serialize(const Nz::LuaState& state)
+{
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
+}
 
 State::FightInfo ParalyzedState::getFightInfo()
 {
@@ -125,12 +200,24 @@ State::FightInfo ParalyzedState::getFightInfo()
     return info;
 }
 
+
+void SleepingState::serialize(const Nz::LuaState& state)
+{
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
+}
+
 State::FightInfo SleepingState::getFightInfo()
 {
     FightInfo info;
     info.flags = FightInfo::Sleeping;
 
     return info;
+}
+
+
+void ConfusedState::serialize(const Nz::LuaState& state)
+{
+    state.PushField<Nz::String>("state_type", stateTypeToString(getStateType()));
 }
 
 State::FightInfo ConfusedState::getFightInfo()

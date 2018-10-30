@@ -53,13 +53,6 @@ SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)
             updateSpellBar();
         }
     });
-
-    m_spellBar->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBar destroyed"); });
-    m_spellBarFocus->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBarF destroyed"); });
-    m_spellBarSemiFocus->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBarSF destroyed"); });
-    m_pageCounter->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("page destroyed"); });
-    //m_upArrow->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBar destroyed"); });
-    //m_downArrow->OnEntityDestruction.Connect([] (Ndk::Entity*) { NazaraNotice("SpellBar destroyed"); });
 }
 
 

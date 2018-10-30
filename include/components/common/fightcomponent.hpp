@@ -13,7 +13,6 @@
 #include "components/common/pathcomponent.hpp"
 #include "cache/doublestore.hpp"
 #include "global.hpp"
-#include "data/statedata.hpp"
 #include "util/nzstlcompatibility.hpp"
 
 struct FightComponent;
@@ -27,8 +26,7 @@ struct FightComponent : public Ndk::Component<FightComponent>
     bool isFighting { false };
     bool myTurn { false }; // Waiting to kill you
     unsigned teamNumber {};
-    std::vector<StateData> states;
-
+    
     bool automaticallyAttack { false }; // In the map
 
     unsigned maxMovementPoints { 3 };
@@ -38,9 +36,9 @@ struct FightComponent : public Ndk::Component<FightComponent>
     unsigned actionPoints { maxActionPoints };
 
     std::vector<SkillStore::LightId> attacks;
+    std::vector<StateData> states; // States which don't remain after fight, for others, see StateComponent
 
-
-    SkillStore::LightId wantedAttack { SkillStore::InvalidID };
+    SkillStore::LightId selectedAttack { SkillStore::InvalidID };
     Ndk::EntityHandle target;
 
     static Ndk::ComponentIndex componentIndex;
@@ -59,8 +57,6 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, FightCompo
     component->myTurn = state.CheckField<bool>("my_turn", false, index);
     component->teamNumber = state.CheckField<unsigned>("team_number", index);
 
-    component->states = state.CheckField<std::vector<StateData>>("states", index);
-
     component->automaticallyAttack = state.CheckField<bool>("automatically_attack", false, index);
 
     component->maxMovementPoints = state.CheckField<unsigned>("max_movement_points", index);
@@ -70,6 +66,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, FightCompo
     component->actionPoints = state.CheckField<unsigned>("action_points", index);
 
     component->attacks = state.CheckField<std::vector<SkillStore::LightId>>("attacks", index);
+    component->states = state.CheckField<std::vector<StateData>>("states", index);
 
     return 1;
 }
@@ -82,8 +79,6 @@ inline int LuaImplReplyVal(const LuaState& state, FightComponentHandle&& compone
         state.PushField("my_turn", component->myTurn);
         state.PushField("team_number", component->teamNumber);
 
-        state.PushField("states", component->states);
-
         state.PushField("automatically_attack", component->automaticallyAttack);
 
         state.PushField("max_movement_points", component->maxMovementPoints);
@@ -93,6 +88,7 @@ inline int LuaImplReplyVal(const LuaState& state, FightComponentHandle&& compone
         state.PushField("action_points", component->actionPoints);
 
         state.PushField("attacks", component->attacks);
+        state.PushField("states", component->states);
     }
 
     return 1;

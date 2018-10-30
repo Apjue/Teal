@@ -10,7 +10,7 @@
 #include <NDK/Entity.hpp>
 
 inline bool isItemUsable(Ndk::EntityHandle item);
-inline void useItem(Ndk::EntityHandle character, Ndk::EntityHandle item);
+inline bool useItem(Ndk::EntityHandle character, Ndk::EntityHandle item); // Returns true if item is used (and should be killed)
 
 #include "itemutil.inl"
 

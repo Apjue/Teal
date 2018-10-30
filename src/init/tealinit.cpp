@@ -48,7 +48,7 @@ void initializeTeal(GameData& data)
     TealInitDetail::initSchemeUtility();
     TealInitDetail::loadTilesetCore(data.tilesetCore, data.fightTilesetCore);
 
-    TealInitDetail::loadMetaData(*data.states);
+    TealInitDetail::loadStatesMetaData(*data.states);
     TealInitDetail::loadSkills(*data.skills);
     TealInitDetail::loadAnimations(*data.animations);
     TealInitDetail::loadCharacters(data.world, data.characters, *data.animations);
@@ -145,11 +145,12 @@ void loadNazara()
     Ndk::InitializeComponent<CloneComponent>("clone");                  //Ndk::LuaAPI::GetBinding()->BindComponent<CloneComponent>("CloneComponent");
     Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");     //Ndk::LuaAPI::GetBinding()->BindComponent<GraphicalEntitiesComponent>("GraphicalEntitiesComponent");
     Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");  //Ndk::LuaAPI::GetBinding()->BindComponent<RenderablesStorageComponent>("RenderablesStorageComponent");
+    Ndk::InitializeComponent<StateComponent>("feelsbad");               Ndk::LuaAPI::GetBinding()->BindComponent<StateComponent>("StateComponent");
 
     Ndk::InitializeComponent<HPGainComponent>("hpgain");                Ndk::LuaAPI::GetBinding()->BindComponent<HPGainComponent>("HPGainComponent");
     Ndk::InitializeComponent<ItemComponent>("item");                    //Ndk::LuaAPI::GetBinding()->BindComponent<ItemComponent>("ItemComponent");
     Ndk::InitializeComponent<EquippableComponent>("canequip");          Ndk::LuaAPI::GetBinding()->BindComponent<EquippableComponent>("EquippableComponent");
-    Ndk::InitializeComponent<EdibleComponent>("edible");                Ndk::LuaAPI::GetBinding()->BindComponent<EdibleComponent>("EdibleComponent");
+    Ndk::InitializeComponent<ConsumableComponent>("consum");            Ndk::LuaAPI::GetBinding()->BindComponent<ConsumableComponent>("ConsumableComponent");
     Ndk::InitializeComponent<ResourceComponent>("resource");            Ndk::LuaAPI::GetBinding()->BindComponent<ResourceComponent>("ResourceComponent");
 
     // Systems
@@ -215,10 +216,30 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
 }
 
 
-void loadMetaData(StateMDStore& states)
+void loadStatesMetaData(StateMDStore& states)
 {
-    states.addItem(PoisonnedState::getMetadataID(), { "Poisonned", "You are poisonned. Life sucks." });
-    states.addItem(HealedState::getMetadataID(), { "Regeneration", "You are healed. Life is cool." });
+    Nz::Directory statesDirectory { Def::StateFolder };
+    statesDirectory.SetPattern("*.lua");
+    statesDirectory.Open();
+
+    while (statesDirectory.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(statesDirectory.GetResultPath()))
+        {
+            NazaraNotice("Error loading state " + statesDirectory.GetResultName());
+            NazaraNotice(lua.GetLastError());
+            continue;
+        }
+
+        StateMetaData s = lua.CheckGlobal<StateMetaData>("teal_state_metadata");
+        states.addItem(s.codename, s);
+
+        NazaraNotice("State " + s.name + " loaded ! (" + s.codename + ")");
+    }
+
+    NazaraNotice(" --- ");
 }
 
 void loadSkills(SkillStore& skills)

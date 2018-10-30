@@ -4,30 +4,31 @@
 
 #include <algorithm>
 #include "components/items/itemcomponent.hpp"
-#include "components/items/ediblecomponent.hpp"
+#include "components/items/consumablecomponent.hpp"
 #include "components/items/hpgaincomponent.hpp"
 #include "components/items/equippablecomponent.hpp"
 #include "components/common/equipmentcomponent.hpp"
+#include "components/common/statecomponent.hpp"
 #include "util/assert.hpp"
 #include "itemutil.hpp"
 
 bool isItemUsable(Ndk::EntityHandle item)
 {
     TealAssert(item->HasComponent<ItemComponent>(), "item isn't an item?");
-    return item->HasComponent<EquippableComponent>() || item->HasComponent<EdibleComponent>();
+    return item->HasComponent<EquippableComponent>() || item->HasComponent<ConsumableComponent>();
 }
 
-void useItem(Ndk::EntityHandle character, Ndk::EntityHandle item)
+bool useItem(Ndk::EntityHandle character, Ndk::EntityHandle item)
 {
     TealAssert(isItemUsable(item), "Item isn't usable");
 
     if (item->HasComponent<EquippableComponent>())
     {
         character->GetComponent<EquipmentComponent>().set(item);
-        return;
+        return false;
     }
 
-    if (item->HasComponent<EdibleComponent>())
+    if (item->HasComponent<ConsumableComponent>())
     {
         if (item->HasComponent<HPGainComponent>())
         {
@@ -38,10 +39,16 @@ void useItem(Ndk::EntityHandle character, Ndk::EntityHandle item)
             life.hp = std::min(life.hp, life.maxHp);
         }
 
-        else
-            NazaraNotice("How do I eat");
+        if (item->HasComponent<StateComponent>())
+        {
+            auto& charStates = character->GetComponent<StateComponent>().states;
+            auto& itemStates = item->GetComponent<StateComponent>().states;
 
-        return;
+            charStates.reserve(itemStates.size());
+            charStates.insert(charStates.end(), itemStates.begin(), itemStates.end());
+        }
+
+        return true;
     }
 
     throw std::runtime_error { "Unsupported type?" };

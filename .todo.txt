@@ -1,7 +1,9 @@
 Main todo:
+- 0_0.lua: Move size/offset somewhere else for items
 - Finish fight feature!
-
+- Remake SkillData::getMaximumDamage()
 - Make a real inventory GUI (handle items with one side with alphabetical order)
+
 - AISystem "!move.playerInitiated and no path found (something blocked and still blocking)"
 - Handle blocktiles in TilesetCore
 - Implement tile layers (adds possibility to make bridges, stairs)

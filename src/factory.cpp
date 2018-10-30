@@ -38,6 +38,8 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     if (data.fight.fight)
         e->AddComponent<FightComponent>(data.fight.autoAttack, data.fight.movementPoints, data.fight.actionPoints);
 
+    e->AddComponent<StateComponent>();
+
     e->AddComponent<NameComponent>(data.name);
     e->AddComponent<DescriptionComponent>(data.description);
     e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
@@ -88,10 +90,10 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lu
 
     TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 
-    if (lua.GetField(EdibleComponent::componentName()) == Nz::LuaType_Table)
+    if (lua.GetField(ConsumableComponent::componentName()) == Nz::LuaType_Table)
     {
         int index = -1;
-        e->AddComponent<EdibleComponent>(lua.Check<EdibleComponent>(&index));
+        e->AddComponent<ConsumableComponent>(lua.Check<ConsumableComponent>(&index));
     }
     lua.Pop();
 
@@ -120,6 +122,13 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lu
     {
         int index = -1;
         e->AddComponent<DamageModifierComponent>(lua.Check<DamageModifierComponent>(&index));
+    }
+    lua.Pop();
+
+    if (lua.GetField(StateComponent::componentName()) == Nz::LuaType_Table)
+    {
+        int index = -1;
+        e->AddComponent<StateComponent>(lua.Check<StateComponent>(&index));
     }
     lua.Pop();
 

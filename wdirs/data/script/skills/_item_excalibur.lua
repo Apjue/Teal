@@ -18,11 +18,33 @@ teal_skill =
         {
             type = "state",
             target = "enemies",
-            state_type = "poison", -- type of state, also used for StateMetaDataStore
 
-            turns = 3, -- number of turns the state lasts
-            element = "fire",
-            damage = 10
+            data =
+            {
+                metadata_id = "excalibur_hit", -- Used by StateMetaDataStore, for icon & description
+                turns = 3, -- number of turns the state lasts
+
+                effects =
+                {
+                    {
+                        state_type = "poisonned",
+
+                        element = "fire",
+                        damage = 10
+                    },
+
+                    {
+                        state_type = "weakness",
+
+                        resistance =
+                        {
+                            neutral = 24,
+                            air = 7,
+                            fire = 28
+                        }
+                    }
+                }
+            }
         }
     },
 

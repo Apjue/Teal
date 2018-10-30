@@ -23,7 +23,7 @@ void loadNazara();
 void initSchemeUtility();
 void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore);
 
-void loadMetaData(StateMDStore& states);
+void loadStatesMetaData(StateMDStore& states);
 void loadSkills(SkillStore& skills);
 void loadFightAIs(AICore& ais);
 void loadAnimations(AnimationStore& animations);

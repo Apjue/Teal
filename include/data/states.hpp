@@ -20,13 +20,9 @@
 struct State
 {
     State() = default;
-    inline State(const Nz::LuaState& state, int index = -1);
-
     virtual ~State() = default;
 
-    unsigned turns {};
-
-    virtual inline void serialize(const Nz::LuaState& state);
+    virtual void serialize(const Nz::LuaState& state) = 0;
 
     struct FightInfo
     {
@@ -49,6 +45,21 @@ struct State
     virtual FightInfo getFightInfo() = 0;
 };
 
+enum class StateType
+{
+    PoisonnedState,
+    HealedState,
+    WeaknessState,
+    PowerState,
+    ParalyzedState,
+    SleepingState,
+    ConfusedState
+};
+
+inline Nz::String stateTypeToString(StateType stateType);
+inline StateType stringToStateType(Nz::String string);
+
+
 struct PoisonnedState : public State
 {
     inline PoisonnedState(const Nz::LuaState& state, int index = -1);
@@ -57,7 +68,7 @@ struct PoisonnedState : public State
 
     virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
-    static const char* getMetadataID() { return "poison"; }
+    static StateType getStateType() { return StateType::PoisonnedState; }
 };
 
 struct HealedState : public State
@@ -68,7 +79,7 @@ struct HealedState : public State
 
     virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
-    static const char* getMetadataID() { return "heal"; }
+    static StateType getStateType() { return StateType::HealedState; }
 };
 
 struct StatsModifierState : public State
@@ -88,37 +99,44 @@ struct StatsModifierState : public State
     struct WeaknessState : public StatsModifierState
     {
         inline WeaknessState(const Nz::LuaState& state, int index = -1) : StatsModifierState(state, index) {}
-        static const char* getMetadataID() { return "weakness"; }
+
+        virtual inline void serialize(const Nz::LuaState& state) override;
+        static StateType getStateType() { return StateType::WeaknessState; }
     };
 
     struct PowerState : public StatsModifierState
     {
         inline PowerState(const Nz::LuaState& state, int index = -1) : StatsModifierState(state, index) {}
-        static const char* getMetadataID() { return "power"; }
+
+        virtual inline void serialize(const Nz::LuaState& state) override;
+        static StateType getStateType() { return StateType::PowerState; }
     };
 
 struct ParalyzedState : public State
 {
-    inline ParalyzedState(const Nz::LuaState& state, int index = -1) : State(state, index) {}
+    inline ParalyzedState(const Nz::LuaState& state, int index = -1) {}
 
+    virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
-    static const char* getMetadataID() { return "paralyzed"; }
+    static StateType getStateType() { return StateType::ParalyzedState; }
 };
 
 struct SleepingState : public State // = paralyzed until attacked
 {
-    inline SleepingState(const Nz::LuaState& state, int index = -1) : State(state, index) {}
+    inline SleepingState(const Nz::LuaState& state, int index = -1) {}
 
+    virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
-    static const char* getMetadataID() { return "sleeping"; }
+    static StateType getStateType() { return StateType::SleepingState; }
 };
 
 struct ConfusedState : public State // aka drunk
 {
-    inline ConfusedState(const Nz::LuaState& state, int index = -1) : State(state, index) {}
+    inline ConfusedState(const Nz::LuaState& state, int index = -1) {}
 
+    virtual inline void serialize(const Nz::LuaState& state) override;
     virtual inline FightInfo getFightInfo() override;
-    static const char* getMetadataID() { return "confused"; }
+    static StateType getStateType() { return StateType::ConfusedState; }
 };
 
 #include "states.inl"

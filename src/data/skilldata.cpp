@@ -75,7 +75,7 @@ Nz::String SkillData::areaTypeToString(AreaType area)
     throw std::runtime_error { "Invalid area type !" };
 }
 
-std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const /// todo: redo this
+std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const /// todo: redo this ?
 {
     std::unordered_map<Element, unsigned> damage {};
 
@@ -96,12 +96,16 @@ std::unordered_map<Element, unsigned> SkillData::getMaximumDamage() const /// to
 
             case Attack::AttackType::State:
             {
-                StateData* state = static_cast<StateData*>(attack.get());
-                auto maxDamage = state->state->getFightInfo().maximumDamage;
+                StateData data = static_cast<StateAttackData*>(attack.get())->data;
 
-                for (Element e {}; e <= Element::Max; ++e)
-                    if (maxDamage[e] > 0)
-                        damage[e] += maxDamage[e];
+                for (auto it = data.states.begin(); it != data.states.end(); ++it)
+                {
+                    auto maxDamage = it->second->getFightInfo().maximumDamage;
+
+                    for (Element e {}; e <= Element::Max; ++e)
+                        if (maxDamage[e] > 0)
+                            damage[e] += maxDamage[e];
+                }
 
                 break;
             }
@@ -121,7 +125,9 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, SkillData* skill,
     skill->codename = state.CheckField<Nz::String>("codename", index);
     skill->displayName = state.CheckField<Nz::String>("display_name", index);
     skill->description = state.CheckField<Nz::String>("description", index);
-    skill->icon = state.CheckField<Nz::String>("icon", index);
+
+    Nz::String icon = state.CheckField<Nz::String>("icon", index);
+    skill->icon = (Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
     skill->attackEffects = state.CheckField<std::vector<std::shared_ptr<Attack>>>("attacks");
 
@@ -147,7 +153,7 @@ int LuaImplReplyVal(const LuaState& state, SkillData&& skill, TypeTag<SkillData>
         state.PushField("codename", skill.codename);
         state.PushField("display_name", skill.displayName);
         state.PushField("description", skill.description);
-        state.PushField("icon", skill.icon);
+        //state.PushField("icon", skill.icon);
 
         state.PushField("attacks", skill.attackEffects); // invalid vector afterwards ?!
 

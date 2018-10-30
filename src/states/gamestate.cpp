@@ -16,6 +16,9 @@
 #include "components/common/renderablesstoragecomponent.hpp"
 #include "components/common/randommovementcomponent.hpp"
 #include "components/common/movecomponent.hpp"
+#include "components/common/equipmentcomponent.hpp"
+#include "components/items/itemcomponent.hpp"
+#include "components/items/equippablecomponent.hpp"
 #include "widgets/spellbarwidget.hpp"
 #include "util/cloneutil.hpp"
 #include "util/maputil.hpp"
@@ -180,25 +183,54 @@ void GameState::printInventory(bool detailled) /// Used for testing | todo: have
 void GameState::printCharacteristics() /// Used for testing | todo: have a real UI for this
 {
     std::cout << "Main character characteristics";
-    if (m_charac->HasComponent<DamageModifierComponent>())
-    {
-        auto& attack = m_charac->GetComponent<DamageModifierComponent>().attack;
-        std::cout << '\n';
-        std::cout << "  Attack Modifier:\n";
-        std::cout << "    Neutral: " << attack[Element::Neutral] << '\n';
-        std::cout << "    Air: " << attack[Element::Air] << '\n';
-        std::cout << "    Fire: " << attack[Element::Fire] << '\n';
-        std::cout << "    Water: " << attack[Element::Water] << '\n';
-        std::cout << "    Earth: " << attack[Element::Earth];
 
-        auto& resistance = m_charac->GetComponent<DamageModifierComponent>().resistance;
-        std::cout << '\n';
-        std::cout << "  Resistance Modifier:\n";
-        std::cout << "    Neutral: " << resistance[Element::Neutral] << '\n';
-        std::cout << "    Air: " << resistance[Element::Air] << '\n';
-        std::cout << "    Fire: " << resistance[Element::Fire] << '\n';
-        std::cout << "    Water: " << resistance[Element::Water] << '\n';
-        std::cout << "    Earth: " << resistance[Element::Earth];
+    auto& attack = m_charac->GetComponent<DamageModifierComponent>().attack;
+    std::cout << '\n';
+    std::cout << "  Attack Modifier:\n";
+    std::cout << "    Neutral: " << attack[Element::Neutral] << '\n';
+    std::cout << "    Air: " << attack[Element::Air] << '\n';
+    std::cout << "    Fire: " << attack[Element::Fire] << '\n';
+    std::cout << "    Water: " << attack[Element::Water] << '\n';
+    std::cout << "    Earth: " << attack[Element::Earth];
+
+    auto& resistance = m_charac->GetComponent<DamageModifierComponent>().resistance;
+    std::cout << '\n';
+    std::cout << "  Resistance Modifier:\n";
+    std::cout << "    Neutral: " << resistance[Element::Neutral] << '\n';
+    std::cout << "    Air: " << resistance[Element::Air] << '\n';
+    std::cout << "    Fire: " << resistance[Element::Fire] << '\n';
+    std::cout << "    Water: " << resistance[Element::Water] << '\n';
+    std::cout << "    Earth: " << resistance[Element::Earth];
+
+    std::cout << std::endl;
+}
+
+void GameState::printStates(bool detailled)
+{
+    std::cout << "Main character states:\n";
+    auto& states = m_charac->GetComponent<StateComponent>().states;
+
+    if (states.empty())
+    {
+        std::cout << "  No state" << std::endl;
+        return;
+    }
+
+    for (unsigned i {}; i < states.size(); ++i)
+    {
+        auto& state = states[i];
+
+        std::cout << "  State #" << i << ":\n";
+        std::cout << "    Turns left: " << state.turns << '\n';
+
+        auto& metadata = m_states->getItem(state.metadataId);
+        std::cout << "    Name: " << metadata.name << '\n';
+        std::cout << "    Description: " << metadata.description;
+
+        if (detailled)
+        {
+            std::cout << "\n    Codename: " << metadata.codename;
+        }
     }
 
     std::cout << std::endl;
@@ -272,6 +304,10 @@ void GameState::initEventHandler()
 
             case Nz::Keyboard::I: // Inventory
                 printInventory(event.shift);
+                break;
+
+            case Nz::Keyboard::S: // States
+                printStates(event.shift);
                 break;
 
             case Nz::Keyboard::U:
@@ -464,10 +500,14 @@ void GameState::addWidgets()
         m_charac->GetComponent<InventoryComponent>().onItemRemoved.Connect(spellBar, &SpellBarWidget::removeEntity);
 
         // Make shortcuts on spellbar usable
-        spellBar->onItemUsed.Connect([&] (Ndk::EntityHandle item)
+        spellBar->onItemUsed.Connect([this, spellBar] (Ndk::EntityHandle item)
         {
             if (isItemUsable(item))
-                useItem(m_charac, item);
+                if (useItem(m_charac, item))
+                {
+                    spellBar->removeEntity(item);
+                    item->Kill();
+                }
         });
     }
 

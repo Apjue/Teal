@@ -15,6 +15,9 @@ teal_textures =
     -- Characters
     { ":/game/char/villager", "game/char/villager.png" },
 
+    -- States
+    { ":/game/states/aie", "game/states/aie.png" },
+
     -- Items
         -- Swords
         { ":/game/items/swords/broadsword_cold",    "game/items/swords/broadsword_cold.png" }, -- Note: lots of these items are not used
@@ -31,6 +34,9 @@ teal_textures =
         -- Shields
         { ":/game/items/shields/shield_copper", "game/items/shields/shield_copper.png" },
         { ":/game/items/shields/shield_gold",   "game/items/shields/shield_gold.png" },
+
+        -- Consumables
+        { ":/game/items/consumables/potion", "game/items/consumables/potion.png" },
 
     -- Buttons (required)
         -- Menu bar

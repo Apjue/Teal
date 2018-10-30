@@ -7,17 +7,24 @@
 #ifndef STATEDATA_HPP
 #define STATEDATA_HPP
 
+#include <Nazara/Core/String.hpp>
 #include <memory>
+#include <unordered_map>
 #include "util/assert.hpp"
 #include "attack.hpp"
 #include "states.hpp"
 #include "def/typedef.hpp"
 
-struct StateData : public Attack
+struct StateData
 {
-    Nz::String stateType;
-    std::shared_ptr<State> state;
+    unsigned turns {};
+    Nz::String metadataId; // To retrieve name/description/icon
+    std::unordered_map<StateType, std::shared_ptr<State>> states;
+};
 
+struct StateAttackData : public Attack
+{
+    StateData data;
     virtual AttackType getAttackType() override { return AttackType::State; }
 };
 
@@ -29,48 +36,109 @@ namespace Nz
 inline unsigned int LuaImplQueryArg(const LuaState& state, int index, StateData* data, TypeTag<StateData>)
 {
     state.CheckType(index, Nz::LuaType_Table);
-    TealAssert(Attack::stringToAttackType(state.CheckField<Nz::String>("type", index)) == Attack::AttackType::State, "Invalid attack type");
 
-    data->target = Attack::stringToTarget(state.CheckField<Nz::String>("target", index));
-    data->stateType = state.CheckField<Nz::String>("state_type", index);
+    data->metadataId = state.CheckField<Nz::String>("metadata_id", index);
+    data->turns = state.CheckField<unsigned>("turns", index);
 
+    state.GetField("effects", index);
+
+    for (int i { 1 };; ++i)
     {
-        if (data->stateType == PoisonnedState::getMetadataID())
-            data->state = std::make_shared<PoisonnedState>(state);
+        state.PushInteger(i);
 
-        else if (data->stateType == HealedState::getMetadataID())
-            data->state = std::make_shared<HealedState>(state);
+        if (state.GetTable() != Nz::LuaType_Table)
+        {
+            state.Pop();
+            break;
+        }
 
-        else if (data->stateType == WeaknessState::getMetadataID())
-            data->state = std::make_shared<WeaknessState>(state);
+        StateType stateType = stringToStateType(state.CheckField<Nz::String>("state_type"));
 
-        else if (data->stateType == PowerState::getMetadataID())
-            data->state = std::make_shared<PowerState>(state);
+        {
+            if (stateType == PoisonnedState::getStateType())
+                data->states.emplace(stateType, std::make_shared<PoisonnedState>(state));
 
-        else if (data->stateType == ParalyzedState::getMetadataID())
-            data->state = std::make_shared<ParalyzedState>(state);
+            else if (stateType == HealedState::getStateType())
+                data->states.emplace(stateType, std::make_shared<HealedState>(state));
 
-        else if (data->stateType == SleepingState::getMetadataID())
-            data->state = std::make_shared<SleepingState>(state);
+            else if (stateType == WeaknessState::getStateType())
+                data->states.emplace(stateType, std::make_shared<WeaknessState>(state));
 
-        else if (data->stateType == ConfusedState::getMetadataID())
-            data->state = std::make_shared<ConfusedState>(state);
+            else if (stateType == PowerState::getStateType())
+                data->states.emplace(stateType, std::make_shared<PowerState>(state));
 
-        else
-            throw std::runtime_error { "Invalid state type" };
+            else if (stateType == ParalyzedState::getStateType())
+                data->states.emplace(stateType, std::make_shared<ParalyzedState>(state));
+
+            else if (stateType == SleepingState::getStateType())
+                data->states.emplace(stateType, std::make_shared<SleepingState>(state));
+
+            else if (stateType == ConfusedState::getStateType())
+                data->states.emplace(stateType, std::make_shared<ConfusedState>(state));
+
+            else
+                throw std::runtime_error { "Invalid state type" };
+        }
+
+        state.Pop();
+    }
+
+    state.Pop();
+
+    return 1;
+}
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, StateAttackData* data, TypeTag<StateAttackData>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    TealAssert(Attack::stringToAttackType(state.CheckField<Nz::String>("type", index)) == Attack::AttackType::State, "Invalid attack type");
+    data->target = Attack::stringToTarget(state.CheckField<Nz::String>("target", index));
+
+    data->data = state.CheckField<StateData>("data", index);
+
+    return 1;
+}
+
+
+inline int LuaImplReplyVal(const LuaState& state, StateData&& data, TypeTag<StateData>)
+{
+    state.PushTable();
+    {
+        state.PushField("metadata_id", data.metadataId);
+        state.PushField("turns", data.turns);
+
+        state.PushTable();
+        {
+            unsigned index { 1 };
+            for (auto it = data.states.begin(); it != data.states.end(); ++it)
+            {
+                state.PushTable();
+                {
+                    it->second->serialize(state);
+                }
+
+                state.PushInteger(index);
+                state.SetTable();
+
+                ++index;
+            }
+        }
+
+        state.SetField("effects");
     }
 
     return 1;
 }
 
-inline int LuaImplReplyVal(const LuaState& state, StateData&& data, TypeTag<StateData>)
+inline int LuaImplReplyVal(const LuaState& state, StateAttackData&& data, TypeTag<StateAttackData>)
 {
     state.PushTable();
     {
         state.PushField<Nz::String>("type", Attack::attackTypeToString(data.getAttackType()));
         state.PushField<Nz::String>("target", Attack::targetToString(data.target));
 
-        data.state->serialize(state);
+        state.PushField("data", data.data);
     }
 
     return 1;

@@ -20,6 +20,7 @@ const Nz::String CharacterFolder = ScriptFolder +    "characters/";
 const Nz::String MapFolder = ScriptFolder +          "maps/";
 const Nz::String SkillFolder = ScriptFolder +        "skills/";
 const Nz::String ItemFolder = ScriptFolder +         "items/";
+const Nz::String StateFolder = ScriptFolder +        "states/";
 const Nz::String AIFolder = ScriptFolder +           "ais/";
 const Nz::String FightAIFolder = AIFolder +               "fight/";
 const Nz::String FightAIUtilFile = FightAIFolder +               "util/util.lua";

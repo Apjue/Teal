@@ -7,7 +7,7 @@
 Ndk::ComponentIndex HPGainComponent::componentIndex;
 Ndk::ComponentIndex ItemComponent::componentIndex;
 Ndk::ComponentIndex EquippableComponent::componentIndex;
-Ndk::ComponentIndex EdibleComponent::componentIndex;
+Ndk::ComponentIndex ConsumableComponent::componentIndex;
 Ndk::ComponentIndex ResourceComponent::componentIndex;
 
 Ndk::ComponentIndex RandomMovementComponent::componentIndex;
@@ -34,3 +34,4 @@ Ndk::ComponentIndex IconComponent::componentIndex;
 Ndk::ComponentIndex CloneComponent::componentIndex;
 Ndk::ComponentIndex GraphicalEntitiesComponent::componentIndex;
 Ndk::ComponentIndex RenderablesStorageComponent::componentIndex;
+Ndk::ComponentIndex StateComponent::componentIndex;

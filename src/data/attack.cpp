@@ -94,9 +94,9 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, std::shared_ptr<A
 
         case Attack::AttackType::State:
             if (initializePtr)
-                attack->reset(std::make_unique<StateData>().release());
+                attack->reset(std::make_unique<StateAttackData>().release());
 
-            return LuaImplQueryArg(state, index, static_cast<StateData*>(attack->get()), TypeTag<StateData>());
+            return LuaImplQueryArg(state, index, static_cast<StateAttackData*>(attack->get()), TypeTag<StateAttackData>());
 
         case Attack::AttackType::Effect:
             if (initializePtr)
@@ -117,7 +117,7 @@ int LuaImplReplyVal(const LuaState& state, std::shared_ptr<Attack>&& attack, Typ
             return LuaImplReplyVal(state, std::move(*static_cast<DamageData*>(attack.get())), TypeTag<DamageData>());
 
         case Attack::AttackType::State:
-            return LuaImplReplyVal(state, std::move(*static_cast<StateData*>(attack.get())), TypeTag<StateData>());
+            return LuaImplReplyVal(state, std::move(*static_cast<StateAttackData*>(attack.get())), TypeTag<StateAttackData>());
 
         case Attack::AttackType::Effect:
             return LuaImplReplyVal(state, std::move(*static_cast<EffectData*>(attack.get())), TypeTag<EffectData>());

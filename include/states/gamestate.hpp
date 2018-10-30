@@ -64,6 +64,7 @@ private:
     // Character functions
     void printInventory(bool detailled = false);
     void printCharacteristics();
+    void printStates(bool detailled = false);
 
     // Slots
     NazaraSlot(Nz::EventHandler, OnMouseButtonPressed, m_mouseButtonEvent);
