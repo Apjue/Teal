@@ -5,6 +5,8 @@
 #include <NDK/LuaAPI.hpp>
 #include <NDK/Lua/LuaBinding_SDK.hpp>
 #include <Nazara/Lua/LuaClass.hpp>
+#include <set>
+#include <iterator>
 #include "components/common/pathcomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/movecomponent.hpp"
@@ -355,18 +357,21 @@ void AISystem::Teal_TakeCover()
     auto& fight = me->GetComponent<FightComponent>();
     auto& pos = me->GetComponent<PositionComponent>();
 
-    std::vector<AbsTile> possibleTiles; // Possible tiles to go to
-    std::vector<AbsTile> visibleTiles = getVisibleTiles(pos.xy, fight.movementPoints);
+    std::set<AbsTile> possibleTiles; // Possible tiles to go to
+    std::set<AbsTile> visibleTiles = getVisibleTiles(pos.xy, fight.movementPoints);
 
     for (unsigned i {}; i < visibleTiles.size(); ++i)
     {
         /*AbsTile difference = distance(toVector(IndexToXY(i)), pos.xy);
         const TileData& tile = getCurrentMap()->getCurrentMap()->tiles()[i];*/
 
-        std::vector<AbsTile> path = directionsToPositions(computePath(pos.xy, toVector2(IndexToXY(i)), m_pather.get()), pos.xy);
+        auto it = visibleTiles.begin();
+        std::advance(it, i);
+
+        std::vector<AbsTile> path = directionsToPositions(computePath(pos.xy, *it, m_pather.get()), pos.xy);
 
         if (path.size() <= fight.movementPoints)
-            possibleTiles.push_back(path.back());
+            possibleTiles.emplace(path.back());
     }
 
     auto& myDamage = me->GetComponent<DamageModifierComponent>();
@@ -559,7 +564,7 @@ bool AISystem::Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex) //
 
 std::unordered_map<Element, unsigned> AISystem::getMaximumDamage(const AbsTile& from, const AbsTile& target, const SkillData& skill)
 {
-    std::vector<AbsTile> possibleTilesToAttack = getVisibleTiles(from, skill.maxRange, skill.viewThroughObstacles);
+    std::set<AbsTile> possibleTilesToAttack = getVisibleTiles(from, skill.maxRange, skill.viewThroughObstacles);
     std::function<std::unordered_map<Element, unsigned>(const AbsTile& tile)> damageDone;
     NazaraError("implement this better");
 

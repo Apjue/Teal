@@ -4,6 +4,7 @@
 
 #include <NDK/Components/NodeComponent.hpp>
 #include <memory>
+#include "components/common/blocktilecomponent.hpp"
 #include "components/common/positioncomponent.hpp"
 #include "components/common/orientationcomponent.hpp"
 #include "components/common/renderablesstoragecomponent.hpp"
@@ -273,13 +274,13 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
     return positions;
 }
 
-std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles, bool removeOccupiedTiles)
+std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles, bool removeOccupiedTiles) // Does not include self pos
 {
     if (range == 0)
         return { pos }; // but why
 
     MapDataRef map = getCurrentMap()->getCurrentMap();
-    std::vector<AbsTile> tilesInRange;
+    std::set<AbsTile> tilesInRange;
 
     // Detect tiles around, using range
     for (unsigned i {}; i < Def::TileArraySize; ++i)
@@ -288,12 +289,12 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
         unsigned distance = distanceBetweenTiles(pos, toVector2(xy));
         
         if (distance <= range) // jackpot
-            tilesInRange.push_back(toVector2(xy));
+            tilesInRange.emplace(toVector2(xy));
     }
 
-    std::vector<AbsTile> viewObstacles;  // obstacles which doesn't block view
-    std::vector<AbsTile> blockObstacles; // obstacles which block view
-    std::vector<AbsTile> passableTiles;
+    std::set<AbsTile> viewObstacles;  // obstacles which doesn't block view
+    std::set<AbsTile> blockObstacles; // obstacles which block view
+    std::set<AbsTile> passableTiles;
 
     for (auto& xy : tilesInRange)
     {
@@ -303,14 +304,27 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
             continue;
 
         if (!tileData.isObstacle() && (!removeOccupiedTiles || !tileData.occupied))
-            passableTiles.push_back(xy);
+            passableTiles.emplace(xy);
 
         if (tileData.isViewObstacle())
-            viewObstacles.push_back(xy);
+            viewObstacles.emplace(xy);
 
         if (tileData.isBlockObstacle())
-            blockObstacles.push_back(xy);
+            blockObstacles.emplace(xy);
     }
+
+    for (auto& entity : map->getEntities())
+        if (entity->HasComponent<BlockTileComponent>())
+        {
+            AbsTile ePos = entity->GetComponent<PositionComponent>().xy;
+
+            if (ePos == pos)
+                continue;
+
+            viewObstacles.erase(ePos);
+            passableTiles.erase(ePos);
+            blockObstacles.emplace(std::move(ePos));
+        }
 
     if (viewThroughObstacles)
     {
@@ -319,29 +333,25 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
 
         else
         {
-            std::vector<AbsTile> result;
+            std::set<AbsTile> result;
 
-            result.insert(result.end(), blockObstacles.begin(), blockObstacles.end());
-            result.insert(result.end(), viewObstacles.begin(), viewObstacles.end());
-            result.insert(result.end(), passableTiles.begin(), passableTiles.end());
+            result.insert(blockObstacles.begin(), blockObstacles.end());
+            result.insert(viewObstacles.begin(), viewObstacles.end());
+            result.insert(passableTiles.begin(), passableTiles.end());
 
             return result;
         }
     }
 
-    // It's better to use this function than to search a tile in the passableTiles vector
-    auto isTilePassable = [&map] (unsigned x, unsigned y) -> bool { return !(map->getTile(x, y).isObstacle()); };
-    std::vector<AbsTile> visibleTiles = passableTiles;
+    std::set<AbsTile> visibleTiles = passableTiles;
 
-    for (AbsTile& obstacle : blockObstacles) /// todo: optimize this ? Make some blocks of obstacles to compare with fewer rays ?
+    for (const AbsTile& obstacle : blockObstacles) /// todo: optimize this ? Make some blocks of obstacles to compare with fewer rays ?
     {
         Vector2fTriplet rays = getTileOutterCorners(pos, obstacle);
 
         // Check shadowed tiles
-        for (AbsTile& xy : passableTiles)
+        for (const AbsTile& xy : passableTiles)
         {
-            TealAssert(isTilePassable(xy.x, xy.y), "Unpassable tile in a passable tiles vector ?");
-
             // Is tile farther away than the obstacle ?
             if (graphicalDistanceBetweenTiles(pos, xy) < graphicalDistanceBetweenTiles(pos, obstacle))
                 continue;
@@ -349,7 +359,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
             // Is tile contained in obstacle shadow ?
             Nz::Vector2f tileCenter = getTileCenter(xy);
 
-            if (isRight(rays.first, rays.second, tileCenter) && isLeft(rays.first, rays.third, tileCenter))
+            if (isRight(rays.first, rays.second, tileCenter) && isLeft(rays.first, rays.third, tileCenter)) // Contained in the shadow
             {
                 auto tileToErase = std::find(visibleTiles.begin(), visibleTiles.end(), xy);
 
@@ -357,7 +367,7 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
                     visibleTiles.erase(tileToErase);
 
                 else
-                    NazaraDebug(Nz::String { "getVisibleTiles: Tile [" } + Nz::String::Number(xy.x) + ";" + Nz::String::Number(xy.y) + "] not found (bug to fix)");
+                    NazaraDebug(Nz::String { "getVisibleTiles: Tile [" } +Nz::String::Number(xy.x) + ";" + Nz::String::Number(xy.y) + "] not found (bug to fix)");
             }
         }
     }
@@ -367,11 +377,11 @@ std::vector<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThrou
 
     else
     {
-        std::vector<AbsTile> result;
+        std::set<AbsTile> result;
 
-        result.insert(result.end(), blockObstacles.begin(), blockObstacles.end());
-        result.insert(result.end(), viewObstacles.begin(), viewObstacles.end());
-        result.insert(result.end(), visibleTiles.begin(), visibleTiles.end());
+        result.insert(blockObstacles.begin(), blockObstacles.end());
+        result.insert(viewObstacles.begin(), viewObstacles.end());
+        result.insert(passableTiles.begin(), passableTiles.end());
 
         return result;
     }

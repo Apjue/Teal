@@ -12,7 +12,7 @@ float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::V
     float b = pA.Distancef(pC);
     float c = pA.Distancef(pB);
 
-    return std::acos((b * b + c * c - a * a) / (2.f * b * c)); // Law of cosines (Al Kashi): cos Â = (b² + c² - a²) / 2bc
+    return std::acos((b * b + c * c - a * a) / (2.f * b * c)); // Law of cosines (Al Kashi): cos Â = (b² + c² - a²) / (2bc)
 }
 
 template<class T>
@@ -26,11 +26,17 @@ Nz::Vector2<T> makeOrthogonal(const Nz::Vector2<T>& v)
 template<class T>
 bool isLeft(const Nz::Vector2<T>& p1, const Nz::Vector2<T>& p2, const Nz::Vector2<T>& pos)
 {
-    return Nz::Vector2<T>::DotProduct(p2 - p1, makeOrthogonal(pos - p2)) > 0;
+    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) > 0;
+}
+
+template<class T>
+bool isMiddle(const Nz::Vector2<T>& p1, const Nz::Vector2<T>& p2, const Nz::Vector2<T>& pos)
+{
+    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) == 0; // woah.
 }
 
 template<class T>
 bool isRight(const Nz::Vector2<T>& p1, const Nz::Vector2<T>& p2, const Nz::Vector2<T>& pos)
 {
-    return Nz::Vector2<T>::DotProduct(p2 - p1, makeOrthogonal(pos - p2)) < 0;
+    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) < 0;
 }

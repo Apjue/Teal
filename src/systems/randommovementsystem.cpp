@@ -4,6 +4,7 @@
 
 #include <unordered_set>
 #include <algorithm>
+#include <iterator>
 #include "global.hpp"
 #include "util/maputil.hpp"
 #include "util/aiutil.hpp"
@@ -61,9 +62,9 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
         if (goSomewhere && map)
         {
-            std::vector<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, true);
-            std::vector<std::pair<AbsTile /* tile pos */, std::size_t /* path size to reach tile */>> maxDistanceTiles;
-            std::vector<AbsTile> priorityTiles; // Tiles with exact path size
+            std::set<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, true);
+            std::set<AbsTile> maxDistanceTiles;
+            std::set<AbsTile> priorityTiles; // Tiles with exact path size
 
             for (const AbsTile& tile : nearTiles) // some tiles of nearTiles may be at a >rd.range distance (e.g. if there's an obstacle during the path)
             {
@@ -71,10 +72,10 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
                 if (path.size() <= rd.range && !path.empty())
                 {
-                    maxDistanceTiles.push_back({ tile, path.size() });
+                    maxDistanceTiles.emplace(tile);
 
                     if (path.size() == rd.range)
-                        priorityTiles.push_back(tile);
+                        priorityTiles.emplace(tile);
                 }
             }
 
@@ -86,12 +87,21 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             if (priorityTiles.size() > 2)
             {
                 randomNumber %= priorityTiles.size();
-                mov.tile = priorityTiles[randomNumber];
+
+                auto it = priorityTiles.begin();
+                std::advance(it, randomNumber);
+
+                mov.tile = *it;
             }
+
             else
             {
                 randomNumber %= maxDistanceTiles.size();
-                mov.tile = maxDistanceTiles[randomNumber].first;
+
+                auto it = maxDistanceTiles.begin();
+                std::advance(it, randomNumber);
+
+                mov.tile = *it;
             }
         }
     }

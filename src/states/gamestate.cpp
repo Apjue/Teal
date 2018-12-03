@@ -7,6 +7,7 @@
 #include <NDK/LuaAPI.hpp>
 #include <Nazara/Platform/EventHandler.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
+#include <set>
 #include "components/common/inventorycomponent.hpp"
 #include "components/common/namecomponent.hpp"
 #include "components/common/damagemodifiercomponent.hpp"
@@ -341,7 +342,7 @@ void GameState::initEventHandler()
                 }
 
                 NazaraNotice("Raycasting");
-                std::vector<AbsTile> tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 2);
+                std::set<AbsTile> tiles = getVisibleTiles(m_charac->GetComponent<PositionComponent>().xy, 5);
 
                 m_raycastTiles = m_world->CreateEntity();
                 m_raycastTiles->AddComponent<Ndk::NodeComponent>();

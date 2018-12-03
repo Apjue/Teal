@@ -49,6 +49,8 @@ Vector2fPair getTileCornerSegment(Orientation corner, unsigned x, unsigned y)
 
 Vector2fTriplet getTileOutterCorners(const AbsTile& from, const AbsTile& to)
 {
+    TealAssert(from != to, "This isn't possible");
+
     Vector2fTriplet rays { getTileCenter(from) };
     bool extremity1filled { false };
 
@@ -62,13 +64,12 @@ Vector2fTriplet getTileOutterCorners(const AbsTile& from, const AbsTile& to)
             if (j == i)
                 continue;
 
-            Direction dir = static_cast<Direction>(j);
-            bool atLeft = isLeft(rays.first, getTileVertex(static_cast<Direction>(i), to.x, to.y), getTileVertex(dir, to.x, to.y));
+            bool atLeft = isLeft(rays.first, getTileVertex(static_cast<Direction>(i), to.x, to.y), getTileVertex(static_cast<Direction>(j), to.x, to.y));
 
             if (left == Nz::Ternary_Unknown)
                 left = atLeft ? Nz::Ternary_True : Nz::Ternary_False;
 
-            if (left != (atLeft ? Nz::Ternary_True : Nz::Ternary_False))
+            else if (left != (atLeft ? Nz::Ternary_True : Nz::Ternary_False)) // If this vertex is indeed at the extremity, atLeft will always be the same
             {
                 isExtremity = false;
                 break;
