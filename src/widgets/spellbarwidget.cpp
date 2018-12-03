@@ -106,3 +106,68 @@ void SpellBarWidget::OnMouseButtonRelease(int x, int y, Nz::Mouse::Button button
 
     m_selectedBox = boxIndex;
 }
+
+namespace Nz
+{
+
+inline unsigned int LuaImplQueryArg(const LuaState& state, int index, SpellBarWidget* spellBar, TypeTag<SpellBarWidget>)
+{
+    state.CheckType(index, Nz::LuaType_Table);
+
+    spellBar->SetPosition(state.CheckField<Nz::Vector2f>("pos", index));
+    spellBar->setBarTexture(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("texture", index)));
+    spellBar->setBarSize(state.CheckField<Nz::Vector2f>("size", Nz::Vector2f(Nz::Vector2ui(spellBar->getBarTexture()->GetSize())), index));
+
+    spellBar->setFocusTexture(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("focus_texture", index)));
+    spellBar->setFocusColor(state.CheckField<Nz::Color>("focus_color", index));
+    spellBar->setSemiFocusColor(state.CheckField<Nz::Color>("semifocus_color", index));
+
+    spellBar->setBorderSize(state.CheckField<Nz::Vector2ui>("border_size", index));
+    spellBar->setPadding(state.CheckField<Nz::Vector2ui>("padding", index));
+    spellBar->setBoxSize(state.CheckField<Nz::Vector2ui>("box_size", index));
+    spellBar->setBoxNumber(state.CheckField<Nz::Vector2ui>("box_number", index));
+
+    spellBar->setPageCount(state.CheckField<unsigned>("page_count", spellBar->getPageCount(), index));
+    spellBar->setPageCounterSize(state.CheckField<unsigned>("page_counter_size", spellBar->getPageCounterSize(), index));
+    spellBar->setDoubleClickThresold(state.CheckField<Miliseconds>("double_click_thresold", spellBar->getDoubleClickThresold(), index));
+
+    TealException(state.GetField("arrows", index) == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows isn't a table!");
+    {
+        TealException(state.GetField("down") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.down isn't a table!");
+        {
+            Ndk::ButtonWidget* downArrow = spellBar->getDownArrow();
+            Nz::String texture = state.CheckField<Nz::String>("texture");
+
+            downArrow->SetTexture(Nz::TextureLibrary::Get(texture));
+            downArrow->SetHoverTexture(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("hover_texture", texture, -1)));
+            downArrow->SetPressTexture(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("press_texture", texture, -1)));
+
+            downArrow->Resize(state.CheckField<Nz::Vector2f>("size", downArrow->GetSize()));
+            downArrow->SetColor(Nz::Color::White, Nz::Color::White);
+        }
+
+        state.Pop();
+
+        TealException(state.GetField("up") == Nz::LuaType_Table, "Lua: teal_ui_config.buttons.spell_bar.arrows.up isn't a table!");
+        {
+            Ndk::ButtonWidget* upArrow = spellBar->getUpArrow();
+            Nz::String texture = state.CheckField<Nz::String>("texture");
+
+            upArrow->SetTexture(Nz::TextureLibrary::Get(texture));
+            upArrow->SetHoverTexture(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("hover_texture", texture, -1)));
+            upArrow->SetPressTexture(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("press_texture", texture, -1)));
+
+            upArrow->Resize(state.CheckField<Nz::Vector2f>("size", upArrow->GetSize()));
+            upArrow->SetColor(Nz::Color::White, Nz::Color::White);
+        }
+
+        state.Pop();
+    }
+
+    state.Pop();
+    spellBar->updateSize();
+
+    return 1;
+}
+
+}

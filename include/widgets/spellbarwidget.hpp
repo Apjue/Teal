@@ -30,7 +30,6 @@ class SpellBarWidget : public Ndk::BaseWidget
 {
 public:
     inline SpellBarWidget(Ndk::BaseWidget* parent);
-    SpellBarWidget(const SpellBarWidget&) = delete;
     SpellBarWidget(SpellBarWidget&&) = default;
     ~SpellBarWidget() = default;
 
@@ -140,6 +139,16 @@ private:
 
     static const float s_buttonsPadding;
 };
+
+#include <Nazara/Lua/LuaState.hpp>
+#include <NDK/LuaAPI.hpp>
+
+namespace Nz
+{
+
+extern unsigned int LuaImplQueryArg(const LuaState& state, int index, SpellBarWidget* spellBar, TypeTag<SpellBarWidget>);
+
+}
 
 #include "spellbarwidget.inl"
 
