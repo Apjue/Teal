@@ -110,7 +110,7 @@ void SpellBarWidget::OnMouseButtonRelease(int x, int y, Nz::Mouse::Button button
 namespace Nz
 {
 
-inline unsigned int LuaImplQueryArg(const LuaState& state, int index, SpellBarWidget* spellBar, TypeTag<SpellBarWidget>)
+unsigned int LuaImplQueryArg(const LuaState& state, int index, SpellBarWidget* spellBar, TypeTag<SpellBarWidget>)
 {
     state.CheckType(index, Nz::LuaType_Table);
 
