@@ -127,7 +127,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& entity)
 
     auto& pos = entity->GetComponent<PositionComponent>();
     auto& node = entity->GetComponent<Ndk::NodeComponent>();
-    Nz::Vector2f defPos = getDefGfxPos(entity);
+    Nz::Vector2f defPos = getGraphicsOffset(entity);
 
     unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : Def::TileSizeX / 2); // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TileSizeY / 2;

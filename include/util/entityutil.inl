@@ -59,7 +59,7 @@ bool hasComponentsToChangeMap(const Ndk::EntityHandle& e)
     return e->HasComponent<PositionComponent>();
 }
 
-Nz::Vector2f getDefGfxPos(const Ndk::EntityHandle& e)
+Nz::Vector2f getGraphicsOffset(const Ndk::EntityHandle& e)
 {
     if (e->HasComponent<AnimationComponent>())
     {
