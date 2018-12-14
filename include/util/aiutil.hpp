@@ -8,7 +8,7 @@
 #define AIUTIL_HPP
 
 #include <NDK/Entity.hpp>
-#include "components/common/pathcomponent.hpp"
+#include "components/characters/pathcomponent.hpp"
 #include "micropather.h"
 
 PathComponent::PathPool computePath(const Ndk::EntityHandle& e, micropather::MicroPather* pather);

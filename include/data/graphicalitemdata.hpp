@@ -9,7 +9,7 @@
 
 #include <NDK/Entity.hpp>
 #include <Nazara/Math/Vector2.hpp>
-#include "components/common/logicentityidcomponent.hpp"
+#include "components/util/logicentityidcomponent.hpp"
 #include "global.hpp"
 
 struct GraphicalItemData

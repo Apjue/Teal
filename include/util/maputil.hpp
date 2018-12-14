@@ -15,8 +15,8 @@
 #include <vector>
 #include <set>
 #include "micropather.h"
-#include "components/common/mapcomponent.hpp"
-#include "components/common/pathcomponent.hpp"
+#include "components/characters/pathcomponent.hpp"
+#include "components/other/mapcomponent.hpp"
 #include "util/assert.hpp"
 #include "util/entityutil.hpp"
 #include "def/gamedef.hpp"

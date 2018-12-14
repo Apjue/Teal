@@ -122,7 +122,7 @@ void loadNazara()
 {
     // Components
     Ndk::InitializeComponent<RandomMovementComponent>("rdmov");         //Ndk::LuaAPI::GetBinding()->BindComponent<RandomMovementComponent>("RandomMovementComponent");
-    Ndk::InitializeComponent<DefaultGraphicsPosComponent>("dfgfxpos");  //Ndk::LuaAPI::GetBinding()->BindComponent<DefaultGraphicsPosComponent>("DefaultGraphicsPosComponent");
+    Ndk::InitializeComponent<GraphicsOffsetComponent>("gfxoffst");      //Ndk::LuaAPI::GetBinding()->BindComponent<GraphicsOffsetComponent>("GraphicsOffsetComponent");
     Ndk::InitializeComponent<NameComponent>("name");                    //Ndk::LuaAPI::GetBinding()->BindComponent<NameComponent>("NameComponent");
     Ndk::InitializeComponent<LevelComponent>("level");                  Ndk::LuaAPI::GetBinding()->BindComponent<LevelComponent>("LevelComponent");
     Ndk::InitializeComponent<InventoryComponent>("inv");                //Ndk::LuaAPI::GetBinding()->BindComponent<InventoryComponent>("InventoryComponent");

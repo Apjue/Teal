@@ -4,9 +4,9 @@
 
 #include <Nazara/Core/Error.hpp>
 #include <vector>
-#include "components/common/positioncomponent.hpp"
-#include "components/common/movecomponent.hpp"
-#include "components/common/mapcomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/characters/movecomponent.hpp"
+#include "components/other/mapcomponent.hpp"
 #include "util/maputil.hpp"
 #include "util/util.hpp"
 #include "util/assert.hpp"

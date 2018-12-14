@@ -11,7 +11,7 @@
 #include <Nazara/Graphics/InstancedRenderable.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
 #include <unordered_map>
-#include "components/common/animationcomponent.hpp"
+#include "components/characters/animationcomponent.hpp"
 #include "data/elementdata.hpp"
 #include "cache/doublestore.hpp"
 #include "util/util.hpp"

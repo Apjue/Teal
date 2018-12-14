@@ -7,32 +7,29 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
-// Common
-#include "components/common/animationcomponent.hpp"
-#include "components/common/defaultgraphicsposcomponent.hpp"
-#include "components/common/fightcomponent.hpp"
-#include "components/common/inventorycomponent.hpp"
-#include "components/common/levelcomponent.hpp"
-#include "components/common/lifecomponent.hpp"
-#include "components/common/mapcomponent.hpp"
-#include "components/common/movecomponent.hpp"
-#include "components/common/namecomponent.hpp"
-#include "components/common/orientationcomponent.hpp"
-#include "components/common/pathcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/randommovementcomponent.hpp"
-#include "components/common/damagemodifiercomponent.hpp"
-#include "components/common/descriptioncomponent.hpp"
-#include "components/common/combatbehaviorcomponent.hpp"
-#include "components/common/blocktilecomponent.hpp"
-#include "components/common/monstercomponent.hpp"
-#include "components/common/equipmentcomponent.hpp"
-#include "components/common/logicentityidcomponent.hpp"
-#include "components/common/iconcomponent.hpp"
-#include "components/common/clonecomponent.hpp"
-#include "components/common/graphicalentitiescomponent.hpp"
-#include "components/common/renderablesstoragecomponent.hpp"
-#include "components/common/statecomponent.hpp"
+// Shared
+#include "components/shared/damagemodifiercomponent.hpp"
+#include "components/shared/descriptioncomponent.hpp"
+#include "components/shared/graphicsoffsetcomponent.hpp"
+#include "components/shared/iconcomponent.hpp"
+#include "components/shared/levelcomponent.hpp"
+#include "components/shared/namecomponent.hpp"
+#include "components/shared/statecomponent.hpp"
+
+// Characters
+#include "components/characters/animationcomponent.hpp"
+#include "components/characters/blocktilecomponent.hpp"
+#include "components/characters/combatbehaviorcomponent.hpp"
+#include "components/characters/equipmentcomponent.hpp"
+#include "components/characters/fightcomponent.hpp"
+#include "components/characters/inventorycomponent.hpp"
+#include "components/characters/lifecomponent.hpp"
+#include "components/characters/monstercomponent.hpp"
+#include "components/characters/movecomponent.hpp"
+#include "components/characters/orientationcomponent.hpp"
+#include "components/characters/pathcomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/characters/randommovementcomponent.hpp"
 
 // Items
 #include "components/items/consumablecomponent.hpp"
@@ -40,5 +37,14 @@
 #include "components/items/hpgaincomponent.hpp"
 #include "components/items/itemcomponent.hpp"
 #include "components/items/resourcecomponent.hpp"
+
+// Util
+#include "components/util/clonecomponent.hpp"
+#include "components/util/graphicalentitiescomponent.hpp"
+#include "components/util/logicentityidcomponent.hpp"
+#include "components/util/renderablesstoragecomponent.hpp"
+
+// Other
+#include "components/other/mapcomponent.hpp"
 
 #endif // COMPONENTS_HPP

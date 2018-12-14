@@ -7,8 +7,9 @@
 #include <Nazara/Core/Color.hpp>
 #include <vector>
 #include "def/gamedef.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/defaultgraphicsposcomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/shared/graphicsoffsetcomponent.hpp"
+#include "components/util/renderablesstoragecomponent.hpp"
 #include "util/assert.hpp"
 #include "util/mapposutil.hpp"
 #include "util/entityutil.hpp"

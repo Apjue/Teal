@@ -11,7 +11,7 @@
 #include <NDK/Entity.hpp>
 #include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
-#include "components/common/logicentityidcomponent.hpp"
+#include "components/util/logicentityidcomponent.hpp"
 #include "data/characterdata.hpp"
 #include "data/graphicalitemdata.hpp"
 //#include "data/mapobjectdata.hpp"

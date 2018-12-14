@@ -4,10 +4,10 @@
 
 #include <NDK/Components/NodeComponent.hpp>
 #include <memory>
-#include "components/common/blocktilecomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/orientationcomponent.hpp"
-#include "components/common/renderablesstoragecomponent.hpp"
+#include "components/characters/blocktilecomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/characters/orientationcomponent.hpp"
+#include "components/util/renderablesstoragecomponent.hpp"
 #include "cache/tilesetcore.hpp"
 #include "util/animutil.hpp"
 #include "util/gfxutil.hpp"

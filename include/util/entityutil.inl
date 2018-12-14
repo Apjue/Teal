@@ -4,19 +4,19 @@
 
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
-#include "components/common/defaultgraphicsposcomponent.hpp"
-#include "components/common/pathcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/logicentityidcomponent.hpp"
-#include "components/common/monstercomponent.hpp"
-#include "components/common/fightcomponent.hpp"
-#include "components/common/lifecomponent.hpp"
+#include "components/characters/pathcomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/characters/monstercomponent.hpp"
+#include "components/characters/fightcomponent.hpp"
+#include "components/characters/lifecomponent.hpp"
+#include "components/shared/graphicsoffsetcomponent.hpp"
+#include "components/util/logicentityidcomponent.hpp"
 #include "components/items/itemcomponent.hpp"
 #include "entityutil.hpp"
 
 bool isMapEntity(const Ndk::EntityHandle& e)
 {
-    return e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>() && e->HasComponent<DefaultGraphicsPosComponent>();
+    return e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>() && e->HasComponent<GraphicsOffsetComponent>();
 }
 
 bool isItemEntity(const Ndk::EntityHandle& e)
@@ -70,7 +70,7 @@ Nz::Vector2f getGraphicsOffset(const Ndk::EntityHandle& e)
             return anim.animList[animType].offset;
     }
 
-    return e->GetComponent<DefaultGraphicsPosComponent>().offset;
+    return e->GetComponent<GraphicsOffsetComponent>().offset;
 }
 
 AnimationComponent::AnimationType determineAnimationToBeUsed(const Ndk::EntityHandle& e)

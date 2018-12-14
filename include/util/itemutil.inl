@@ -7,8 +7,8 @@
 #include "components/items/consumablecomponent.hpp"
 #include "components/items/hpgaincomponent.hpp"
 #include "components/items/equippablecomponent.hpp"
-#include "components/common/equipmentcomponent.hpp"
-#include "components/common/statecomponent.hpp"
+#include "components/characters/equipmentcomponent.hpp"
+#include "components/shared/statecomponent.hpp"
 #include "util/assert.hpp"
 #include "itemutil.hpp"
 

@@ -10,7 +10,7 @@
 #include <NDK/Entity.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
 #include <Nazara/Math/Vector2.hpp>
-#include "components/common/animationcomponent.hpp"
+#include "components/characters/animationcomponent.hpp"
 
 bool hasComponentsToAnimate(const Ndk::EntityHandle& e);
 void updateAnimation(const Ndk::EntityHandle& e);

@@ -4,8 +4,8 @@
 
 #include <Nazara/Graphics/Material.hpp>
 #include <unordered_map>
-#include "components/common/positioncomponent.hpp"
-#include "components/common/blocktilecomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/characters/blocktilecomponent.hpp"
 #include "def/gamedef.hpp"
 #include "data/mapdata.hpp"
 

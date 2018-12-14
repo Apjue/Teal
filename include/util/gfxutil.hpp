@@ -9,7 +9,7 @@
 
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <Nazara/Utility/Image.hpp>
-#include "components/common/renderablesstoragecomponent.hpp"
+#include "components/util/renderablesstoragecomponent.hpp"
 #include "global.hpp"
 
 inline void cloneRenderables(const Ndk::EntityHandle& e, unsigned renderOrder = 0);

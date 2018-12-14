@@ -3,10 +3,10 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <NDK/Components/GraphicsComponent.hpp>
-#include "components/common/orientationcomponent.hpp"
-#include "components/common/pathcomponent.hpp"
-#include "components/common/positioncomponent.hpp"
-#include "components/common/renderablesstoragecomponent.hpp"
+#include "components/characters/orientationcomponent.hpp"
+#include "components/characters/pathcomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/util/renderablesstoragecomponent.hpp"
 #include "def/gamedef.hpp"
 #include "def/systemdef.hpp"
 #include "util/gfxutil.hpp"

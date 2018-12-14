@@ -2,11 +2,11 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "components/common/positioncomponent.hpp"
-#include "components/common/pathcomponent.hpp"
-#include "components/common/orientationcomponent.hpp"
-#include "components/common/fightcomponent.hpp"
-#include "components/common/inventorycomponent.hpp"
+#include "components/characters/positioncomponent.hpp"
+#include "components/characters/pathcomponent.hpp"
+#include "components/characters/orientationcomponent.hpp"
+#include "components/characters/fightcomponent.hpp"
+#include "components/characters/inventorycomponent.hpp"
 #include "util/maputil.hpp"
 #include "util/moveutil.hpp"
 #include "cache/tilesetcore.hpp"

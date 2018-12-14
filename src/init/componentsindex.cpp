@@ -11,7 +11,7 @@ Ndk::ComponentIndex ConsumableComponent::componentIndex;
 Ndk::ComponentIndex ResourceComponent::componentIndex;
 
 Ndk::ComponentIndex RandomMovementComponent::componentIndex;
-Ndk::ComponentIndex DefaultGraphicsPosComponent::componentIndex;
+Ndk::ComponentIndex GraphicsOffsetComponent::componentIndex;
 Ndk::ComponentIndex NameComponent::componentIndex;
 Ndk::ComponentIndex LevelComponent::componentIndex;
 Ndk::ComponentIndex InventoryComponent::componentIndex;

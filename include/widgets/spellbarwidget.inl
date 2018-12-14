@@ -6,7 +6,7 @@
 #include <NDK/Components/DebugComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <limits>
-#include "components/common/renderablesstoragecomponent.hpp"
+#include "components/util/renderablesstoragecomponent.hpp"
 #include "def/layerdef.hpp"
 #include "util/assert.hpp"
 #include "factory.hpp"

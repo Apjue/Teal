@@ -9,7 +9,7 @@
 
 #include <NDK/System.hpp>
 #include <memory>
-#include "components/common/mapcomponent.hpp"
+#include "components/other/mapcomponent.hpp"
 #include "util/random.hpp"
 
 class RandomMovementSystem : public Ndk::System<RandomMovementSystem>

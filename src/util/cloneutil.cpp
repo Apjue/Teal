@@ -3,9 +3,9 @@
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #include <algorithm>
-#include "components/common/clonecomponent.hpp"
-#include "components/common/graphicalentitiescomponent.hpp"
-#include "components/common/logicentityidcomponent.hpp"
+#include "components/util/clonecomponent.hpp"
+#include "components/util/graphicalentitiescomponent.hpp"
+#include "components/util/logicentityidcomponent.hpp"
 #include "def/layerdef.hpp"
 #include "util/gfxutil.hpp"
 #include "util/cloneutil.hpp"
