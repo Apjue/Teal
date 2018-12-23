@@ -6,7 +6,7 @@
 #include "mathutil.hpp"
 
 template<class T>
-float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC) // Get the angle of pA
+float getAngleOf(const Nz::Vector2<T>& pA, const Nz::Vector2<T>& pB, const Nz::Vector2<T>& pC) // Get the angle of BÂC
 {
     float a = pB.Distancef(pC);
     float b = pA.Distancef(pC);
@@ -26,7 +26,7 @@ Nz::Vector2<T> makeOrthogonal(const Nz::Vector2<T>& v)
 template<class T>
 bool isLeft(const Nz::Vector2<T>& p1, const Nz::Vector2<T>& p2, const Nz::Vector2<T>& pos)
 {
-    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) > 0;
+    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) < 0;
 }
 
 template<class T>
@@ -38,5 +38,5 @@ bool isMiddle(const Nz::Vector2<T>& p1, const Nz::Vector2<T>& p2, const Nz::Vect
 template<class T>
 bool isRight(const Nz::Vector2<T>& p1, const Nz::Vector2<T>& p2, const Nz::Vector2<T>& pos)
 {
-    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) < 0;
+    return Nz::Vector2<T>::DotProduct(makeOrthogonal(p2 - p1), pos - p2) > 0;
 }
