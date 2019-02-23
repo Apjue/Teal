@@ -61,7 +61,7 @@ workspace "Teal"
         local commandLine = "premake5.exe " .. table.concat(_ARGV, ' ')
 
         project("Regenerate premake")
-            kind("Utility")
+            kind "Utility"
             prebuildcommands("cd .. && " .. commandLine)
     end
 
@@ -103,12 +103,12 @@ workspace "Teal"
 
         filter "configurations:Debug"
             defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
-            targetname("Teal-debug")
+            targetname "Teal-debug"
             links { "NazaraAudio-d", "NazaraNetwork-d", "NazaraNoise-d", "NazaraPhysics2D-d", "NazaraPhysics3D-d", "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
             symbols "on"
 
         filter "configurations:Release"
             defines { "NDEBUG" }
-            targetname("Teal-release")
+            targetname "Teal-release"
             links { "NazaraAudio", "NazaraNetwork", "NazaraNoise", "NazaraPhysics2D", "NazaraPhysics3D", "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "NazaraPlatform", "micropather" }
             optimize "On"
