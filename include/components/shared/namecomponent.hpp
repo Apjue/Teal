@@ -12,7 +12,7 @@
 
 struct NameComponent : public Ndk::Component<NameComponent>
 {
-    NameComponent(const Nz::String& name_ = "") : name(name_) {}
+    NameComponent(Nz::String name_ = "") : name(std::move(name_)) {}
 
     Nz::String name {};
 

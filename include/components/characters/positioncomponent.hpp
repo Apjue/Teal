@@ -17,7 +17,7 @@ using PositionComponentHandle = Nz::ObjectHandle<PositionComponent>;
 struct PositionComponent : public Ndk::Component<PositionComponent>
 {
     PositionComponent() = default;
-    PositionComponent(const AbsTile& pos) : xy { pos } {}
+    PositionComponent(AbsTile pos) : xy { std::move(pos) } {}
 
     AbsTile xy {}; // The actual position (absolute)
 

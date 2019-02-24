@@ -19,7 +19,7 @@
 
 struct GraphicsOffsetComponent : public Ndk::Component<GraphicsOffsetComponent>
 {
-    GraphicsOffsetComponent(const Nz::Vector2f& xy = {}) : offset { xy } {}
+    GraphicsOffsetComponent(Nz::Vector2f xy = {}) : offset { std::move(xy) } {}
 
     Nz::Vector2f offset;
 
