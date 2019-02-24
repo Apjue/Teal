@@ -180,14 +180,14 @@ bool changeMap()
     activateMapEntities(m_currentMap->getCurrentMap());
     m_currentMap->getCurrentMap()->getEntities().Insert(m_mainCharacter);
 
-    // Update map & pather
-    m_currentMap->update();
-    refreshOccupiedTiles();
-
     // Update main character
     pos.xy = { x, y };
     m_mainCharacter->GetComponent<OrientationComponent>().orientation = newOrient;
     refreshGraphicsPos(m_mainCharacter);
+
+    // Update map & pather
+    m_currentMap->update();
+    refreshOccupiedTiles();
 
     return true;
 }

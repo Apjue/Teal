@@ -52,8 +52,8 @@ void MapData::updateOccupiedTiles()
         if (e->HasComponent<PositionComponent>() && e->HasComponent<BlockTileComponent>()
             && e->GetComponent<BlockTileComponent>().blockTile)
         {
-            auto& pos = e->GetComponent<PositionComponent>();
-            m_tiles[XYToIndex(pos.xy.x, pos.xy.y)].occupied = true;
+            auto& xy = e->GetComponent<PositionComponent>().xy;
+            m_tiles[XYToIndex(xy.x, xy.y)].occupied = true;
         }
     }
 }
