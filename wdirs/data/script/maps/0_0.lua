@@ -6,17 +6,13 @@ teal_map =
         {
             codename = "excalibur",
             type = "item",
-            pos = { x = 1, y = 2 },
-            size = { x = 40, y = 40 }, -- Todo: Move size/offset outta here
-            offset = { x = 12, y = -3 }
+            pos = { x = 1, y = 2 }
         },
 
         {
             codename = "awkwardpotion",
             type = "item",
-            pos = { x = 1, y = 3 },
-            size = { x = 40, y = 40 },
-            offset = { x = 12, y = -12 }
+            pos = { x = 1, y = 3 }
         }
     },
 

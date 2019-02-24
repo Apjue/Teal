@@ -46,6 +46,8 @@ extern void initializeSchemeUtility(const Nz::ImageRef& newScheme);
 ///        a Sprite attached to a GraphicsComponent, using the
 ///        Position component of a logical entity
 ///
+/// \note For map entities ONLY.
+///
 
 extern void refreshGraphicsPos(const Ndk::EntityHandle& entity);
 

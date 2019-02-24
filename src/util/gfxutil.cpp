@@ -128,7 +128,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& entity)
 
     auto& pos = entity->GetComponent<PositionComponent>();
     auto& node = entity->GetComponent<Ndk::NodeComponent>();
-    Nz::Vector2f defPos = getGraphicsOffset(entity);
+    Nz::Vector2f offset = getGraphicsOffset(entity);
 
     unsigned const gX = pos.xy.x * Def::TileSizeX + (isLineEven(pos.xy.y) ? 0u : Def::TileSizeX / 2); // convert logic pos to graphics pos
     unsigned const gY = pos.xy.y * Def::TileSizeY / 2;
@@ -143,7 +143,7 @@ void refreshGraphicsPos(const Ndk::EntityHandle& entity)
     }
 
     // We will move using this (so it's graphics pos)
-    Nz::Vector3f finalPos { float(gX) + float(gInXY.x) + defPos.x, float(gY) + float(gInXY.y) + defPos.y, 0.f };
+    Nz::Vector3f finalPos { float(gX) + float(gInXY.x) + offset.x, float(gY) + float(gInXY.y) + offset.y, 0.f };
     finalPos.z = finalPos.y / 10.f;
 
     if (finalPos.x != node.GetPosition().x || finalPos.y != node.GetPosition().y) // if the entity is already at that position, no need to move it

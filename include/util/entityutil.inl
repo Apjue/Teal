@@ -16,7 +16,8 @@
 
 bool isMapEntity(const Ndk::EntityHandle& e)
 {
-    return e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>() && e->HasComponent<GraphicsOffsetComponent>();
+    return e->HasComponent<Ndk::GraphicsComponent>() && e->HasComponent<Ndk::NodeComponent>() &&
+        (e->HasComponent<GraphicsOffsetComponent>() || e->HasComponent<LogicEntityIdComponent>());
 }
 
 bool isItemEntity(const Ndk::EntityHandle& e)
@@ -69,6 +70,9 @@ Nz::Vector2f getGraphicsOffset(const Ndk::EntityHandle& e)
         if (anim.canAnimationBeUsed(animType))
             return anim.animList[animType].offset;
     }
+
+    if (e->HasComponent<LogicEntityIdComponent>())
+        return e->GetComponent<LogicEntityIdComponent>().logicEntity->GetComponent<GraphicsOffsetComponent>().offset;
 
     return e->GetComponent<GraphicsOffsetComponent>().offset;
 }

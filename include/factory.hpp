@@ -19,8 +19,8 @@
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data);
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
 
-extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name = "Item",
-                                         const Nz::String& description = "Empty description", unsigned level = 1, Nz::TextureRef icon = {});
+extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::String codename, Nz::String name = "Item", Nz::String description = "Empty description",
+                                         unsigned level = 1, Nz::TextureRef icon = Nz::TextureLibrary::Get(":/game/unknown"), Nz::Vector2f mapOffset = {});
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
 
 extern Ndk::EntityHandle makeGraphicalItem(Ndk::EntityHandle e, const GraphicalItemData& data);

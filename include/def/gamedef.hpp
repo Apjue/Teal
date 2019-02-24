@@ -54,6 +54,7 @@ constexpr Nz::UInt32 LuaAITimeLimit { 1000u };
 
 constexpr std::size_t PathRunningAfter { 2 }; // How many tiles must path's size be to be in running state
 
+constexpr float MapItemDefaultSize { 40.f };
 }
 
 #endif // GAMEDEF_HPP

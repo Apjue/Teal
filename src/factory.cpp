@@ -56,17 +56,18 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     return e;
 }
 
-Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& codename, const Nz::String& name, 
-                                   const Nz::String& description, unsigned level, Nz::TextureRef icon)
+Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::String codename, Nz::String name, Nz::String description,
+                                  unsigned level, Nz::TextureRef icon, Nz::Vector2f mapOffset)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
     e->AddComponent<ItemComponent>();
-    e->AddComponent<CloneComponent>().codename = codename;
-    e->AddComponent<NameComponent>().name = name;
-    e->AddComponent<DescriptionComponent>().description = description;
-    e->AddComponent<LevelComponent>(level);
+    e->AddComponent<CloneComponent>().codename = std::move(codename);
+    e->AddComponent<NameComponent>().name = std::move(name);
+    e->AddComponent<DescriptionComponent>().description = std::move(description);
+    e->AddComponent<LevelComponent>().level = std::move(level);
     e->AddComponent<IconComponent>().icon = icon;
+    e->AddComponent<GraphicsOffsetComponent>().offset = std::move(mapOffset);
     e->AddComponent<GraphicalEntitiesComponent>();
 
     return e;
@@ -75,18 +76,17 @@ Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, const Nz::String& c
 Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::LuaInstance& lua)
 {
     TealException(lua.GetGlobal("teal_item") == Nz::LuaType_Table, "Lua: teal_item isn't a table !");
-    Ndk::EntityHandle e = w->CreateEntity();
 
-    e->AddComponent<ItemComponent>();
-    e->AddComponent<CloneComponent>().codename = lua.CheckField<Nz::String>("codename");
-    e->AddComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
-    e->AddComponent<DescriptionComponent>().description = lua.CheckField<Nz::String>("description", "No description");
-    e->AddComponent<LevelComponent>().level = lua.CheckField<unsigned>("level");
-    e->AddComponent<GraphicalEntitiesComponent>();
+    Nz::String codename = lua.CheckField<Nz::String>("codename");
+    Nz::String name = lua.CheckField<Nz::String>("name");
+    Nz::String description = lua.CheckField<Nz::String>("description", "No description");
+    unsigned level = lua.CheckField<unsigned>("level");
+    Nz::Vector2f mapOffset = lua.CheckField<Nz::Vector2f>("map_offset");
 
     Nz::String icon = lua.CheckField<Nz::String>("icon");
-    e->AddComponent<IconComponent>().icon = (Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
+    Nz::TextureRef iconTexture = (Nz::TextureLibrary::Has(icon) ? Nz::TextureLibrary::Get(icon) : Nz::TextureLibrary::Get(":/game/unknown"));
 
+    Ndk::EntityHandle e = makeLogicalItem(w, codename, name, description, level, iconTexture, mapOffset);
 
     TealException(lua.GetField("components") == Nz::LuaType_Table, "Lua: teal_item.components isn't a table !");
 
@@ -147,8 +147,6 @@ Ndk::EntityHandle makeGraphicalItem(Ndk::EntityHandle e, const GraphicalItemData
     auto& logic = e->AddComponent<LogicEntityIdComponent>();
     logic.logicEntity = logicItem;
     logic.itemType = data.itemType;
-
-    e->AddComponent<GraphicsOffsetComponent>(data.offset);
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
 

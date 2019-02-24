@@ -5,6 +5,7 @@ teal_item =
     description = "Legendary Sword",
     level = 1,
     icon = ":/game/items/swords/broadsword_fire",
+    map_offset = { x = 12, y = -3 },
 
     components =
     {

@@ -488,13 +488,9 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
                 if (e.IsValid())
                 {
-                    Nz::Vector2f size = lua.CheckField<Nz::Vector2f>("size");
-                    Nz::Vector2f offset = lua.CheckField<Nz::Vector2f>("offset");
+                    auto gfxEntity = makeGraphicalItem(world, { e, { Def::MapItemDefaultSize, Def::MapItemDefaultSize }, LogicEntityIdComponent::GroundItem }, pos);
 
-                    auto gfxEntity = makeGraphicalItem(world, { e, size, offset, LogicEntityIdComponent::GroundItem }, pos);
                     gfxEntity->Enable(false);
-
-                    refreshGraphicsPos(gfxEntity);
                     map->getEntities().Insert(gfxEntity);
                 }
             }
