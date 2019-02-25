@@ -26,7 +26,7 @@ teal_item =
         equippable =
         {
             bodypart = "Hands",
-            use_both_hands = true,
+            use_both_hands = false,
             skill_id = "item_excalibur"
         }
     }

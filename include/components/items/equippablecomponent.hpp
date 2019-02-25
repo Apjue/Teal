@@ -30,7 +30,7 @@ struct EquippableComponent : public Ndk::Component<EquippableComponent>
     BodyPart bodypart {};
     bool useBothHands {};
 
-    SkillStore::LightId attackId { SkillStore::InvalidID }; // For attack items (e.g. sword, bow)
+    SkillStore::LightId attackId { SkillStore::InvalidID }; // For weapons (e.g. sword, bow)
 
     static inline const char* componentName() { return "equippable"; }
     static Ndk::ComponentIndex componentIndex;
