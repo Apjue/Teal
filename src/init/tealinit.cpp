@@ -136,7 +136,6 @@ void loadNazara()
     Ndk::InitializeComponent<MapComponent>("map");                      //Ndk::LuaAPI::GetBinding()->BindComponent<MapComponent>("MapComponent");
     Ndk::InitializeComponent<DamageModifierComponent>("dmgmodif");      Ndk::LuaAPI::GetBinding()->BindComponent<DamageModifierComponent>("DamageModifierComponent");
     Ndk::InitializeComponent<DescriptionComponent>("desc");             //Ndk::LuaAPI::GetBinding()->BindComponent<DescriptionComponent>("DescriptionComponent");
-    Ndk::InitializeComponent<CombatBehaviorComponent>("cbtbhv");        //Ndk::LuaAPI::GetBinding()->BindComponent<CombatBehaviorComponent>("CombatBehaviorComponent");
     Ndk::InitializeComponent<BlockTileComponent>("blcktile");           //Ndk::LuaAPI::GetBinding()->BindComponent<BlockTileComponent>("BlockTileComponent");
     Ndk::InitializeComponent<MonsterComponent>("monster");              //Ndk::LuaAPI::GetBinding()->BindComponent<MonsterComponent>("MonsterComponent");
     Ndk::InitializeComponent<EquipmentComponent>("equip");              //Ndk::LuaAPI::GetBinding()->BindComponent<EquipmentComponent>("EquipmentComponent");

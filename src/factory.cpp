@@ -49,7 +49,6 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     dmg.resistance = data.resistance;
 
     e->AddComponent<EquipmentComponent>();
-    e->AddComponent<CombatBehaviorComponent>();
     e->AddComponent<LevelComponent>(data.level);
 
     refreshGraphicsPos(e);

@@ -19,7 +19,6 @@
 // Characters
 #include "components/characters/animationcomponent.hpp"
 #include "components/characters/blocktilecomponent.hpp"
-#include "components/characters/combatbehaviorcomponent.hpp"
 #include "components/characters/equipmentcomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
 #include "components/characters/inventorycomponent.hpp"

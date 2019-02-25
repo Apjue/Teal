@@ -10,7 +10,6 @@
 #include "components/characters/animationcomponent.hpp"
 #include "components/characters/blocktilecomponent.hpp"
 #include "components/characters/equipmentcomponent.hpp"
-#include "components/characters/combatbehaviorcomponent.hpp"
 #include "components/shared/damagemodifiercomponent.hpp"
 #include "def/gamedef.hpp"
 #include "def/systemdef.hpp"

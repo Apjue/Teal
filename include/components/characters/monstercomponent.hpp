@@ -10,8 +10,8 @@
 
 struct MonsterComponent : public Ndk::Component<MonsterComponent>
 {
-    Nz::String family; // aka fight_ai_monster_family
-    Nz::String name;   // aka fight_ai_monster_name
+    Nz::String family; // lua: fight_ai_monster_family
+    Nz::String name;   // lua: fight_ai_monster_name
 
     static Ndk::ComponentIndex componentIndex;
 };
