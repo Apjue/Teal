@@ -14,7 +14,7 @@ unsigned int LuaImplQueryArg(const LuaState& state, int index, EquippableCompone
     state.CheckType(index, Nz::LuaType_Table);
 
     component->bodypart = stringToBodypart(state.CheckField<Nz::String>("bodypart", index));
-    component->useBothHands = state.CheckField<bool>("use_both_hands", index);
+    component->useBothSides = state.CheckField<bool>("use_both_hands", index);
 
     if (state.GetField("skill_id", index) == Nz::LuaType_String)
     {
@@ -32,7 +32,7 @@ int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& component
     state.PushTable();
     {
         state.PushField<Nz::String>("bodypart", bodypartToString(component->bodypart));
-        state.PushField("use_both_hands", component->useBothHands);
+        state.PushField("use_both_hands", component->useBothSides);
 
         if (component->attackId != SkillStore::InvalidID)
             state.PushField("skill_id", DoubleStores<SkillData>::getInstance()->getItem(component->attackId).codename);

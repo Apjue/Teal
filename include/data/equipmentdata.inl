@@ -78,36 +78,3 @@ const char* bodypartToString(BodyPart bodypart)
 
     throw std::runtime_error { "Invalid bodypart" };
 }
-
-Side stringToSide(Nz::String string)
-{
-    string = string.ToLower();
-
-    if (string == "both")
-        return Side::Both;
-
-    if (string == "right")
-        return Side::Right;
-
-    if (string == "left")
-        return Side::Left;
-
-    throw std::runtime_error { "Invalid side" };
-}
-
-const char* sideToString(Side side)
-{
-    switch (side)
-    {
-        case Side::Both:
-            return "both";
-
-        case Side::Right:
-            return "right";
-
-        case Side::Left:
-            return "left";
-    }
-
-    throw std::runtime_error { "Invalid side" };
-}

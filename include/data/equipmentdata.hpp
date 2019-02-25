@@ -15,25 +15,15 @@ enum class BodyPart
     Hands, // Armes / boucliers
     Wrists, // Bracelets
     Digits, // Bagues
-    Chest, // armure
+    Chest, // Armure
     Hip,   // Ceinture
     Legs,  // Jeans
     Feet   // Bottes
 };
 
-enum class Side // For digits, wrists, hands
-{
-    Both, // A heavy hammer or a bow need both hands
-    Right,
-    Left
-};
-
 
 inline BodyPart stringToBodypart(Nz::String string);
 inline const char* bodypartToString(BodyPart bodypart);
-
-inline Side stringToSide(Nz::String string);
-inline const char* sideToString(Side side);
 
 #include "equipmentdata.inl"
 

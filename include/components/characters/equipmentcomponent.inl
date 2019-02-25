@@ -40,7 +40,7 @@ void EquipmentComponent::set(Ndk::EntityHandle item)
     // Else, equip it
     auto& equip = item->GetComponent<EquippableComponent>();
 
-    if (equip.useBothHands)
+    if (equip.useBothSides)
     {
         while (get(equip.bodypart))
             equipped.Remove(get(equip.bodypart));
@@ -50,34 +50,22 @@ void EquipmentComponent::set(Ndk::EntityHandle item)
     {
         switch (has(equip.bodypart)) // Number of equipped items
         {
+            case 0:
+                break;
+
             case 1:
             {
                 Ndk::EntityHandle alreadyEquipped = get(equip.bodypart);
 
-                if (alreadyEquipped->GetComponent<EquippableComponent>().useBothHands)
+                if (alreadyEquipped->GetComponent<EquippableComponent>().useBothSides)
                     equipped.Remove(alreadyEquipped);
 
                 break;
             }
 
             case 2:
-            {
-                Ndk::EntityHandle alreadyEquipped = get(equip.bodypart);
-                bool clearSlot = false;
-
-                if (alreadyEquipped->GetComponent<EquippableComponent>().useBothHands)
-                {
-                    clearSlot = true;
-                    equipped.Remove(alreadyEquipped);
-                }
-
-                Ndk::EntityHandle alreadyEquipped2 = get(equip.bodypart, 1);
-
-                if (alreadyEquipped2->GetComponent<EquippableComponent>().useBothHands || !clearSlot)
-                    equipped.Remove(alreadyEquipped2);
-
+                equipped.Remove(get(equip.bodypart));
                 break;
-            }
 
             default:
                 throw std::runtime_error { "A third side ?!" };

@@ -28,7 +28,7 @@ extern int LuaImplReplyVal(const LuaState& state, EquippableComponentHandle&& co
 struct EquippableComponent : public Ndk::Component<EquippableComponent>
 {
     BodyPart bodypart {};
-    bool useBothHands {};
+    bool useBothSides {}; // aka useBothHands, MUST be set to true for items which don't have a side (e.g. belts, helmets)
 
     SkillStore::LightId attackId { SkillStore::InvalidID }; // For weapons (e.g. sword, bow)
 
