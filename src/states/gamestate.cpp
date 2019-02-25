@@ -25,6 +25,7 @@
 #include "util/maputil.hpp"
 #include "util/gfxutil.hpp"
 #include "util/itemutil.hpp"
+#include "util/livingentityutil.hpp"
 #include "def/layerdef.hpp"
 #include "def/folderdef.hpp"
 #include "def/uidef.hpp"
@@ -184,7 +185,7 @@ void GameState::printCharacteristics() /// Used for testing | todo: have a real 
 {
     std::cout << "Main character characteristics";
 
-    auto& data = m_charac->GetComponent<DamageModifierComponent>().data;
+    DamageModifierList data = getMobDamageModifier(m_charac);
     std::cout << '\n';
     std::cout << "  Attack Modifier:\n";
     std::cout << "    Neutral: " << data[Element::Neutral].attack << '\n';

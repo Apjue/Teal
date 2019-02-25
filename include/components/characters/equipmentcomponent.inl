@@ -4,6 +4,11 @@
 
 #include "equipmentcomponent.hpp"
 
+const Ndk::EntityList& EquipmentComponent::getAll() const
+{
+    return equipped;
+}
+
 Ndk::EntityHandle EquipmentComponent::get(BodyPart part, unsigned skip)
 {
     for (auto& e : equipped)

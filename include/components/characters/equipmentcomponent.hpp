@@ -14,6 +14,7 @@
 
 struct EquipmentComponent : public Ndk::Component<EquipmentComponent>
 {
+    inline const Ndk::EntityList& getAll() const;
     inline Ndk::EntityHandle get(BodyPart part, unsigned skip = 0); // 'skip' is the number of items to... skip
     inline void set(Ndk::EntityHandle item);
 
