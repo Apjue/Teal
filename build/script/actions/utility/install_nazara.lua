@@ -79,9 +79,15 @@ ACTION.execute = function(self, root)
             -- No location provided, try to determine it automatically
             if (string.find(folder, "msvc14")) then
                 location = "vs2015"
+                print("No location provided (--lib-toolset argument), chose vs2015 because of the msvc14 keyword")
 
             elseif (string.find(folder, "msvc15")) then
                 location = "vs2017"
+                print("No location provided (--lib-toolset argument), chose vs2017 because of the msvc15 keyword")
+
+            elseif (string.find(folder, "gcc") or string.find(folder, "g++") or string.find(folder, "clang")) then
+                location = "gmake" -- gmake2?
+                print("No location provided (--lib-toolset argument), chose gmake because of the gcc/clang keyword")
             end
 
             if (not location) then
@@ -127,11 +133,11 @@ ACTION.execute = function(self, root)
         end
     end
 
-    local all_archives = os.matchdirs("NazaraEngine*")
+    local all_archives = os.matchdirs("Nazara*")
     local archive
 
     if (#all_archives == 0) then
-        error("No archive found (the archive must be a folder with a name starting by NazaraEngine, located in /build/)")
+        error("No archive found (the archive must be a folder with a name starting by \"Nazara\", located in /build/)")
 
     elseif (#all_archives == 1) then
         archive = all_archives[1]
