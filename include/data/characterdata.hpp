@@ -12,6 +12,7 @@
 #include <Nazara/Graphics/Sprite.hpp>
 #include <unordered_map>
 #include "components/characters/animationcomponent.hpp"
+#include "components/shared/damagemodifiercomponent.hpp"
 #include "data/elementdata.hpp"
 #include "cache/doublestore.hpp"
 #include "util/util.hpp"
@@ -47,8 +48,6 @@ struct CharacterData
         unsigned actionPoints;
     };
 
-    using Elements = std::unordered_map<Element, int>;
-
     ///
     /// \param name Codename of the character (for illegal purposes, i.e. cloning)
     /// \param size Size of the sprite's image
@@ -60,8 +59,7 @@ struct CharacterData
     /// \param blockTile_ Blocks the tile
     /// \param name_ Name of the character
     /// \param desc_ Description of the character
-    /// \param atk_ Attack Modifier
-    /// \param res_ Resistance Modifier
+    /// \param damageData_ Damage Modifier
     /// \param level_ Level of the character
     /// \param fight_ Used for fight settings
     ///
@@ -76,13 +74,12 @@ struct CharacterData
                   bool blockTile_ = false,
                   const Nz::String& name_ = "",
                   const Nz::String& desc_ = "",
-                  Elements atk_ = {},
-                  Elements res_ = {},
+                  DamageModifierList damageData_ = {},
                   unsigned level_ = 1,
                   const Fight& fight_ = {})
 
-        : codename { name }, sprite { pic }, offset { offset_ }, animations { anims }, maxHp { mhp }, orientation { orientation_ }, randomMovement(rdMov_), blockTile(blockTile_), name(name_),
-          description(desc_), attack(atk_), resistance(res_), level { level_ }, fight { fight_ }
+        : codename { name }, sprite { pic }, offset { offset_ }, animations { anims }, maxHp { mhp }, orientation { orientation_ }, randomMovement(rdMov_), blockTile(blockTile_),
+        name(name_), description(desc_), damageData(damageData_), level { level_ }, fight { fight_ }
     {}
 
     CharacterData() = default;
@@ -104,8 +101,7 @@ struct CharacterData
     Nz::String name;
     Nz::String description;
 
-    Elements attack;
-    Elements resistance;
+    DamageModifierList damageData;
 
     unsigned level;
     Fight fight;

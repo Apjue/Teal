@@ -93,8 +93,19 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
     state.Pop();
 
     data->randomMovement = state.CheckField<CharacterData::RandomMovement>("random_movement", index); // Not sure about this
-    data->attack = state.CheckField<CharacterData::Elements>("attack", index);
-    data->resistance = state.CheckField<CharacterData::Elements>("resistance", index);
+
+    if (state.GetField("attack", index) == Nz::LuaType_Table)
+        for (Element e {}; e <= Element::Max; ++e)
+            data->damageData[e].attack = state.CheckField<int>(elementToString(e), 0, -1);
+
+    state.Pop();
+
+    if (state.GetField("resistance", index) == Nz::LuaType_Table)
+        for (Element e {}; e <= Element::Max; ++e)
+            data->damageData[e].resistance = state.CheckField<int>(elementToString(e), 0, -1);
+
+    state.Pop();
+
     data->fight = state.CheckField<CharacterData::Fight>("fight", index);
 
 

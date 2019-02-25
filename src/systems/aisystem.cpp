@@ -400,7 +400,7 @@ void AISystem::Teal_TakeCover()
 
                 for (Element i {}; i <= Element::Max; ++i)
                 {
-                    unsigned resistancePercent = myDamage.resistance[i];
+                    unsigned resistancePercent = myDamage.data[i].resistance;
 
                     if (resistancePercent >= 100)
                         continue;

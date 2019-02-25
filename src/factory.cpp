@@ -44,10 +44,7 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     e->AddComponent<DescriptionComponent>(data.description);
     e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
 
-    auto& dmg = e->AddComponent<DamageModifierComponent>();
-    dmg.attack = data.attack;
-    dmg.resistance = data.resistance;
-
+    e->AddComponent<DamageModifierComponent>().data = data.damageData;
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<LevelComponent>(data.level);
 

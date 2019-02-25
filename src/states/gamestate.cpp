@@ -151,23 +151,22 @@ void GameState::printInventory(bool detailled) /// Used for testing | todo: have
         {
             if (item->HasComponent<DamageModifierComponent>())
             {
-                auto& attack = item->GetComponent<DamageModifierComponent>().attack;
+                auto& data = item->GetComponent<DamageModifierComponent>().data;
                 std::cout << '\n';
                 std::cout << "  Attack Modifier:\n";
-                std::cout << "    Neutral: " << attack[Element::Neutral] << '\n';
-                std::cout << "    Air: " << attack[Element::Air] << '\n';
-                std::cout << "    Fire: " << attack[Element::Fire] << '\n';
-                std::cout << "    Water: " << attack[Element::Water] << '\n';
-                std::cout << "    Earth: " << attack[Element::Earth];
+                std::cout << "    Neutral: " << data[Element::Neutral].attack << '\n';
+                std::cout << "    Air: " << data[Element::Air].attack << '\n';
+                std::cout << "    Fire: " << data[Element::Fire].attack << '\n';
+                std::cout << "    Water: " << data[Element::Water].attack << '\n';
+                std::cout << "    Earth: " << data[Element::Earth].attack;
 
-                auto& resistance = item->GetComponent<DamageModifierComponent>().resistance;
                 std::cout << '\n';
                 std::cout << "  Resistance Modifier:\n";
-                std::cout << "    Neutral: " << resistance[Element::Neutral] << '\n';
-                std::cout << "    Air: " << resistance[Element::Air] << '\n';
-                std::cout << "    Fire: " << resistance[Element::Fire] << '\n';
-                std::cout << "    Water: " << resistance[Element::Water] << '\n';
-                std::cout << "    Earth: " << resistance[Element::Earth];
+                std::cout << "    Neutral: " << data[Element::Neutral].resistance << '\n';
+                std::cout << "    Air: " << data[Element::Air].resistance << '\n';
+                std::cout << "    Fire: " << data[Element::Fire].resistance << '\n';
+                std::cout << "    Water: " << data[Element::Water].resistance << '\n';
+                std::cout << "    Earth: " << data[Element::Earth].resistance;
             }
         }
 
@@ -185,23 +184,22 @@ void GameState::printCharacteristics() /// Used for testing | todo: have a real 
 {
     std::cout << "Main character characteristics";
 
-    auto& attack = m_charac->GetComponent<DamageModifierComponent>().attack;
+    auto& data = m_charac->GetComponent<DamageModifierComponent>().data;
     std::cout << '\n';
     std::cout << "  Attack Modifier:\n";
-    std::cout << "    Neutral: " << attack[Element::Neutral] << '\n';
-    std::cout << "    Air: " << attack[Element::Air] << '\n';
-    std::cout << "    Fire: " << attack[Element::Fire] << '\n';
-    std::cout << "    Water: " << attack[Element::Water] << '\n';
-    std::cout << "    Earth: " << attack[Element::Earth];
+    std::cout << "    Neutral: " << data[Element::Neutral].attack << '\n';
+    std::cout << "    Air: " << data[Element::Air].attack << '\n';
+    std::cout << "    Fire: " << data[Element::Fire].attack << '\n';
+    std::cout << "    Water: " << data[Element::Water].attack << '\n';
+    std::cout << "    Earth: " << data[Element::Earth].attack;
 
-    auto& resistance = m_charac->GetComponent<DamageModifierComponent>().resistance;
     std::cout << '\n';
     std::cout << "  Resistance Modifier:\n";
-    std::cout << "    Neutral: " << resistance[Element::Neutral] << '\n';
-    std::cout << "    Air: " << resistance[Element::Air] << '\n';
-    std::cout << "    Fire: " << resistance[Element::Fire] << '\n';
-    std::cout << "    Water: " << resistance[Element::Water] << '\n';
-    std::cout << "    Earth: " << resistance[Element::Earth];
+    std::cout << "    Neutral: " << data[Element::Neutral].resistance << '\n';
+    std::cout << "    Air: " << data[Element::Air].resistance << '\n';
+    std::cout << "    Fire: " << data[Element::Fire].resistance << '\n';
+    std::cout << "    Water: " << data[Element::Water].resistance << '\n';
+    std::cout << "    Earth: " << data[Element::Earth].resistance;
 
     std::cout << std::endl;
 }

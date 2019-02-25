@@ -13,13 +13,20 @@
 #include <unordered_map>
 #include "data/elementdata.hpp"
 
+struct DamageModifierData
+{
+    int attack; // In percentage
+    int resistance;
+};
+
+using DamageModifierList = std::unordered_map<Element, DamageModifierData>;
+
 struct DamageModifierComponent;
 using DamageModifierComponentHandle = Nz::ObjectHandle<DamageModifierComponent>;
 
 struct DamageModifierComponent : public Ndk::Component<DamageModifierComponent>
 {
-    std::unordered_map<Element, int> attack; // In percentage
-    std::unordered_map<Element, int> resistance;
+    DamageModifierList data;
 
     static inline const char* componentName() { return "damage_modifier"; }
 
@@ -37,13 +44,13 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, DamageModi
 
     if (state.GetField("attack", index) == Nz::LuaType_Table)
         for (Element e {}; e <= Element::Max; ++e)
-            component->attack[e] = state.CheckField<int>(elementToString(e), 0, -1);
+            component->data[e].attack = state.CheckField<int>(elementToString(e), 0, -1);
 
     state.Pop();
 
     if (state.GetField("resistance", index) == Nz::LuaType_Table)
         for (Element e {}; e <= Element::Max; ++e)
-            component->resistance[e] = state.CheckField<int>(elementToString(e), 0, -1);
+            component->data[e].resistance = state.CheckField<int>(elementToString(e), 0, -1);
 
     state.Pop();
 
@@ -57,7 +64,7 @@ inline int LuaImplReplyVal(const LuaState& state, DamageModifierComponentHandle&
         state.PushTable();
         {
             for (Element e {}; e <= Element::Max; ++e)
-                state.PushField(elementToString(e), component->attack[e]);
+                state.PushField(elementToString(e), component->data[e].attack);
         }
 
         state.SetField("attack");
@@ -66,7 +73,7 @@ inline int LuaImplReplyVal(const LuaState& state, DamageModifierComponentHandle&
         state.PushTable();
         {
             for (Element e {}; e <= Element::Max; ++e)
-                state.PushField(elementToString(e), component->resistance[e]);
+                state.PushField(elementToString(e), component->data[e].resistance);
         }
 
         state.SetField("resistance");
