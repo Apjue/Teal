@@ -310,11 +310,7 @@ void loadFightAIs(AICore& ais)
         if (monsterFamily == "*") // I already have a default AI, thanks but no thanks
             continue;
 
-        if (monsterName == "*")
-            ais.addTag(std::make_pair(monsterFamily, monsterName), std::make_pair(aisDirectory.GetResultPath(), familyTagPower));
-
-        ais.addTag(std::make_pair(monsterFamily, monsterName), std::make_pair(aisDirectory.GetResultPath(), preciseTagPower));
-
+        ais.addTag(std::make_pair(monsterFamily, monsterName), std::make_pair(aisDirectory.GetResultPath(), (monsterName == "*" ? familyTagPower : preciseTagPower)));
         NazaraNotice("AI " + aiName + " loaded ! (" + aisDirectory.GetResultPath() + ")");
     }
 
