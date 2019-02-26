@@ -77,13 +77,13 @@ ACTION.execute = function(self, root)
 
         if (not location or #location == 0) then
             -- No location provided, try to determine it automatically
-            if (string.find(folder, "msvc14")) then
+            if (string.find(folder, "msvc14-")) then
                 location = "vs2015"
                 print("No location provided (--lib-toolset argument), chose vs2015 because of the msvc14 keyword")
 
-            elseif (string.find(folder, "msvc15")) then
+            elseif (string.find(folder, "msvc14.1")) then
                 location = "vs2017"
-                print("No location provided (--lib-toolset argument), chose vs2017 because of the msvc15 keyword")
+                print("No location provided (--lib-toolset argument), chose vs2017 because of the msvc14.1 keyword")
 
             elseif (string.find(folder, "gcc") or string.find(folder, "g++") or string.find(folder, "clang")) then
                 location = "gmake" -- gmake2?
