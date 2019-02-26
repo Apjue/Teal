@@ -92,14 +92,5 @@ callgrind.out.*
 wdirs/x64
 wdirs/x86
 
-# Result
-Teal.log
-Teal.exe
-
-# Premake
-build/vs*
-build/gmake
-build/codeblocks
-
 # Packages
 package_*
