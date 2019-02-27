@@ -29,10 +29,10 @@ struct CharacterData
 {
     struct RandomMovement
     {
-        RandomMovement(bool rd = false, float mov = 7.5f, unsigned nb = 1u)
-            : randomMovement { rd }, movementInterval { mov }, range { nb } {}
+        RandomMovement(bool enable = false, float mov = 7.5f, unsigned nb = 1u)
+            : enabled { enable }, movementInterval { mov }, range { nb } {}
 
-        bool randomMovement;
+        bool enabled;
         float movementInterval;
         unsigned range;
     };

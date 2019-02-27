@@ -20,7 +20,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
     if (state.GetType(index) != Nz::LuaType_Table)
         return 1;
 
-    random->randomMovement = true;
+    random->enabled = true;
     random->movementInterval = state.CheckField<float>("movement_interval", index);
     random->range = state.CheckField<unsigned>("range", index);
 

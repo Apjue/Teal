@@ -461,7 +461,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
                     auto randomMovement = lua.CheckField<CharacterData::RandomMovement>("random_movement");
 
-                    if (randomMovement.randomMovement)
+                    if (randomMovement.enabled)
                     {
                         if (e->HasComponent<RandomMovementComponent>())
                             e->RemoveComponent<RandomMovementComponent>();

@@ -32,7 +32,7 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
 
     e->AddComponent<OrientationComponent>(data.orientation);
 
-    if (data.randomMovement.randomMovement)
+    if (data.randomMovement.enabled)
         e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
 
     if (data.fight.fight)
