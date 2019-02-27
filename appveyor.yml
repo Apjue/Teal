@@ -1,10 +1,7 @@
 skip_commits:
   files:
     - .gitignore
-    - .travis.yml
-    - .travis_discord_webhook.sh
     - .todo.txt
-    - Dockerfile_*
     - LICENSE
     - README.md
     - build.md
