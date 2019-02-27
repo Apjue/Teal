@@ -13,7 +13,7 @@ skip_commits:
 
 version: '{branch} v0.x (#{build})'
 skip_tags: true
-image: Visual Studio 2017
+max_jobs: 42
 
 notifications:
   - provider: Slack
@@ -27,59 +27,106 @@ build:
   verbosity: minimal
 
 environment:
-  TOOLSET: vs2017
   matrix:
-    - CONFIG: Debug
-      SUFFIXDLL: -d.dll
-      SUFFIXLIB: -d.lib
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      TOOLSET: vs2017
+      CONFIG: Debug
       PLATFORM: x86
-      PLATFORMNAME: Win32
 
-    - CONFIG: Debug
-      SUFFIXDLL: -d.dll
-      SUFFIXLIB: -d.lib
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      TOOLSET: vs2017
+      CONFIG: Debug
       PLATFORM: x64
-      PLATFORMNAME: x64
 
-    - CONFIG: Release
-      SUFFIXDLL: .dll
-      SUFFIXLIB: .lib
-      PLATFORM: x64
-      PLATFORMNAME: x64
-
-    - CONFIG: Release
-      SUFFIXDLL: .dll
-      SUFFIXLIB: .lib
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      TOOLSET: vs2017
+      CONFIG: Release
       PLATFORM: x86
-      PLATFORMNAME: Win32
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      TOOLSET: vs2017
+      CONFIG: Release
+      PLATFORM: x64
+
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      TOOLSET: gmake
+      CONFIG: debug
+      PLATFORM: x64
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      TOOLSET: gmake
+      CONFIG: release
+      PLATFORM: x64
 
 install:
-  - cd %APPVEYOR_BUILD_FOLDER%/extlibs/include
-  - mkdir nazara && cd nazara
-  - cd %APPVEYOR_BUILD_FOLDER%/build
-  - curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-msvc14.1-win-nightly.7z -Lo NazaraEngine.7z
-  - 7z x NazaraEngine.7z -oNazaraEngine
-  - cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/
-  - cd %TOOLSET% && cd %PLATFORM%
-  - mkdir nazara && cd nazara
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%/extlibs/include &&
+         mkdir nazara && cd nazara &&
+         cd %APPVEYOR_BUILD_FOLDER%/build &&
+         curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-msvc14.1-win-nightly.7z -Lo NazaraEngine.7z &&
+         7z x NazaraEngine.7z -oNazaraEngine &&
+         cd %APPVEYOR_BUILD_FOLDER%/extlibs/lib/ &&
+         cd %TOOLSET% && cd %PLATFORM% &&
+         mkdir nazara && cd nazara
+
+         if %PLATFORM% equ x86 ( set PLATFORMNAME=Win32 ) else ( set PLATFORMNAME=x64 )
+
+  - sh: sudo apt-get update &&
+        sudo apt-get install -y p7zip-full curl g++-8 build-essential libopenal-dev libsndfile1-dev libxcb-cursor-dev libxcb-ewmh-dev libxcb-randr0-dev 
+        libxcb-icccm4-dev libxcb-keysyms1-dev libx11-dev libfreetype6-dev mesa-common-dev libgl1-mesa-dev libassimp-dev &&
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8 &&
+
+        export CONFIG_UPPER=${CONFIG^}
 
 before_build:
-  - cd %APPVEYOR_BUILD_FOLDER%/build
-  - premake5.exe --lib-toolset=%TOOLSET% install_nazara
-  - premake5.exe %TOOLSET%
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%/build &&
+         premake5.exe --lib-toolset=%TOOLSET% install_nazara &&
+         premake5.exe %TOOLSET%
 
 build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%/build/%TOOLSET%
-  - msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%/build/%TOOLSET% &&
+         msbuild "Teal.sln" /verbosity:minimal /p:Configuration=%CONFIG% /p:Platform=%PLATFORMNAME% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+  - sh: cd ${APPVEYOR_BUILD_FOLDER}/extlibs/include && mkdir -p nazara &&
+
+        cd ${APPVEYOR_BUILD_FOLDER}/build &&
+        curl https://github.com/S6066/NazaraEngine/releases/download/v0.4.y/NazaraEngine-gcc-8.0.1-linux64-libc6-2.27-3-nightly.7z -Lo NazaraEngine.7z &&
+        7z x NazaraEngine.7z -oNazaraEngine &&
+
+        cd ${APPVEYOR_BUILD_FOLDER}/extlibs/lib/ &&
+        mkdir -p ${TOOLSET} && cd ${TOOLSET} &&
+        mkdir -p ${PLATFORM} && cd ${PLATFORM} &&
+        mkdir -p micropather &&
+
+        cd micropather &&
+        cp -r ${APPVEYOR_BUILD_FOLDER}/extlibs/src/micropather/** ./ &&
+        
+        ./premake5-linux64 ${TOOLSET} &&
+        make config=${CONFIG}_${PLATFORM} &&
+        cp bin/${PLATFORM}/${CONFIG_UPPER}/libmicropather*.a ./ &&
+
+        cd ${APPVEYOR_BUILD_FOLDER}/build &&
+        ./premake5-linux64 --lib-toolset=${TOOLSET} install_nazara &&
+        ./premake5-linux64 ${TOOLSET} &&
+        cd ${TOOLSET} &&
+        make -j4 config=${CONFIG}_${PLATFORM}
 
 after_build:
-  - cd %APPVEYOR_BUILD_FOLDER%/build/
-  - premake5.exe --package-config=%CONFIG%_%PLATFORM% --package-action=vs2017 package
-  - cp -r %APPVEYOR_BUILD_FOLDER%/package_%CONFIG%_%PLATFORM% result
-  - cd result
-  - echo Appveyor Build %APPVEYOR_BUILD_NUMBER% (%CONFIG% %PLATFORM%) [ID %APPVEYOR_BUILD_ID%] on branch %APPVEYOR_REPO_BRANCH%\nCommit hash - %APPVEYOR_REPO_COMMIT%\n\nCommit message:\n"%APPVEYOR_REPO_COMMIT_MESSAGE%" > commit-info.log
-  - 7z a Teal.7z * && cd ../..
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%/build/ &&
+         premake5.exe --package-config=%CONFIG%_%PLATFORM% --package-action=%TOOLSET% package &&
+         cp -r %APPVEYOR_BUILD_FOLDER%/package_%CONFIG%_%PLATFORM% result &&
+         cd result &&
+         echo Appveyor Build %APPVEYOR_BUILD_NUMBER% (%CONFIG% %PLATFORM% with %APPVEYOR_BUILD_WORKER_IMAGE%) [ID %APPVEYOR_BUILD_ID%] on branch %APPVEYOR_REPO_BRANCH%\nCommit hash - %APPVEYOR_REPO_COMMIT%\n\nCommit message:\n"%APPVEYOR_REPO_COMMIT_MESSAGE%" > commit-info.log &&
+         7z a Teal.7z * && cd ../..
+
+  - sh: cd ${APPVEYOR_BUILD_FOLDER}/build/ &&
+        ./premake5-linux64 --package-config=${CONFIG}_${PLATFORM} --package-action=${TOOLSET} package &&
+        cp -r ${APPVEYOR_BUILD_FOLDER}/package_${CONFIG}_${PLATFORM} result &&
+        cd result &&
+        printf "Appveyor Build ${APPVEYOR_BUILD_NUMBER} (${CONFIG} ${PLATFORM} with ${APPVEYOR_BUILD_WORKER_IMAGE}) [ID ${APPVEYOR_BUILD_ID}] on branch ${APPVEYOR_REPO_BRANCH}\nCommit hash - ${APPVEYOR_REPO_COMMIT}\n\nCommit message:\n${APPVEYOR_REPO_COMMIT_MESSAGE}" > commit-info.log &&
+        7z a Teal.7z * && cd ../..
+    
 
 artifacts:
   - path: build/result/Teal.7z
-    name: 'Teal-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'
+    name: '%TOOLSET%-%CONFIG%-%PLATFORM%-%APPVEYOR_REPO_COMMIT%'
