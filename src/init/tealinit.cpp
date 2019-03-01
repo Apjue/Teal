@@ -16,7 +16,7 @@
 #include <array>
 #include "components.hpp"
 #include "systems.hpp"
-#include "factory.hpp"
+#include "entityfactory.hpp"
 #include "util/assert.hpp"
 #include "util/gfxutil.hpp"
 #include "util/luaparser.hpp"

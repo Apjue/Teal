@@ -9,7 +9,7 @@
 #include "components/util/renderablesstoragecomponent.hpp"
 #include "def/layerdef.hpp"
 #include "util/assert.hpp"
-#include "factory.hpp"
+#include "entityfactory.hpp"
 #include "spellbarwidget.hpp"
 
 SpellBarWidget::SpellBarWidget(Ndk::BaseWidget* parent)

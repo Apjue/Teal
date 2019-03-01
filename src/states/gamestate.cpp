@@ -29,7 +29,6 @@
 #include "def/layerdef.hpp"
 #include "def/folderdef.hpp"
 #include "def/uidef.hpp"
-#include "factory.hpp"
 #include "systems.hpp"
 #include "states/gamestate.hpp"
 
