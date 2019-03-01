@@ -10,7 +10,7 @@
 #include "util/util.hpp"
 #include "factory.hpp"
 
-Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data)
+Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntityData& data)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
@@ -32,9 +32,6 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
 
     e->AddComponent<OrientationComponent>(data.orientation);
 
-    if (data.randomMovement.enabled)
-        e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
-
     if (data.fight.fight)
         e->AddComponent<FightComponent>(data.fight.autoAttack, data.fight.movementPoints, data.fight.actionPoints);
 
@@ -42,13 +39,24 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
 
     e->AddComponent<NameComponent>(data.name);
     e->AddComponent<DescriptionComponent>(data.description);
-    e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
 
     e->AddComponent<DamageModifierComponent>().data = data.damageData;
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<LevelComponent>(data.level);
 
     refreshGraphicsPos(e);
+    return e;
+}
+
+Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data)
+{
+    Ndk::EntityHandle e = makeLivingEntity(w, data.livingEntityData);
+
+    if (data.randomMovement.enabled)
+        e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
+
+    e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
+
     return e;
 }
 

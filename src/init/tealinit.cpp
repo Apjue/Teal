@@ -362,13 +362,13 @@ void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, Animati
         }
 
         CharacterData characterData = lua.CheckGlobal<CharacterData>("teal_character");
-        characterData.codename = removeFileNameExtension(charactersDirectory.GetResultName());
+        characterData.livingEntityData.codename = removeFileNameExtension(charactersDirectory.GetResultName());
 
         auto character = makeCharacter(world, characterData);
         character->Enable(false);
 
         characters.Insert(character);
-        NazaraNotice("Character " + characterData.name + " loaded ! (" + characterData.codename + ")");
+        NazaraNotice("Character " + characterData.livingEntityData.name + " loaded ! (" + characterData.livingEntityData.codename + ")");
     }
 
     NazaraNotice(" --- ");

@@ -16,8 +16,9 @@
 #include "data/graphicalitemdata.hpp"
 //#include "data/mapobjectdata.hpp"
 
+extern Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntityData& data);
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data);
-extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, Nz::LuaInstance& lua);
+//extern Ndk::EntityHandle makeMonster(const Ndk::WorldHandle& w, const MonsterData& data);
 
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::String codename, Nz::String name = "Item", Nz::String description = "Empty description",
                                          unsigned level = 1, Nz::TextureRef icon = Nz::TextureLibrary::Get(":/game/unknown"), Nz::Vector2f mapOffset = {});
