@@ -28,7 +28,6 @@ Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntity
     e->AddComponent<PositionComponent>(Nz::Vector2ui { 1u, 1u });
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
-    e->AddComponent<InventoryComponent>();
 
     e->AddComponent<OrientationComponent>(data.orientation);
 
@@ -56,6 +55,16 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
         e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
 
     e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
+    e->AddComponent<InventoryComponent>();
+
+    return e;
+}
+
+Ndk::EntityHandle makeMonster(const Ndk::WorldHandle& w, const MonsterData& data)
+{
+    Ndk::EntityHandle e = makeLivingEntity(w, data.livingEntityData);
+
+    e->AddComponent<MonsterComponent>().family = data.monsterFamily;
 
     return e;
 }

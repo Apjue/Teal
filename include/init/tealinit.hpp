@@ -28,6 +28,7 @@ void loadSkills(SkillStore& skills);
 void loadFightAIs(AICore& ais);
 void loadAnimations(AnimationStore& animations);
 void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters);
+void loadMonsters(Ndk::WorldHandle world, Ndk::EntityList& monsters);
 void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills);
 //void loadMapObjects();
 void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items);

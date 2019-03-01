@@ -31,6 +31,7 @@ struct GameData
 
     Ndk::EntityList items;
     Ndk::EntityList characters;
+    Ndk::EntityList monsters;
 };
 
 #endif // GAMEDATA_HPP

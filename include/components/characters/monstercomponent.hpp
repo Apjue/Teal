@@ -6,12 +6,14 @@
 #define MONSTERCOMPONENT_HPP
 
 #include <NDK/Component.hpp>
+#include <NDK/Entity.hpp>
 #include <Nazara/Core/String.hpp>
 
 struct MonsterComponent : public Ndk::Component<MonsterComponent>
 {
+    // for lua's fight_ai_monster_name, use NameComponent
     Nz::String family; // lua: fight_ai_monster_family
-    Nz::String name;   // lua: fight_ai_monster_name
+    Ndk::EntityHandle monsterGroupEntity;
 
     static Ndk::ComponentIndex componentIndex;
 };

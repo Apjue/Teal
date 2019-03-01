@@ -14,6 +14,7 @@
 #include "components/characters/lifecomponent.hpp"
 #include "components/shared/levelcomponent.hpp"
 #include "components/shared/damagemodifiercomponent.hpp"
+#include "components/shared/namecomponent.hpp"
 #include "util/aiutil.hpp"
 #include "util/nzstlcompatibility.hpp"
 #include "util/maputil.hpp"
@@ -117,6 +118,7 @@ void AISystem::OnUpdate(float elapsed)
             auto& fight = e->GetComponent<FightComponent>();
             auto& life = e->GetComponent<LifeComponent>();
             auto& monster = e->GetComponent<MonsterComponent>();
+            Nz::String name = e->GetComponent<NameComponent>().name;
 
             if (fight.isFighting && fight.myTurn) // Time to act !
             {
@@ -140,8 +142,8 @@ void AISystem::OnUpdate(float elapsed)
                     m_currentFight.forceContinueFight = [] () { return false; };
                     m_currentFight.canResume = [] () { return true; };
 
-                    AICore::TagInfo aiInfo = m_ais.getTagInfoFromTagKeys(std::make_pair(monster.family, monster.name));
-                    Nz::String& aiName = monster.name;
+                    AICore::TagInfo aiInfo = m_ais.getTagInfoFromTagKeys(std::make_pair(monster.family, name));
+                    Nz::String& aiName = name;
 
                     m_currentFight.coroutine = std::make_unique<Nz::LuaCoroutine>(std::move(lua.NewCoroutine()));
                     m_currentFight.coroutine->GetGlobal("execute");

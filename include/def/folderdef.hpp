@@ -17,6 +17,7 @@ const Nz::String ImageFolder = DataFolder +  "img/";
 const Nz::String ScriptFolder = DataFolder + "script/";
 const Nz::String AnimationFolder = ScriptFolder +    "animations/";
 const Nz::String CharacterFolder = ScriptFolder +    "characters/";
+const Nz::String MonsterFolder = ScriptFolder +      "monsters/";
 const Nz::String MapFolder = ScriptFolder +          "maps/";
 const Nz::String SkillFolder = ScriptFolder +        "skills/";
 const Nz::String ItemFolder = ScriptFolder +         "items/";

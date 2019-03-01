@@ -6,6 +6,7 @@
 #include "components/util/clonecomponent.hpp"
 #include "components/util/graphicalentitiescomponent.hpp"
 #include "components/util/logicentityidcomponent.hpp"
+#include "components/characters/monstercomponent.hpp"
 #include "def/layerdef.hpp"
 #include "util/gfxutil.hpp"
 #include "util/cloneutil.hpp"
@@ -20,6 +21,23 @@ Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::St
     {
         entity = (*it)->Clone();
         cloneRenderables(entity, Def::CharactersLayer);
+    }
+
+    return entity;
+}
+
+Ndk::EntityHandle cloneMonster(const Ndk::EntityList& monsters, const Nz::String& codename)
+{
+    Ndk::EntityHandle entity;
+    auto it = std::find_if(monsters.begin(), monsters.end(),
+                           [&codename] (const Ndk::EntityHandle& e) { return e->HasComponent<CloneComponent>() && (e->GetComponent<CloneComponent>().codename == codename); });
+
+    if (it != monsters.end())
+    {
+        entity = (*it)->Clone();
+
+        cloneRenderables(entity, Def::CharactersLayer);
+        entity->GetComponent<MonsterComponent>().monsterGroupEntity = nullptr;
     }
 
     return entity;

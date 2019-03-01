@@ -53,6 +53,7 @@ private:
 
     Ndk::EntityList& m_items;
     Ndk::EntityList& m_characters;
+    Ndk::EntityList& m_monsters;
 
 
     // Raycasting test

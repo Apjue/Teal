@@ -52,6 +52,7 @@ void initializeTeal(GameData& data)
     TealInitDetail::loadSkills(*data.skills);
     TealInitDetail::loadAnimations(*data.animations);
     TealInitDetail::loadCharacters(data.world, data.characters);
+    TealInitDetail::loadMonsters(data.world, data.monsters);
     TealInitDetail::loadItems(data.world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
     TealInitDetail::loadMaps(data.world, data.characters, data.items);
@@ -374,6 +375,36 @@ void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters)
     NazaraNotice(" --- ");
 }
 
+void loadMonsters(Ndk::WorldHandle world, Ndk::EntityList& monsters)
+{
+    Nz::Directory monstersDirectory { Def::MonsterFolder };
+    monstersDirectory.SetPattern("*.lua");
+    monstersDirectory.Open();
+
+    while (monstersDirectory.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(monstersDirectory.GetResultPath()))
+        {
+            NazaraNotice("Error loading character " + monstersDirectory.GetResultName());
+            NazaraNotice(lua.GetLastError());
+            continue;
+        }
+
+        MonsterData monsterData = lua.CheckGlobal<MonsterData>("teal_monster");
+        monsterData.livingEntityData.codename = removeFileNameExtension(monstersDirectory.GetResultName());
+
+        auto monster = makeMonster(world, monsterData);
+        monster->Enable(false);
+
+        monsters.Insert(monster);
+        NazaraNotice("Monster " + monsterData.livingEntityData.name + " loaded ! (" + monsterData.livingEntityData.codename + ")");
+    }
+
+    NazaraNotice(" --- ");
+}
+
 void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills)
 {
     Nz::Directory itemsDirectory { Def::ItemFolder };
@@ -475,6 +506,11 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
                     map->getEntities().Insert(e);
                 }
+            }
+
+            else if (type == "monstergroup")
+            {
+                //...
             }
 
             else if (type == "item")
