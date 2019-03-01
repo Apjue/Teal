@@ -13,8 +13,7 @@ namespace Def
 constexpr int RandomMovementSystemUpdateOrder { 1 };
 constexpr int AISystemUpdateOrder { RandomMovementSystemUpdateOrder + 1 };
 constexpr int MovementSystemUpdateOrder { AISystemUpdateOrder + 1 };
-constexpr int AnimationSystemUpdateOrder { MovementSystemUpdateOrder + 1 };
-constexpr int FightSystemUpdateOrder { AnimationSystemUpdateOrder + 1 };
+constexpr int FightSystemUpdateOrder { MovementSystemUpdateOrder + 1 };
 
 }
 
