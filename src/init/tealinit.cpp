@@ -51,7 +51,7 @@ void initializeTeal(GameData& data)
     TealInitDetail::loadStatesMetaData(*data.states);
     TealInitDetail::loadSkills(*data.skills);
     TealInitDetail::loadAnimations(*data.animations);
-    TealInitDetail::loadCharacters(data.world, data.characters, *data.animations);
+    TealInitDetail::loadCharacters(data.world, data.characters);
     TealInitDetail::loadItems(data.world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
     TealInitDetail::loadMaps(data.world, data.characters, data.items);
@@ -344,7 +344,7 @@ void loadAnimations(AnimationStore& animations)
     NazaraNotice(" --- ");
 }
 
-void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, AnimationStore& animations)
+void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters)
 {
     Nz::Directory charactersDirectory { Def::CharacterFolder };
     charactersDirectory.SetPattern("*.lua");

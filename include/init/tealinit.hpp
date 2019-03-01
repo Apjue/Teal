@@ -27,7 +27,7 @@ void loadStatesMetaData(StateMDStore& states);
 void loadSkills(SkillStore& skills);
 void loadFightAIs(AICore& ais);
 void loadAnimations(AnimationStore& animations);
-void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters, AnimationStore& animations);
+void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters);
 void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills);
 //void loadMapObjects();
 void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items);
