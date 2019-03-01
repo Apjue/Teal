@@ -10,7 +10,7 @@
 #include <NDK/Entity.hpp>
 #include "components/shared/damagemodifiercomponent.hpp"
 
-inline DamageModifierList getMobDamageModifier(const Ndk::EntityHandle& e);
+inline DamageModifierList getLivingEntityDamageModifier(const Ndk::EntityHandle& e);
 
 #include "livingentityutil.inl"
 

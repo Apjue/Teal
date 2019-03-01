@@ -185,7 +185,7 @@ void GameState::printCharacteristics() /// Used for testing | todo: have a real 
 {
     std::cout << "Main character characteristics";
 
-    DamageModifierList data = getMobDamageModifier(m_charac);
+    DamageModifierList data = getLivingEntityDamageModifier(m_charac);
     std::cout << '\n';
     std::cout << "  Attack Modifier:\n";
     std::cout << "    Neutral: " << data[Element::Neutral].attack << '\n';

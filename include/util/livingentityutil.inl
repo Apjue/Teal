@@ -6,7 +6,7 @@
 #include "util/assert.hpp"
 #include "livingentityutil.hpp"
 
-DamageModifierList getMobDamageModifier(const Ndk::EntityHandle& e)
+DamageModifierList getLivingEntityDamageModifier(const Ndk::EntityHandle& e)
 {
     TealAssert(e->HasComponent<DamageModifierComponent>(), "Entity doesn't have DamageModifierComponent");
 
