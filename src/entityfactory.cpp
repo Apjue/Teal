@@ -54,7 +54,9 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
     if (data.randomMovement.enabled)
         e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
 
-    e->AddComponent<BlockTileComponent>().blockTile = data.blockTile;
+    if (data.blockTile)
+        e->AddComponent<BlockTileComponent>();
+
     e->AddComponent<InventoryComponent>();
 
     return e;

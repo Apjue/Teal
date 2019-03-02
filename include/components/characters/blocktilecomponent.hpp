@@ -11,8 +11,6 @@
 
 struct BlockTileComponent : public Ndk::Component<BlockTileComponent>
 {
-    bool blockTile { false };
-
     // Todo: Number of tiles occupied ?
 
     static Ndk::ComponentIndex componentIndex;

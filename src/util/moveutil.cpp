@@ -53,7 +53,7 @@ void moveEntity(const Ndk::EntityHandle& e, bool fightMode)
 
         path.erase(path.begin()); // To get next tile
 
-        if (e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().blockTile)
+        if (e->HasComponent<BlockTileComponent>())
         {
             refreshOccupiedTiles();
             clearPatherCache();
