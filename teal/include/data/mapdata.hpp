@@ -46,6 +46,7 @@ public:
     inline const Nz::Vector2i& getPosition() const;
     inline void setPosition(const Nz::Vector2i& pos);
 
+
     inline const TileArray& getTiles() const;
     inline void setTiles(const TileArray& nTiles);
 
@@ -55,15 +56,20 @@ public:
     std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned x, unsigned y);
     inline std::unordered_map<Nz::Vector2ui, TileData> adjacentTiles(unsigned index);
 
-    inline const Ndk::EntityList& getEntities() const;
-    inline Ndk::EntityList& getEntities();
+
+    inline const Ndk::EntityList& getGraphicalEntities() const;
+    inline Ndk::EntityList& getGraphicalEntities();
+
+    inline const Ndk::EntityList& getMonsterGroups() const;
+    inline Ndk::EntityList& getMonsterGroups();
 
     void updateOccupiedTiles();
 
 private:
     Nz::Vector2i m_pos {};
     TileArray m_tiles;
-    Ndk::EntityList m_entities; // Usable Objects, NPCs, decorations, etc.
+    Ndk::EntityList m_graphicalEntities; // Items, map objects, monsters, NPCs...
+    Ndk::EntityList m_monsterGroups;
 
     static MapDataLibrary::LibraryMap s_library;
 };

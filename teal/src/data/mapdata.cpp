@@ -47,7 +47,7 @@ void MapData::updateOccupiedTiles()
     for (auto& tile : m_tiles)
         tile.occupied = false;
 
-    for (auto& e : m_entities)
+    for (auto& e : m_graphicalEntities)
     {
         if (e->HasComponent<PositionComponent>() && e->HasComponent<BlockTileComponent>())
         {

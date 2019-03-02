@@ -19,7 +19,7 @@
 extern Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntityData& data);
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data);
 extern Ndk::EntityHandle makeMonster(const Ndk::WorldHandle& w, const MonsterData& data);
-//extern Ndk::EntityHandle makeMonsterGroup(const Ndk::WorldHandle& w, ...);
+extern Ndk::EntityHandle makeMonsterGroup(const Ndk::WorldHandle& w, float interval, unsigned range);
 
 
 extern Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::String codename, Nz::String name = "Item", Nz::String description = "Empty description",

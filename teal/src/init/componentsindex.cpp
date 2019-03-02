@@ -27,6 +27,7 @@ Ndk::ComponentIndex DamageModifierComponent::componentIndex;
 Ndk::ComponentIndex DescriptionComponent::componentIndex;
 Ndk::ComponentIndex BlockTileComponent::componentIndex;
 Ndk::ComponentIndex MonsterComponent::componentIndex;
+Ndk::ComponentIndex MonsterGroupComponent::componentIndex;
 Ndk::ComponentIndex EquipmentComponent::componentIndex;
 Ndk::ComponentIndex LogicEntityIdComponent::componentIndex;
 Ndk::ComponentIndex IconComponent::componentIndex;

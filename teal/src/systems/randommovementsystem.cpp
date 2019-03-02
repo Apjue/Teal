@@ -14,12 +14,13 @@
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/randommovementcomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
+#include "components/other/monstergroupcomponent.hpp"
 #include "systems/randommovementsystem.hpp"
 #include "def/systemdef.hpp"
 
 RandomMovementSystem::RandomMovementSystem() : m_uni(0, Def::TileArraySize)
 {
-    Requires<PositionComponent, MoveComponent, RandomMovementComponent>();
+    Requires<PositionComponent, RandomMovementComponent>();
     SetMaximumUpdateRate(Def::MaxSystemUPS); // Can be removed
     SetUpdateOrder(Def::RandomMovementSystemUpdateOrder);
 }
@@ -44,7 +45,6 @@ void RandomMovementSystem::OnUpdate(float elapsed)
             continue;
 
         auto& rd = e->GetComponent<RandomMovementComponent>();
-        auto& mov = e->GetComponent<MoveComponent>();
         auto& pos = e->GetComponent<PositionComponent>();
 
         rd.currentInterval += elapsed;
@@ -62,7 +62,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
         if (goSomewhere && map)
         {
-            std::set<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, true);
+            std::set<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, { true });
             std::set<AbsTile> maxDistanceTiles;
             std::set<AbsTile> priorityTiles; // Tiles with exact path size
 
@@ -83,6 +83,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 return;
 
             unsigned randomNumber = m_uni(rng);
+            AbsTile chosenTile;
 
             if (priorityTiles.size() > 2)
             {
@@ -91,7 +92,7 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 auto it = priorityTiles.begin();
                 std::advance(it, randomNumber);
 
-                mov.tile = *it;
+                chosenTile = *it;
             }
 
             else
@@ -101,8 +102,26 @@ void RandomMovementSystem::OnUpdate(float elapsed)
                 auto it = maxDistanceTiles.begin();
                 std::advance(it, randomNumber);
 
-                mov.tile = *it;
+                chosenTile = *it;
             }
+
+
+            if (e->HasComponent<MonsterGroupComponent>())
+            {
+                pos.xy = chosenTile;
+
+                Ndk::EntityList monsterList = e->GetComponent<MonsterGroupComponent>().monsters;
+                std::set<AbsTile> realTiles = getMonsterGroupTiles(chosenTile, monsterList.size());
+
+                for (auto& monster : monsterList)
+                {
+                    monster->GetComponent<MoveComponent>().tile = *realTiles.begin();
+                    realTiles.erase(realTiles.begin());
+                }
+            }
+
+            else
+                e->GetComponent<MoveComponent>().tile = chosenTile;
         }
     }
 }

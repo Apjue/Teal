@@ -45,5 +45,6 @@
 
 // Other
 #include "components/other/mapcomponent.hpp"
+#include "components/other/monstergroupcomponent.hpp"
 
 #endif // COMPONENTS_HPP

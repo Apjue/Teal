@@ -566,8 +566,9 @@ bool AISystem::Teal_CanUseSkill(unsigned characterIndex, unsigned skillIndex) //
 
 std::unordered_map<Element, unsigned> AISystem::getMaximumDamage(const AbsTile& from, const AbsTile& target, const SkillData& skill)
 {
-    std::set<AbsTile> possibleTilesToAttack = getVisibleTiles(from, skill.maxRange, skill.viewThroughObstacles);
+    std::set<AbsTile> possibleTilesToAttack = getVisibleTiles(from, skill.maxRange, { skill.viewThroughObstacles });
     std::function<std::unordered_map<Element, unsigned>(const AbsTile& tile)> damageDone;
+
     NazaraError("implement this better");
 
     switch (skill.areaType) // Don't forget to do raycasting in case there's an obstacle

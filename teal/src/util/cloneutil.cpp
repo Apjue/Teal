@@ -26,7 +26,7 @@ Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::St
     return entity;
 }
 
-Ndk::EntityHandle cloneMonster(const Ndk::EntityList& monsters, const Nz::String& codename)
+Ndk::EntityHandle cloneMonster(const Ndk::EntityList& monsters, const Nz::String& codename, Ndk::EntityHandle monsterGroup)
 {
     Ndk::EntityHandle entity;
     auto it = std::find_if(monsters.begin(), monsters.end(),
@@ -37,7 +37,7 @@ Ndk::EntityHandle cloneMonster(const Ndk::EntityList& monsters, const Nz::String
         entity = (*it)->Clone();
 
         cloneRenderables(entity, Def::CharactersLayer);
-        entity->GetComponent<MonsterComponent>().monsterGroupEntity = nullptr;
+        entity->GetComponent<MonsterComponent>().monsterGroupEntity = monsterGroup;
     }
 
     return entity;

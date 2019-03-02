@@ -4,15 +4,31 @@ teal_map =
     entities =
     {
         {
-            codename = "excalibur",
             type = "item",
+            codename = "excalibur",
             pos = { x = 1, y = 2 }
         },
 
         {
-            codename = "awkwardpotion",
             type = "item",
+            codename = "awkwardpotion",
             pos = { x = 1, y = 3 }
+        },
+
+        
+        {
+            type = "monstergroup",
+            pos = { x = 4, y = 8 },
+
+            random_movement_interval = 7,
+            random_movement_range = 2,
+
+            monsters =
+            {
+                {
+                    codename = "villager"
+                }
+            }
         }
     },
 

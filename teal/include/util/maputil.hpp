@@ -78,7 +78,18 @@ extern const MapInstance* getCurrentMap();
 extern const micropather::MicroPather* getPather();
 
 extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
-extern std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles = false, bool includeObstacles = false, bool removeOccupiedTiles = true);
+
+
+struct GetVisibleTilesArgs // Optional parameters
+{
+    bool viewThroughObstacles = false;
+    bool includeObstacles = false;
+    bool removeOccupiedTiles = true;
+    unsigned startRange = 0;
+};
+
+extern std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, GetVisibleTilesArgs parameters = {}, MapDataRef map = getCurrentMap()->getCurrentMap());
+extern std::set<AbsTile> getMonsterGroupTiles(AbsTile pos, unsigned monsterNumber, MapDataRef map = getCurrentMap()->getCurrentMap());
 
 #include "maputil.inl"
 

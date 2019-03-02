@@ -14,6 +14,7 @@
 #include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
 #include <array>
+#include <vector>
 #include "components.hpp"
 #include "systems.hpp"
 #include "entityfactory.hpp"
@@ -55,7 +56,7 @@ void initializeTeal(GameData& data)
     TealInitDetail::loadMonsters(data.world, data.monsters);
     TealInitDetail::loadItems(data.world, data.items, *data.skills);
     //Detail::loadMapObjects(data.mapObjects);
-    TealInitDetail::loadMaps(data.world, data.characters, data.items);
+    TealInitDetail::loadMaps(data.world, data.characters, data.items, data.monsters);
 
     TealInitDetail::addIcon(*data.window);
     TealInitDetail::addCam(data.world, *data.window);
@@ -439,7 +440,7 @@ void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore&
 // 
 // }
 
-void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items)
+void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items, const Ndk::EntityList& monsters)
 {
     Nz::Directory maps { Def::MapFolder };
     maps.SetPattern("*.lua");
@@ -464,6 +465,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
         const Nz::Vector2i& mapPos = map->getPosition();
 
         TealException(lua.GetField("entities") == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
+        std::vector<int> monsterGroups;
 
         for (int i { 1 };; ++i)
         {
@@ -475,12 +477,12 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
                 break;
             }
 
-            Nz::String codename = lua.CheckField<Nz::String>("codename");
             Nz::String type = lua.CheckField<Nz::String>("type").ToLower();
             AbsTile pos = lua.CheckField<AbsTile>("pos");
 
             if (type == "character")
             {
+                Nz::String codename = lua.CheckField<Nz::String>("codename");
                 Ndk::EntityHandle e = cloneCharacter(characters, codename);
 
                 if (e.IsValid())
@@ -505,17 +507,16 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
                     Orientation orientation = stringToOrientation(lua.CheckField<Nz::String>("orientation", orientationToString(orientComp.orientation)));
                     orientComp.orientation = orientation;
 
-                    map->getEntities().Insert(e);
+                    map->getGraphicalEntities().Insert(e);
                 }
             }
 
             else if (type == "monstergroup")
-            {
-                //...
-            }
+                monsterGroups.push_back(i);
 
             else if (type == "item")
             {
+                Nz::String codename = lua.CheckField<Nz::String>("codename");
                 Ndk::EntityHandle e = cloneItem(items, codename);
 
                 if (e.IsValid())
@@ -523,12 +524,13 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
                     auto gfxEntity = makeGraphicalItem(world, { e, { Def::MapItemDefaultSize, Def::MapItemDefaultSize }, LogicEntityIdComponent::GroundItem }, pos);
 
                     gfxEntity->Enable(false);
-                    map->getEntities().Insert(gfxEntity);
+                    map->getGraphicalEntities().Insert(gfxEntity);
                 }
             }
 
             else
             {
+                Nz::String codename = lua.CheckField<Nz::String>("codename", "with no codename");
                 NazaraNotice(Nz::String { "Invalid type for entity " }.Append(codename).Append(" in map ")
                              .Append(mapXYToString(mapPos.x, mapPos.y)).Append(" [with type = \"").Append(type).Append("\"]"));
             }
@@ -536,6 +538,68 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             lua.Pop();
         }
 
+        map->updateOccupiedTiles();
+
+        for (int i : monsterGroups)
+        {
+            lua.PushInteger(i);
+            lua.GetTable();
+            {
+                AbsTile pos = lua.CheckField<AbsTile>("pos");
+
+                Ndk::EntityHandle monsterGroup = makeMonsterGroup(world, lua.CheckField<float>("random_movement_interval"), lua.CheckField<unsigned>("random_movement_range"));
+                auto& monsterList = monsterGroup->GetComponent<MonsterGroupComponent>().monsters;
+
+                monsterGroup->GetComponent<PositionComponent>().xy = pos;
+                monsterGroup->Enable(false);
+                map->getMonsterGroups().Insert(monsterGroup);
+
+
+                TealException(lua.GetField("monsters") == Nz::LuaType_Table, "Lua: teal_map.entities.x.monsters isn't a table !");
+
+                for (int i { 1 };; ++i)
+                {
+                    lua.PushInteger(i);
+
+                    if (lua.GetTable() != Nz::LuaType_Table)
+                    {
+                        lua.Pop();
+                        break;
+                    }
+
+
+                    Nz::String codename = lua.CheckField<Nz::String>("codename");
+                    Ndk::EntityHandle e = cloneMonster(monsters, codename, monsterGroup);
+
+                    if (e.IsValid())
+                    {
+                        e->Enable(false);
+                        monsterList.Insert(e);
+
+                        auto& orientComp = e->GetComponent<OrientationComponent>();
+                        Orientation orientation = stringToOrientation(lua.CheckField<Nz::String>("orientation", orientationToString(orientComp.orientation)));
+                        orientComp.orientation = orientation;
+
+                        map->getGraphicalEntities().Insert(e);
+                    }
+
+                    lua.Pop();
+                }
+                lua.Pop();
+
+                // Now re-position the monsters
+                std::set<AbsTile> tiles = getMonsterGroupTiles(pos, monsterList.size(), map);
+
+                for (auto& monster : monsterList)
+                {
+                    monster->GetComponent<PositionComponent>().xy = *tiles.begin();
+                    refreshGraphicsPos(monster);
+
+                    tiles.erase(tiles.begin());
+                }
+            }
+            lua.Pop();
+        }
         lua.Pop();
 
         MapDataLibrary::Register(mapXYToString(mapPos.x, mapPos.y), deactivateMapEntities(map));

@@ -31,7 +31,7 @@ void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters);
 void loadMonsters(Ndk::WorldHandle world, Ndk::EntityList& monsters);
 void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore& skills);
 //void loadMapObjects();
-void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items);
+void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items, const Ndk::EntityList& monsters);
 
 void addIcon(Nz::RenderWindow& window);
 void addCam(Ndk::WorldHandle world, Nz::RenderWindow& window);

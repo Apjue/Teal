@@ -36,7 +36,7 @@ constexpr unsigned MaxGraphicsYPosInTile { (TileSizeY / 2u) / MaxPosInTile };
 
 
 constexpr  float   MaxSystemUPS   { 10.f }; // Updates per second
-constexpr   int    MaxDirs        { 4u   }; // Max directions: Up, down, left, right
+constexpr unsigned MaxDirs        { 4u   }; // Max directions: Up, down, left, right
 constexpr std::pair<unsigned, unsigned> StandStillPos { std::numeric_limits<unsigned>::max(), std::numeric_limits<unsigned>::max() }; // with MoveComponent
 
 

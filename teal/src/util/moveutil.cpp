@@ -108,7 +108,7 @@ void getItemsFromGround(const Ndk::EntityHandle& e) /// todo: activate traps fro
     TealAssert(isMapUtilityInitialized(), "Map Utility isn't initialized !");
     MapDataRef currentMap = getCurrentMap()->getCurrentMap();
 
-    auto& mapEntities = currentMap->getEntities();
+    auto& mapEntities = currentMap->getGraphicalEntities();
 
     if (mapEntities.empty())
         return;

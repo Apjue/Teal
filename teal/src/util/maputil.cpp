@@ -164,7 +164,7 @@ bool changeMap()
     TealAssert(newMap, "New map null !");
 
     // Disable old map's entities and remove our character from it
-    m_currentMap->getCurrentMap()->getEntities().Remove(m_mainCharacter);
+    m_currentMap->getCurrentMap()->getGraphicalEntities().Remove(m_mainCharacter);
     deactivateMapEntities(m_currentMap->getCurrentMap());
 
     // Set new map
@@ -172,13 +172,13 @@ bool changeMap()
     m_currentMap->setMap(m_currentMap->getCurrentMapIndex(), newMap);
 
     // Update Animation before enabling entities
-    for (auto& entity : m_currentMap->getCurrentMap()->getEntities())
+    for (auto& entity : m_currentMap->getCurrentMap()->getGraphicalEntities())
         if (hasComponentsToAnimate(entity))
             updateAnimation(entity);
 
     // Enable entities & put main character
     activateMapEntities(m_currentMap->getCurrentMap());
-    m_currentMap->getCurrentMap()->getEntities().Insert(m_mainCharacter);
+    m_currentMap->getCurrentMap()->getGraphicalEntities().Insert(m_mainCharacter);
 
     // Update main character
     pos.xy = { x, y };
@@ -211,7 +211,7 @@ Ndk::EntityList mapEntitiesHoveredByCursor(const Nz::Vector2ui& cursor)
     const MapDataRef& map = getCurrentMap()->getCurrentMap();
     Ndk::EntityList entities;
 
-    for (const Ndk::EntityHandle& entity : map->getEntities())
+    for (const Ndk::EntityHandle& entity : map->getGraphicalEntities())
     {
         Nz::Vector3f nodePos = entity->GetComponent<Ndk::NodeComponent>().GetPosition();
         auto& renderables = entity->GetComponent<RenderablesStorageComponent>();
@@ -274,12 +274,11 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
     return positions;
 }
 
-std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughObstacles, bool includeObstacles, bool removeOccupiedTiles) // Does not include self pos
+std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, GetVisibleTilesArgs parameters, MapDataRef map)
 {
     if (range == 0)
         return { pos }; // but why
 
-    MapDataRef map = getCurrentMap()->getCurrentMap();
     std::set<AbsTile> tilesInRange;
 
     // Detect tiles around, using range
@@ -288,7 +287,7 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
         auto xy = IndexToXY(i);
         unsigned distance = distanceBetweenTiles(pos, toVector2(xy));
         
-        if (distance <= range) // jackpot
+        if (distance <= range && distance >= parameters.startRange) // jackpot
             tilesInRange.emplace(toVector2(xy));
     }
 
@@ -303,7 +302,7 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
         if (!tileData.isVisible())
             continue;
 
-        if (!tileData.isObstacle() && (!removeOccupiedTiles || !tileData.occupied))
+        if (!tileData.isObstacle() && (!parameters.removeOccupiedTiles || !tileData.occupied))
             passableTiles.emplace(xy);
 
         if (tileData.isViewObstacle())
@@ -313,7 +312,7 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
             blockObstacles.emplace(xy);
     }
 
-    for (auto& entity : map->getEntities())
+    for (auto& entity : map->getGraphicalEntities())
         if (entity->HasComponent<BlockTileComponent>())
         {
             AbsTile ePos = entity->GetComponent<PositionComponent>().xy;
@@ -326,9 +325,9 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
             blockObstacles.emplace(std::move(ePos));
         }
 
-    if (viewThroughObstacles)
+    if (parameters.viewThroughObstacles)
     {
-        if (!includeObstacles)
+        if (!parameters.includeObstacles)
             return passableTiles;
 
         else
@@ -372,7 +371,7 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
         }
     }
 
-    if (!includeObstacles)
+    if (!parameters.includeObstacles)
         return visibleTiles;
 
     else
@@ -385,4 +384,56 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
 
         return result;
     }
+}
+
+std::set<AbsTile> getMonsterGroupTiles(AbsTile pos, unsigned monsterNumber, MapDataRef map)
+{
+    auto getRange = [] (unsigned tilesNeeded) -> unsigned // Does not count tiles out of the map
+    {
+        TealAssert(tilesNeeded != 0, "No tile needed?");
+
+        if (tilesNeeded == 1)
+            return 0;
+
+        unsigned tileNumber { 1 };
+
+        for (unsigned range { 1 }; tileNumber < tilesNeeded; ++range)
+            tileNumber += range * Def::MaxDirs * 2u;
+
+        return tileNumber;
+    };
+
+    unsigned estimatedRange = getRange(monsterNumber);
+    std::set<AbsTile> tiles = getVisibleTiles(pos, estimatedRange, {}, map);
+
+    if (tiles.size() >= monsterNumber)
+        return tiles;
+
+    GetVisibleTilesArgs parameters;
+    parameters.startRange = estimatedRange;
+    ++estimatedRange;
+
+    for (unsigned stopCounter {}; tiles.size() < monsterNumber; ++estimatedRange, ++parameters.startRange)
+    {
+        std::set<AbsTile> newTiles = getVisibleTiles(pos, estimatedRange, parameters, map);
+
+        if (newTiles.empty())
+        {
+            ++stopCounter;
+
+            if (stopCounter > 2)
+                break;
+        }
+
+        else
+        {
+            stopCounter = 0;
+
+            for (auto& tile : newTiles)
+                tiles.insert(tile);
+        }
+
+    }
+
+    return tiles;
 }

@@ -66,7 +66,7 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
             m_charac->GetComponent<PositionComponent>().xy = lua.CheckField<AbsTile>("pos");
             m_charac->GetComponent<NameComponent>().name = lua.CheckField<Nz::String>("name");
 
-            m_map->GetComponent<MapComponent>().map->getCurrentMap()->getEntities().Insert(m_charac); // that was one long line to type
+            m_map->GetComponent<MapComponent>().map->getCurrentMap()->getGraphicalEntities().Insert(m_charac); // that was one long line to type
         }
     }
 
@@ -270,9 +270,15 @@ void GameState::initEventHandler()
                 if (isMonsterEntity(entity) && isFightableEntity(entity))
                 {
                     std::cout << "todo: implement fight" << std::endl;
+
+                    auto& move = m_charac->GetComponent<MoveComponent>();
+                    AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });
+
+                    move.tile = tile;
+                    move.playerInitiated = true;
                 }
 
-                else /// todo: if (isNPCEntity(...))
+                else /// todo: if (isNPCEntity(...)) => dialog
                 {
                     auto& move = m_charac->GetComponent<MoveComponent>();
                     AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });

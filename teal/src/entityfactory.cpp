@@ -71,6 +71,18 @@ Ndk::EntityHandle makeMonster(const Ndk::WorldHandle& w, const MonsterData& data
     return e;
 }
 
+Ndk::EntityHandle makeMonsterGroup(const Ndk::WorldHandle& w, float interval, unsigned range)
+{
+    Ndk::EntityHandle e = w->CreateEntity();
+
+    e->AddComponent<PositionComponent>();
+    e->AddComponent<RandomMovementComponent>(interval, range);
+    e->AddComponent<MonsterGroupComponent>();
+
+    return e;
+}
+
+
 Ndk::EntityHandle makeLogicalItem(const Ndk::WorldHandle& w, Nz::String codename, Nz::String name, Nz::String description,
                                   unsigned level, Nz::TextureRef icon, Nz::Vector2f mapOffset)
 {

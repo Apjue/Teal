@@ -50,12 +50,22 @@ std::unordered_map<Nz::Vector2ui, TileData> MapData::adjacentTiles(unsigned inde
 }
 
 
-const Ndk::EntityList& MapData::getEntities() const
+const Ndk::EntityList& MapData::getGraphicalEntities() const
 {
-    return m_entities;
+    return m_graphicalEntities;
 }
 
-Ndk::EntityList& MapData::getEntities()
+Ndk::EntityList& MapData::getGraphicalEntities()
 {
-    return m_entities;
+    return m_graphicalEntities;
+}
+
+const Ndk::EntityList& MapData::getMonsterGroups() const
+{
+    return m_monsterGroups;
+}
+
+Ndk::EntityList& MapData::getMonsterGroups()
+{
+    return m_monsterGroups;
 }
