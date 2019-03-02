@@ -43,7 +43,7 @@ teal_map =
     {
         textureId = "sandy",
         fightTextureId = "walk",
-        obstacle = 1,
+        obstacle = 0,
         visible = true,
         spawn = "none"
     },
