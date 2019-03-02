@@ -13,18 +13,18 @@ namespace Def
 {
 
 const Nz::String DataFolder =       "../data/";
-const Nz::String ImageFolder = DataFolder +  "img/";
-const Nz::String ScriptFolder = DataFolder + "script/";
-const Nz::String AnimationFolder = ScriptFolder +    "animations/";
-const Nz::String CharacterFolder = ScriptFolder +    "characters/";
-const Nz::String MonsterFolder = ScriptFolder +      "monsters/";
-const Nz::String MapFolder = ScriptFolder +          "maps/";
-const Nz::String SkillFolder = ScriptFolder +        "skills/";
-const Nz::String ItemFolder = ScriptFolder +         "items/";
-const Nz::String StateFolder = ScriptFolder +        "states/";
-const Nz::String AIFolder = ScriptFolder +           "ais/";
-const Nz::String FightAIFolder = AIFolder +               "fight/";
-const Nz::String FightAIUtilFile = FightAIFolder +               "util/util.lua";
+const Nz::String TextureFolder = DataFolder + "img/";
+const Nz::String ScriptFolder = DataFolder +  "script/";
+const Nz::String AnimationFolder = ScriptFolder +     "animations/";
+const Nz::String CharacterFolder = ScriptFolder +     "characters/";
+const Nz::String MonsterFolder = ScriptFolder +       "monsters/";
+const Nz::String MapFolder = ScriptFolder +           "maps/";
+const Nz::String SkillFolder = ScriptFolder +         "skills/";
+const Nz::String ItemFolder = ScriptFolder +          "items/";
+const Nz::String StateFolder = ScriptFolder +         "states/";
+const Nz::String AIFolder = ScriptFolder +            "ais/";
+const Nz::String FightAIFolder = AIFolder +                "fight/";
+const Nz::String FightAIUtilFile = FightAIFolder +                "util/util.lua";
 
 }
 

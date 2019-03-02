@@ -101,7 +101,7 @@ void loadTextures()
         int index { -1 };
         std::pair<Nz::String, Nz::String> textureInfos = lua.Check<std::pair<Nz::String, Nz::String>>(&index);
 
-        Nz::TextureLibrary::Register(textureInfos.first, Nz::TextureManager::Get(Def::ImageFolder + textureInfos.second));
+        Nz::TextureLibrary::Register(textureInfos.first, Nz::TextureManager::Get(Def::TextureFolder + textureInfos.second));
         NazaraNotice("Texture " + textureInfos.first + " loaded !");
 
         lua.Pop();
