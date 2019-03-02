@@ -59,8 +59,8 @@ struct TileData
     inline bool isWalkable() const { return !isObstacle() && !occupied; }
 
     inline bool isSpawn()    const { return (flags & TileFlag::RedSpawn) == TileFlag::RedSpawn || (flags & TileFlag::BlueSpawn) == TileFlag::BlueSpawn; }
-        inline bool isRedObstacle() const { return (flags & TileFlag::RedSpawn) == TileFlag::RedSpawn; }
-        inline bool isBlueObstacle() const { return (flags & TileFlag::BlueSpawn) == TileFlag::BlueSpawn; }
+        inline bool isRedSpawn() const { return (flags & TileFlag::RedSpawn) == TileFlag::RedSpawn; }
+        inline bool isBlueSpawn() const { return (flags & TileFlag::BlueSpawn) == TileFlag::BlueSpawn; }
 };
 
 #endif // TILEDATA_HPP
