@@ -74,8 +74,8 @@ private:
 namespace Nz
 {
 
-inline unsigned int LuaImplQueryArg(const LuaState& state, int index, MapDataRef* mapRef, TypeTag<MapDataRef>);
-//inline int LuaImplReplyVal(const LuaState& state, MapDataRef&& mapRef, TypeTag<MapDataRef>);
+extern unsigned int LuaImplQueryArg(const LuaState& state, int index, MapDataRef* mapRef, TypeTag<MapDataRef>);
+//extern int LuaImplReplyVal(const LuaState& state, MapDataRef&& mapRef, TypeTag<MapDataRef>);
 
 } // namespace Nz
 
