@@ -77,7 +77,7 @@ ACTION.execute = function(self, root)
 
         if (not location or #location == 0) then
             -- No location provided, try to determine it automatically
-            if (string.find(folder, "msvc14-")) then
+            if (string.find(folder, "msvc14%-")) then
                 location = "vs2015"
                 print("No location provided (--lib-toolset argument), chose vs2015 because of the msvc14 keyword")
 
