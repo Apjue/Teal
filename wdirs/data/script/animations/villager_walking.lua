@@ -1,6 +1,6 @@
 teal_animation =
 {
-    size = { x = 113, y = 99 },
+    size = { x = 49, y = 94 },
     texture = ":/game/char/villager",
-    offset = { x = -25, y = -66 }
+    offset = { x = 5, y = -66 }
 }

@@ -1,8 +1,8 @@
 teal_character =
 {
     texture = ":/game/char/villager",
-    size = { x = 113, y = 99 },
-    offset = { x = -25, y = -66 },
+    size = { x = 49, y = 94 },
+    offset = { x = 5, y = -66 },
 
     animations =
     {
