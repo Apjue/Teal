@@ -10,7 +10,7 @@ newoption
 newoption
 {
     trigger     = "package-action",
-    description = "Folder in which Teal executable is located (/build/<action>/<config>/<platform>/Teal)"
+    description = "Folder in which Teal teal_executable is located (/build/<action>/<config>/<platform>/Teal)"
 }
 
 ACTION.name = "package"
@@ -99,21 +99,39 @@ ACTION.execute = function(self, root)
 
     local executableFolder = root .. "/wdirs/" .. platform
     local executableMatches = os.matchfiles(executableFolder .. "/Teal-" .. config)
-    local executable
+    local teal_executable
 
     if (#executableMatches == 1) then
-        executable = executableMatches[1]
+        teal_executable = executableMatches[1]
 
     else
         executableMatches = os.matchfiles(executableFolder .. "/Teal-" .. config .. ".exe")
 
         if (#executableMatches == 1) then
-            executable = executableMatches[1]
+            teal_executable = executableMatches[1]
 
         else
-            error("No executable found in " .. executableFolder)
+            error("No Teal executable found in " .. executableFolder)
         end
     end
+
+    executableMatches = os.matchfiles(executableFolder .. "/Tiled2Teal-" .. config)
+    local t2t_executable
+
+    if (#executableMatches == 1) then
+        t2t_executable = executableMatches[1]
+
+    else
+        executableMatches = os.matchfiles(executableFolder .. "/Tiled2Teal-" .. config .. ".exe")
+
+        if (#executableMatches == 1) then
+            t2t_executable = executableMatches[1]
+
+        else
+            error("No Tiled2Teal executable found in " .. executableFolder)
+        end
+    end    
+
 
     if (#os.matchdirs(root .. "/package_" .. config .. "_" .. platform) == 1) then
         os.rmdir(root .. "/package_" .. config .. "_" .. platform)
@@ -198,6 +216,7 @@ ACTION.execute = function(self, root)
         os.copyfile(root .. "/wdirs/" .. platform .. "/soft_oal.dll", root .. "/package_" .. config .. "_" .. platform .. "/Teal/soft_oal.dll")
     end
 
-    print("Copying executable...")
-    os.copyfile(executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Teal-" .. config .. "-" .. platform .. path.getextension(executable))
+    print("Copying executables...")
+    os.copyfile(teal_executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Teal-" .. config .. "-" .. platform .. path.getextension(teal_executable))
+    os.copyfile(t2t_executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Teal-" .. config .. "-" .. platform .. path.getextension(t2t_executable))
 end

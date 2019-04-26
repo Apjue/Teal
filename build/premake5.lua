@@ -76,9 +76,11 @@ workspace "Teal"
 
         files
         {
-            rootFolder .. "/include/**.hpp",
-            rootFolder .. "/include/**.inl",
-            rootFolder .. "/src/**.cpp"
+            rootFolder .. "/teal/include/**.hpp",
+            rootFolder .. "/teal/include/**.inl",
+            rootFolder .. "/shared/include/**.hpp",
+            rootFolder .. "/shared/include/**.inl",
+            rootFolder .. "/teal/src/**.cpp"
         }
 
         libdirs
@@ -91,12 +93,13 @@ workspace "Teal"
         {
             rootFolder .. "/extlibs/include/micropather/",
             rootFolder .. "/extlibs/include/nazara/",
-            rootFolder .. "/include/"
+            rootFolder .. "/teal/include/",
+            rootFolder .. "/shared/include/"
         }
 
         pic "On"
         cppdialect "C++14"
-        flags { "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers" }
+        flags { "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers", "NoMinimalRebuild" }
 
         filter "action:vs*"
             defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
@@ -111,4 +114,52 @@ workspace "Teal"
             defines { "NDEBUG" }
             targetname "Teal-release"
             links { "NazaraAudio", "NazaraNetwork", "NazaraNoise", "NazaraPhysics2D", "NazaraPhysics3D", "NazaraCore", "NazaraGraphics", "NazaraRenderer", "NazaraUtility", "NazaraSDK", "NazaraLua", "NazaraPlatform", "micropather" }
+            optimize "On"
+
+    project "Tiled2Teal"
+        kind "ConsoleApp"
+        language "C++"
+
+        targetdir(rootFolder .. "/wdirs/%{cfg.platform}/")
+        debugdir(rootFolder .. "/wdirs/%{cfg.platform}/")
+        runpathdirs { rootFolder .. "/wdirs/%{cfg.platform}/" }
+
+        files
+        {
+            rootFolder .. "/tiled2teal/include/**.hpp",
+            rootFolder .. "/tiled2teal/include/**.inl",
+            rootFolder .. "/shared/include/**.hpp",
+            rootFolder .. "/shared/include/**.inl",
+            rootFolder .. "/tiled2teal/src/**.cpp"
+        }
+
+        libdirs
+        {
+            rootFolder .. "/extlibs/lib/" .. _ACTION ..  "/%{cfg.platform}/nazara/"
+        }
+
+        includedirs
+        {
+            rootFolder .. "/extlibs/include/nazara/",
+            rootFolder .. "/tiled2teal/include/",
+            rootFolder .. "/shared/include/"
+        }
+
+        pic "On"
+        cppdialect "C++14"
+        flags { "RelativeLinks", "MultiProcessorCompile", "UndefinedIdentifiers", "NoMinimalRebuild" }
+
+        filter "action:vs*"
+            defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
+
+        filter "configurations:Debug"
+            defines { "T2T_DEBUG", "NAZARA_DEBUG" }
+            links { "NazaraCore-d", "NazaraLua-d" }
+            targetname "Tiled2Teal-debug"
+            symbols "on"
+
+        filter "configurations:Release"
+            defines { "NDEBUG" }
+            links { "NazaraCore", "NazaraLua" }
+            targetname "Tiled2Teal-release"
             optimize "On"

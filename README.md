@@ -13,6 +13,6 @@ Platform       | Status          | Nightlies
 To build Teal, please read `build.md`.
 
 # How to script?
-You can script maps using the [Tiled Map Editor](http://mapeditor.org) and [Tiled2Teal](https://github.com/Apjue/tiled2teal)  
+You can script maps using the [Tiled Map Editor](http://mapeditor.org) and Tiled2Teal  
 Items, animations, characters, and skills can also be customized with scripts, but there's no tutorial (yet!)  
 You can look into `/wdirs/data/script/` files though, and try to make your own
