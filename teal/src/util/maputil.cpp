@@ -395,12 +395,12 @@ std::set<AbsTile> getMonsterGroupTiles(AbsTile pos, unsigned monsterNumber, MapD
         if (tilesNeeded == 1)
             return 0;
 
-        unsigned tileNumber { 1 };
+        unsigned range { 1 };
 
-        for (unsigned range { 1 }; tileNumber < tilesNeeded; ++range)
+        for (unsigned tileNumber { 1 }; tileNumber < tilesNeeded; ++range)
             tileNumber += range * Def::MaxDirs * 2u;
 
-        return tileNumber;
+        return range;
     };
 
     unsigned estimatedRange = getRange(monsterNumber);
