@@ -1,8 +1,10 @@
 Main todo:
-- 3D Models for characters ?
+- Make map objects
+- 3D Models for characters (both 2D/3D models support)
 	|| Main character is too slow & "slips" on ground
 - Finish fight feature!
 	- Make fight UI
+- Make a real map editor
 - RandomMovementComponent/System: Automatize everything
 - Remake SkillData::getMaximumDamage()
 - NPC dialogs
