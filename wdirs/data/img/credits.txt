@@ -4,5 +4,4 @@ Shield ; LordNeo ; http://opengameart.org/content/round-shield-64x64
 Longswords ; LordNeo ; https://opengameart.org/content/longsword-64x64
 Broadswords ; LordNeo ; https://opengameart.org/content/broadsword-64x64
 Spell/Inventory bar ("User Interface") ; SpaceHydra ; https://opengameart.org/content/user-interface-0
-Box ; Tracy ; https://opengameart.org/content/simple-box
 Potion ; Ahkâm ; https://www.freeiconspng.com/img/15614
