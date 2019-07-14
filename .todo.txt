@@ -1,9 +1,16 @@
 Main todo:
+- 3D Models for characters ?
+	|| Main character is too slow & "slips" on ground
 - Finish fight feature!
+	- Make fight UI
+- RandomMovementComponent/System: Automatize everything
 - Remake SkillData::getMaximumDamage()
+- NPC dialogs
 - Make a real inventory GUI (handle items with one side with alphabetical order) => Revert commit caf5a32 & take care of includes
-- Make .json maps ? (Lua is useless)
+	- Make a bigger window => Make bigger maps
 
 - AISystem "!move.playerInitiated and no path found (something blocked and still blocking)"
 - Handle blocktiles in TilesetCore
 - Implement tile layers (adds possibility to make bridges, stairs)
+- Make .json maps ? (Lua is useless) + .json characters, monsters, ...
+- Make compact animations textures (quite done), and have animations files to get size & position in the texture
