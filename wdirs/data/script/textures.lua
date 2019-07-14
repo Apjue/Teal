@@ -17,6 +17,7 @@ teal_textures =
 
     -- States
     { ":/game/states/aie", "game/states/aie.png" },
+    { ":/game/states/rip", "game/states/rip.png" },
 
     -- Items
         -- Swords
