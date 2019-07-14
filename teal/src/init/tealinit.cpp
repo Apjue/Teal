@@ -139,6 +139,7 @@ void loadNazara()
     Ndk::InitializeComponent<DescriptionComponent>("desc");             //Ndk::LuaAPI::GetBinding()->BindComponent<DescriptionComponent>("DescriptionComponent");
     Ndk::InitializeComponent<BlockTileComponent>("blcktile");           //Ndk::LuaAPI::GetBinding()->BindComponent<BlockTileComponent>("BlockTileComponent");
     Ndk::InitializeComponent<MonsterComponent>("monster");              //Ndk::LuaAPI::GetBinding()->BindComponent<MonsterComponent>("MonsterComponent");
+    Ndk::InitializeComponent<MonsterGroupComponent>("mnstrgrp");        //Ndk::LuaAPI::GetBinding()->BindComponent<MonsterGroupComponent>("MonsterGroupComponent");
     Ndk::InitializeComponent<EquipmentComponent>("equip");              //Ndk::LuaAPI::GetBinding()->BindComponent<EquipmentComponent>("EquipmentComponent");
     Ndk::InitializeComponent<LogicEntityIdComponent>("logicid");        //Ndk::LuaAPI::GetBinding()->BindComponent<LogicEntityIdComponent>("LogicEntityIdComponent");
     Ndk::InitializeComponent<IconComponent>("icon");                    //Ndk::LuaAPI::GetBinding()->BindComponent<IconComponent>("IconComponent");

@@ -367,7 +367,7 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, bool viewThroughO
                     visibleTiles.erase(tileToErase);
 
                 else
-                    NazaraDebug(Nz::String { "getVisibleTiles: Tile [" } +Nz::String::Number(xy.x) + ";" + Nz::String::Number(xy.y) + "] not found (bug to fix)");
+                    NazaraDebug(Nz::String { "getVisibleTiles: Tile [" } + Nz::String::Number(xy.x) + ";" + Nz::String::Number(xy.y) + "] not found (bug to fix)");
             }
         }
     }
