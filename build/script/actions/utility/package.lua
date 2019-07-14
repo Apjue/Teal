@@ -7,12 +7,6 @@ newoption
     default = "release_x64"
 }
 
-newoption
-{
-    trigger     = "package-action",
-    description = "Folder in which Teal teal_executable is located (/build/<action>/<config>/<platform>/Teal)"
-}
-
 ACTION.name = "package"
 ACTION.description = "Package Teal into a package_<config>_<platform> folder"
 
@@ -48,53 +42,6 @@ ACTION.execute = function(self, root)
     local config, platform = string.match(package_config, "([^_]+)_([^_]+)")
     config = string.lower(config)
     platform = string.lower(platform)
-
-    local action = _OPTIONS["package-action"]
-
-    if (not action or #action == 0) then
-        local all_folders = os.matchdirs("*")
-        local real_folders = {}
-        local counter = 1
-
-        for k, v in pairs(all_folders) do
-            if (v ~= "script" and v ~= "utility" and v ~= "package" and not string.find(v, "NazaraEngine")) then
-                real_folders[counter] = v
-                counter = counter + 1
-            end
-        end
-
-        if (#real_folders == 1) then
-            action = real_folders[1]
-        else
-            print("Multiple toolsets were found and no action provided (--package-action argument)")
-
-            for k, v in pairs(real_folders) do
-                print("  [" .. tostring(k) .. "] " .. v)
-            end
-
-            print("  [Q] Quit")
-            io.write("Choose: ")
-
-            local answer = string.lower(io.read(1))
-
-            for k, v in pairs(real_folders) do
-                if (answer == tostring(k)) then
-                    action = v
-                    break
-                end
-            end
-
-            if (answer == "q" or answer == "n") then
-                return
-
-            elseif (action and #action > 0) then
-                -- do nothing, just exit the if scope
-            else
-                print("I didn't understand, but assumed you wanted to quit")
-                return
-            end
-        end
-    end
 
 
     local executableFolder = root .. "/wdirs/" .. platform
@@ -218,5 +165,5 @@ ACTION.execute = function(self, root)
 
     print("Copying executables...")
     os.copyfile(teal_executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Teal-" .. config .. "-" .. platform .. path.getextension(teal_executable))
-    os.copyfile(t2t_executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Teal-" .. config .. "-" .. platform .. path.getextension(t2t_executable))
+    os.copyfile(t2t_executable, root .. "/package_" .. config .. "_" .. platform .. "/Teal/Tiled2Teal-" .. config .. "-" .. platform .. path.getextension(t2t_executable))
 end
