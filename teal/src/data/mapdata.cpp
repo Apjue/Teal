@@ -49,7 +49,8 @@ void MapData::updateOccupiedTiles()
 
     for (auto& e : m_graphicalEntities)
     {
-        if (e->HasComponent<PositionComponent>() && e->HasComponent<BlockTileComponent>())
+        if (e->HasComponent<PositionComponent>() &&
+            e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().active)
         {
             auto& xy = e->GetComponent<PositionComponent>().xy;
             m_tiles[XYToIndex(xy.x, xy.y)].occupied = true;

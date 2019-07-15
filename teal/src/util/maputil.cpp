@@ -313,7 +313,7 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, GetVisibleTilesAr
     }
 
     for (auto& entity : map->getGraphicalEntities())
-        if (entity->HasComponent<BlockTileComponent>())
+        if (entity->HasComponent<BlockTileComponent>() && entity->GetComponent<BlockTileComponent>().active)
         {
             AbsTile ePos = entity->GetComponent<PositionComponent>().xy;
 

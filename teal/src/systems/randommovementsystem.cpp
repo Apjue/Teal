@@ -14,6 +14,7 @@
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/randommovementcomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
+#include "components/characters/blocktilecomponent.hpp"
 #include "components/other/monstergroupcomponent.hpp"
 #include "systems/randommovementsystem.hpp"
 #include "def/systemdef.hpp"
@@ -62,6 +63,21 @@ void RandomMovementSystem::OnUpdate(float elapsed)
 
         if (goSomewhere && map)
         {
+            // Temporarily set blocktile to false
+            // It will be re-set to true at the arrival of the chosen tile
+            // (See moveutil)
+
+            if (e->HasComponent<MonsterGroupComponent>())
+            {
+                for (auto& monster : e->GetComponent<MonsterGroupComponent>().monsters)
+                    if (monster->HasComponent<BlockTileComponent>())
+                        monster->GetComponent<BlockTileComponent>().active = false;
+            }
+
+            else
+                e->GetComponent<BlockTileComponent>().active = false;
+            refreshOccupiedTiles();
+
             std::set<AbsTile> nearTiles = getVisibleTiles(pos.xy, rd.range, { true });
             std::set<AbsTile> maxDistanceTiles;
             std::set<AbsTile> priorityTiles; // Tiles with exact path size
