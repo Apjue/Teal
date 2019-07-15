@@ -110,14 +110,14 @@ build_script:
 
 after_build:
   - cmd: cd %APPVEYOR_BUILD_FOLDER%/build/ &&
-         premake5.exe --package-config=%CONFIG%_%PLATFORM% --package-action=%TOOLSET% package &&
+         premake5.exe --package-config=%CONFIG%_%PLATFORM% package &&
          cp -r %APPVEYOR_BUILD_FOLDER%/package_%CONFIG%_%PLATFORM% result &&
          cd result &&
          echo Appveyor Build %APPVEYOR_BUILD_NUMBER% (%CONFIG% %PLATFORM% with %APPVEYOR_BUILD_WORKER_IMAGE%) [ID %APPVEYOR_BUILD_ID%] on branch %APPVEYOR_REPO_BRANCH%\nCommit hash - %APPVEYOR_REPO_COMMIT%\n\nCommit message:\n"%APPVEYOR_REPO_COMMIT_MESSAGE%" > commit-info.log &&
          7z a Teal.7z * && cd ../..
 
   - sh: cd ${APPVEYOR_BUILD_FOLDER}/build/ &&
-        ./premake5-linux64 --package-config=${CONFIG}_${PLATFORM} --package-action=${TOOLSET} package &&
+        ./premake5-linux64 --package-config=${CONFIG}_${PLATFORM} package &&
         cp -r ${APPVEYOR_BUILD_FOLDER}/package_${CONFIG}_${PLATFORM} result &&
         cd result &&
         printf "Appveyor Build ${APPVEYOR_BUILD_NUMBER} (${CONFIG} ${PLATFORM} with ${APPVEYOR_BUILD_WORKER_IMAGE}) [ID ${APPVEYOR_BUILD_ID}] on branch ${APPVEYOR_REPO_BRANCH}\nCommit hash - ${APPVEYOR_REPO_COMMIT}\n\nCommit message:\n${APPVEYOR_REPO_COMMIT_MESSAGE}" > commit-info.log &&
