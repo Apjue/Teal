@@ -22,13 +22,9 @@ struct CharacterData // Contains all required attributes of a character. Used by
         unsigned range;
     };
 
-    CharacterData() = default;
-    ~CharacterData() = default;
-
     LivingEntityData livingEntityData;
 
     RandomMovement randomMovement;
-    bool blockTile;
 };
 
 #include <Nazara/Lua/LuaState.hpp>

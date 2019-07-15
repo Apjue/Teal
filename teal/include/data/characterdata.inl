@@ -24,7 +24,6 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, CharacterD
     state.CheckType(index, Nz::LuaType_Table);
 
     LuaImplQueryArg(state, index, &data->livingEntityData, TypeTag<LivingEntityData> {});
-    data->blockTile = state.CheckField<bool>("blocktile", false, index);
     data->randomMovement = state.CheckField<CharacterData::RandomMovement>("random_movement", index); // Not sure about this
 
     return 1;

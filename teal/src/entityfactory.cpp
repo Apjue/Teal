@@ -43,6 +43,9 @@ Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntity
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<LevelComponent>(data.level);
 
+    if (data.blockTile)
+        e->AddComponent<BlockTileComponent>();
+
     refreshGraphicsPos(e);
     return e;
 }
@@ -53,9 +56,6 @@ Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& 
 
     if (data.randomMovement.enabled)
         e->AddComponent<RandomMovementComponent>(data.randomMovement.movementInterval, data.randomMovement.range);
-
-    if (data.blockTile)
-        e->AddComponent<BlockTileComponent>();
 
     e->AddComponent<InventoryComponent>();
 

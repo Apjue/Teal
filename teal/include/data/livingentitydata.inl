@@ -39,6 +39,7 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, LivingEnti
     data->level = state.CheckField<unsigned>("level", 1u, index);
     data->offset = state.CheckField<Nz::Vector2f>("offset", Nz::Vector2f {}, index);
     data->fight = state.CheckField<LivingEntityData::Fight>("fight", index);
+    data->blockTile = state.CheckField<bool>("blocktile", false, index);
 
 
     LuaArguments animArgs;

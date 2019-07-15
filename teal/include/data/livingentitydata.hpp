@@ -50,6 +50,7 @@ struct LivingEntityData // Contains all required attributes of a living entity. 
 
     unsigned level;
     Fight fight;
+    bool blockTile;
 };
 
 #include <Nazara/Lua/LuaState.hpp>
