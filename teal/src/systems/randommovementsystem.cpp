@@ -14,7 +14,7 @@
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/randommovementcomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
-#include "components/characters/blocktilecomponent.hpp"
+#include "components/shared/blocktilecomponent.hpp"
 #include "components/other/monstergroupcomponent.hpp"
 #include "systems/randommovementsystem.hpp"
 #include "def/systemdef.hpp"

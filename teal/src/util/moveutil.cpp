@@ -6,7 +6,7 @@
 #include "components/characters/pathcomponent.hpp"
 #include "components/characters/positioncomponent.hpp"
 #include "components/characters/orientationcomponent.hpp"
-#include "components/characters/blocktilecomponent.hpp"
+#include "components/shared/blocktilecomponent.hpp"
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/inventorycomponent.hpp"
 #include "components/shared/iconcomponent.hpp"

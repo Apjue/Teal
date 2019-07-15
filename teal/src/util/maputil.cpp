@@ -4,7 +4,7 @@
 
 #include <NDK/Components/NodeComponent.hpp>
 #include <memory>
-#include "components/characters/blocktilecomponent.hpp"
+#include "components/shared/blocktilecomponent.hpp"
 #include "components/characters/positioncomponent.hpp"
 #include "components/characters/orientationcomponent.hpp"
 #include "components/util/renderablesstoragecomponent.hpp"

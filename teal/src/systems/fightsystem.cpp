@@ -8,7 +8,7 @@
 #include "components/characters/fightcomponent.hpp"
 #include "components/characters/positioncomponent.hpp"
 #include "components/characters/animationcomponent.hpp"
-#include "components/characters/blocktilecomponent.hpp"
+#include "components/shared/blocktilecomponent.hpp"
 #include "components/characters/equipmentcomponent.hpp"
 #include "components/shared/damagemodifiercomponent.hpp"
 #include "def/gamedef.hpp"
