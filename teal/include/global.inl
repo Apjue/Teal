@@ -5,21 +5,6 @@
 #include "util/assert.hpp"
 #include "global.hpp"
 
-inline AbsTile operator+(const AbsTile& tile, const DirectionFlags& dir)
-{
-    DiffTile diff = DirToXY(dir, isLineEven(tile.y));
-
-    if (!(diff.x >= 0 || int(tile.x) >= -diff.x) || !(diff.y >= 0 || int(tile.y) >= -diff.y))
-        return tile;
-
-    return AbsTile { tile.x + diff.x, tile.y + diff.y };
-}
-
-inline AbsTile operator+=(const AbsTile& tile, const DirectionFlags& dir)
-{
-    return AbsTile { tile + dir };
-}
-
 inline Orientation stringToOrientation(Nz::String string)
 {
     string = string.ToLower();
@@ -89,13 +74,34 @@ inline DiffTile OrientToDiff(Orientation orientation, bool even)
     return DirToXY(OrientToDir(orientation), even);
 }
 
-inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
+/*inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to)
 {
     int diffX { int(to.x) - int(from.x) },
         diffY { int(to.y) - int(from.y) };
 
     return { diffX, diffY };
+}*/
+
+
+inline AbsTile applyDiffTile(AbsTile from, DiffTile diff, bool& ok)
+{
+    AbsTile result { unsigned(int(from.x) + diff.x), unsigned(int(from.y) + diff.y) };
+
+    if (isLineEven(from.y) || isLineEven(diff.y))
+    {
+        ok = isPositionValid(result);
+        return result;
+    }
+
+    else
+    {
+        result += { 1, 0 };
+
+        ok = isPositionValid(result);
+        return result;
+    }
 }
+
 
 inline bool isPositionValid(AbsTile pos)
 {

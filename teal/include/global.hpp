@@ -74,9 +74,6 @@ constexpr DirectionFlags DownLeft = Down | Left;
 
 }
 
-inline AbsTile operator+(const AbsTile& tile, const DirectionFlags& dir);
-inline AbsTile operator+=(const AbsTile& tile, const DirectionFlags& dir);
-
 // Conversion functions
 extern DiffTile DirToXY(DirectionFlags d, bool even);
 extern DiffTile DirToGXY(DirectionFlags d);
@@ -86,7 +83,10 @@ extern Orientation DirToOrient(DirectionFlags d);
 extern DirectionFlags OrientToDir(Orientation orientation);
 
 inline DiffTile OrientToDiff(Orientation orientation, bool even);
-inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to);
+//inline DiffTile AbsPosToDiff(const AbsTile& from, const AbsTile& to); // This function will not work with applyDiffTile
+
+// AbsTile + DiffTile
+inline AbsTile applyDiffTile(AbsTile from, DiffTile diff, bool& ok); // It acts as if from.y is even (for blocktiles)
 
 ///
 /// \fn isDiagonal
