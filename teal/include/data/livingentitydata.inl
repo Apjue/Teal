@@ -2,11 +2,6 @@
 // This file is part of the Teal project
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#pragma once
-
-#ifndef TEAL_CHARACTERDATA_INL
-#define TEAL_CHARACTERDATA_INL
-
 #include <NDK/LuaAPI.hpp>
 #include "util/luaparser.hpp"
 #include "util/nzstlcompatibility.hpp"
@@ -110,5 +105,3 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, LivingEnti
 }
 
 } // namespace Nz
-
-#endif // TEAL_CHARACTERDATA_INL
