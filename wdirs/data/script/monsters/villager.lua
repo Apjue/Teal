@@ -17,6 +17,7 @@ teal_monster =
     maxhealth = 100,
     name = "VillagerMonster",
     family = "Villagers",
+    blocktile = true,
     
     fight =
     {

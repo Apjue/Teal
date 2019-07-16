@@ -33,9 +33,8 @@
 #include "states/gamestate.hpp"
 
 GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
-    : m_world(gameData.world), m_window(*gameData.window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore),
-    m_fightTilesetCore(gameData.fightTilesetCore), m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations),
-    m_items(gameData.items), m_characters(gameData.characters), m_monsters(gameData.monsters)
+    : m_world(gameData.world), m_window(*gameData.window), m_mapArea(mapArea), m_tilesetCore(gameData.tilesetCore), m_fightTilesetCore(gameData.fightTilesetCore),
+    m_states(gameData.states), m_skills(gameData.skills), m_ais(gameData.ais), m_animations(gameData.animations), m_characters(gameData.characters)
 {
     // Initialize scene (map & character)
     {

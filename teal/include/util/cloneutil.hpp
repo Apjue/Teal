@@ -11,6 +11,7 @@
 #include <NDK/EntityList.hpp>
 #include <Nazara/Core/String.hpp>
 
+Ndk::EntityHandle cloneMapObject(const Ndk::EntityList& mapObjects, const Nz::String& codename);
 Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::String& codename);
 Ndk::EntityHandle cloneMonster(const Ndk::EntityList& monsters, const Nz::String& codename, Ndk::EntityHandle monsterGroup = {});
 Ndk::EntityHandle cloneItem(const Ndk::EntityList& items, const Nz::String& codename);

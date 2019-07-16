@@ -11,6 +11,24 @@
 #include "util/gfxutil.hpp"
 #include "util/cloneutil.hpp"
 
+Ndk::EntityHandle cloneMapObject(const Ndk::EntityList& mapObjects, const Nz::String& codename)
+{
+    // This function is a pure copy of cloneCharacter
+    // But it will remains, as cloneCharacter may change
+
+    Ndk::EntityHandle entity;
+    auto it = std::find_if(mapObjects.begin(), mapObjects.end(),
+                           [&codename] (const Ndk::EntityHandle& e) { return e->HasComponent<CloneComponent>() && (e->GetComponent<CloneComponent>().codename == codename); });
+
+    if (it != mapObjects.end())
+    {
+        entity = (*it)->Clone();
+        cloneRenderables(entity, Def::CharactersLayer); // CharactersLayer = MapObjectsLayer
+    }
+
+    return entity;
+}
+
 Ndk::EntityHandle cloneCharacter(const Ndk::EntityList& characters, const Nz::String& codename)
 {
     Ndk::EntityHandle entity;

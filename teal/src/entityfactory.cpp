@@ -15,7 +15,7 @@ Ndk::EntityHandle makeMapEntity(const Ndk::WorldHandle& w, const MapEntityData& 
     Ndk::EntityHandle e = w->CreateEntity();
 
     auto& gfx = e->AddComponent<Ndk::GraphicsComponent>();
-    gfx.Attach(data.sprite, Def::CharactersLayer);
+    gfx.Attach(data.sprite, Def::CharactersLayer); // Layer can't be known, and these makeXXX functions are used to make templates, so...
 
     e->AddComponent<Ndk::NodeComponent>().SetPosition(data.offset.x, data.offset.y);
     e->AddComponent<GraphicsOffsetComponent>(data.offset);

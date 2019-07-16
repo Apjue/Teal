@@ -39,6 +39,9 @@ teal_textures =
         -- Consumables
         { ":/game/items/consumables/potion", "game/items/consumables/potion.png" },
 
+    -- Map objects
+    { ":/game/objects/well", "game/objects/well.png" },
+
     -- Buttons (required)
         -- Menu bar
         { ":/buttons/equip",         "buttons/bar/equip.png" },

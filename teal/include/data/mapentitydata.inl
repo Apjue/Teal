@@ -20,11 +20,12 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, MapEntityD
     charMat->SetDiffuseMap(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("texture", ":/game/unknown", index)));
 
     auto size = state.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui(charMat->GetDiffuseMap()->GetSize()), index);
+    auto resize = state.CheckField<Nz::Vector2ui>("resize", size, index);
 
     data->sprite = Nz::Sprite::New(charMat);
     data->sprite->SetMaterial(charMat, false);
     data->sprite->SetTextureRect({ 0u, 0u, size.x, size.y });
-    data->sprite->SetSize(float(size.x), float(size.y));
+    data->sprite->SetSize(float(resize.x), float(resize.y));
 
     LuaImplQueryArg(state, index, &data->blockTile, TypeTag<BlockTileData> {});
 

@@ -21,6 +21,7 @@ const Nz::String MonsterFolder = ScriptFolder +       "monsters/";
 const Nz::String MapFolder = ScriptFolder +           "maps/";
 const Nz::String SkillFolder = ScriptFolder +         "skills/";
 const Nz::String ItemFolder = ScriptFolder +          "items/";
+const Nz::String MapObjectFolder = ScriptFolder +     "map_objects/";
 const Nz::String StateFolder = ScriptFolder +         "states/";
 const Nz::String AIFolder = ScriptFolder +            "ais/";
 const Nz::String FightAIFolder = AIFolder +                "fight/";

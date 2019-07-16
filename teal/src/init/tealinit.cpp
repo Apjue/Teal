@@ -55,8 +55,8 @@ void initializeTeal(GameData& data)
     TealInitDetail::loadCharacters(data.world, data.characters);
     TealInitDetail::loadMonsters(data.world, data.monsters);
     TealInitDetail::loadItems(data.world, data.items, *data.skills);
-    //Detail::loadMapObjects(data.mapObjects);
-    TealInitDetail::loadMaps(data.world, data.characters, data.items, data.monsters);
+    TealInitDetail::loadMapObjects(data.world, data.mapObjects);
+    TealInitDetail::loadMaps(data.world, data.characters, data.items, data.monsters, data.mapObjects);
 
     TealInitDetail::addIcon(*data.window);
     TealInitDetail::addCam(data.world, *data.window);
@@ -435,12 +435,38 @@ void loadItems(Ndk::WorldHandle world, Ndk::EntityList& items, const SkillStore&
     NazaraNotice(" --- ");
 }
 
-// void loadMapObjects()
-// {
-// 
-// }
+void loadMapObjects(Ndk::WorldHandle world, Ndk::EntityList& mapObjects)
+{
+    Nz::Directory mapObjectsDirectory { Def::MapObjectFolder };
+    mapObjectsDirectory.SetPattern("*.lua");
+    mapObjectsDirectory.Open();
 
-void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items, const Ndk::EntityList& monsters)
+    while (mapObjectsDirectory.NextResult())
+    {
+        Nz::LuaInstance lua;
+
+        if (!lua.ExecuteFromFile(mapObjectsDirectory.GetResultPath()))
+        {
+            NazaraNotice("Error loading map object " + mapObjectsDirectory.GetResultName());
+            NazaraNotice(lua.GetLastError());
+            continue;
+        }
+
+        MapEntityData data = lua.CheckGlobal<MapEntityData>("teal_map_object");
+        data.codename = removeFileNameExtension(mapObjectsDirectory.GetResultName());
+
+        Ndk::EntityHandle mapObject = makeMapEntity(world, data);
+
+        mapObject->Enable(false);
+        mapObjects.Insert(mapObject);
+
+        NazaraNotice("Map Object loaded - " + data.codename);
+    }
+
+    NazaraNotice(" --- ");
+}
+
+void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items, const Ndk::EntityList& monsters, const Ndk::EntityList& mapObjects)
 {
     Nz::Directory maps { Def::MapFolder };
     maps.SetPattern("*.lua");
@@ -525,6 +551,22 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
                     gfxEntity->Enable(false);
                     map->getGraphicalEntities().Insert(gfxEntity);
+                }
+            }
+
+            else if (type == "map_object")
+            {
+                Nz::String codename = lua.CheckField<Nz::String>("codename");
+                Ndk::EntityHandle e = cloneMapObject(mapObjects, codename);
+
+                if (e.IsValid())
+                {
+                    e->Enable(false);
+
+                    e->GetComponent<PositionComponent>().xy = pos;
+                    refreshGraphicsPos(e);
+
+                    map->getGraphicalEntities().Insert(e);
                 }
             }
 

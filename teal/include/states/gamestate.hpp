@@ -50,10 +50,7 @@ private:
     std::shared_ptr<SkillStore> m_skills;
     AICore& m_ais;
     std::shared_ptr<AnimationStore> m_animations;
-
-    Ndk::EntityList& m_items;
     Ndk::EntityList& m_characters;
-    Ndk::EntityList& m_monsters;
 
 
     // Raycasting test

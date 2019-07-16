@@ -15,19 +15,23 @@ teal_map =
             pos = { x = 1, y = 3 }
         },
 
+        {
+            type = "map_object",
+            codename = "well",
+            pos = { x = 3, y = 5 }
+        },
         
         {
             type = "monstergroup",
-            pos = { x = 4, y = 8 },
+            pos = { x = 6, y = 10 },
 
-            random_movement_interval = 7,
+            random_movement_interval = 5,
             random_movement_range = 2,
 
             monsters =
             {
-                {
-                    codename = "villager"
-                }
+                {codename = "villager"},
+                {codename = "villager"}
             }
         }
     },
