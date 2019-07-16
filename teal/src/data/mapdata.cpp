@@ -52,8 +52,23 @@ void MapData::updateOccupiedTiles()
         if (e->HasComponent<PositionComponent>() &&
             e->HasComponent<BlockTileComponent>() && e->GetComponent<BlockTileComponent>().active)
         {
+            auto& blockTile = e->GetComponent<BlockTileComponent>();
             auto& xy = e->GetComponent<PositionComponent>().xy;
-            m_tiles[XYToIndex(xy.x, xy.y)].occupied = true;
+
+            if (blockTile.occupied.empty())
+                m_tiles[XYToIndex(xy.x, xy.y)].occupied = true;
+
+            else
+                for (DiffTile& tile : blockTile.occupied)
+                {
+                    bool ok = false;
+                    AbsTile resultTile = applyDiffTile(xy, tile, ok);
+
+                    if (!ok)
+                        continue; // Out of bounds
+
+                    m_tiles[XYToIndex(resultTile.x, resultTile.y)].occupied = true;
+                }
         }
     }
 }

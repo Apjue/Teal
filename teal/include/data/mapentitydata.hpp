@@ -9,15 +9,15 @@
 
 #include <Nazara/Core/String.hpp>
 #include <Nazara/Math/Vector2.hpp>
-//#include <Nazara/Graphics/InstancedRenderable.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
+#include "components/shared/blocktilecomponent.hpp"
 
 struct MapEntityData // Contains all required attributes of a map entity. Used by a map entity factory.
 {
     Nz::String codename;
     Nz::SpriteRef sprite;
     Nz::Vector2f offset;
-    bool blockTile;
+    BlockTileData blockTile;
 };
 
 #include <Nazara/Lua/LuaState.hpp>

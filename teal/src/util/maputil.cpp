@@ -315,14 +315,32 @@ std::set<AbsTile> getVisibleTiles(AbsTile pos, unsigned range, GetVisibleTilesAr
     for (auto& entity : map->getGraphicalEntities())
         if (entity->HasComponent<BlockTileComponent>() && entity->GetComponent<BlockTileComponent>().active)
         {
+            auto& blockTile = entity->GetComponent<BlockTileComponent>();
             AbsTile ePos = entity->GetComponent<PositionComponent>().xy;
 
             if (ePos == pos)
                 continue;
 
-            viewObstacles.erase(ePos);
-            passableTiles.erase(ePos);
-            blockObstacles.emplace(std::move(ePos));
+            if (blockTile.occupied.empty())
+            {
+                viewObstacles.erase(ePos);
+                passableTiles.erase(ePos);
+                blockObstacles.emplace(std::move(ePos));
+            }
+
+            else
+                for (DiffTile& tile : blockTile.occupied)
+                {
+                    bool ok = false;
+                    AbsTile resultTile = applyDiffTile(ePos, tile, ok);
+
+                    if (!ok)
+                        continue; // Out of bounds
+
+                    viewObstacles.erase(resultTile);
+                    passableTiles.erase(resultTile);
+                    blockObstacles.emplace(resultTile);
+                }
         }
 
     if (parameters.viewThroughObstacles)

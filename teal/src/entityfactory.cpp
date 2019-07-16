@@ -24,8 +24,8 @@ Ndk::EntityHandle makeMapEntity(const Ndk::WorldHandle& w, const MapEntityData& 
     e->AddComponent<PositionComponent>(Nz::Vector2ui { 0u, 0u });
     e->AddComponent<CloneComponent>().codename = data.codename;
 
-    if (data.blockTile)
-        e->AddComponent<BlockTileComponent>();
+    if (data.blockTile.use)
+        e->AddComponent<BlockTileComponent>(std::move(data.blockTile.data));
 
     return e;
 }

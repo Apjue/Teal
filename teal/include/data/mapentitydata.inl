@@ -13,8 +13,6 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, MapEntityD
     state.CheckType(index, Nz::LuaType_Table);
 
     data->offset = state.CheckField<Nz::Vector2f>("offset", Nz::Vector2f {}, index);
-    data->blockTile = state.CheckField<bool>("blocktile", false, index);
-
 
     Nz::MaterialRef charMat = Nz::Material::New();
     charMat->Configure("Translucent2D");
@@ -27,6 +25,8 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, MapEntityD
     data->sprite->SetMaterial(charMat, false);
     data->sprite->SetTextureRect({ 0u, 0u, size.x, size.y });
     data->sprite->SetSize(float(size.x), float(size.y));
+
+    LuaImplQueryArg(state, index, &data->blockTile, TypeTag<BlockTileData> {});
 
     return 1;
 }
