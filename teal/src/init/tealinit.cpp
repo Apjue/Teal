@@ -566,6 +566,17 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
                     e->GetComponent<PositionComponent>().xy = pos;
                     refreshGraphicsPos(e);
 
+                    // Map objects only: Re-set texture rect
+                    if (lua.GetField("rect") == Nz::LuaType_Table)
+                    {
+                        Nz::Rectui rect;
+                        LuaImplQueryArg(lua, -1, &rect, Nz::TypeTag<Nz::Rectui> {});
+
+                        for (auto& sprite : e->GetComponent<RenderablesStorageComponent>().sprites)
+                            sprite->SetTextureRect(rect);
+                    }
+                    lua.Pop();
+
                     map->getGraphicalEntities().Insert(e);
                 }
             }
