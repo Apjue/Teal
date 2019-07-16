@@ -7,11 +7,10 @@
 #ifndef TEAL_LIVINGENTITYDATA_HPP
 #define TEAL_LIVINGENTITYDATA_HPP
 
-#include <Nazara/Math/Vector2.hpp>
-#include <Nazara/Graphics/InstancedRenderable.hpp>
-#include <Nazara/Graphics/Sprite.hpp>
+#include <Nazara/Core/String.hpp>
 #include "components/characters/animationcomponent.hpp"
 #include "components/shared/damagemodifiercomponent.hpp"
+#include "data/mapentitydata.hpp"
 #include "data/elementdata.hpp"
 #include "containers/doublestore.hpp"
 #include "util/util.hpp"
@@ -30,14 +29,8 @@ struct LivingEntityData // Contains all required attributes of a living entity. 
         unsigned actionPoints;
     };
 
-    LivingEntityData() = default;
-    ~LivingEntityData() = default;
+    MapEntityData mapEntityData;
 
-
-    Nz::String codename;
-
-    Nz::SpriteRef sprite;
-    Nz::Vector2f offset;
     AnimationComponent::AnimationList animations;
 
     unsigned maxHp;
@@ -50,7 +43,6 @@ struct LivingEntityData // Contains all required attributes of a living entity. 
 
     unsigned level;
     Fight fight;
-    bool blockTile;
 };
 
 #include <Nazara/Lua/LuaState.hpp>

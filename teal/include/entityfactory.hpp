@@ -11,12 +11,16 @@
 #include <NDK/Entity.hpp>
 #include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Lua/LuaInstance.hpp>
+#include "data/mapentitydata.hpp"
+#include "data/livingentitydata.hpp"
 #include "data/characterdata.hpp"
 #include "data/monsterdata.hpp"
 #include "data/graphicalitemdata.hpp"
 //#include "data/mapobjectdata.hpp"
 
+extern Ndk::EntityHandle makeMapEntity(const Ndk::WorldHandle& w, const MapEntityData& data);
 extern Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntityData& data);
+
 extern Ndk::EntityHandle makeCharacter(const Ndk::WorldHandle& w, const CharacterData& data);
 extern Ndk::EntityHandle makeMonster(const Ndk::WorldHandle& w, const MonsterData& data);
 extern Ndk::EntityHandle makeMonsterGroup(const Ndk::WorldHandle& w, float interval, unsigned range);

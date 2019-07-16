@@ -27,14 +27,14 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, LivingEnti
 {
     state.CheckType(index, Nz::LuaType_Table);
 
+    LuaImplQueryArg(state, index, &data->mapEntityData, TypeTag<MapEntityData> {});
+
     data->maxHp = state.CheckField<unsigned>("maxhealth", 100u, index);
     data->orientation = stringToOrientation(state.CheckField<Nz::String>("orientation", "downleft", index));
     data->name = state.CheckField<Nz::String>("name", "Unnamed", index);
     data->description = state.CheckField<Nz::String>("description", "Empty", index);
     data->level = state.CheckField<unsigned>("level", 1u, index);
-    data->offset = state.CheckField<Nz::Vector2f>("offset", Nz::Vector2f {}, index);
     data->fight = state.CheckField<LivingEntityData::Fight>("fight", index);
-    data->blockTile = state.CheckField<bool>("blocktile", false, index);
 
 
     LuaArguments animArgs;
@@ -87,19 +87,6 @@ inline unsigned int LuaImplQueryArg(const LuaState& state, int index, LivingEnti
             data->damageData[e].resistance = state.CheckField<int>(elementToString(e), 0, -1);
 
     state.Pop();
-
-
-    Nz::MaterialRef charMat = Nz::Material::New();
-    charMat->Configure("Translucent2D");
-    charMat->EnableDepthSorting(true);
-    charMat->SetDiffuseMap(Nz::TextureLibrary::Get(state.CheckField<Nz::String>("texture", ":/game/unknown", index)));
-
-    auto size = state.CheckField<Nz::Vector2ui>("size", Nz::Vector2ui(charMat->GetDiffuseMap()->GetSize()), index);
-
-    data->sprite = Nz::Sprite::New(charMat);
-    data->sprite->SetMaterial(charMat, false);
-    data->sprite->SetTextureRect({ 0u, 0u, size.x, size.y });
-    data->sprite->SetSize(float(size.x), float(size.y));
 
     return 1;
 }

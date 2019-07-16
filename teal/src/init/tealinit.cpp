@@ -365,13 +365,13 @@ void loadCharacters(Ndk::WorldHandle world, Ndk::EntityList& characters)
         }
 
         CharacterData characterData = lua.CheckGlobal<CharacterData>("teal_character");
-        characterData.livingEntityData.codename = removeFileNameExtension(charactersDirectory.GetResultName());
+        characterData.livingEntityData.mapEntityData.codename = removeFileNameExtension(charactersDirectory.GetResultName());
 
         auto character = makeCharacter(world, characterData);
         character->Enable(false);
 
         characters.Insert(character);
-        NazaraNotice("Character " + characterData.livingEntityData.name + " loaded ! (" + characterData.livingEntityData.codename + ")");
+        NazaraNotice("Character " + characterData.livingEntityData.name + " loaded ! (" + characterData.livingEntityData.mapEntityData.codename + ")");
     }
 
     NazaraNotice(" --- ");
@@ -395,13 +395,13 @@ void loadMonsters(Ndk::WorldHandle world, Ndk::EntityList& monsters)
         }
 
         MonsterData monsterData = lua.CheckGlobal<MonsterData>("teal_monster");
-        monsterData.livingEntityData.codename = removeFileNameExtension(monstersDirectory.GetResultName());
+        monsterData.livingEntityData.mapEntityData.codename = removeFileNameExtension(monstersDirectory.GetResultName());
 
         auto monster = makeMonster(world, monsterData);
         monster->Enable(false);
 
         monsters.Insert(monster);
-        NazaraNotice("Monster " + monsterData.livingEntityData.name + " loaded ! (" + monsterData.livingEntityData.codename + ")");
+        NazaraNotice("Monster " + monsterData.livingEntityData.name + " loaded ! (" + monsterData.livingEntityData.mapEntityData.codename + ")");
     }
 
     NazaraNotice(" --- ");

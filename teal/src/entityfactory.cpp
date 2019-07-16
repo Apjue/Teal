@@ -10,7 +10,7 @@
 #include "util/util.hpp"
 #include "entityfactory.hpp"
 
-Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntityData& data)
+Ndk::EntityHandle makeMapEntity(const Ndk::WorldHandle& w, const MapEntityData& data)
 {
     Ndk::EntityHandle e = w->CreateEntity();
 
@@ -20,12 +20,23 @@ Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntity
     e->AddComponent<Ndk::NodeComponent>().SetPosition(data.offset.x, data.offset.y);
     e->AddComponent<GraphicsOffsetComponent>(data.offset);
     e->AddComponent<RenderablesStorageComponent>().sprites.push_back(data.sprite);
+
+    e->AddComponent<PositionComponent>(Nz::Vector2ui { 0u, 0u });
+    e->AddComponent<CloneComponent>().codename = data.codename;
+
+    if (data.blockTile)
+        e->AddComponent<BlockTileComponent>();
+
+    return e;
+}
+
+Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntityData& data)
+{
+    Ndk::EntityHandle e = makeMapEntity(w, data.mapEntityData);
     e->AddComponent<AnimationComponent>().animList = data.animations;
 
-    e->AddComponent<CloneComponent>().codename = data.codename;
     e->AddComponent<LifeComponent>().maxHp = data.maxHp;
 
-    e->AddComponent<PositionComponent>(Nz::Vector2ui { 1u, 1u });
     e->AddComponent<MoveComponent>();
     e->AddComponent<PathComponent>();
 
@@ -42,9 +53,6 @@ Ndk::EntityHandle makeLivingEntity(const Ndk::WorldHandle& w, const LivingEntity
     e->AddComponent<DamageModifierComponent>().data = data.damageData;
     e->AddComponent<EquipmentComponent>();
     e->AddComponent<LevelComponent>(data.level);
-
-    if (data.blockTile)
-        e->AddComponent<BlockTileComponent>();
 
     refreshGraphicsPos(e);
     return e;
