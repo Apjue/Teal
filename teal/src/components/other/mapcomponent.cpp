@@ -311,7 +311,7 @@ bool MapInstance::adjacentPassable(unsigned sX, unsigned sY, unsigned eX, unsign
         unsigned const tileindex = XYToIndex(eX, eY);
         auto& tile = getCurrentMap()->getTile(tileindex);
 
-        return tile.isWalkable();
+        return tile.isWalkable() && tile.isVisible();
     }
 }
 
