@@ -32,7 +32,7 @@ Converts Tiled maps to Teal map format. (CLI)
 ![Add tileset again](screenshots/tiled_add_tileset_again.png)
 
 * After having added every tilesets, let's add the correct layers. **Layers' names must NOT change !**
-* First of all, remove the default tile layer `Tile Layer 1`  
+* First of all, remove the default tile layer `Tile Layer 1` (or press F2 to rename it)  
 
 ![Remove default layer](screenshots/tiled_remove_default_layer.png)
 

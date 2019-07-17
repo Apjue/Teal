@@ -1,8 +1,10 @@
-﻿Inventory ; lukems-br ; http://opengameart.org/content/rpg-ui-icons-inventory-map-quests-spells-status
+Season Tiles ; formconstant ; https://opengameart.org/content/64x128-isometric-tiles-grassland-seasons
+Water Tile ; Yar ; https://opengameart.org/content/isometric-64x64-outside-tileset#
+Inventory ; lukems-br ; http://opengameart.org/content/rpg-ui-icons-inventory-map-quests-spells-status
 Villager ; Bleed ; https://opengameart.org/content/villager01-bleeds-game-art ; https://remusprites.carbonmade.com/
 Old Well ; Bleed ; https://opengameart.org/content/old-well-bleeds-game-art ; https://remusprites.carbonmade.com/
 Shield ; LordNeo ; http://opengameart.org/content/round-shield-64x64
 Longswords ; LordNeo ; https://opengameart.org/content/longsword-64x64
 Broadswords ; LordNeo ; https://opengameart.org/content/broadsword-64x64
-Spell/Inventory bar ("User Interface") ; SpaceHydra ; https://opengameart.org/content/user-interface-0
+Spell/Inventory bar ; SpaceHydra ; https://opengameart.org/content/user-interface-0
 Potion ; Ahkâm ; https://www.freeiconspng.com/img/15614

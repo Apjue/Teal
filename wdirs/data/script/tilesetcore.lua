@@ -1,13 +1,13 @@
-local concrete = 0
-local grass = concrete + 1
-local sand = grass + 1
-local water = sand + 1
+local stone = 0
+local grass = stone + 1
+local grass2 = grass + 1
+local grass3 = grass2 + 1
 
 teal_tileset_core = -- Indexes for the normal map tileset, modify this if the tileset changes
 {
     {
-        name = "cncrt",
-        index = concrete
+        name = "stone",
+        index = stone
     },
 
     {
@@ -16,13 +16,13 @@ teal_tileset_core = -- Indexes for the normal map tileset, modify this if the ti
     },
 
     {
-        name = "sandy",
-        index = sand
+        name = "grass2",
+        index = grass2
     },
 
     {
-        name = "water",
-        index = water
+        name = "grass3",
+        index = grass3
     },
 }
 
