@@ -591,8 +591,6 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             lua.Pop();
         }
 
-        map->updateOccupiedTiles();
-
         for (int i : monsterGroups)
         {
             lua.PushInteger(i);
@@ -654,6 +652,8 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             lua.Pop();
         }
         lua.Pop();
+
+        map->updateOccupiedTiles();
 
         MapDataLibrary::Register(mapXYToString(mapPos.x, mapPos.y), deactivateMapEntities(map));
         NazaraNotice("Map " + maps.GetResultName() + " loaded at pos " + mapXYToString(mapPos.x, mapPos.y));

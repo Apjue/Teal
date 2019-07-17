@@ -238,7 +238,6 @@ void GameState::enableEntities()
 {
     m_map->Enable();
     activateMapEntities(m_map->GetComponent<MapComponent>().map->getCurrentMap());
-    refreshOccupiedTiles();
 
     m_charac->Enable();
     refreshGraphicsPos(m_charac);
