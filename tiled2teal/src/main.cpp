@@ -58,25 +58,13 @@ int main()
             try
             {
                 Nz::String tex;
-                Nz::String ftex;
-                Nz::String inv;
-                Nz::String obs;
-                Nz::String spawn;
+                Nz::String flags;
 
                 std::cout << "Filepath of textures csv: " << std::flush;
                 std::getline(std::cin, tex);
 
-                std::cout << "Filepath of fight textures csv: " << std::flush;
-                std::getline(std::cin, ftex);
-
-                std::cout << "Filepath of invisibility layer csv: " << std::flush;
-                std::getline(std::cin, inv);
-
-                std::cout << "Filepath of obstacle layer csv: " << std::flush;
-                std::getline(std::cin, obs);
-
-                std::cout << "Filepath of spawn layer csv: " << std::flush;
-                std::getline(std::cin, spawn);
+                std::cout << "Filepath of flags csv: " << std::flush;
+                std::getline(std::cin, flags);
 
                 Nz::String teal;
                 Nz::String pos;
@@ -94,7 +82,7 @@ int main()
                     std::cout << "Wrong position. Format must be x;x" << std::endl;
 
                 else
-                    convertTiledMap(tex, ftex, inv, obs, spawn, teal, pos);
+                    convertTiledMap(tex, flags, teal, pos);
             }
 
             catch (const std::exception& e)
@@ -126,10 +114,7 @@ bool showMenu(std::ostream& out, std::istream& in)
             std::transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 
             if (choice == "n")
-            {
-                out << "Exiting..." << std::endl;
                 return false;
-            }
 
             else if (choice == "y")
                 ok = true;

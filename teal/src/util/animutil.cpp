@@ -5,7 +5,7 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include "components/characters/orientationcomponent.hpp"
 #include "components/characters/pathcomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/util/renderablesstoragecomponent.hpp"
 #include "def/gamedef.hpp"
 #include "def/systemdef.hpp"

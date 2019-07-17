@@ -7,12 +7,11 @@
 #ifndef TILEDATA_HPP
 #define TILEDATA_HPP
 
-#include <Nazara/Core/Flags.hpp>
-#include "util/underlyingtype.hpp"
+#include <Nazara/Core/String.hpp>
 
 enum class TileFlag
 {
-    NoFlag = 0,
+    NoFlag,
 
     Invisible,
 
@@ -20,46 +19,32 @@ enum class TileFlag
     BlockObstacle,
 
     RedSpawn,
-    BlueSpawn,
-
-    Max
+    BlueSpawn
 };
 
-namespace Nz
-{
-
-template<>
-struct EnumAsFlags<TileFlag>
-{
-    static constexpr bool value = true;
-    static constexpr int  max = toUnderlyingType<TileFlag>(TileFlag::Max);
-};
-
-}
-
-using TileFlags = Nz::Flags<TileFlag>;
-
+inline TileFlag stringToTileFlag(Nz::String string);
+inline Nz::String tileFlagToString(TileFlag flag);
 
 struct TileData
 {
     bool occupied {}; // Occupied by a NPC or monster
 
     unsigned textureId;
-    unsigned fightTextureId;
-
-    TileFlags flags { TileFlag::NoFlag };
+    TileFlag flag { TileFlag::NoFlag };
 
     // Utility functions
-    inline bool isVisible()  const { return !((flags & TileFlag::Invisible) == TileFlag::Invisible); }
+    inline bool isVisible() const;
 
-    inline bool isObstacle() const { return (flags & TileFlag::ViewObstacle) == TileFlag::ViewObstacle || (flags & TileFlag::BlockObstacle) == TileFlag::BlockObstacle; }
-        inline bool isViewObstacle() const { return (flags & TileFlag::ViewObstacle) == TileFlag::ViewObstacle; }
-        inline bool isBlockObstacle() const { return (flags & TileFlag::BlockObstacle) == TileFlag::BlockObstacle; }
-    inline bool isWalkable() const { return !isObstacle() && !occupied; }
+    inline bool isObstacle() const;
+    inline bool isViewObstacle() const;
+    inline bool isBlockObstacle() const;
+    inline bool isWalkable() const;
 
-    inline bool isSpawn()    const { return (flags & TileFlag::RedSpawn) == TileFlag::RedSpawn || (flags & TileFlag::BlueSpawn) == TileFlag::BlueSpawn; }
-        inline bool isRedSpawn() const { return (flags & TileFlag::RedSpawn) == TileFlag::RedSpawn; }
-        inline bool isBlueSpawn() const { return (flags & TileFlag::BlueSpawn) == TileFlag::BlueSpawn; }
+    inline bool isSpawn() const;
+    inline bool isRedSpawn() const;
+    inline bool isBlueSpawn() const;
 };
+
+#include "tiledata.inl"
 
 #endif // TILEDATA_HPP

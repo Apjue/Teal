@@ -26,14 +26,11 @@ void initTilesetCore()
     Nz::String scriptPrefix = "../data/script/";
     TealException(Nz::File::Exists(scriptPrefix + "tilesetcore.lua"), "tilesetcore.lua not found !");
 
+    Nz::LuaInstance lua;
+    TealException(lua.ExecuteFromFile(scriptPrefix + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
+
     {
-        Nz::LuaInstance lua;
-        TealException(lua.ExecuteFromFile(scriptPrefix + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
-
-        lua.GetGlobal("teal_tileset_core");
-        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_tileset_core isn't a table !");
-
-        unsigned tileNumber {};
+        TealException(lua.GetGlobal("teal_tileset_core") == Nz::LuaType_Table, "Lua: teal_tileset_core isn't a table !");
 
         for (int i { 1 };; ++i)
         {
@@ -46,41 +43,25 @@ void initTilesetCore()
             }
 
             m_tilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
-            ++tileNumber;
-
             lua.Pop();
         }
+
+        lua.Pop();
     }
 
     {
-        Nz::LuaInstance lua;
-        TealException(lua.ExecuteFromFile(scriptPrefix + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
+        TealException(lua.GetGlobal("teal_fight_tileset_core") == Nz::LuaType_Table, "Lua: teal_fight_tileset_core isn't a table !");
 
-        lua.GetGlobal("teal_fight_tileset_core");
-        TealException(lua.GetType(-1) == Nz::LuaType_Table, "Lua: teal_fight_tileset_core isn't a table !");
+        m_fightTilesetCore.add(lua.CheckField<unsigned>("walk"), "walk");
+        m_fightTilesetCore.add(lua.CheckField<unsigned>("empty"), "empty");
+        m_fightTilesetCore.add(lua.CheckField<unsigned>("red"), "red");
+        m_fightTilesetCore.add(lua.CheckField<unsigned>("blue"), "blue");
 
-        unsigned tileNumber {};
-
-        for (int i { 1 };; ++i)
-        {
-            lua.PushInteger(i);
-
-            if (lua.GetTable() != Nz::LuaType_Table)
-            {
-                lua.Pop();
-                break;
-            }
-
-            m_fightTilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
-            ++tileNumber;
-
-            lua.Pop();
-        }
+        lua.Pop();
     }
 }
 
-void convertTiledMap(const Nz::String& tex, const Nz::String& ftex, const Nz::String& inv, const Nz::String& obs, const Nz::String& spawn,
-                     const Nz::String& out, const Nz::String& pos)
+void convertTiledMap(const Nz::String& tex, const Nz::String& flags, const Nz::String& out, const Nz::String& pos)
 {
     constexpr unsigned tileArraySize = 120u;
     std::array<TileData, tileArraySize> map;
@@ -94,85 +75,48 @@ void convertTiledMap(const Nz::String& tex, const Nz::String& ftex, const Nz::St
     }
 
     {
-        auto array = parseCsv(ftex);
+        auto array = parseCsv(flags);
 
         for (unsigned i {}; i < array.size(); ++i)
-            if (array[i] != -1)
-                map[i].fightTextureId = array[i];
-    }
-
-    {
-        auto array = parseCsv(inv);
-
-        for (unsigned i {}; i < array.size(); ++i)
-            if (array[i] != -1)
-                map[i].flags |= TileFlag::Invisible;
-    }
-
-    {
-        auto array = parseCsv(obs);
-
-        for (unsigned i {}; i < array.size(); ++i)
+        {
             if (array[i] != -1)
             {
-                if (array[i] == 0)
-                    map[i].flags |= TileFlag::ViewObstacle;
+                Nz::String value = m_fightTilesetCore.get(array[i]);
+                TileFlag flag = TileFlag::NoFlag;
 
-                if (array[i] == 1)
-                    map[i].flags |= TileFlag::BlockObstacle;
+                if (value == "empty")
+                    flag = TileFlag::ViewObstacle;
+
+                if (value == "red")
+                    flag = TileFlag::RedSpawn;
+
+                if (value == "blue")
+                    flag = TileFlag::BlueSpawn;
+
+                map[i].flag = flag;
             }
-    }
 
-    {
-        auto array = parseCsv(spawn);
+            else
+                map[i].flag = TileFlag::Invisible;
+        }
 
-        for (unsigned i {}; i < array.size(); ++i)
-            if (array[i] != -1)
-            {
-                if (array[i] == 0)
-                    map[i].flags |= TileFlag::RedSpawn;
-
-                if (array[i] == 1)
-                    map[i].flags |= TileFlag::BlueSpawn;
-            }
     }
     
     Nz::File tealMap { out, Nz::OpenMode_WriteOnly | Nz::OpenMode_Truncate | Nz::OpenMode_Text };
 
     tealMap.Write("teal_map =\n{\n    pos = \"");
     tealMap.Write(pos);
-    tealMap.Write("\",\n    entities = {},\n");
+    tealMap.Write("\",\n    entities = {},\n\n");
 
     for (const TileData& tile : map)
     {
-        tealMap.Write("\n    {\n        textureId = \"");
-        tealMap.Write(m_tilesetCore.get(tile.textureId));
+        tealMap.Write("    { texId = \"");
+        tealMap.Write(tile.flag != TileFlag::Invisible ? m_tilesetCore.get(tile.textureId) : "");
 
-        tealMap.Write("\",\n        fightTextureId = \"");
-        tealMap.Write(m_fightTilesetCore.get(tile.fightTextureId));
+        tealMap.Write("\", flag = \"");
+        tealMap.Write(tileFlagToString(tile.flag));
 
-        tealMap.Write("\",\n        obstacle = ");
-
-        unsigned obstacle {};
-
-        if ((tile.flags & TileFlag::ViewObstacle) == TileFlag::ViewObstacle) obstacle = 1;
-        if ((tile.flags & TileFlag::BlockObstacle) == TileFlag::BlockObstacle) obstacle = 2;
-
-
-        tealMap.Write(Nz::String::Number(obstacle));
-        tealMap.Write(",\n        visible = ");
-        tealMap.Write(tile.isVisible() ? "true" : "false");
-
-
-        tealMap.Write(",\n        spawn = \"");
-
-        Nz::String spawn = "none";
-
-        if ((tile.flags & TileFlag::RedSpawn) == TileFlag::RedSpawn) spawn = "redspawn";
-        if ((tile.flags & TileFlag::BlueSpawn) == TileFlag::BlueSpawn) spawn = "bluespawn";
-
-        tealMap.Write(spawn);
-        tealMap.Write("\"\n    },\n");
+        tealMap.Write("\" },\n");
     }
 
     tealMap.Write("}");

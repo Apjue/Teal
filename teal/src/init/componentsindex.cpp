@@ -35,3 +35,4 @@ Ndk::ComponentIndex CloneComponent::componentIndex;
 Ndk::ComponentIndex GraphicalEntitiesComponent::componentIndex;
 Ndk::ComponentIndex RenderablesStorageComponent::componentIndex;
 Ndk::ComponentIndex StateComponent::componentIndex;
+Ndk::ComponentIndex MapObjectComponent::componentIndex;

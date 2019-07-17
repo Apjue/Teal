@@ -8,7 +8,7 @@
 #include <set>
 #include <iterator>
 #include "components/characters/pathcomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
 #include "components/characters/lifecomponent.hpp"

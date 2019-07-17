@@ -12,10 +12,13 @@
 #include "util/util.hpp"
 #include "util/mapposutil.hpp"
 #include "util/nzstlcompatibility.hpp"
+#include "components/shared/positioncomponent.hpp"
+#include "components/shared/blocktilecomponent.hpp"
+#include "components/other/mapobjectcomponent.hpp"
 #include "components/other/mapcomponent.hpp"
 
-MapInstance::MapInstance(const Ndk::EntityHandle& e)
-    : m_entity(e)
+MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityHandle& e)
+    : m_entity(e), m_fightTilesetCore(fightTilesetCore)
 {
     NazaraAssert(m_entity->GetWorld(), "World is null");
     m_world = m_entity->GetWorld()->CreateHandle();
@@ -109,7 +112,33 @@ MapInstance::MapInstance(const Ndk::EntityHandle& e)
 
 void MapInstance::update()
 {
+    //m_fightMode = true; /// TEST
     m_tilemap->SetMaterial(0, (m_fightMode ? m_fightTileset : m_tileset));
+
+    std::vector<unsigned> blockedTiles; // Map objects block these tiles
+
+    if (m_fightMode)
+        for (auto& e : getCurrentMap()->getGraphicalEntities()) // current map index only changes when entering into a house or something similar
+            if (e->HasComponent<MapObjectComponent>() && e->HasComponent<BlockTileComponent>()) // But NOT when switching to fight mode
+            {
+                e->Enable(false); /// BUG
+
+                auto& tiles = e->GetComponent<BlockTileComponent>().occupied;
+                auto& xy = e->GetComponent<PositionComponent>().xy;
+
+                if (tiles.empty())
+                    blockedTiles.push_back(XYToIndex(xy.x, xy.y));
+
+                else
+                    for (auto& tile : tiles)
+                    {
+                        bool ok = false;
+                        auto& resultTile = applyDiffTile(xy, tile, ok);
+
+                        if (ok)
+                            blockedTiles.push_back(XYToIndex(resultTile.x, resultTile.y));
+                    }
+            }
 
     for (unsigned i {}; i < Def::TileArraySize; ++i)
     {
@@ -118,7 +147,45 @@ void MapInstance::update()
 
         if (tile.isVisible())
         {
-            Nz::Rectui tileRect { (m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+            Nz::Rectui tileRect { 0u, 0u, Def::TileSizeX, Def::TileSizeY };
+
+            if (m_fightMode)
+            {
+                if (std::find(blockedTiles.begin(), blockedTiles.end(), i) != blockedTiles.end())
+                    tileRect.x = m_fightTilesetCore.get("empty") * Def::TileSizeX;
+
+                else
+                    switch (tile.flag)
+                    {
+                        case TileFlag::NoFlag:
+                            tileRect.x = m_fightTilesetCore.get("walk") * Def::TileSizeX;
+                            break;
+
+                        case TileFlag::Invisible:
+                            throw std::runtime_error { "Tile is visible but has Invisible flag!" };
+                            break;
+
+                        case TileFlag::ViewObstacle:
+                            tileRect.x = m_fightTilesetCore.get("empty") * Def::TileSizeX;
+                            break;
+
+                        case TileFlag::BlockObstacle:
+                            tileRect.x = m_fightTilesetCore.get("empty") * Def::TileSizeX;
+                            break;
+
+                        case TileFlag::RedSpawn:
+                            tileRect.x = m_fightTilesetCore.get("red") * Def::TileSizeX;
+                            break;
+
+                        case TileFlag::BlueSpawn:
+                            tileRect.x = m_fightTilesetCore.get("blue") * Def::TileSizeX;
+                            break;
+                    }
+            }
+
+            else
+                tileRect.x = tile.textureId * Def::TileSizeX;
+
             m_tilemap->EnableTile(tilePos, tileRect);
         }
 
@@ -131,6 +198,15 @@ void MapInstance::update()
 
 void MapInstance::updateBorders()
 {
+    if (m_fightMode)
+    {
+        m_borderEntity->Enable(false);
+        return;
+    }
+
+    else
+        m_borderEntity->Enable();
+
     for (unsigned i {}; i < m_leftBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];

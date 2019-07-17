@@ -9,7 +9,7 @@
 #include <Nazara/Lua/LuaInstance.hpp>
 #include <set>
 #include "components/characters/inventorycomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/inventorycomponent.hpp"
 #include "components/characters/randommovementcomponent.hpp"
 #include "components/characters/movecomponent.hpp"
@@ -51,7 +51,7 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
 
             auto& mapComponent = m_map->AddComponent<MapComponent>();
             mapComponent.init(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
-                              Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath());
+                              Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), gameData.fightTilesetCore);
 
             m_map->Enable(false);
             deactivateMapEntities(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)));
@@ -260,7 +260,9 @@ void GameState::initEventHandler()
         if (!m_mapArea.Contains(event.x, event.y) || m_paused || event.button != Nz::Mouse::Left)
             return;
 
-        Ndk::EntityList hoveredEntities = mapEntitiesHoveredByCursor({ event.x, event.y });
+        TealAssert(event.x >= 0 && event.y >= 0, "Nz::Rect::Contains doesn't work as expected...");
+
+        Ndk::EntityList hoveredEntities = mapEntitiesHoveredByCursor({ unsigned(event.x), unsigned(event.y) }); /// ?
 
         if (!hoveredEntities.empty())
         {
@@ -271,7 +273,7 @@ void GameState::initEventHandler()
                     std::cout << "todo: implement fight" << std::endl;
 
                     auto& move = m_charac->GetComponent<MoveComponent>();
-                    AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });
+                    AbsTile tile = getTileFromGlobalCoords({ unsigned(event.x), unsigned(event.y) });
 
                     move.tile = tile;
                     move.playerInitiated = true;
@@ -280,7 +282,7 @@ void GameState::initEventHandler()
                 else /// todo: if (isNPCEntity(...)) => dialog
                 {
                     auto& move = m_charac->GetComponent<MoveComponent>();
-                    AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });
+                    AbsTile tile = getTileFromGlobalCoords({ unsigned(event.x), unsigned(event.y) });
 
                     move.tile = tile;
                     move.playerInitiated = true;
@@ -291,7 +293,7 @@ void GameState::initEventHandler()
         else
         {
             auto& move = m_charac->GetComponent<MoveComponent>();
-            AbsTile tile = getTileFromGlobalCoords({ event.x, event.y });
+            AbsTile tile = getTileFromGlobalCoords({ unsigned(event.x), unsigned(event.y) });
 
             move.tile = tile;
             move.playerInitiated = true;
@@ -446,7 +448,6 @@ void GameState::addWidgets()
     {
         SpellBarWidget* spellBar = m_canvas->Add<SpellBarWidget>();
         LuaImplQueryArg(lua, -1, spellBar, Nz::TypeTag<SpellBarWidget> {});
-
 
         // Temporarily use spellbar as Inventory
         m_charac->GetComponent<InventoryComponent>().onItemAdded.Connect([spellBar] (Ndk::EntityHandle e) { spellBar->addEntity(e); });

@@ -10,7 +10,7 @@
 #include "util/aiutil.hpp"
 #include "util/assert.hpp"
 #include "util/util.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/randommovementcomponent.hpp"
 #include "components/characters/fightcomponent.hpp"

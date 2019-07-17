@@ -5,7 +5,7 @@
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include "components/characters/pathcomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/monstercomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
 #include "components/characters/lifecomponent.hpp"

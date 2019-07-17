@@ -148,6 +148,8 @@ void SpellBarWidget::updateSize()
 
     SetMinimumSize(size);
     SetPreferredSize(size);
+
+    Layout();
 }
 
 void SpellBarWidget::setFocusTexture(const Nz::TextureRef& texture)

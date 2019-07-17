@@ -3,54 +3,33 @@ local grass = concrete + 1
 local sand = grass + 1
 local water = sand + 1
 
-teal_tileset_core =
+teal_tileset_core = -- Indexes for the normal map tileset, modify this if the tileset changes
 {
-	{
-		name = "cncrt",
-		index = concrete
-	},
+    {
+        name = "cncrt",
+        index = concrete
+    },
 
-	{
-		name = "grass",
-		index = grass
-	},
+    {
+        name = "grass",
+        index = grass
+    },
 
-	{
-		name = "sandy",
-		index = sand
-	},
+    {
+        name = "sandy",
+        index = sand
+    },
 
-	{
-		name = "water",
-		index = water
-	},
+    {
+        name = "water",
+        index = water
+    },
 }
 
-local walk = 0 -- 0 must be walkable/non-obstacle
-local empty = walk + 1
--- local block = empty + 1
-local red =  empty + 1
-local blue = red + 1
-
-teal_fight_tileset_core =
-{
-	{
-		name = "walk",
-		index = walk
-	},
-
-	{
-		name = "empty",
-		index = empty
-	},
-
-	{
-		name = "red",
-		index = red
-	},
-
-	{
-		name = "blue",
-		index = blue
-	},
+teal_fight_tileset_core = -- Indexes for the fight tileset, internally used by the MapComponent
+{                         -- This must not be modified
+    walk = 0,
+    empty = 1,
+    red = 2,
+    blue = 3
 }

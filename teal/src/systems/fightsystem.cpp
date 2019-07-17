@@ -6,7 +6,7 @@
 #include "data/states.hpp"
 #include "components/characters/lifecomponent.hpp"
 #include "components/characters/fightcomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/animationcomponent.hpp"
 #include "components/shared/blocktilecomponent.hpp"
 #include "components/characters/equipmentcomponent.hpp"

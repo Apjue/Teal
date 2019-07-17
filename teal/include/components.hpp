@@ -14,6 +14,7 @@
 #include "components/shared/iconcomponent.hpp"
 #include "components/shared/levelcomponent.hpp"
 #include "components/shared/namecomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/shared/statecomponent.hpp"
 
 // Characters
@@ -27,7 +28,6 @@
 #include "components/characters/movecomponent.hpp"
 #include "components/characters/orientationcomponent.hpp"
 #include "components/characters/pathcomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
 #include "components/characters/randommovementcomponent.hpp"
 
 // Items
@@ -45,6 +45,7 @@
 
 // Other
 #include "components/other/mapcomponent.hpp"
+#include "components/other/mapobjectcomponent.hpp"
 #include "components/other/monstergroupcomponent.hpp"
 
 #endif // COMPONENTS_HPP

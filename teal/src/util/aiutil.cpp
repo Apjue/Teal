@@ -4,7 +4,7 @@
 
 #include <Nazara/Core/Error.hpp>
 #include <vector>
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/movecomponent.hpp"
 #include "components/other/mapcomponent.hpp"
 #include "util/maputil.hpp"

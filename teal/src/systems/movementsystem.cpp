@@ -2,7 +2,7 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/pathcomponent.hpp"
 #include "components/characters/orientationcomponent.hpp"
 #include "components/characters/fightcomponent.hpp"

@@ -2,8 +2,8 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-inline MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset, const Ndk::EntityHandle& e)
-    : MapInstance(e)
+inline MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset, const TilesetCore& fightTilesetCore, const Ndk::EntityHandle& e)
+    : MapInstance(fightTilesetCore, e)
 {
     m_maps[0] = data;
 

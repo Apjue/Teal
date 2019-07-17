@@ -5,7 +5,7 @@
 #include <NDK/Components/NodeComponent.hpp>
 #include <memory>
 #include "components/shared/blocktilecomponent.hpp"
-#include "components/characters/positioncomponent.hpp"
+#include "components/shared/positioncomponent.hpp"
 #include "components/characters/orientationcomponent.hpp"
 #include "components/util/renderablesstoragecomponent.hpp"
 #include "containers/tilesetcore.hpp"

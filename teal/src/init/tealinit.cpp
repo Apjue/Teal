@@ -46,7 +46,7 @@ void initializeTeal(GameData& data)
 
     TealInitDetail::loadTextures();
     TealInitDetail::loadNazara();
-    TealInitDetail::initSchemeUtility();
+    initializeSchemeUtility(Nz::Image::LoadFromFile(Nz::TextureLibrary::Get(":/game/scheme")->GetFilePath()));
     TealInitDetail::loadTilesetCore(data.tilesetCore, data.fightTilesetCore);
 
     TealInitDetail::loadStatesMetaData(*data.states);
@@ -148,6 +148,7 @@ void loadNazara()
     Ndk::InitializeComponent<GraphicalEntitiesComponent>("gfxptr");     //Ndk::LuaAPI::GetBinding()->BindComponent<GraphicalEntitiesComponent>("GraphicalEntitiesComponent");
     Ndk::InitializeComponent<RenderablesStorageComponent>("fuckrtti");  //Ndk::LuaAPI::GetBinding()->BindComponent<RenderablesStorageComponent>("RenderablesStorageComponent");
     Ndk::InitializeComponent<StateComponent>("feelsbad");               Ndk::LuaAPI::GetBinding()->BindComponent<StateComponent>("StateComponent");
+    Ndk::InitializeComponent<MapObjectComponent>("mapobjct");           //Ndk::LuaAPI::GetBinding()->BindComponent<MapObjectComponent>("MapObjectComponent");
 
     Ndk::InitializeComponent<HPGainComponent>("hpgain");                Ndk::LuaAPI::GetBinding()->BindComponent<HPGainComponent>("HPGainComponent");
     Ndk::InitializeComponent<ItemComponent>("item");                    //Ndk::LuaAPI::GetBinding()->BindComponent<ItemComponent>("ItemComponent");
@@ -162,21 +163,14 @@ void loadNazara()
     Ndk::InitializeSystem<FightSystem>();
 }
 
-void initSchemeUtility()
-{
-    Nz::ImageRef scheme = Nz::Image::New();
-    scheme->LoadFromFile(Nz::TextureLibrary::Get(":/game/scheme")->GetFilePath());
-
-    initializeSchemeUtility(scheme);
-}
-
 void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
 {
     TealException(Nz::File::Exists(Def::ScriptFolder + "tilesetcore.lua"), "tilesetcore.lua not found !");
 
+    Nz::LuaInstance lua;
+    TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
+
     {
-        Nz::LuaInstance lua;
-        TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
         TealException(lua.GetGlobal("teal_tileset_core") == Nz::LuaType_Table, "Lua: teal_tileset_core isn't a table !");
 
         for (int i { 1 };; ++i)
@@ -192,26 +186,19 @@ void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore)
             tilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
             lua.Pop();
         }
+
+        lua.Pop();
     }
 
     {
-        Nz::LuaInstance lua;
-        TealException(lua.ExecuteFromFile(Def::ScriptFolder + "tilesetcore.lua"), "Lua: tilesetcore.lua loading failed !");
         TealException(lua.GetGlobal("teal_fight_tileset_core") == Nz::LuaType_Table, "Lua: teal_fight_tileset_core isn't a table !");
 
-        for (int i { 1 };; ++i)
-        {
-            lua.PushInteger(i);
+        fightTilesetCore.add(lua.CheckField<unsigned>("walk"), "walk");
+        fightTilesetCore.add(lua.CheckField<unsigned>("empty"), "empty");
+        fightTilesetCore.add(lua.CheckField<unsigned>("red"), "red");
+        fightTilesetCore.add(lua.CheckField<unsigned>("blue"), "blue");
 
-            if (lua.GetTable() != Nz::LuaType_Table)
-            {
-                lua.Pop();
-                break;
-            }
-
-            fightTilesetCore.add(lua.CheckField<unsigned>("index"), lua.CheckField<Nz::String>("name"));
-            lua.Pop();
-        }
+        lua.Pop();
     }
 
     NazaraNotice("Loaded Tileset Core");
@@ -456,6 +443,7 @@ void loadMapObjects(Ndk::WorldHandle world, Ndk::EntityList& mapObjects)
         data.codename = removeFileNameExtension(mapObjectsDirectory.GetResultName());
 
         Ndk::EntityHandle mapObject = makeMapEntity(world, data);
+        mapObject->AddComponent<MapObjectComponent>();
 
         mapObject->Enable(false);
         mapObjects.Insert(mapObject);
@@ -496,28 +484,10 @@ void loadMaps(Ndk::WorldHandle world, const GameData& gameData)
                 lua.PushInteger(i);
                 lua.GetTable();
 
-                TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map[" } + i + "] isn't a table !");
+                TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map[" } +Nz::String::Number(i) + "] isn't a table !");
 
-                tiles[i - 1].textureId = gameData.tilesetCore.get(lua.CheckField<Nz::String>("textureId"));
-                tiles[i - 1].fightTextureId = gameData.fightTilesetCore.get(lua.CheckField<Nz::String>("fightTextureId"));
-
-                unsigned obstacle = lua.CheckField<unsigned>("obstacle");
-
-                switch (obstacle)
-                {
-                    case 1:
-                        tiles[i - 1].flags |= TileFlag::ViewObstacle;
-                        break;
-
-                    case 2:
-                        tiles[i - 1].flags |= TileFlag::BlockObstacle;
-                        break;
-                }
-
-                bool visible = lua.CheckField<bool>("visible");
-
-                if (!visible)
-                    tiles[i - 1].flags |= TileFlag::Invisible;
+                tiles[i - 1].flag = stringToTileFlag(lua.CheckField<Nz::String>("flag", "none", -1));
+                tiles[i - 1].textureId = (tiles[i - 1].flag != TileFlag::Invisible ? gameData.tilesetCore.get(lua.CheckField<Nz::String>("texId")) : 0);
 
                 lua.Pop();
             }
@@ -704,11 +674,10 @@ void loadMaps(Ndk::WorldHandle world, const GameData& gameData)
 
 void addIcon(Nz::RenderWindow& window)
 {
-    Nz::Image iconImage;
-    iconImage.LoadFromFile(Nz::TextureLibrary::Get(":/game/money")->GetFilePath());
+    Nz::ImageRef iconImage = Nz::Image::LoadFromFile(Nz::TextureLibrary::Get(":/game/money")->GetFilePath());
 
     Nz::IconRef winIcon = Nz::Icon::New();
-    winIcon->Create(iconImage);
+    winIcon->Create(*iconImage);
 
     window.SetIcon(winIcon);
 }
@@ -724,7 +693,7 @@ void addCam(Ndk::WorldHandle world, Nz::RenderWindow& window)
 
     auto& rendersys = world->GetSystem<Ndk::RenderSystem>();
     rendersys.SetGlobalUp(Nz::Vector3f::Down());
-    rendersys.SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
+    rendersys.SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::Black));
 }
 
 }

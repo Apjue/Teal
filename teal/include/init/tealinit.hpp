@@ -20,7 +20,6 @@ namespace TealInitDetail
 // Init Functions
 void loadTextures();
 void loadNazara();
-void initSchemeUtility();
 void loadTilesetCore(TilesetCore& tilesetCore, TilesetCore& fightTilesetCore);
 
 void loadStatesMetaData(StateMDStore& states);
