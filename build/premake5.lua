@@ -105,7 +105,7 @@ workspace "Teal"
             defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
 
         filter "configurations:Debug"
-            defines { "TEAL_DEBUG", "NAZARA_DEBUG" }
+            defines { "TEAL_DEBUG", "NAZARA_DEBUG", "TEAL_SAFE" }
             targetname "Teal-debug"
             links { "NazaraAudio-d", "NazaraNetwork-d", "NazaraNoise-d", "NazaraPhysics2D-d", "NazaraPhysics3D-d", "NazaraCore-d", "NazaraGraphics-d", "NazaraRenderer-d", "NazaraUtility-d", "NazaraSDK-d", "NazaraLua-d", "NazaraPlatform-d", "micropather-d" }
             symbols "on"
@@ -153,7 +153,7 @@ workspace "Teal"
             defines { "_CRT_SECURE_NO_WARNINGS", "_SCL_SECURE_NO_WARNINGS" } -- Used to suppress some errors
 
         filter "configurations:Debug"
-            defines { "T2T_DEBUG", "NAZARA_DEBUG" }
+            defines { "T2T_DEBUG", "NAZARA_DEBUG", "TEAL_SAFE" }
             links { "NazaraCore-d", "NazaraLua-d" }
             targetname "Tiled2Teal-debug"
             symbols "on"
