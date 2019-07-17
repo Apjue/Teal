@@ -14,8 +14,8 @@
 #include "util/nzstlcompatibility.hpp"
 #include "components/other/mapcomponent.hpp"
 
-MapInstance::MapInstance(const TilesetCore* tcore, const TilesetCore* ftcore, const Ndk::EntityHandle& e)
-    : m_entity(e), m_tilesetCore(tcore), m_fightTilesetCore(ftcore)
+MapInstance::MapInstance(const Ndk::EntityHandle& e)
+    : m_entity(e)
 {
     NazaraAssert(m_entity->GetWorld(), "World is null");
     m_world = m_entity->GetWorld()->CreateHandle();
@@ -39,9 +39,6 @@ MapInstance::MapInstance(const TilesetCore* tcore, const TilesetCore* ftcore, co
         m_fightTileset->EnableFaceCulling(true);
         m_fightTileset->SetFaceFilling(Nz::FaceFilling_Fill);
 
-        m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { float(Def::TileSizeX), float(Def::TileSizeY) });
-        m_tilemap->EnableIsometricMode(true);
-
         auto fightMatSampler = m_fightTileset->GetDiffuseSampler();
         fightMatSampler.SetFilterMode(Nz::SamplerFilter_Nearest);
         m_fightTileset->SetDiffuseSampler(fightMatSampler);
@@ -55,6 +52,9 @@ MapInstance::MapInstance(const TilesetCore* tcore, const TilesetCore* ftcore, co
         if (!m_entity->HasComponent<Ndk::GraphicsComponent>())
             m_entity->AddComponent<Ndk::GraphicsComponent>();
     }
+
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { float(Def::TileSizeX), float(Def::TileSizeY) });
+    m_tilemap->EnableIsometricMode(true);
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
     graphicsComponent.Attach(m_tilemap, Def::MapLayer);
@@ -109,13 +109,7 @@ MapInstance::MapInstance(const TilesetCore* tcore, const TilesetCore* ftcore, co
 
 void MapInstance::update()
 {
-    TealAssert(m_tilesetCore, "TilesetCore nullptr !");
-    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
-
-    const TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
-    Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
-
-    m_tilemap->SetMaterial(0, material);
+    m_tilemap->SetMaterial(0, (m_fightMode ? m_fightTileset : m_tileset));
 
     for (unsigned i {}; i < Def::TileArraySize; ++i)
     {
@@ -124,7 +118,7 @@ void MapInstance::update()
 
         if (tile.isVisible())
         {
-            Nz::Rectui tileRect { tcore->get(m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+            Nz::Rectui tileRect { (m_fightMode ? tile.fightTextureId : tile.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
             m_tilemap->EnableTile(tilePos, tileRect);
         }
 
@@ -137,12 +131,6 @@ void MapInstance::update()
 
 void MapInstance::updateBorders()
 {
-    TealAssert(m_tilesetCore, "TilesetCore nullptr !");
-    TealAssert(m_fightTilesetCore, "Fight TilesetCore nullptr !");
-
-    const TilesetCore* tcore = (m_fightMode ? m_fightTilesetCore : m_tilesetCore);
-    Nz::MaterialRef material = (m_fightMode ? m_fightTileset : m_tileset);
-
     for (unsigned i {}; i < m_leftBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];
@@ -153,7 +141,7 @@ void MapInstance::updateBorders()
 
         else
         {
-            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+            Nz::Rectui tileRect { tileData.textureId * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
             sprite->SetMaterial(m_tileset, false);
             sprite->SetTextureRect(tileRect);
@@ -170,7 +158,7 @@ void MapInstance::updateBorders()
 
         else
         {
-            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+            Nz::Rectui tileRect { tileData.textureId * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
             sprite->SetMaterial(m_tileset, false);
             sprite->SetTextureRect(tileRect);
@@ -187,7 +175,7 @@ void MapInstance::updateBorders()
 
         else
         {
-            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
+            Nz::Rectui tileRect { tileData.textureId * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY };
 
             sprite->SetMaterial(m_tileset, false);
             sprite->SetTextureRect(tileRect);
@@ -204,7 +192,7 @@ void MapInstance::updateBorders()
 
         else
         {
-            Nz::Rectui tileRect { tcore->get(tileData.textureId) * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY / 2 };
+            Nz::Rectui tileRect { tileData.textureId * Def::TileSizeX, 0u, Def::TileSizeX, Def::TileSizeY / 2 };
 
             sprite->SetMaterial(m_tileset, false);
             sprite->SetTextureRect(tileRect);

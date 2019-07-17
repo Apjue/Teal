@@ -7,7 +7,6 @@
 #ifndef TILEDATA_HPP
 #define TILEDATA_HPP
 
-#include <Nazara/Core/String.hpp>
 #include <Nazara/Core/Flags.hpp>
 #include "util/underlyingtype.hpp"
 
@@ -45,8 +44,8 @@ struct TileData
 {
     bool occupied {}; // Occupied by a NPC or monster
 
-    Nz::String textureId;
-    Nz::String fightTextureId;
+    unsigned textureId;
+    unsigned fightTextureId;
 
     TileFlags flags { TileFlag::NoFlag };
 

@@ -2,12 +2,10 @@
 // This file is part of the Teal project.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-inline MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
-                                const TilesetCore* tcore, const TilesetCore* ftcore, const Ndk::EntityHandle& e)
-    : MapInstance(tcore, ftcore, e)
+inline MapInstance::MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset, const Ndk::EntityHandle& e)
+    : MapInstance(e)
 {
     m_maps[0] = data;
-
 
     if (!m_tileset->SetDiffuseMap(tileset))
         NazaraError("Error: Map Material SetDiffuseMap failed !");

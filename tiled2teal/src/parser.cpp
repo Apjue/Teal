@@ -90,7 +90,7 @@ void convertTiledMap(const Nz::String& tex, const Nz::String& ftex, const Nz::St
 
         for (unsigned i {}; i < array.size(); ++i)
             if (array[i] != -1)
-                map[i].textureId = m_tilesetCore.get(array[i]);
+                map[i].textureId = array[i];
     }
 
     {
@@ -98,7 +98,7 @@ void convertTiledMap(const Nz::String& tex, const Nz::String& ftex, const Nz::St
 
         for (unsigned i {}; i < array.size(); ++i)
             if (array[i] != -1)
-                map[i].fightTextureId = m_fightTilesetCore.get(array[i]);
+                map[i].fightTextureId = array[i];
     }
 
     {
@@ -146,10 +146,10 @@ void convertTiledMap(const Nz::String& tex, const Nz::String& ftex, const Nz::St
     for (const TileData& tile : map)
     {
         tealMap.Write("\n    {\n        textureId = \"");
-        tealMap.Write(tile.textureId);
+        tealMap.Write(m_tilesetCore.get(tile.textureId));
 
         tealMap.Write("\",\n        fightTextureId = \"");
-        tealMap.Write(tile.fightTextureId);
+        tealMap.Write(m_fightTilesetCore.get(tile.fightTextureId));
 
         tealMap.Write("\",\n        obstacle = ");
 

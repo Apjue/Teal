@@ -36,9 +36,8 @@ class MapInstance : public micropather::Graph
     static const unsigned s_borderTilesNumberY { Def::MapY / 2 + 2u };
 
 public:
-    MapInstance(const TilesetCore* tcore, const TilesetCore* ftcore, const Ndk::EntityHandle& e);
-    inline MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset,
-                       const TilesetCore* tcore, const TilesetCore* ftcore, const Ndk::EntityHandle& e);
+    MapInstance(const Ndk::EntityHandle& e);
+    inline MapInstance(const MapDataRef& data, const Nz::String& tileset, const Nz::String& fightTileset, const Ndk::EntityHandle& e);
 
     MapInstance(const MapInstance&) = default;
     MapInstance& operator=(const MapInstance&) = default;
@@ -73,8 +72,6 @@ private:
     Nz::MaterialRef m_fightTileset;
     Nz::TileMapRef m_tilemap;
 
-    const TilesetCore* m_tilesetCore {}; // Used to convert tile string to tile number
-    const TilesetCore* m_fightTilesetCore {};
     bool m_fightMode {};
 
     Ndk::EntityHandle m_borderEntity;

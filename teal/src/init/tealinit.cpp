@@ -56,7 +56,7 @@ void initializeTeal(GameData& data)
     TealInitDetail::loadMonsters(data.world, data.monsters);
     TealInitDetail::loadItems(data.world, data.items, *data.skills);
     TealInitDetail::loadMapObjects(data.world, data.mapObjects);
-    TealInitDetail::loadMaps(data.world, data.characters, data.items, data.monsters, data.mapObjects);
+    TealInitDetail::loadMaps(data.world, data);
 
     TealInitDetail::addIcon(*data.window);
     TealInitDetail::addCam(data.world, *data.window);
@@ -466,7 +466,7 @@ void loadMapObjects(Ndk::WorldHandle world, Ndk::EntityList& mapObjects)
     NazaraNotice(" --- ");
 }
 
-void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const Ndk::EntityList& items, const Ndk::EntityList& monsters, const Ndk::EntityList& mapObjects)
+void loadMaps(Ndk::WorldHandle world, const GameData& gameData)
 {
     Nz::Directory maps { Def::MapFolder };
     maps.SetPattern("*.lua");
@@ -498,8 +498,8 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
                 TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map[" } + i + "] isn't a table !");
 
-                tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
-                tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
+                tiles[i - 1].textureId = gameData.tilesetCore.get(lua.CheckField<Nz::String>("textureId"));
+                tiles[i - 1].fightTextureId = gameData.fightTilesetCore.get(lua.CheckField<Nz::String>("fightTextureId"));
 
                 unsigned obstacle = lua.CheckField<unsigned>("obstacle");
 
@@ -548,7 +548,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             if (type == "character")
             {
                 Nz::String codename = lua.CheckField<Nz::String>("codename");
-                Ndk::EntityHandle e = cloneCharacter(characters, codename);
+                Ndk::EntityHandle e = cloneCharacter(gameData.characters, codename);
 
                 if (e.IsValid())
                 {
@@ -582,7 +582,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             else if (type == "item")
             {
                 Nz::String codename = lua.CheckField<Nz::String>("codename");
-                Ndk::EntityHandle e = cloneItem(items, codename);
+                Ndk::EntityHandle e = cloneItem(gameData.items, codename);
 
                 if (e.IsValid())
                 {
@@ -596,7 +596,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             else if (type == "map_object")
             {
                 Nz::String codename = lua.CheckField<Nz::String>("codename");
-                Ndk::EntityHandle e = cloneMapObject(mapObjects, codename);
+                Ndk::EntityHandle e = cloneMapObject(gameData.mapObjects, codename);
 
                 if (e.IsValid())
                 {
@@ -659,7 +659,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
 
                     Nz::String codename = lua.CheckField<Nz::String>("codename");
-                    Ndk::EntityHandle e = cloneMonster(monsters, codename, monsterGroup);
+                    Ndk::EntityHandle e = cloneMonster(gameData.monsters, codename, monsterGroup);
 
                     if (e.IsValid())
                     {

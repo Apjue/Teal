@@ -51,7 +51,7 @@ GameState::GameState(GameData& gameData, const Nz::Vector2ui& mapArea)
 
             auto& mapComponent = m_map->AddComponent<MapComponent>();
             mapComponent.init(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)), Nz::TextureLibrary::Get(":/game/tileset")->GetFilePath(),
-                              Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath(), &m_tilesetCore, &m_fightTilesetCore);
+                              Nz::TextureLibrary::Get(":/game/fight_tileset")->GetFilePath());
 
             m_map->Enable(false);
             deactivateMapEntities(MapDataLibrary::Get(mapXYToString(mapPos.x, mapPos.y)));
