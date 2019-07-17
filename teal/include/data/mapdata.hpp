@@ -34,8 +34,8 @@ class MapData : public Nz::RefCounted, public Nz::Resource
 public:
 
     MapData() = default;
-    ~MapData() = default;
     MapData(const TileArray& tiles_);
+    ~MapData() = default;
 
     MapData(MapData&&) = default;
     MapData& operator=(MapData&&) = default;
@@ -73,17 +73,6 @@ private:
 
     static MapDataLibrary::LibraryMap s_library;
 };
-
-#include <Nazara/Lua/LuaState.hpp>
-#include <NDK/LuaAPI.hpp>
-
-namespace Nz
-{
-
-extern unsigned int LuaImplQueryArg(const LuaState& state, int index, MapDataRef* mapRef, TypeTag<MapDataRef>);
-//extern int LuaImplReplyVal(const LuaState& state, MapDataRef&& mapRef, TypeTag<MapDataRef>);
-
-} // namespace Nz
 
 #include "mapdata.inl"
 

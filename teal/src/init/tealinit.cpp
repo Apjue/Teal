@@ -485,11 +485,50 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
 
         // Fun starts
         TealException(lua.GetGlobal("teal_map") == Nz::LuaType_Table, "Lua: teal_map isn't a table !");
+        MapDataRef map = MapData::New();
 
-        MapDataRef map;
-        LuaImplQueryArg(lua, -1, &map, Nz::TypeTag<MapDataRef>());
+        // Load map
+        {
+            TileArray tiles;
+
+            for (int i { 1 }; i <= Def::TileArraySize; ++i)
+            {
+                lua.PushInteger(i);
+                lua.GetTable();
+
+                TealException(lua.GetType(-1) == Nz::LuaType_Table, Nz::String { "Lua: teal_map[" } + i + "] isn't a table !");
+
+                tiles[i - 1].textureId = lua.CheckField<Nz::String>("textureId");
+                tiles[i - 1].fightTextureId = lua.CheckField<Nz::String>("fightTextureId");
+
+                unsigned obstacle = lua.CheckField<unsigned>("obstacle");
+
+                switch (obstacle)
+                {
+                    case 1:
+                        tiles[i - 1].flags |= TileFlag::ViewObstacle;
+                        break;
+
+                    case 2:
+                        tiles[i - 1].flags |= TileFlag::BlockObstacle;
+                        break;
+                }
+
+                bool visible = lua.CheckField<bool>("visible");
+
+                if (!visible)
+                    tiles[i - 1].flags |= TileFlag::Invisible;
+
+                lua.Pop();
+            }
+
+            map->setTiles(tiles);
+            map->setPosition(toVector2(stringToMapXY(lua.CheckField<Nz::String>("pos"))));
+        }
+
         const Nz::Vector2i& mapPos = map->getPosition();
 
+        // Load map entities
         TealException(lua.GetField("entities") == Nz::LuaType_Table, "Lua: teal_map.entities isn't a table !");
         std::vector<int> monsterGroups;
 
@@ -652,6 +691,7 @@ void loadMaps(Ndk::WorldHandle world, const Ndk::EntityList& characters, const N
             lua.Pop();
         }
         lua.Pop();
+
 
         map->updateOccupiedTiles();
 
