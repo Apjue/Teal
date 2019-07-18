@@ -105,8 +105,5 @@ inline AbsTile applyDiffTile(AbsTile from, DiffTile diff, bool& ok)
 
 inline bool isPositionValid(AbsTile pos)
 {
-    if (pos.x > Def::ArrayMapX || pos.y > Def::ArrayMapY)
-        return false;
-
     return (isLineEven(pos.y) ? pos.x <= Def::MapX : pos.x < Def::MapX) && pos.y <= Def::ArrayMapY;
 }

@@ -77,7 +77,7 @@ extern void clearPatherCache();
 extern const MapInstance* getCurrentMap();
 extern const micropather::MicroPather* getPather();
 
-extern std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start);
+extern std::vector<AbsTile> directionsToPositions(const PathComponent::PathPool& directions, AbsTile start);
 
 
 struct GetVisibleTilesArgs // Optional parameters

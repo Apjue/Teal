@@ -56,8 +56,8 @@ MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityH
             m_entity->AddComponent<Ndk::GraphicsComponent>();
     }
 
-    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::MapX + 1, Def::MapY + 2 }, Nz::Vector2f { float(Def::TileSizeX), float(Def::TileSizeY) });
-    m_tilemap->EnableIsometricMode(true);
+    m_tilemap = Nz::TileMap::New(Nz::Vector2ui { Def::ArrayMapX, Def::ArrayMapY + 1 }, Nz::Vector2f { float(Def::TileSizeX), float(Def::TileSizeY) });
+    m_tilemap->EnableIsometricMode(true);                                  // ^ + 1 because of stagger axis things...
 
     auto& graphicsComponent = m_entity->GetComponent<Ndk::GraphicsComponent>();
     graphicsComponent.Attach(m_tilemap, Def::MapLayer);
@@ -78,7 +78,7 @@ MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityH
             sprite = Nz::Sprite::New();
 
             sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY));
-            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, float(i * Def::TileSizeY), 0.f }), Def::MapLayer);
+            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { 0.f, float(i * Def::TileSizeY), 0.f }), Def::MapBordersLayer);
         }
 
         for (unsigned i {}; i < m_rightBorder.size(); ++i)
@@ -87,7 +87,7 @@ MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityH
             sprite = Nz::Sprite::New();
 
             sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY));
-            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(Def::MapSizeX), float(i * Def::TileSizeY), 0.f }), Def::MapLayer);
+            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(Def::MapSizeX), float(i * Def::TileSizeY), 0.f }), Def::MapBordersLayer);
         }
 
         for (unsigned i {}; i < m_upBorder.size(); ++i)
@@ -96,7 +96,7 @@ MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityH
             sprite = Nz::Sprite::New();
 
             sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY));
-            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(i * Def::TileSizeX + Def::TileSizeX), 0.f, 0.f }), Def::MapLayer);
+            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(i * Def::TileSizeX + Def::TileSizeX), 0.f, 0.f }), Def::MapBordersLayer);
         }
 
         for (unsigned i {}; i < m_downBorder.size(); ++i)
@@ -105,7 +105,7 @@ MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityH
             sprite = Nz::Sprite::New();
 
             sprite->SetSize(float(Def::TileSizeX), float(Def::TileSizeY / 2));
-            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(i * Def::TileSizeX + Def::TileSizeX / 2), float(Def::MapSizeY), 0.f }), Def::MapLayer);
+            borderGfx.Attach(sprite, Nz::Matrix4f::Translate(Nz::Vector3f { float(i * Def::TileSizeX + Def::TileSizeX / 2), float(Def::MapSizeY), 0.f }), Def::MapBordersLayer);
         }
     }
 }

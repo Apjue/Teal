@@ -10,7 +10,8 @@
 namespace Def
 {
 
-constexpr int MapLayer { 0 };
+constexpr int MapBordersLayer { -1 };
+constexpr int MapLayer { MapBordersLayer + 1 };
 constexpr int MapItemsLayer { MapLayer + 1 }; // Items on the ground
 constexpr int CharactersLayer { MapItemsLayer + 1 }; // Player, NPCs, and also Map Objects
 constexpr int EquippedItemsLayer { CharactersLayer + 1 }; // Items equipped by the character, in the map

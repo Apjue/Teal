@@ -32,7 +32,7 @@
 class MapInstance : public micropather::Graph
 {
     static const unsigned s_borderTilesNumberX { Def::MapX };
-    static const unsigned s_downBorderTilesNumber { s_borderTilesNumberX % 2 == 0 ? s_borderTilesNumberX : s_borderTilesNumberX + 1 };
+    static const unsigned s_downBorderTilesNumber { s_borderTilesNumberX + 1 };
     static const unsigned s_borderTilesNumberY { Def::MapY / 2 + 2u };
 
 public:

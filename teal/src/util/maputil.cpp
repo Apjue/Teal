@@ -252,13 +252,12 @@ const micropather::MicroPather* getPather()
     return m_pather;
 }
 
-std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, AbsTile start)
+std::vector<AbsTile> directionsToPositions(const PathComponent::PathPool& directions, AbsTile start)
 {
     std::vector<AbsTile> positions;
 
-    while (!directions.empty())
+    for (auto& dir : directions)
     {
-        auto& dir = directions.front();
         DiffTile xy = DirToXY(dir, isLineEven(start.y));
 
         TealAssert(xy.x >= 0 || int(start.x) >= -xy.x, "Imminent underflow");
@@ -268,7 +267,6 @@ std::vector<AbsTile> directionsToPositions(PathComponent::PathPool directions, A
         start.y += xy.y;
 
         positions.push_back(start);
-        directions.erase(directions.begin());
     }
 
     return positions;

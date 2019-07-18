@@ -58,7 +58,7 @@ void cloneRenderables(Ndk::GraphicsComponent& gfx, RenderablesStorageComponent& 
 
 AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
 {
-    TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, setScheme() must be used !");
+    TealAssert(m_scheme.IsValid(), "Scheme Ref isn't valid, initializeSchemeUtility() must be used !");
     TealAssert(m_scheme->IsValid(), "Scheme Image isn't valid !");
 
     unsigned const x { coords.x }, y { coords.y };
@@ -102,19 +102,24 @@ AbsTile getTileFromGlobalCoords(const Nz::Vector2ui& coords)
         losangeY += even ? Def::MapDistanceEvenY[toUnderlyingType(orientation)] : Def::MapDistanceEvenY[toUnderlyingType(orientation)];
     }
 
+    
+    if (losangeY > int(Def::ArrayMapY))
+    {
+        losangeY = Def::ArrayMapY;
+        losangeX = (rectX == 0 ? rectX : rectX - 1);
+        losangeX = (rectX != 0 && rectClickX > (Def::TileSizeX / 2) && losangeX < (Def::MapX - 1) ? losangeX + 1 : losangeX);
+    }
 
-    // If the tile is negative:
-    losangeX = (losangeX < 0) ? 0 : losangeX;
-    losangeY = (losangeY < 0) ? 0 : losangeY;
+    else if (losangeX < 0 || losangeY < 0 || !isPositionValid({ unsigned(losangeX), unsigned(losangeY) }))
+    {
+        losangeX = rectX;
+        losangeY = rectY;
 
-    unsigned fLosangeX { unsigned(losangeX) };
-    unsigned fLosangeY { unsigned(losangeY) };
+        if (losangeY > Def::ArrayMapY)
+            losangeY = Def::MapY;
+    }
 
-    // If tile is out the map:
-    fLosangeX = (fLosangeX > Def::ArrayMapX) ? Def::ArrayMapX : fLosangeX;
-    fLosangeY = (fLosangeY > Def::ArrayMapY) ? Def::ArrayMapY : fLosangeY;
-
-    return { fLosangeX, fLosangeY };
+    return { unsigned(losangeX), unsigned(losangeY) };
 }
 
 extern void initializeSchemeUtility(const Nz::ImageRef& newScheme)

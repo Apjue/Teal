@@ -11,6 +11,7 @@
 #include "data/tiledata.hpp"
 #include "util/assert.hpp"
 #include "containers/tilesetcore.hpp"
+#include "def/gamedef.hpp"
 #include "parser.hpp"
 
 namespace
@@ -63,8 +64,7 @@ void initTilesetCore()
 
 void convertTiledMap(const Nz::String& tex, const Nz::String& flags, const Nz::String& out, const Nz::String& pos)
 {
-    constexpr unsigned tileArraySize = 120u;
-    std::array<TileData, tileArraySize> map;
+    std::array<TileData, Def::TileArraySize> map;
 
     {
         auto array = parseCsv(tex);

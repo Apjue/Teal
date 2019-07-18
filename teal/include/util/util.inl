@@ -14,6 +14,5 @@ ReturnType distance(const T& x, const T& y)
 
 bool isLineEven(unsigned y)
 {
-    TealAssert(y <= (Def::ArrayMapY + 1u), "Invalid y !");
     return y % 2 == 0;
 }

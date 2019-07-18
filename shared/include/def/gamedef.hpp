@@ -4,8 +4,8 @@
 
 #pragma once
 
-#ifndef GAMEDEF_HPP
-#define GAMEDEF_HPP
+#ifndef TEAL_GAMEDEF_HPP
+#define TEAL_GAMEDEF_HPP
 
 #include <array>
 #include <utility>
@@ -14,15 +14,14 @@
 namespace Def
 {
 
-constexpr unsigned MapX           { 7u  }; // Map size
-constexpr unsigned MapY           { 14u };
+constexpr unsigned MapX      { 13u }; // Map size, 0 included
+constexpr unsigned MapY      { 26u };
+constexpr unsigned ArrayMapX { MapX + 1u }; // TILED: Width = ArrayMapX * 2 - 1
+constexpr unsigned ArrayMapY { MapY + 1u }; // TILED: Height = MapY / 2 + 1
 static_assert((MapX % 2) == 1 && (MapY % 2) == 0, "Invalid map size");
 
-constexpr unsigned ArrayMapX      { MapX + 1u };
-constexpr unsigned ArrayMapY      { MapY + 1u };
 
-
-constexpr unsigned TileArraySize    { ArrayMapX * ArrayMapY };
+constexpr unsigned TileArraySize    { (ArrayMapX * 2 - 1) * (MapY / 2 + 1) };
 constexpr unsigned TileSizeX        { 64u }; // For logic
 constexpr unsigned TileSizeY        { 32u };
 constexpr unsigned TileVertexNumber { 4u };
@@ -55,6 +54,7 @@ constexpr Nz::UInt32 LuaAITimeLimit { 1000u };
 constexpr std::size_t PathRunningAfter { 2 }; // How many tiles must path's size be to be in running state
 
 constexpr float MapItemDefaultSize { 40.f };
+
 }
 
-#endif // GAMEDEF_HPP
+#endif // TEAL_GAMEDEF_HPP
