@@ -87,7 +87,7 @@ build_script:
   - sh: cd ${APPVEYOR_BUILD_FOLDER}/extlibs/include && mkdir -p nazara &&
 
         cd ${APPVEYOR_BUILD_FOLDER}/build &&
-        curl https://github.com/Apjue/NazaraEngine/releases/download/v0.4.y/NazaraEngine-gcc-8.0.1-linux64-libc6-2.27-3-nightly.7z -Lo NazaraEngine.7z &&
+        curl https://github.com/Apjue/NazaraEngine/releases/download/v0.4.y/NazaraEngine-gcc-8.2.0-linux64-libc6-2.27-3-nightly.7z -Lo NazaraEngine.7z &&
         7z x NazaraEngine.7z -oNazaraEngine &&
 
         cd ${APPVEYOR_BUILD_FOLDER}/extlibs/lib/ &&
