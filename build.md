@@ -3,7 +3,7 @@
 Micropather's files are already provided in `/extlibs/src/micropather/` and `micropather.h` is already placed in `/extlibs/include/micropather/`
 
 ## Nazara
-Teal doesn't use Nazara v0.4, it uses a nightly. You can use any Nazara nightly as long as it is more recent than [`commit 981c5b7`](https://github.com/DigitalPulseSoftware/NazaraEngine/commit/981c5b7e2719091fceb68d62664aff36b81c6838)  
+Teal doesn't use Nazara v0.4, it uses a nightly. You can use any Nazara nightly as long as it is more recent than [`commit 394f9eee`](https://github.com/DigitalPulseSoftware/NazaraEngine/commit/394f9eee)  
 [Link to NazaraEngine's GitHub repository](https://github.com/DigitalPulseSoftware/NazaraEngine) ; Some prebuilts are available [here](https://github.com/Apjue/NazaraEngine/releases/tag/v0.4.y)  
 - If you downloaded an archive correctly packaged, unzip it into `/build/` (or make a symbolic link of the package folder if you already have prebuilts somewhere else. To package Nazara Engine with your binaries, go into its `build` folder and run `premake5 --pack-libdir=<msvc|mingw|gmake|...> package`)  
 - Use `premake5 --lib-toolset=<vs2017|gmake|gmake2|...> install_nazara` (if you need to update Nazara Engine, you can easily wipe the files with `premake5 --toolset=<...> clean_nazara`)  
