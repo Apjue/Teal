@@ -109,6 +109,8 @@ struct MapComponent : public Ndk::Component<MapComponent>
     template<class... Args>
     inline void init(Args&&... args);
 
+    inline void update();
+
     static Ndk::ComponentIndex componentIndex;
 
 private:

@@ -112,7 +112,6 @@ MapInstance::MapInstance(const TilesetCore& fightTilesetCore, const Ndk::EntityH
 
 void MapInstance::update()
 {
-    //m_fightMode = true; /// TEST
     m_tilemap->SetMaterial(0, (m_fightMode ? m_fightTileset : m_tileset));
 
     std::vector<unsigned> blockedTiles; // Map objects block these tiles
@@ -121,7 +120,7 @@ void MapInstance::update()
         for (auto& e : getCurrentMap()->getGraphicalEntities()) // current map index only changes when entering into a house or something similar
             if (e->HasComponent<MapObjectComponent>() && e->HasComponent<BlockTileComponent>()) // But NOT when switching to fight mode
             {
-                e->Enable(false); /// BUG
+                e->Enable(false);
 
                 auto& tiles = e->GetComponent<BlockTileComponent>().occupied;
                 auto& xy = e->GetComponent<PositionComponent>().xy;

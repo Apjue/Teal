@@ -62,7 +62,12 @@ inline void MapInstance::toggleFightMode()
 
 
 template<class... Args>
-void MapComponent::init(Args&&... args)
+inline void MapComponent::init(Args&&... args)
 {
     map = std::make_shared<MapInstance>(std::forward<Args>(args)..., m_entity);
+}
+
+inline void MapComponent::update()
+{
+    map->update();
 }
