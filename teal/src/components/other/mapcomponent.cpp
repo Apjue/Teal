@@ -133,7 +133,7 @@ void MapInstance::update()
                     for (auto& tile : tiles)
                     {
                         bool ok = false;
-                        auto& resultTile = applyDiffTile(xy, tile, ok);
+                        AbsTile resultTile = applyDiffTile(xy, tile, ok);
 
                         if (ok)
                             blockedTiles.push_back(XYToIndex(resultTile.x, resultTile.y));
