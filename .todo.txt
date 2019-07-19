@@ -1,9 +1,9 @@
 Main todo:
-- Make map objects
 - 3D Models for characters (both 2D/3D models support)
 	|| Main character is too slow & "slips" on ground
 - Finish fight feature!
 	- Make fight UI
+- Map: Block/Reserve entities' MoveComponent's tile to them somehow, to avoid 2 characters in one tile
 - Make a real map editor
 - RandomMovementComponent/System: Automatize everything
 - Remake SkillData::getMaximumDamage()
