@@ -209,7 +209,8 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_leftBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_leftBorder[i];
-        const TileData& tileData = getCurrentMap()->getTile(0, (i == m_leftBorder.size() - 1 ? i - 1 : i) * 2);
+        const TileData& tileData = getCurrentMap()->getTile(0, (i == 0 ? i : i * 2 - 1));
+
 
         if (!tileData.isVisible())
             sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
@@ -226,7 +227,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_rightBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_rightBorder[i];
-        const TileData& tileData = getCurrentMap()->getTile(Def::MapX, (i == m_rightBorder.size() - 1 ? i - 1 : i) * 2);
+        const TileData& tileData = getCurrentMap()->getTile((i == 0 ? Def::MapX : Def::MapX - 1), (i == 0 ? 0 : i * 2 - 1));
 
         if (!tileData.isVisible())
             sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
@@ -243,7 +244,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_upBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_upBorder[i];
-        const TileData& tileData = getCurrentMap()->getTile(i + 1, 0);
+        const TileData& tileData = getCurrentMap()->getTile(i, 1);
 
         if (!tileData.isVisible())
             sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
@@ -260,7 +261,7 @@ void MapInstance::updateBorders()
     for (unsigned i {}; i < m_downBorder.size(); ++i)
     {
         Nz::SpriteRef& sprite = m_downBorder[i];
-        const TileData& tileData = getCurrentMap()->getTile((i == m_downBorder.size() - 1 ? i - 1 : i), Def::MapY + 1);
+        const TileData& tileData = getCurrentMap()->getTile(i, Def::MapY);
 
         if (!tileData.isVisible())
             sprite->SetMaterial(Nz::Material::New("Translucent2D"), false);
